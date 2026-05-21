@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neflins — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Estilos customizados para a imponência e o frio dos Neflins */
+    .bloco-gigante {
+      background: rgba(93, 173, 226, 0.08);
+      border: 1px solid rgba(93, 173, 226, 0.2);
+      border-left: 4px solid #5dade2;
+      padding: 22px;
+      margin-top: 30px;
+      border-radius: 4px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+    .bloco-gigante h4 {
+      font-family: 'Cinzel', serif;
+      color: #85c1e9;
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+    .badge-tamanho {
+      display: inline-block;
+      background: rgba(231, 76, 60, 0.15);
+      color: #e74c3c;
+      padding: 3px 10px;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      border: 1px solid rgba(231, 76, 60, 0.3);
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="racas.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Raças</a>
+    </div>
+
+    <h2>Neflins</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://weirs-rpg.weebly.com/uploads/1/0/6/8/10689847/baixados-18_orig.jpg" alt="Neflin">
+        
+        <div class="texto-lore">
+          <h3>As Almas Rachadas</h3>
+          <p>A tentativa falha dos deuses de criar os anjos. Demônios foram recolhidos do plano de Tenebris e sofreram alterações profundas em seus espíritos — algo que, no fim, lhes deixou com sequelas permanentes.</p>
+          <p>Os neflins ficaram presos em um eterno meio-termo: não ascenderam à glória celestial e também não continuaram como puros demônios. Seus espíritos se tornaram almas rachadas, fragmentadas, o que alterou drasticamente suas aparências e moldou um novo povo, também chamados por muitos de os <strong>gigantes</strong>. Após o fracasso do experimento, foram abandonados à própria sorte pelos deuses, que simplesmente partiram rumo à próxima criação.</p>
+          
+          <h4 style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Traços de Neflins</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Tipo de Criatura:</strong> Humanoide.</li>
+            <li><strong>Tamanho:</strong> Médio (porém imponentes, medindo cerca de 2,10 a 2,40 metros de altura).</li>
+            <li><strong>Deslocamento Terrestre:</strong> 10,5 metros (35ft).</li>
+            <li><strong>Idade:</strong> Neflins atingem a maioridade com 20 anos e podem viver até os 200 anos.</li>
+            <li><strong>Resistência a Dano (Frio):</strong> Após serem descartados, os neflins passaram a habitar as regiões mais gélidas e inóspitas da Terra. Por conta disso, seus corpos se adaptaram perfeitamente, tornando-os imunes aos rigores do frio severo.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Poder das Almas Rachadas</h3>
+        
+        <ul class="trait-list">
+          <li><strong>Arrepio de Gelo:</strong> O frio do seu exílio se manifesta em suas armas. Ao atingir um alvo com uma jogada de ataque e causar dano a ele, você pode canalizar essa geada para infligir <strong>1d6 pontos de dano Gélido</strong> adicional ao alvo e reduzir o Deslocamento dele em 3 metros até o início do seu próximo turno.</li>
+          <li><strong>Porte Poderoso:</strong> Sua musculatura e tamanho colossal tornam difícil segurar você. Você possui <strong>Vantagem</strong> em qualquer teste de atributo que realizar para tentar encerrar a condição <em>Imobilizado</em>. Adicionalmente, você conta como se fosse de um tamanho maior ao determinar sua capacidade total de carga e arrasto.</li>
+        </ul>
+      </div>
+
+      <div class="bloco-gigante">
+        <h4>Forma Grande <span class="badge-tamanho">Nível 5</span></h4>
+        <p>Ao atingir o 5º nível de personagem, você aprende a liberar temporariamente o verdadeiro tamanho adormecido em sua linhagem de gigante. Como uma <strong>Ação Bônus</strong>, você pode alterar o seu tamanho diretamente para <strong>Grande</strong>, contanto que esteja em um espaço amplo o suficiente para comportar sua nova escala.</p>
+        
+        <ul class="trait-list" style="margin-top: 15px; gap: 10px;">
+          <li><strong>Duração:</strong> Essa transformação titânica se mantém ativa por 10 minutos ou até que você decida encerrá-la voluntariamente (nenhuma ação é necessária para voltar ao normal).</li>
+          <li><strong>Efeitos Ativos:</strong> Pela duração da Forma Grande, você ganha automaticamente <strong>Vantagem em testes de Força</strong> e o seu Deslocamento terrestre aumenta em mais 3 metros.</li>
+          <li><strong>Recarga:</strong> Após usufruir deste traço racial, você só poderá utilizá-lo novamente depois de completar um Descanso Longo.</li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

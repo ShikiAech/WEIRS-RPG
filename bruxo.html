@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bruxo — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .bloco-bruxo {
+      background: rgba(46, 204, 113, 0.03);
+      border: 1px solid rgba(46, 204, 113, 0.15);
+      border-left: 4px solid #2ecc71;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-bruxo h4 {
+      font-family: 'Cinzel', serif;
+      color: #52be80;
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+    .bloco-subclasse-detalhada {
+      background: rgba(25, 25, 27, 0.8);
+      border: 1px solid var(--border-fantasy);
+      padding: 25px;
+      margin-top: 35px;
+      border-radius: 4px;
+    }
+    .bloco-subclasse-detalhada h3 {
+      font-family: 'Cinzel', serif;
+      color: #2ecc71;
+      border-bottom: 1px solid rgba(46, 204, 113, 0.3);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+    }
+    .sub-feature {
+      background: rgba(46, 204, 113, 0.04);
+      border-left: 3px solid #2ecc71;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 0 4px 4px 0;
+    }
+    .sub-feature h5 {
+      font-family: 'Cinzel', serif;
+      color: #a9dfbf;
+      font-size: 1.05rem;
+      margin-bottom: 5px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+    .tabela-rpg {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: rgba(20, 20, 22, 0.6);
+      border: 1px solid var(--border-fantasy);
+      font-size: 0.85rem;
+    }
+    .tabela-rpg th, .tabela-rpg td {
+      border: 1px solid var(--border-fantasy);
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .tabela-rpg th {
+      background: rgba(23, 43, 33, 0.5);
+      color: #52be80;
+      font-family: 'Cinzel', serif;
+    }
+    .tabela-rpg tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .tabela-rpg td.esquerda {
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="classes.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Classes</a>
+    </div>
+
+    <h2>Bruxo (Warlock)</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://imagenslucas.weebly.com/uploads/1/0/6/8/10689847/elven-ranger-green-accents_orig.jpg" alt="Bruxo">
+        <div class="texto-lore">
+          <h3>O segredo barganhado nas sombras</h3>
+          <p>Enquanto acadêmicos passam décadas devorando tomos antigos e clérigos imploram pela atenção de deuses distantes, o bruxo toma um atalho rápido e perigoso: uma barganha direta com uma entidade transcendental. Seja um lorde infernal, uma rainha feérica caprichosa, um guardião de luz estelar ou uma abominação cósmica que espreita além das estrelas.</p>
+          <p>Eles extraem magia através desse elo místico, convertendo segredos proibidos em manifestações físicas e feitiços concentrados. Suas mentes e corpos são moldados pelas Invocações Ocultas, alterando sua biologia e percepção para cumprir os desígnios de seus misteriosos benfeitores.</p>
+          
+          <h4 style="color: #2ecc71; margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Dado de Vida:</strong> 1d8 por nível de Bruxo.</li>
+            <li><strong>Atributo Principal:</strong> Carisma (Conjuração e Invocações).</li>
+            <li><strong>Proficiências em Armaduras:</strong> Armaduras Leves.</li>
+            <li><strong>Proficiências em Armas:</strong> Armas Simples.</li>
+            <li><strong>Ferramentas:</strong> Nenhuma.</li>
+            <li><strong>Testes de Resistência:</strong> Sabedoria e Carisma.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px; overflow-x: auto;">
+        <h3 style="font-family: 'Cinzel', serif; color: #2ecc71; font-size: 1.6rem; margin-bottom: 15px;">Progressão de Classe</h3>
+        <table class="tabela-rpg">
+          <thead>
+            <tr>
+              <th>Nível</th>
+              <th>Prof.</th>
+              <th class="esquerda">Recursos de Classe</th>
+              <th>Truques</th>
+              <th>Magias</th>
+              <th>Espaços</th>
+              <th>Círculo Max.</th>
+              <th>Invocações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1º</td><td>+2</td><td class="esquerda">Magia de Pacto, Invocações Ocultas</td><td>2</td><td>2</td><td>1</td><td>1º</td><td>2</td></tr>
+            <tr><td>2º</td><td>+2</td><td class="esquerda">Magia de Contato</td><td>2</td><td>3</td><td>2</td><td>1º</td><td>3</td></tr>
+            <tr><td>3º</td><td>+2</td><td class="esquerda">Patrono do Pacto (Subclasse)</td><td>2</td><td>4</td><td>2</td><td>2º</td><td>3</td></tr>
+            <tr><td>4º</td><td>+2</td><td class="esquerda">Talento de Atributo (Feat)</td><td>3</td><td>5</td><td>2</td><td>2º</td><td>3</td></tr>
+            <tr><td>5º</td><td>+3</td><td class="esquerda">Sinal do Patrono</td><td>3</td><td>6</td><td>2</td><td>3º</td><td>4</td></tr>
+            <tr><td>6º</td><td>+3</td><td class="esquerda">Recurso do Patrono</td><td>3</td><td>7</td><td>2</td><td>3º</td><td>4</td></tr>
+            <tr><td>7º</td><td>+3</td><td class="esquerda">Sussurros do Éter</td><td>3</td><td>8</td><td>2</td><td>4º</td><td>5</td></tr>
+            <tr><td>8º</td><td>+3</td><td class="esquerda">Talento de Atributo (Feat)</td><td>3</td><td>9</td><td>2</td><td>4º</td><td>5</td></tr>
+            <tr><td>9º</td><td>+4</td><td class="esquerda">Vontade Transcendente</td><td>3</td><td>10</td><td>2</td><td>5º</td><td>6</td></tr>
+            <tr><td>10º</td><td>+4</td><td class="esquerda">Recurso do Patrono</td><td>4</td><td>10</td><td>2</td><td>5º</td><td>6</td></tr>
+            <tr><td>11º</td><td>+4</td><td class="esquerda">Arcano Místico (6º Círculo)</td><td>4</td><td>11</td><td>3</td><td>5º</td><td>6</td></tr>
+            <tr><td>12º</td><td>+4</td><td class="esquerda">Talento de Atributo (Feat)</td><td>4</td><td>11</td><td>3</td><td>5º</td><td>7</td></tr>
+            <tr><td>13º</td><td>+5</td><td class="esquerda">Arcano Místico (7º Círculo)</td><td>4</td><td>12</td><td>3</td><td>5º</td><td>7</td></tr>
+            <tr><td>14º</td><td>+5</td><td class="esquerda">Recurso do Patrono</td><td>4</td><td>12</td><td>3</td><td>5º</td><td>7</td></tr>
+            <tr><td>15º</td><td>+5</td><td class="esquerda">Arcano Místico (8º Círculo)</td><td>4</td><td>13</td><td>3</td><td>5º</td><td>8</td></tr>
+            <tr><td>16º</td><td>+5</td><td class="esquerda">Talento de Atributo (Feat)</td><td>4</td><td>13</td><td>3</td><td>5º</td><td>8</td></tr>
+            <tr><td>17º</td><td>+6</td><td class="esquerda">Arcano Místico (9º Círculo)</td><td>4</td><td>14</td><td>4</td><td>5º</td><td>8</td></tr>
+            <tr><td>18º</td><td>+6</td><td class="esquerda">Resiliência Eldritch</td><td>4</td><td>14</td><td>4</td><td>5º</td><td>9</td></tr>
+            <tr><td>19º</td><td>+6</td><td class="esquerda">Talento de Atributo / Dádiva Épica</td><td>4</td><td>15</td><td>4</td><td>5º</td><td>9</td></tr>
+            <tr><td>20º</td><td>+6</td><td class="esquerda">Mestre Eldritch</td><td>4</td><td>15</td><td>4</td><td>5º</td><td>9</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #2ecc71; font-size: 1.6rem; margin-bottom: 20px;">Recursos de Classe Detalhados</h3>
+
+        <div class="bloco-bruxo">
+          <h4>Nível 1: Magia de Pacto & Invocações Ocultas</h4>
+          <p><strong>Magia de Pacto:</strong> Você manipula o Éter através das barganhas firmadas. Todos os seus espaços de magia possuem o mesmo círculo e sobem de nível juntos conforme você progride na tabela. Você recupera todos os seus espaços de magia gastos ao finalizar um Descanso Curto ou Descanso Longo. O atributo de conjuração para suas magias é o seu Carisma.</p>
+          <p><strong>Invocações Ocultas:</strong> Você infunde sua própria essência com fragmentos de poder planar, escolhendo duas Invocações da lista disponível no fim desta página. Você destrava novas opções e pode substituir invocações antigas ao avançar de nível.</p>
+        </div>
+
+        <div class="bloco-bruxo">
+          <h4>Nível 2: Magia de Contato</h4>
+          <p><strong>Magia de Contato:</strong> Sua conexão direta com a entidade permite uma recuperação emergencial de seus dons. Uma vez por Descanso Longo, você pode realizar um ritual de 1 minuto focado em seu pacto para recuperar instantaneamente metade dos seus espaços de Magia de Pacto totais (arredondado para cima).</p>
+        </div>
+
+        <div class="bloco-bruxo">
+          <h4>Nível 3: Patrono do Pacto</h4>
+          <p><strong>Patrono do Pacto:</strong> Sua aliança se aprofunda e você escolhe a natureza exata da entidade que concede seus dons (sua Subclasse). Essa escolha expande sua lista de magias conhecidas e concede recursos especializados imediatamente, além de novas características nos níveis 6, 10 e 14.</p>
+        </div>
+
+        <div class="bloco-bruxo">
+          <h4>Níveis 4, 8, 12, 16 e 19: Talento de Atributo (Feat)</h4>
+          <p>Você pode aumentar um atributo em +2, dois atributos em +1, ou escolher um Talento Geral (Feat) para o qual cumpra os pré-requisitos.</p>
+        </div>
+
+        <div class="bloco-bruxo">
+          <h4>Nível 5: Sinal do Patrono</h4>
+          <p><strong>Sinal do Patrono:</strong> Quando você falhar em um teste de perícia ou em uma salvaguarda, você pode canalizar o favor da sua entidade para rolar um dado extra de **1d4** e somá-lo ao resultado total, podendo transformar a falha em sucesso. Você pode usar este recurso um número de vezes igual ao seu Bônus de Proficiência por Descanso Longo.</p>
+        </div>
+
+        <div class="bloco-bruxo">
+          <h4>Nível 6: Recurso do Patrono</h4>
+          <p>Você recebe uma característica única concedida diretamente pela natureza da sua subclasse escolhida.</p>
+        </div>
+
+        <div class="bloco-bruxo">
+          <h4>Nível 7: Sussurros do Éter</h4>
+          <p><strong>Sussurros do Éter:</strong> Os limites da sua percepção física se dissolvem. Você aprende a conjurar a magia *Ver o Invisível* à vontade, sem gastar espaços de magia ou componentes materiais.</p>
+        </div>
+
+        <div class="bloco-bruxo">
+          <h4>Nível 9: Vontade Transcendente</h4>
+          <p><strong>Vontade Transcendente:</strong> Sua mente foi moldada por segredos incompreensíveis para os mortais. Você ganha proficiência em salvaguardas de Inteligência. Caso já possua essa proficiência por outra fonte, você ganha proficiência em salvaguardas de Força ou Destreza (à sua escolha).</p>
+        </div>
+
+        <div class="bloco-bruxo">
+          <h4>Nível 10: Recurso do Patrono</h4>
+          <p>Você destrava o recurso de décimo nível da sua respectiva linhagem de Patrono.</p>
+        </div>
+
+        <div class="bloco-bruxo">
+          <h4>Nível 11: Arcano Místico (6º Círculo)</h4>
+          <p><strong>Arcano Místico:</strong> Seu patrono concede um segredo mágico profundo isolado dos seus espaços de magia comuns. Escolha uma magia de 6º círculo da lista de bruxo. Você pode conjurar esta magia uma vez por Descanso Longo sem gastar espaços de magia.</p>
+        </div>
+
+        <div class="bloco-bruxo">
+          <h4>Nível 13: Arcano Místico (7º Círculo)</h4>
+          <p>Escolha uma magia de 7º círculo da lista de bruxo. Você pode conjurá-la uma vez por Descanso Longo sem o consumo de seus espaços tradicionalais.</p>
+        </div>
+
+        <div class="bloco-bruxo">
+          <h4>Nível 14: Recurso do Patrono</h4>
+          <p>Você alcança a dádiva máxima de sua subclasse, destravando o recurso final de seu Patrono.</p>
+        </div>
+
+        <div class="bloco-bruxo">
+          <h4>Nível 15: Arcano Místico (8º Círculo)</h4>
+          <p>Escolha uma magia de 8º círculo da lista de bruxo. Você ganha a capacidade de conjurá-la uma vez por Descanso Longo de forma independente.</p>
+        </div>
+
+        <div class="bloco-bruxo">
+          <h4>Nível 17: Arcano Místico (9º Círculo)</h4>
+          <p>Você rompe a última barreira mágica. Escolha uma magia lendária de 9º círculo da lista de bruxo. Você pode desferir esse poder devastador uma vez por Descanso Longo.</p>
+        </div>
+
+        <div class="bloco-bruxo">
+          <h4>Nível 18: Resiliência Eldritch</h4>
+          <p><strong>Resiliência Eldritch:</strong> As energias do pacto reconstroem seu vigor. Sempre que você iniciar seu turno em combate com metade ou menos de seus pontos de vida máximos (e possuir pelo menos 1 ponto de vida), você recupera pontos de vida iguais ao seu Modificador de Carisma automaticamente.</p>
+        </div>
+
+        <div class="bloco-bruxo">
+          <h4>Nível 20: Mestre Eldritch</h4>
+          <p><strong>Mestre Eldritch:</strong> Sua maestria sobre a barganha atinge a perfeição. Quando você utiliza a sua característica *Magia de Contato* (Nível 2), você recupera **todos** os seus espaços gastos de Magia de Pacto instantaneamente, em vez de apenas metade.</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #2ecc71; font-size: 1.6rem; margin-bottom: 20px;">Catálogo de Invocações Ocultas</h3>
+        <p>Abaixo estão descritas as manifestações místicas que você pode escolher para moldar suas capacidades corporais e mágicas:</p>
+
+        <div class="bloco-bruxo">
+          <h4>Invocações de Pacto (Nível 1+)</h4>
+          <p><strong>Pacto da Lâmina:</strong> Como uma Ação Bônus, você manifesta uma arma mágica em sua mão. Você é proficiente com ela. Ao atacar com esta arma, você pode utilizar o seu Modificador de Carisma para as jogadas de ataque e dano em vez de Força ou Destreza. Além disso, o dano da arma se torna de um tipo místico (como Necrótico, Psíquico ou Radiante) condizente com seu pacto.</p>
+          <p><strong>Pacto do Tomo:</strong> Um grimório surge em suas mãos. Você aprende três truques quaisquer e duas magias de 1º círculo vindas de qualquer lista de classe do jogo. Elas passam a contar como magias de bruxo e podem ser conjuradas como rituais enquanto o tomo estiver sob sua posse.</p>
+          <p><strong>Pacto da Corrente:</strong> Você pode conjurar a magia *Encontrar Familiar* sem gastar espaços de magia. O espírito assume formas aprimoradas à sua escolha: Imp, Pseudodragão, Sprite ou Quasit. Quando você executa a ação de Ataque, pode abdicar de uma de suas investidas para ordenar que o familiar ataque utilizando a Reação dele.</p>
+        </div>
+
+        <div class="bloco-bruxo">
+          <h4>Invocações de Modificação Mística</h4>
+          <p><strong>Rajada Agonizante:</strong> Quando você conjura a sua *Rajada Mística*, adicione o seu Modificador de Carisma ao dano causado por cada um dos feixes que atingirem o alvo.</p>
+          <p><strong>Rajada Repulsiva:</strong> Uma vez por turno, ao atingir uma criatura com a sua *Rajada Mística*, você pode empurrar o alvo por até 3 metros em linha reta para longe de você.</p>
+          <p><strong>Lança Eldritch:</strong> O alcance da sua magia *Rajada Mística* é expandido para um total de 90 metros.</p>
+          <p><strong>Rajada Atraidora:</strong> Uma vez por turno, ao atingir uma criatura com a sua *Rajada Mística*, você pode puxar o alvo por até 3 metros em linha reta na sua direção.</p>
+          <p><strong>Ataque Saboroso (Requisito: Nível 5, Pacto da Lâmina):</strong> Você pode atacar duas vezes, em vez de uma, sempre que executar a ação de Ataque no seu turno utilizando sua arma do pacto.</p>
+        </div>
+
+        <div class="bloco-bruxo">
+          <h4>Invocações Utilitárias e de Percepção</h4>
+          <p><strong>Visão Diabólica:</strong> Você consegue enxergar perfeitamente na escuridão normal e mágica a um alcance de até 36 metros de distância.</p>
+          <p><strong>Olhos do Runas:</strong> Você consegue ler e compreender todas as formas de escrita, glifos, runas e idiomas mundanos automaticamente.</p>
+          <p><strong>Mente Eldritch:</strong> Você ganha Vantagem em salvaguardas de Constituição realizadas para manter a Concentração em suas magias ativas.</p>
+          <p><strong>Armadura de Sombras:</strong> Você pode conjurar a magia *Armadura Arcana* em si mesmo à vontade, sem gastar espaços de magia ou componentes materiais.</p>
+          <p><strong>Influência Suprema:</strong> Você ganha proficiência nas perícias *Enganação* e *Persuasão* de forma permanente.</p>
+          <p><strong>Passo Ascendente (Requisito: Nível 5):</strong> Você pode conjurar a magia *Levitar* em si mesmo à vontade, sem consumir espaços de magia.</p>
+          <p><strong>Escultor de Carne (Requisito: Nível 7):</strong> Você aprende a magia *Polimorfismo*. Você pode conjurá-la uma vez por Descanso Longo utilizando um de seus espaços de Magia de Pacto.</p>
+          <p><strong>Visão Sombria (Requisito: Nível 15):</strong> Você ganha a habilidade passiva de *Visão Verdadeira* a até 9 metros, detectando ilusões, transformações e criaturas invisíveis.</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #2ecc71; font-size: 1.6rem; margin-bottom: 10px;">Patronos Ocultos (Subclasses)</h3>
+        
+        <div class="bloco-subclasse-detalhada">
+          <h3>Patrono Arquifada (The Archfey)</h3>
+          <p>Acordos firmados com a realeza da Agrestia das Fadas, misturando magias de ilusão, passos efêmeros e teletransporte graciosos.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Passo Alvoroçado</h5>
+            <p>Você aprende a magia *Passo Nebuloso*. Você pode conjurá-la sem gastar espaços de magia um número de vezes igual ao seu Bônus de Proficiência por Descanso Longo. Ao se teleportar por este recurso, você pode escolher deixar uma névoa que deixa criaturas adjacentes Amedrontadas ou Encantadas até o fim do turno.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Fuga Nebulosa</h5>
+            <p>Como uma Reação ao sofrer dano de um ataque, você pode se dissolver em névoa, tornando-se Invisível e teleportando-se instantaneamente a até 9 metros para um espaço desocupado que consiga enxergar. A invisibilidade dura até o início do seu próximo turno.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Defesa Charmosa</h5>
+            <p>Sua graça feérica repele agressões mentais. Você se torna totalmente imune à condição *Encantado*. Se uma criatura tentar encantar você e falhar na salvaguarda, você pode usar sua Reação para redirecionar o efeito, forçando aquela criatura a fazer a salvaguarda ou ficar Encantada por você por 1 minuto.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Quebra de Espaço</h5>
+            <p>Sempre que você utilizar a ação de teletransporte concedida por qualquer magia ou pelo recurso *Passo Alvoroçado*, você pode desencadear uma explosão de energia feérica no ponto de partida e no ponto de chegada. Criaturas a até 3 metros desses pontos devem passar em uma salvaguarda de Sabedoria ou sofrerão 3d10 de dano radiante.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>Patrono Celestial (The Celestial)</h3>
+          <p>Pactos selados com seres dos planos superiores, como emires, anjos e unicórnios, permitindo canalizar a luz curativa do firmamento.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Luz Curativa & Truques Sagrados</h5>
+            <p><strong>Luz Curativa:</strong> Você ganha uma reserva de energia curativa representada por uma quantidade de dados de d6 iguais a 1 + seu nível de bruxo. Com uma Ação Bônus, você pode gastar até uma quantidade de dados igual ao seu modificador de Carisma para curar uma criatura visível a até 18 metros. Você recupera todos os dados em um Descanso Longo.</p>
+            <p><strong>Truques Extras:</strong> Você aprende os truques *Chama Sagrada* e *Luz* automaticamente.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Alma Radiante</h5>
+            <p>Sua conexão com as esferas celestiais confere a você resistência a dano Radiante. Além disso, sempre que você conjurar uma magia que cause dano Radiante ou Flamejante, você adiciona seu modificador de Carisma a uma rolagem de dano daquela magia contra um dos alvos.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Resiliência Celestial</h5>
+            <p>Ao finalizar um Descanso Curto ou Longo, você ganha pontos de vida temporários iguais ao seu nível de bruxo + seu modificador de Carisma. Além disso, escolha até cinco criaturas que você possa ver ao fim do descanso; cada uma delas ganha pontos de vida temporários iguais a metade do seu nível de bruxo + seu modificador de Carisma.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Vingança Searing</h5>
+            <p>A luz em sua alma impede sua queda. Quando você tiver de realizar uma salvaguarda contra a morte, você pode, em vez disso, erguer-se em uma explosão de luz. Você recupera pontos de vida iguais a metade do seu máximo, levanta-se imediatamente e emana um clarão: criaturas à sua escolha a até 9 metros sofrem 2d8 + seu modificador de Carisma de dano radiante e ficam Cegadas até o fim do turno atual. Uso único por Descanso Longo.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>Patrono O Grande Antigo (The Great Old One)</h3>
+          <p>Entidades alienígenas e mentes sencientes colossais que habitam as fendas do Reino Distante, distorcendo a sanidade dos mortais.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Mente Desperta & Espasmo Psíquico</h5>
+            <p><strong>Mente Desperta:</strong> Você estabelece comunicação telepática bidirecional com qualquer criatura visível a até 9 metros, independente dos idiomas conhecidos. Além disso, quando conjura magias de bruxo que causam dano, você pode transmutar o tipo de dano original para Dano Psíquico.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Escudo Entrópico</h5>
+            <p>Como uma Reação quando uma criatura declarar um ataque contra você, você impõe Desvantagem na jogada daquele ataque. Se o oponente errar, seu próximo ataque contra ele ganha Vantagem se realizado até o final do seu próximo turno.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Pensamentos Esquivos</h5>
+            <p>Sua mente se sintoniza com frequências incompreensíveis. Você ganha resistência permanente a dano Psíquico e se torna imune a ter seus pensamentos lidos por telepatia ou magias de adivinhação, a menos que decida permitir.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Carapaça Psíquica</h5>
+            <p>Sua aura projeta o vácuo estelar. Sempre que uma criatura atingir você com um ataque ou magia que cause dano, você pode usar sua Reação para rebater a dor, forçando o atacante a sofrer a exata mesma quantidade de dano psíquico que infligiu a você.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>Patrono Ínfero (The Fiend)</h3>
+          <p>Alianças forjadas nos planos inferiores das chamas e da danação, focadas em poder destrutivo elemental e no confisco de almas moribundas.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Bênção do Corruptor</h5>
+            <p>Sempre que você reduzir uma criatura hostil a 0 pontos de vida, você extrai a essência vital dela para receber Pontos de Vida Temporários iguais ao seu Modificador de Carisma + seu nível nesta classe.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Sorte do Próprio Inferno</h5>
+            <p>Você pode clamar pela intercessão do seu lorde para distorcer a causalidade. Ao realizar um teste de atributo ou salvaguarda, você pode rolar **1d10** e adicionar o valor obtido ao total. Você pode usar este recurso após rolar o d20, mas antes do mestre decretar o resultado. Usos totais iguais ao seu Bônus de Proficiência por Descanso Longo.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Resiliência Demoníaca</h5>
+            <p>Ao finalizar um descanso, escolha um tipo de dano (como Flamejante, Gelo ou Concussão). Você ganha resistência a esse dano. Sempre que finalizar um Descanso Curto ou Longo, você pode alterar a sua escolha.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Atirar ao Inferno</h5>
+            <p>Ao atingir uma criatura com um ataque de arma ou magia, você pode bani-la instantaneamente através das paisagens infernais. O alvo desaparece até o final do seu próximo turno. Quando retorna ao grid de batalha, ela sofre **10d10 de dano psíquico** devido ao vislumbre da tortura eterna. Uso único por Descanso Longo.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

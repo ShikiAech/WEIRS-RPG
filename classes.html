@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Classes — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Ajuste exclusivo para alinhar perfeitamente as 13 classes na tela */
+    .grid-classes {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 30px;
+      max-width: 1100px;
+      margin: 40px auto 60px auto;
+    }
+
+    /* As 3 primeiras linhas ocupam 4 colunas cada (3 botões por linha: 3x4=12) */
+    .grid-classes .btn-rpg {
+      grid-column: span 4;
+    }
+
+    /* A última linha ocupa 3 colunas cada (4 botões na linha: 4x3=12) */
+    .grid-classes .btn-rpg.linha-final {
+      grid-column: span 3;
+    }
+
+    /* Responsividade para telas menores */
+    @media (max-width: 950px) {
+      .grid-classes {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .grid-classes .btn-rpg, 
+      .grid-classes .btn-rpg.linha-final {
+        grid-column: span 1 !important;
+      }
+    }
+    @media (max-width: 600px) {
+      .grid-classes {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+ <script src="menu.js"></script>
+
+  <div class="container">
+    <h2>Classes de Personagem</h2>
+    <p class="desc-intro">Se a raça dita as origens e a carne de um ser nas terras de Weirs, a classe molda o seu espírito, sua vocação e seu destino nas frentes de batalha. Seja dominando as artes arcanas, jurando devoção divina, refinando a tecnologia ki tech ou liberando a fúria bruta da sobrevivência, sua classe define como você desafiará os perigos do mundo. Escolha o seu caminho de poder:</p>
+
+    <div class="grid-classes">
+      
+      <a href="artificer.html" class="btn-rpg">
+        <div class="btn-gema gema-ouro"></div>
+        <div class="btn-moldura-interna">
+          <span class="btn-texto">Artíficer</span>
+        </div>
+      </a>
+
+      <a href="barbaro.html" class="btn-rpg">
+        <div class="btn-gema gema-rubi"></div>
+        <div class="btn-moldura-interna">
+          <span class="btn-texto">Bárbaro</span>
+        </div>
+      </a>
+
+      <a href="bardo.html" class="btn-rpg">
+        <div class="btn-gema gema-verde"></div>
+        <div class="btn-moldura-interna">
+          <span class="btn-texto">Bardo</span>
+        </div>
+      </a>
+
+      <a href="bruxo.html" class="btn-rpg">
+        <div class="btn-gema gema-rubi"></div>
+        <div class="btn-moldura-interna">
+          <span class="btn-texto">Bruxo</span>
+        </div>
+      </a>
+
+      <a href="clerigo.html" class="btn-rpg">
+        <div class="btn-gema gema-ouro"></div>
+        <div class="btn-moldura-interna">
+          <span class="btn-texto">Clérigo</span>
+        </div>
+      </a>
+
+      <a href="druida.html" class="btn-rpg">
+        <div class="btn-gema gema-verde"></div>
+        <div class="btn-moldura-interna">
+          <span class="btn-texto">Druida</span>
+        </div>
+      </a>
+
+      <a href="feiticeiro.html" class="btn-rpg">
+        <div class="btn-gema gema-rubi"></div>
+        <div class="btn-moldura-interna">
+          <span class="btn-texto">Feiticeiro</span>
+        </div>
+      </a>
+
+      <a href="patrulheiro.html" class="btn-rpg">
+        <div class="btn-gema gema-verde"></div>
+        <div class="btn-moldura-interna">
+          <span class="btn-texto">Patrulheiro</span>
+        </div>
+      </a>
+
+      <a href="guerreiro.html" class="btn-rpg">
+        <div class="btn-gema gema-ouro"></div>
+        <div class="btn-moldura-interna">
+          <span class="btn-texto">Guerreiro</span>
+        </div>
+      </a>
+
+      <a href="ladino.html" class="btn-rpg linha-final">
+        <div class="btn-gema gema-rubi"></div>
+        <div class="btn-moldura-interna">
+          <span class="btn-texto">Ladino</span>
+        </div>
+      </a>
+
+      <a href="mago.html" class="btn-rpg linha-final">
+        <div class="btn-gema gema-verde"></div>
+        <div class="btn-moldura-interna">
+          <span class="btn-texto">Mago</span>
+        </div>
+      </a>
+
+      <a href="monge.html" class="btn-rpg linha-final">
+        <div class="btn-gema gema-ouro"></div>
+        <div class="btn-moldura-interna">
+          <span class="btn-texto">Monge</span>
+        </div>
+      </a>
+
+      <a href="paladino.html" class="btn-rpg linha-final">
+        <div class="btn-gema gema-rubi"></div>
+        <div class="btn-moldura-interna">
+          <span class="btn-texto">Paladino</span>
+        </div>
+      </a>
+
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feiticeiro — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .bloco-feiticeiro {
+      background: rgba(231, 76, 60, 0.03);
+      border: 1px solid rgba(231, 76, 60, 0.15);
+      border-left: 4px solid #e74c3c;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-feiticeiro h4 {
+      font-family: 'Cinzel', serif;
+      color: #ec7063;
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+    .bloco-subclasse-detalhada {
+      background: rgba(25, 25, 27, 0.8);
+      border: 1px solid var(--border-fantasy);
+      padding: 25px;
+      margin-top: 35px;
+      border-radius: 4px;
+    }
+    .bloco-subclasse-detalhada h3 {
+      font-family: 'Cinzel', serif;
+      color: #e74c3c;
+      border-bottom: 1px solid rgba(231, 76, 60, 0.3);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+    }
+    .sub-feature {
+      background: rgba(231, 76, 60, 0.04);
+      border-left: 3px solid #e74c3c;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 0 4px 4px 0;
+    }
+    .sub-feature h5 {
+      font-family: 'Cinzel', serif;
+      color: #f5b041;
+      font-size: 1.05rem;
+      margin-bottom: 5px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+    .tabela-rpg {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: rgba(20, 20, 22, 0.6);
+      border: 1px solid var(--border-fantasy);
+      font-size: 0.85rem;
+    }
+    .tabela-rpg th, .tabela-rpg td {
+      border: 1px solid var(--border-fantasy);
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .tabela-rpg th {
+      background: rgba(43, 23, 23, 0.5);
+      color: #e74c3c;
+      font-family: 'Cinzel', serif;
+    }
+    .tabela-rpg tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .tabela-rpg td.esquerda {
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="classes.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Classes</a>
+    </div>
+
+    <h2>Feiticeiro (Sorcerer)</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://imagenslucas.weebly.com/uploads/1/0/6/8/10689847/baixados-23_orig.jpg" alt="Feiticeiro">
+        <div class="texto-lore">
+          <h3>A magia fervendo no sangue</h3>
+          <p>Muitos buscam a magia através de preces fervorosas ou de décadas dedicadas ao estudo de fórmulas complexas gravadas em pergaminhos antigos. O feiticeiro, no entanto, é a própria fórmula. A magia não é algo que ele faz, mas sim o que ele é. Uma anomalia cósmica, uma linhagem tocada por dragões imperiais, ou o subproduto mutável do caos puro.</p>
+          <p>Eles conjuram feitiços através da força bruta de sua personalidade, moldando o Éter de forma intuitiva, crua e incrivelmente maleável. Através de sua Metamagia, um feiticeiro pode dobrar as regras da própria urdidura mágica, estendendo alcances, duplicando feitiços e acelerando encantamentos em velocidades absurdas, provando que o poder verdadeiro obedece à vontade, não à teoria.</p>
+          
+          <h4 style="color: #e74c3c; margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Dado de Vida:</strong> 1d6 por nível de Feiticeiro.</li>
+            <li><strong>Atributo Principal:</strong> Carisma (Conjuração e Habilidades Inatas).</li>
+            <li><strong>Proficiências em Armaduras:</strong> Nenhuma.</li>
+            <li><strong>Proficiências em Armas:</strong> Armas Simples.</li>
+            <li><strong>Ferramentas:</strong> Nenhuma.</li>
+            <li><strong>Testes de Resistência:</strong> Constituição e Carisma.</li>
+            <li><strong>Perícias:</strong> Escolha duas entre Arcana, Enganação, Intimidação, Intuição, Persuasão e Religião.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px; overflow-x: auto;">
+        <h3 style="font-family: 'Cinzel', serif; color: #e74c3c; font-size: 1.6rem; margin-bottom: 15px;">Progressão de Classe</h3>
+        <table class="tabela-rpg">
+          <thead>
+            <tr>
+              <th>Nível</th>
+              <th>Prof.</th>
+              <th class="esquerda">Recursos de Classe</th>
+              <th>Pontos de Feitiçaria</th>
+              <th>Truques</th>
+              <th>Magias Conhecidas</th>
+              <th>1º</th>
+              <th>2º</th>
+              <th>3º</th>
+              <th>4º</th>
+              <th>5º</th>
+              <th>6º</th>
+              <th>7º</th>
+              <th>8º</th>
+              <th>9º</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1º</td><td>+2</td><td class="esquerda">Conjuração, Foco Inato (Innate Sorcery)</td><td>—</td><td>4</td><td>2</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>2º</td><td>+2</td><td class="esquerda">Fonte de Magia (Font of Magic), Metamagia (Duas opções)</td><td>2</td><td>4</td><td>3</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>3º</td><td>+2</td><td class="esquerda">Origem Feérica/Subclasse</td><td>3</td><td>4</td><td>4</td><td>4</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>4º</td><td>+2</td><td class="esquerda">Talento de Atributo (Feat)</td><td>4</td><td>5</td><td>5</td><td>4</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>5º</td><td>+3</td><td class="esquerda">Erupção de Feitiçaria (Sorcerous Burst Aprimorado)</td><td>5</td><td>5</td><td>6</td><td>4</td><td>3</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>6º</td><td>+3</td><td class="esquerda">Recurso de Origem</td><td>6</td><td>5</td><td>7</td><td>4</td><td>3</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>7º</td><td>+3</td><td class="esquerda">Metamagia Adicional (Três opções)</td><td>7</td><td>5</td><td>8</td><td>4</td><td>3</td><td>3</td><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>8º</td><td>+3</td><td class="esquerda">Talento de Atributo (Feat)</td><td>8</td><td>5</td><td>9</td><td>4</td><td>3</td><td>3</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>9º</td><td>+4</td><td class="esquerda">Surto de Carisma</td><td>9</td><td>5</td><td>10</td><td>4</td><td>3</td><td>3</td><td>3</td><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>10º</td><td>+4</td><td class="esquerda">Recurso de Origem</td><td>10</td><td>6</td><td>11</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>11º</td><td>+4</td><td class="esquerda">Urdidura Estendida</td><td>11</td><td>6</td><td>12</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>12º</td><td>+4</td><td class="esquerda">Talento de Atributo (Feat)</td><td>12</td><td>6</td><td>12</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>13º</td><td>+5</td><td class="esquerda">Metamagia Adicional (Quatro opções)</td><td>13</td><td>6</td><td>13</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>—</td><td>—</td></tr>
+            <tr><td>14º</td><td>+5</td><td class="esquerda">Recurso de Origem</td><td>14</td><td>6</td><td>13</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>—</td><td>—</td></tr>
+            <tr><td>15º</td><td>+5</td><td class="esquerda">Encantamento Flexível</td><td>15</td><td>6</td><td>14</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>—</td></tr>
+            <tr><td>16º</td><td>+5</td><td class="esquerda">Talento de Atributo (Feat)</td><td>16</td><td>6</td><td>14</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>—</td></tr>
+            <tr><td>17º</td><td>+6</td><td class="esquerda">Apoteose Metamágica</td><td>17</td><td>6</td><td>15</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+            <tr><td>18º</td><td>+6</td><td class="esquerda">Feitiçaria Indomável</td><td>18</td><td>6</td><td>15</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+            <tr><td>19º</td><td>+6</td><td class="esquerda">Talento de Atributo / Dádiva Épica</td><td>19</td><td>6</td><td>16</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td></tr>
+            <tr><td>20º</td><td>+6</td><td class="esquerda">Restauração Arcana Completa</td><td>20</td><td>6</td><td>16</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>2</td><td>2</td><td>1</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #e74c3c; font-size: 1.6rem; margin-bottom: 20px;">Recursos de Classe Detalhados</h3>
+
+        <div class="bloco-feiticeiro">
+          <h4>Nível 1: Conjuração & Foco Inato</h4>
+          <p><strong>Conjuração:</strong> Suas magias emanam de uma centelha interna. Você conhece uma quantidade fixa de magias da lista de Feiticeiro baseada na tabela e usa Carisma como seu atributo de conjuração. Você também ganha o truque exclusivo *Surto Feérico (Sorcerous Burst)*, cujo dado pode explodir se rolar o valor máximo.</p>
+          <p><strong>Foco Inato (Innate Sorcery):</strong> Como uma Ação Bônus, você pode libertar a magia latente que corre em seu corpo por 1 minuto. Enquanto este estado estiver ativo, a Classe de Armadura contra suas magias aumenta em **+1** e todas as suas jogadas de ataque com magias de Feiticeiro ganham **Vantagem**. Você pode usar este recurso duas vezes por Descanso Longo.</p>
+        </div>
+
+        <div class="bloco-feiticeiro">
+          <h4>Nível 2: Fonte de Magia & Metamagia</h4>
+          <p><strong>Fonte de Magia (Font of Magic):</strong> Você manifesta uma reserva interna de energia bruta medida em Pontos de Feitiçaria (conforme a tabela). Você pode gastar esses pontos como uma Ação Bônus para criar espaços de magia adicionais ou sacrificar espaços de magia para obter mais Pontos de Feitiçaria.</p>
+          <p><strong>Metamagia:</strong> Você aprende duas opções de Metamagia para torcer a natureza dos seus feitiços. Você pode aplicar apenas uma Metamagia por feitiço, a menos que a opção diga o contrário:</p>
+          <ul class="trait-list" style="margin-top: 10px;">
+            <li><strong>Magia Acelerada (Quicken Spell):</strong> Custo de 2 pontos. Altera o tempo de conjuração de uma magia de uma Ação para uma Ação Bônus.</li>
+            <li><strong>Magia Duplicada (Twinned Spell):</strong> Custo de 1 ponto por círculo da magia. Permite que uma magia que alveje apenas uma criatura e não tenha alcance "Si mesmo" afete um segundo alvo no mesmo alcance.</li>
+            <li><strong>Magia Cuidadosa (Careful Spell):</strong> Custo de 1 ponto. Permite que até uma quantidade de criaturas igual ao seu modificador de Carisma passem automaticamente na salvaguarda da magia.</li>
+            <li><strong>Magia Sutil (Subtle Spell):</strong> Custo de 1 ponto. Permite conjurar uma magia ignorando totalmente seus componentes somáticos e verbais.</li>
+            <li><strong>Magia Potencializada (Empowered Spell):</strong> Custo de 1 ponto. Permite refazer até uma quantidade de dados de dano da magia igual ao seu modificador de Carisma.</li>
+            <li><strong>Magia Distante (Distant Spell):</strong> Custo de 1 ponto. Dobra o alcance de uma magia, ou altera um alcance de Toque para 9 metros.</li>
+          </ul>
+        </div>
+
+        <div class="bloco-feiticeiro">
+          <h4>Nível 3: Origem Feérica (Subclasse)</h4>
+          <p><strong>Origem Feérica:</strong> A fonte do seu poder se estabelece de forma clara, escolhendo entre a **Linhagem Dracônica**, **Magia Selvagem**, **Feiticeiro Abissal** ou **Mente Aberrante**. Sua origem concede magias bônus temáticas sempre preparadas que não contam no seu limite e recursos nos níveis 3, 6, 10 e 14.</p>
+        </div>
+
+        <div class="bloco-feiticeiro">
+          <h4>Níveis 4, 8, 12, 16 e 19: Talento de Atributo (Feat)</h4>
+          <p>Aumente um atributo de sua escolha em +2, dois atributos em +1, ou selecione um Talento Geral respeitando as regras de pré-requisito.</p>
+        </div>
+
+        <div class="bloco-feiticeiro">
+          <h4>Nível 5: Erupção de Feitiçaria</h4>
+          <p><strong>Erupção de Feitiçaria:</strong> Seu controle sobre o truque *Surto Feérico* atinge um novo patamar. O limite de vezes que o dado de dano desse truque pode explodir (rolar novamente pelo valor máximo) passa a ser igual ao seu modificador de Carisma em um único ataque.</p>
+        </div>
+
+        <div class="bloco-feiticeiro">
+          <h4>Nível 7: Metamagia Adicional</h4>
+          <p>Você escolhe e aprende uma terceira opção de Metamagia da lista disponível no nível 2.</p>
+        </div>
+
+        <div class="bloco-feiticeiro">
+          <h4>Nível 9: Surto de Carisma</h4>
+          <p><strong>Surto de Carisma:</strong> Quando você falhar em um teste de perícia que utilize o atributo Carisma, você pode gastar 1 Ponto de Feitiçaria para rolar um dado de **1d6** e adicionar o valor ao resultado, podendo transformar a falha em um sucesso.</p>
+        </div>
+
+        <div class="bloco-feiticeiro">
+          <h4>Nível 11: Urdidura Estendida</h4>
+          <p><strong>Urdidura Estendida:</strong> Quando você ativa seu recurso *Foco Inato* (Nível 1), você pode escolher gastar 2 Pontos de Feitiçaria adicionais para estender a duração do efeito para 10 minutos, mantendo a vantagem em ataques mágicos por combates subsequentes.</p>
+        </div>
+
+        <div class="bloco-feiticeiro">
+          <h4>Nível 13: Metamagia Adicional</h4>
+          <p>Você expande seu arsenal de manipulação arcana, escolhendo e aprendendo uma quarta opção de Metamagia.</p>
+        </div>
+
+        <div class="bloco-feiticeiro">
+          <h4>Nível 15: Encantamento Flexível</h4>
+          <p><strong>Encantamento Flexível:</strong> Você pode usar sua característica de converter pontos em espaços de magia e vice-versa sem gastar sua Ação Bônus, integrando essa conversão como parte da própria Ação usada para conjurar um feitiço.</p>
+        </div>
+
+        <div class="bloco-feiticeiro">
+          <h4>Nível 17: Apoteose Metamágica</h4>
+          <p><strong>Apoteose Metamágica:</strong> Você aprende o segredo de combinar distorções. Você passa a poder aplicar até **duas opções de Metamagia simultaneamente** em um único feitiço que você conjurar.</p>
+        </div>
+
+        <div class="bloco-feiticeiro">
+          <h4>Nível 18: Feitiçaria Indomável</h4>
+          <p><strong>Feitiçaria Indomável:</strong> Quando você sofrer dano enquanto o seu *Foco Inato* estiver ativo, você pode gastar sua Reação e 3 Pontos de Feitiçaria para emitir uma onda de choque defensiva. O dano sofrido é reduzido pela metade e todas as criaturas hostis a até 3 metros sofrem dano de força igual ao seu nível de feiticeiro.</p>
+        </div>
+
+        <div class="bloco-feiticeiro">
+          <h4>Nível 20: Restauração Arcana Completa</h4>
+          <p><strong>Restauração Arcana Completa:</strong> Seu sangue pulsa com o Éter em sua forma mais pura. Sempre que você rolar Iniciativa para um combate e possuir menos de **4 Pontos de Feitiçaria** em sua reserva, sua energia se regenera instantaneamente até que você tenha 4 pontos disponíveis.</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #e74c3c; font-size: 1.6rem; margin-bottom: 10px;">Origens Feéricas (Subclasses)</h3>
+        
+        <div class="bloco-subclasse-detalhada">
+          <h3>Linhagem Dracônica (Draconic Bloodline)</h3>
+          <p>Seu sangue carrega a herança de antigos dragões imperiais. Concede escamas blindadas, afinidade com elementos destrutivos e asas majestosas.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Resiliência Dracônica & Magias Ancestrais</h5>
+            <p><strong>Magias de Origem:</strong> *Mãos Flamejantes*, *Orbe Cromático*, *Sopro de Dragão*, *Pele de Árvore* (versão escamas).</p>
+            <p><strong>Resiliência Dracônica:</strong> Partes de sua pele são cobertas por escamas translúcidas. Sua Classe de Armadura (CA) básica quando você não estiver usando armadura passa a ser igual a **13 + seu modificador de Destreza**. Além disso, seu máximo de pontos de vida aumenta em 1 para cada nível nesta classe.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Afinidade Elemental</h5>
+            <p>Escolha um tipo de dano atrelado ao seu ancestral dracônico (Ácido, Fogo, Frio, Elétrico ou Veneno). Você ganha resistência a esse tipo de dano de forma permanente. Além disso, quando conjurar uma magia que cause esse dano, adicione seu modificador de Carisma ao dano total.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Presença Dracônica</h5>
+            <p>Você pode gastar 3 Pontos de Feitiçaria para emanar a aura terrível de um dragão. Criaturas a até 9 metros à sua escolha devem passar em uma salvaguarda de Sabedoria ou ficarão **Amedrontadas** ou **Encantadas** (sua escolha) por você por 1 minuto.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Asas de Dragão</h5>
+            <p>Como uma Ação Bônus, você manifesta um par de asas dracônicas que brotam das suas costas. Você ganha deslocamento de voo igual ao seu deslocamento terrestre atual. Você pode fazer as asas desaparecerem com outra Ação Bônus.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>Magia Selvagem (Wild Magic)</h3>
+          <p>Você extrai seu poder diretamente do Caos puro e mutável. Suas magias podem desencadear efeitos imprevisíveis, alterando as probabilidades do destino.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Ondas de Caos & Surto de Magia Selvagem</h5>
+            <p><strong>Magias de Origem:</strong> *Fogo Fátuo*, *Caos Cromático*, *Alterar-se*, *Borrifo de Cores*.</p>
+            <p><strong>Ondas de Caos (Tides of Chaos):</strong> Você pode manipular a probabilidade para ganhar **Vantagem** em uma jogada de ataque, teste de atributo ou salvaguarda. Você recupera este recurso imediatamente após o mestre forçar uma rolagem na tabela de Surtos.</p>
+            <p><strong>Surto de Magia Selvagem:</strong> Sempre que você conjurar uma magia de 1º círculo ou superior, o mestre pode solicitar a rolagem de **1d20**. Se o resultado for 1, role na tabela oficial de Surtos de Magia Selvagem para desencadear um efeito caótico aleatório.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Dobrar a Sorte</h5>
+            <p>Quando outra criatura que você consiga ver realizar uma jogada de ataque, teste ou salvaguarda, você pode usar sua Reação e gastar 2 Pontos de Feitiçaria para rolar **1d4** e aplicar o valor como um bônus ou penalidade ao resultado do alvo.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Caos Controlado</h5>
+            <p>Você ganha um grau relativo de comando sobre o seu próprio caos. Sempre que você rolar na tabela de Surtos de Magia Selvagem, você realiza a rolagem **duas vezes** e pode escolher qual dos dois efeitos prefere aplicar no grid.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Surto Bombástico</h5>
+            <p>Quando você rolar um efeito na tabela de surtos que cause dano, você pode escolher gastar 3 Pontos de Feitiçaria adicionais para maximizar o dano daquele surto contra todas as criaturas afetadas.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>Feiticeiro Abissal (Fiendish/Abyssal Soul)</h3>
+          <p>Seu poder tem raízes nos planos inferiores. Sua magia corrompe e consome, canalizando o fogo do inferno e a resiliência das profundezas sombrias.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Pele Maculada & Magias Malignas</h5>
+            <p><strong>Magias de Origem:</strong> *Mãos Flamejantes*, *Raio de Enfeitiçamento*, *Estilhaço de Gelo*, *Cegueira/Surdez*.</p>
+            <p><strong>Pele Maculada:</strong> As energias do abismo endurecem seu corpo físico. Você ganha resistência a dano Necrótico ou Flamejante (sua escolha ao adquirir a subclasse). Além disso, seus truques de feiticeiro podem causar dano Necrótico em vez do tipo comum.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Consumo de Essência</h5>
+            <p>Uma vez por turno, quando você causar dano a uma criatura com uma magia de 1º círculo ou superior, você drena parte da energia dela. Você recupera pontos de vida temporários iguais ao dobro do círculo da magia conjurada.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Fogo Abissal</h5>
+            <p>Suas magias passam a ignorar resistências a dano Flamejante e Necrótico. Criaturas que possuam imunidade a esses elementos passam a ser tratadas como se possuíssem apenas resistência quando alvos de suas magias.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Forma Demônica</h5>
+            <p>Você gasta 4 Pontos de Feitiçaria para assumir uma forma apocalíptica por 1 minuto. Enquanto transformado, você ganha deslocamento de voo de 18 metros e qualquer inimigo que iniciar o turno a até 3 metros de você sofre dano necrótico automático igual ao seu modificador de Carisma.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>Mente Aberrante (Aberrant Mind)</h3>
+          <p>Uma influência alienígena ou toque de um Devorador de Mentes despertou seus poderes psíquicos latentes. Focado em telepatia, quebra mental e manipulação do espaço.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Fala Telepática & Magias Psionísticas</h5>
+            <p><strong>Magias de Origem:</strong> *Braços de Hadar*, *Sussurros Dissonantes*, *Calmante Emocional*, *Detectar Pensamentos*.</p>
+            <p><strong>Fala Telepática:</strong> Como uma Ação Bônus, escolha uma criatura a até 9 metros. Você pode estabelecer uma conexão telepática com ela por uma quantidade de minutos igual ao seu nível nesta classe, permitindo comunicação mútua independente de idiomas.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Feitiçaria Psiónica</h5>
+            <p>Quando você conjurar qualquer uma das magias da sua lista de *Magias de Origem*, você pode escolher gastar uma quantidade de Pontos de Feitiçaria igual ao círculo da magia em vez de gastar um espaço de magia tradicional. Se fizer isso, a magia é conjurada sem qualquer componente verbal ou somático.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Defesa Psíquica</h5>
+            <p>Sua mente se torna uma fortaleza geométrica complexa e alienígena. Você ganha imunidade total contra a condição **Encantado** ou **Amedrontado** (sua escolha ao fim de cada Descanso Longo) e resistência a dano Psíquico.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Revelação no Espaço</h5>
+            <p>Você pode gastar 5 Pontos de Feitiçaria para distorcer o espaço ao seu redor por 1 minuto. Suas pernas se transformam em tentáculos de éter ou sua silhueta pisca: seu deslocamento aumenta em 3 metros, você pode pairar e pode passar por espaços de até 3 centímetros sem sofrer penalidades.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

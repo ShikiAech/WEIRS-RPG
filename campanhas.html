@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campanhas — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ESTILIZAÇÃO DO PAINEL DE CAMPANHAS */
+    .introducao-campanhas {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .grid-campanhas {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .card-campanha {
+      background: rgba(25, 25, 27, 0.95);
+      border: 1px solid var(--border-fantasy);
+      border-radius: 6px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Detalhes temáticos para diferenciar as campanhas */
+    .card-campanha.othans {
+      border-top: 4px solid #8e44ad; /* Roxo Místico */
+    }
+
+    .card-campanha.jungle-jack {
+      border-top: 4px solid #27ae60; /* Verde Taverna */
+    }
+
+    .card-campanha:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+    }
+
+    .card-campanha.othans:hover {
+      border-color: #8e44ad;
+      box-shadow: 0 10px 25px rgba(142, 68, 173, 0.15);
+    }
+
+    .card-campanha.jungle-jack:hover {
+      border-color: #27ae60;
+      box-shadow: 0 10px 25px rgba(39, 174, 96, 0.15);
+    }
+
+    .emblema-campanha {
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 15px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    }
+
+    .titulo-campanha {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      text-align: center;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+    }
+
+    .sinopse-campanha {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #cbd5e1;
+      text-align: justify;
+      margin-bottom: 25px;
+      flex-grow: 1;
+    }
+
+    .sinopse-campanha strong {
+      color: #f1c40f;
+    }
+
+    .meta-campanha-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 12px;
+      background: rgba(20, 20, 22, 0.6);
+      padding: 12px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.02);
+    }
+
+    .meta-item-campanha {
+      color: #d0d0d0;
+    }
+
+    .meta-item-campanha strong {
+      color: #f1c40f;
+      font-family: 'Cinzel', serif;
+    }
+
+    /* BOTÃO ESTILO RAÇAS E CLASSES */
+    .btn-campanha {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      text-align: center;
+      background: rgba(20, 20, 22, 0.8);
+      border: 1px solid var(--border-fantasy);
+      color: #fff;
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      text-decoration: none;
+      border-radius: 4px;
+      letter-spacing: 1px;
+      transition: all 0.2s ease;
+    }
+
+    .card-campanha.othans .btn-campanha:hover {
+      background: #8e44ad;
+      border-color: #a29bfe;
+      color: #fff;
+      box-shadow: 0 0 10px rgba(142, 68, 173, 0.4);
+    }
+
+    .card-campanha.jungle-jack .btn-campanha:hover {
+      background: #27ae60;
+      border-color: #55efc4;
+      color: #fff;
+      box-shadow: 0 0 10px rgba(39, 174, 96, 0.4);
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="index.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar ao Início</a>
+    </div>
+
+    <div class="introducao-campanhas">
+      <div class="card-rpg" style="max-width: 900px; margin: 0 auto; padding: 25px;">
+        <h2>🗺️ Crônicas e Campanhas</h2>
+        <p style="margin-top: 10px; line-height: 1.6; color: #cbd5e1;">
+          Grandes sagas não são escritas por uma única mente, mas sim forjadas através de um multiverso de ideias e contos compartilhados. Aqui, diferentes narradores dão vida a tramas complexas, mistérios insolúveis e desafios épicos. Explore as crônicas ativas do nosso cenário, escolha sob qual mestre você deseja testar sua sorte e prepare seus dados para moldar o destino do mundo!
+        </p>
+      </div>
+    </div>
+
+    <div class="grid-campanhas">
+
+      <div class="card-campanha othans">
+        <div>
+          <div class="emblema-campanha">🔮</div>
+          <h3 class="titulo-campanha">Othans</h3>
+          
+          <div class="meta-campanha-grid">
+            <div class="meta-item-campanha"><strong>Duração:</strong> Contínua</div>
+            <div class="meta-item-campanha"><strong>Nível:</strong> 3</div>
+            <div class="meta-item-campanha" style="grid-column: 1 / -1;"><strong>Mestre:</strong> Luva</div>
+          </div>
+          
+          <p class="sinopse-campanha">
+            O ano é 502. O Império Unificado ascendeu como a maior potência tirânica e militar do planeta, controlando com punho de ferro não apenas o exército, mas a própria fé da população. Para sustentar o luxo decadente das capitais Therpya e Gorvahn, o Império volta seus olhos gananciosos para o continente de Yozaki, iniciando uma implacável campanha de exploração colonial. 
+            <br><br>
+            A propaganda imperial clama que o <strong>Dragma Sagrado</strong> atual nasceu e está sob a virtuosa tutela do palácio do Imperador. Contudo, as aparências enganam: tudo não passa de uma sórdida engrenagem de manipulação política e religiosa. Diante desse cenário sombrio, <strong>Danael, o Arcanjo da Terra</strong>, surge das sombras para reunir um grupo de heróis. Revelando uma profecia ancestral, ele anuncia que vocês estão destinados a se tornarem os novos <strong>Othans</strong>. Sua missão? Desmascarar o Império, cruzar terras hostis e encontrar e guiar em total segurança o <strong>VERDADEIRO DRAGMA</strong>, enquanto forças ocultas e misteriosas tentam impedir a todo custo que a verdade venha à luz.
+          </p>
+        </div>
+        
+        <a href="othans.html" class="btn-campanha">Explorar Cenário &rarr;</a>
+      </div>
+
+      <div class="card-campanha jungle-jack">
+        <div>
+          <div class="emblema-campanha">🍺</div>
+          <h3 class="titulo-campanha">A Taverna de Jungle Jack</h3>
+          
+          <div class="meta-campanha-grid">
+            <div class="meta-item-campanha"><strong>Duração:</strong> One-shot</div>
+            <div class="meta-item-campanha"><strong>Nível:</strong> 8</div>
+            <div class="meta-item-campanha" style="grid-column: 1 / -1;"><strong>Mestre:</strong> Luva</div>
+          </div>
+          
+          <p class="sinopse-campanha">
+            Após incontáveis masmorras exploradas e dragões derrotados, um lendário e bem-sucedido grupo de mercenários decidiu fazer o impensável: pendurar as espadas, abandonar os perigos das estradas e abrir o próprio negócio. Eles tinham certeza absoluta de que o empreendimento seria um sucesso retumbante por causa de um segredo comercial infalível: o lendário <strong>leite de macaco</strong>, a iguaria secreta e especialidade da casa criada por <strong>Jungle Jack</strong>, o carismático proprietário.
+            <br><br>
+            Contudo, o grupo está prestes a descobrir que gerenciar uma taverna movimentada pode ser muito mais caótico do que limpar uma guilda de assassinos. Clientes bêbados e aventureiros arrogantes se provarão mais difíceis de controlar do que uma horda de ogros furiosos. Para piorar, concorrentes invejosos e mafiosos locais planejam sabotar o estabelecimento e roubar a preciosa fórmula secreta. Nesta divertida e perigosa jornada, os jogadores estarão livres para assumir o papel de figuras clássicas como o próprio <strong>Jungle Jack, Shrek, Galadriel, Virelith e Pelaje Rojizo</strong>, ou criar seus próprios heróis caóticos para ajudar a manter as portas abertas!
+          </p>
+        </div>
+        
+        <a href="taverna-jungle-jack.html" class="btn-campanha">Entrar na Taverna &rarr;</a>
+      </div>
+
+    </div>
+  </div>
+
+  <footer style="margin-top: 50px; text-align: center; padding: 20px; color: #a6acaf; font-size: 0.8rem; border-top: 1px solid var(--border-fantasy);">
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

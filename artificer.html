@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artífice — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .bloco-artifice {
+      background: rgba(212, 175, 55, 0.04);
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      border-left: 4px solid var(--gold);
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-artifice h4 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-bright);
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+    .bloco-subclasse-detalhada {
+      background: rgba(25, 25, 27, 0.8);
+      border: 1px solid var(--border-fantasy);
+      padding: 25px;
+      margin-top: 35px;
+      border-radius: 4px;
+    }
+    .bloco-subclasse-detalhada h3 {
+      font-family: 'Cinzel', serif;
+      color: #5dade2;
+      border-bottom: 1px solid rgba(93, 173, 226, 0.3);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+    }
+    .sub-feature {
+      background: rgba(44, 62, 80, 0.2);
+      border-left: 3px solid #3498db;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 0 4px 4px 0;
+    }
+    .sub-feature h5 {
+      font-family: 'Cinzel', serif;
+      color: #eaf2f8;
+      font-size: 1.05rem;
+      margin-bottom: 5px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+    .tabela-rpg {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: rgba(20, 20, 22, 0.6);
+      border: 1px solid var(--border-fantasy);
+      font-size: 0.85rem;
+    }
+    .tabela-rpg th, .tabela-rpg td {
+      border: 1px solid var(--border-fantasy);
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .tabela-rpg th {
+      background: rgba(58, 50, 36, 0.4);
+      color: var(--gold);
+      font-family: 'Cinzel', serif;
+    }
+    .tabela-rpg tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .tabela-rpg td.esquerda {
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="classes.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Classes</a>
+    </div>
+
+    <h2>Artífice (Artificer)</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://imagenslucas.weebly.com/uploads/1/0/6/8/10689847/frostpunk-units_orig.jpg" alt="Artífice">
+        <div class="texto-lore">
+          <h3>Mestres da Invenção Arcana</h3>
+          <p>Profissionais da engenharia mágica, os artífices tratam a magia não como um mistério incompreensível, mas como uma ciência exata combinando fórmulas arcanas, runas de éteris e engrenagens físicas de precisão.</p>
+          <p>Eles infundem suas almas e conhecimentos diretamente em objetos do dia a dia, tornando canivetes comuns em chaves universais e armaduras de metal em trajes tecnológicos impenetráveis.</p>
+          
+          <h4 style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Dado de Vida:</strong> 1d8 por nível de Artífice.</li>
+            <li><strong>Atributos Principais:</strong> Inteligência (Conjuração), Constituição ou Destreza (Defesa).</li>
+            <li><strong>Proficiências em Armaduras:</strong> Armaduras Leves, Médias e Escudos.</li>
+            <li><strong>Proficiências em Armas:</strong> Armas Simples, Bestas de Mão e Armas de Fogo.</li>
+            <li><strong>Ferramentas:</strong> Ferramentas de Ladrão, Ferramentas de Inventor e um tipo de ferramenta de artesão à sua escolha.</li>
+            <li><strong>Testes de Resistência:</strong> Constituição e Inteligência.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px; overflow-x: auto;">
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.6rem; margin-bottom: 15px;">Progressão de Classe</h3>
+        <table class="tabela-rpg">
+          <thead>
+            <tr>
+              <th>Nível</th>
+              <th>Prof.</th>
+              <th class="esquerda">Recursos de Classe</th>
+              <th>Infusões</th>
+              <th>Itens Inf.</th>
+              <th>Truques</th>
+              <th>1º</th>
+              <th>2º</th>
+              <th>3º</th>
+              <th>4º</th>
+              <th>5º</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1º</td><td>+2</td><td class="esquerda">Engenharia Mágica, Conjuração</td><td>—</td><td>—</td><td>2</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>2º</td><td>+2</td><td class="esquerda">Infundir Item</td><td>4</td><td>2</td><td>2</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>3º</td><td>+2</td><td class="esquerda">Especialista em Ferramentas, Especialização (Subclasse)</td><td>4</td><td>2</td><td>2</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>4º</td><td>+2</td><td class="esquerda">Talento de Atributo (Feat)</td><td>4</td><td>2</td><td>2</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>5º</td><td>+3</td><td class="esquerda">Recurso de Especialização</td><td>4</td><td>2</td><td>2</td><td>4</td><td>2</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>6º</td><td>+3</td><td class="esquerda">Ferramenta do Serralheiro</td><td>6</td><td>3</td><td>2</td><td>4</td><td>2</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>7º</td><td>+3</td><td class="esquerda">Lampejo de Genialidade</td><td>6</td><td>3</td><td>2</td><td>4</td><td>3</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>8º</td><td>+3</td><td class="esquerda">Talento de Atributo (Feat)</td><td>6</td><td>3</td><td>2</td><td>4</td><td>3</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>9º</td><td>+4</td><td class="esquerda">Recurso de Especialização</td><td>6</td><td>3</td><td>2</td><td>4</td><td>3</td><td>2</td><td>—</td><td>—</td></tr>
+            <tr><td>10º</td><td>+4</td><td class="esquerda">Adepto em Itens Mágicos</td><td>8</td><td>4</td><td>3</td><td>4</td><td>3</td><td>2</td><td>—</td><td>—</td></tr>
+            <tr><td>11º</td><td>+4</td><td class="esquerda">Item de Armazenamento de Magia</td><td>8</td><td>4</td><td>3</td><td>4</td><td>3</td><td>3</td><td>—</td><td>—</td></tr>
+            <tr><td>12º</td><td>+4</td><td class="esquerda">Talento de Atributo (Feat)</td><td>8</td><td>4</td><td>3</td><td>4</td><td>3</td><td>3</td><td>—</td><td>—</td></tr>
+           <tr><td>13º</td><td>+5</td><td class="esquerda">Magias de 4º Círculo da Especialização</td><td>8</td><td>4</td><td>3</td><td>4</td><td>3</td><td>3</td><td>2</td><td>—</td></tr>
+            <tr><td>14º</td><td>+5</td><td class="esquerda">Sábio em Itens Mágicos</td><td>10</td><td>5</td><td>4</td><td>4</td><td>3</td><td>3</td><td>2</td><td>—</td></tr>
+            <tr><td>15º</td><td>+5</td><td class="esquerda">Recurso de Especialização</td><td>10</td><td>5</td><td>4</td><td>4</td><td>3</td><td>3</td><td>3</td><td>—</td></tr>
+            <tr><td>16º</td><td>+5</td><td class="esquerda">Talento de Atributo (Feat)</td><td>10</td><td>5</td><td>4</td><td>4</td><td>3</td><td>3</td><td>3</td><td>—</td></tr>
+            <tr><td>17º</td><td>+6</td><td class="esquerda">—</td><td>10</td><td>5</td><td>4</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td></tr>
+            <tr><td>18º</td><td>+6</td><td class="esquerda">Mestre em Itens Mágicos</td><td>12</td><td>6</td><td>4</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+            <tr><td>19º</td><td>+6</td><td class="esquerda">Talento de Atributo (Feat)</td><td>12</td><td>6</td><td>4</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+            <tr><td>20º</td><td>+6</td><td class="esquerda">Alma do Artifício</td><td>12</td><td>6</td><td>4</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.6rem; margin-bottom: 20px;">Recursos de Classe Detalhados</h3>
+
+        <div class="bloco-artifice">
+          <h4>Nível 1: Engenharia Mágica & Conjuração</h4>
+          <p>Você aprende a imbuir uma centelha de magia em objetos mundanos através de suas ferramentas. Ao tocar um objeto minúsculo não-mágico, você pode dar a ele uma propriedade mística estática: emitir luz (até 3 metros), reproduzir uma mensagem sonora gravada de até 6 segundos, emitir um odor contínuo ou exibir um efeito visual de até 4 palavras/imagens na superfície. O objeto mantém o efeito até você realizar um descanso longo.</p>
+          <p style="margin-top: 5px;">Sua conjuração exige o uso de uma ferramenta com a qual você possua proficiência como foco de conjuração de todas as suas magias.</p>
+        </div>
+
+        <div class="bloco-artifice">
+          <h4>Nível 2: Infundir Item</h4>
+          <p>Você adquire o conhecimento técnico para criar itens mágicos protótipos. Ao final de um descanso longo, você pode tocar uma quantidade de objetos mundanos igual ao valor da coluna "Itens Infundidos" na tabela e aplicar suas infusões conhecidas. Cada objeto só aceita uma infusão por vez, e o bônus persiste até você morrer ou remover a infusão deliberadamente.</p>
+        </div>
+
+        <div class="bloco-artifice">
+          <h4>Nível 3: Especialista em Ferramentas & Especialização</h4>
+          <p>Seu bônus de proficiência é **dobrado** para qualquer teste de atributo que utilize uma ferramenta em que você seja proficiente. Além disso, você escolhe sua linha técnica científica de Subclasse (Alquimista, Armeiro, Artilheiro ou Ferreiro de Batalha).</p>
+        </div>
+
+        <div class="bloco-artifice">
+          <h4>Níveis 4, 8, 12, 16 e 19: Talento de Atributo (Feat)</h4>
+          <p>Você pode aumentar um atributo à sua escolha em +2, ou dois atributos em +1. Seguindo as regras atualizadas de 2024, você pode substituir este aumento por um **Talento (Feat)** oficial de sua preferência para customizar suas manobras e intelecto.</p>
+        </div>
+
+        <div class="bloco-artifice">
+          <h4>Nível 6: Ferramenta do Serralheiro</h4>
+          <p>Com sua maestria, você consegue produzir instantaneamente qualquer tipo de ferramenta mundana de artesão que precisar. Você precisa de ferramentas de ladrão ou de inventor na mão, gastando 1 hora de trabalho (que pode ser feita em descansos curtos) para manifestar o conjunto de ferramentas magicamente.</p>
+        </div>
+
+        <div class="bloco-artifice">
+          <h4>Nível 7: Lampejo de Genialidade</h4>
+          <p>Você consegue calcular variáveis em frações de segundo para salvar aliados. Quando você ou uma criatura visível a até 9 metros realizar um teste de atributo ou salvaguarda, você pode usar sua **Reação** para adicionar seu **Modificador de Inteligência** ao resultado final. Você possui usos idênticos ao seu modificador de INT (mínimo 1), recuperando-os em um descanso longo.</p>
+        </div>
+
+        <div class="bloco-artifice">
+          <h4>Nível 10: Adepto em Itens Mágicos</h4>
+          <p>Sua sintonia com itens místicos se aprofunda: você pode manter sintonia com até **4 itens mágicos** simultaneamente. Adicionalmente, fabricar itens mágicos de raridade Comum ou Incomum custa a você apenas **metade do tempo** e **metade do ouro** padrão.</p>
+        </div>
+
+        <div class="bloco-artifice">
+          <h4>Nível 11: Item de Armazenamento de Magia</h4>
+          <p>Ao terminar um descanso longo, você pode tocar em uma arma simples ou marcial, ou um objeto utilizável como foco mágico, e armazenar uma magia de 1º ou 2º círculo de artífice (que demande 1 ação de conjuração). Qualquer criatura portando esse objeto pode usar uma ação para conjurar aquela magia sem gastar espaços. O item guarda uma quantidade de cargas igual ao **dobro do seu Modificador de Inteligência**.</p>
+        </div>
+
+        <div class="bloco-artifice">
+          <h4>Nível 14: Sábio em Itens Mágicos</h4>
+          <p>Você pode manter sintonia com até **5 itens mágicos** ao mesmo tempo. Além disso, você ignora completamente todos os requerimentos de raça, classe, alinhamento e nível para conseguir se sintonizar ou usar qualquer item mágico existente no mundo.</p>
+        </div>
+
+        <div class="bloco-artifice">
+          <h4>Nível 18: Mestre em Itens Mágicos</h4>
+          <p>Sua capacidade atinge o ápice físico, permitindo que você mantenha sintonia com até **6 itens mágicos** de forma simultânea.</p>
+        </div>
+
+        <div class="bloco-artifice">
+          <h4>Nível 20: Alma do Artifício</h4>
+          <p>Sua conexão com suas criações protege sua vida diretamente. Você recebe um bônus de **+1 em todas as suas Salvaguardas para cada item mágico com o qual estiver atualmente sintonizado** (máximo de +6). Além disso, se você for reduzido a 0 pontos de vida mas não morrer instantaneamente, você pode usar sua reação para encerrar uma de suas infusões ativas; se o fizer, você fica com exatamente 1 ponto de vida.</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.6rem; margin-bottom: 10px;">Especializações Detalhadas</h3>
+        
+        <div class="bloco-subclasse-detalhada">
+          <h3>Alquimista (Alchemist)</h3>
+          <p>Combina reagentes químicos, pós mágicos e poções para curar e destruir.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Elixir Experimental & Ferramentas</h5>
+            <p>Você ganha proficiência com ferramentas de alquimista. Ao fim de um descanso longo, você pode produzir um Elixir Experimental em um frasco vazio. Você pode gastar um espaço de magia de 1º círculo ou superior para criar elixires adicionais como uma ação bônus. Role 1d6 para determinar o efeito do elixir criado:</p>
+            <p style="font-size: 0.85rem; margin-top: 5px; color: #ccc;">1. <strong>Cura:</strong> Cura 2d4 + Mod. INT. | 2. <strong>Velocidade:</strong> +3m de deslocamento por 1 hora. | 3. <strong>Resiliência:</strong> +1 de CA por 10 minutos. | 4. <strong>Ousadia:</strong> Adiciona 1d4 em ataques e salvaguardas por 1 minuto. | 5. <strong>Voo:</strong> Ganha deslocamento de voo de 3m por 10 minutos. | 6. <strong>Transformação:</strong> Altera aparência (efeito de alterar-se) por 1 hora.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 5: Alquimia Espetacular</h5>
+            <p>Sempre que conjurar uma magia que cure pontos de vida ou cause dano Ácido, Fogo, Necrótico ou Venenoso utilizando suas ferramentas de alquimista como foco, você adiciona seu **Modificador de Inteligência** na jogada de dano ou cura.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 9: Reagentes Restauradores</h5>
+            <p>Seus elixires experimentais agora concedem **Pontos de Vida Temporários** iguais a 2d6 + seu modificador de Inteligência quando consumidos. Adicionalmente, você pode conjurar as magias *Restauração Menor* sem gastar espaços de magia um número de vezes igual ao seu mod de INT.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 15: Maestria Química</h5>
+            <p>Você adquire resistência a dano Ácido e Venenoso, além de total imunidade à condição Envenenado. Você também aprende a conjurar as magias *Restauração Maior* e *Palavra de Recordação* uma vez por descanso longo sem gastar espaços.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3 style="color: #e74c3c;">Armeiro (Armorer)</h3>
+          <p>Modifica armaduras pesadas para criar uma carapaça de combate integrada ao seu próprio corpo.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Armadura Arcana & Modelo de Armadura</h5>
+            <p>Você ganha proficiência com ferramentas de ferreiro e armaduras pesadas. Suas armaduras se tornam focos arcanos anexados ao corpo, ignorando penalidades de força e peso. Ao fim de um descanso curto ou longo, você altera o modelo de utilidade da sua armadura:</p>
+            <p><strong>Guardião (Linha de Frente):</strong> Suas manoplas se tornam armas mágicas que causam 1d8 de dano de Trovão e impõem desvantagem no próximo ataque do inimigo se ele tentar atacar outro aliado. Ganha uma ação bônus para gerar PV temporários iguais ao seu nível.</p>
+            <p><strong>Infiltrador (Furtividade):</strong> Seu deslocamento aumenta em 1,5 metros, você não tem desvantagem em furtividade com armadura pesada e ganha um nodo que dispara raios de energia causando 1d6 de dano Elétrico (com +1d6 extra uma vez por turno).</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 5: Ataque Extra</h5>
+            <p>Você pode atacar duas vezes, em vez de uma, sempre que realizar a ação de Ataque no seu turno.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 9: Modificações de Armadura</h5>
+            <p>Sua armadura arcana passa a contar como quatro peças separadas para efeitos de infusões mágicas: Peitoral, Botas, Elmo e a Arma Integrada. O número máximo de itens que você pode manter infundidos ao mesmo tempo aumenta em **+2 slots adicionais** (desde que aplicados estritamente na armadura).</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 15: Segredos da Armadura Completa</h5>
+            <p>Sua armadura ganha upgrades finais baseados no modelo ativo: O Guardião consegue usar sua reação para puxar magneticamente criaturas a até 9 metros em sua direção. O Infiltrador faz com que seus alvos atingidos pelo raio fiquem vulneráveis, dando vantagem em ataques aliados e causando desvantagem contra o próprio artífice.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3 style="color: #f1c40f;">Artilheiro (Artillerist)</h3>
+          <p>Usa magia ofensiva bruta e constrói torres balísticas móveis para controlar o campo.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Canhão Eldritch & Ferramentas</h5>
+            <p>Proficiência com ferramentas de entalhador. Com uma ação, você cria um Canhão minúsculo ou pequeno (que dura 1 hora ou até cair a 0 PV). Você pode comandá-lo com sua Ação Bônus para ativar um de seus três modos:</p>
+            <p><strong>Lança-chamas:</strong> Cone de 4,5 metros causa 2d8 de dano de Fogo (salvaguarda de Destreza reduz metade).<br>
+            <strong>Balista de Força:</strong> Ataque à distância a até 36 metros causa 2d8 de dano de Força e empurra o inimigo 1,5 metros.<br>
+            <strong>Protetor:</strong> Emite uma onda de energia defensiva que concede 1d8 + Mod. INT de pontos de vida temporários a todos os aliados a até 3 metros.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 5: Arma de Fogo de Linha</h5>
+            <p>Você sabe esculpir runas em varinhas ou cajados para transformá-los em condutores balísticos. Sempre que conjurar uma magia de artífice através dessa arma entalhada, role 1d8 e adicione o resultado como **dano mágico bônus** na magia.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 9: Canhão Explosivo</h5>
+            <p>Todos os danos gerados pelo seu Canhão Eldritch sobem para **3d8**. Além disso, como uma ação, você pode ordenar que o canhão se autodestrua em uma detonação maciça, forçando criaturas a até 6 metros a realizarem uma salvaguarda para não tomarem 4d8 de dano de força.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 15: Posição Fortificada</h5>
+            <p>Você passa a conseguir criar e manter **dois Canhões Eldritch ativos simultaneamente** com a mesma ação. Além disso, seus canhões emitem um campo protetor constante que fornece **Meia Cobertura (+2 CA e +2 em testes de Destreza)** para todos os aliados localizados a até 3 metros deles.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3 style="color: #2ecc71;">Ferreiro de Batalha (Battle Smith)</h3>
+          <p>O guerreiro tático de vanguarda que protege aliados com um companheiro robótico.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Prontidão de Combate & Defensor de Aço</h5>
+            <p>Proficiência com ferramentas de ferreiro e armas marciais. Sua mente analítica se sobressai na pancadaria: sempre que atacar utilizando uma arma mágica, você pode usar seu **Modificador de Inteligência** para as rolagens de acerto e de dano, em vez de Força ou Destreza.</p>
+            <p style="margin-top: 5px;">Você cria um **Defensor de Aço**, um construto quadrúpede ou bípede leal. Ele age logo após o seu turno e pode usar a reação *Desviar Ataque* para impor desvantagem em inimigos que tentarem golpear aliados próximos dele.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 5: Ataque Extra</h5>
+            <p>Você adquire a capacidade de realizar dois ataques físicos por ação de ataque no seu turno.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 9: Jolt Arcano (Impacto Energizado)</h5>
+            <p>Suas armas e seu construto transbordam eletricidade arcana. Quando você ou seu Defensor de Aço atingirem um alvo com um ataque físico, você pode canalizar uma explosão elemental para causar **2d6 de dano de Força extra**, ou canalizar a energia reversa para **curar um aliado** a até 9 metros em 2d6 pontos de vida. Você possui usos iguais ao seu modificador de INT.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 15: Defensor Aprimorado</h5>
+            <p>O bônus de CA do seu Defensor de Aço aumenta permanentemente em +2. Além disso, o dano extra e a cura gerados pelo seu recurso *Jolt Arcano* sobem para **4d6** por ativação.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

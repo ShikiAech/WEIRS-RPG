@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simyaris — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Estilos customizados para a tecnologia e agilidade dos Simyaris */
+    .bloco-tecnologia {
+      background: rgba(41, 128, 185, 0.1);
+      border: 1px solid rgba(41, 128, 185, 0.3);
+      border-left: 4px solid #3498db;
+      padding: 22px;
+      margin-top: 30px;
+      border-radius: 4px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+    .bloco-tecnologia h4 {
+      font-family: 'Cinzel', serif;
+      color: #5dade2;
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+    .badge-acao {
+      display: inline-block;
+      background: rgba(52, 152, 219, 0.2);
+      color: #3498db;
+      padding: 3px 10px;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      border: 1px solid rgba(52, 152, 219, 0.4);
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="racas.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Raças</a>
+    </div>
+
+    <h2>Simyaris</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://weirs-rpg.weebly.com/uploads/1/0/6/8/10689847/art-made-by-munkiey-on-tumblr_orig.jpg" alt="Simyaris">
+        
+        <div class="texto-lore">
+          <h3>Os Mestres do Éterfluxo</h3>
+          <p>A raça de primatas na qual o conhecimento não encontrou limites. Apesar de suas habilidades físicas naturalmente aprimoradas, eles decidiram usar a mente como sua principal arma de defesa e evolução cultural.</p>
+          <p>Suas terras em Xintai sempre foram alvo constante de ataques vindos dos reinos de fora. Por conta disso, os Simyaris desenvolveram a avançada tecnologia conhecida como <strong>Éterfluxo</strong>. Unindo seu éteris nativo a complexos equipamentos mecânicos, eles projetam armas, ferramentas e métodos de defesa deveras poderosos.</p>
+          
+          <h4 style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Traços de Simyaris</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Tipo de Criatura:</strong> Humanoide.</li>
+            <li><strong>Tamanho:</strong> Médio (cerca de 1,20 - 2,10 metros de altura) ou Pequeno (cerca de 0,60 - 1,20 metro de altura), escolhido ao selecionar esta raça.</li>
+            <li><strong>Deslocamento Terrestre:</strong> 9 metros (30ft).</li>
+            <li><strong>Visão no Escuro:</strong> Você possui visão no escuro equivalente a 18 metros (60ft).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Agilidade Primata</h3>
+        
+        <ul class="trait-list">
+          <li><strong>Pés Ágeis <span class="badge-acao">Ação Bônus</span>:</strong> Sua coordenação motora é extraordinária. Como uma ação bônus, você pode utilizar algum item do seu inventário — como por exemplo beber uma poção ou trocar de arma rapidamente —, utilizando um de seus pés ou até mesmo a sua cauda preênsil.</li>
+          <li><strong>Ágil:</strong> Você possui uma velocidade de escalada perfeitamente igual ao seu deslocamento terrestre padrão. Além disso, a sua distância máxima de salto é completamente dobrada.</li>
+        </ul>
+      </div>
+
+      <div class="bloco-tecnologia">
+        <h4>Exímio Símio</h4>
+        <p>A mente hiperdesenvolvida de seu povo lhe garante uma facilidade incomum para dominar perícias acadêmicas, místicas ou de sobrevivência prática. Você adquire duas expertises à sua escolha de acordo com os grupos abaixo:</p>
+        
+        <ul class="trait-list" style="margin-top: 15px; gap: 12px;">
+          <li><strong>Intelecto Elevado (Escolha 1):</strong> Você adquire <em>Expertise</em> (proficiência dobrada) em uma das seguintes perícias de mente: <strong>Arcanismo</strong>, <strong>História</strong>, <strong>Investigação</strong>, <strong>Natureza</strong> ou <strong>Religião</strong>.</li>
+          <li><strong>Percepção Prática (Escolha 1):</strong> Você adquire <em>Expertise</em> (proficiência dobrada) em uma das seguintes perícias de instinto: <strong>Adestrar Animais</strong>, <strong>Intuição</strong>, <strong>Medicina</strong>, <strong>Percepção</strong> ou <strong>Sobrevivência</strong>.</li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patrulheiro — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .bloco-patrulheiro {
+      background: rgba(39, 174, 96, 0.03);
+      border: 1px solid rgba(39, 174, 96, 0.15);
+      border-left: 4px solid #27ae60;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-patrulheiro h4 {
+      font-family: 'Cinzel', serif;
+      color: #2ecc71;
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+    .bloco-subclasse-detalhada {
+      background: rgba(25, 25, 27, 0.8);
+      border: 1px solid var(--border-fantasy);
+      padding: 25px;
+      margin-top: 35px;
+      border-radius: 4px;
+    }
+    .bloco-subclasse-detalhada h3 {
+      font-family: 'Cinzel', serif;
+      color: #27ae60;
+      border-bottom: 1px solid rgba(39, 174, 96, 0.3);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+    }
+    .sub-feature {
+      background: rgba(39, 174, 96, 0.04);
+      border-left: 3px solid #27ae60;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 0 4px 4px 0;
+    }
+    .sub-feature h5 {
+      font-family: 'Cinzel', serif;
+      color: #a9dfbf;
+      font-size: 1.05rem;
+      margin-bottom: 5px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+    .tabela-rpg {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: rgba(20, 20, 22, 0.6);
+      border: 1px solid var(--border-fantasy);
+      font-size: 0.85rem;
+    }
+    .tabela-rpg th, .tabela-rpg td {
+      border: 1px solid var(--border-fantasy);
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .tabela-rpg th {
+      background: rgba(23, 43, 30, 0.5);
+      color: #27ae60;
+      font-family: 'Cinzel', serif;
+    }
+    .tabela-rpg tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .tabela-rpg td.esquerda {
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="classes.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Classes</a>
+    </div>
+
+    <h2>Patrulheiro (Ranger)</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://imagenslucas.weebly.com/uploads/1/0/6/8/10689847/save-follow-donate-boosty-to-abominationrs-donate-commissions-open-art-purchase-available-support-and-thanks-link-in-bio-conceptart-characterdesign-ttrpg-evganinart-1_orig.jpg" alt="Patrulheiro">
+        <div class="texto-lore">
+          <h3>O predador das fronteiras selvagens</h3>
+          <p>Nas bordas do mundo civilizado, onde as estradas dão lugar a florestas impenetráveis, desertos implacáveis e labirintos subterrâneos, os patrulheiros atuam como a primeira e última linha de defesa. Eles não são meros caçadores; são guerreiros letais sintonizados com a pulsação mágica da própria natureza, rastreando ameaças que fariam exércitos inteiros recuarem.</p>
+          <p>Combinando a maestria de armas marciais com feitiços primordiais, o patrulheiro estuda seus alvos até transformar a caçada em uma ciência exata. No novo padrão de combate, suas marcas místicas não exigem mais o estresse de sua concentração, permitindo que eles se movam como fantasmas pelo campo de batalha, emboscando presas e desferindo rajadas de aço ou flechas com precisão cirúrgica.</p>
+          
+          <h4 style="color: #27ae60; margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Dado de Vida:</strong> 1d10 por nível de Patrulheiro.</li>
+            <li><strong>Atributo Principal:</strong> Destreza e Sabedoria (Ataques, Mobilidade e Conjuração).</li>
+            <li><strong>Proficiências em Armaduras:</strong> Armaduras Leves, Armaduras Médias e Escudos.</li>
+            <li><strong>Proficiências em Armas:</strong> Armas Simples e Armas Marciais.</li>
+            <li><strong>Ferramentas:</strong> Nenhuma.</li>
+            <li><strong>Testes de Resistência:</strong> Força e Destreza.</li>
+            <li><strong>Perícias:</strong> Escolha três entre Adestramento, Atletismo, Furtividade, Intuição, Natureza, Percepção, Investigação e Sobrevivência.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px; overflow-x: auto;">
+        <h3 style="font-family: 'Cinzel', serif; color: #27ae60; font-size: 1.6rem; margin-bottom: 15px;">Progressão de Classe</h3>
+        <table class="tabela-rpg">
+          <thead>
+            <tr>
+              <th>Nível</th>
+              <th>Prof.</th>
+              <th class="esquerda">Recursos de Classe</th>
+              <th>Magias Preparadas</th>
+              <th>1º</th>
+              <th>2º</th>
+              <th>3º</th>
+              <th>4º</th>
+              <th>5º</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1º</td><td>+2</td><td class="esquerda">Inimigo Favorito (Marca do Caçador livre), Poliglota Primal (Deft Explorer)</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>2º</td><td>+2</td><td class="esquerda">Conjuração, Estilo de Combate</td><td>2</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>3º</td><td>+2</td><td class="esquerda">Subclasse de Patrulheiro</td><td>3</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>4º</td><td>+2</td><td class="esquerda">Talento de Atributo (Feat)</td><td>3</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>5º</td><td>+3</td><td class="esquerda">Ataque Extra</td><td>4</td><td>4</td><td>2</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>6º</td><td>+3</td><td class="esquerda">Recurso de Subclasse, Mobilidade Errante</td><td>4</td><td>4</td><td>2</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>7º</td><td>+3</td><td class="esquerda">Mente Alerta</td><td>5</td><td>4</td><td>3</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>8º</td><td>+3</td><td class="esquerda">Talento de Atributo (Feat)</td><td>5</td><td>4</td><td>3</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>9º</td><td>+4</td><td class="esquerda">Passo Avançado (Expertise Corporal)</td><td>6</td><td>4</td><td>3</td><td>2</td><td>—</td><td>—</td></tr>
+            <tr><td>10º</td><td>+4</td><td class="esquerda">Recurso de Subclasse, Camuflagem Natural (Fade Away)</td><td>6</td><td>4</td><td>3</td><td>2</td><td>—</td><td>—</td></tr>
+            <tr><td>11º</td><td>+4</td><td class="esquerda">Marca do Caçador Aprimorada</td><td>7</td><td>4</td><td>3</td><td>3</td><td>—</td><td>—</td></tr>
+            <tr><td>12º</td><td>+4</td><td class="esquerda">Talento de Atributo (Feat)</td><td>7</td><td>4</td><td>3</td><td>3</td><td>—</td><td>—</td></tr>
+            <tr><td>13º</td><td>+5</td><td class="esquerda">Velo Divino</td><td>8</td><td>4</td><td>3</td><td>3</td><td>1</td><td>—</td></tr>
+            <tr><td>14º</td><td>+5</td><td class="esquerda">Recurso de Subclasse, Desvanecer Invisível</td><td>8</td><td>4</td><td>3</td><td>3</td><td>1</td><td>—</td></tr>
+            <tr><td>15º</td><td>+5</td><td class="esquerda">Sentidos Implacáveis</td><td>9</td><td>4</td><td>3</td><td>3</td><td>2</td><td>—</td></tr>
+            <tr><td>16º</td><td>+5</td><td class="esquerda">Talento de Atributo (Feat)</td><td>9</td><td>4</td><td>3</td><td>3</td><td>2</td><td>—</td></tr>
+            <tr><td>17º</td><td>+6</td><td class="esquerda">Percepção Feral</td><td>10</td><td>4</td><td>3</td><td>3</td><td>3</td><td>1</td></tr>
+            <tr><td>18º</td><td>+6</td><td class="esquerda">Caçador Feral</td><td>10</td><td>4</td><td>3</td><td>3</td><td>3</td><td>1</td></tr>
+            <tr><td>19º</td><td>+6</td><td class="esquerda">Talento de Atributo / Dádiva Épica</td><td>11</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td></tr>
+            <tr><td>20º</td><td>+6</td><td class="esquerda">Predador Ápice</td><td>11</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #27ae60; font-size: 1.6rem; margin-bottom: 20px;">Recursos de Classe Detalhados</h3>
+
+        <div class="bloco-patrulheiro">
+          <h4>Nível 1: Inimigo Favorito & Poliglota Primal</h4>
+          <p><strong>Inimigo Favorito (Favored Enemy):</strong> Você tem a magia *Marca do Caçador (Hunter's Mark)* sempre preparada. Você pode conjurá-la um número de vezes igual ao seu Bônus de Proficiência por Descanso Longo sem gastar espaços de magia. Além disso, de acordo com as regras de 2024, focar e manter esta Marca do Caçador **não exige a sua Concentração**, permitindo combiná-la livremente com outros feitiços.</p>
+          <p><strong>Poliglota Primal (Deft Explorer):</strong> Você escolhe uma perícia na qual possua proficiência para ganhar *Especialização* (dobro do bônus). Você também aprende dois idiomas adicionais à sua escolha.</p>
+        </div>
+
+        <div class="bloco-patrulheiro">
+          <h4>Nível 2: Conjuração & Estilo de Combate</h4>
+          <p><strong>Conjuração:</strong> Você aprende a moldar a magia da natureza e dos ecossistemas. Você prepara magias da lista de Patrulheiro com base na tabela, usando Sabedoria como seu atributo de conjuração. Diferente de versões antigas, você agora pode trocar uma magia preparada ao fim de qualquer Descanso Longo.</p>
+          <p><strong>Estilo de Combate:</strong> Você adquire um Talento de Estilo de Combate à sua escolha:</p>
+          <ul class="trait-list" style="margin-top: 10px;">
+            <li><strong>Arquearia (Archery):</strong> Ganha um bônus de **+2** nas jogadas de ataque realizadas com armas de ataque à distância.</li>
+            <li><strong>Combate com Duas Armas (Two-Weapon Fighting):</strong> Ao atacar com a Ação Bônus usando uma segunda arma leve, você adiciona seu modificador de atributo ao dano desse ataque.</li>
+            <li><strong>Duelismo (Dueling):</strong> Quando empunhar uma arma de ataque corpo a corpo em uma mão e nenhuma outra arma, você ganha **+2** de bônus nas rolagens de dano.</li>
+            <li><strong>Guerreiro Lançador (Thrown Weapon Fighting):</strong> Você pode sacar uma arma com uma propriedade de arremesso como parte do próprio ataque e ganha +2 no dano com ela.</li>
+          </ul>
+        </div>
+
+        <div class="bloco-patrulheiro">
+          <h4>Nível 3: Subclasse de Patrulheiro</h4>
+          <p>Você escolhe sua especialização e tática de fronteira entre as quatro linhagens oficiais: **Caçador**, **Mestre das Feras**, **Caminhante do Horizonte** ou **Gloom Stalker (Perseguidor das Sombras)**. Esta escolha concede recursos imediatos e evoluções nos níveis 6, 10 e 14.</p>
+        </div>
+
+        <div class="bloco-patrulheiro">
+          <h4>Níveis 4, 8, 12, 16 e 19: Talento de Atributo (Feat)</h4>
+          <p>Aumente um atributo em +2, dois atributos em +1, ou escolha um Talento Geral válido para customizar suas capacidades mecânicas.</p>
+        </div>
+
+        <div class="bloco-patrulheiro">
+          <h4>Nível 5: Ataque Extra</h4>
+          <p>Você pode atacar duas vezes, em vez de uma, sempre que realizar a ação de Ataque no seu turno de combate.</p>
+        </div>
+
+        <div class="bloco-patrulheiro">
+          <h4>Nível 6: Mobilidade Errante</h4>
+          <p><strong>Mobilidade Errante (Roving):</strong> Seu deslocamento terrestre aumenta permanentemente em 1,5 metros. Além disso, você ganha deslocamento de escalada e de natação iguais ao seu deslocamento terrestre atual.</p>
+        </div>
+
+        <div class="bloco-patrulheiro">
+          <h4>Nível 7: Mente Alerta</h4>
+          <p><strong>Mente Alerta:</strong> Seus sentidos aguçados protegem sua consciência. Você ganha proficiência em salvaguardas de Inteligência ou Sabedoria (à sua escolha ao atingir este nível).</p>
+        </div>
+
+        <div class="bloco-patrulheiro">
+          <h4>Nível 9: Passo Avançado</h4>
+          <p><strong>Passo Avançado:</strong> Você escolhe outra de suas perícias proficientes para receber *Especialização*. Além disso, atravessar terrenos difíceis de qualquer tipo não mágico não consome mais nenhum movimento adicional do seu turno.</p>
+        </div>
+
+        <div class="bloco-patrulheiro">
+          <h4>Nível 10: Camuflagem Natural</h4>
+          <p><strong>Camuflagem Natural (Fade Away):</strong> Como uma Ação Bônus, você pode se misturar perfeitamente com o ambiente e ficar invisível até o fim do seu próximo turno. Você pode usar esta habilidade uma quantidade de vezes igual ao seu bônus de proficiência por Descanso Longo.</p>
+        </div>
+
+        <div class="bloco-patrulheiro">
+          <h4>Nível 11: Marca do Caçador Aprimorada</h4>
+          <p><strong>Marca Aprimorada:</strong> O estigma místico que você coloca em suas presas rasga defesas profundas. O dano extra causado pela sua magia *Marca do Caçador* aumenta de 1d6 para **1d8** de dano.</p>
+        </div>
+
+        <div class="bloco-patrulheiro">
+          <h4>Nível 13: Velo Divino</h4>
+          <p><strong>Velo Divino:</strong> Quando você estiver sob o efeito de sua própria invisibilidade ou camuflagem, você adquire resistência a danos provenientes de magias e efeitos de área baseados em elementos.</p>
+        </div>
+
+        <div class="bloco-patrulheiro">
+          <h4>Nível 14: Desvanecer Invisível</h4>
+          <p><strong>Desvanecer Invisível:</strong> Você aprende a usar a ação de *Disparada (Dash)* como uma Ação Bônus em seus turnos. Além disso, quando usar o recurso *Camuflagem Natural*, atacar ou conjurar uma magia não quebra mais a sua invisibilidade instantaneamente.</p>
+        </div>
+
+        <div class="bloco-patrulheiro">
+          <h4>Nível 15: Sentidos Implacáveis</h4>
+          <p><strong>Sentidos Implacáveis:</strong> Você desenvolve uma percepção quase pré-cognitiva. Você não sofre desvantagem em ataques realizados contra alvos que estejam invisíveis ou camuflados a até 9 metros de você, desde que você não esteja cego ou surdo.</p>
+        </div>
+
+        <div class="bloco-patrulheiro">
+          <h4>Nível 17: Percepção Feral</h4>
+          <p><strong>Percepção Feral:</strong> Você adquire *Visão Cega* a um alcance de 9 metros de distância, detectando a localização exata de qualquer criatura oculta, enterrada ou misticamente escondida.</p>
+        </div>
+
+        <div class="bloco-patrulheiro">
+          <h4>Nível 18: Caçador Feral</h4>
+          <p><strong>Caçador Feral:</strong> Sua conexão com a Marca do Caçador atinge o nível biológico. Quando você ataca uma criatura afetada por sua *Marca do Caçador*, você tem **Vantagem** em todas as jogadas de ataque contra ela.</p>
+        </div>
+
+        <div class="bloco-patrulheiro">
+          <h4>Nível 20: Predador Ápice</h4>
+          <p><strong>Predador Ápice (Foe Slayer):</strong> O dano da sua *Marca do Caçador* escala para o seu limite destrutivo máximo, aumentando de 1d8 para **1d10**. Além disso, uma vez por turno, você pode adicionar seu Modificador de Sabedoria na jogada de ataque ou na rolagem de dano contra o alvo marcado.</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #27ae60; font-size: 1.6rem; margin-bottom: 10px;">Linhagens de Fronteira (Subclasses)</h3>
+        
+        <div class="bloco-subclasse-detalhada">
+          <h3>1. Caçador (Hunter)</h3>
+          <p>Especialistas em anatomia monstruosa e combate tático adaptável. Aprendem a resistir a hordas e a derrubar colossos com precisão cirúrgica.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Presa do Caçador</h5>
+            <p>Você escolhe uma especialização de ataque contra alvos específicos:</p>
+            <ul class="trait-list" style="margin-top: 5px;">
+              <li><strong>Matador de Colossos (Colossus Slayer):</strong> Uma vez por turno, quando você atingir uma criatura com um ataque de arma e ela estiver abaixo do seu máximo de pontos de vida, o ataque causa **1d8** de dano extra.</li>
+              <li><strong>Rompedor de Hordas (Horde Breaker):</strong> Uma vez em cada um de seus turnos, quando realizar um ataque de arma, você pode fazer um ataque adicional com a mesma arma contra uma criatura diferente que esteja a até 1,5 metros do alvo original.</li>
+            </ul>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Táticas Defensivas</h5>
+            <p>Você escolhe uma das seguintes manobras de sobrevivência em combate:</p>
+            <ul class="trait-list" style="margin-top: 5px;">
+              <li><strong>Defesa de Fugitivo (Escape the Horde):</strong> Ataques de oportunidade realizados contra você possuem **Desvantagem**.</li>
+              <li><strong>Defesa Multi-Ataque:</strong> Quando uma criatura atingir você com um ataque, você ganha **+4** de bônus na sua CA contra todos os ataques subsequentes desferidos por aquela mesma criatura até o fim do turno atual.</li>
+            </ul>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Ataque de Retaliação</h5>
+            <p>Quando uma criatura errar um ataque corpo a corpo contra você, você pode usar sua Reação para realizar um ataque de arma imediato contra aquela criatura.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Defesa Feral Retaliatória</h5>
+            <p>Você ganha a habilidade de *Evasão*. Quando for alvo de um efeito que exija uma salvaguarda de Destreza para sofrer apenas metade do dano, você não sofre nenhum dano se passar, e apenas metade se falhar.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>2. Mestre das Feras (Beast Master)</h3>
+          <p>Forma um elo místico inquebrável com um espírito da natureza que assume o aspecto de uma fera de combate leal e letal.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Companheiro Primal (Primal Companion)</h5>
+            <p>Você evoca magicamente uma fera de combate que se manifesta sob três aspectos (Terra, Mar ou Céu). Ela possui seu próprio bloco de estatísticas que escala com o seu nível e o seu Bônus de Proficiência. Em combate, a fera age logo após o seu turno. Você pode gastar uma Ação Bônus para ordenar que ela execute a ação de Ataque, Disparada, Desengajar ou Esquivar. Se você não emitir ordens, ela executa a ação de Esquivar automaticamente.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Treinamento Excepcional</h5>
+            <p>Os ataques realizados pelo seu companheiro animal passam a contar como ataques mágicos para superar resistências. Além disso, quando ordenar que ela ataque, ela pode desferir um ataque extra se você possuir o recurso *Ataque Extra*.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Fúria Bestial</h5>
+            <p>Quando você conjurar ou mover a sua *Marca do Caçador* para um inimigo, o seu Companheiro Primal também recebe os benefícios do feitiço, causando **1d6** de dano extra quando atingir aquele alvo específico.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Compartilhar Feitiços</h5>
+            <p>Quando você conjurar uma magia cujo alvo seja você mesmo, você pode escolher fazer com que a magia afete também o seu Companheiro Primal, desde que ele esteja a até 9 metros de você.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>3. Caminhante do Horizonte (Horizon Walker)</h3>
+          <p>Guardiões planares que patrulham as fronteiras entre realidades, utilizando pequenos teletransportes e energia dimensional pura para rasgar inimigos.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Magias Planares & Ameaça Dimensional</h5>
+            <p><strong>Magias de Subclasse:</strong> *Proteção contra o Bem e Mal*, *Passo Nebuloso*, *Haste*.</p>
+            <p><strong>Força Planar:</strong> Com uma Ação Bônus, escolha uma criatura a até 9 metros. O próximo ataque que você desferir contra ela neste turno converte todo o dano da arma em **Dano Força** e causa **1d8** de dano extra.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Passo Etéreo</h5>
+            <p>Você adquire a capacidade de transitar momentaneamente pelo Plano Etéreo. Como uma Ação Bônus, você pode conjurar a magia *Deslocamento Etéreo*, mas o efeito se encerra ao final do seu turno atual. Uso livre por Descanso Longo equivalente ao seu modificador de Sabedoria.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Ataque Distante</h5>
+            <p>Você aprende a piscar através do espaço entre seus golpes. Quando realizar a ação de Ataque, você pode se teletransportar por até 3 metros imediatamente antes de cada ataque que desferir. Se você atacar duas criaturas diferentes com os dois primeiros golpes, ganha um **terceiro ataque bônus** contra um terceiro alvo.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Retaliação Espectral</h5>
+            <p>Quando você sofrer um ataque de uma criatura, você pode usar sua Reação para ganhar **Resistência** a todos os danos daquele ataque específico, piscando para fora da realidade no momento do impacto.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>4. Perseguidor das Sombras (Gloom Stalker)</h3>
+          <p>Mestres do Subterrâneo e das trevas absolutas. Emboscam suas presas movendo-se de forma invisível no escuro e desferindo rajadas de ataques apavorantes.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Emboscar Pavoroso & Visão Umbral</h5>
+            <p><strong>Visão Umbral:</strong> Você ganha visão no escuro a um alcance de 27 metros. Se já possuir por sua raça, o alcance aumenta em 9 metros. Além disso, enquanto estiver na escuridão, você se torna **totalmente invisível** para qualquer criatura que dependa de visão no escuro para enxergar você.</p>
+            <p><strong>Emboscar Pavoroso (Dread Ambusher):</strong> No início do seu primeiro turno em qualquer combate, seu deslocamento aumenta em 3 metros e você realiza um ataque de arma adicional que causa **1d8** de dano extra se atingir.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Mente de Ferro</h5>
+            <p>Sua determinação contra os perigos subterrâneos blinda sua mente. Você ganha proficiência em salvaguardas de Sabedoria. Se já possuir essa proficiência, ganha proficiência em salvaguardas de Inteligência ou Carisma (à sua escolha).</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Flurrei do Perseguidor</h5>
+            <p>Uma vez em cada um de seus turnos, quando você errar um ataque de arma, você pode realizar outro ataque de arma adicional como parte da mesma ação, garantindo que a presa não escape.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Esquiva Sombria</h5>
+            <p>Você aprende a evadir golpes usando as próprias sombras. Quando uma criatura realizar uma jogada de ataque contra você e não tiver vantagem, você pode usar sua Reação para impor **Desvantagem** na jogada daquele ataque inimigo.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

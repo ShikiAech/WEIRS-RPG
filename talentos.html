@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Talentos (Feats) — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .secao-talento {
+      margin-top: 40px;
+      border-top: 2px solid var(--border-fantasy);
+      padding-top: 20px;
+    }
+    .secao-talento h3 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold);
+      font-size: 1.75rem;
+      margin-bottom: 10px;
+    }
+    .contador-talentos {
+      color: #888;
+      font-size: 0.9rem;
+      font-style: italic;
+      margin-bottom: 20px;
+      display: block;
+    }
+    .grid-talentos {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .card-talento {
+      background: rgba(25, 25, 27, 0.75);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-left: 4px solid var(--gold);
+      padding: 18px;
+      border-radius: 0 4px 4px 0;
+    }
+    .card-talento:hover {
+      border-color: var(--gold);
+      background: rgba(30, 30, 35, 0.9);
+    }
+    .card-talento h4 {
+      font-family: 'Cinzel', serif;
+      color: #fff;
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .badge-tipo {
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+    .badge-origem { background: #27ae60; color: #fff; }
+    .badge-geral { background: #2980b9; color: #fff; }
+    .badge-estilo { background: #e67e22; color: #fff; }
+    .badge-epica { background: #9b59b6; color: #fff; }
+    
+    .requisito {
+      font-size: 0.85rem;
+      color: #e74c3c;
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .beneficio {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #ddd;
+    }
+    .beneficio strong {
+      color: var(--gold);
+    }
+    .busca-box {
+      width: 100%;
+      padding: 12px;
+      background: #141416;
+      border: 1px solid var(--border-fantasy);
+      color: #fff;
+      font-family: 'Cinzel', serif;
+      border-radius: 4px;
+      margin-bottom: 25px;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+
+  <div class="container">
+    <h2>Compêndio de Talentos (Feats)</h2>
+    <p>Talentos representam especializações, características herdadas, treinamentos intensos ou bênçãos extraordinárias que moldam as capacidades únicas de um personagem para além de suas escolhas básicas de raça e classe.</p>
+
+    <div class="secao-talento">
+      <h3>Talentos de Origem</h3>
+      <span class="contador-talentos">Exibindo todos os 10 talentos vinculados ao Antecedente (Nível 1)</span>
+      
+      <div class="grid-talentos">
+        <div class="card-talento">
+          <h4>Acólito Praticante <span class="badge-tipo badge-origem">Origem</span></h4>
+          <div class="requisito">Pré-requisito: Escolhido no 1º nível via Antecedente</div>
+          <div class="beneficio">Você recebe proficiência na perícia <strong>Religião</strong>. Você aprende dois truques e uma magia de 1º círculo da lista mística do Clérigo. Você pode conjurar a magia de 1º círculo uma vez por descanso longo sem gastar espaços de magia, utilizando Inteligência, Sabedoria ou Carisma como seu atributo de conjuração.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Alerta Primal <span class="badge-tipo badge-origem">Origem</span></h4>
+          <div class="requisito">Pré-requisito: Escolhido no 1º nível via Antecedente</div>
+          <div class="beneficio">Seu bônus de Iniciativa recebe um aumento igual ao seu <strong>Bônus de Proficiência</strong>. Além disso, ao finalizar um descanso longo, você pode trocar o seu resultado de iniciativa com o de um aliado voluntário que esteja vendo no início de um combate.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Artesão Aprendiz <span class="badge-tipo badge-origem">Origem</span></h4>
+          <div class="requisito">Pré-requisito: Escolhido no 1º nível via Antecedente</div>
+          <div class="beneficio">Você ganha proficiência na perícia <strong>Investigação</strong> e com duas <strong>Ferramentas de Artesão</strong> à sua escolha. O custo e o tempo necessários para você fabricar itens mundanos, ferramentas ou equipamentos não-mágicos são reduzidos pela metade.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Combatente de Sarjeta <span class="badge-tipo badge-origem">Origem</span></h4>
+          <div class="requisito">Pré-requisito: Escolhido no 1º nível via Antecedente</div>
+          <div class="beneficio">Você ganha proficiência na perícia <strong>Prestidigitação</strong>. Seus ataques desarmados causam dano de concussão igual a <strong>1d4 + modificador de Força</strong>. Além disso, você tem vantagem em testes de Força (Atletismo) para iniciar ou manter um agarrão contra criaturas do seu tamanho ou menor.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Curandeiro de Campo <span class="badge-tipo badge-origem">Origem</span></h4>
+          <div class="requisito">Pré-requisito: Escolhido no 1º nível via Antecedente</div>
+          <div class="beneficio">Você ganha proficiência na perícia <strong>Medicina</strong>. Quando você usa um kit de estabilização para socorrer uma criatura com 0 pontos de vida, o alvo estabilizado recupera imediatamente <strong>1 ponto de vida</strong> e ganha pontos de vida temporários iguais ao seu Bônus de Proficiência.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Explorador das Terras Selvagens <span class="badge-tipo badge-origem">Origem</span></h4>
+          <div class="requisito">Pré-requisito: Escolhido no 1º nível via Antecedente</div>
+          <div class="beneficio">Você ganha proficiência na perícia <strong>Sobrevivência</strong>. Terreno difícil natural não reduz o deslocamento terrestre do seu grupo durante viagens longas. Além disso, você sempre sabe a direção do norte magnético e consegue rastrear criaturas com vantagem na rolagem de dados.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Iniciado Arcano <span class="badge-tipo badge-origem">Origem</span></h4>
+          <div class="requisito">Pré-requisito: Escolhido no 1º nível via Antecedente</div>
+          <div class="beneficio">Você ganha proficiência na perícia <strong>Arcanismo</strong>. Você aprende dois truques e uma magia de 1º círculo à sua escolha vindos diretamente da lista de magias do Mago. Você pode conjurar essa magia uma vez por descanso longo sem gastar espaços de runas.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Mestre das Linhas de Sombra <span class="badge-tipo badge-origem">Origem</span></h4>
+          <div class="requisito">Pré-requisito: Escolhido no 1º nível via Antecedente</div>
+          <div class="beneficio">Você ganha proficiência na perícia <strong>Furtividade</strong>. Quando você estiver em uma área de penumbra ou escuridão total, você pode usar uma ação bônus para executar a ação de Esconder-se, mesmo se estiver sendo observado por criaturas que não possuam Visão no Escuro.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Músico de Taverna <span class="badge-tipo badge-origem">Origem</span></h4>
+          <div class="requisito">Pré-requisito: Escolhido no 1º nível via Antecedente</div>
+          <div class="beneficio">Você ganha proficiência na perícia <strong>Performance</strong> e em dois <strong>Instrumentos Musicais</strong>. Ao terminar um descanso curto ou longo, você pode tocar uma melodia que concede a até quatro aliados pontos de vida temporários iguais ao seu nível de personagem + seu modificador de Carisma.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Sortudo nato <span class="badge-tipo badge-origem">Origem</span></h4>
+          <div class="requisito">Pré-requisito: Escolhido no 1º nível via Antecedente</div>
+          <div class="beneficio">Você possui <strong>3 Pontos de Sorte</strong> por descanso longo. Quando realizar uma jogada de ataque, teste de atributo ou salvaguarda, você pode gastar 1 Ponto de Sorte para rolar um d20 adicional e escolher qual dos dois valores deseja utilizar como resultado final.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="secao-talento">
+      <h3>Talentos Gerais</h3>
+      <span class="contador-talentos">Exibindo todos os 45 talentos disponíveis a partir do nível 4 (Inclui Meios-Talentos e Aumentos)</span>
+      
+      <div class="grid-talentos">
+        <div class="card-talento">
+          <h4>Aumento de Atributo Clássico <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+</div>
+          <div class="beneficio">Você pode aumentar o valor de um atributo à sua escolha em <strong>+2</strong>, ou o valor de dois atributos distintos à sua escolha em <strong>+1</strong>. Sob regras padrão, você não pode aumentar um atributo além do limite natural de 20 através deste talento.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Acrobata Ágil <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Destreza 13+</div>
+          <div class="beneficio">Aumente sua Destreza em <strong>+1</strong> (máximo 20). Você ganha proficiência em <strong>Acrobacia</strong> (ou Especialização caso já seja proficiente). Como uma reação ao sofrer uma queda, você pode reduzir o dano de queda sofrido em um valor igual a 5 vezes o seu bônus de proficiência.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Atirador de Elite (Sharpshooter) <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Destreza 13+</div>
+          <div class="beneficio">Aumente sua Destreza em <strong>+1</strong> (máximo 20). Seus ataques com armas à distância ignoram cobertura meia e cobertura três-quartos. Além disso, realizar ataques à distância enquanto estiver a alcance corpo a corpo de uma criatura hostil não impõe desvantagem em suas jogadas de ataque.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Atleta Corredor <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Força ou Destreza 13+</div>
+          <div class="beneficio">Aumente sua Força ou Destreza em <strong>+1</strong> (máximo 20). Ficar caído custa apenas 1,5 metros do seu deslocamento total, em vez de metade. Você ganha deslocamento de escalada igual ao seu deslocamento terrestre atual.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Ator Performático <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Carisma 13+</div>
+          <div class="beneficio">Aumente seu Carisma em <strong>+1</strong> (máximo 20). Você tem vantagem em testes de Carisma (Enganação) e Carisma (Performance) quando estiver tentando se passar por outra pessoa. Você consegue imitar perfeitamente a voz e o sotaque de uma criatura que tenha ouvido falar por pelo menos 1 minuto contínuo.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Avaliator de Tesouros <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Inteligência 13+</div>
+          <div class="beneficio">Aumente sua Inteligência em <strong>+1</strong> (máximo 20). Você ganha proficiência em <strong>Investigação</strong>. Você consegue conjurar a magia <i>Identificar</i> como um ritual sem gastar runas ou componentes, e deduz instantaneamente o valor de mercado exato de qualquer objeto de arte, gema ou relíquia mágica ancestral.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Carregador Pesado <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Força 13+</div>
+          <div class="beneficio">Aumente sua Força em <strong>+1</strong> (máximo 20). Sua capacidade de carga de inventário e os limites para empurrar, arrastar ou erguer objetos pesados são completamente <strong>duplicados</strong>. Você recebe vantagem em salvaguardas e testes para resistir a ser movido à força ou derrubado no chão.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Chef de Cozinha de Viagem <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Constituição ou Sabedoria 13+</div>
+          <div class="beneficio">Aumente sua Constituição ou Sabedoria em <strong>+1</strong> (máximo 20). Você ganha proficiência com <strong>Utensílios de Cozinheiro</strong>. Durante um descanso curto, você prepara refeições especiais que garantem a até cinco criaturas aliadas 1d8 pontos de vida adicionais recuperados se gastarem algum dado de vida.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Combatente Montado <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Força ou Destreza 13+</div>
+          <div class="beneficio">Aumente sua Força ou Destreza em <strong>+1</strong> (máximo 20). Você possui vantagem em jogadas de ataque corpo a corpo contra qualquer criatura que não esteja montada e que seja menor do que a sua montaria atual. Você pode forçar que ataques direcionados à sua montaria mirem em você.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Conjurador de Combate (War Caster) <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Capacidade de conjurar ao menos uma magia</div>
+          <div class="beneficio">Aumente sua Inteligência, Sabedoria ou Carisma em <strong>+1</strong> (máximo 20). Você tem <strong>vantagem em salvaguardas de Constituição</strong> para manter a Concentração em uma magia ativa ao sofrer dano. Quando o movimento de um inimigo provocar um ataque de oportunidade contra você, você pode usar sua reação para conjurar uma magia com tempo de execução de 1 ação no alvo.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Conjurador Ritualístico <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Inteligência ou Sabedoria 13+</div>
+          <div class="beneficio">Aumente sua Inteligência ou Sabedoria em <strong>+1</strong> (máximo 20). Você adquire um livro de rituais e escolhe duas magias que possuam a propriedade <strong>Ritual</strong> de qualquer lista de classe do sistema. Você pode conjurar essas magias exclusivamente como rituais (adicionando 10 minutos ao tempo de conjuração) sem gastar espaços de runas.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Conhecimento das Sombras <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Inteligência ou Sabedoria 13+</div>
+          <div class="beneficio">Aumente sua Inteligência ou Sabedoria em <strong>+1</strong> (máximo 20). Você ganha <strong>Visão no Escuro</strong> com alcance de 18 metros. Caso você já possua Visão no Escuro nativa de sua raça, o alcance total dela é estendido em +9 metros adicionais.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Defensor de Escudo (Shield Master) <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Proficiência com Escudos</div>
+          <div class="beneficio">Aumente sua Força em <strong>+1</strong> (máximo 20). Se você executar a ação de Ataque no seu turno enquanto empunha um escudo, você pode usar uma ação bônus para tentar derrubar uma criatura a até 1,5 metros de você usando o escudo. Se você for alvo de um efeito que exija salvaguarda de Destreza para mitigar dano, você adiciona o bônus de CA do seu escudo na salvaguarda.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Diplomata Eloquente <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Carisma 13+</div>
+          <div class="beneficio">Aumente seu Carisma em <strong>+1</strong> (máximo 20). Você ganha proficiência na perícia <strong>Persuasão</strong> (ou Especialização caso já possua). Se você conversar com uma criatura inteligente por 1 minuto inteiro fora de combate, você pode realizar um teste de Persuasão resistido pela Intuição do alvo para deixá-lo sob a condição de Amigável.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Duro de Matar (Tough) <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+</div>
+          <div class="beneficio">Seu total de pontos de vida máximos aumenta imediatamente em um valor igual a <strong>duas vezes o seu nível atual</strong>. Cada vez que você subir de nível após adquirir este talento, o seu limite máximo de pontos de vida aumenta em +2 pontos adicionais automaticamente.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Elementalista Focado <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Capacidade de conjurar magias</div>
+          <div class="beneficio">Aumente sua Inteligência, Sabedoria ou Carisma em <strong>+1</strong> (máximo 20). Escolha um tipo de dano elemental: Fogo, Gelo, Elétrico, Ácido ou Trovão. Suas magias ignoram qualquer <strong>Resistência</strong> a esse tipo de dano que o inimigo possua. Ao rolar os dados de dano para magias desse elemento, você pode rebolar qualquer resultado 1.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Envenenador Especialista <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Destreza ou Inteligência 13+</div>
+          <div class="beneficio">Aumente sua Destreza ou Inteligência em <strong>+1</strong> (máximo 20). Você ganha proficiência com o <strong>Kit de Envenenador</strong>. Seus ataques com armas ignoram a resistência a dano de Veneno de alvos inimigos. Você consegue aplicar veneno em uma arma ou munição usando uma ação bônus, em vez de uma ação inteira.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Especialista em Armadura Leve <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Proficiência com Armadura Leve</div>
+          <div class="beneficio">Aumente sua Força ou Destreza em <strong>+1</strong> (máximo 20). Enquanto estiver vestindo uma armadura leve, você adiciona <strong>+1</strong> bônus fixo na sua Classe de Armadura (CA). Além disso, testes de Destreza (Acrobacia ou Furtividade) não sofrem nenhum tipo de desvantagem situacional mecânica por fadiga leve.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Especialista em Armadura Média <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Proficiência com Armadura Média</div>
+          <div class="beneficio">Vestir armaduras médias não impõe mais desvantagem em seus testes de Destreza (Furtividade). Além disso, o limite máximo do modificador de Destreza que você pode adicionar à sua Classe de Armadura (CA) ao usar armadura média aumenta de +2 para <strong>+3</strong>.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Especialista em Armadura Pesada (Heavy Armor Master) <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Proficiência com Armadura Pesada</div>
+          <div class="beneficio">Aumente sua Força ou Constituição em <strong>+1</strong> (máximo 20). Enquanto você estiver vestindo uma armadura pesada, qualquer dano de tipo <strong>Cortante, Perfurante e Concussão não-mágico</strong> que você sofrer de ataques físicos é reduzido em um valor fixo igual ao seu Bônus de Proficiência.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Especialista em Perícias <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+</div>
+          <div class="beneficio">Aumente um atributo à sua escolha em <strong>+1</strong> (máximo 20). Você ganha proficiência em uma perícia à sua escolha. Adicionalmente, escolha uma perícia em que você já possua proficiência ativa: você recebe <strong>Especialização</strong> nela, dobrando o seu bônus de proficiência para testes desse assunto.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Explorador de Masmorras (Dungeon Delver) <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Inteligência ou Sabedoria 13+</div>
+          <div class="beneficio">Aumente sua Inteligência ou Sabedoria em <strong>+1</strong> (máximo 20). Você tem vantagem em testes de Sabedoria (Percepção) e Inteligência (Investigação) para localizar passagens secretas ou armadilhas. Você possui vantagem em salvaguardas para resistir a armadilhas e resistência a danos causados por elas.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Estrategista de Batalha <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Inteligência 13+</div>
+          <div class="beneficio">Aumente sua Inteligência em <strong>+1</strong> (máximo 20). No início de um combate, você pode gastar uma ação bônus para analisar o posicionamento tático. Até o início do seu próximo turno, você pode usar sua reação para conceder vantagem na jogada de ataque de um aliado contra um inimigo específico dentro do seu campo de visão.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Fascinador de Feras <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Sabedoria 13+</div>
+          <div class="beneficio">Aumente sua Sabedoria em <strong>+1</strong> (máximo 20). Você ganha proficiência em <strong>Adestrar Animais</strong>. Você consegue usar uma ação bônus para acalmar uma besta ou monstro de inteligência baixa (3 ou menos) que não seja hostil de antemão, forçando uma salvaguarda de Sabedoria contra sua CD de conjuração ou CD baseada em Sabedoria.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Gênio Linguístico <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Inteligência 13+</div>
+          <div class="beneficio">Aumente sua Inteligência em <strong>+1</strong> (máximo 20). Você aprende três idiomas exóticos ou dialetos antigos à sua escolha. Você ganha a habilidade de decifrar mensagens criptografadas e textos em línguas mortas realizando testes de Inteligência com vantagem.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Infiltrador Mestre <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Destreza 13+</div>
+          <div class="beneficio">Aumente sua Destreza em <strong>+1</strong> (máximo 20). Você ganha proficiência com as <strong>Ferramentas de Ladrão</strong>. Seus testes feitos para arrombar fechaduras mecânicas, desarmar armadilhas de fios ou gazuas são realizados com vantagem.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Invocador de Sombras <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Inteligência ou Carisma 13+</div>
+          <div class="beneficio">Aumente sua Inteligência ou Carisma em <strong>+1</strong> (máximo 20). Você aprende a magia <i>Escuridão</i> e pode conjurá-la uma vez por descanso longo sem consumir espaços de magia. Você consegue enxergar perfeitamente através de escuridões mágicas criadas por você mesmo até um limite de 9 metros.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Iniciados dos Desafios <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Força ou Constituição 13+</div>
+          <div class="beneficio">Aumente sua Força ou Constituição em <strong>+1</strong> (máximo 20). Sempre que você sofrer a ação de Empurrar ou Derrubar de um oponente, você pode gastar sua reação para realizar um ataque físico imediato contra a criatura atacante se ela estiver ao seu alcance físico.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Inspirador de Multidões <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Carisma 13+</div>
+          <div class="beneficio">Aumente seu Carisma em <strong>+1</strong> (máximo 20). Você pode gastar 10 minutos discursando ou encorajando seus companheiros. Ao fazer isso, escolha até seis criaturas aliadas (incluindo você). Cada uma recebe <strong>pontos de vida temporários iguais ao seu nível + seu modificador de Carisma</strong>.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Líder de Esquadrão <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Carisma 13+</div>
+          <div class="beneficio">Aumente seu Carisma em <strong>+1</strong> (máximo 20). Quando um aliado que você consiga enxergar a até 9 metros falhar em uma salvaguarda contra medo ou controle mental, você pode gastar sua reação para bradar ordens táticas, permitindo que o alvo rebole a salvaguarda imediatamente com vantagem.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Mapeador de Masmorras <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Inteligência 13+</div>
+          <div class="beneficio">Aumente sua Inteligência em <strong>+1</strong> (máximo 20). Você possui uma memória espacial perfeita e nunca se perde em labirintos, cavernas ou complexos subterrâneos. Você ganha vantagem em testes de Inteligência (História) para deduzir a arquitetura original de ruínas antigas.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Mestre de Armas Grandes (Great Weapon Master) <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Força 13+</div>
+          <div class="beneficio">Aumente sua Força em <strong>+1</strong> (máximo 20). Quando você desferir um acerto crítico com uma arma corpo a corpo ou reduzir uma criatura a 0 pontos de vida com uma, você pode realizar **um ataque de arma corpo a corpo adicional como uma Ação Bônus** neste turno. Uma vez por turno, ao acertar um ataque com uma arma pesada, você adiciona dano extra igual ao seu Bônus de Proficiência.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Mestre das Armas de Haste (Polearm Master) <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Força ou Destreza 13+</div>
+          <div class="beneficio">Aumente sua Força ou Destreza em <strong>+1</strong> (máximo 20). Ao executar a ação de Ataque usando uma Glaive, Alabarda, Bordão ou Lança, você pode usar uma ação bônus para desferir um ataque corpo a corpo com a outra extremidade da arma (dano base 1d4 de concussão). Criaturas provocam ataques de oportunidade ao entrarem no seu alcance de ameaça.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Mestre Conjurador Elemental <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Capacidade de conjurar magias</div>
+          <div class="beneficio">Aumente sua Inteligência, Sabedoria ou Carisma em <strong>+1</strong> (máximo 20). Quando você conjurar uma magia que cause dano de Ácido, Elétrico, Fogo, Gelo ou Trovão, você pode alterar o tipo de dano daquela magia para outro elemento da mesma lista (gasta 1 ponto de foco ou uso diário limitado a duas vezes por descanso curto).</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Mestre de Runas Defensivas <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Inteligência ou Sabedoria 13+</div>
+          <div class="beneficio">Aumente sua Inteligência ou Sabedoria em <strong>+1</strong> (máximo 20). Ao sofrer dano mágico vindo de uma magia de círculos baixos (1º ao 3º), você pode gastar sua reação para erguer uma barreira rúnica efêmera, reduzindo o dano total sofrido pela metade. Você pode usar este talento um número de vezes igual ao seu bônus de proficiência por descanso longo.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Mente de Aço <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Inteligência ou Sabedoria 13+</div>
+          <div class="beneficio">Aumente sua Inteligência ou Sabedoria em <strong>+1</strong> (máximo 20). Você ganha <strong>vantagem em testes de resistência de Inteligência e Sabedoria</strong> contra efeitos de ilusão, leitura de mente ou compulsões mágicas de controle de personalidade.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Mente Alerta <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Sabedoria 13+</div>
+          <div class="beneficio">Aumente sua Sabedoria em <strong>+1</strong> (máximo 20). Você recebe um bônus de <strong>+5 em seus testes passivos de Sabedoria (Percepção)</strong> e testes passivos de Inteligência (Investigação), tornando quase impossível que armadilhas mundanas ou batedores furtivos peguem você totalmente desprevenido.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Observador Silencioso <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Destreza ou Sabedoria 13+</div>
+          <div class="beneficio">Aumente sua Destreza ou Sabedoria em <strong>+1</strong> (máximo 20). Você ganha proficiência em <strong>Percepção</strong>. Você consegue ler labiais de qualquer criatura que esteja falando um idioma que você compreenda a até 18 metros de distância, desde que consiga ver os movimentos de sua boca desimpedidos.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Passos de Névoa <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Inteligência, Sabedoria ou Carisma 13+</div>
+          <div class="beneficio">Aumente seu atributo de conjuração em <strong>+1</strong> (máximo 20). Você aprende a magia <i>Passo Nebuloso (Misty Step)</i> e pode conjurá-la uma vez por descanso longo sem consumir runas ou espaços de magia normais de sua classe.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Perito em Venenos Ativos <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Inteligência 13+</div>
+          <div class="beneficio">Aumente sua Inteligência em <strong>+1</strong> (máximo 20). Você sabe como extrair toxinas de criaturas mortas ou plantas venenosas com facilidade. Realizar testes para coletar venenos ou sintetizar compostos químicos nocivos em laboratórios de alquimia recebe vantagem permanente nas rolagens.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Resiliente (Resilient) <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+</div>
+          <div class="beneficio">Escolha um atributo do seu personagem. Você aumenta o valor desse atributo em <strong>+1</strong> (máximo 20). Além disso, você ganha <strong>proficiência nos testes de resistência (salvaguardas)</strong> que utilizem o atributo selecionado.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Sentidos Telepáticos <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Inteligência, Sabedoria ou Carisma 13+</div>
+          <div class="beneficio">Aumente seu atributo mental em <strong>+1</strong> (máximo 20). Você consegue se comunicar telepaticamente com qualquer criatura que consiga enxergar a até 9 metros de você. O alvo não precisa compartilhar um idioma com você para entender suas mensagens mentais, mas precisa ser inteligente (QI mínimo 3).</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Sobrevivente Urbano <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Destreza ou Carisma 13+</div>
+          <div class="beneficio">Aumente sua Destreza ou Carisma em <strong>+1</strong> (máximo 20). Você ganha proficiência em <strong>Intuição</strong> e <strong>Intimidação</strong>. Em ambientes urbanos, tavernas ou grandes capitais, você sabe exatamente onde encontrar redes de contrabando, mercados negros e informantes sem levantar suspeitas das guardas locais.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Tocado pelas Fadas (Fey Touched) <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Inteligência, Sabedoria ou Carisma 13+</div>
+          <div class="beneficio">Aumente seu atributo de conjuração em <strong>+1</strong> (máximo 20). Sua alma reteve traços de magia da Agrestia das Fadas. Você aprende a magia <i>Passo Nebuloso</i> e uma magia de 1º círculo de adivinhação ou encantamento à sua escolha. Ambas podem ser conjuradas uma vez por descanso longo sem runas.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Tocado pelas Sombras (Shadow Touched) <span class="badge-tipo badge-geral">Geral</span></h4>
+          <div class="requisito">Pré-requisito: Nível 4+, Inteligência, Sabedoria ou Carisma 13+</div>
+          <div class="beneficio">Aumente seu atributo de conjuração em <strong>+1</strong> (máximo 20). Sua alma foi maculada pelas forças do Pendor das Sombras. Você aprende a magia <i>Invisibilidade</i> e uma magia de 1º círculo de ilusão ou necromancia à sua escolha. Ambas podem ser conjuradas uma vez por descanso longo sem runas.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="secao-talento">
+      <h3>Talentos de Estilo de Luta</h3>
+      <span class="contador-talentos">Exibindo todos os 12 talentos focados em táticas marciais e maestria com armas</span>
+      
+      <div class="grid-talentos">
+        <div class="card-talento">
+          <h4>Arquearia (Archery) <span class="badge-tipo badge-estilo">Estilo de Luta</span></h4>
+          <div class="requisito">Pré-requisito: Proficiência com Armas Marciais</div>
+          <div class="beneficio">Você ganha um bônus fixo de <strong>+2 em todas as jogadas de ataque</strong> que realizar utilizando armas de longo alcance (Arcos Curtos, Arcos Longos, Bestas).</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Armas Grandes (Great Weapon Fighting) <span class="badge-tipo badge-estilo">Estilo de Luta</span></h4>
+          <div class="requisito">Pré-requisito: Proficiência com Armas Marciais</div>
+          <div class="beneficio">Quando você rolar um 1 ou 2 em um dado de dano de um ataque realizado com uma arma corpo a corpo de duas mãos, você pode <strong>rebolar o dado de dano</strong> e deve obrigatoriamente usar o novo resultado, mesmo que seja novamente um 1 ou 2.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Arremesso Especialista (Thrown Weapon Fighting) <span class="badge-tipo badge-estilo">Estilo de Luta</span></h4>
+          <div class="requisito">Pré-requisito: Proficiência com Armas Marciais</div>
+          <div class="beneficio">Você pode sacar uma arma que possua a propriedade de arremesso como parte do próprio ataque realizado com ela. Quando você acertar um ataque à distância utilizando uma arma de arremesso, você adiciona <strong>+2 de dano extra</strong> ao total.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Combate Desarmado (Unarmed Fighting) <span class="badge-tipo badge-estilo">Estilo de Luta</span></h4>
+          <div class="requisito">Pré-requisito: Proficiência com Armas Marciais</div>
+          <div class="beneficio">Seus ataques desarmados causam dano de concussão igual a <strong>1d6 + modificador de Força</strong> caso tenha uma mão livre, ou <strong>1d8 + modificador de Força</strong> caso esteja com ambas as mãos completamente vazias. No início de seus turnos, você causa 1d4 de dano automático a criaturas que esteja agarrando.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Combate com Duas Armas (Two-Weapon Fighting) <span class="badge-tipo badge-estilo">Estilo de Luta</span></h4>
+          <div class="requisito">Pré-requisito: Proficiência com Armas Marciais</div>
+          <div class="beneficio">Quando você realiza um ataque com a segunda arma usando sua ação bônus devido ao combate com duas armas leves, você pode <strong>adicionar o seu modificador de atributo de ataque</strong> correspondente no cálculo de dano desse segundo ataque.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Defesa Marcial (Defense) <span class="badge-tipo badge-estilo">Estilo de Luta</span></h4>
+          <div class="requisito">Pré-requisito: Proficiência com Armaduras Leves, Médias ou Pesadas</div>
+          <div class="beneficio">Enquanto você estiver vestindo qualquer tipo de armadura de corpo inteiro ativa, você recebe um bônus permanente de <strong>+1 na sua Classe de Armadura (CA)</strong>.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Duelismo (Duelling) <span class="badge-tipo badge-estilo">Estilo de Luta</span></h4>
+          <div class="requisito">Pré-requisito: Proficiência com Armas Marciais</div>
+          <div class="beneficio">Quando você estiver empunhando uma arma corpo a corpo em uma das mãos e nenhuma outra arma na outra mão (você pode usar um escudo), você ganha um bônus fixo de <strong>+2 em todas as rolagens de dano</strong> realizadas com aquela arma.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Interceptação (Interception) <span class="badge-tipo badge-estilo">Estilo de Luta</span></h4>
+          <div class="requisito">Pré-requisito: Proficiência com Escudos ou Armas Marciais</div>
+          <div class="beneficio">Quando uma criatura que você consiga ver atacar um aliado localizado a até 1,5 metros de você, você pode usar sua reação para reduzir o dano sofrido pelo aliado em um valor igual a <strong>1d10 + seu Bônus de Proficiência</strong> (exige empunhar um escudo ou arma marcial).</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Luta Cega (Blind Fighting) <span class="badge-tipo badge-estilo">Estilo de Luta</span></h4>
+          <div class="requisito">Pré-requisito: Proficiência com Armas Marciais</div>
+          <div class="beneficio">Você adquire <strong>Percepção À Cegas</strong> com alcance fixo de 3 metros. Dentro desse raio de ação, você consegue enxergar perfeitamente qualquer criatura que não esteja atrás de cobertura total, mesmo que você esteja sob a condição de Cego ou o inimigo esteja Invisível.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Proteção de Flanco (Protection) <span class="badge-tipo badge-estilo">Estilo de Luta</span></h4>
+          <div class="requisito">Pré-requisito: Proficiência com Escudos</div>
+          <div class="beneficio">Quando uma criatura que você consiga enxergar atacar um aliado localizado a até 1,5 metros de você, você pode gastar sua reação para <strong>impor desvantagem na jogada de ataque do inimigo</strong>, utilizando o seu escudo para desviar a trajetória do golpe.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Táticas de Guarda Superior <span class="badge-tipo badge-estilo">Estilo de Luta</span></h4>
+          <div class="requisito">Pré-requisito: Proficiência com Armas Marciais</div>
+          <div class="beneficio">O seu alcance de ameaça física para realizar ataques de oportunidade contra alvos em fuga é estendido em <strong>+1,5 metros</strong> adicionais além do limite padrão da sua arma.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Técnica Superior (Superior Technique) <span class="badge-tipo badge-estilo">Estilo de Luta</span></h4>
+          <div class="requisito">Pré-requisito: Proficiência com Armas Marciais</div>
+          <div class="beneficio">Você aprende uma manobra de combate à sua escolha vinda da lista da classe Guerreiro (Mestre de Batalha). Você recebe <strong>um Dado de Superioridade (1d6)</strong> por descanso curto ou longo dedicado exclusivamente para executar essa manobra.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="secao-talento">
+      <h3>Dádivas Épicas (Epic Boons)</h3>
+      <span class="contador-talentos">Exibindo todas as 8 Dádivas de Fim de Campanha (Exclusivas para Personagens de Nível 20)</span>
+      
+      <div class="grid-talentos">
+        <div class="card-talento">
+          <h4>Dádiva da Sorte Incomensurável <span class="badge-tipo badge-epica">Dádiva Épica</span></h4>
+          <div class="requisito">Pré-requisito: Nível 20</div>
+          <div class="beneficio">Uma vez por rodada de combate, quando você falhar em uma jogada de ataque, teste de atributo ou salvaguarda, você pode decidir **adicionar +1d10 fixos ao resultado total**, transformando falhas dramáticas em sucessos triunfantes sem custo de reação.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Dádiva da Imortalidade Primal <span class="badge-tipo badge-epica">Dádiva Épica</span></h4>
+          <div class="requisito">Pré-requisito: Nível 20</div>
+          <div class="beneficio">Você para de envelhecer biologicamente e torna-se completamente imune a doenças e venenos mágicos ou mundanos. Caso você venha a falecer em combate, sua alma retorna ao corpo material restaurando-o com metade dos seus pontos de vida máximos após exatamente 24 horas.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Dádiva da Velocidade Divina <span class="badge-tipo badge-epica">Dádiva Épica</span></h4>
+          <div class="requisito">Pré-requisito: Nível 20</div>
+          <div class="beneficio">O seu deslocamento terrestre básico aumenta em <strong>+9 metros</strong> fixos de forma permanente. Adicionalmente, você pode executar a ação de Disparar (Dash) ou Desengajar como uma Ação Bônus em todos os seus turnos de combate.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Dádiva da Resiliência Inabalável <span class="badge-tipo badge-epica">Dádiva Épica</span></h4>
+          <div class="requisito">Pré-requisito: Nível 20</div>
+          <div class="beneficio">Você ganha resistência permanente contra <strong>todos os tipos de danos físicos e elementares do jogo</strong> (Impacto, Cortante, Perfurante, Fogo, Gelo, Elétrico, Ácido, Trovão). Danos de tipo Força, Psíquico, Radiante e Necrótico continuam operando normalmente.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Dádiva do Foco Arcano Absoluto <span class="badge-tipo badge-epica">Dádiva Épica</span></h4>
+          <div class="requisito">Pré-requisito: Nível 20, Capacidade de conjurar magias de 9º círculo</div>
+          <div class="beneficio">Você ganha <strong>um espaço de runa/magia de 9º círculo adicional</strong>. Você passa a ser capaz de manter a Concentração ativa em duas magias diferentes simultaneamente, realizando salvaguardas de concentração separadas para cada uma ao sofrer dano.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Dádiva da Recuperação Instantânea <span class="badge-tipo badge-epica">Dádiva Épica</span></h4>
+          <div class="requisito">Pré-requisito: Nível 20</div>
+          <div class="beneficio">Quando os seus pontos de vida atuais caírem para um patamar abaixo de metade do seu limite máximo, você ativa uma cura regenerativa automática em sua carne, recuperando <strong>10 pontos de vida no início de cada um de seus turnos</strong> de combate contínuos.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Dádiva da Presença Majestosa <span class="badge-tipo badge-epica">Dádiva Épica</span></h4>
+          <div class="requisito">Pré-requisito: Nível 20</div>
+          <div class="beneficio">O limite máximo natural de um dos seus atributos mentais (Inteligência, Sabedoria ou Carisma) aumenta de 20 para <strong>24</strong>, e o valor do atributo escolhido aumenta em +4 imediatamente. Seus testes sociais ou de intimidação baseados neste atributo ganham vantagem permanente.</div>
+        </div>
+
+        <div class="card-talento">
+          <h4>Dádiva do Combatente Supremo <span class="badge-tipo badge-epica">Dádiva Épica</span></h4>
+          <div class="requisito">Pré-requisito: Nível 20</div>
+          <div class="beneficio">O limite máximo natural de um dos seus atributos físicos (Força ou Destreza) aumenta de 20 para <strong>24</strong>, e o valor do atributo escolhido aumenta em +4 imediatamente. Suas jogadas de ataque físico crítico passam a acontecer ao rolar resultados **19 ou 20 no d20**.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

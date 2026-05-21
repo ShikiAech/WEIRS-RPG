@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weirs RPG — Início</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Estilos exclusivos para a Página Inicial e Lore */
+    .secao-guia {
+      background: rgba(212, 175, 55, 0.03);
+      border: 1px solid var(--border-fantasy);
+      padding: 25px;
+      border-radius: 4px;
+      margin-bottom: 40px;
+    }
+    .box-formula {
+      background: #111112;
+      border: 1px dashed var(--gold);
+      padding: 15px;
+      border-radius: 4px;
+      font-family: 'Courier New', Courier, monospace;
+      color: #2ecc71;
+      font-size: 1.05rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 15px 0;
+    }
+    .btn-copiar {
+      background: var(--gold);
+      color: #111;
+      border: none;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 3px;
+      transition: background 0.2s;
+    }
+    .btn-copiar:hover {
+      background: var(--gold-bright);
+    }
+    .mapa-container {
+      text-align: center;
+      margin: 40px 0;
+      border: 1px solid var(--border-fantasy);
+      padding: 15px;
+      background: rgba(20, 20, 22, 0.6);
+      border-radius: 4px;
+    }
+    .mapa-img {
+      width: 100%;
+      max-width: 1000px;
+      height: auto;
+      border-radius: 2px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+      transition: transform 0.3s ease;
+    }
+    .mapa-img:hover {
+      transform: scale(1.01);
+    }
+    .cronica-bloco {
+      margin-bottom: 35px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .cronica-bloco h3 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold);
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .cronica-bloco h3::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, rgba(212,175,55,0.3), transparent);
+    }
+    .cronica-bloco p {
+      margin-bottom: 15px;
+      text-align: justify;
+    }
+    .destaque-era {
+      font-style: italic;
+      color: #f1c40f;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+
+  <div class="container">
+    
+   <div class="logo-container">
+  <a href="index.html">
+    <img src="https://res.cloudinary.com/dp6bz8un4/image/upload/ChatGPT_Image_20_de_mai._de_2026_22_47_17_magfos" alt="Weirs RPG" class="logo-home">
+  </a>
+</div>
+
+    <div class="card-rpg" style="margin-top: 20px; padding: 30px; text-align: center;">
+  <div style="max-width: 700px; margin: 0 auto;">
+    <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 15px;">
+      Forje o Seu Destino
+    </h3>
+    <p style="font-size: 1.05rem; line-height: 1.6; color: #ddd; margin-bottom: 15px;">
+      Bem-vindo ao compêndio de regras. Antes de entrar no grid de batalha e explorar os mistérios do mundo, você precisa moldar as capacidades brutas e a vitalidade do seu herói.
+    </p>
+    <p style="font-size: 0.95rem; color: #af7ac5; font-style: italic; margin-bottom: 25px;">
+      Clique no botão abaixo para abrir o canalizador místico, rolar seus atributos iniciais e descobrir seus pontos de vida. Depois, é só transcrever os resultados diretamente na sua ficha do <strong>Roll20</strong>!
+    </p>
+    
+    <button id="btn-abrir-simulador" class="btn-principal" style="font-size: 1.1rem; padding: 12px 30px; background: #9b59b6; cursor: pointer;">
+      🎲 Simular Minha Ficha
+    </button>
+  </div>
+</div>
+
+<div id="modal-simulador" class="modal-rpg">
+  <div class="modal-conteudo">
+    <span class="fechar-modal">&times;</span>
+    <h3 style="font-family: 'Cinzel', serif; color: var(--gold); text-align: center; margin-bottom: 5px;">Gerador de Atributos & Vida</h3>
+    <p style="color: #aaa; font-size: 0.85rem; text-align: center; margin-bottom: 15px;">Fórmula oficial: 4d6k3 (Mantém os 3 maiores de cada rolagem)</p>
+    
+    <div style="text-align: center; margin-bottom: 10px;">
+      <span id="contador-tentativas" style="font-size: 0.85rem; color: #ebc063; background: rgba(212,175,55,0.1); padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(212,175,55,0.2);">
+        Tentativas de rolagem restantes: <strong>2</strong>
+      </span>
+    </div>
+
+    <div style="margin-bottom: 20px; text-align: center;">
+      <button id="btn-rolar-atributos" class="btn-principal" style="background: #27ae60; padding: 10px 25px;">Rolar Dados Iniciais</button>
+    </div>
+
+    <div class="valores-rolados-container">
+      <span style="color: var(--gold); font-family: 'Cinzel'; font-size: 0.85rem; text-transform: uppercase;">Resultados para Alocar:</span>
+      <div id="pool-dados" class="pool-dados">—</div>
+    </div>
+
+    <hr style="border-color: rgba(212,175,55,0.1); margin: 20px 0;">
+
+    <div class="grid-simulador">
+      <div class="col-atributos">
+        <h4 style="font-family: 'Cinzel'; color: var(--gold); margin-bottom: 15px; border-bottom: 1px solid rgba(212,175,55,0.1); padding-bottom: 5px;">Configuração</h4>
+        
+        <div style="margin-bottom: 12px;">
+          <label for="select-nivel" style="display:block; margin-bottom:4px; font-size:0.8rem; color:#ccc;">Nível do Personagem:</label>
+          <select id="select-nivel" class="select-simulador-full">
+            <option value="1">Nível 1</option>
+            <option value="2">Nível 2</option>
+            <option value="3">Nível 3</option>
+            <option value="4">Nível 4 (Aumento de Atributo)</option>
+            <option value="5">Nível 5</option>
+            <option value="6">Nível 6</option>
+            <option value="7">Nível 7</option>
+            <option value="8">Nível 8 (Aumento de Atributo)</option>
+            <option value="9">Nível 9</option>
+            <option value="10">Nível 10</option>
+            <option value="11">Nível 11</option>
+            <option value="12">Nível 12 (Aumento de Atributo)</option>
+            <option value="13">Nível 13</option>
+            <option value="14">Nível 14</option>
+            <option value="15">Nível 15</option>
+            <option value="16">Nível 16 (Aumento de Atributo)</option>
+            <option value="17">Nível 17</option>
+            <option value="18">Nível 18</option>
+            <option value="19">Nível 19</option>
+            <option value="20">Nível 20</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom: 15px;">
+          <label for="select-antecedente" style="display:block; margin-bottom:4px; font-size:0.8rem; color:#ccc;">Antecedente (Livro 2024):</label>
+          <select id="select-antecedente" class="select-simulador-full">
+            <option value="" selected disabled>Escolha um Antecedente...</option>
+            <option value="acólito" data-attrs="int,sab,car">Acólito (INT, SAB, CAR)</option>
+            <option value="artesão" data-attrs="for,des,int">Artesão Guilda (FOR, DES, INT)</option>
+            <option value="artista" data-attrs="des,con,car">Artista (DES, CON, CAR)</option>
+            <option value="charlatão" data-attrs="des,int,car">Charlatão (DES, INT, CAR)</option>
+            <option value="criminoso" data-attrs="des,int,car">Criminoso (DES, INT, CAR)</option>
+            <option value="erudito" data-attrs="con,int,sab">Erudito (CON, INT, SAB)</option>
+            <option value="eremita" data-attrs="con,sab,car">Eremita (CON, SAB, CAR)</option>
+            <option value="fazendeiro" data-attrs="for,con,sab">Fazendeiro (FOR, CON, SAB)</option>
+            <option value="guarda" data-attrs="for,des,sab">Guarda (FOR, DES, SAB)</option>
+            <option value="marujo" data-attrs="for,des,con">Marujo (FOR, DES, CON)</option>
+            <option value="nobre" data-attrs="for,int,car">Nobre (FOR, INT, CAR)</option>
+            <option value="órfão" data-attrs="des,con,sab">Órfão de Rua (DES, CON, SAB)</option>
+            <option value="sábio" data-attrs="con,int,sab">Sábio (CON, INT, SAB)</option>
+            <option value="soldado" data-attrs="for,des,con">Soldado (FOR, DES, CON)</option>
+            <option value="viajante" data-attrs="des,con,sab">Viajante (DES, CON, SAB)</option>
+          </select>
+        </div>
+
+        <div id="painel-asi" style="display:none; background: rgba(39, 174, 96, 0.1); border: 1px solid rgba(39, 174, 96, 0.3); padding: 8px; border-radius: 4px; margin-bottom: 10px; font-size:0.8rem; color:#58d68d; text-align: center;">
+          ASI por Nível Disponível: <span id="asi-disponiveis">0</span>
+          <div style="font-size:0.65rem; color:#aaa; margin-top:2px;">⚠️ Nota: Adicione estes pontos apenas caso opte por bônus puro de atributos em vez de escolher um Talento nestes níveis.</div>
+        </div>
+
+        <div id="painel-bonus-antecedente" style="display:none; background: rgba(41, 128, 185, 0.1); border: 1px solid rgba(41, 128, 185, 0.3); padding: 8px; border-radius: 4px; margin-bottom: 15px; font-size:0.8rem; color:#5dade2; text-align: center;">
+          Bônus do Antecedente Disponível: <span id="ant-disponiveis">+2 e +1 (ou três +1)</span>
+        </div>
+
+        <div class="linha-input-atributo">
+          <label>FOR:</label>
+          <select id="input-for" class="select-attr-dado" data-attr="for"><option value="">—</option></select>
+          <div class="botoes-ajuste">
+            <button class="btn-bonus-ajuste btn-ant" data-attr="for" style="display:none;">Ant</button>
+            <button class="btn-bonus-ajuste btn-asi" data-attr="for" style="display:none;">Nív</button>
+          </div>
+          <span id="mod-for" class="mod-preview">(—)</span>
+        </div>
+        <div class="linha-input-atributo">
+          <label>DES:</label>
+          <select id="input-des" class="select-attr-dado" data-attr="des"><option value="">—</option></select>
+          <div class="botoes-ajuste">
+            <button class="btn-bonus-ajuste btn-ant" data-attr="des" style="display:none;">Ant</button>
+            <button class="btn-bonus-ajuste btn-asi" data-attr="des" style="display:none;">Nív</button>
+          </div>
+          <span id="mod-des" class="mod-preview">(—)</span>
+        </div>
+        <div class="linha-input-atributo">
+          <label>CON:</label>
+          <select id="input-con" class="select-attr-dado" data-attr="con"><option value="">—</option></select>
+          <div class="botoes-ajuste">
+            <button class="btn-bonus-ajuste btn-ant" data-attr="con" style="display:none;">Ant</button>
+            <button class="btn-bonus-ajuste btn-asi" data-attr="con" style="display:none;">Nív</button>
+          </div>
+          <span id="mod-con" class="mod-preview">(—)</span>
+        </div>
+        <div class="linha-input-atributo">
+          <label>INT:</label>
+          <select id="input-int" class="select-attr-dado" data-attr="int"><option value="">—</option></select>
+          <div class="botoes-ajuste">
+            <button class="btn-bonus-ajuste btn-ant" data-attr="int" style="display:none;">Ant</button>
+            <button class="btn-bonus-ajuste btn-asi" data-attr="int" style="display:none;">Nív</button>
+          </div>
+          <span id="mod-int" class="mod-preview">(—)</span>
+        </div>
+        <div class="linha-input-atributo">
+          <label>SAB:</label>
+          <select id="input-sab" class="select-attr-dado" data-attr="sab"><option value="">—</option></select>
+          <div class="botoes-ajuste">
+            <button class="btn-bonus-ajuste btn-ant" data-attr="sab" style="display:none;">Ant</button>
+            <button class="btn-bonus-ajuste btn-asi" data-attr="sab" style="display:none;">Nív</button>
+          </div>
+          <span id="mod-sab" class="mod-preview">(—)</span>
+        </div>
+        <div class="linha-input-atributo">
+          <label>CAR:</label>
+          <select id="input-car" class="select-attr-dado" data-attr="car"><option value="">—</option></select>
+          <div class="botoes-ajuste">
+            <button class="btn-bonus-ajuste btn-ant" data-attr="car" style="display:none;">Ant</button>
+            <button class="btn-bonus-ajuste btn-asi" data-attr="car" style="display:none;">Nív</button>
+          </div>
+          <span id="mod-car" class="mod-preview">(—)</span>
+        </div>
+      </div>
+
+      <div class="col-classe-vida">
+        <h4 style="font-family: 'Cinzel'; color: var(--gold); margin-bottom: 15px; border-bottom: 1px solid rgba(212,175,55,0.1); padding-bottom: 5px;">Classe & PV</h4>
+        
+        <label for="select-classe" style="display:block; margin-bottom:4px; font-size:0.8rem; color: #ccc;">Sua Classe:</label>
+        <select id="select-classe" class="select-simulador-full" style="margin-bottom:10px;">
+          <option value="" disabled selected>Escolha uma classe...</option>
+          <option value="8" data-rec="Inteligência e Constituição">Artífice (d8)</option>
+          <option value="12" data-rec="Força e Constituição">Bárbaro (d12)</option>
+          <option value="8" data-rec="Carisma e Destreza">Bardo (d8)</option>
+          <option value="8" data-rec="Carisma e Constituição">Bruxo (d8)</option>
+          <option value="8" data-rec="Sabedoria e Constituição">Clérigo (d8)</option>
+          <option value="10" data-rec="Força ou Destreza, e Constituição">Guerreiro (d10)</option>
+          <option value="8" data-rec="Destreza e Inteligência/Carisma">Ladino (d8)</option>
+          <option value="10" data-rec="Força e Carisma">Paladino (d10)</option>
+          <option value="10" data-rec="Destreza e Sabedoria">Patrulheiro (d10)</option>
+          <option value="6" data-rec="Inteligência e Destreza">Mago (d6)</option>
+          <option value="6" data-rec="Carisma e Constituição">Feiticeiro (d6)</option>
+          <option value="8" data-rec="Sabedoria e Destreza">Druida (d8)</option>
+          <option value="8" data-rec="Destreza e Sabedoria">Monge (d8)</option>
+        </select>
+
+        <div id="caixa-recomendacao" style="background: rgba(212,175,55,0.05); border: 1px solid rgba(212,175,55,0.15); padding: 10px; border-radius: 4px; font-size: 0.8rem; color: #ebc063; margin-bottom: 15px; display:none;">
+          💡 <strong>Foco Recomendado:</strong> <span id="texto-recomendacao">—</span>
+        </div>
+
+        <div class="painel-vida" style="background: rgba(155, 89, 182, 0.08); border: 1px solid rgba(155, 89, 182, 0.25); padding: 15px; border-radius: 4px; text-align: center;">
+          <h5 style="font-family: 'Cinzel', serif; color: #bb8fce; margin: 0 0 5px 0; font-size: 0.95rem;">Vida Máxima Estimada</h5>
+          <div id="resultado-vida" class="vida-grande" style="font-size: 3.2rem; font-family: 'Cinzel', serif; color: #ff4757; text-shadow: 0 0 10px rgba(255, 71, 87, 0.3);">—</div>
+          <p id="detalhe-calculo-vida" style="font-size: 0.7rem; color: #888; margin-top: 5px; line-height: 1.3;">Selecione a classe e o nível para calcular.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .modal-rpg {
+    display: none; position: fixed; z-index: 99999; 
+    left: 0; top: 0; width: 100%; height: 100%; overflow: auto; 
+    background-color: rgba(0,0,0,0.85); backdrop-filter: blur(4px);
+  }
+  .modal-conteudo {
+    background-color: #161618; margin: 3% auto; padding: 25px 30px;
+    border: 1px solid var(--border-fantasy); box-shadow: 0 0 30px rgba(212,175,55,0.25);
+    width: 90%; max-width: 680px; border-radius: 4px; position: relative; color: #fff;
+  }
+  .fechar-modal {
+    color: #888; position: absolute; right: 20px; top: 15px;
+    font-size: 28px; font-weight: bold; cursor: pointer; transition: color 0.2s;
+  }
+  .fechar-modal:hover { color: var(--gold); }
+  
+  .valores-rolados-container {
+    background: rgba(0,0,0,0.5); padding: 12px; border-radius: 4px;
+    border: 1px dashed rgba(212,175,55,0.2); text-align: center;
+  }
+  .pool-dados {
+    font-size: 1.5rem; font-family: 'Cinzel', serif; color: #fff; margin-top: 5px; letter-spacing: 4px;
+  }
+  .grid-simulador { display: grid; grid-template-columns: 1.2fr 1fr; gap: 30px; }
+  @media(max-width: 600px) { .grid-simulador { grid-template-columns: 1fr; gap: 20px; } }
+  
+  .select-simulador-full {
+    width: 100%; padding: 8px; background: #101012; border: 1px solid var(--border-fantasy); color: white; border-radius: 4px;
+  }
+
+  .linha-input-atributo {
+    display: flex; align-items: center; margin-bottom: 8px;
+    background: rgba(255,255,255,0.01); padding: 6px 10px; border-radius: 4px; min-height: 40px;
+  }
+  .linha-input-atributo label { font-family: 'Cinzel', serif; width: 45px; font-weight: bold; color: #ccc; }
+  
+  .select-attr-dado {
+    width: 85px; padding: 5px; background: #0d0d0f; border: 1px solid var(--border-fantasy);
+    color: #fff; text-align: center; border-radius: 4px; font-size: 0.95rem;
+    appearance: none; -webkit-appearance: none; -moz-appearance: none; cursor: pointer;
+  }
+  
+  .botoes-ajuste { display: flex; gap: 4px; flex-grow: 1; justify-content: center; padding: 0 5px; }
+  
+  .btn-bonus-ajuste {
+    border: none; color: white; padding: 3px 6px; font-size: 0.65rem;
+    border-radius: 3px; cursor: pointer; font-weight: bold; min-width: 32px; text-align: center;
+  }
+  .btn-ant { background: #2980b9; }
+  .btn-ant:hover { background: #3498db; }
+  .btn-asi { background: #27ae60; }
+  .btn-asi:hover { background: #2ecc71; }
+  
+  .mod-preview { width: 75px; font-weight: bold; text-align: right; font-size: 0.9rem; font-family: monospace; }
+</style>
+
+<script>
+  const modal = document.getElementById("modal-simulador");
+  const btnAbrir = document.getElementById("btn-abrir-simulador");
+  const btnFechar = document.querySelector(".fechar-modal");
+  
+  const btnRolar = document.getElementById("btn-rolar-atributos");
+  const txtTentativas = document.getElementById("contador-tentativas");
+  const poolDados = document.getElementById("pool-dados");
+  const selectClasse = document.getElementById("select-classe");
+  const selectNivel = document.getElementById("select-nivel");
+  const selectAnt = document.getElementById("select-antecedente");
+  const resultadoVida = document.getElementById("resultado-vida");
+  const detalheCalculoVida = document.getElementById("detalhe-calculo-vida");
+  const caixaRec = document.getElementById("caixa-recomendacao");
+  const textoRec = document.getElementById("texto-recomendacao");
+  
+  const painelAsi = document.getElementById("painel-asi");
+  const txtAsiDisponiveis = document.getElementById("asi-disponiveis");
+  const painelAnt = document.getElementById("painel-bonus-antecedente");
+
+  let dadosRolados = [];
+  let tentativasRestantes = 2;
+  
+  let pontosAsiGasto = { for: 0, des: 0, con: 0, int: 0, sab: 0, car: 0 };
+  let pontosAntGasto = { for: 0, des: 0, con: 0, int: 0, sab: 0, car: 0 };
+  let totalAsiDisponivel = 0;
+
+  const selectsAtributos = {
+    for: document.getElementById("input-for"),
+    des: document.getElementById("input-des"),
+    con: document.getElementById("input-con"),
+    int: document.getElementById("input-int"),
+    sab: document.getElementById("input-sab"),
+    car: document.getElementById("input-car")
+  };
+
+  const mods = {
+    for: document.getElementById("mod-for"),
+    des: document.getElementById("mod-des"),
+    con: document.getElementById("mod-con"),
+    int: document.getElementById("mod-int"),
+    sab: document.getElementById("mod-sab"),
+    car: document.getElementById("mod-car")
+  };
+
+  btnAbrir.onclick = () => modal.style.display = "block";
+  btnFechar.onclick = () => modal.style.display = "none";
+  window.onclick = (e) => { if (e.target == modal) modal.style.display = "none"; };
+
+  function rolar4d6k3() {
+    let dados = [];
+    for(let i=0; i<4; i++) dados.push(Math.floor(Math.random() * 6) + 1);
+    dados.sort((a, b) => b - a);
+    return dados[0] + dados[1] + dados[2];
+  }
+
+  // Ativador da animação visual de rolagem
+  btnRolar.onclick = function() {
+    if (tentativasRestantes <= 0) return;
+    
+    btnRolar.disabled = true;
+    tentativasRestantes--;
+    txtTentativas.innerHTML = `Tentativas de rolagem restantes: <strong>${tentativasRestantes}</strong>`;
+    
+    if (tentativasRestantes === 0) {
+      txtTentativas.style.color = "#ff4757";
+      txtTentativas.style.background = "rgba(255,71,87,0.1)";
+      txtTentativas.style.borderColor = "rgba(255,71,87,0.3)";
+    }
+
+    let frames = 0;
+    const intervalo = setInterval(() => {
+      let fakes = [];
+      for(let i=0; i<6; i++) fakes.push(Math.floor(Math.random() * 16) + 3);
+      poolDados.innerText = fakes.join("   |   ");
+      frames++;
+      
+      if(frames > 12) {
+        clearInterval(intervalo);
+        finalizarRolagem();
+      }
+    }, 70);
+  };
+
+  function finalizarRolagem() {
+    dadosRolados = [];
+    // Resetar alocações anteriores ao rolar novos dados
+    pontosAsiGasto = { for: 0, des: 0, con: 0, int: 0, sab: 0, car: 0 };
+    pontosAntGasto = { for: 0, des: 0, con: 0, int: 0, sab: 0, car: 0 };
+    
+    for(let i=0; i<6; i++) dadosRolados.push(rolar4d6k3());
+    dadosRolados.sort((a,b) => b - a);
+    poolDados.innerText = dadosRolados.join("   |   ");
+
+    // Construir os selects vinculando ID único a cada índice do dado sorteado
+    Object.keys(selectsAtributos).forEach(attr => {
+      reconstruirSelectOptions(selectsAtributos[attr]);
+    });
+
+    if (tentativasRestantes > 0) {
+      btnRolar.disabled = false;
+    } else {
+      btnRolar.innerText = "Destino Selado";
+      btnRolar.style.background = "#555";
+      btnRolar.style.cursor = "not-allowed";
+    }
+
+    atualizarCalculos();
+  }
+
+  // Preenche a lista drop-down com IDs únicos vinculando o valor ao índice do dado
+  function reconstruirSelectOptions(selectElement) {
+    const valorSalvo = selectElement.value; // Preserva seleção se aplicável
+    selectElement.innerHTML = '<option value="">—</option>';
+    dadosRolados.forEach((valor, index) => {
+      selectElement.innerHTML += `<option value="${index}_${valor}">Dado ${index+1} (${valor})</option>`;
+    });
+    if(valorSalvo) selectElement.value = valorSalvo;
+  }
+
+  // TRAVA MECÂNICA: Garante que um dado usado suma das outras listas em tempo real
+  function recalcularDicionarioDeOpcoes() {
+    // Descobrir quais índices de dados já foram escolhidos e por quem
+    let indicesOcupados = {};
+    Object.keys(selectsAtributos).forEach(attr => {
+      const stringValue = selectsAtributos[attr].value;
+      if (stringValue) {
+        const idx = stringValue.split("_")[0];
+        indicesOcupados[idx] = attr; // Salva quem está usando esse índice
+      }
+    });
+
+    // Atualizar dinamicamente o estado desabilitado de cada opção em todos os menus
+    Object.keys(selectsAtributos).forEach(attr => {
+      const select = selectsAtributos[attr];
+      const escolhaAtual = select.value;
+
+      Array.from(select.options).forEach(option => {
+        if (!option.value) return; // ignora a opção nula "—"
+        const idxOpcao = option.value.split("_")[0];
+
+        // Se o dado estiver ocupado por OUTRO atributo, esconde/desabilita ele
+        if (indicesOcupados[idxOpcao] && indicesOcupados[idxOpcao] !== attr) {
+          option.disabled = true;
+          option.text = `❌ [Em uso]`;
+        } else {
+          option.disabled = false;
+          const valorOriginal = option.value.split("_")[1];
+          option.text = `Dado ${parseInt(idxOpcao)+1} (${valorOriginal})`;
+        }
+      });
+    });
+  }
+
+  function calcularModificador(valor) {
+    if (!valor || valor < 3) return 0;
+    return Math.floor((valor - 10) / 2);
+  }
+
+  // Gerenciador de bônus de Antecedentes (2024)
+  function atualizarBotoesAntecedente() {
+    const antecedenteSelecionado = selectAnt.value;
+    if (!antecedenteSelecionado) {
+      painelAnt.style.display = "none";
+      document.querySelectorAll(".btn-ant").forEach(btn => btn.style.display = "none");
+      return;
+    }
+
+    painelAnt.style.display = "block";
+    const attrsPermitidos = selectAnt.options[selectAnt.selectedIndex].getAttribute("data-attrs").split(",");
+
+    Object.keys(selectsAtributos).forEach(attr => {
+      const btn = document.querySelector(`.btn-ant[data-attr="${attr}"]`);
+      if (attrsPermitidos.includes(attr) && selectsAtributos[attr].value !== "") {
+        btn.style.display = "inline-block";
+        let atual = pontosAntGasto[attr];
+        btn.innerText = atual > 0 ? `A:+${atual}` : `Ant`;
+      } else {
+        btn.style.display = "none";
+        pontosAntGasto[attr] = 0;
+      }
+    });
+  }
+
+  document.querySelectorAll(".btn-ant").forEach(button => {
+    button.onclick = function(e) {
+      e.preventDefault();
+      const attr = this.getAttribute("data-attr");
+      let totalGastosAnt = Object.values(pontosAntGasto).reduce((a, b) => a + b, 0);
+      let atual = pontosAntGasto[attr];
+
+      if (atual === 0) {
+        if (totalGastosAnt < 3) { pontosAntGasto[attr] = 1; }
+      } else if (atual === 1) {
+        let possuiDois = Object.values(pontosAntGasto).includes(2);
+        if (!possuiDois && totalGastosAnt < 3) { pontosAntGasto[attr] = 2; } 
+        else { pontosAntGasto[attr] = 0; }
+      } else {
+        pontosAntGasto[attr] = 0;
+      }
+      atualizarCalculos();
+    };
+  });
+
+  // Gerenciador de pontos por progressão de Nível (ASI)
+  function calcularAsiDisponiveis() {
+    const nivel = parseInt(selectNivel.value);
+    let totalAsi = 0;
+    if (nivel >= 4) totalAsi += 2;
+    if (nivel >= 8) totalAsi += 2;
+    if (nivel >= 12) totalAsi += 2;
+    if (nivel >= 16) totalAsi += 2;
+
+    totalAsiDisponivel = totalAsi;
+    let gastos = Object.values(pontosAsiGasto).reduce((a, b) => a + b, 0);
+    let restantes = totalAsiDisponivel - gastos;
+
+    if (totalAsiDisponivel > 0) {
+      painelAsi.style.display = "block";
+      txtAsiDisponiveis.innerText = restantes;
+      Object.keys(selectsAtributos).forEach(attr => {
+        const btn = document.querySelector(`.btn-asi[data-attr="${attr}"]`);
+        if(selectsAtributos[attr].value !== "") {
+          btn.style.display = "inline-block";
+          btn.innerText = pontosAsiGasto[attr] > 0 ? `N:+${pontosAsiGasto[attr]}` : `Nív`;
+        } else {
+          btn.style.display = "none";
+        }
+      });
+    } else {
+      painelAsi.style.display = "none";
+      document.querySelectorAll(".btn-asi").forEach(btn => btn.style.display = "none");
+      pontosAsiGasto = { for: 0, des: 0, con: 0, int: 0, sab: 0, car: 0 };
+    }
+  }
+
+  document.querySelectorAll(".btn-asi").forEach(button => {
+    button.onclick = function(e) {
+      e.preventDefault();
+      const attr = this.getAttribute("data-attr");
+      let restantes = totalAsiDisponivel - Object.values(pontosAsiGasto).reduce((a, b) => a + b, 0);
+      
+      if (restantes > 0) {
+        pontosAsiGasto[attr]++;
+      } else {
+        pontosAsiGasto[attr] = 0;
+      }
+      atualizarCalculos();
+    };
+  });
+
+  function atualizarCalculos() {
+    // Executa a trava de alocação única antes de computar matemática
+    recalcularDicionarioDeOpcoes();
+    atualizarBotoesAntecedente();
+    calcularAsiDisponiveis();
+
+    Object.keys(selectsAtributos).forEach(attr => {
+      const stringValue = selectsAtributos[attr].value;
+      let valorDado = 0;
+      if(stringValue) {
+        valorDado = parseInt(stringValue.split("_")[1]);
+      }
+      
+      const bAnt = pontosAntGasto[attr];
+      const bAsi = pontosAsiGasto[attr];
+      const valorTotal = valorDado > 0 ? (valorDado + bAnt + bAsi) : 0;
+      
+      const mod = calcularModificador(valorTotal);
+
+      if (valorTotal === 0) {
+        mods[attr].innerText = "(—)";
+        mods[attr].style.color = "#888";
+      } else {
+        let txtMod = mod >= 0 ? `+${mod}` : `${mod}`;
+        mods[attr].innerText = `${valorTotal} [${txtMod}]`;
+        mods[attr].style.color = mod >= 0 ? "#27ae60" : "#e74c3c";
+      }
+    });
+
+    const opcaoSelecionada = selectClasse.options[selectClasse.selectedIndex];
+    if (opcaoSelecionada && opcaoSelecionada.value) {
+      caixaRec.style.display = "block";
+      textoRec.innerText = opcaoSelecionada.getAttribute("data-rec");
+    }
+
+    // Processamento matemático de vida escalonada
+    const dadoVida = parseInt(selectClasse.value);
+    const nivel = parseInt(selectNivel.value);
+    
+    const stringCon = selectsAtributos.con.value;
+    let valorConDado = stringCon ? parseInt(stringCon.split("_")[1]) : 0;
+    
+    const conTotal = valorConDado > 0 ? (valorConDado + pontosAntGasto.con + pontosAsiGasto.con) : 0;
+    const modCon = calcularModificador(conTotal);
+
+    if (dadoVida && valorConDado > 0) {
+      const vidaNivel1 = dadoVida + modCon;
+      const mediaDado = Math.ceil((dadoVida + 1) / 2);
+      const vidaNiveisSeguintes = (nivel - 1) * (mediaDado + modCon);
+      const vidaFinal = vidaNivel1 + vidaNiveisSeguintes;
+      
+      resultadoVida.innerText = vidaFinal > 0 ? vidaFinal : nivel;
+      detalheCalculoVida.innerText = `Nível 1: ${dadoVida} + Níveis 2-${nivel}: ${(nivel-1)}x${mediaDado} | Modificador de CON total: ${modCon >= 0 ? '+'+modCon : modCon}`;
+    } else {
+      resultadoVida.innerText = "—";
+      if(valorConDado === 0 && dadoVida) detalheCalculoVida.innerText = "Defina o atributo de CON para calcular a vida.";
+    }
+  }
+
+  // Escutadores reativos
+  Object.values(selectsAtributos).forEach(select => select.onchange = atualizarCalculos);
+  selectClasse.onchange = atualizarCalculos;
+  selectNivel.onchange = atualizarCalculos;
+  selectAnt.onchange = atualizarCalculos;
+</script>
+
+    <div class="mapa-container">
+      <h3 style="font-family: 'Cinzel', serif; color: var(--gold); margin-bottom: 10px;">O Cartógrafo de Weirs</h3>
+      <p style="margin-bottom: 20px; font-size: 0.9rem; color: #ccc;">Explore as extensões territoriais do Plano Material e as fronteiras do Império Unificado.</p>
+      <a href="https://weirs-rpg.weebly.com/uploads/1/0/6/8/10689847/terra-weirs-dessa-vez-real-e-oficial-jpg_orig.jpeg" target="_blank" title="Clique para abrir o mapa em alta resolução">
+        <img src="https://weirs-rpg.weebly.com/uploads/1/0/6/8/10689847/terra-weirs-dessa-vez-real-e-oficial-jpg_orig.jpeg" alt="Mapa Mundi - Terra Weirs" class="mapa-img">
+      </a>
+    </div>
+
+    <h2>As Crônicas do Firmamento</h2>
+    <div class="card-rpg" style="padding: 35px;">
+      
+      <div class="cronica-bloco">
+        <h3>Ordo</h3>
+        <p>No início de tudo havia o Ordo, e nele habitavam os seres celestiais antigos conhecidos como deuses e dragões. Cada espécie possuía suas terras rigidamente delimitadas e seus poderes eram equivalentes; dessa forma, os povos viviam separados, porém em perfeita harmonia e paz.</p>
+        <p>Com o passar do tempo, os dragões perceberam que as terras habitadas pelos deuses eram consideravelmente mais férteis e ricas em minérios valiosos, o que deu origem aos primeiros acordos comerciais. Os dragões utilizavam sua incomparável habilidade de forja para criar armas e equipamentos lendários para os deuses e, em contrapartida, os deuses cediam frações de suas terras férteis para a subsistência do outro povo.</p>
+        <p>Mas houve algo que os dragões não previram — talvez por tolice ou, mais provavelmente, por pura inocência: os deuses tornaram-se infinitamente mais fortes portando as relíquias forjadas pelas mãos dracônicas. Fortalecida pelo armamento, ergueu-se uma elite divina tirânica que expulsou os dragões de volta às suas origens. Essa elite soberana criou leis severas que impactaram não apenas o Ordo, mas todo o firmamento, decretando permanentemente que os deuses seriam os soberanos absolutos de todos os planos existentes.</p>
+      </div>
+
+      <div class="cronica-bloco">
+        <h3>O Plano Material</h3>
+        <p>Nas profundezas do Plano Material, formou-se um planeta batizado de Terra. Neste lugar primordial, a ordem era tão rica e pura que seu ambiente natural assemelhava-se à beleza das terras do próprio Ordo, fazendo com que a elite dos deuses resolvesse observar o local mais de perto. Lá, uma nova espécie começava a dar seus primeiros passos evolutivos: os seres humanos.</p>
+        <p>A humanidade atraiu a atenção imediata da elite divina, que arrebatou uma fêmea da espécie para a realização de complexos experimentos espirituais. Essa mulher chamava-se Lilith. No Ordo, ela foi submetida a inúmeros tipos de testes que, com o avanço do tempo, transmutaram-se em severos abusos físicos e psicológicos, embora a mulher não possuísse intelecto ou consciência suficiente para compreender a real gravidade do que acontecia ao seu redor.</p>
+        <p>Os deuses desejavam que os humanos fossem conscientes como eles, contudo, sem que possuíssem qualquer tipo de poder real, pois isso ameaçaria a soberania da elite. A premissa era tentadora: se os humanos fossem inteligentes o bastante, poderiam cultuá-los, garantindo aos deuses uma raça inteira de servos devotos. Utilizando as técnicas de forja roubadas dos dragões, os deuses criaram um fruto místico projetado para acender as capacidades latentes da mente de quem o consumisse.</p>
+        <p>Lilith, impulsionada por seus instintos primitivos de sobrevivência e sem saber do que se tratava, consumiu o fruto antes mesmo que ele lhe fosse oferecido. Esse ato isolado desencadeou o pior pesadelo da elite divina. A mente de Lilith desenvolveu-se a níveis incomensuráveis, ultrapassando a capacidade dos próprios deuses. Furiosa e plenamente consciente de todos os abusos que sofreu, Lilith rebelou-se e assassinou quase toda a elite divina, deixando vivo apenas o deus mais jovem.</p>
+        <p>Com o auxílio emergencial dos dragões, Lilith foi finalmente contida por correntes forjadas com a lendária prata do Ordo. El'him, o deus sobrevivente, aprisionou-se no dever de isolá-la em um plano de bolso oculto, um lugar que chamou de Limbo, localizado nas profundezas de uma dimensão maior e sombria: Tenebris. Após o aprisionamento, El'him e os dragões desenvolveram uma versão infinitamente mais fraca e diluída do fruto original, mas igualmente eficiente em seu propósito principal. O deus presenteou a humanidade com a dádiva da curiosidade, permitindo que os seres humanos evoluíssem e se desenvolvessem por conta própria.</p>
+      </div>
+
+      <div class="cronica-bloco">
+        <h3>Tenebris</h3>
+        <p>A energia caótica condensada que emanava do Limbo era tão avassaladora que sua reverberação por Tenebris tornava o plano completamente inóspito, servindo de lar apenas para um grupo seleto de criaturas brutas capazes de resistir àquela atmosfera: os Abissais.</p>
+        <p>Quando Lilith foi acorrentada no Limbo, a influência psíquica de sua mente expandida começou a transformar e moldar a mente daquelas criaturas de Tenebris, forçando o seu desenvolvimento intelectual. Dentre os Abissais, quatro entidades colossais se ergueram com intelecto superior: Asmodeus, Baphomet, Beelzebub e Belial. Estes tornaram-se conhecidos como os demônios ancestrais e, a partir de suas linhagens, as quatro raças demoníacas principais de Tenebris nasceram. Sob a mesma influência direta da prisioneira, uma quinta raça distinta também despertou nas sombras, conhecidos como os Filhos de Lilith.</p>
+      </div>
+
+      <div class="cronica-bloco">
+        <h3>A Origem dos Dragmas</h3>
+        <p>Os deuses passaram a ser adorados ferrenhamente na Terra. Eventualmente, os povos humanos começaram a guerrear entre si em honra às suas divindades, cobiçando glórias, relíquias divinas, territórios e riquezas materiais. Com a descoberta e o início das artes mágicas, o cenário bélico agravou-se drasticamente, despertando a atenção de El'him, que previa ali o estopim de uma era de caos irreversível no planeta.</p>
+        <p>Diante disso, o deus convocou Shen, um dragão de sua estrita confiança e seu aprendiz mais leal, ordenando que ele descesse ao plano material e assumisse o controle da Terra. Shen cumpriu sua missão com maestria: alcançou a paz entre os povos humanos que dominavam os continentes e os unificou sob um único clã de guerreiros sagrados conhecidos como os Othans. O dragão ensinou-os a arte de canalizar e dominar o Éter interior — energia que chamavam de Eteris — e, com esse poder, baniu a influência corrupta que os deuses egoístas exerciam sobre a humanidade, empurrando os cultos divinos restantes para a ilegalidade e o refúgio.</p>
+        <p>Shen governou a Terra durante uma longa e próspera era de paz, até a chegada de seu próprio irmão, Hades, que tentou usurpar o trono marchando com um exército avassalador de vampiros de almas fragmentadas. Shen e seus leais Othans lutaram bravamente e conseguiram deter a invasão. Hades foi derrotado e banido permanentemente para Tenebris, mas o confronto drenou a essência vital de Shen, que já não possuía forças para continuar vivo no plano físico.</p>
+        <p>Em seu último suspiro, utilizando seus conhecimentos absolutos sobre o Éter, Shen dividiu sua própria alma dragão em cinco partes elementares para dar início a uma linhagem profética eterna, denominada Dragma. Essas cinco essências reencarnariam em uma criança humana a cada 100 anos, cada uma representando uma das casas fundamentais dos Othans: Luz, Gelo, Fogo, Trevas e, por fim, a quinta essência representando o próprio Shen, o Éter. Assim, a profecia consolidou-se, iniciando o Tempo dos Dragmas.</p>
+      </div>
+
+      <div class="cronica-bloco">
+        <h3>A Nova Era de Tenebris</h3>
+        <p>Hades alcançou o plano inferior gravemente enfraquecido e destituído de suas orgulhosas asas de dragão, sendo forçado a contentar-se com a condição de demônio. Obstinado, ele adaptou-se rapidamente ao abismo, ciente de que para governar aquela dimensão precisaria derrubar as forças dominantes. Aproveitando-se do fato de que os quatro demônios ancestrais viviam em eternas disputas e nunca se uniam, Hades enfrentou-os individualmente. Um a um, os quatro ancestrais foram subjugados e selados nas profundezas mais escuras do abismo, coroando Hades como o Guardião de Tenebris.</p>
+        <p>Enquanto o inferno se reorganizava, no plano superior, os arcanjos que serviam à elite divina articularam uma grande revolta militar. O golpe de estado foi encabeçado por Samael, mas mesmo unindo suas hostes celestes, os arcanjos não foram páreos para o poder centralizado dos deuses remanescentes. Derrotados, os revoltosos foram castigados, perderam suas asas e foram exilados diretamente para Tenebris. Samael transmutou-se em Lúcifer e seus 11 seguidores caíram ao seu lado. Buscando estabilidade para seus planos futuros e desejando evitar guerras em seus domínios, Hades ofereceu um acordo de paz aos caídos, estabelecendo a harmonia em Tenebris, enquanto novos arcanjos assumiam os cargos vagos nos céus.</p>
+      </div>
+
+      <div class="cronica-bloco">
+        <h3>O Legado de Shen</h3>
+        <p>As primeiras gerações de dragmas experimentaram passagens pacíficas pelo mundo, devidamente protegidos e guiados pelos caminhos da luz através dos descendentes dos Othans. Contudo, a terceira linhagem trouxe tempos sombrios. Hestia, a Dragma do Fogo, contava com apenas três Othans vivos para guardá-la quando enfrentou a maior revolta de Tenebris: Hades tentava invadir a Terra com força total, um evento catastrófico que culminou na extinção completa dos guerreiros Othans no século III d.S. (depois de Shen).</p>
+        <p>Hestia, com o auxílio crucial da deusa Luna e do arcanjo Danael, conseguiu repelir a invasão de Hades, sacrificando a própria vida em um golpe final que reduziu seu corpo físico a cinzas, salvando o plano material da destruição. Após a queda do vilão, seu filho, Zagreus, ocupou o trono de Tenebris, embora possua um tato político muito menos rígido com os caídos locais.</p>
+        <p>Além de livrar a Terra das garras de Hades, o sacrifício de Hestia pôs fim à guerra milenar entre as duas maiores superpotências do planeta, Therpya e Gorvhan, forçando a assinatura de um tratado que deu origem ao grandioso Império Unificado. Desde a morte da Dragma do Fogo, o Império iniciou uma expansão territorial agressiva, dominando diversos reinos e continentes ao redor do globo.</p>
+        <p>A história do mundo agora lida com os reflexos dessa centralização geopolítica e os mistérios latentes das reencarnações elementares, exatamente no <span class="destaque-era">ano 500 depois de Shen</span>.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+  <script>
+    function copiarFormula() {
+      var textoFormula = document.getElementById("formula-roll20").innerText;
+      navigator.clipboard.writeText(textoFormula).then(function() {
+        alert("Fórmula copiada com sucesso! Só colar no Roll20.");
+      }, function(err) {
+        console.error('Erro ao copiar texto: ', err);
+      });
+    }
+  </script>
+
+</body>
+</html>

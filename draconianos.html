@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Draconianos — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Estilos customizados para blocos de mecânicas de D&D */
+    .bloco-habilidade {
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 3px solid var(--gold);
+      padding: 20px;
+      margin-top: 25px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-habilidade h4 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-bright);
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+    /* Estilização da tabela de elementos */
+    .tabela-elementos {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      background: rgba(20, 20, 22, 0.6);
+      border: 1px solid var(--border-fantasy);
+      font-size: 0.95rem;
+    }
+    .tabela-elementos th, .tabela-elementos td {
+      border: 1px solid var(--border-fantasy);
+      padding: 10px 15px;
+      text-align: left;
+    }
+    .tabela-elementos th {
+      background: rgba(58, 50, 36, 0.3);
+      color: var(--gold);
+      font-family: 'Cinzel', serif;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="racas.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Raças</a>
+    </div>
+
+    <h2>Draconianos</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://weirs-rpg.weebly.com/uploads/1/0/6/8/10689847/baixados-4_orig.jpg" alt="Draconiano">
+        
+        <div class="texto-lore">
+          <h3>Os Forjadores do Ordo</h3>
+          <p>Não se sabe ao certo como essa raça surgiu, mas este povo sempre foi devoto dos grandes dragões do Ordo. Daí derivou-se sua cultura baseada na forja mágica. Draconianos não herdaram apenas características físicas de seus ancestrais ordemicos, mas também sua afinidade elemental, dando-lhe habilidades únicas de sopro e resistência a certos tipos de elementos.</p>
+          <p>A maior parte da população draconiana vive na ilha de Salaner, sua terra natal, de onde surgiu a lenda de que essa terra serviu de casa para Shiva, milhares de anos atrás. Lá eles se desenvolveram e formaram seu império, mas também se espalharam pelo mundo, exportando seu talento de forja.</p>
+          
+          <h4 style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Traços de Draconiano</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Tipo de Criatura:</strong> Humanoide.</li>
+            <li><strong>Tamanho:</strong> Médio (cerca de 1,20 - 2,10 metros de altura).</li>
+            <li><strong>Deslocamento:</strong> 9 metros (30ft).</li>
+            <li><strong>Idade:</strong> Atingem a maioridade aos 15 anos e podem viver até os 80 anos.</li>
+            <li><strong>Visão no Escuro:</strong> Você tem Visão no Escuro com um alcance de 18 metros (60ft).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 15px;">Habilidades de Linhagem</h3>
+
+        <div class="bloco-habilidade">
+          <h4>Herança Elemental</h4>
+          <p>Sua linhagem elemental lhe garante o elemento no qual você possui afinidade. Escolha o tipo de elemento ao criar o personagem; isso definirá sua aparência, o tipo de dano da sua Arma de Sopro e sua Resistência a Dano.</p>
+          
+          <table class="tabela-elementos">
+            <thead>
+              <tr>
+                <th>Elemento</th>
+                <th>Cor das Escamas / Energia</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Elétrico</td><td style="color: #5dade2; font-weight: 600;">Azul</td></tr>
+              <tr><td>Gélido</td><td style="color: #ffffff; font-weight: 600;">Branco</td></tr>
+              <tr><td>Ígneo</td><td style="color: #e74c3c; font-weight: 600;">Vermelho</td></tr>
+              <tr><td>Ácido</td><td style="color: #f1c40f; font-weight: 600;">Amarelo</td></tr>
+              <tr><td>Venenoso</td><td style="color: #2ecc71; font-weight: 600;">Verde</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bloco-habilidade" style="border-left-color: var(--gold-dark);">
+          <h4>Resistência a Dano</h4>
+          <p>Você tem Resistência ao tipo de dano determinado por seu traço <strong>Herança Elemental</strong>.</p>
+        </div>
+
+        <div class="bloco-habilidade" style="border-left-color: var(--blood-red);">
+          <h4>Ataque de Sopro</h4>
+          <p>Ao executar uma ação no seu turno, você pode substituir um de seus ataques por uma emissão de energia mágica em um <strong>Cone de 4,5 metros (15ft)</strong> ou em uma <strong>Linha de 9 metros (30ft)</strong> de comprimento e 1,5 metros (5ft) de largura (escolha a forma a cada vez).</p>
+          <p>Cada criatura nessa área deve realizar uma salvaguarda de Destreza (CD 8 + seu modificador de Constituição + seu Bônus de Proficiência). Se falhar, a criatura sofre <strong>1d10</strong> pontos de dano do tipo determinado por sua Herança Elemental. Em caso de sucesso, ela sofre metade do dano. Esse dano aumenta quando você atinge os níveis de personagem 5 (2d10), 11 (3d10) e 17 (4d10).</p>
+          <p>Você pode usar seu Sopro um número de vezes igual ao seu Bônus de Proficiência, e você restaura todos os usos gastos quando completa um Descanso Longo.</p>
+        </div>
+
+        <div class="bloco-habilidade" style="border-left-color: #5dade2;">
+          <h4>Voo Dracônico</h4>
+          <p>No nível 5 de personagem, você pode canalizar magia dracônica para se beneficiar de um voo temporário. Como uma Ação Bônus, você cria asas espectrais nas costas que duram 10 minutos, ou até que você as retraia (nenhuma ação necessária) ou fique com a condição Incapacitado.</p>
+          <p>Pela duração, você tem um Deslocamento de Voo igual ao seu Deslocamento terrestre. Suas asas parecem feitas da mesma energia que o seu Ataque de Sopro. Após usar esse traço, você não pode usá-lo novamente até completar um Descanso Longo.</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

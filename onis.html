@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Onis — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Estilos customizados para a herança demoníaca dos Onis */
+    .bloco-tenebris {
+      background: rgba(142, 68, 173, 0.05);
+      border: 1px solid rgba(192, 57, 43, 0.2);
+      border-left: 4px solid var(--blood-red);
+      padding: 22px;
+      margin-top: 30px;
+      border-radius: 0 4px 4px 0;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    }
+    .bloco-tenebris h4 {
+      font-family: 'Cinzel', serif;
+      color: #ecf0f1;
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+      text-shadow: 0 0 8px rgba(231, 76, 60, 0.4);
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+    /* Estilização da Tabela de Legado Tenebrico baseado na imagem enviada */
+    .tabela-rpg {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 25px 0;
+      background: rgba(20, 20, 22, 0.6);
+      border: 1px solid var(--border-fantasy);
+      font-size: 0.9rem;
+    }
+    .tabela-rpg th, .tabela-rpg td {
+      border: 1px solid var(--border-fantasy);
+      padding: 14px 16px;
+      text-align: left;
+      vertical-align: middle;
+    }
+    .tabela-rpg th {
+      background: rgba(44, 62, 80, 0.3);
+      color: var(--gold);
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+    .tabela-rpg td .celula-botao {
+      background: rgba(60, 60, 62, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      padding: 10px 12px;
+      color: #e0e0e0;
+      text-align: center;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .tabela-rpg tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.01);
+    }
+  </style>
+</head>
+<body>
+
+ <script src="menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="racas.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Raças</a>
+    </div>
+
+    <h2>Onis</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://weirs-rpg.weebly.com/uploads/1/0/6/8/10689847/baixados-19_orig.jpg" alt="Oni">
+        
+        <div class="texto-lore">
+          <h3>Os Descendentes de Tenebris</h3>
+          <p>Desde que Helix, um demônio subordinado de Hades, abriu uma fenda dimensional que liga o plano material a Tenebris, os seres terrenos se acostumaram com a dura realidade de conviver diretamente com demônios.</p>
+          <p>O povo mais receptivo a essa nova ordem foram os habitantes do continente de Yozaki. Lá, os demônios não apenas passaram a coexistir, mas também criaram profundos laços de sangue com os humanos, dando origem a descendentes que herdaram suas características demoníacas marcantes: os Onis. Somente três raças infernais eram capazes de gerar descendentes com parceiros humanos, sendo estas as linhagens de Asmodeus, Belial e Beelzebub.</p>
+          
+          <h4 style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Traços de Oni</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Tipo de Criatura:</strong> Humanoide.</li>
+            <li><strong>Tamanho:</strong> Médio (cerca de 1,20 - 2,10 metros de altura).</li>
+            <li><strong>Deslocamento Terrestre:</strong> 9 metros (30ft).</li>
+            <li><strong>Idade:</strong> Onis atingem a maioridade com 18 anos e possuem longevidade estendida, podendo viver até os 150 anos.</li>
+            <li><strong>Visão no Escuro Superior:</strong> Devido ao seu sangue infernal habituado às trevas, você possui a capacidade de enxergar na mais completa escuridão por até <strong>36 metros (120ft)</strong>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Poder Influxo Infernal</h3>
+        
+        <ul class="trait-list">
+          <li><strong>Presença Sobrenatural:</strong> A sua aura exala o medo do submundo. Você conhece o truque <em>Taumaturgia</em>. Ao conjurá-lo através deste traço racial, a magia utiliza obrigatoriamente o mesmo atributo de conjuração definido por você na sua característica de Legado Tenebrico.</li>
+        </ul>
+      </div>
+
+      <div class="bloco-tenebris">
+        <h4>Devorador de Almas</h4>
+        <p>Ao ceifar a vida de um oponente, você é capaz de se alimentar temporariamente da essência vital dele para potencializar suas próprias capacidades em combate.</p>
+        <p><strong>Mecânica:</strong> Quando você reduz uma criatura a 0 pontos de vida, você pode usar sua energia para consumir a alma dela. Ao fazer isso, você escolhe e ganha <strong>um</strong> dos seguintes efeitos benéficos até o final do seu próximo turno:</p>
+        <ul class="trait-list" style="margin-top: 12px; gap: 8px;">
+          <li><strong>Ímpeto de Ataque:</strong> Você ganha <em>Vantagem</em> na sua próxima jogada de ataque.</li>
+          <li><strong>Passo Sombrio:</strong> Seu deslocamento aumenta em <strong>+4,5 metros (+15ft)</strong> adicionais.</li>
+          <li><strong>Golpe Cruel:</strong> Você causa <em>dano necrótico extra</em> em seu próximo golpe igual ao seu Bônus de Proficiência.</li>
+        </ul>
+        <p style="margin-top: 12px; font-size: 0.9rem; color: #e74c3c; font-style: italic;">Você pode usar esta característica um número de vezes igual ao seu bônus de proficiência, recuperando todos os usos gastos após terminar um Descanso Longo.</p>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 15px;">Legado Tenebrico</h3>
+        <p>Você é o portador de uma linhagem específica que lhe confere poderes sobrenaturais únicos. Escolha um dos legados da tabela abaixo ao criar o personagem. Você adquire o benefício de Nível 1 imediatamente. Ao atingir os níveis de personagem 3 e 5, você aprende magias de círculo superior.</p>
+        <p>Estas magias estão sempre preparadas e podem ser conjuradas <strong>uma vez sem gastar espaços de magia</strong>, restaurando o uso após um Descanso Longo. Você também pode conjurá-las utilizando quaisquer espaços de magia de nível correspondente que sua classe possua. Escolha entre <strong>Inteligência, Sabedoria ou Carisma</strong> para ser seu atributo de conjuração ao selecionar o legado.</p>
+
+        <table class="tabela-rpg">
+          <thead>
+            <tr>
+              <th style="width: 20%;">Legado</th>
+              <th style="width: 40%;">Nível 1</th>
+              <th style="width: 20%;">Nível 3</th>
+              <th style="width: 20%;">Nível 5</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: center;"><strong>Beelzebub</strong></td>
+              <td><div class="celula-botao">Você tem Resistência a dano Venenoso. Você também conhece o truque <em>Rajada de Veneno</em>.</div></td>
+              <td><div class="celula-botao">Raio Nauseante</div></td>
+              <td><div class="celula-botao">Paralisar Pessoa</div></td>
+            </tr>
+            <tr>
+              <td style="text-align: center;"><strong>Asmodeus</strong></td>
+              <td><div class="celula-botao">Você tem Resistência a dano Necrótico. Você também conhece o truque <em>Toque Necrótico</em>.</div></td>
+              <td><div class="celula-botao">Vitalidade Vazia</div></td>
+              <td><div class="celula-botao">Raio do Enfraquecimento</div></td>
+            </tr>
+            <tr>
+              <td style="text-align: center;"><strong>Belial</strong></td>
+              <td><div class="celula-botao">Você tem Resistência a dano Ígneo. Você também conhece o truque <em>Raio de Fogo</em>.</div></td>
+              <td><div class="celula-botao">Repreensão Infernal</div></td>
+              <td><div class="celula-botao">Escuridão</div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

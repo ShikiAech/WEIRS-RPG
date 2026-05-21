@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paladino — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .bloco-paladino {
+      background: rgba(241, 196, 15, 0.03);
+      border: 1px solid rgba(241, 196, 15, 0.15);
+      border-left: 4px solid #f1c40f;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-paladino h4 {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+    .bloco-subclasse-detalhada {
+      background: rgba(25, 25, 27, 0.8);
+      border: 1px solid var(--border-fantasy);
+      padding: 25px;
+      margin-top: 35px;
+      border-radius: 4px;
+    }
+    .bloco-subclasse-detalhada h3 {
+      font-family: 'Cinzel', serif;
+      color: #f1c40f;
+      border-bottom: 1px solid rgba(241, 196, 15, 0.3);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+    }
+    .sub-feature {
+      background: rgba(241, 196, 15, 0.04);
+      border-left: 3px solid #f1c40f;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 0 4px 4px 0;
+    }
+    .sub-feature h5 {
+      font-family: 'Cinzel', serif;
+      color: #f5b041;
+      font-size: 1.05rem;
+      margin-bottom: 5px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+    .tabela-rpg {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: rgba(20, 20, 22, 0.6);
+      border: 1px solid var(--border-fantasy);
+      font-size: 0.85rem;
+    }
+    .tabela-rpg th, .tabela-rpg td {
+      border: 1px solid var(--border-fantasy);
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .tabela-rpg th {
+      background: rgba(43, 41, 23, 0.5);
+      color: #f1c40f;
+      font-family: 'Cinzel', serif;
+    }
+    .tabela-rpg tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .tabela-rpg td.esquerda {
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="classes.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Classes</a>
+    </div>
+
+    <h2>Paladino (Paladin)</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://imagenslucas.weebly.com/uploads/1/0/6/8/10689847/save-follow-donate-boosty-to-abominationrs-donate-commissions-open-art-purchase-available-support-and-thanks-link-in-bio-conceptart-characterdesign-ttrpg-evganinart-flatfanta_orig.jpg" alt="Paladino">
+        <div class="texto-lore">
+          <h3>O bastião do juramento sagrado</h3>
+          <p>Um paladino é a personificação física de uma promessa inquebrável. Seja guiado por deuses da justiça ou pela sede implacável de vingança, o paladino canaliza o poder do cosmos através da convicção absoluta de seu **Juramento Sagrado**. No campo de batalha, eles são faróis de esperança, revestidos de aço reluzente e impulsionados por uma força espiritual capaz de pulverizar o mal.</p>
+          <p>No novo padrão oficial do **D&D 5e (2024)**, o paladino agora conjura magias desde o **1º nível**, ganha acesso gratuito a montarias sagradas e manipula a energia vital com uma versatilidade sem precedentes através de seu canalizar divindade.</p>
+          
+          <h4 style="color: #f1c40f; margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Dado de Vida:</strong> 1d10 por nível de Paladino.</li>
+            <li><strong>Atributo Principal:</strong> Força e Carisma.</li>
+            <li><strong>Proficiências em Armaduras:</strong> Todas as armaduras e Escudos.</li>
+            <li><strong>Proficiências em Armas:</strong> Armas Simples e Marciais.</li>
+            <li><strong>Testes de Resistência:</strong> Sabedoria e Carisma.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px; overflow-x: auto;">
+        <h3 style="font-family: 'Cinzel', serif; color: #f1c40f; font-size: 1.6rem; margin-bottom: 15px;">Progressão de Classe</h3>
+        <table class="tabela-rpg">
+          <thead>
+            <tr>
+              <th>Nível</th>
+              <th>Prof.</th>
+              <th class="esquerda">Recursos de Classe</th>
+              <th>Maestria</th>
+              <th>1º</th><th>2º</th><th>3º</th><th>4º</th><th>5º</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1º</td><td>+2</td><td class="esquerda">Conjuração, Sentido Divino, Mãos Curativas</td><td>2</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>2º</td><td>+2</td><td class="esquerda">Estilo de Combate, Castigos Palacianos (Smites)</td><td>2</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>3º</td><td>+2</td><td class="esquerda">Juramento Sagrado (Subclasse), Canalizar Divindade</td><td>2</td><td>4</td><td>2</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>4º</td><td>+2</td><td class="esquerda">Talento de Atributo (Feat)</td><td>2</td><td>4</td><td>3</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>5º</td><td>+3</td><td class="esquerda">Ataque Extra, Montaria Fiel (Find Steed)</td><td>2</td><td>4</td><td>3</td><td>2</td><td>—</td><td>—</td></tr>
+            <tr><td>6º</td><td>+3</td><td class="esquerda">Aura de Proteção</td><td>2</td><td>4</td><td>3</td><td>3</td><td>—</td><td>—</td></tr>
+            <tr><td>7º</td><td>+3</td><td class="esquerda">Recurso de Juramento</td><td>3</td><td>4</td><td>3</td><td>3</td><td>1</td><td>—</td></tr>
+            <tr><td>8º</td><td>+3</td><td class="esquerda">Talento de Atributo (Feat)</td><td>3</td><td>4</td><td>3</td><td>3</td><td>2</td><td>—</td></tr>
+            <tr><td>9º</td><td>+4</td><td class="esquerda">Abjurar Inimigos</td><td>3</td><td>4</td><td>3</td><td>3</td><td>3</td><td>1</td></tr>
+            <tr><td>10º</td><td>+4</td><td class="esquerda">Aura de Coragem</td><td>3</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td></tr>
+            <tr><td>11º</td><td>+4</td><td class="esquerda">Castigo Radiante Passivo</td><td>3</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+            <tr><td>12º</td><td>+4</td><td class="esquerda">Talento de Atributo (Feat)</td><td>3</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+            <tr><td>13º</td><td>+5</td><td class="esquerda">Recurso de Juramento</td><td>3</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+            <tr><td>14º</td><td>+5</td><td class="esquerda">Toque Purificador (Cleansing Touch)</td><td>4</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+            <tr><td>15º</td><td>+5</td><td class="esquerda">Recurso de Juramento</td><td>4</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+            <tr><td>16º</td><td>+5</td><td class="esquerda">Talento de Atributo (Feat)</td><td>4</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+            <tr><td>17º</td><td>+6</td><td class="esquerda">Expansão de Aura (15 metros)</td><td>4</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+            <tr><td>18º</td><td>+6</td><td class="esquerda">Cura do Conjurador Divino</td><td>4</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+            <tr><td>19º</td><td>+6</td><td class="esquerda">Talento de Atributo / Dádiva Épica</td><td>4</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+            <tr><td>20º</td><td>+6</td><td class="esquerda">Campeão Verdadeiro</td><td>4</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #f1c40f; font-size: 1.6rem; margin-bottom: 20px;">Recursos de Classe Detalhados</h3>
+
+        <div class="bloco-paladino">
+          <h4>Nível 1: Conjuração, Mãos Curativas & Sentido Divino</h4>
+          <p><strong>Conjuração:</strong> O Paladino de 2024 agora começa com slots e preparação de magias diretamente no 1º nível. Você usa Carisma para ditar a CD de suas magias.</p>
+          <p><strong>Mãos Curativas:</strong> Você possui uma reserva de energia igual a **5 x seu nível**. Com uma Ação, toca uma criatura e gasta pontos para curar. Pode gastar 5 pontos para remover doenças ou o efeito Envenenado.</p>
+          <p><strong>Sentido Divino:</strong> Com uma Ação Bônus, você detecta Celestiais, Fiéis ou Mortos-Vivos a até 18 metros. Usos iguais ao Modificador de Carisma.</p>
+        </div>
+
+        <div class="bloco-paladino">
+          <h4>Nível 2: Estilo de Combate, Smites & Maestria</h4>
+          <p><strong>Estilo de Combate:</strong> Ganha um talento de estilo. Em 2024, pode escolher "Guerreiro Abençoado" para ganhar dois truques de Clérigo.</p>
+          <p><strong>Castigos Palacianos:</strong> O *Castigo Divino (Divine Smite)* agora é uma magia de 1º círculo. Você a conjura com uma **Ação Bônus** imediatamente após acertar um golpe. Causa 2d8 radiante + 1d8 por círculo extra.</p>
+          <p><strong>Maestria em Armas:</strong> Você desbloqueia as propriedades táticas de dois tipos de armas.</p>
+        </div>
+
+        <div class="bloco-paladino">
+          <h4>Nível 3: Juramento Sagrado & Canalizar Divindade</h4>
+          <p>Você escolhe sua subclasse (Juramento). Começa com 1 uso de *Canalizar Divindade* por descanso curto ou longo para ativar efeitos de subclasse ou Abjurar Inimigos.</p>
+        </div>
+
+        <div class="bloco-paladino">
+          <h4>Níveis 4, 8, 12, 16 e 19: Talento de Atributo (Feat)</h4>
+          <p><strong>Aperfeiçoamento Físico e Mental:</strong> Ao atingir estes níveis, você pode aumentar um atributo em +2, dois atributos em +1, ou escolher um **Talento Geral (Feat)** para o qual cumpra os pré-requisitos. No nível 4, paladinos costumam focar em aumentar sua Força para precisão ou Carisma para fortalecer suas futuras Auras.</p>
+        </div>
+
+        <div class="bloco-paladino">
+          <h4>Nível 5: Ataque Extra & Montaria Fiel</h4>
+          <p>Você ataca duas vezes por ação. Além disso, tem a magia *Encontrar Montaria* sempre preparada e pode conjurá-la uma vez por dia gratuitamente.</p>
+        </div>
+
+        <div class="bloco-paladino">
+          <h4>Nível 6: Aura de Proteção</h4>
+          <p>Aliados a até 3 metros recebem um bônus em todos os testes de resistência igual ao seu **Modificador de Carisma**.</p>
+        </div>
+
+        <div class="bloco-paladino">
+          <h4>Nível 9: Abjurar Inimigos</h4>
+          <p>Como uma ação, força inimigos a até 9 metros a passarem em salvaguarda de Sabedoria ou ficarem **Amedrontados** com deslocamento 0.</p>
+        </div>
+
+        <div class="bloco-paladino">
+          <h4>Nível 11: Castigo Radiante Passivo</h4>
+          <p>Todos os seus ataques corpo a corpo causam **1d8 de dano radiante extra** permanentemente, sem gasto de recursos.</p>
+        </div>
+
+        <div class="bloco-paladino">
+          <h4>Nível 14: Toque Purificador</h4>
+          <p>Como uma **Ação Bônus**, encerra uma magia ou as condições Enfeitiçado, Amedrontado ou Atordoado em si ou em um aliado. Usos iguais ao Mod. Carisma.</p>
+        </div>
+
+        <div class="bloco-paladino">
+          <h4>Nível 17: Expansão de Aura</h4>
+          <p>O raio de todas as suas auras (Proteção, Coragem e Subclasse) aumenta de 3 metros para **15 metros**.</p>
+        </div>
+
+        <div class="bloco-paladino">
+          <h4>Nível 20: Campeão Verdadeiro</h4>
+          <p>Você atinge o ápice do seu juramento, destravando a transformação final de sua subclasse.</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #f1c40f; font-size: 1.6rem; margin-bottom: 10px;">Juramentos Sagrados (Subclasses)</h3>
+        
+        <div class="bloco-subclasse-detalhada">
+          <h3>Juramento de Devoção (Devotion)</h3>
+          <p>O paladino clássico focado em justiça e proteção.</p>
+          <div class="sub-feature">
+            <h5>Recursos Principais</h5>
+            <p><strong>Lâmina Sagrada (Nível 3):</strong> Adiciona Carisma nos ataques por 1 minuto.</p>
+            <p><strong>Aura de Devoção (Nível 7):</strong> Imunidade a ser Enfeitiçado para o grupo.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>Juramento de Glória (Glory)</h3>
+          <p>Focado em feitos atléticos e heroísmo épico.</p>
+          <div class="sub-feature">
+            <h5>Recursos Principais</h5>
+            <p><strong>Atleta Incomparável (Nível 3):</strong> Vantagem em Atletismo/Acrobacia e dobro de salto.</p>
+            <p><strong>Aura de Alacridade (Nível 7):</strong> +3 metros de deslocamento para o grupo.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>Juramento dos Anciões (Ancients)</h3>
+          <p>O cavaleiro verde protetor da natureza e da luz.</p>
+          <div class="sub-feature">
+            <h5>Recursos Principais</h5>
+            <p><strong>Fúria da Natureza (Nível 3):</strong> Vinhas místicas que imobilizam inimigos.</p>
+            <p><strong>Aura de Guardião (Nível 7):</strong> Resistência a dano de magias para o grupo.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>Juramento de Vingança (Vengeance)</h3>
+          <p>O carrasco implacável de abominações.</p>
+          <div class="sub-feature">
+            <h5>Recursos Principais</h5>
+            <p><strong>Voto de Inimizade (Nível 3):</strong> Vantagem em todos os ataques contra um alvo.</p>
+            <p><strong>Vingador Implacável (Nível 7):</strong> Move-se após um ataque de oportunidade.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

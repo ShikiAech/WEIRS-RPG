@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Druida — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .bloco-druida {
+      background: rgba(46, 204, 113, 0.03);
+      border: 1px solid rgba(46, 204, 113, 0.15);
+      border-left: 4px solid #2ecc71;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-druida h4 {
+      font-family: 'Cinzel', serif;
+      color: #27ae60;
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+    .bloco-subclasse-detalhada {
+      background: rgba(25, 25, 27, 0.8);
+      border: 1px solid var(--border-fantasy);
+      padding: 25px;
+      margin-top: 35px;
+      border-radius: 4px;
+    }
+    .bloco-subclasse-detalhada h3 {
+      font-family: 'Cinzel', serif;
+      color: #2ecc71;
+      border-bottom: 1px solid rgba(46, 204, 113, 0.3);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+    }
+    .sub-feature {
+      background: rgba(46, 204, 113, 0.04);
+      border-left: 3px solid #2ecc71;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 0 4px 4px 0;
+    }
+    .sub-feature h5 {
+      font-family: 'Cinzel', serif;
+      color: #a9dfbf;
+      font-size: 1.05rem;
+      margin-bottom: 5px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+    .tabela-rpg {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: rgba(20, 20, 22, 0.6);
+      border: 1px solid var(--border-fantasy);
+      font-size: 0.85rem;
+    }
+    .tabela-rpg th, .tabela-rpg td {
+      border: 1px solid var(--border-fantasy);
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .tabela-rpg th {
+      background: rgba(23, 43, 33, 0.5);
+      color: #2ecc71;
+      font-family: 'Cinzel', serif;
+    }
+    .tabela-rpg tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .tabela-rpg td.esquerda {
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="classes.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Classes</a>
+    </div>
+
+    <h2>Druida (Druid)</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://imagenslucas.weebly.com/uploads/1/0/6/8/10689847/save-follow-donate-toss-a-coin-to-your-autor-boosty-to-abominationrs-donate-commissions-ask-in-dm-all-styles-master-creator-boosty-to-thank-you-pinterest-subscribe-dnd_orig.jpg" alt="Druida">
+        <div class="texto-lore">
+          <h3>A voz da própria terra</h3>
+          <p>Os druidas guardam os segredos primitivos do multiverso, extraindo seu poder não de deidades antropomórficas, mas da própria teia vital que conecta as florestas, os oceanos, os vulcões e o éter elemental. Eles são extensões da fúria da tempestade e da resiliência das antigas raízes, agindo como juízes e protetores do equilíbrio natural.</p>
+          <p>Através de sua comunhão mística, um druida pode dobrar os elementos à sua vontade ou moldar sua própria anatomia mortal na forma de feras predadoras e guardiões elementais. Seja através do disfarce sutil de uma criatura da noite ou invocando chamas estelares e vinhas esmagadoras, eles mostram que a civilização é apenas uma camada frágil sobre o verdadeiro poder do mundo.</p>
+          
+          <h4 style="color: #2ecc71; margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Dado de Vida:</strong> 1d8 por nível de Druida.</li>
+            <li><strong>Atributo Principal:</strong> Sabedoria (Conjuração e Habilidades da Natureza).</li>
+            <li><strong>Proficiências em Armaduras:</strong> Armaduras Leves, Armaduras Médias e Escudos (Druidas podem usar armaduras e escudos feitos de metal).</li>
+            <li><strong>Proficiências em Armas:</strong> Armas Simples.</li>
+            <li><strong>Ferramentas:</strong> Kit de Herbalismo.</li>
+            <li><strong>Testes de Resistência:</strong> Inteligência e Sabedoria.</li>
+            <li><strong>Perícias:</strong> Escolha duas entre Adestramento, Arcana, Percepção, Intuição, Medicina, Natureza, Religião e Sobrevivência.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px; overflow-x: auto;">
+        <h3 style="font-family: 'Cinzel', serif; color: #2ecc71; font-size: 1.6rem; margin-bottom: 15px;">Progressão de Classe</h3>
+        <table class="tabela-rpg">
+          <thead>
+            <tr>
+              <th>Nível</th>
+              <th>Prof.</th>
+              <th class="esquerda">Recursos de Classe</th>
+              <th>Truques</th>
+              <th>Magias Preparadas</th>
+              <th>1º</th>
+              <th>2º</th>
+              <th>3º</th>
+              <th>4º</th>
+              <th>5º</th>
+              <th>6º</th>
+              <th>7º</th>
+              <th>8º</th>
+              <th>9º</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1º</td><td>+2</td><td class="esquerda">Conjuração, Ordem Primal, Magia Inata (Magical Cunning)</td><td>2</td><td>4</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>2º</td><td>+2</td><td class="esquerda">Forma Selvagem, Companheiro Primal</td><td>2</td><td>5</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>3º</td><td>+2</td><td class="esquerda">Círculo Druídico (Subclasse)</td><td>2</td><td>6</td><td>4</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>4º</td><td>+2</td><td class="esquerda">Talento de Atributo (Feat), Forma Selvagem Aprimorada</td><td>3</td><td>7</td><td>4</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>5º</td><td>+3</td><td class="esquerda">Golpe Primal</td><td>3</td><td>8</td><td>4</td><td>3</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>6º</td><td>+3</td><td class="esquerda">Recurso de Círculo Druídico</td><td>3</td><td>9</td><td>4</td><td>3</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>7º</td><td>+3</td><td class="esquerda">Sinal da Natureza</td><td>3</td><td>10</td><td>4</td><td>3</td><td>3</td><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>8º</td><td>+3</td><td class="esquerda">Talento de Atributo (Feat), Golpe Primal Aprimorado</td><td>3</td><td>11</td><td>4</td><td>3</td><td>3</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>9º</td><td>+4</td><td class="esquerda">Percepção Primal</td><td>3</td><td>12</td><td>4</td><td>3</td><td>3</td><td>3</td><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>10º</td><td>+4</td><td class="esquerda">Recurso de Círculo Druídico</td><td>4</td><td>12</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>11º</td><td>+4</td><td class="esquerda">Comunhão da Terra</td><td>4</td><td>13</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>12º</td><td>+4</td><td class="esquerda">Talento de Atributo (Feat)</td><td>4</td><td>13</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>13º</td><td>+5</td><td class="esquerda">Resiliência da Natureza</td><td>4</td><td>14</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>—</td><td>—</td></tr>
+            <tr><td>14º</td><td>+5</td><td class="esquerda">Recurso de Círculo Druídico</td><td>4</td><td>14</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>—</td><td>—</td></tr>
+            <tr><td>15º</td><td>+5</td><td class="esquerda">Passo Transplanar</td><td>4</td><td>15</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>—</td></tr>
+            <tr><td>16º</td><td>+5</td><td class="esquerda">Talento de Atributo (Feat)</td><td>4</td><td>15</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>—</td></tr>
+            <tr><td>17º</td><td>+6</td><td class="esquerda">Forma Arquidruida</td><td>4</td><td>16</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+            <tr><td>18º</td><td>+6</td><td class="esquerda">Magias da Forma Selvagem</td><td>4</td><td>16</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+            <tr><td>19º</td><td>+6</td><td class="esquerda">Talento de Atributo / Dádiva Épica</td><td>4</td><td>17</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td></tr>
+            <tr><td>20º</td><td>+6</td><td class="esquerda">Arquidruida Eterno</td><td>4</td><td>17</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>2</td><td>2</td><td>1</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #2ecc71; font-size: 1.6rem; margin-bottom: 20px;">Recursos de Classe Detalhados</h3>
+
+        <div class="bloco-druida">
+          <h4>Nível 1: Conjuração, Ordem Primal & Magia Inata</h4>
+          <p><strong>Conjuração:</strong> Você canaliza o fluxo vital do cosmos. Você prepara uma quantidade específica de magias diariamente da lista de Druida conforme a tabela, usando Sabedoria como seu atributo de conjuração. Você conhece o idioma secreto dos druidas (*Druídico*) automaticamente.</p>
+          <p><strong>Ordem Primal (Primal Order):</strong> Você escolhe sua inclinação inicial dentro das tradições sagradas:</p>
+          <ul class="trait-list" style="margin-top: 10px;">
+            <li><strong>Guardião (Warden):</strong> Você recebe proficiência com Armaduras Pesadas e Armas Marciais, adaptando-se à linha de frente protetora.</li>
+            <li><strong>Magista (Magician):</strong> Você aprende um truque extra da lista de druida e adiciona seu modificador de Sabedoria em seus testes da perícia Natureza ou Arcana.</li>
+          </ul>
+          <p><strong>Magia Inata (Magical Cunning):</strong> Uma vez por Descanso Longo, você pode realizar um ritual de 1 minuto em contato com a natureza ou elementos para recuperar espaços de magia gastos cujo círculo somado seja igual a metade do seu nível de druida (arredondado para cima).</p>
+        </div>
+
+        <div class="bloco-druida">
+          <h4>Nível 2: Forma Selvagem & Companheiro Primal</h4>
+          <p><strong>Forma Selvagem (Wild Shape):</strong> Como uma Ação Bônus, você transmuta sua anatomia física no bloco de estatísticas de uma Fera que você já tenha visto. Você pode usar este recurso duas vezes por Descanso Curto ou Longo. Enquanto transformado, você assume os pontos de vida temporários da fera, mantendo seus valores de Inteligência, Sabedoria e Carisma. O ND máximo inicial da fera é 1/4 e não pode possuir deslocamento de voo ou natação.</p>
+          <p><strong>Companheiro Primal (Wild Companion):</strong> Você pode gastar um uso de sua Forma Selvagem para conjurar a magia *Encontrar Familiar* instantaneamente sem componentes materiais. O familiar manifestado é um espírito feérico e desaparece quando você realiza um Descanso Longo.</p>
+        </div>
+
+        <div class="bloco-druida">
+          <h4>Nível 3: Círculo Druídico (Subclasse)</h4>
+          <p><strong>Círculo Druídico:</strong> Você se integra formalmente a uma das grandes assembleias místicas da natureza, escolhendo entre o **Círculo da Terra**, **Círculo da Lua**, **Círculo do Mar** ou **Círculo das Estrelas**. Essa escolha concede habilidades únicas imediatas e novas características nos níveis 6, 10 e 14.</p>
+        </div>
+
+        <div class="bloco-druida">
+          <h4>Níveis 4, 8, 12, 16 e 19: Talento de Atributo (Feat)</h4>
+          <p>Aumente um atributo em +2, dois em +1, ou selecione um Talento Geral de acordo com os pré-requisitos estabelecidos.</p>
+        </div>
+
+        <div class="bloco-druida">
+          <h4>Nível 4: Forma Selvagem Aprimorada</h4>
+          <p>Sua capacidade de transmutação se expande. O ND máximo das feras da sua *Forma Selvagem* aumenta para **ND 1/2** e você passa a poder assumir formas com deslocamento de natação.</p>
+        </div>
+
+        <div class="bloco-druida">
+          <h4>Nível 5: Golpe Primal</h4>
+          <p><strong>Golpe Primal (Primal Strike):</strong> Uma vez por turno, ao atingir uma criatura com um ataque de arma ou ataque de fera na Forma Selvagem, você pode imbuir o golpe com energia elemental. O ataque causa **1d6** de dano extra, escolhendo entre dano Flamejante, Frio, Elétrico ou Ácido.</p>
+        </div>
+
+        <div class="bloco-druida">
+          <h4>Nível 7: Sinal da Natureza</h4>
+          <p><strong>Sinal da Natureza:</strong> O ambiente responde ao seu comando. Quando você ou uma criatura a até 9 metros falhar em uma salvaguarda contra efeitos de terreno, plantas ou condições ambientais, você pode gastar sua Reação para garantir vantagem ou adicionar **1d4** ao resultado da salvaguarda.</p>
+        </div>
+
+        <div class="bloco-druida">
+          <h4>Nível 8: Golpe Primal Aprimorado & Forma Voadora</h4>
+          <p><strong>Golpe Expandido:</strong> O dano extra do seu *Golpe Primal* aumenta para **2d6**. Além disso, sua *Forma Selvagem* atinge a maturidade biológica: o ND máximo de fera aumenta para **ND 1** e você pode assumir formas com deslocamento de voo.</p>
+        </div>
+
+        <div class="bloco-druida">
+          <h4>Nível 9: Percepção Primal</h4>
+          <p><strong>Percepção Primal:</strong> Os espíritos selvagens alertam seus sentidos. Você ganha visão no escuro a até 18 metros. Se já possuir visão no escuro, o alcance aumenta em 9 metros. Além disso, você não pode ser surpreendido enquanto estiver consciente.</p>
+        </div>
+
+        <div class="bloco-druida">
+          <h4>Nível 11: Comunhão da Terra</h4>
+          <p><strong>Comunhão da Terra:</strong> Você estabelece uma linha direta com a senciência do planeta. Você pode conjurar a magia *Comunhão com a Natureza* como um ritual a qualquer momento, sem o gasto de componentes materiais.</p>
+        </div>
+
+        <div class="bloco-druida">
+          <h4>Nível 13: Resiliência da Natureza</h4>
+          <p><strong>Resiliência da Natureza:</strong> As energias vitais rechaçam substâncias nocivas. Você ganha imunidade total a dano de Veneno e à condição Envenenado.</p>
+        </div>
+
+        <div class="bloco-druida">
+          <h4>Nível 15: Passo Transplanar</h4>
+          <p><strong>Passo Transplanar:</strong> Você desliza pelas fendas elementais. Como uma Ação Bônus, você pode se teletransportar a até 18 metros para um espaço desocupado que consiga ver, deixando uma lufada de vento ou pétalas que concede camuflagem para aliados adjacentes até o fim do turno.</p>
+        </div>
+
+        <div class="bloco-druida">
+          <h4>Nível 17: Forma Arquidruida</h4>
+          <p><strong>Forma Arquidruida:</strong> Seu controle anatômico ultrapassa o reino das feras. Você pode gastar dois usos de sua Forma Selvagem simultaneamente para se transformar em um **Elemental** (Água, Ar, Fogo ou Terra).</p>
+        </div>
+
+        <div class="bloco-druida">
+          <h4>Nível 18: Magias da Forma Selvagem</h4>
+          <p><strong>Magias da Forma Selvagem:</strong> Você decifra os componentes somáticos e verbais em qualquer anatomia. Você passa a poder conjurar a maior parte de suas magias preparadas de druida mesmo enquanto estiver transformado sob o efeito da sua *Forma Selvagem*.</p>
+        </div>
+
+        <div class="bloco-druida">
+          <h4>Nível 20: Arquidruida Eterno</h4>
+          <p><strong>Arquidruida Eterno:</strong> Você se torna uma lenda viva do equilíbrio cósmico. Sempre que você rolar iniciativa e não possuir nenhum uso restante de sua *Forma Selvagem*, você recupera um uso automaticamente. Além disso, o processo de envelhecimento do seu corpo desacelera drasticamente: para cada 10 anos que passam, seu corpo envelhece apenas 1 ano físico.</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #2ecc71; font-size: 1.6rem; margin-bottom: 10px;">Círculos Druídicos (Subclasses)</h3>
+        
+        <div class="bloco-subclasse-detalhada">
+          <h3>Círculo da Terra (Circle of the Land)</h3>
+          <p>Mestres da sintonização geográfica profunda. Ligados intimamente a biomas específicos, canalizam magias geológicas e manipulam o próprio terreno de combate.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Sintonização de Bioma & Magias de Círculo</h5>
+            <p>Ao finalizar um Descanso Longo, você escolhe um bioma de sintonização (Aridez, Polar, Subterrâneo ou Tropical). Você ganha magias preparadas fixas baseadas no bioma atual, como *Crescer Espinhos* ou *Passo Nebuloso*.</p>
+            <p><strong>Recuperação Terrestre:</strong> Quando você utiliza seu recurso *Magia Inata*, você recupera um espaço de magia adicional de 1º círculo.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Passo da Terra</h5>
+            <p>Terrenos difíceis não mágicos não reduzem seu deslocamento. Além disso, você recebe vantagem em salvaguardas contra plantas ou terrenos alterados por magias para imobilizar ou reduzir velocidade.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Sentinela Protetora</h5>
+            <p>Você ganha resistência ao tipo de dano atrelado ao seu bioma sintonizado atual (como Fogo para Aridez ou Frio para Polar) e não pode ser amedrontado ou encantado por elementais ou fadas.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Santuário Natural</h5>
+            <p>Criaturas do tipo Fera ou Planta devem realizar uma salvaguarda de Sabedoria antes de desferirem um ataque contra você. Se falharem, o ataque falha automaticamente ou deve ser redirecionado para outro alvo.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>Círculo da Lua (Circle of the Moon)</h3>
+          <p>Guerreiros de transmutação pura. Focam totalmente no combate físico na Forma Selvagem, assumindo transformações de ND massivo e imbuídas de resiliência lunar.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Forma de Combate & Armadura Lunar</h5>
+            <p><strong>Forma de Combate:</strong> Você ignora os limites normais de ND da tabela. Você pode se transformar em feras de **ND 1** logo no nível 3. Seu limite de ND se torna seu nível dividido por 3 (ND 2 no nível 6, ND 3 no nível 9, etc.). Você pode ativar a Forma Selvagem como uma Reação ao sofrer dano.</p>
+            <p><strong>Armadura Lunar:</strong> Enquanto estiver na Forma Selvagem, você pode adicionar seu modificador de Sabedoria à sua Classe de Armadura (CA).</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Golpes Lunares</h5>
+            <p>Os ataques desferidos por você em sua Forma Selvagem passam a contar como ataques mágicos para fins de superar resistências e imunidades a danos físicos ordinários.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Transmutação Ágil</h5>
+            <p>Enquanto estiver sob o efeito da Forma Selvagem, você pode gastar uma Ação Bônus e um espaço de magia para restaurar **1d8** de pontos de vida por círculo da magia gasta para o seu bloco de transformação.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Pureza de Prata</h5>
+            <p>Sua essência lunar repele alterações forçadas. Você se torna completamente imune a efeitos de metamorfose forçada e seus ataques na Forma Selvagem causam **1d10** de dano radiante extra a metamorfos e mortos-vivos.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>Círculo do Mar (Circle of the Sea)</h3>
+          <p>Sintonizados com as profundezas oceânicas e a fúria das tempestades litorâneas. Convocam ondas esmagadoras, raios e névoas densas.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Brisa das Marés & Magias Marítimas</h5>
+            <p><strong>Magias Preparadas:</strong> *Onda de Choque*, *Névoa Obscurecedora*, *Rajada de Vento*, *Esfera Vitriólica*.</p>
+            <p><strong>Brisa das Marés:</strong> Como uma Ação Bônus, você pode emanar uma aura mística de spray marítimo por 10 minutos. Uma vez por turno, enquanto a aura estiver ativa, quando você atingir uma criatura, pode forçá-la a passar em uma salvaguarda de Força ou ser empurrada 3 metros e sofrer **1d6** de dano de frio extra.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Esquiva Aquática</h5>
+            <p>Sua anatomia se torna parcialmente fluida. Você ganha deslocamento de natação igual ao seu deslocamento terrestre e pode passar por espaços estreitos de até 10 centímetros sem reduzir sua velocidade.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Fúria da Tormenta</h5>
+            <p>O dano extra de sua *Brisa das Marés* aumenta para **2d6** e passa a poder ser do tipo Frio ou Elétrico. Inimigos que iniciarem o turno adjacentes a você na aura possuem seu deslocamento reduzido em 3 metros.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Unidade dos Oceanos</h5>
+            <p>Enquanto sua aura marítima estiver ativa, você adquire resistência a danos de Fogo, Frio e Elétrico, e ganha a capacidade de flutuar e voar pairando a até 3 metros acima de qualquer superfície líquida.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>Círculo das Estrelas (Circle of the Stars)</h3>
+          <p>Astrólogos e navegadores do cosmos. Aproveitam o brilho constelar para projetar magias radiantes, guiar destinos e assumir formas de luz estelar pura.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Mapa Estelar & Forma Constelar</h5>
+            <p><strong>Mapa Estelar:</strong> Você possui um foco arqueológico do cosmos. Você conhece o truque *Orientação* e pode conjurar a magia *Raio Guia* sem gastar espaços de magia um número de vezes igual ao seu bônus de proficiência.</p>
+            <p><strong>Forma Constelar:</strong> Ao ativar sua Forma Selvagem, você pode escolher se transformar em uma silhueta luminosa de constelação, escolhendo um padrão:</p>
+            <ul class="trait-list" style="margin-top: 5px;">
+              <li>*Arqueiro:* Permite desferir um ataque de luz com Ação Bônus causando 1d8 + Sabedoria de dano radiante.</li>
+              <li>*Caldeirão:* Sempre que curar um aliado, o alvo recupera 1d8 + Sabedoria extras.</li>
+              <li>*Dragão:* Garante vantagem em testes de Inteligência, Sabedoria e salvaguardas para manter Concentração.</li>
+            </ul>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Presságio Cósmico</h5>
+            <p>Sempre que finalizar um Descanso Longo, role um dado. Se for par (*Weal*), você pode usar sua reação para adicionar 1d6 ao teste de um aliado. Se for ímpar (*Woe*), pode usar sua reação para subtrair 1d6 do teste de um inimigo.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Constelações Cintilantes</h5>
+            <p>O dano e a cura de sua *Forma Constelar* aumentam para **2d8**. Além disso, no início de cada um de seus turnos enquanto estiver transformado, você pode alternar livremente o padrão da sua constelação ativa (ex: mudar de Arqueiro para Dragão).</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Corpo Pleno de Estrelas</h5>
+            <p>Enquanto estiver sob o efeito de sua Forma Constelar, seu corpo se torna parcialmente incorpóreo. Você ganha resistência a danos físicos ordinários (Concussão, Cortante e Perfurante).</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

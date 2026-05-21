@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cranoris — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Estilos customizados para a brutalidade e estrutura óssea dos Cranoris */
+    .bloco-caos {
+      background: rgba(150, 150, 150, 0.05);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-left: 4px solid #a6acaf;
+      padding: 22px;
+      margin-top: 30px;
+      border-radius: 0 4px 4px 0;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    }
+    .bloco-caos h4 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-bright);
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+    .bloco-combate {
+      background: rgba(139, 0, 0, 0.08);
+      border: 1px solid rgba(231, 76, 60, 0.2);
+      border-left: 4px solid var(--blood-red);
+      padding: 22px;
+      margin-top: 25px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-combate h4 {
+      font-family: 'Cinzel', serif;
+      color: #ff4d4d;
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+    .badge-reacao {
+      display: inline-block;
+      background: rgba(192, 57, 43, 0.2);
+      color: #e74c3c;
+      padding: 3px 10px;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      border: 1px solid rgba(192, 57, 43, 0.4);
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="racas.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Raças</a>
+    </div>
+
+    <h2>Cranoris</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://weirs-rpg.weebly.com/uploads/1/0/6/8/10689847/baixados-22_orig.jpg" alt="Cranoris">
+        
+        <div class="texto-lore">
+          <h3>Os Filhos de Kápulus</h3>
+          <p>Criados a partir da costela de Kápulus — o deus rejeitado pelos humanos —, os cranoris nasceram em meio a uma terra completamente inóspita e violenta, onde tiveram que se adaptar brutalmente para sobreviver e onde a lei do mais forte sempre predominou.</p>
+          <p>Kápulus, assim como os outros deuses, sonhava em ser profundamente venerado. Porém, por sua aparência esquelética marcante e de ossos protuberantes, acabou assustando os primeiros povos humanos. Tomado pela rejeição, decidiu criar seus próprios servos à sua imagem e semelhança. Utilizando o poder bruto de moldar o caos, deu origem aos cranoris, enchendo-os com seus próprios valores de força, prazer e orgulho.</p>
+          
+          <h4 style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Traços de Cranoris</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Tipo de Criatura:</strong> Humanoide.</li>
+            <li><strong>Tamanho:</strong> Médio (cerca de 1,20 - 2,10 metros de altura).</li>
+            <li><strong>Deslocamento Terrestre:</strong> 9 metros (30ft).</li>
+            <li><strong>Idade:</strong> Cranoris atingem a maioridade com 18 anos e podem viver até os 100 anos.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Fisiologia do Caos</h3>
+        
+        <ul class="trait-list">
+          <li><strong>Carapaça Óssea:</strong> As protuberâncias esqueléticas em seu corpo rejeitam proteções artificiais. Você tem <strong>Desvantagem</strong> em testes e rolagens ao trajar qualquer tipo de armadura, independentemente dos benefícios ou proficiências de sua classe. Em contrapartida, enquanto estiver sem armadura, sua Classe de Armadura (CA) base é igual a <strong>13 + seu modificador de Constituição</strong>. Você ainda pode empunhar um escudo normalmente e somá-lo a este benefício.</li>
+        </ul>
+      </div>
+
+      <div class="bloco-caos">
+        <h4>Troféu Letal</h4>
+        <p>Você transformou as duras placas ósseas de um oponente cranori superado e estraçalhado em batalha em sua nova arma de assinatura. Escolha uma arma com a qual você possua proficiência. Você pode criá-la a partir dessa estrutura óssea macabra, imbuindo-a com os seguintes benefícios permanentes:</p>
+        <ul class="trait-list" style="margin-top: 12px; gap: 8px;">
+          <li>A arma confeccionada ganha um bônus de <strong>+1 nas rolagens de acerto</strong>.</li>
+          <li>Sua letalidade aumenta: você garante <strong>acertos críticos</strong> com rolagens de <strong>19 ou 20</strong> no dado ao atacar usando esta arma específica.</li>
+        </ul>
+      </div>
+
+      <div class="bloco-combate">
+        <h4>Celebração Sangrenta <span class="badge-reacao">Reação</span></h4>
+        <p>A morte de um inimigo digno alimenta o orgulho e o vigor da sua linhagem. Imediatamente após você reduzir uma criatura hostil de tamanho Médio ou Maior a 0 pontos de vida, você pode gastar sua <strong>Reação</strong> para soltar um grito triunfante e ensurdecedor.</p>
+        <p><strong>Efeito:</strong> Ao fazer isso, você canaliza a adrenalina do momento e ganha pontos de vida iguais a <strong>metade do seu nível de personagem</strong> (mínimo de 1, arredondado para cima) + seu <strong>modificador de Constituição</strong>.</p>
+        <p style="margin-top: 8px; font-size: 0.9rem; color: #ff8080; font-style: italic;">Você só pode utilizar este traço de reação uma única vez por descanso curto.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

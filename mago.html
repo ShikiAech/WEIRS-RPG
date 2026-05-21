@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mago — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .bloco-mago {
+      background: rgba(41, 128, 185, 0.03);
+      border: 1px solid rgba(41, 128, 185, 0.15);
+      border-left: 4px solid #2980b9;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-mago h4 {
+      font-family: 'Cinzel', serif;
+      color: #3498db;
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+    .bloco-subclasse-detalhada {
+      background: rgba(25, 25, 27, 0.8);
+      border: 1px solid var(--border-fantasy);
+      padding: 25px;
+      margin-top: 35px;
+      border-radius: 4px;
+    }
+    .bloco-subclasse-detalhada h3 {
+      font-family: 'Cinzel', serif;
+      color: #2980b9;
+      border-bottom: 1px solid rgba(41, 128, 185, 0.3);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+    }
+    .sub-feature {
+      background: rgba(41, 128, 185, 0.04);
+      border-left: 3px solid #2980b9;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 0 4px 4px 0;
+    }
+    .sub-feature h5 {
+      font-family: 'Cinzel', serif;
+      color: #5dade2;
+      font-size: 1.05rem;
+      margin-bottom: 5px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+    .tabela-rpg {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: rgba(20, 20, 22, 0.6);
+      border: 1px solid var(--border-fantasy);
+      font-size: 0.85rem;
+    }
+    .tabela-rpg th, .tabela-rpg td {
+      border: 1px solid var(--border-fantasy);
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .tabela-rpg th {
+      background: rgba(23, 36, 43, 0.5);
+      color: #2980b9;
+      font-family: 'Cinzel', serif;
+    }
+    .tabela-rpg tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .tabela-rpg td.esquerda {
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="classes.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Classes</a>
+    </div>
+
+    <h2>Mago (Wizard)</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://imagenslucas.weebly.com/uploads/1/0/6/8/10689847/ev-ganin-d-d-mage_orig.jpg" alt="Mago">
+        <div class="texto-lore">
+          <h3>O arquiteto da realidade arcana</h3>
+          <p>A magia não corre de forma selvagem no sangue de um mago, nem se manifesta através de preces a deuses distantes. Para eles, a magia é a ciência definitiva do multiverso. É uma tapeçaria complexa tecida com matemática cósmica, sílabas fonéticas perdidas no tempo e gestos geométricos exatos executados com precisão milimétrica. Um mago estuda grimórios ancestrais até que as leis físicas curvem-se diante de sua mente lógica.</p>
+          <p>Na atualização oficial de 2024, o Mago consolida seu papel como o mestre indiscutível da versatilidade e da preparação. Através do novo recurso <strong>Estudioso Arcano (Scholar)</strong> e de um controle aprimorado sobre as magias rituais, o mago pode alterar e expandir seus conhecimentos dinamicamente. Suas subclasses agora funcionam como erudições profundas, permitindo que eles moldem os campos de batalha e decifrem segredos com maestria intelectual incomparável.</p>
+          
+          <h4 style="color: #2980b9; margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Dado de Vida:</strong> 1d6 por nível de Mago.</li>
+            <li><strong>Atributo Principal:</strong> Inteligência (Conjuração, Investigação e Conhecimento Técnico).</li>
+            <li><strong>Proficiências em Armaduras:</strong> Nenhuma.</li>
+            <li><strong>Proficiências em Armas:</strong> Adagas, Dardos, Slings, Bordões (Quarterstaffs) e Bestas Leves.</li>
+            <li><strong>Ferramentas:</strong> Nenhuma.</li>
+            <li><strong>Testes de Resistência:</strong> Inteligência e Sabedoria.</li>
+            <li><strong>Perícias:</strong> Escolha duas entre Arcana, História, Investigação, Intuição, Medicina e Religião.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px; overflow-x: auto;">
+        <h3 style="font-family: 'Cinzel', serif; color: #2980b9; font-size: 1.6rem; margin-bottom: 15px;">Progressão de Classe</h3>
+        <table class="tabela-rpg">
+          <thead>
+            <tr>
+              <th>Nível</th>
+              <th>Prof.</th>
+              <th class="esquerda">Recursos de Classe</th>
+              <th>Truques Conhecidos</th>
+              <th>1º</th>
+              <th>2º</th>
+              <th>3º</th>
+              <th>4º</th>
+              <th>5º</th>
+              <th>6º</th>
+              <th>7º</th>
+              <th>8º</th>
+              <th>9º</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1º</td><td>+2</td><td class="esquerda">Conjuração, Grimório, Recuperação Arcana (Arcane Recovery)</td><td>3</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>2º</td><td>+2</td><td class="esquerda">Estudioso Arcano (Scholar)</td><td>3</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>3º</td><td>+2</td><td class="esquerda">Erudição Arcana / Subclasse</td><td>3</td><td>4</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>4º</td><td>+2</td><td class="esquerda">Talento de Atributo (Feat)</td><td>4</td><td>4</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>5º</td><td>+3</td><td class="esquerda">Sintonização de Grimório Aprimorada</td><td>4</td><td>4</td><td>3</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>6º</td><td>+3</td><td class="esquerda">Recurso de Subclasse</td><td>4</td><td>4</td><td>3</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>7º</td><td>+3</td><td class="esquerda">Análise Fluida</td><td>4</td><td>4</td><td>3</td><td>3</td><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>8º</td><td>+3</td><td class="esquerda">Talento de Atributo (Feat)</td><td>4</td><td>4</td><td>3</td><td>3</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>9º</td><td>+4</td><td class="esquerda">Especialista em Rituais</td><td>4</td><td>4</td><td>3</td><td>3</td><td>3</td><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>10º</td><td>+4</td><td class="esquerda">Recurso de Subclasse</td><td>5</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>11º</td><td>+4</td><td class="esquerda">Memória Algébrica</td><td>5</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>12º</td><td>+4</td><td class="esquerda">Talento de Atributo (Feat)</td><td>5</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>13º</td><td>+5</td><td class="esquerda">Mente Alerta Recíproca</td><td>5</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>—</td><td>—</td></tr>
+            <tr><td>14º</td><td>+5</td><td class="esquerda">Recurso de Subclasse</td><td>5</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>—</td><td>—</td></tr>
+            <tr><td>15º</td><td>+5</td><td class="esquerda">Lampejo Epifânico</td><td>5</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>—</td></tr>
+            <tr><td>16º</td><td>+5</td><td class="esquerda">Talento de Atributo (Feat)</td><td>5</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>—</td></tr>
+            <tr><td>17º</td><td>+6</td><td class="esquerda">Artesão de Feitiços (Spell Mastery)</td><td>5</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+            <tr><td>18º</td><td>+6</td><td class="esquerda">Mente Algébrica Superior</td><td>5</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+            <tr><td>19º</td><td>+6</td><td class="esquerda">Talento de Atributo / Dádiva Épica</td><td>5</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td></tr>
+            <tr><td>20º</td><td>+6</td><td class="esquerda">Assinatura de Feitiço (Signature Spells)</td><td>5</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>2</td><td>2</td><td>1</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #2980b9; font-size: 1.6rem; margin-bottom: 20px;">Recursos de Classe Detalhados</h3>
+
+        <div class="bloco-mago">
+          <h4>Nível 1: Conjuração, Grimório & Recuperação Arcana</h4>
+          <p><strong>Conjuração & Grimório:</strong> Você possui um livro de magias (Grimório) contendo seis magias de 1º círculo da lista de Mago. Você usa Inteligência como seu atributo de conjuração. Você prepara suas magias diariamente a partir do Grimório. *(Nota Fiel de 2024: Você pode conjurar any magia que possua a propriedade Ritual diretamente do seu grimório, mesmo que ela não esteja preparada naquele dia)*.</p>
+          <p><strong>Recuperação Arcana (Arcane Recovery):</strong> Uma vez por dia, ao finalizar um Descanso Curto, você pode recuperar uma parcela de seus espaços de magia gastos. O total de círculos recuperados pode ser igual a até metade do seu nível de mago (arredondado para cima), e nenhum espaço recuperado pode ser de 6º círculo ou superior.</p>
+        </div>
+
+        <div class="bloco-mago">
+          <h4>Nível 2: Estudioso Arcano</h4>
+          <p><strong>Estudioso Arcano (Scholar):</strong> Seu foco em pesquisa acadêmica profunda se consolida. Escolha uma das seguintes perícias de conhecimento nas quais você possua proficiência: *Arcana*, *História*, *Investigação*, *Natureza*, *Medicina* ou *Religião*. Você recebe **Especialização** nessa perícia, dobrando seu bônus de proficiência nos testes realizados com ela.</p>
+        </div>
+
+        <div class="bloco-mago">
+          <h4>Nível 3: Erudição Arcana (Subclasse)</h4>
+          <p><strong>Erudição Arcana:</strong> Você escolhe sua vertente de especialização acadêmica e científica mágica. As quatro escolas reformuladas disponíveis no livro base de 2024 são: **Escola de Abjuração**, **Escola de Divinhação**, **Escola de Evocação** e **Escola de Ilusão**. Sua subclasse confere recursos imediatos e evoluções robustas nos níveis 3, 6, 10 e 14.</p>
+        </div>
+
+        <div class="bloco-mago">
+          <h4>Níveis 4, 8, 12, 16 e 19: Talento de Atributo (Feat)</h4>
+          <p>Aumente um atributo de sua escolha em +2, dois atributos em +1, ou selecione um Talento Geral válido para personalizar a mecânica tática do seu personagem.</p>
+        </div>
+
+        <div class="bloco-mago">
+          <h4>Nível 5: Sintonização de Grimório Aprimorada</h4>
+          <p>Seu elo com o fluxo de suas anotações teóricas é absoluto. Sempre que você ganhar um nível nesta classe, você adiciona **duas magias de Mago** gratuitas de qualquer círculo que você consiga conjurar ao seu grimório. Além disso, o tempo e o custo em ouro necessários para transcrever magias encontradas em pergaminhos para o seu grimório são reduzidos pela metade para magias da escola associada à sua subclasse.</p>
+        </div>
+
+        <div class="bloco-mago">
+          <h4>Nível 7: Análise Fluida</h4>
+          <p><strong>Análise Fluida:</strong> Como uma Ação Bônus, você pode analisar as energias mágicas ativas ao redor. Você ganha os efeitos da magia *Detectar Magia* de forma instantânea até o final do seu turno atual, sem gastar espaços de magia ou componentes.</p>
+        </div>
+
+        <div class="bloco-mago">
+          <h4>Nível 9: Especialista em Rituais</h4>
+          <p>O tempo de conjuração adicional exigido para conjurar uma magia como um Ritual a partir do seu grimório é reduzido de 10 minutos adicionais para apenas **5 minutos** adicionais, acelerando a utilidade do seu arsenal fora de combate.</p>
+        </div>
+
+        <div class="bloco-mago">
+          <h4>Nível 11: Memória Algébrica</h4>
+          <p><strong>Memória Algébrica:</strong> Ao finalizar um Descanso Curto, você pode abrir seu grimório e trocar **uma** de suas magias atualmente preparadas por outra magia que esteja em seu grimório e que seja do mesmo círculo, garantindo versatilidade tática no meio do dia de aventuras.</p>
+        </div>
+
+        <div class="bloco-mago">
+          <h4>Nível 13: Mente Alerta Recíproca</h4>
+          <p>Sua agilidade mental permite reagir a gatilhos mágicos externos com perfeita precisão. Você adiciona seu modificador de Inteligência à sua rolagem de iniciativa, garantindo que suas salvaguardas e magias de controle de área ditem o ritmo do grid de batalha antes das ações dos inimigos.</p>
+        </div>
+
+        <div class="bloco-mago">
+          <h4>Nível 15: Lampejo Epifânico</h4>
+          <p>Quando você falhar em um teste de Inteligência (Arcana, História ou Investigação), você pode forçar um surto lógico. Você pode gastar um espaço de magia de 1º círculo para rolar novamente o d20 e somar o círculo da magia gasta ao novo resultado, tentando transformar a falha em um sucesso crítico acadêmico.</p>
+        </div>
+
+        <div class="bloco-mago">
+          <h4>Nível 17: Artesão de Feitiços</h4>
+          <p><strong>Artesão de Feitiços (Spell Mastery):</strong> Você atinge tamanha maestria sobre suas fórmulas básicas que elas operam de forma quase mecânica. Escolha uma magia de **1º círculo** e uma magia de **2º círculo** contidas no seu grimório. Você passa a tener essas magias sempre preparadas (sem contar no seu limite) e pode conjurá-las no seu círculo básico **sem gastar espaços de magia**.</p>
+        </div>
+
+        <div class="bloco-mago">
+          <h4>Nível 18: Mente Algébrica Superior</h4>
+          <p><strong>Mente Algébrica Superior:</strong> O seu recurso *Memória Algébrica* é aprimorado drasticamente. Agora, ao finalizar um Descanso Curto, você pode abrir seu grimório e reestudar suas anotações para **substituir até duas magias preparadas** por outras duas contidas no grimório (respeitando os círculos correspondentes), permitindo remodelar sua estratégia diária em minutos. Além disso, neste nível você desbloqueia seu **terceiro espaço de magia de 5º círculo**.</p>
+        </div>
+
+        <div class="bloco-mago">
+          <h4>Nível 20: Assinatura de Feitiço</h4>
+          <p><strong>Assinatura de Feitiço (Signature Spells):</strong> Você se torna mundialmente conhecido por duas fórmulas específicas. Escolha duas magias de **3º círculo** do seu grimório. Elas estão sempre preparadas, não contam no seu limite diário, e você pode conjurar cada uma delas uma vez no 3º círculo **sem gastar espaços de magia** por Descanso Curto ou Longo.</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #2980b9; font-size: 1.6rem; margin-bottom: 10px;">Escolas de Erudição Arcana (Subclasses)</h3>
+        
+        <div class="bloco-subclasse-detalhada">
+          <h3>Escola de Abjuração (Abjuration Wizard)</h3>
+          <p>Focada em erguer barreiras físicas e místicas, neutralizar feitiços hostis e blindar o grupo contra danos elementais ou planares.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Altar Abjurante (Arcane Ward)</h5>
+            <p>Sempre que você conjurar uma magia de abjuração de 1º círculo ou superior, você tece o excedente de éter em uma barreira protetora translúcida ao seu redor. O Altar possui pontos de vida iguais a **(2 x seu nível de mago) + seu modificador de Inteligência**. Sempre que você sofrer dano, a barreira sofre o dano no seu lugar. Se ela for reduzida a 0, você sofre o dano restante. Ela recupera vida sempre que você conjurar outra abjuração.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Altar Projetado</h5>
+            <p>Quando uma criatura que você consiga ver a até 9 metros sofrer dano, você pode usar sua **Reação** para fazer com que o seu *Altar Abjurante* intercepte o golpe, absorvendo o dano no lugar daquela criatura aliada.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Abjuração Contragolpeante</h5>
+            <p>Quando você conjurar as magias *Contramagia (Counterspell)* ou *Dissipar Magia (Dispel Magic)*, você passa a adicionar seu **Bônus de Proficiência** no teste de atributo exigido para anular o feitiço inimigo automaticamente.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Resistência Mágica</h5>
+            <p>Seu corpo e mente ficam saturados de defesas arcanas geométricas. Você ganha **Vantagem** em todos os testes de resistência contra magias e efeitos mágicos. Além disso, você passa a ter resistência contra o dano causado por magias.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>Escola de Divinhação (Divination Wizard)</h3>
+          <p>Mestres do tempo e da probabilidade espacial. Rasgam o véu do presente para prever o destino e manipular os dados de aliados e inimigos.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Portento (Portent)</h5>
+            <p>Ao finalizar um Descanso Longo, você vislumbra flashes do futuro. Role **dois dados d20** e anote os resultados. Você pode substituir qualquer jogada de ataque, teste de atributo ou salvaguarda realizada por você ou por uma criatura visível por um dos seus dados de Portento. Você deve escolher fazer isso antes da rolagem real acontecer. Os dados expiram ao fim do Descanso Longo.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Divinhação Especialista (Divination Expert)</h5>
+            <p>Conjurar feitiços de adivinhação consome muito menos da sua energia mental. Sempre que você conjurar uma magia de divinhação de 2º círculo ou superior gastando um espaço de magia, você **recupera um espaço de magia gasto** de um círculo inferior ao da magia conjurada.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Portento Aprimorado</h5>
+            <p>Sua visão do amanhã expande de nitidez mecânica. A quantidade de dados d20 que você rola ao fim de cada Descanso Longo para o seu recurso *Portento* aumenta de dois dados para **três dados d20**.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Olhar do Terceiro Olho</h5>
+            <p>Você pode usar uma ação para abrir sua percepção psíquica. Escolha um dos seguintes benefícios, que dura até você ficar incapacitado ou finalizar um Descanso Longo: *Visão no Escuro (18m)*, *Ver o Invisível (a até 9m)* ou a habilidade de ler qualquer idioma escrito.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>Escola de Evocação (Evocation Wizard)</h3>
+          <p>Especialistas no canal direcionado de energia destrutiva pura, criando explosões elementais devastadoras e controlando áreas com precisão cirúrgica.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Esculpir Feitiços (Sculpt Spells)</h5>
+            <p>Você cria bolsões de segurança relativa dentro de suas explosões. Quando você conjurar uma magia de evocação que afete uma área, você pode escolher uma quantidade de criaturas na área igual a **1 + o círculo da magia**. As criaturas selecionadas passam automaticamente em seus testes de resistência contra a magia e não sofrem nenhum dano se normalmente sofreriam metade do dano em caso de sucesso.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Truque Potencializado (Potent Cantrip)</h5>
+            <p>Seus truques ofensivos não perdem o impacto mecânico. Quando uma criatura passar na salvaguarda contra um de seus truques, ela ainda assim sofre **metade do dano** total do truque, e os efeitos de controle ou movimento colaterais são ignorados.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Evocação Potencializada</h5>
+            <p>Você passa a injetar sua lógica intelectual na força da explosão. Você adiciona seu **Modificador de Inteligência** na rolagem de dano de qualquer magia de evocação de Mago que você conjurar.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Sobrecarga de Energia (Overchannel)</h5>
+            <p>Você pode forçar o limite dos seus feitiços de círculos inferiores. Quando conjurar uma magia de Mago de 1º a 5º círculo que cause dano, você pode optar por causar o **dano máximo possível** daquela magia. A primeira vez é segura; se usar novamente antes de um Descanso Longo, você sofre **2d12 de dano de força** por círculo da magia sobrecarregada imediatamente após a conjuração.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>Escola de Ilusão (Illusion Wizard)</h3>
+          <p>Mestres em enganar os sentidos orgânicos do grid. Dobram a luz, o som e as percepções mentais, chegando a transformar mentiras visuais em realidade física tangível.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Ilusão Menor Aprimorada & Visão Nítida</h5>
+            <p><strong>Ilusão Aprimorada:</strong> Você aprende o truque *Ilusão Menor (Minor Illusion)*. Se já o conhecer, escolhe outro. Você pode conjurar este truque como uma **Ação Bônus**, e ele passa a poder manifestar som e imagem simultaneamente em uma única conjuração.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Ilusões Maleáveis (Malleable Illusions)</h5>
+            <p>Quando você conjurar uma magia de ilusão que possua uma duração de 1 minuto ou superior, você pode usar uma ação no seu turno para alterar a natureza ou o aspecto visual daquela ilusão dinamicamente, sem precisar conjurar um novo feitiço.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Duplicata Ilusória (Illusory Self)</h5>
+            <p>Como uma **Reação**, quando uma criatura realizar uma jogada de ataque contra você, você pode intercalar uma cópia ilusória perfeita no seu espaço geométrico. O ataque inimigo **erra você automaticamente**, atingindo o duplo, que desaparece em seguida. Você recupera o uso deste recurso após finalizar um Descanso Curto ou Longo.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Ilusões Reais (Illusory Reality)</h5>
+            <p>Você aprende a solidificar o Éter. Quando você conjurar uma magia de ilusão de 1º círculo ou superior, você pode escolher um objeto inanimado e não mágico que faça parte da ilusão e torná-lo **fisicamente real**. O objeto permanece real por 1 minuto e não pode causar dano direto a nenhuma criatura.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

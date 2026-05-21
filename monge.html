@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monge — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .bloco-monge {
+      background: rgba(230, 126, 34, 0.03);
+      border: 1px solid rgba(230, 126, 34, 0.15);
+      border-left: 4px solid #e67e22;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-monge h4 {
+      font-family: 'Cinzel', serif;
+      color: #d35400;
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+    .bloco-subclasse-detalhada {
+      background: rgba(25, 25, 27, 0.8);
+      border: 1px solid var(--border-fantasy);
+      padding: 25px;
+      margin-top: 35px;
+      border-radius: 4px;
+    }
+    .bloco-subclasse-detalhada h3 {
+      font-family: 'Cinzel', serif;
+      color: #e67e22;
+      border-bottom: 1px solid rgba(230, 126, 34, 0.3);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+    }
+    .sub-feature {
+      background: rgba(230, 126, 34, 0.04);
+      border-left: 3px solid #e67e22;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 0 4px 4px 0;
+    }
+    .sub-feature h5 {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      font-size: 1.05rem;
+      margin-bottom: 5px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+    .tabela-rpg {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: rgba(20, 20, 22, 0.6);
+      border: 1px solid var(--border-fantasy);
+      font-size: 0.85rem;
+    }
+    .tabela-rpg th, .tabela-rpg td {
+      border: 1px solid var(--border-fantasy);
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .tabela-rpg th {
+      background: rgba(43, 33, 23, 0.5);
+      color: #e67e22;
+      font-family: 'Cinzel', serif;
+    }
+    .tabela-rpg tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .tabela-rpg td.esquerda {
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="classes.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Classes</a>
+    </div>
+
+    <h2>Monge (Monk)</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://imagenslucas.weebly.com/uploads/1/0/6/8/10689847/top-pin-feb-2026-1_orig.jpg" alt="Monge">
+        <div class="texto-lore">
+          <h3>O mestre da energia interior</h3>
+          <p>Enquanto guerreiros dependem do aço de suas espadas e magos decifram equações místicas complexas, os monges olham para dentro. Através de um rigoroso treinamento físico e meditação espiritual constante, eles aprendem a canalizar o <strong>Foco de Energia (anteriormente Chi)</strong>, a energia vital que flui através de todos os seres vivos. Seus próprios corpos tornam-se armas mais letais que lâminas forjadas, e seus reflexos transcendem os limites biológicos humanos.</p>
+          <p>No novo padrão oficial do <strong>D&D 5e (2024)</strong>, o Monge recebeu uma das reformulações mais aclamadas do sistema. Suas habilidades icônicas agora exigem menos sacrifício de recursos: a Defesa sem Armadura aceita melhor a customização, seus ataques desarmados escalam mais rápido e a nova mecânica de <strong>Defletir Ataques (Deflect Attacks)</strong> agora funciona contra golpes corpo a corpo, e não apenas projéteis. O monge de 2024 é um combatente ágil indomável, capaz de correr pelas paredes e punir inimigos com uma rajada avassaladora de socos.</p>
+          
+          <h4 style="color: #e67e22; margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Dado de Vida:</strong> 1d8 por nível de Monge.</li>
+            <li><strong>Atributo Principal:</strong> Destreza e Sabedoria (Ataques, CA e CD das habilidades de Foco).</li>
+            <li><strong>Proficiências em Armaduras:</strong> Nenhuma.</li>
+            <li><strong>Proficiências em Armas:</strong> Armas Simples e Armas Marciais que possuam a propriedade <i>Leve</i>.</li>
+            <li><strong>Ferramentas:</strong> Escolha um tipo de ferramenta de artesão ou um instrumento musical.</li>
+            <li><strong>Testes de Resistência:</strong> Força e Destreza.</li>
+            <li><strong>Perícias:</strong> Escolha duas entre Acrobacia, Atletismo, Furtividade, História, Intuição, Religião e Percepção.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px; overflow-x: auto;">
+        <h3 style="font-family: 'Cinzel', serif; color: #e67e22; font-size: 1.6rem; margin-bottom: 15px;">Progressão de Classe</h3>
+        <table class="tabela-rpg">
+          <thead>
+            <tr>
+              <th>Nível</th>
+              <th>Prof.</th>
+              <th class="esquerda">Recursos de Classe</th>
+              <th>Dano Desarmado</th>
+              <th>Pontos de Foco</th>
+              <th>Movimento Extra</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1º</td><td>+2</td><td class="esquerda">Defesa sem Armadura, Artes Marciais, Maestria em Armas (2 armas)</td><td>1d6</td><td>—</td><td>—</td></tr>
+            <tr><td>2º</td><td>+2</td><td class="esquerda">Foco de Energia (Energy Font), Movimento Desarmado, Defletir Ataques</td><td>1d6</td><td>2</td><td>+3 m</td></tr>
+            <tr><td>3º</td><td>+2</td><td class="esquerda">Ordem Monástica (Subclasse)</td><td>1d6</td><td>3</td><td>+3 m</td></tr>
+            <tr><td>4º</td><td>+2</td><td class="esquerda">Talento de Atributo (Feat), Queda Lenta (Slow Fall)</td><td>1d6</td><td>4</td><td>+3 m</td></tr>
+            <tr><td>5º</td><td>+3</td><td class="esquerda">Ataque Extra, Ataque Atordoante (Stunning Strike)</td><td>1d8</td><td>5</td><td>+3 m</td></tr>
+            <tr><td>6º</td><td>+3</td><td class="esquerda">Recurso de Subclasse, Ataques Empoderados por Foco</td><td>1d8</td><td>6</td><td>+4,5 m</td></tr>
+            <tr><td>7º</td><td>+3</td><td class="esquerda">Evasão, Mente Serena (Stillness of Mind reformulada)</td><td>1d8</td><td>7</td><td>+4,5 m</td></tr>
+            <tr><td>8º</td><td>+3</td><td class="esquerda">Talento de Atributo (Feat)</td><td>1d8</td><td>8</td><td>+4,5 m</td></tr>
+            <tr><td>9º</td><td>+4</td><td class="esquerda">Passo Acrobático (Acrobatic Movement)</td><td>1d8</td><td>9</td><td>+4,5 m</td></tr>
+            <tr><td>10º</td><td>+4</td><td class="esquerda">Recurso de Subclasse, Autossuficiência Elevada (Heightened Metabolism)</td><td>1d8</td><td>10</td><td>+6 m</td></tr>
+            <tr><td>11º</td><td>+4</td><td class="esquerda">Defletir Ataques Aprimorado (Deflect Energy)</td><td>1d10</td><td>11</td><td>+6 m</td></tr>
+            <tr><td>12º</td><td>+4</td><td class="esquerda">Talento de Atributo (Feat)</td><td>1d10</td><td>12</td><td>+6 m</td></tr>
+            <tr><td>13º</td><td>+5</td><td class="esquerda">Alma Maleável (Defesa Inabalável)</td><td>1d10</td><td>13</td><td>+6 m</td></tr>
+            <tr><td>14º</td><td>+5</td><td class="esquerda">Recurso de Subclasse, Alma de Diamante (Resistência Perfeita)</td><td>1d10</td><td>14</td><td>+7,5 m</td></tr>
+            <tr><td>15º</td><td>+5</td><td class="esquerda">Corpo Atemporal (Timeless Body)</td><td>1d10</td><td>15</td><td>+7,5 m</td></tr>
+            <tr><td>16º</td><td>+5</td><td class="esquerda">Talento de Atributo (Feat)</td><td>1d10</td><td>16</td><td>+7,5 m</td></tr>
+            <tr><td>17º</td><td>+6</td><td class="esquerda">Recurso de Subclasse</td><td>1d12</td><td>17</td><td>+7,5 m</td></tr>
+            <tr><td>18º</td><td>+6</td><td class="esquerda">Corpo Vazio (Astral Self / Empty Body)</td><td>1d12</td><td>18</td><td>+9 m</td></tr>
+            <tr><td>19º</td><td>+6</td><td class="esquerda">Talento de Atributo / Dádiva Épica</td><td>1d12</td><td>19</td><td>+9 m</td></tr>
+            <tr><td>20º</td><td>+6</td><td class="esquerda">Corpo Perfeito (Austeridade Divina)</td><td>1d12</td><td>20</td><td>+9 m</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #e67e22; font-size: 1.6rem; margin-bottom: 20px;">Recursos de Classe Detalhados</h3>
+
+        <div class="bloco-monge">
+          <h4>Nível 1: Defesa sem Armadura, Artes Marciais & Maestria em Armas</h4>
+          <p><strong>Defesa sem Armadura (Unarmored Defense):</strong> Enquanto não estiver usando armadura e não empunhar um escudo, sua Classe de Armadura (CA) é igual a **10 + seu modificador de Destreza + seu modificador de Sabedoria**.</p>
+          <p><strong>Artes Marciais (Martial Arts):</strong> Você ganha os seguintes benefícios enquanto estiver desarmado ou empunhando apenas Armas de Monge (armas simples e marciais leves) e sem armadura:</p>
+          <ul class="trait-list" style="margin-top: 5px;">
+            <li>Você pode usar Destreza em vez de Força para as jogadas de ataque e dano dos seus ataques desarmados e armas de monge.</li>
+            <li>Você pode rolar um **d6** (escala na tabela) no lugar do dano normal de seus ataques desarmados ou armas de monge.</li>
+            <li>Quando você realiza a ação de Ataque no seu turno, você pode desferir **um ataque desarmado adicional como uma Ação Bônus**.</li>
+          </ul>
+          <p><strong>Maestria em Armas (Weapon Mastery):</strong> Você desbloqueia as propriedades de maestria tática de dois tipos de armas específicos que atendam aos critérios de armas de monge.</p>
+        </div>
+
+        <div class="bloco-monge">
+          <h4>Nível 2: Foco de Energia, Movimento Desarmado & Defletir Ataques</h4>
+          <p><strong>Foco de Energia (Energy Font):</strong> Você ganha acesso a uma reserva de <i>Pontos de Foco</i> para ativar manobras especiais. Você recupera todos os pontos gastos ao meditar por 10 minutos (não exige mais 1 hora inteira!). Você conhece três técnicas base:</p>
+          <ul class="trait-list" style="margin-top: 5px;">
+            <li><strong>Rajada de Golpes (Flurry of Blows):</strong> Imediatamente após realizar a ação de Ataque, você pode gastar 1 ponto de Foco para realizar **dois ataques desarmados** como uma Ação Bônus. *(Fidelidade 2024: Se você ficar sem pontos de Foco, ainda pode gastar sua Ação Bônus para realizar um ataque desarmado padrão gratuitamente)*.</li>
+            <li><strong>Defesa Paciente (Patient Defense):</strong> Você pode usar uma Ação Bônus para realizar a ação de <b>Esquivar (Dodge)</b>. Em 2024, você pode fazer isso **de graça** sem gastar pontos de Foco, ou pode gastar 1 ponto de Foco para Esquivar e também ganhar os benefícios da ação Desengajar simultaneamente.</li>
+            <li><strong>Passo do Vento (Step of the Wind):</strong> Você pode usar uma Ação Bônus para realizar a ação de <b>Disparada (Dash)</b> ou <b>Desengajar (Disengage)</b> gratuitamente. Se gastar 1 ponto de Foco, você ganha os benefícios de ambas as ações ao mesmo tempo, e sua distância de salto é dobrada pelo turno.</li>
+          </ul>
+          <p><strong>Movimento Desarmado (Unarmored Movement):</strong> Seu deslocamento aumenta de acordo com a tabela, desde que não use armadura ou escudo.</p>
+          <p><strong>Defletir Ataques (Deflect Attacks):</strong> A grande evolução do combate. Quando você for atingido por um ataque que cause dano Concussivo, Perfurante ou Cortante (seja ele **corpo a corpo ou à distância**), você pode usar sua Reação para reduzir o dano sofrido por **1d10 + seu modificador de Destreza + seu nível de monge**. Se você reduzir o dano a 0, você pode gastar 1 ponto de Foco para realizar um ataque de retaliação imediato contra um inimigo a até 18 metros.</p>
+        </div>
+
+        <div class="bloco-monge">
+          <h4>Nível 3: Ordem Monástica (Subclasse)</h4>
+          <p>Você escolhe sua tradição mística e marcial entre as quatro vias reformuladas do livro base de 2024: **Caminho da Mão Aberta**, **Caminho dos Quatro Elementos**, **Caminho das Sombras** ou **Caminho do Dragão Ascendente**. Concede recursos nos níveis 3, 6, 11 e 17.</p>
+        </div>
+
+        <div class="bloco-monge">
+          <h4>Nível 4: Talento de Atributo & Queda Lenta</h4>
+          <p><strong>Talento de Atributo (Feat):</strong> Aumente um atributo em +2, dois em +1, ou escolha um Talento Geral válido.</p>
+          <p><strong>Queda Lenta (Slow Fall):</strong> Você pode usar sua Reação quando estiver caindo para reduzir o dano de queda por uma quantidade igual a **5 vezes o seu nível de monge**.</p>
+        </div>
+
+        <div class="bloco-monge">
+          <h4>Nível 5: Ataque Extra & Ataque Atordoante</h4>
+          <p><strong>Ataque Extra:</strong> Você pode atacar duas vezes, em vez de uma, sempre que realizar a ação de Ataque no seu turno.</p>
+          <p><strong>Ataque Atordoante (Stunning Strike):</strong> Quando você atingir uma criatura com um ataque de arma de monge ou desarmado, você pode gastar 1 ponto de Foco para forçar o alvo a realizar uma salvaguarda de Constituição. Se falhar, ela fica <b>Atordoada (Stunned)</b> até o final do seu próximo turno. *(Nota fiel de 2024: Você só pode tentar usar o Ataque Atordoante uma vez por turno; porém, se o alvo passar na salvaguarda, o deslocamento dela ainda é reduzido pela metade como penalidade)*.</p>
+        </div>
+
+        <div class="bloco-monge">
+          <h4>Nível 6: Ataques Empoderados por Foco</h4>
+          <p>Seus ataques desarmados passam a contar como **ataques mágicos** com o propósito de superar resistências e imunidades a ataques não mágicos. Adicionalmente, sempre que atingir com um ataque desarmado, você pode escolher alterar o tipo de dano físico para **Dano de Força (Force Damage)**.</p>
+        </div>
+
+        <div class="bloco-monge">
+          <h4>Nível 7: Evasão & Mente Serena</h4>
+          <p><strong>Evasão:</strong> Quando for alvo de um efeito (como o sopro de um dragão) que exija uma salvaguarda de Destreza para sofrer metade do dano, você não sofre nenhum dano se passar, e apenas metade se falhar.</p>
+          <p><strong>Mente Serena (Stillness of Mind):</strong> Totalmente corrigida na versão 2024. Se você iniciar o seu turno sob o efeito das condições <b>Enfeitiçado (Charmed)</b> ou <b>Amedrontado (Frightened)</b>, você encerra essas condições de sua mente automaticamente **no início do seu turno** sem precisar gastar sua ação.</p>
+        </div>
+
+        <div class="bloco-monge">
+          <h4>Nível 9: Passo Acrobático</h4>
+          <p><strong>Passo Acrobático (Acrobatic Movement):</strong> Você ganha a capacidade de se mover ao longo de superfícies verticais (paredes) e sobre superfícies líquidas durante o seu turno sem cair, desde que você não termine o seu movimento nela.</p>
+        </div>
+
+        <div class="bloco-monge">
+          <h4>Nível 10: Autossuficiência Elevada</h4>
+          <p><strong>Autossuficiência Elevada (Heightened Metabolism):</strong> Você se torna imune à condição <i>Envenenado</i> e a danos de veneno. Além disso, uma vez por Descanso Longo, você pode realizar uma meditação rápida de **1 minuto** para recuperar todos os seus Pontos de Foco gastos e dados de vida, agindo como se tivesse feito um descanso curto completo.</p>
+        </div>
+
+        <div class="bloco-monge">
+          <h4>Nível 11: Defletir Ataques Aprimorado</h4>
+          <p><strong>Defletir Energia (Deflect Energy):</strong> Seu recurso de <i>Defletir Ataques</i> agora pode ser ativado contra **qualquer tipo de dano** proveniente de uma jogada de ataque (incluindo dano de Fogo, Elétrico, Força, Radiante, etc.), permitindo interceptar até magias e raios místicos com as mãos nuas.</p>
+        </div>
+
+        <div class="bloco-monge">
+          <h4>Nível 13: Alma Maleável</h4>
+          <p><strong>Alma Maleável:</strong> Você ganha proficiência em testes de resistência de **Força** e **Constituição**. Como você já possuía proficiência em testes físicos, você passa a poder gastar 1 ponto de Foco para refazer **qualquer teste de resistência** no qual tenha falhado.</p>
+        </div>
+
+        <div class="bloco-monge">
+          <h4>Nível 14: Alma de Diamante</h4>
+          <p>Sua maestria energética blinda seu espírito. Você ganha **proficiência em TODOS os testes de resistência** possíveis do jogo. Além disso, quando você falhar em uma salvaguarda, você pode gastar 1 ponto de Foco para rolar novamente o dado e ficar com o novo resultado.</p>
+        </div>
+
+        <div class="bloco-monge">
+          <h4>Nível 15: Corpo Atemporal</h4>
+          <p>Você não sofre mais penalidades por envelhecimento, não pode ser envelhecido magicamente e não necessita mais de comida ou água para sobreviver, sustentando-se puramente através do seu foco de fluxo vital.</p>
+        </div>
+
+        <div class="bloco-monge">
+          <h4>Nível 18: Corpo Vazio</h4>
+          <p>Como uma ação, você pode gastar 4 pontos de Foco para se tornar **Invisível por 1 minuto**. Enquanto estiver invisível dessa forma, você adquire **Resistência a todos os tipos de dano**, exceto dano de Força. Você não precisa manter concentração neste efeito.</p>
+        </div>
+
+        <div class="bloco-monge">
+          <h4>Nível 20: Corpo Perfeito</h4>
+          <p>Seus atributos de **Destreza e Sabedoria aumentam permanentemente em +4** (seus máximos para esses atributos agora passam a ser **24**). Adicionalmente, quando você rolar iniciativa para um combate e possuir 3 ou menos pontos de Foco em sua reserva, você recupera pontos até ficar com **4 pontos de Foco** disponíveis imediatamente.</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #e67e22; font-size: 1.6rem; margin-bottom: 10px;">Ordens Monásticas (Subclasses)</h3>
+        
+        <div class="bloco-subclasse-detalhada">
+          <h3>1. Caminho da Mão Aberta (Warrior of the Open Hand)</h3>
+          <p>O mestre supremo do combate corpo a corpo desarmado. Manipula a energia para derrubar, empurrar e desestabilizar oponentes com técnicas físicas perfeitas.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Técnica da Mão Aberta</h5>
+            <p>Sempre que você atingir uma criatura com um dos ataques desarmados concedidos pela sua <b>Rajada de Golpes</b>, você pode aplicar um dos seguintes efeitos adicionais ao alvo:</p>
+            <ul class="trait-list" style="margin-top: 5px;">
+              <li><strong>Derrubar (Addle):</strong> O alvo deve passar em uma salvaguarda de Destreza ou ficará <b>Caído (Prone)</b>.</li>
+              <li><strong>Empurrar (Push):</strong> O alvo deve passar em uma salvaguarda de Força ou será empurrado por até 4,5 metros para longe de você.</li>
+              <li><strong>Cambalear:</strong> O alvo perde a capacidade de realizar Ações de Oportunidade ou Reações até o final do turno atual (sem teste de resistência).</li>
+            </ul>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Integridade Corporal (Wholeness of Body)</h5>
+            <p>Você aprende a curar suas próprias feridas através do fluxo energético. Como uma Ação Bônus, você pode recuperar pontos de vida iguais a **três rolagens do seu Dado de Artes Marciais**. Você pode usar este recurso uma quantidade de vezes igual ao seu bônus de proficiência por Descanso Longo.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 11: Passo Alinhado (Fleet Step)</h5>
+            <p>Sua agilidade em combate atinge o ápice tático. Sempre que você utilizar sua Ação Bônus para realizar qualquer técnica de Foco (como a Rajada de Golpes), você ganha os benefícios da ação <b>Desengajar (Disengage)</b> automaticamente de forma gratuita.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 17: Palma Trêmula (Quivering Palm)</h5>
+            <p>A técnica de assassinato mais famosa do RPG. Quando você atingir uma criatura com um ataque desarmado, você pode gastar 4 pontos de Foco para estabelecer vibrações letais imperceptíveis no corpo dela. Como uma ação em turnos subsequentes (em até um número de dias igual ao seu nível), você pode forçar o alvo a realizar uma salvaguarda de Constituição. Se falhar, ela é **reduzida a 0 pontos de vida instantaneamente**. Se passar, sofre **10d10 de dano de Força**.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>2. Caminho dos Quatro Elementos (Warrior of the Elements)</h3>
+          <p>Totalmente reconstruído em 2024. Não gasta mais pontos excessivos em magias caras; em vez disso, o monge entra em sintonia elemental para estender o alcance dos socos com fogo, ar, terra e água.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Sintonia Elemental (Elemental Attunement)</h5>
+            <p>Como uma Ação Bônus, você gasta 1 ponto de Foco para canalizar as forças elementais por 10 minutos. Enquanto o efeito durar, você ganha os seguintes benefícios:</p>
+            <ul class="trait-list" style="margin-top: 5px;">
+              <li>O alcance de seus ataques desarmados aumenta em **3 metros**, pois chicotes de fogo, gelo ou vento prolongam seus golpes.</li>
+              <li>Seus ataques desarmados podem causar dano de <b>Fogo, Gelo, Ácido ou Elétrico</b> (sua escolha a cada soco).</li>
+              <li>Uma vez por turno, ao atingir um inimigo a até 3 metros de distância com esse soco estendido, você pode puxá-lo ou empurrá-lo por até 3 metros de distância.</li>
+            </ul>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Explosão Elemental (Environmental Burst)</h5>
+            <p>Como uma ação, você pode gastar 2 pontos de Foco para conjurar uma explosão esférica de energia elemental em um ponto visível a até 12 metros de distância. A esfera possui 6 metros de raio. Todas as criaturas na área devem realizar uma salvaguarda de Destreza ou sofrerão um dano igual a **três rolagens do seu Dado de Artes Marciais** (tipo de dano à escolha: Fogo, Gelo, Ácido ou Elétrico). Sucesso sofre metade.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 11: Passada do Vento (Stride of the Elements)</h5>
+            <p>Enquanto o seu recurso *Sintonia Elemental* (Nível 3) estiver ativo, você adquire permanentemente **Deslocamento de Voo** e **Deslocamento de Natação** iguais ao seu deslocamento terrestre atual.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 17: Epifania Elemental Aberrante</h5>
+            <p>Quando você ativa sua *Sintonia Elemental*, uma aura elementais de 9 metros envolve você. Inimigos que iniciarem o turno na área sofrem penalidade de terreno difícil e sofrem dano elemental passivo igual a uma rolagem do seu dado de Artes Marciais.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>3. Caminho das Sombras (Warrior of Shadow)</h3>
+          <p>O ninja definitivo. Utiliza a escuridão mágica para se camuflar, saltar através das sombras de inimigos e desferir ataques surpresa brutais.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Artes Sombrias (Shadow Arts)</h5>
+            <p>Você ganha <i>Visão no Escuro</i> a um alcance de 18 metros (se já tiver, aumenta em 9m). Você pode gastar 1 ponto de Foco para conjurar a magia *Escuridão (Darkness)* sem componentes materiais. No entanto, em 2024, **você consegue enxergar perfeitamente através da sua própria escuridão mágica**, permitindo cegar inimigos e atacá-los com vantagem total.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Passo das Sombras (Shadow Step)</h5>
+            <p>Enquanto estiver sob luz penumbra ou escuridão total, você pode usar uma Ação Bônus para se **teletransportar misticamente por até 18 metros** para outro espaço desocupado que também esteja sob penumbra ou escuridão. Após se teletransportar, você ganha **Vantagem** na primeira jogada de ataque corpo a corpo que realizar até o fim do seu turno atual.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 11: Flurrei das Sombras (Improved Shadow Step)</h5>
+            <p>Você pode gastar 1 ponto de Foco para realizar seu *Passo das Sombras* como parte da sua própria ação de Ataque, sem consumir sua Ação Bônus do turno, permitindo encadear teletransportes entre seus golpes desarmados.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 17: Oportunista Sombrio (Opportunist)</h5>
+            <p>Sua percepção tática nas sombras é implacável. Sempre que uma criatura a até 1,5 metros de você for atingida por um ataque realizado por outra criatura aliada, você pode usar sua <b>Reação</b> para desferir um ataque desarmado devastador contra ela.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>4. Caminho do Dragão Ascendente (Dragon Disciple)</h3>
+          <p>Infundido com a imponência e o poder destrutivo dos dragões cromáticos e metálicos. Concede sopros elementais e asas místicas temporárias.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Discípulo Dracônico & Sopro do Dragão</h5>
+            <p><strong>Presença Dracônica:</strong> Se você falhar em um teste de Carisma (Intimidação ou Persuasão), você pode gastar 1 ponto de Foco para rolar novamente.</p>
+            <p><strong>Sopro do Dragão (Breath of the Dragon):</strong> Quando você realizar a ação de Ataque no seu turno, você pode substituir um dos seus ataques por um cone de 6 metros ou uma linha de 9 metros de energia dracônica. Criaturas na área devem fazer uma salvaguarda de Destreza ou sofrerão dano igual a **duas rolagens do seu Dado de Artes Marciais** (tipo de dano: Ácido, Gelo, Fogo, Elétrico ou Veneno). Você pode usar este recurso gratuitamente uma quantidade de vezes igual ao seu bônus de proficiência por Descanso Longo.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Asas Dracônicas (Wings Unfurled)</h5>
+            <p>Sempre que você utilizar o seu recurso <i>Passo do Vento</i> (Nível 2), você pode manifestar asas espectrais dracônicas. Você ganha deslocamento de voo igual ao seu deslocamento terrestre atual até o final do seu turno atual.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 11: Aspecto Dracônico (Aspect of the Wyrm)</h5>
+            <p>Como uma Ação Bônus, você gasta 2 pontos de Foco para manifestar uma aura dracônica de 9 metros ao seu redor por 1 minuto. Você escolhe um tipo de dano elemental (Fogo, Gelo, etc.). Você e seus aliados dentro da aura ganham **Resistência** a esse tipo de dano. Além disso, quando você ou um aliado na aura atingir um inimigo, causa 1d6 de dano elemental extra.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 17: Fúria Ascendente</h5>
+            <p>Seu *Sopro do Dragão* causa um dano extra igual a uma rolagem do seu dado de Artes Marciais. Adicionalmente, quando você ativar o seu *Aspecto Dracônico*, todas as criaturas inimigas na área da aura sofrem um dano elemental explosivo imediato de 4d10.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

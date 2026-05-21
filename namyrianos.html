@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Namyrianos — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Estilos customizados para mecânicas de Namyrianos */
+    .bloco-habilidade {
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 3px solid var(--gold);
+      padding: 20px;
+      margin-top: 25px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-habilidade h4 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-bright);
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+    .bloco-alerta {
+      background: rgba(139, 0, 0, 0.15);
+      border: 1px solid #8b0000;
+      border-left: 4px solid #ff4d4d;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .bloco-alerta h4 {
+      font-family: 'Cinzel', serif;
+      color: #ff4d4d;
+      margin-bottom: 8px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+    /* Estilização da tabela de Afinidade Elemental */
+    .tabela-rpg {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: rgba(20, 20, 22, 0.6);
+      border: 1px solid var(--border-fantasy);
+      font-size: 0.9rem;
+    }
+    .tabela-rpg th, .tabela-rpg td {
+      border: 1px solid var(--border-fantasy);
+      padding: 12px 15px;
+      text-align: left;
+    }
+    .tabela-rpg th {
+      background: rgba(58, 50, 36, 0.4);
+      color: var(--gold);
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+    }
+    .tabela-rpg tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="racas.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Raças</a>
+    </div>
+
+    <h2>Namyrianos</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://weirs-rpg.weebly.com/uploads/1/0/6/8/10689847/baixados-10_orig.jpg" alt="Namyriano">
+        
+        <div class="texto-lore">
+          <h3>Os Felinos de Namyr</h3>
+          <p>Os felinos humanoides abençoados pelos dragões tiveram origem em Namyr e se espalharam por todo o planeta. Possuem uma dádiva mágica dada a sua espécie que é a de utilizar metais como fonte de poder mágico.</p>
+          <p>Namyrianos têm a capacidade de consumir um tipo de metal dependendo do clã e, com isso, adquirem afinidades elementais poderosas que podem ser canalizadas diretamente em combate para surpreender seus adversários.</p>
+          
+          <h4 style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Traços de Namyrianos</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Tipo de Criatura:</strong> Humanoide.</li>
+            <li><strong>Tamanho:</strong> Médio (cerca de 1,50 - 1,80 metros de altura).</li>
+            <li><strong>Deslocamento:</strong> 9 metros (30ft).</li>
+            <li><strong>Idade:</strong> Você atinge a maioridade aos 10 anos e pode viver até os 80 anos.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Habilidades Raciais</h3>
+        
+        <ul class="trait-list">
+          <li><strong>Reflexos Felinos:</strong> Você tem vantagem em testes de resistência de Destreza, e sempre poderá substituir seu modificador de Força na perícia <em>Atletismo</em> pelo seu modificador de Destreza.</li>
+          <li><strong>Capacidade Felina:</strong> Você possui proficiência nas perícias <em>Furtividade</em> e <em>Sobrevivência</em>.</li>
+          <li><strong>Armas Naturais:</strong> As presas e garras de namyrianos são consideradas armas naturais, e causam 1d6 de dano perfurante.</li>
+          <li><strong>Agilidade Felina:</strong> Seus reflexos e agilidade lhe permitem mover-se com uma explosão de velocidade. Quando você se move em seu turno de combate, você pode dobrar sua velocidade até o final do turno. Uma vez que você usa esse traço, você não pode usá-lo novamente até que você se mova 0 metros em um de seus turnos.</li>
+        </ul>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 15px;">Afinidade Elemental</h3>
+        <p>Namyr, o berço dos namyrianos, foi abençoada pelos dragões com um solo rico em vários tipos de metais de onde os habitantes tiram seu sustento. Estes minérios também servem para alimentar o poder mágico dos namyrianos, que eles chamam de afinidade elemental. Cada um dos clãs de Namyr possui uma afinidade diferente e, com isso, um metal diferente.</p>
+        <p>Ao consumir o metal referente ao seu clã, você ganha <strong>cargas elementais</strong> (você tem um número de cargas igual ao seu bônus de proficiência) e pode utilizar essas cargas para ativar as suas habilidades da afinidade elemental. Namyrianos podem consumir metal uma vez por descanso curto e, ao consumir, os efeitos têm duração de 1 hora.</p>
+
+        <table class="tabela-rpg">
+          <thead>
+            <tr>
+              <th>Clã</th>
+              <th>Metal</th>
+              <th>Resistência a Dano</th>
+              <th>Ataque Desarmado</th>
+              <th>Habilidade 2 (Custo 2)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <strong><td>Montanha</td></strong>
+              <td>Ferro</td>
+              <td>Contundente</td>
+              <td>+5 de Dano</td>
+              <td>+5 CA / Turno (Reação)</td>
+            </tr>
+            <tr>
+              <strong><td>Trovão</td></strong>
+              <td>Cobre</td>
+              <td>Elétrico</td>
+              <td>+5 de Dano</td>
+              <td>Choque do Trovão</td>
+            </tr>
+            <tr>
+              <strong><td>Chamas</td></strong>
+              <td>Ouro</td>
+              <td>Ígneo</td>
+              <td>+5 de Dano</td>
+              <td>Repreensão Ígnea</td>
+            </tr>
+            <tr>
+              <strong><td>Gélido</td></strong>
+              <td>Prata</td>
+              <td>Frio</td>
+              <td>+5 de Dano</td>
+              <td>Raio de Gelo (Proteção Gélida)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="bloco-alerta">
+          <h4>O Perigo de Filzha</h4>
+          <p>As terras de Namyr ainda possuem uma outra riqueza, algo exclusivo em toda a Terra: o metal que chamam de <strong>Filzha</strong>. Este metal é um excelente condutor mágico e não pertence a nenhum clã específico. Segundo as lendas, um namyriano comum que consumir filzha morreria por não suportar tamanha carga mágica; talvez somente os mais poderosos aguentariam.</p>
+          <p><strong>Mecânica:</strong> Caso você possua uma quantidade equivalente a três moedas de Filzha e queira consumi-la, deverá realizar uma <strong>salvaguarda de Constituição CD 16</strong>. Ao obter sucesso, você tem suas cargas elementais triplicadas. Caso falhe, seu corpo entra em colapso: você cai e fica desacordado por um período igual a 1d4 horas.</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 20px;">Descrição das Habilidades (Custo: 2 Cargas)</h3>
+
+        <div class="bloco-habilidade" style="border-left-color: #5dade2;">
+          <h4>Choque do Trovão (Clã Trovão)</h4>
+          <p>Você solta uma onda de energia estática ao seu redor. Inimigos em um cubo de 4,5 metros (15ft) devem realizar um teste de resistência de Constituição CD 15. Se falharem, sofrem <strong>2d8</strong> de dano elétrico, e caso obtenham sucesso levam apenas metade desse dano.</p>
+        </div>
+
+        <div class="bloco-habilidade" style="border-left-color: var(--blood-red);">
+          <h4>Repreensão Ígnea (Clã Chamas)</h4>
+          <p>Ao sofrer dano, você pode usar sua Reação para lançar uma rajada de chamas no inimigo que lhe atingiu. O alvo deve ser bem-sucedido em um teste de resistência de Destreza CD 15. Caso falhe, sofre <strong>2d10</strong> de dano de fogo, e caso obtenha sucesso leva metade do dano. Ao gastar mais cargas elementais, você aumenta o impacto em +1d10 para cada carga adicional investida.</p>
+        </div>
+
+        <div class="bloco-habilidade" style="border-left-color: #ffffff;">
+          <h4>Proteção Gélida / Raio de Gelo (Clã Gélido)</h4>
+          <p>Ao utilizar essa habilidade, você condensa a umidade do ar e adquire <strong>5 pontos de vida temporários

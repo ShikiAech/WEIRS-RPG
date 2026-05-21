@@ -1,0 +1,421 @@
+/* =====================================================
+   WEIRS RPG THEME — CORES GLOBAIS E TIPOGRAFIA
+   ===================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --bg: #0b0b0c;
+  --bg-panel: rgba(18, 18, 19, 0.85);
+  --gold: #d4af37;
+  --gold-bright: #f3e5ab;
+  --gold-dark: #aa7c11;
+  --text: #e2dddf;
+  --text-soft: #a59e9a;
+  --border-fantasy: #3a3224;
+  --blood-red: #8b0000;
+  --blood-glow: rgba(139, 0, 0, 0.4);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: 
+    linear-gradient(rgba(11, 11, 12, 0.94), rgba(7, 7, 8, 0.98)),
+    url('https://images.unsplash.com/photo-1518709268805-4e9042af2176?q=80&w=2070');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.8;
+  letter-spacing: 0.5px;
+  padding-top: 80px; /* Evita que o menu fixo cubra o conteúdo */
+}
+
+/* Scrollbar Estilo Masmorra */
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-track { background: #070708; border-left: 1px solid var(--border-fantasy); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--border-fantasy), var(--gold-dark));
+  border: 2px solid #070708;
+  border-radius: 4px;
+}
+
+/* =====================================================
+   MENU DE NAVEGAÇÃO SUPERIOR
+   ===================================================== */
+#header-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  background: rgba(10, 10, 11, 0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 2px solid var(--border-fantasy);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+}
+
+#header {
+  max-width: 1400px;
+  margin: auto;
+  padding: 15px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 2rem;
+  color: var(--gold);
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.3), 2px 2px 4px rgba(0, 0, 0, 0.8);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.nav ul {
+  display: flex;
+  gap: 25px;
+  list-style: none;
+}
+
+.nav li a {
+  text-decoration: none;
+  color: var(--text-soft);
+  text-transform: uppercase;
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  padding: 8px 4px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav li a:hover, .nav li a.active {
+  color: var(--gold-bright);
+  text-shadow: 0 0 8px rgba(243, 229, 171, 0.5);
+}
+
+.nav li a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gold);
+  transition: width 0.3s ease;
+}
+
+.nav li a:hover::after, .nav li a.active::after {
+  width: 100%;
+}
+
+/* =====================================================
+   HERO BANNER (INDEX)
+   ===================================================== */
+.hero-section {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+  position: relative;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 10%, rgba(5, 5, 5, 0.95) 80%);
+  pointer-events: none;
+}
+
+.banner-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+}
+
+.banner-content h1 {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 4.5rem;
+  color: var(--gold);
+  line-height: 1.2;
+  letter-spacing: 4px;
+  margin-bottom: 25px;
+  text-shadow: 0 0 30px rgba(0,0,0,0.9), 0 0 20px var(--blood-glow);
+  background: linear-gradient(to bottom, #ffffff 0%, var(--gold) 60%, var(--gold-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.banner-content p {
+  font-size: 1.3rem;
+  color: var(--text);
+  margin-bottom: 35px;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
+}
+
+/* =====================================================
+   CONTAINER E CARDS PADRÃO D&D
+   ===================================================== */
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 60px 40px;
+}
+
+.desc-intro {
+  font-size: 1.15rem;
+  text-align: center;
+  max-width: 850px;
+  margin: 0 auto 50px auto;
+  color: var(--text);
+}
+
+h2 {
+  font-family: 'Cinzel', serif;
+  color: var(--gold);
+  font-size: 2.4rem;
+  margin-bottom: 35px;
+  letter-spacing: 2px;
+  border-bottom: 1px solid var(--border-fantasy);
+  padding-bottom: 10px;
+  position: relative;
+}
+
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: var(--blood-red);
+  box-shadow: 0 0 8px var(--blood-red);
+}
+
+/* Caixas Estilo Grimório/Livro de Regras */
+.card-rpg {
+  background: var(--bg-panel);
+  border: 2px solid var(--border-fantasy);
+  outline: 1px solid rgba(214, 175, 55, 0.15);
+  outline-offset: -6px;
+  border-radius: 4px;
+  padding: 40px;
+  margin-bottom: 50px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+}
+
+/* Layout de Duas Colunas para Conteúdo Detalhado */
+.layout-detalhes {
+  display: grid;
+  grid-template-columns: 450px 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.layout-detalhes img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  border: 1px solid var(--border-fantasy);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8);
+}
+
+.texto-lore h3 {
+  font-family: 'Cinzel', serif;
+  color: var(--gold-bright);
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+}
+
+/* =====================================================
+   GRADE DE BOTÕES CUSTOMIZADOS (RAÇAS / CLASSES)
+   ===================================================== */
+.rpg-grid-botoes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  max-width: 1100px;
+  margin: 40px auto 60px auto;
+}
+
+.btn-rpg {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 90px;
+  background: linear-gradient(135deg, #3d2b1f 0%, #211710 100%);
+  border: 3px solid #1a120d;
+  border-radius: 8px;
+  box-shadow: 
+    inset 0 0 15px rgba(0, 0, 0, 0.8),
+    0 10px 20px rgba(0, 0, 0, 0.5),
+    0 0 0 1px #4d3626;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  padding: 8px;
+}
+
+.btn-moldura-interna {
+  width: 100%;
+  height: 100%;
+  background: rgba(14, 11, 9, 0.9);
+  border: 2px solid #4d3626;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 4px 10px rgba(0,0,0,0.9);
+}
+
+.btn-texto {
+  font-family: 'Cinzel', serif;
+  color: var(--gold);
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 0 5px rgba(212, 175, 55, 0.2);
+}
+
+/* A Gema Superior Iluminada */
+.btn-gema {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 26px;
+  height: 26px;
+  border: 3px solid #4d3626;
+  border-radius: 50%;
+  z-index: 3;
+}
+
+/* Cores das Gemas */
+.gema-ouro  { background: radial-gradient(circle, #f1c40f, #9a7d0a); box-shadow: 0 0 10px rgba(241, 196, 15, 0.6), 0 4px 6px rgba(0,0,0,0.5); }
+.gema-verde { background: radial-gradient(circle, #2ecc71, #196f3d); box-shadow: 0 0 10px rgba(46, 204, 113, 0.6), 0 4px 6px rgba(0,0,0,0.5); }
+.gema-rubi  { background: radial-gradient(circle, #e74c3c, #78281f); box-shadow: 0 0 10px rgba(231, 76, 60, 0.6), 0 4px 6px rgba(0,0,0,0.5); }
+
+/* Parafusos/Rebites laterais */
+.btn-rpg::before, .btn-rpg::after {
+  content: ''; position: absolute; width: 4px; height: 4px; background: #000; border: 1px solid #4d3626; border-radius: 50%; top: 50%; transform: translateY(-50%);
+}
+.btn-rpg::before { left: 8px; }
+.btn-rpg::after { right: 8px; }
+
+/* Interações do Botão */
+.btn-rpg:hover {
+  transform: translateY(-3px);
+  border-color: var(--gold-dark);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.7), 0 0 15px rgba(212, 175, 55, 0.2);
+}
+.btn-rpg:hover .btn-texto { color: var(--gold-bright); }
+.btn-rpg:active { transform: translateY(1px); }
+
+/* Botões Globais de Ação */
+.btn-principal {
+  display: inline-block;
+  background: linear-gradient(180deg, var(--blood-red) 0%, #4a0000 100%);
+  border: 1px solid var(--border-fantasy);
+  outline: 1px solid var(--gold-dark);
+  outline-offset: -4px;
+  border-radius: 3px;
+  padding: 14px 35px;
+  color: var(--gold-bright);
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  font-weight: 700;
+  text-decoration: none;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+  transition: all 0.2s ease;
+}
+.btn-principal:hover {
+  background: linear-gradient(180deg, #a30000 0%, var(--blood-red) 100%);
+  outline-color: var(--gold-bright);
+  box-shadow: 0 0 15px var(--blood-glow);
+}
+
+/* =====================================================
+   FOOTER (RODAPÉ)
+   ===================================================== */
+footer {
+  border-top: 2px solid var(--border-fantasy);
+  background: #060607;
+  padding: 40px 20px;
+  text-align: center;
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  color: var(--text-soft);
+  letter-spacing: 1px;
+}
+
+/* =====================================================
+   RESPONSIVIDADE (MOBILE)
+   ===================================================== */
+@media (max-width: 950px) {
+  #header { flex-direction: column; gap: 15px; }
+  .rpg-grid-botoes { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .layout-detalhes { grid-template-columns: 1fr; }
+  .banner-content h1 { font-size: 3rem; }
+}
+@media (max-width: 600px) {
+  .rpg-grid-botoes { grid-template-columns: 1fr; }
+  .card-rpg { padding: 20px; }
+}
+/* =====================================================
+   EFEITO DE ZOOM MÍSTICO NAS IMAGENS (HOVER)
+   ===================================================== */
+
+/* Seleciona o container da imagem para garantir que ela não "suba" ou saia das bordas */
+.layout-detalhes {
+  overflow: hidden;
+}
+
+/* Configura a imagem base com uma transição suave */
+.layout-detalhes img {
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease;
+}
+
+/* O efeito de "zoomzinho" e brilho na borda ao passar o mouse */
+.layout-detalhes img:hover {
+  transform: scale(1.03); /* Dá o leve zoom de 3% */
+  border-color: var(--gold); /* Transforma a borda em dourado */
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.9), 0 0 15px rgba(212, 175, 55, 0.2); /* Deixa a sombra mais profunda e com um leve brilho místico */
+}
+.logo-container {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.logo-home {
+  max-width: 500px; /* Define o tamanho máximo ideal para desktops */
+  width: 100%;       /* Faz com que ela diminua proporcionalmente em celulares */
+  height: auto;
+  display: inline-block;
+  filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.5)); /* Adiciona uma sombra sutil para destacar do fundo */
+  transition: transform 0.3s ease;
+}
+
+.logo-home:hover {
+  transform: scale(1.02); /* Dá um efeito leve ao passar o mouse */
+}

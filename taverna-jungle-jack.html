@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Taverna de Jungle Jack — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .header-campanha {
+      text-align: center;
+      border-bottom: 2px solid #27ae60;
+      padding-bottom: 20px;
+      margin-bottom: 40px;
+    }
+    .header-campanha h1 {
+      font-family: 'Cinzel', serif;
+      color: #2ecc71;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    .badge-status {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(39, 174, 96, 0.2);
+      border: 1px solid #27ae60;
+      color: #2ecc71;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .bloco-aviso {
+      background: rgba(39, 174, 96, 0.05);
+      border-left: 4px solid #27ae60;
+      padding: 20px;
+      margin-bottom: 40px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-aviso h4 {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    .secao-personagens {
+      margin-top: 30px;
+    }
+    .secao-personagens h3 {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      border-bottom: 1px solid var(--border-fantasy);
+      padding-bottom: 10px;
+      margin-bottom: 25px;
+    }
+    .grid-personagens {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .card-pj {
+      background: rgba(25, 25, 27, 0.9);
+      border: 1px solid var(--border-fantasy);
+      border-radius: 4px;
+      padding: 20px;
+      transition: border-color 0.2s;
+    }
+    .card-pj:hover {
+      border-color: #27ae60;
+    }
+    .nome-pj {
+      font-family: 'Cinzel', serif;
+      color: #fff;
+      font-size: 1.2rem;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    .detalhe-pj {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      margin-bottom: 4px;
+    }
+    .detalhe-pj strong {
+      color: #f1c40f;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="campanhas.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Campanhas</a>
+    </div>
+
+    <div class="header-campanha">
+      <h1>🍺 A TAVERNA DE JUNGLE JACK</h1>
+      <span class="badge-status">Aventura Fechada — One-Shot (Ano 502)</span>
+    </div>
+
+    <div class="bloco-aviso">
+      <h4>📌 Quadro de Tarefas do Balcão</h4>
+      <p style="font-size: 0.9rem; color: #cbd5e1; margin: 0;">
+        Bem-vindo ao livro de contas da Taverna! Quando esta lendária One-Shot acontecer, o relatório da noite — contendo os lucros, as brigas de bar causadas, os segredos protegidos e o destino final da receita do Leite de Macaco — será imortalizado e registrado bem aqui nesta página.
+      </p>
+    </div>
+
+    <div class="secao-personagens">
+      <h3>👥 Elenco de Mercenários (Disponíveis / Selecionados)</h3>
+      <div class="grid-personagens">
+        
+        <div class="card-pj">
+          <h4 class="nome-pj">Jungle Jack</h4>
+          <div class="detalhe-pj"><strong>Raça:</strong> — </div>
+          <div class="detalhe-pj"><strong>Classe:</strong> Proprietário / Ex-Mercenário</div>
+          <div class="detalhe-pj" style="margin-top: 10px; font-style: italic; color: #a6acaf;">O mestre do Leite de Macaco e responsável pelo estabelecimento.</div>
+        </div>
+
+        <div class="card-pj">
+          <h4 class="nome-pj">Shrek</h4>
+          <div class="detalhe-pj"><strong>Raça:</strong> Ogro</div>
+          <div class="detalhe-pj"><strong>Classe:</strong> — </div>
+          <div class="detalhe-pj" style="margin-top: 10px; font-style: italic; color: #a6acaf;">Pronto para resolver os problemas de clientes difíceis no braço.</div>
+        </div>
+
+        <div class="card-pj">
+          <h4 class="nome-pj">Galadriel</h4>
+          <div class="detalhe-pj"><strong>Raça:</strong> Elfo</div>
+          <div class="detalhe-pj"><strong>Classe:</strong> — </div>
+          <div class="detalhe-pj" style="margin-top: 10px; font-style: italic; color: #a6acaf;">Trazendo sabedoria mística para balancear o caos do bar.</div>
+        </div>
+
+        <div class="card-pj">
+          <h4 class="nome-pj">Virelith</h4>
+          <div class="detalhe-pj"><strong>Raça:</strong> — </div>
+          <div class="detalhe-pj"><strong>Classe:</strong> — </div>
+          <div class="detalhe-pj" style="margin-top: 10px; font-style: italic; color: #a6acaf;">Lendário membro clássico do antigo bando de mercenários.</div>
+        </div>
+
+        <div class="card-pj">
+          <h4 class="nome-pj">Pelaje Rojizo</h4>
+          <div class="detalhe-pj"><strong>Raça:</strong> — </div>
+          <div class="detalhe-pj"><strong>Classe:</strong> — </div>
+          <div class="detalhe-pj" style="margin-top: 10px; font-style: italic; color: #a6acaf;">Membro clássico encarregado de vigiar os sabotadores concorrentes.</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <footer style="margin-top: 50px; text-align: center; padding: 20px; color: #a6acaf; font-size: 0.8rem; border-top: 1px solid var(--border-fantasy);">
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

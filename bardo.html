@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bardo — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .bloco-bardo {
+      background: rgba(155, 89, 182, 0.04);
+      border: 1px solid rgba(155, 89, 182, 0.15);
+      border-left: 4px solid #9b59b6;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-bardo h4 {
+      font-family: 'Cinzel', serif;
+      color: #af7ac5;
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+    .bloco-subclasse-detalhada {
+      background: rgba(25, 25, 27, 0.8);
+      border: 1px solid var(--border-fantasy);
+      padding: 25px;
+      margin-top: 35px;
+      border-radius: 4px;
+    }
+    .bloco-subclasse-detalhada h3 {
+      font-family: 'Cinzel', serif;
+      color: #9b59b6;
+      border-bottom: 1px solid rgba(155, 89, 182, 0.3);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+    }
+    .sub-feature {
+      background: rgba(155, 89, 182, 0.05);
+      border-left: 3px solid #9b59b6;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 0 4px 4px 0;
+    }
+    .sub-feature h5 {
+      font-family: 'Cinzel', serif;
+      color: #bb8fce;
+      font-size: 1.05rem;
+      margin-bottom: 5px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+    .tabela-rpg {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: rgba(20, 20, 22, 0.6);
+      border: 1px solid var(--border-fantasy);
+      font-size: 0.85rem;
+    }
+    .tabela-rpg th, .tabela-rpg td {
+      border: 1px solid var(--border-fantasy);
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .tabela-rpg th {
+      background: rgba(44, 31, 54, 0.5);
+      color: #af7ac5;
+      font-family: 'Cinzel', serif;
+    }
+    .tabela-rpg tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .tabela-rpg td.esquerda {
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="classes.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Classes</a>
+    </div>
+
+    <h2>Bardo (Bard)</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://imagenslucas.weebly.com/uploads/1/0/6/8/10689847/dandelion-jaskier_orig.jpg" alt="Bardo">
+        <div class="texto-lore">
+          <h3>A teia musical da criação</h3>
+          <p>Seja um acadêmico recitando poemas épicos, um menestrel zombando de reis arrogantes ou um místico que manipula as palavras primitivas que moldaram o multiverso, o bardo transforma a própria realidade em sua obra de arte. Eles extraem magia do Éter através da música, da dança e da pura força de sua presença.</p>
+          <p>Bardos são a engrenagem de utilidade perfeita: capazes de curar feridas com uma balada suave, confundir mentes inimigas com ilusões teatrais, inspirar aliados a superarem limites mortais e cruzar lâminas no campo de batalha quando a música cessa.</p>
+          
+          <h4 style="color: #9b59b6; margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Dado de Vida:</strong> 1d8 por nível de Bardo.</li>
+            <li><strong>Atributo Principal:</strong> Carisma (Conjuração e Inspiração).</li>
+            <li><strong>Proficiências em Armaduras:</strong> Armaduras Leves.</li>
+            <li><strong>Proficiências em Armas:</strong> Armas Simples e Armas com a propriedade *Finesse* (Acuidade).</li>
+            <li><strong>Ferramentas:</strong> Três instrumentos musicais à sua escolha.</li>
+            <li><strong>Testes de Resistência:</strong> Destreza e Carisma.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px; overflow-x: auto;">
+        <h3 style="font-family: 'Cinzel', serif; color: #9b59b6; font-size: 1.6rem; margin-bottom: 15px;">Progressão de Classe</h3>
+        <table class="tabela-rpg">
+          <thead>
+            <tr>
+              <th>Nível</th>
+              <th>Prof.</th>
+              <th class="esquerda">Recursos de Classe</th>
+              <th>Dado de Insp.</th>
+              <th>Truques</th>
+              <th>Magias</th>
+              <th>1º</th><th>2º</th><th>3º</th><th>4º</th><th>5º</th><th>6º</th><th>7º</th><th>8º</th><th>9º</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1º</td><td>+2</td><td class="esquerda">Inspiração Bárdica, Conjuração</td><td>1d6</td><td>2</td><td>4</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>2º</td><td>+2</td><td class="esquerda">Pau pra Toda Obra, Canção de Descanso</td><td>1d6</td><td>2</td><td>5</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>3º</td><td>+2</td><td class="esquerda">Colégio Bárdico (Subclasse), Especialização</td><td>1d6</td><td>2</td><td>6</td><td>4</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>4º</td><td>+2</td><td class="esquerda">Talento de Atributo (Feat)</td><td>1d6</td><td>3</td><td>7</td><td>4</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>5º</td><td>+3</td><td class="esquerda">Fonte de Inspiração (Recupera em Curto)</td><td>1d8</td><td>3</td><td>8</td><td>4</td><td>3</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>6º</td><td>+3</td><td class="esquerda">Recurso de Colégio Bárdico, Contra-Canto</td><td>1d8</td><td>3</td><td>9</td><td>4</td><td>3</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>7º</td><td>+3</td><td class="esquerda">Iniciativa Bárdica</td><td>1d8</td><td>3</td><td>10</td><td>4</td><td>3</td><td>3</td><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>8º</td><td>+3</td><td class="esquerda">Talento de Atributo (Feat)</td><td>1d8</td><td>3</td><td>11</td><td>4</td><td>3</td><td>3</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>9º</td><td>+4</td><td class="esquerda">Especialização (2 perícias)</td><td>1d8</td><td>3</td><td>12</td><td>4</td><td>3</td><td>3</td><td>3</td><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>10º</td><td>+4</td><td class="esquerda">Segredos Mágicos (Lista Expandida 2024)</td><td>1d10</td><td>4</td><td>14</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>11º</td><td>+4</td><td class="esquerda">Sucesso Inabalável</td><td>1d10</td><td>4</td><td>15</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>12º</td><td>+4</td><td class="esquerda">Talento de Atributo (Feat)</td><td>1d10</td><td>4</td><td>15</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>13º</td><td>+5</td><td class="esquerda">Segredos Mágicos Avançados</td><td>1d10</td><td>4</td><td>16</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>—</td><td>—</td></tr>
+            <tr><td>14º</td><td>+5</td><td class="esquerda">Recurso de Colégio Bárdico</td><td>1d10</td><td>4</td><td>18</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>—</td></tr>
+            <tr><td>15º</td><td>+5</td><td class="esquerda">Inspiração Superior</td><td>1d12</td><td>4</td><td>19</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>—</td></tr>
+            <tr><td>16º</td><td>+5</td><td class="esquerda">Talento de Atributo (Feat)</td><td>1d12</td><td>4</td><td>19</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+            <tr><td>17º</td><td>+6</td><td class="esquerda">Segredos Mágicos Finais</td><td>1d12</td><td>4</td><td>20</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+            <tr><td>18º</td><td>+6</td><td class="esquerda">Palavra de Poder Superior</td><td>1d12</td><td>4</td><td>22</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+            <tr><td>19º</td><td>+6</td><td class="esquerda">Talento de Atributo / Dádiva Épica</td><td>1d12</td><td>4</td><td>22</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td></tr>
+            <tr><td>20º</td><td>+6</td><td class="esquerda">Inspiração Suprema</td><td>1d12</td><td>4</td><td>22</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>2</td><td>2</td><td>1</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #9b59b6; font-size: 1.6rem; margin-bottom: 20px;">Recursos de Classe Detalhados</h3>
+
+        <div class="bloco-bardo">
+          <h4>Nível 1: Inspiração Bárdica & Conjuração</h4>
+          <p><strong>Inspiração Bárdica:</strong> Como uma Ação Bônus, você pode inspirar uma criatura a até 18 metros que possa te ouvir. Ela ganha um dado de Inspiração Bárdica (1d6). Nos próximos 10 minutos, o alvo pode adicionar esse dado ao resultado de uma jogada de ataque, teste de atributo ou salvaguarda. Você pode usar este recurso um número de vezes igual ao seu Modificador de Carisma (mínimo 1), recuperando os usos em um Descanso Longo.</p>
+          <p><strong>Conjuração:</strong> Você manipula o tecido do Éter através de palavras, canções ou artes. Carisma é o seu atributo de conjuração, e você pode usar um instrumento musical como foco místico para ignorar componentes materiais sem custo.</p>
+        </div>
+
+        <div class="bloco-bardo">
+          <h4>Nível 2: Pau pra Toda Obra & Canção de Descanso</h4>
+          <p><strong>Pau pra Toda Obra (Jack of All Trades):</strong> Você consegue se virar em qualquer assunto. Você adiciona metade do seu Bônus de Proficiência (arredondado para baixo) em **qualquer teste de perícia** em que você já não possua proficiência ativa.</p>
+          <p><strong>Canção de Descanso:</strong> Ao fim de um descanso curto, suas canções revigorantes ajudam o grupo a cicatrizar ferimentos. Qualquer aliado que gastar Dados de Vida para recuperar pontos de vida recebe adicionais de **1d6** automáticos de cura.</p>
+        </div>
+
+        <div class="bloco-bardo">
+          <h4>Nível 3: Colégio Bárdico & Especialização</h4>
+          <p><strong>Colégio Bárdico:</strong> Você ingressa em uma escola avançada de artes e filosofia mística para guiar seus dons (Subclasse).</p>
+          <p><strong>Especialização (Expertise):</strong> Escolha duas perícias em que você possua proficiência. Seu Bônus de Proficiência é **dobrado** para qualquer teste que utilize uma dessas perícias. No nível 9, você escolhe mais duas perícias para receber este benefício.</p>
+        </div>
+
+        <div class="bloco-bardo">
+          <h4>Níveis 4, 8, 12, 16 e 19: Talento de Atributo (Feat)</h4>
+          <p>Você pode aumentar um atributo em +2, dois atributos em +1, ou escolher um **Talento Geral (Feat)** oficial de nível 4+ (como Conjurador de Combate ou Alerta).</p>
+        </div>
+
+        <div class="bloco-bardo">
+          <h4>Nível 5: Fonte de Inspiração</h4>
+          <p>Sua veia criativa pulsa mais forte. Você agora recupera **todos os seus usos gastos de Inspiração Bárdica** ao finalizar um Descanso Curto ou um Descanso Longo. Além disso, o seu dado de inspiração sobe para **1d8**.</p>
+        </div>
+
+        <div class="bloco-bardo">
+          <h4>Nível 6: Contra-Canto</h4>
+          <p>Você pode usar suas notas musicais ou palavras de ordem para abafar magias mentais. Como uma Reação ao ver você ou um aliado a até 9 metros sofrer um efeito que exija salvaguarda contra ser **Encantado ou Amedrontado**, você concede Vantagem imediata na rolagem da salvaguarda para o alvo.</p>
+        </div>
+
+        <div class="bloco-bardo">
+          <h4>Nível 7: Iniciativa Bárdica</h4>
+          <p>Você aprende a usar sua música para guiar o tempo de reação do grupo de maneira impecável. Sempre que você ou um aliado a até 18 metros rolar Iniciativa, você pode gastar um uso de sua Inspiração Bárdica para rolar o dado e somar o resultado obtido diretamente ao valor total da Iniciativa daquele alvo, garantindo que sua equipe garanta a dianteira tática no grid de batalha.</p>
+        </div>
+
+        <div class="bloco-bardo">
+          <h4>Nível 10: Segredos Mágicos (Magical Secrets)</h4>
+          <p>Sua compreensão mística transcendeu as fronteiras da sua própria classe. Você pode escolher **duas magias de qualquer lista de classe do jogo** (Mago, Clérigo, Druida, Feiticeiro, etc.) de circles que você consiga conjurar. Elas passam a contar como magias de bardo para você e não contam no limite de suas magias conhecidas. Você escolhe mais duas magias adicionais no nível 13 e no nível 17.</p>
+        </div>
+
+        <div class="bloco-bardo">
+          <h4>Nível 11: Sucesso Inabalável</h4>
+          <p>Sua maestria com o que você se propõe a fazer é implacável. Escolha duas de suas perícias em que possua Proficiência ou Especialização. Sempre que você realizar um teste ativo utilizando uma dessas perícias e rolar um 9 ou menos no d20, o resultado do dado **automaticamente se torna um 10**, impedindo falhas em tarefas corriqueiras e mundanas da sua especialidade.</p>
+        </div>
+
+        <div class="bloco-bardo">
+          <h4>Nível 15: Inspiração Superior</h4>
+          <p>Seu dado de Inspiração Bárdica alcança o ápice de **1d12**. Além disso, se você rolar iniciativa para um combate e não possuir nenhum uso de Inspiração Bárdica restante, você recupera automaticamente **1 uso** para não ficar desarmado artisticamente.</p>
+        </div>
+
+        <div class="bloco-bardo">
+          <h4>Nível 18: Palavra de Poder Superior</h4>
+          <p>Você rompe as últimas barreiras ocultas do multiverso. Você aprende **duas magias lendárias adicionais de 9º círculo** vindas de qualquer lista de classe do sistema (como *Desejo* ou *Cura Completa Massiva*). Elas são convertidas em magias de bardo e você pode conjurá-las utilizando seus espaços de 9º círculo padrão.</p>
+        </div>
+
+        <div class="bloco-bardo">
+          <h4>Nível 20: Inspiração Suprema</h4>
+          <p>Você se torna o maestro supremo das narrativas do mundo. Quando um aliado gasta um dado de sua Inspiração Bárdica e obtém o resultado mínimo (1) no dado, ele pode rebolar o dado, sendo obrigado a ficar com o novo valor. Além disso, os usos da sua Inspiração são ampliados drasticamente em cenários de alta tensão.</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #9b59b6; font-size: 1.6rem; margin-bottom: 10px;">Colégios Bárdicos (Subclasses)</h3>
+        
+        <div class="bloco-subclasse-detalhada">
+          <h3>Colégio do Lore (College of Lore)</h3>
+          <p>Focado em conhecimento acadêmico absoluto, segredos antigos, línguas e em sabotar os inimigos com palavras afiadas.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Perícias Adicionais & Palavras Cortantes</h5>
+            <p><strong>Perícias Extras:</strong> Você ganha proficiência em três perícias quaisquer à sua escolha.</p>
+            <p><strong>Palavras Cortantes (Cutting Words):</strong> Quando uma criatura que você possa enxergar a até 18 metros realizar uma jogada de ataque, teste de atributo ou rolagem de dano, você pode usar sua **Reação** e gastar um uso de Inspiração Bárdica para subtrair o valor rolado no dado bárdico do total do inimigo.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Segredos Mágicos Adicionais</h5>
+            <p>Você aprende **duas magias adicionais** de qualquer lista de classe do jogo (de até 3º círculo). Elas contam como magias de bardo para você e entram direto na sua mente antes mesmo de outras subclasses atingirem o nível 10.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Inspiração Inigualável</h5>
+            <p>Quando você realizar um teste de perícia e falhar, você pode gastar um uso de sua Inspiração Bárdica para **adicionar o dado ao seu próprio teste**, salvando-se de erros críticos de conhecimento ou lábia.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>Colégio da Valência (College of Valor)</h3>
+          <p>Os bardos escandinavos e skalds, focados em marchar na linha de frente inspirando exércitos com escudos e espadas.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Proficiências de Batalha & Inspiração Combativa</h5>
+            <p><strong>Treinamento de Guerra:</strong> Você ganha proficiência com **Armaduras Médias, Escudos e Armas Marciais**.</p>
+            <p><strong>Inspiração Combativa:</strong> O aliado que possuir o seu dado de Inspiração Bárdica pode aplicar o bônus de duas novas formas: adicionar o dado na **rolagem de dano** de um ataque físico, ou usar uma Reação para **adicionar o dado à sua própria Classe de Armadura (CA)** contra um ataque inimigo que acabou de ser desferido.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Ataque Extra</h5>
+            <p>Você pode atacar duas vezes, em vez de uma, sempre que executar a ação de Ataque no seu turno de combate.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Magia de Batalha</h5>
+            <p>Você domina a sincronia perfeita de aço e música. Quando você usar sua ação para **conjurar uma magia de bardo**, você pode realizar um ataque de arma corpo a corpo como uma **Ação Bônus** no mesmo turno.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>Colégio do Glamour (College of Glamour)</h3>
+          <p>Bardos que teceram sua arte na Agrestia das Fadas (Feywild), utilizando beleza hipnótica e majestade assustadora.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Manto de Alvoroço & Performance Enfeitiçante</h5>
+            <p><strong>Manto de Alvoroço (Mantle of Inspiration):</strong> Com uma Ação Bônus, você gasta uma Inspiração Bárdica para assumir uma aparência magnífica. Até 4 aliados a até 18 metros ganham **5 pontos de vida temporários** e podem usar a Reação deles imediatamente para se moverem seu deslocamento total sem provocar ataques de oportunidade.</p>
+            <p><strong>Performance Enfeitiçante:</strong> Se você cantar ou discursar por 1 minuto, alvos na plateia devem passar em salvaguarda de Sabedoria ou ficarão **Encantados** por você durante 1 hora.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Manto de Majestade</h5>
+            <p>Você consegue canalizar a beleza tirânica das fadas. Por 1 minuto, você pode conjurar a magia *Comando (Command)* como uma **Ação Bônus** em cada um dos seus turnos, sem gastar espaços de magia. Criaturas encantadas por você falham automaticamente nesta salvaguarda.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Majestade Inabalável</h5>
+            <p>Sua aparência adquire um aspecto permanentemente sagrado ou místico. Quando uma criatura tentar te atacar pela primeira vez no turno, ela deve passar em uma salvaguarda de Carisma. Se falhar, ela **não consegue te atingir** e deve escolher outro alvo para o ataque atual, gastando a ação.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>Colégio da Dança (College of Dance)</h3>
+          <p>Bardos ágeis que transformam o movimento corporal e os passos rítmicos em defesas físicas e golpes desarmados letais.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Dança Irrefreável & Defesa Rítmica</h5>
+            <p><strong>Dança Irrefreável:</strong> Enquanto você não estiver usando armadura ou escudo, sua CA se torna igual a: 10 + Mod Destreza + Mod Carisma. Além disso, você pode desferir **Ataques Desarmados usando o dado de Inspiração Bárdica** como base de dano físico.</p>
+            <p><strong>Passo Ágil:</strong> Quando você gasta um uso de Inspiração Bárdica, seu deslocamento aumenta em 3 metros e você pode se mover até metade do seu deslocamento sem provocar ataques de oportunidade.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Dança de Combate Compartilhada</h5>
+            <p>Sua agilidade contagia o grid. Quando as jogadas de iniciativa forem feitas, você pode gastar um uso de Inspiração Bárdica para **adicionar o valor do seu dado de inspiração na iniciativa de todos os aliados** que estiverem a até 9 metros de você.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Evasão Coreografada</h5>
+            <p>Seus passos desviam de catástrofes. Quando você ou um aliado a até 9 metros for alvo de um efeito de área que exija salvaguarda de Destreza (como um sopro de dragão), você pode usar sua Reação para garantir que, se passarem na salvaguarda, recebam **zero dano**, e se falharem, recebam apenas metade.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

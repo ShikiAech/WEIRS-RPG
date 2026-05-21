@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fadas — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Estilos customizados para blocos de magia de Fadas */
+    .bloco-magia {
+      background: rgba(46, 125, 50, 0.1);
+      border: 1px solid rgba(76, 175, 80, 0.3);
+      border-left: 4px solid #2ecc71;
+      padding: 22px;
+      margin-top: 30px;
+      border-radius: 4px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+    .bloco-magia h4 {
+      font-family: 'Cinzel', serif;
+      color: #2ecc71;
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+    .badge-voo {
+      display: inline-block;
+      background: rgba(46, 204, 113, 0.2);
+      color: #2ecc71;
+      padding: 3px 10px;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      border: 1px solid rgba(46, 204, 113, 0.4);
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="racas.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Raças</a>
+    </div>
+
+    <h2>Fadas</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://weirs-rpg.weebly.com/uploads/1/0/6/8/10689847/45581151_orig.jpg" alt="Fada">
+        
+        <div class="texto-lore">
+          <h3>As Guardiãs de Sequovila</h3>
+          <p>Assim como os elfos, as fadas desenvolveram-se na magia a partir do idioma rúnico. Porém, sua conexão profunda com as forças da natureza refinou seus feitiços e traços místicos de forma singular, tornando essa espécie os verdadeiros guardiões do mundo natural, mantendo a ordem e o equilíbrio acima de tudo.</p>
+          <p>Como parte de sua forte ligação com a fauna e a flora, as fadas geralmente são batizadas com nomes de flores. Sua exuberante terra natal é Sequovila, a lendária região das árvores gigantes localiza no continente de Nivien.</p>
+          
+          <h4 style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Traços de Fada</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Tipo de Criatura:</strong> Humanoide.</li>
+            <li><strong>Tamanho:</strong> Médio (cerca de 1,20 - 2,10 metros de altura).</li>
+            <li><strong>Deslocamento Terrestre:</strong> 9 metros (30ft).</li>
+            <li><strong>Deslocamento de Voo:</strong> 9 metros (30ft) <span class="badge-voo">Inato</span></li>
+            <li><strong>Idade:</strong> Fadas atingem a maioridade com 25 anos e podem viver até os 200 anos.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bloco-magia">
+        <h4>Magia Feérica</h4>
+        <p>Sua herança mística ligada à natureza infunde seu espírito com feitiços naturais natos. Você adquire as seguintes propriedades de conjuração:</p>
+        
+        <ul class="trait-list" style="margin-top: 15px; gap: 12px;">
+          <li><strong>Truque (Nível 1):</strong> Você conhece e pode conjurar o truque <em>Druidismo</em> à vontade.</li>
+          <li><strong>Magia de 3º Nível:</strong> Você pode conjurar a magia <em>Fogo das Fadas</em> sem gastar espaços de magia. Uma vez conjurada dessa forma, você só poderá usá-la novamente após terminar um Descanso Longo.</li>
+          <li><strong>Magia de 5º Nível:</strong> Você pode conjurar a magia <em>Aumentar/Reduzir</em> sem gastar espaços de magia. Você recupera o uso desta habilidade após completar um Descanso Longo.</li>
+          <li><strong>Flexibilidade Arcana:</strong> Você também pode conjurar qualquer uma dessas magias utilizando normalmente quaisquer espaços de magia disponíveis que sua classe possua.</li>
+          <li><strong>Atributo de Conjuração:</strong> Você escolhe se sua habilidade de conjuração para estas três magias será <strong>Inteligência</strong>, <strong>Sabedoria</strong> ou <strong>Carisma</strong> ao selecionar esta espécie durante a criação do personagem.</li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

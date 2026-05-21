@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ladino — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .bloco-ladino {
+      background: rgba(142, 68, 173, 0.03);
+      border: 1px solid rgba(142, 68, 173, 0.15);
+      border-left: 4px solid #8e44ad;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-ladino h4 {
+      font-family: 'Cinzel', serif;
+      color: #9b59b6;
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+    .bloco-subclasse-detalhada {
+      background: rgba(25, 25, 27, 0.8);
+      border: 1px solid var(--border-fantasy);
+      padding: 25px;
+      margin-top: 35px;
+      border-radius: 4px;
+    }
+    .bloco-subclasse-detalhada h3 {
+      font-family: 'Cinzel', serif;
+      color: #8e44ad;
+      border-bottom: 1px solid rgba(142, 68, 173, 0.3);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+    }
+    .sub-feature {
+      background: rgba(142, 68, 173, 0.04);
+      border-left: 3px solid #8e44ad;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 0 4px 4px 0;
+    }
+    .sub-feature h5 {
+      font-family: 'Cinzel', serif;
+      color: #bb8fce;
+      font-size: 1.05rem;
+      margin-bottom: 5px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+    .tabela-rpg {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: rgba(20, 20, 22, 0.6);
+      border: 1px solid var(--border-fantasy);
+      font-size: 0.85rem;
+    }
+    .tabela-rpg th, .tabela-rpg td {
+      border: 1px solid var(--border-fantasy);
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .tabela-rpg th {
+      background: rgba(33, 23, 43, 0.5);
+      color: #8e44ad;
+      font-family: 'Cinzel', serif;
+    }
+    .tabela-rpg tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .tabela-rpg td.esquerda {
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="classes.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Classes</a>
+    </div>
+
+    <h2>Ladino (Rogue)</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://imagenslucas.weebly.com/uploads/1/0/6/8/10689847/save-follow-donate-toss-a-coin-to-your-autor-boosty-to-abominationrs-donate-commissions-are-open-only-to-my-boosty-subscribers-all-styles-master-creator-boosty-dnd-ttrpg-evgan_orig.jpg" alt="Ladino">
+        <div class="texto-lore">
+          <h3>A lâmina oculta nas sombras</h3>
+          <p>Para muitos, resolver um problema exige o estrépito de armaduras pesadas ou o brilho cegante de feitiços arcanos. Para o ladino, exige precisão, oportunidade e o silêncio absoluto. Seja um mestre gatuno espreitando em becos úmidos, um aristocrata perspicaz manipulando a corte, ou um assassino focado em anatomia letal, eles transformam a sutileza em sua arma mais poderosa.</p>
+          <p>Nas regras atualizadas de 2024, o Ladino expande drasticamente seu papel no campo de batalha com o recurso de <strong>Cunho Cansativo (Cunning Strike)</strong>. Ele não é mais apenas o causador de dano explosivo do grupo; agora, ele pode abdicar de parcelas de seu Ataque Furtivo para debilitar inimigos, desarmá-los, derrubá-los ou até mesmo deixá-los inconscientes com golpes cirúrgicos, mantendo-se como o mestre indiscutível das perícias e da furtividade.</p>
+          
+          <h4 style="color: #8e44ad; margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Dado de Vida:</strong> 1d8 por nível de Ladino.</li>
+            <li><strong>Atributo Principal:</strong> Destreza (Ataques, CA e Iniciativa).</li>
+            <li><strong>Proficiências em Armaduras:</strong> Armaduras Leves.</li>
+            <li><strong>Proficiências em Armas:</strong> Armas Simples e Armas Marciais com a propriedade <i>Leve</i> ou <i>Acuidade</i>.</li>
+            <li><strong>Ferramentas:</strong> Ferramentas de Ladrão (Thieves' Tools).</li>
+            <li><strong>Testes de Resistência:</strong> Destreza e Inteligência.</li>
+            <li><strong>Perícias:</strong> Escolha quatro entre Acrobacia, Atletismo, Atuação, Enganação, Furtividade, Intimidação, Intuição, Investigação, Percepção, Persuasão, Prestidigitação e Medicina.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px; overflow-x: auto;">
+        <h3 style="font-family: 'Cinzel', serif; color: #8e44ad; font-size: 1.6rem; margin-bottom: 15px;">Progressão de Classe</h3>
+        <table class="tabela-rpg">
+          <thead>
+            <tr>
+              <th>Nível</th>
+              <th>Prof.</th>
+              <th class="esquerda">Recursos de Classe</th>
+              <th>Ataque Furtivo</th>
+              <th>Maestria em Armas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1º</td><td>+2</td><td class="esquerda">Ataque Furtivo, Especialização (Expertise), Gíria de Ladrão, Maestria em Armas</td><td>1d6</td><td>2</td></tr>
+            <tr><td>2º</td><td>+2</td><td class="esquerda">Ação Astuta (Cunning Action)</td><td>1d6</td><td>2</td></tr>
+            <tr><td>3º</td><td>+2</td><td class="esquerda">Arquétipo de Ladino (Subclasse), Mira Firme (Steady Aim)</td><td>2d6</td><td>2</td></tr>
+            <tr><td>4º</td><td>+2</td><td class="esquerda">Talento de Atributo (Feat)</td><td>2d6</td><td>2</td></tr>
+            <tr><td>5º</td><td>+3</td><td class="esquerda">Esquiva Sobrenatural (Uncanny Dodge), Cunho Cansativo (Cunning Strike)</td><td>3d6</td><td>2</td></tr>
+            <tr><td>6º</td><td>+3</td><td class="esquerda">Especialização Adicional (Expertise)</td><td>3d6</td><td>2</td></tr>
+            <tr><td>7º</td><td>+3</td><td class="esquerda">Evasão (Evasion)</td><td>4d6</td><td>3</td></tr>
+            <tr><td>8º</td><td>+3</td><td class="esquerda">Talento de Atributo (Feat)</td><td>4d6</td><td>3</td></tr>
+            <tr><td>9º</td><td>+4</td><td class="esquerda">Recurso de Subclasse</td><td>5d6</td><td>3</td></tr>
+            <tr><td>10º</td><td>+4</td><td class="esquerda">Talento de Atributo Extra (Feat)</td><td>5d6</td><td>3</td></tr>
+            <tr><td>11º</td><td>+4</td><td class="esquerda">Talento Confiável (Reliable Talent)</td><td>6d6</td><td>3</td></tr>
+            <tr><td>12º</td><td>+4</td><td class="esquerda">Talento de Atributo (Feat)</td><td>6d6</td><td>3</td></tr>
+            <tr><td>13º</td><td>+5</td><td class="esquerda">Recurso de Subclasse</td><td>7d6</td><td>3</td></tr>
+            <tr><td>14º</td><td>+5</td><td class="esquerda">Cunho Cansativo Aprimorado (Improved Cunning Strike)</td><td>7d6</td><td>3</td></tr>
+            <tr><td>15º</td><td>+5</td><td class="esquerda">Sentido de Lesma (Slippery Mind)</td><td>8d6</td><td>4</td></tr>
+            <tr><td>16º</td><td>+5</td><td class="esquerda">Talento de Atributo (Feat)</td><td>8d6</td><td>4</td></tr>
+            <tr><td>17º</td><td>+6</td><td class="esquerda">Recurso de Subclasse</td><td>9d6</td><td>4</td></tr>
+            <tr><td>18º</td><td>+6</td><td class="esquerda">Elusivo (Elusive)</td><td>9d6</td><td>4</td></tr>
+            <tr><td>19º</td><td>+6</td><td class="esquerda">Talento de Atributo / Dádiva Épica</td><td>10d6</td><td>4</td></tr>
+            <tr><td>20º</td><td>+6</td><td class="esquerda">Golpe de Sorte (Stroke of Luck)</td><td>10d6</td><td>4</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #8e44ad; font-size: 1.6rem; margin-bottom: 20px;">Recursos de Classe Detalhados</h3>
+
+        <div class="bloco-ladino">
+          <h4>Nível 1: Ataque Furtivo, Especialização, Gíria de Ladrão & Maestria em Armas</h4>
+          <p><strong>Ataque Furtivo (Sneak Attack):</strong> Uma vez por turno, você pode causar um dano extra de 1d6 (escala conforme a tabela) a uma criatura que atingir com um ataque se tiver <b>Vantagem</b> na jogada. O ataque deve utilizar uma arma com a propriedade <i>Acuidade (Finesse)</i> ou <i>À Distância</i>. Você não precisa de vantagem se outro inimigo do alvo estiver a até 1,5 metros dele, se esse inimigo não estiver incapacitado e você não tiver desvantagem na jogada.</p>
+          <p><strong>Especialização (Expertise):</strong> Escolha duas de suas perícias proficientes ou uma perícia e suas ferramentas de ladrão. Seu bônus de proficiência é **dobrado** para qualquer teste de atributo que use as escolhas selecionadas.</p>
+          <p><strong>Gíria de Ladrão (Thieves' Cant):</strong> Você conhece o código secreto que permite ocultar mensagens em conversas normais. Em 2024, você também aprende um idioma padrão adicional de forma gratuita.</p>
+          <p><strong>Maestria em Armas (Weapon Mastery):</strong> Você desbloqueia as propriedades de maestria tática de dois tipos de armas específicos que possuam a propriedade <i>Acuidade</i> ou <i>Leve</i> (ex: <i>Vex</i> em adagas para dar vantagem automática ou <i>Nick</i> em adagas/espadas curtas para atacar sem gastar ação bônus).</p>
+        </div>
+
+        <div class="bloco-ladino">
+          <h4>Nível 2: Ação Astuta</h4>
+          <p><strong>Ação Astuta (Cunning Action):</strong> Seu pensamento rápido e agilidade corporal permitem que você se mova e se esconda em um piscar de olhos. Você pode realizar uma <b>Ação Bônus</b> em cada um dos seus turnos em combate para executar uma das seguintes ações: <b>Disparada (Dash)</b>, <b>Desengajar (Disengage)</b> ou <b>Esconder-se (Hide)</b>.</p>
+        </div>
+
+        <div class="bloco-ladino">
+          <h4>Nível 3: Arquétipo de Ladino & Mira Firme</h4>
+          <p><strong>Arquétipo de Ladino:</strong> Você escolhe sua especialidade criminosa ou profissional entre as quatro vias oficiais: **Assassino**, **Ladrão**, **Trapaceiro Arcano** ou **Inquisitivo**. Concede recursos imediatos e evoluções nos níveis 3, 9, 13 e 17.</p>
+          <p><strong>Mira Firme (Steady Aim):</strong> Como uma Ação Bônus, você ganha <b>Vantagem</b> na sua próxima jogada de ataque neste turno. Para usar este recurso, seu deslocamento atual deve ser de 0 metros, e ele é reduzido a 0 até o fim do turno atual.</p>
+        </div>
+
+        <div class="bloco-ladino">
+          <h4>Níveis 4, 8, 10, 12, 16 e 19: Talentos de Atributo (Feats)</h4>
+          <p>Aumente um atributo em +2, dois em +1, ou selecione um Talento Geral válido. O Ladino recebe um Talento de Atributo adicional no **Nível 10**, reforçando sua flexibilidade de construção.</p>
+        </div>
+
+        <div class="bloco-ladino">
+          <h4>Nível 5: Esquiva Sobrenatural & Cunho Cansativo</h4>
+          <p><strong>Esquiva Sobrenatural (Uncanny Dodge):</strong> Quando um atacante que você consiga ver atingir você com um ataque, você pode usar sua <b>Reação</b> para reduzir o dano sofrido por aquele ataque pela **metade**.</p>
+          <p><strong>Cunho Cansativo (Cunning Strike):</strong> A grande inovação mecânica de 2024. Ao desferir um Ataque Furtivo, você pode optar por sacrificar dados de dano do seu bônus de furtividade para aplicar efeitos táticos. Você pode aplicar apenas uma opção por ataque:</p>
+          <ul class="trait-list" style="margin-top: 10px;">
+            <li><strong>Desarmar (Disarm - Custo: 1d6):</strong> O alvo deve passar em uma salvaguarda de Destreza ou derrubará um objeto/arma que esteja segurando (sua escolha).</li>
+            <li><strong>Derrubar (Trip - Custo: 1d6):</strong> Se o alvo for de tamanho Grande ou menor, ele deve passar em uma salvaguarda de Destreza ou ficará <b>Caído (Prone)</b>.</li>
+            <li><strong>Retirar (Withdraw - Custo: 1d6):</strong> Você ganha os efeitos da ação Desengajar livremente para se mover imediatamente após o golpe sem provocar ataques de oportunidade daquele alvo.</li>
+            <li><strong>Envenenar (Poison - Custo: 2d6):</strong> O alvo deve passar em uma salvaguarda de Constituição ou sofrerá a condição <b>Envenenado (Poisoned)</b> por 1 minuto. Ele pode repetir o teste ao fim de cada turno.</li>
+          </ul>
+        </div>
+
+        <div class="bloco-ladino">
+          <h4>Nível 6: Especialização Adicional</h4>
+          <p>Você escolhe mais duas de suas perícias proficientes (ou uma perícia e suas ferramentas de ladrão) para receber os benefícios de seu bônus de proficiência **dobrado**.</p>
+        </div>
+
+        <div class="bloco-ladino">
+          <h4>Nível 7: Evasão</h4>
+          <p><strong>Evasão (Evasion):</strong> Você pode esquivar-se agilmente de efeitos de área destrutivos (como o sopro flamejante de um dragão ou uma magia de <i>Bola de Fogo</i>). Quando for alvo de um efeito que exija uma salvaguarda de Destreza para sofrer apenas metade do dano, você não sofre **nenhum dano** se passar na salvaguarda, e apenas **metade do dano** se falhar.</p>
+        </div>
+
+        <div class="bloco-ladino">
+          <h4>Nível 11: Talento Confiável</h4>
+          <p><strong>Talento Confiável (Reliable Talent):</strong> Seu refinamento de perícias atinge o nível perfeito. Sempre que realizar um teste de atributo de qualquer perícia ou ferramenta na qual você possua **proficiência**, qualquer resultado de **9 ou menor** na rolagem do d20 é tratado automaticamente como se você tivesse tirado um **10** bruto.</p>
+        </div>
+
+        <div class="bloco-ladino">
+          <h4>Nível 14: Cunho Cansativo Aprimorado</h4>
+          <p><strong>Cunho Aprimorado (Improved Cunning Strike):</strong> Sua mente cirúrgica permite encadear debilitações. Você passa a poder aplicar até **duas opções de Cunho Cansativo simultaneamente** em um único Ataque Furtivo, pagando o custo de dados combinado (ex: gasta 2d6 totais para Derrubar e Desarmar ao mesmo tempo).</p>
+        </div>
+
+        <div class="bloco-ladino">
+          <h4>Nível 15: Sentido de Lesma</h4>
+          <p><strong>Sentido de Lesma (Slippery Mind):</strong> Seus reflexos mentais tornam sua consciência blindada contra invasões e ilusões. Você ganha proficiência em testes de resistência de **Sabedoria** e de **Carisma**.</p>
+        </div>
+
+        <div class="bloco-ladino">
+          <h4>Nível 18: Elusivo</h4>
+          <p><strong>Elusivo (Elusive):</strong> Você se move de forma tão fluida e imprevisível que os inimigos raramente encontram uma brecha nas suas defesas. Nenhuma jogada de ataque de qualquer criatura contra você pode possuir <b>Vantagem</b>, desde que você não esteja incapacitado.</p>
+        </div>
+
+        <div class="bloco-ladino">
+          <h4>Nível 20: Golpe de Sorte</h4>
+          <p><strong>Golpe de Sorte (Stroke of Luck):</strong> Você possui uma capacidade quase sobrenatural de obter o sucesso quando mais precisa. Se um ataque seu errar o alvo ao alcance, você pode transformar o erro em um **acerto automático**. Alternativamente, se falhar em qualquer teste de atributo, pode tratar o resultado do d20 como um **20 natural**. Você recupera o uso deste recurso após finalizar um Descanso Curto ou Longo.</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #8e44ad; font-size: 1.6rem; margin-bottom: 10px;">Arquétipos de Ladino (Subclasses)</h3>
+        
+        <div class="bloco-subclasse-detalhada">
+          <h3>1. Assassino (Assassin)</h3>
+          <p>Mestres da infiltração fria e emboscadas brutais. Projetados para liquidar alvos antes mesmo de a iniciativa se estabilizar no grid.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Ferramentas de Assassino & Emboscar Letais</h5>
+            <p><strong>Proficiências:</strong> Você ganha proficiência com o Kit de Disfarce e o Kit de Envenenador.</p>
+            <p><strong>Emboscar Letal (Assassinate):</strong> Você tem vantagem em jogadas de ataque contra qualquer criatura que ainda não tenha agido no turno de combate atual (Iniciativa). Além disso, quando atingir uma criatura com um ataque no seu **primeiro turno de combate**, o dano do seu Ataque Furtivo causa um dano extra igual ao **seu nível de ladino**.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 9: Infiltração Perfeita</h5>
+            <p>Você pode criar identidades falsas impecáveis para si mesmo. Ao passar 1 hora e gastar 25 peças de ouro, você estabelece um disfarce civil ou militar que impede que criaturas comuns desconfiem de você, a menos que você cometa um ato flagrante ou hostil.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 13: Cunho Cansativo do Assassino (Golpe Tóxico)</h5>
+            <p>Ao usar seu recurso Cunho Cansativo (Nível 5), você libera a opção <b>Golpe Tóxico (Toxin Strike - Custo: 3d6)</b>. Se o alvo falhar na salvaguarda de Constituição, ele sofre dano Venenoso extra igual a **2d10** e fica Envenenado com desvantagem em seus testes.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 17: Carrasco (Death Strike)</h5>
+            <p>Quando você atingir uma criatura no primeiro turno de combate e ela estiver surpresa ou você tiver vantagem, você pode forçá-la a realizar uma salvaguarda de Constituição (CD baseada em Destreza). Se falhar, o dano do seu ataque contra ela é **dobrado**.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>2. Ladrão (Thief)</h3>
+          <p>O gatuno clássico das lendas. Focado em escaladas absurdas, velocidade de mãos inacreditável e uso versátil de itens mágicos em combate.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Mãos Rápidas & Agilidade de Telhado</h5>
+            <p><strong>Mãos Rápidas (Fast Hands):</strong> Você pode usar a Ação Bônus da sua <i>Ação Astuta</i> para realizar um teste de Destreza (Prestidigitação), usar suas Ferramentas de Ladrão para abrir uma fechadura/desarmar armadilha, ou realizar a ação de <b>Usar um Objeto</b> (como arremessar ácido, óleo ou ativar itens).</p>
+            <p><strong>Agilidade de Telhado (Second-Story Work):</strong> Escalar superfícies não consome movimento adicional. Além disso, a distância que você pode cobrir em um salto aumenta em uma quantidade de metros igual ao seu modificador de Destreza.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 9: Furtividade Suprema</h5>
+            <p>Você ganha <b>Vantagem</b> em qualquer teste de Destreza (Furtividade) desde que não se mova mais do que a metade do seu deslocamento total no respectiva rodada.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 13: Usar Item Mágico Displicente</h5>
+            <p>Sua malícia permite ignorar barreiras místicas. Você ignora todos os requisitos de classe, raça e nível para a sintonização ou uso de qualquer item mágico. Além disso, você ganha um **quarto slot de sintonização** de itens mágicos.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 17: Reflexos de Ladrão</h5>
+            <p>Você se move tão rápido que parece agir duas vezes. No primeiro ciclo de qualquer combate, você realiza **dois turnos inteiros**. Você joga sua iniciativa normalmente para o primeiro turno, e realiza o segundo turno com sua Iniciativa calculada em **-10**.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>3. Trapaceiro Arcano (Eldritch Trickster)</h3>
+          <p>Combina a malícia das sombras com truques e magias de Ilusão e Encantamento da lista do Mago, focando em Inteligência e no uso avançado de mãos invisíveis.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Mãos Mágicas Trapaceiras & Conjuração</h5>
+            <p><strong>Conjuração:</strong> Você aprende truques e magias da lista de Mago (com base em Inteligência) de acordo com a progressão de terço de conjurador. *(Em 2024, as restrições rígidas de escolas foram suavizadas, abrindo mais espaço para utilitários)*.</p>
+            <p><strong>Mãos Mágicas Trapaceiras (Mage Hand Legerdemain):</strong> Quando conjura o truque <i>Mãos Mágicas</i>, a mão invisível se manifesta. Você pode usar sua <i>Ação Astuta</i> para controlar a mão mística para roubar itens de alvos, guardar objetos ou sabotar armadilhas à distância.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 9: Emboscada Mágica</h5>
+            <p>Se você estiver totalmente escondido (camuflado) de uma criatura no momento em que conjurar uma magia que exija dela uma salvaguarda, o alvo recebe **Desvantagem** no teste de resistência contra o seu feitiço.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 13: Distração Versátil</h5>
+            <p>Você pode usar sua Ação Bônus para apontar sua <i>Mão Mágica</i> para uma criatura a até 9 metros. Ao fazer isso, você distrai o alvo e ganha **Vantagem** em todas as suas jogadas de ataque realizadas contra ele até o fim do seu turno atual.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 17: Ladrão de Magia (Spell Thief)</h5>
+            <p>Quando uma criatura conjurar uma magia que tenha você como alvo ou inclua você na área, você pode usar sua Reação para forçá-la a realizar uma salvaguarda com seu atributo de conjuração. Se falhar, você nega o efeito da magia em você e, se ela for de até 4º círculo, você **rouba o conhecimento da magia** por 8 horas, podendo conjurá-la usando seus próprios espaços.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>4. Inquisitivo (Inquisitive)</h3>
+          <p>O detetive do submundo. Especialista em ler as intenções de oponentes através da percepção cirúrgica, abrindo brechas para Ataques Furtivos sem depender de fatores externos.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Olhar Pericial & Combate Perspicaz</h5>
+            <p><strong>Olhar Pericial (Ear for Deceit):</strong> Sempre que fizer um teste de Sabedoria (Intuição) para detectar mentiras, qualquer rolagem menor que 7 no d20 torna-se automaticamente um **8**.</p>
+            <p><strong>Combate Perspicaz (Insightful Fighting):</strong> Como uma Ação Bônus, faça um teste de Sabedoria (Intuição) contra um teste de Carisma (Enganação) de um alvo visível a até 9 metros. Se vencer, você decifra o padrão tático do inimigo e pode aplicar seu <b>Ataque Furtivo</b> contra ele em todos os turnos pelos próximos 1 minuto, independente de ter vantagem ou aliados próximos.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 9: Olho para o Detalhe</h5>
+            <p>Você pode usar sua Ação Bônus para realizar testes de Sabedoria (Percepção) para encontrar criaturas escondidas ou Inteligência (Investigação) para decifrar pistas ambientais no calor da batalha.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 13: Olhar Firme (Unerring Eye)</h5>
+            <p>Seus sentidos são perfeitos. Como uma ação, você pode detectar a presença de ilusões mágicas, metamorfos ou criaturas invisíveis a até 9 metros de você por uma rodada. Você pode usar este recurso uma quantidade de vezes igual ao seu modificador de Sabedoria por Descanso Longo.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 17: Derrubada Cirúrgica</h5>
+            <p>Sua leitura analítica dos inimigos sob o efeito do seu *Combate Perspicaz* atinge a maestria anatômica. O dano do seu Ataque Furtivo contra o alvo analisado aumenta permanentemente em adicionais **3d6** de dano.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

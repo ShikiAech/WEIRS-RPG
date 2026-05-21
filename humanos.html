@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Humanos — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Estilos específicos para a listagem detalhada de subraças */
+    .subraca-container {
+      margin-top: 40px;
+      border-top: 1px solid var(--border-fantasy);
+      padding-top: 30px;
+    }
+    .subraca-card {
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 3px solid var(--gold);
+      padding: 20px;
+      margin-bottom: 25px;
+      border-radius: 0 4px 4px 0;
+    }
+    .subraca-card h4 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-bright);
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+    .subraca-card p {
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+ 
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="racas.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Raças</a>
+    </div>
+
+    <h2>Humanos</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://weirs-rpg.weebly.com/uploads/1/0/6/8/10689847/baixados-2_orig.jpg" alt="Humano">
+        
+        <div class="texto-lore">
+          <h3>A Centelha da Curiosidade</h3>
+          <p>Os deuses se encantaram pelas semelhanças físicas com essa espécie de primatas que originou-se na Terra. Por isso os humanos foram abençoados com a fagulha da curiosidade, com isso desenvolveram-se e adaptaram-se povoando o planeta quase que por completo. Essa curiosidade também fez com que eles buscassem pelos deuses e cultuassem-nos.</p>
+          
+          <h4 style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Traços de Humano</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Tipo de Criatura:</strong> Humanoide.</li>
+            <li><strong>Tamanho:</strong> Médio (cerca de 1,20 - 2,10 metros de altura) ou Pequeno (cerca de 0,60 - 1,20 metro de altura), escolhido ao selecionar esta raça.</li>
+            <li><strong>Deslocamento:</strong> 9 metros (30ft).</li>
+            <li><strong>Idade:</strong> Humanos atingem a maioridade com 18 anos e podem viver até os 100 anos.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="subraca-container">
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Subraças</h3>
+
+        <div class="subraca-card">
+          <h4>Humano Tradicional</h4>
+          <ul class="trait-list">
+            <li><strong>Eficiente:</strong> Você adquire Inspiração Heroica sempre que completar um Descanso Longo.</li>
+            <li><strong>Hábil:</strong> Você adquire proficiência em uma perícia à sua escolha.</li>
+            <li><strong>Versátil:</strong> Você adquire um talento de Origem à sua escolha. *Habilidoso* é recomendado.</li>
+          </ul>
+        </div>
+
+        <div class="subraca-card" style="border-left-color: var(--blood-red);">
+          <h4>Manchados</h4>
+          <p>Após a implementação dos Védrons no dia-a-dia, foi descoberto que esse recurso místico valioso produz efeitos inusitados no corpo de humanos que ficam em contato com o composto. Na maior parte dos casos o triste fim é a fragmentação espiritual que leva a sequelas físicas severas e em alguns casos até a morte. Alguns humanos conseguem sobreviver a fragmentação e estes podem desenvolver habilidades sobre-humanas depois do contato.</p>
+          <ul class="trait-list">
+            <li><strong>Mancha:</strong> Apesar de ter sobrevivido a fragmentação espiritual essa experiência mudou a sua fisiologia de uma forma irreversível. Você tem acesso a uma Mancha, uma habilidade de raça única causada pela influência dos Védrons no seu corpo. Os poderes e habilidades adquiridos através da Mancha são variados, combine com o seu mestre uma habilidade que ele julgue ser balanceada e adequada.</li>
+          </ul>
+        </div>
+
+        <div class="subraca-card" style="border-left-color: #5dade2;">
+          <h4>Marcados</h4>
+          <p>Humanos marcados de forma irreversível por um poder extraplanar.</p>
+          <ul class="trait-list">
+            <li><strong>Corpo Marcado:</strong> Sua forma física foi alterada de forma que remeta a entidade que maculou seu corpo. Você ganha um dos seguintes traços: Anfíbio, Ágil (nimble), Tática de Matilha ou Ancestral Feérico.</li>
+            <li><strong>Maldição:</strong> Você pode entrar em acordo com sua nova realidade e usar sua maldição para sua vantagem. Como já está amaldiçoado, você se torna imune a novos efeitos de maldição.</li>
+            <li><strong>Conhecimento Proibido:</strong> Estar ligado a forces ancestrais te dá acesso ao saber que não é acessível por todos. Escolha 2 perícias em que não tenha proficiência para adquirir. Adicionalmente, escolha uma perícia em que já tenha proficiência para adquirir especialização.</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

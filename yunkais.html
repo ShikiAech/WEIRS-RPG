@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yun'kais — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Estilos customizados para a magia noturna e lunar dos Yun'kais */
+    .bloco-lunar {
+      background: rgba(142, 68, 173, 0.08);
+      border: 1px solid rgba(142, 68, 173, 0.2);
+      border-left: 4px solid #9b59b6;
+      padding: 22px;
+      margin-top: 25px;
+      border-radius: 0 4px 4px 0;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+    .bloco-lunar h4 {
+      font-family: 'Cinzel', serif;
+      color: #d2b4de;
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+    .bloco-bencao {
+      background: rgba(52, 152, 219, 0.1);
+      border: 1px solid rgba(52, 152, 219, 0.25);
+      border-left: 4px solid #5dade2;
+      padding: 22px;
+      margin-top: 25px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-bencao h4 {
+      font-family: 'Cinzel', serif;
+      color: #eaf2f8;
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+      text-shadow: 0 0 10px rgba(93, 173, 226, 0.5);
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+    .badge-luar {
+      display: inline-block;
+      background: rgba(155, 89, 182, 0.2);
+      color: #af7ac5;
+      padding: 3px 10px;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      border: 1px solid rgba(155, 89, 182, 0.4);
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+  
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="racas.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Raças</a>
+    </div>
+
+    <h2>Yun'kais</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://weirs-rpg.weebly.com/uploads/1/0/6/8/10689847/published/img-0088-2.png?1778897838" alt="Yun'kai">
+        
+        <div class="texto-lore">
+          <h3>Os Elfos Noturnos</h3>
+          <p>O segundo povo abençado pela deusa Luna. Às vezes chamados de elfos noturnos, os Yun'kais escolheram seguir por um caminho de maior conexão íntima com as forças da natureza selvagem e uma organização de sociedade mais tribal.</p>
+          <p>Vivendo em alojamentos camuflados dentro da floresta profunda, sua comunidade funciona de forma coletiva, onde absolutamente todos contribuem para o bem-estar do clã. O Sacerdote figura como a liderança máxima e espiritual do local, sendo o responsável por conduzir os sagrados rituais de adoração à lua. Os Yun'kais carregam marcas rúnicas inatas em seus corpos que reagem visivelmente ao luar, banhando os indivíduos com uma poderosa energia arcana.</p>
+          
+          <h4 style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Traços de Yun'kai</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Tipo de Criatura:</strong> Humanoide.</li>
+            <li><strong>Tamanho:</strong> Médio (cerca de 1,50 - 1,80 metros de altura).</li>
+            <li><strong>Deslocamento Terrestre:</strong> 9 metros (30ft).</li>
+            <li><strong>Idade:</strong> Atingem a maioridade aos 50 anos e podem viver até os 400 anos.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Herança de Luna</h3>
+        
+        <ul class="trait-list">
+          <li><strong>Visão no Escuro:</strong> Seus olhos são perfeitamente adaptados para a escuridão das matas. Você tem Visão no Escuro com um alcance de 18 metros (60ft).</li>
+          <li><strong>Ancestralidade Feérica:</strong> Você tem vantagem em realizar salvaguardas para evitar ou encerrar a condição <em>Enfeitiçado</em>.</li>
+          <li><strong>Sentidos Aguçados:</strong> A vida nas florestas aguçou seus instintos. Você tem proficiência na perícia <em>Intuição</em>, <em>Percepção</em> ou <em>Sobrevivência</em> (escolha uma).</li>
+          <li><strong>Transe:</strong> Você pode completar um descanso longo em apenas 4 horas ao meditar, sem a necessidade de dormir como os humanos, e efeitos mágicos não podem forçá-lo a dormir.</li>
+        </ul>
+      </div>
+
+      <div class="bloco-lunar">
+        <h4>Poder Rúnico Lunar</h4>
+        <p><strong>Herança Lunar:</strong> O magnetismo da lua protege seu espírito. Você possui <strong>Resistência</strong> a dano <em>Radiante</em> ou dano <em>Necrótico</em> (escolha ao selecionar esta espécie). Adicionalmente, você aprende o truque <strong>Rajada Mística</strong>. Escolha se o seu atributo de conjuração para este truque será <em>Carisma</em>, <em>Inteligência</em> ou <em>Sabedoria</em>.</p>
+        
+        <p style="margin-top: 15px;"><strong>Afinidade Arcana:</strong> Conforme você evolui, as runas do seu corpo desbloqueiam novas magias que podem ser conjuradas sem o gasto de espaços de magia (recuperando o uso após um Descanso Longos) ou usando seus espaços de classe normais:</p>
+        <ul class="trait-list" style="margin-top: 10px; gap: 5px;">
+          <li><strong>A partir do 3º Nível:</strong> Você pode conjurar a magia <em>Passo Nebuloso</em> uma vez por descanso longo.</li>
+          <li><strong>A partir do 5º Nível:</strong> Você pode conjurar a magia <em>Raio Lunar</em> uma vez por descanso longo.</li>
+        </ul>
+      </div>

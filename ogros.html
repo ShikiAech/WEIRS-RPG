@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ogros — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Estilos customizados para a resiliência e o caos dos Ogros */
+    .bloco-adrenalina {
+      background: rgba(39, 174, 96, 0.08);
+      border: 1px solid rgba(39, 174, 96, 0.2);
+      border-left: 4px solid #2ecc71;
+      padding: 22px;
+      margin-top: 30px;
+      border-radius: 0 4px 4px 0;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+    .bloco-adrenalina h4 {
+      font-family: 'Cinzel', serif;
+      color: #58d68d;
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+    .bloco-vigor {
+      background: rgba(192, 57, 43, 0.08);
+      border: 1px solid rgba(192, 57, 43, 0.2);
+      border-left: 4px solid var(--blood-red);
+      padding: 22px;
+      margin-top: 25px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-vigor h4 {
+      font-family: 'Cinzel', serif;
+      color: #ff4d4d;
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+    .badge-furia {
+      display: inline-block;
+      background: rgba(39, 174, 96, 0.2);
+      color: #2ecc71;
+      padding: 3px 10px;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      border: 1px solid rgba(39, 174, 96, 0.4);
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+
+ <script src="menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="racas.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Raças</a>
+    </div>
+
+    <h2>Ogros</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://weirs-rpg.weebly.com/uploads/1/0/6/8/10689847/orc-magician-nezt-oss_orig.jpg" alt="Ogro">
+        
+        <div class="texto-lore">
+          <h3>Os Exilados de Kali</h3>
+          <p>Conforme a sociedade élfica antiga se desenvolvia, alguns indivíduos começaram a nascer com um tipo bastante peculiar de mutação biológica. Estes elfos nasciam com a pele esverdeada, dentes proeminentes e muito maiores que o comum, além de uma musculatura massiva hiperdesenvolvida.</p>
+          <p>Considerados "doentes" e deformados, esses indivíduos foram cruelmente excluídos e banidos da comunidade élfica pura. Conforme debandavam sem rumo, os rejeitados se organizaram e ergueram sua própria sociedade em terras distantes, isoladas e pantanosas. Eles renunciaram totalmente à deusa Luna por alegarem abandono e passaram a servir fervorosamente a outra divindade: <strong>Kali</strong>, a deusa que os guiou e fortaleceu através dos caminhos caóticos da sobrevivência brutal.</p>
+          
+          <h4 style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Traços de Ogro</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Tipo de Criatura:</strong> Humanoide.</li>
+            <li><strong>Tamanho:</strong> Médio (pesados e robustos, medindo entre 1,20 e 2,10 metros).</li>
+            <li><strong>Deslocamento Terrestre:</strong> 9 metros (30ft).</li>
+            <li><strong>Idade:</strong> Devido ao metabolismo acelerado e vida hostil, atingem a maioridade aos 14 anos e podem viver até os 60 anos.</li>
+            <li><strong>Visão no Escuro Superior:</strong> Acostumados com as brumas e a escuridão densa dos pântanos selvagens, você possui visão no escuro com alcance estendido de <strong>36 metros (120ft)</strong>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bloco-adrenalina">
+        <h4>Pico de Adrenalina <span class="badge-furia">Ação Bônus</span></h4>
+        <p>A fúria dos injustiçados corre em suas veias, permitindo impulsos violentos de velocidade e resiliência em combate.</p>
+        <p><strong>Mecânica:</strong> Você pode executar a ação <strong>Correr</strong> utilizando apenas uma <strong>Ação Bônus</strong> no seu turno. Ao fazer isso, a explosão de energia faz com que você adquira instantaneamente um número de <strong>Pontos de Vida Temporários igual ao seu Bônus de Proficiência</strong>.</p>
+        <p style="margin-top: 8px; font-size: 0.9rem; color: #58d68d; font-style: italic;">Você pode usar este traço um número de vezes igual ao seu Bônus de Proficiência, e você restaura todos os usos gastos quando completa um Descanso Curto ou Longo.</p>
+      </div>
+
+      <div class="bloco-vigor">
+        <h4>Vigor Implacável</h4>
+        <p>Guiado pela resiliência dada por Kali, seu corpo se recusa a tombar diante de golpes que matariam criaturas comuns.</p>
+        <p><strong>Mecânica:</strong> Ao sofrer dano e ser reduzido a 0 Pontos de Vida, mas não sendo morto imediatamente por dano massivo, você pode negar a inconsciência e se manter de pé com exatamente <strong>1 Ponto de Vida</strong>.</p>
+        <p style="margin-top: 8px; font-size: 0.9rem; color: #ff8080; font-style: italic;">Após desfrutar deste vigor implacável, você não poderá utilizá-lo novamente até completar um Descanso Longo.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

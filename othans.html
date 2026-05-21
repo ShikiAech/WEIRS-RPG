@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crônicas de Othans — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .header-campanha {
+      text-align: center;
+      border-bottom: 2px solid #8e44ad;
+      padding-bottom: 20px;
+      margin-bottom: 40px;
+    }
+    .header-campanha h1 {
+      font-family: 'Cinzel', serif;
+      color: #9b59b6;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    .badge-status {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(142, 68, 173, 0.2);
+      border: 1px solid #8e44ad;
+      color: #a29bfe;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .bloco-aviso {
+      background: rgba(142, 68, 173, 0.05);
+      border-left: 4px solid #8e44ad;
+      padding: 20px;
+      margin-bottom: 40px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-aviso h4 {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    .secao-personagens {
+      margin-top: 30px;
+    }
+    .secao-personagens h3 {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      border-bottom: 1px solid var(--border-fantasy);
+      padding-bottom: 10px;
+      margin-bottom: 25px;
+    }
+    .grid-personagens {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .card-pj {
+      background: rgba(25, 25, 27, 0.9);
+      border: 1px solid var(--border-fantasy);
+      border-radius: 4px;
+      padding: 20px;
+      transition: border-color 0.2s;
+    }
+    .card-pj:hover {
+      border-color: #8e44ad;
+    }
+    .nome-pj {
+      font-family: 'Cinzel', serif;
+      color: #fff;
+      font-size: 1.2rem;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    .detalhe-pj {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      margin-bottom: 4px;
+    }
+    .detalhe-pj strong {
+      color: #f1c40f;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="campanhas.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Campanhas</a>
+    </div>
+
+    <div class="header-campanha">
+      <h1>🔮 OTHANS</h1>
+      <span class="badge-status">Campanha Contínua (Ano 502)</span>
+    </div>
+
+    <div class="bloco-aviso">
+      <h4>📜 Registro de Destinos</h4>
+      <p style="font-size: 0.9rem; color: #cbd5e1; margin: 0;">
+        Esta página serve como o Grimório Histórico de Othans. À medida que a nossa jornada avançar, os relatos oficiais das sessões, descobertas geopolíticas e os feitos dos heróis serão permanentemente registrados aqui pelo Mestre. Fique atento às atualizações para não perder os fios da intriga imperial!
+      </p>
+    </div>
+
+    <div class="secao-personagens">
+      <h3>👥 Personagens Jogadores</h3>
+      <div class="grid-personagens">
+        
+        <div class="card-pj">
+          <h4 class="nome-pj">Nome do Personagem</h4>
+          <div class="detalhe-pj"><strong>Raça:</strong> Humano</div>
+          <div class="detalhe-pj"><strong>Classe:</strong> Paladino</div>
+          <div class="detalhe-pj" style="margin-top: 10px; font-style: italic; color: #a6acaf;">Espaço reservado para uma breve descrição ou frase marcante do herói.</div>
+        </div>
+
+        <div class="card-pj">
+          <h4 class="nome-pj">Nome do Personagem</h4>
+          <div class="detalhe-pj"><strong>Raça:</strong> Elfo</div>
+          <div class="detalhe-pj"><strong>Classe:</strong> Mago</div>
+          <div class="detalhe-pj" style="margin-top: 10px; font-style: italic; color: #a6acaf;">Espaço reservado para uma breve descrição ou frase marcante do herói.</div>
+        </div>
+
+        <div class="card-pj">
+          <h4 class="nome-pj">Nome do Personagem</h4>
+          <div class="detalhe-pj"><strong>Raça:</strong> Anão</div>
+          <div class="detalhe-pj"><strong>Classe:</strong> Guerreiro</div>
+          <div class="detalhe-pj" style="margin-top: 10px; font-style: italic; color: #a6acaf;">Espaço reservado para uma breve descrição ou frase marcante do herói.</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <footer style="margin-top: 50px; text-align: center; padding: 20px; color: #a6acaf; font-size: 0.8rem; border-top: 1px solid var(--border-fantasy);">
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

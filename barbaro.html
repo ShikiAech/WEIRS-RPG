@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bárbaro — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .bloco-barbaro {
+      background: rgba(192, 57, 43, 0.04);
+      border: 1px solid rgba(192, 57, 43, 0.15);
+      border-left: 4px solid #c0392b;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-barbaro h4 {
+      font-family: 'Cinzel', serif;
+      color: #e74c3c;
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+    .bloco-subclasse-detalhada {
+      background: rgba(25, 25, 27, 0.8);
+      border: 1px solid var(--border-fantasy);
+      padding: 25px;
+      margin-top: 35px;
+      border-radius: 4px;
+    }
+    .bloco-subclasse-detalhada h3 {
+      font-family: 'Cinzel', serif;
+      color: #e67e22;
+      border-bottom: 1px solid rgba(230, 126, 34, 0.3);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+    }
+    .sub-feature {
+      background: rgba(230, 126, 34, 0.05);
+      border-left: 3px solid #e67e22;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 0 4px 4px 0;
+    }
+    .sub-feature h5 {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      font-size: 1.05rem;
+      margin-bottom: 5px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+    .tabela-rpg {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: rgba(20, 20, 22, 0.6);
+      border: 1px solid var(--border-fantasy);
+      font-size: 0.85rem;
+    }
+    .tabela-rpg th, .tabela-rpg td {
+      border: 1px solid var(--border-fantasy);
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .tabela-rpg th {
+      background: rgba(58, 36, 36, 0.4);
+      color: #e74c3c;
+      font-family: 'Cinzel', serif;
+    }
+    .tabela-rpg tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .tabela-rpg td.esquerda {
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+ <script src="menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="classes.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Classes</a>
+    </div>
+
+    <h2>Bárbaro (Barbarian)</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://imagenslucas.weebly.com/uploads/1/0/6/8/10689847/save-follow-donate-subscribe-to-my-boosty-boosty-to-abominationrs-tier-1-thanks-support-tier-2-styles-pack-10-tier-3-100-my-stable-styles-tier-4-prompts-assets_orig.jpg" alt="Bárbaro">
+        <div class="texto-lore">
+          <h3>A Fúria Primal Desimpedida</h3>
+          <p>Para alguns, existe uma linha tênue que separa a civilização da selvageria. O bárbaro cruza essa linha por escolha, extraindo sua força de combates brutais, de instintos animais puros e de uma fúria ancestral que queima em suas veias.</p>
+          <p>Eles não são apenas guerreiros rudes; são combatentes sintonizados com o pulsar do mundo primordial, capazes de ignorar ferimentos mortais e desferir golpes que quebram escudos e rompem armaduras inimigas com pura energia caótica.</p>
+          
+          <h4 style="color: #e74c3c; margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Dado de Vida:</strong> 1d12 por nível de Bárbaro (O maior do sistema).</li>
+            <li><strong>Atributos Principais:</strong> Força (Ataque), Constituição (Vida e Defesa).</li>
+            <li><strong>Proficiências em Armaduras:</strong> Armaduras Leves, Médias e Escudos.</li>
+            <li><strong>Proficiências em Armas:</strong> Armas Simples e Armas Marciais.</li>
+            <li><strong>Ferramentas:</strong> Nenhuma.</li>
+            <li><strong>Testes de Resistência:</strong> Força e Constituição.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px; overflow-x: auto;">
+        <h3 style="font-family: 'Cinzel', serif; color: #e74c3c; font-size: 1.6rem; margin-bottom: 15px;">Progressão de Classe</h3>
+        <table class="tabela-rpg">
+          <thead>
+            <tr>
+              <th>Nível</th>
+              <th>Prof.</th>
+              <th class="esquerda">Recursos de Classe</th>
+              <th>Fúrias</th>
+              <th>Dano de Fúria</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1º</td><td>+2</td><td class="esquerda">Fúria, Defesa Sem Armadura</td><td>2</td><td>+2</td></tr>
+            <tr><td>2º</td><td>+2</td><td class="esquerda">Ataque Imprudente, Sentido de Perigo</td><td>2</td><td>+2</td></tr>
+            <tr><td>3º</td><td>+2</td><td class="esquerda">Caminho Primal (Subclasse), Instinto Primal</td><td>3</td><td>+2</td></tr>
+            <tr><td>4º</td><td>+2</td><td class="esquerda">Talento de Atributo (Feat)</td><td>3</td><td>+2</td></tr>
+            <tr><td>5º</td><td>+3</td><td class="esquerda">Ataque Extra, Movimento Rápido</td><td>3</td><td>+2</td></tr>
+            <tr><td>6º</td><td>+3</td><td class="esquerda">Recurso de Caminho Primal</td><td>4</td><td>+2</td></tr>
+            <tr><td>7º</td><td>+3</td><td class="esquerda">Instinto Selvagem</td><td>4</td><td>+2</td></tr>
+            <tr><td>8º</td><td>+3</td><td class="esquerda">Talento de Atributo (Feat)</td><td>4</td><td>+2</td></tr>
+            <tr><td>9º</td><td>+4</td><td class="esquerda">Crítico Brutal (1 dado)</td><td>4</td><td>+3</td></tr>
+            <tr><td>10º</td><td>+4</td><td class="esquerda">Recurso de Caminho Primal</td><td>4</td><td>+3</td></tr>
+            <tr><td>11º</td><td>+4</td><td class="esquerda">Fúria Implacável</td><td>4</td><td>+3</td></tr>
+            <tr><td>12º</td><td>+4</td><td class="esquerda">Talento de Atributo (Feat)</td><td>5</td><td>+3</td></tr>
+            <tr><td>13º</td><td>+5</td><td class="esquerda">Crítico Brutal (2 dados)</td><td>5</td><td>+3</td></tr>
+            <tr><td>14º</td><td>+5</td><td class="esquerda">Recurso de Caminho Primal</td><td>5</td><td>+3</td></tr>
+            <tr><td>15º</td><td>+5</td><td class="esquerda">Fúria Persistente</td><td>5</td><td>+3</td></tr>
+            <tr><td>16º</td><td>+5</td><td class="esquerda">Talento de Atributo (Feat)</td><td>5</td><td>+4</td></tr>
+            <tr><td>17º</td><td>+6</td><td class="esquerda">Crítico Brutal (3 dados)</td><td>6</td><td>+4</td></tr>
+            <tr><td>18º</td><td>+6</td><td class="esquerda">Força Indomável</td><td>6</td><td>+4</td></tr>
+            <tr><td>19º</td><td>+6</td><td class="esquerda">Talento de Atributo (Feat)</td><td>6</td><td>+4</td></tr>
+            <tr><td>20º</td><td>+6</td><td class="esquerda">Campeão Primal</td><td>Ilimitada</td><td>+4</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #e74c3c; font-size: 1.6rem; margin-bottom: 20px;">Recursos de Classe Detalhados</h3>
+
+        <div class="bloco-barbaro">
+          <h4>Nível 1: Fúria & Defesa Sem Armadura</h4>
+          <p><strong>Fúria:</strong> Em seu turno, você pode entrar em fúria como uma Ação Bônus. Enquanto estiver em fúria, você recebe vantagem em testes e salvaguardas de Força, um bônus de dano em ataques físicos (coluna Dano de Fúria) e resistência contra danos de Impacto, Cortante e Perfurante. A fúria dura 1 minuto ou cai se você passar um turno sem atacar ou sofrer dano.</p>
+          <p><strong>Defesa Sem Armadura:</strong> Quando não estiver vestindo nenhuma armadura, sua Classe de Armadura (CA) é igual a: 10 + seu modificador de Destreza + seu modificador de Constituição. Você pode utilizar um escudo e manter este benefício.</p>
+        </div>
+
+        <div class="bloco-barbaro">
+          <h4>Nível 2: Ataque Imprudente & Sentido de Perigo</h4>
+          <p><strong>Ataque Imprudente (Reckless Attack):</strong> Ao realizar seu primeiro ataque no turno, você pode decidir largar sua defesa. Você ganha **Vantagem** em todas as jogadas de ataque corpo a corpo baseadas em Força neste turno, mas todas as jogadas de ataque contra você têm Vantagem até o início do seu próximo turno.</p>
+          <p><strong>Sentido de Perigo:</strong> Você ganha Vantagem em salvaguardas de Destreza contra efeitos que consiga ver, como armadilhas e magias, desde que não esteja cego, surdo ou incapacitado.</p>
+        </div>
+
+        <div class="bloco-barbaro">
+          <h4>Nível 3: Caminho Primal & Instinto Primal</h4>
+          <p>Você escolhe o seu Caminho Primal de Subclasse, moldando a origem mística de sua ira. Além disso, você adquire a perícia Instinto Primal, ganhando proficiência em uma perícia da lista da classe bárbaro que você ainda não possua.</p>
+        </div>
+
+        <div class="bloco-barbaro">
+          <h4>Níveis 4, 8, 12, 16 e 19: Talento de Atributo (Feat)</h4>
+          <p>Você pode aumentar um atributo em +2, dois atributos em +1, ou selecionar um **Talento (Feat)** oficial de nível 4+ para customizar seu estilo de combate.</p>
+        </div>
+
+        <div class="bloco-barbaro">
+          <h4>Nível 5: Ataque Extra & Movimento Rápido</h4>
+          <p>Você ataca duas vezes, em vez de uma, ao executar a ação de Ataque. Além disso, seu deslocamento terrestre aumenta em **3 metros** se você não estiver vestindo armadura pesada.</p>
+        </div>
+
+        <div class="bloco-barbaro">
+          <h4>Nível 7: Instinto Selvagem</h4>
+          <p>Seus instintos estão tão aguçados que você ganha Vantagem em jogadas de Iniciativa. Adicionalmente, se você for surpreendido em combate mas entrar em fúria como sua primeira ação bônus, você pode agir normalmente em seu turno ignorando a surpresa.</p>
+        </div>
+
+        <div class="bloco-barbaro">
+          <h4>Níveis 9, 13 e 17: Crítico Brutal</h4>
+          <p>Sua fúria quebra ossos. No nível 9, você adiciona **1 dado extra** de dano da arma ao rolar um acerto crítico físico. Esse bônus aumenta para **2 dados extras** no nível 13 e para **3 dados extras** no nível 17.</p>
+        </div>
+
+        <div class="bloco-barbaro">
+          <h4>Nível 11: Fúria Implacável</h4>
+          <p>Sua ira te impede de cair. Se você for reduzido a 0 pontos de vida enquanto estiver em fúria e não morrer instantaneamente, você pode realizar uma salvaguarda de Constituição CD 10. Se passar, você fica com exatamente 1 ponto de vida. Cada vez que usar este recurso, a CD aumenta em +5, resetando para 10 após um descanso curto ou longo.</p>
+        </div>
+
+        <div class="bloco-barbaro">
+          <h4>Nível 15: Fúria Persistente</h4>
+          <p>Sua fúria se torna tão intensa que ela só termina prematuramente se você cair inconsciente ou se você decidir encerrá-la de forma voluntária. Passar turnos sem atacar ou receber dano não cancela mais seu estado de fúria.</p>
+        </div>
+
+        <div class="bloco-barbaro">
+          <h4>Nível 18: Força Indomável</h4>
+          <p>Seu vigor físico desafia barreiras. Se o resultado total de um teste de Força for menor do que o seu valor de atributo de Força bruto, você pode usar o seu valor de atributo no lugar do resultado do dado.</p>
+        </div>
+
+        <div class="bloco-barbaro">
+          <h4>Nível 20: Campeão Primal</h4>
+          <p>Você se torna uma divindade encarnada das terras selvagens. Seus atributos de **Força e Constituição aumentam em +4 permanentemente**, e o seu limite máximo para esses atributos passa a ser **24** em vez de 20. Além disso, você passa a ter usos infinitos de Fúria por dia.</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #e74c3c; font-size: 1.6rem; margin-bottom: 10px;">Caminhos Primais (Subclasses)</h3>
+        
+        <div class="bloco-subclasse-detalhada">
+          <h3>Caminho do Furioso (Berserker)</h3>
+          <p>A encarnação clássica da violência cega, focado em ataques devastadores e intimidação pura.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Frenesi</h5>
+            <p>Sempre que entrar em fúria, você pode canalizar um Frenesi sangrento. Uma vez por turno, ao acertar uma criatura usando Ataque Imprudente, você adiciona dados extras de dano igual a **1d6**. Esse dano aumenta conforme seu nível avança (2d6 no nível 10 e 3d6 no nível 14).</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Fúria Mental</h5>
+            <p>Sua mente se fecha para manipulações enquanto seu sangue ferve. Você se torna completamente **imune às condições Encantado e Amedrontado** enquanto estiver sob o efeito de sua fúria.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Presença Intimidadora</h5>
+            <p>Você pode usar sua Ação para aterrorizar um inimigo a até 9 metros. O alvo deve passar em uma salvaguarda de Sabedoria (CD = 8 + bônus prof. + Mod Força) ou ficará **Amedrontado** por 1 minuto. Você pode prolongar o efeito nos turnos seguintes usando sua ação.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Retaliação</h5>
+            <p>Quando você sofrer dano de uma criatura localizada a até 1,5 metros de você, você pode usar sua **Reação** para desferir um ataque de arma corpo a corpo imediato contra ela.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>Caminho do Totem Guerreiro (Wild Heart)</h3>
+          <p>Sintoniza-se com espíritos de animais selvagens para adquirir defesas e táticas místicas.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Espírito Totêmico</h5>
+            <p>Você escolhe um espírito guia animal para imbuir sua fúria com efeitos únicos:</p>
+            <ul>
+              <li><strong>Urso:</strong> Enquanto estiver em fúria, você ganha resistência a **todos os tipos de dano do jogo**, exceto dano Psíquico.</li>
+              <li><strong>Águia:</strong> Enquanto estiver em fúria, os inimigos têm desvantagem em ataques de oportunidade contra você, e você pode usar a ação Disparar (Dash) como Ação Bônus.</li>
+              <li><strong>Lobo:</strong> Enquanto estiver em fúria, seus aliados ganham Vantagem em ataques corpo a corpo contra qualquer inimigo que esteja a até 1,5 metros de você.</li>
+            </ul>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Aspecto da Fera</h5>
+            <p>Você adquire uma aptidão mística permanente baseada em um animal (não precisa ser o mesmo do nível 3):</p>
+            <p><em>Urso:</em> Sua capacidade de carga é duplicada e você tem vantagem em testes para empurrar ou erguer objetos. <br><em>Águia:</em> Você enxerga perfeitamente a até 1,5 km e não sofre desvantagem em testes de Percepção na penumbra. <br><em>Lobo:</em> Você consegue rastrear criaturas correndo e discernir o número exato delas pela pegada.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Caminhante dos Espíritos</h5>
+            <p>Sua conexão com a natureza expande seu intelecto primal. Você aprende a conjurar a magia *Comunhão com a Natureza* na forma de um ritual espiritual sem gastar espaços de magia.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Sintonização Totêmica</h5>
+            <p>Seu totem concede um poder tático supremo durante a fúria: O <strong>Urso</strong> impõe desvantagem a inimigos adjacentes que tentarem atacar seus aliados; a <strong>Águia</strong> te concede um deslocamento de voo temporário igual ao seu deslocamento terrestre; o <strong>Lobo</strong> permite usar sua ação bônus para derrubar uma criatura no chão sempre que acertá-la com um ataque físico.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>Caminho do Arauto da Tempestade (Storm Herald)</h3>
+          <p>Manifesta o caos do clima, transformando sua fúria em uma tempestade mágica elemental ao seu redor.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Aura da Tempestade</h5>
+            <p>Ao entrar em fúria, você emana uma aura mágica de 3 metros de raio. Você pode usar uma **Ação Bônus** em cada um dos seus turnos de fúria para ativar um efeito elemental baseado no ambiente escolhido (Deserto, Mar ou Tundra):</p>
+            <p><em>Deserto:</em> Causa 2 de dano de Fogo automático a todas as criaturas à sua escolha dentro da aura (sobe com o nível). <br><em>Mar:</em> Um alvo na aura sofre 1d6 de dano Elétrico se falhar em uma salvaguarda de Destreza. <br><em>Tundra:</em> Concede 2 pontos de vida temporários para os aliados escolhidos dentro da aura.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Alma da Tempestade</h5>
+            <p>Seu corpo se adapta ao elemento. Você ganha resistência passiva a danos baseados no seu ambiente selecionado: **Fogo (Deserto), Elétrico (Mar) ou Gelo (Tundra)**. Você também ganha uma utilidade extra (ex: respirar debaixo d'água e nadar no modo Mar).</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Escudo do Arauto</h5>
+            <p>Você aprende a estender sua proteção climática. Sempre que uma criatura aliada estiver localizada dentro do raio da sua Aura da Tempestade, ela passa a receber a mesma **Resistência Elemental** que você adquiriu no nível 6.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Tempestade Raging</h5>
+            <p>A força máxima do clima sabota seus oponentes dentro da aura: No <em>Deserto</em>, inimigos que te atingirem tomam dano de fogo em retaliação; no <em>Mar</em>, seu raio derruba inimigos caídos no chão se falharem em testes de Força; na <em>Tundra</em>, você pode reduzir o deslocamento de um inimigo para 0 metros.</p>
+          </div>
+        </div>
+
+        <div class="bloco-subclasse-detalhada">
+          <h3>Caminho do Fanático (Zealot)</h3>
+          <p>Unido a uma divindade ou ideal supremo, canalizando danos divinos e desafiando a própria morte.</p>
+          
+          <div class="sub-feature">
+            <h5>Nível 3: Fúria Divina & Guerreiro dos Deuses</h5>
+            <p><strong>Fúria Divina:</strong> O primeiro alvo que você atingir com uma arma em cada um de seus turnos de fúria sofre **1d6 + metade do seu nível de bárbaro** como dano extra. O dano pode ser do tipo Radiante ou Necrótico (escolhido ao pegar a subclasse).</p>
+            <p><strong>Guerreiro dos Deuses:</strong> Sua alma está marcada para a glória. Magias que tenham o intuito de ressuscitar você (como *Revivificar*) não exigem nenhum componente material (gasto de diamantes) para serem conjuradas em seu corpo.</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 6: Foco Fanático</h5>
+            <p>Sua obsessão te protege. Se você falhar em uma salvaguarda enquanto estiver em fúria, você pode usar este recurso para **rolar o dado novamente**, sendo obrigado a utilizar o novo resultado (uma vez por fúria).</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 10: Presença Infecciosa</h5>
+            <p>Com uma Ação Bônus, você solta um grito de guerra religioso que inspira seus aliados. Até o início do seu próximo turno, até 4 aliados localizados a até 18 metros de você ganham **Vantagem em todas as suas jogadas de ataque e salvaguardas** (1 vez por descanso longo).</p>
+          </div>
+
+          <div class="sub-feature">
+            <h5>Nível 14: Fúria Além da Morte</h5>
+            <p>Você se torna orgulhosamente imortal enquanto sua ira queimar. Estar com 0 pontos de vida não te deixa inconsciente se você estiver em fúria. Você continua lutando e fazendo testes contra a morte normalmente. Você só morre de fato se a sua fúria terminar e você ainda permanecer com 0 pontos de vida e nenhuma cura.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

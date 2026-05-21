@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elfos — Weirs RPG</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Estilos customizados para blocos de mecânicas de D&D */
+    .bloco-habilidade {
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 3px solid var(--gold);
+      padding: 20px;
+      margin-top: 25px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-habilidade h4 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-bright);
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+    .subraca-container {
+      margin-top: 40px;
+      border-top: 1px solid var(--border-fantasy);
+      padding-top: 30px;
+    }
+    .subraca-card {
+      background: rgba(18, 18, 19, 0.6);
+      border: 1px solid var(--border-fantasy);
+      border-left: 4px solid #5dade2;
+      padding: 30px;
+      margin-top: 20px;
+      border-radius: 4px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    }
+    .subraca-card h4 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-bright);
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+  </style>
+</head>
+<body>
+
+  <script src="menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="racas.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Raças</a>
+    </div>
+
+    <h2>Elfos</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://weirs-rpg.weebly.com/uploads/1/0/6/8/10689847/prince-soran-de-valnoir_orig.jpg" alt="Elfo de Pele Azul">
+        
+        <div class="texto-lore">
+          <h3>Os Filhos da Lua</h3>
+          <p>Um dos três povos abençoados pela deusa Luna. Dizem as lendas que os elfos foram abençoados com o dom da magia pela própria deusa rúnica. Também conhecidos como filhos da lua, os elfos foram ensinados a decifrar as runas arcanas para alterar os estados e as leis da natureza, podendo assim criar magias e feitiços. Foi a partir deles que a cultura arcana se espalhou pelo mundo.</p>
+          <p>Inicialmente eram repudiados pelos humanos por medo, mas com o passar dos anos, depois de ambos se isolarem, as espécies decidiram se unir. A grande integração veio do reino de Gorvahn quando o imperador utilizou os conhecimentos místicos dos elfos para fortalecer o reino na guerra. Após isso a primeira escola de magia oficial foi criada, a Escola de Princípios Místicos (EPM). Desde então os elfos adquiriram uma posição de respeito na sociedade humana.</p>
+          <p style="color: var(--gold-bright); font-weight: 500;">A maior diferença dos elfos para os humanos é a coloração de sua pele que é azulada e suas orelhas pontudas.</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Traços de Elfo</h3>
+        
+        <ul class="trait-list">
+          <li><strong>Tipo de Criatura:</strong> Humanoide.</li>
+          <li><strong>Tamanho:</strong> Médio (cerca de 1,50 - 1,80 metros de altura).</li>
+          <li><strong>Deslocamento:</strong> 9 metros (30ft).</li>
+          <li><strong>Idade:</strong> Atingem a maioridade aos 50 anos e podem viver até os 400 anos.</li>
+          <li><strong>Visão no Escuro:</strong> Você tem Visão no Escuro com um alcance de 18 metros (60ft).</li>
+          <li><strong>Ancestralidade Feérica:</strong> Você tem vantagem em realizar salvaguardas para evitar ou encerrar a condição Enfeitiçado.</li>
+          <li><strong>Sentidos Aguçados:</strong> Você tem proficiência na perícia <em>Intuição</em>, <em>Percepção</em> ou <em>Sobrevivência</em> (escolha uma).</li>
+          <li><strong>Transe:</strong> Você pode completar um descanso longo em 4 horas ao meditar, sem a necessidade de dormir, e magia não pode forçá-lo a se deitar ou dormir.</li>
+        </ul>
+
+        <div class="bloco-habilidade">
+          <h4>Familiaridade Arcana</h4>
+          <p>Devido à herança rúnica deixada por Luna, os elfos têm grande proximidade com a magia. Você conhece o truque <em>Mensagem</em>. Você também adquire a magia <em>Detectar Magia</em> e <em>Contra Mágica</em> (esta última ao atingir o nível 3) e pode usá-las sem gastar espaço de magia uma vez por descanso longo.</p>
+        </div>
+      </div>
+
+      <div class="subraca-container">
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem;">Subraças</h3>
+
+        <div class="subraca-card">
+          <h4>Meio-Elfo</h4>
+          <p>A integração dos elfos na sociedade humana gerou mais do que parcerias militares ou políticas, mas também paixões e amores. Com isso surgiu uma subespécie conhecida como meio-elfos, mantendo como característica principal as orelhas pontudas dos elfos, mas herdando a tonalidade bege da pele humana.</p>
+          
+          <h5 style="color: var(--gold); font-family: 'Cinzel'; margin: 15px 0 10px 0; font-size: 1.05rem;">Traços Alterados de Meio-Elfo:</h5>
+          <ul class="trait-list">
+            <li><strong>Visão no Escuro:</strong> Você tem Visão no Escuro com um alcance de 18 metros (60ft).</li>
+            <li><strong>Ancestralidade Feérica:</strong> Você tem vantagem em realizar salvaguardas para evitar ou encerrar a condição Enfeitiçado.</li>
+            <li><strong>Sentidos Aguçados:</strong> Você tem proficiência na perícia <em>Intuição</em>, <em>Percepção</em> ou <em>Sobrevivência</em>.</li>
+            <li><strong>Transe:</strong> Você pode completar um descanso longo em 4 horas ao meditar, sem a necessidade de dormir, e magia não pode forçá-lo a dormir.</li>
+            <li><strong>Dádiva Herdada:</strong> Mostrando a versatilidade de sua metade humana, você adquire um talento de Origem à sua escolha.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2026 Weirs RPG — Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>
