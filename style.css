@@ -254,116 +254,7 @@ h2::after {
   margin-bottom: 15px;
 }
 
-/* =====================================================
-   GRADE DE BOTÕES CUSTOMIZADOS (RAÇAS / CLASSES)
-   ===================================================== */
-.rpg-grid-botoes {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-  max-width: 1100px;
-  margin: 40px auto 60px auto;
-}
 
-.btn-rpg {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 90px;
-  background: linear-gradient(135deg, #3d2b1f 0%, #211710 100%);
-  border: 3px solid #1a120d;
-  border-radius: 8px;
-  box-shadow: 
-    inset 0 0 15px rgba(0, 0, 0, 0.8),
-    0 10px 20px rgba(0, 0, 0, 0.5),
-    0 0 0 1px #4d3626;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  padding: 8px;
-}
-
-.btn-moldura-interna {
-  width: 100%;
-  height: 100%;
-  background: rgba(14, 11, 9, 0.9);
-  border: 2px solid #4d3626;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: inset 0 4px 10px rgba(0,0,0,0.9);
-}
-
-.btn-texto {
-  font-family: 'Cinzel', serif;
-  color: var(--gold);
-  font-size: 1.2rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 0 5px rgba(212, 175, 55, 0.2);
-}
-
-/* A Gema Superior Iluminada */
-.btn-gema {
-  position: absolute;
-  top: -13px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 26px;
-  height: 26px;
-  border: 3px solid #4d3626;
-  border-radius: 50%;
-  z-index: 3;
-}
-
-/* Cores das Gemas */
-.gema-ouro  { background: radial-gradient(circle, #f1c40f, #9a7d0a); box-shadow: 0 0 10px rgba(241, 196, 15, 0.6), 0 4px 6px rgba(0,0,0,0.5); }
-.gema-verde { background: radial-gradient(circle, #2ecc71, #196f3d); box-shadow: 0 0 10px rgba(46, 204, 113, 0.6), 0 4px 6px rgba(0,0,0,0.5); }
-.gema-rubi  { background: radial-gradient(circle, #e74c3c, #78281f); box-shadow: 0 0 10px rgba(231, 76, 60, 0.6), 0 4px 6px rgba(0,0,0,0.5); }
-
-/* Parafusos/Rebites laterais */
-.btn-rpg::before, .btn-rpg::after {
-  content: ''; position: absolute; width: 4px; height: 4px; background: #000; border: 1px solid #4d3626; border-radius: 50%; top: 50%; transform: translateY(-50%);
-}
-.btn-rpg::before { left: 8px; }
-.btn-rpg::after { right: 8px; }
-
-/* Interações do Botão */
-.btn-rpg:hover {
-  transform: translateY(-3px);
-  border-color: var(--gold-dark);
-  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.7), 0 0 15px rgba(212, 175, 55, 0.2);
-}
-.btn-rpg:hover .btn-texto { color: var(--gold-bright); }
-.btn-rpg:active { transform: translateY(1px); }
-
-/* Botões Globais de Ação */
-.btn-principal {
-  display: inline-block;
-  background: linear-gradient(180deg, var(--blood-red) 0%, #4a0000 100%);
-  border: 1px solid var(--border-fantasy);
-  outline: 1px solid var(--gold-dark);
-  outline-offset: -4px;
-  border-radius: 3px;
-  padding: 14px 35px;
-  color: var(--gold-bright);
-  font-family: 'Cinzel', serif;
-  font-size: 1rem;
-  letter-spacing: 2px;
-  font-weight: 700;
-  text-decoration: none;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-  transition: all 0.2s ease;
-}
-.btn-principal:hover {
-  background: linear-gradient(180deg, #a30000 0%, var(--blood-red) 100%);
-  outline-color: var(--gold-bright);
-  box-shadow: 0 0 15px var(--blood-glow);
-}
 
 /* Logo Home responsiva */
 .logo-container {
@@ -518,4 +409,60 @@ footer {
     text-align: center;
     padding: 12px 20px;
   }
+}
+/* =====================================================
+   GRADE DE BOTÕES CUSTOMIZADOS (RAÇAS / CLASSES) - CLEAN
+   ===================================================== */
+.rpg-grid-botoes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  max-width: 1100px;
+  margin: 40px auto 60px auto;
+}
+
+.btn-rpg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-fantasy);
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 10px 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.btn-texto {
+  font-family: 'Cinzel', serif;
+  color: var(--text-soft);
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+  transition: all 0.3s ease;
+}
+
+/* Interações dos Botões - Alinhadas com os Cards do Site */
+.btn-rpg:hover {
+  transform: translateY(-3px);
+  border-color: var(--gold);
+  background: rgba(26, 26, 29, 0.95);
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.6), 
+    0 0 15px rgba(212, 175, 55, 0.15);
+}
+
+.btn-rpg:hover .btn-texto {
+  color: var(--gold-bright);
+  text-shadow: 0 0 8px rgba(243, 229, 171, 0.4), 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.btn-rpg:active {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
