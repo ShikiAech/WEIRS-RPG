@@ -87,6 +87,7 @@ body {
   display: flex;
   gap: 25px;
   list-style: none;
+  flex-wrap: wrap; /* Permite quebrar linha caso existam muitos links em tablets */
 }
 
 .nav li a {
@@ -147,6 +148,7 @@ body {
   position: relative;
   z-index: 2;
   max-width: 900px;
+  width: 100%; /* Garante bom comportamento em telas pequenas */
 }
 
 .banner-content h1 {
@@ -158,7 +160,7 @@ body {
   margin-bottom: 25px;
   text-shadow: 0 0 30px rgba(0,0,0,0.9), 0 0 20px var(--blood-glow);
   background: linear-gradient(to bottom, #ffffff 0%, var(--gold) 60%, var(--gold-dark) 100%);
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -176,6 +178,7 @@ body {
   max-width: 1200px;
   margin: auto;
   padding: 60px 40px;
+  width: 100%;
 }
 
 .desc-intro {
@@ -226,6 +229,7 @@ h2::after {
   grid-template-columns: 450px 1fr;
   gap: 40px;
   align-items: start;
+  overflow: hidden; /* Mantido conforme seu padrão */
 }
 
 .layout-detalhes img {
@@ -234,6 +238,13 @@ h2::after {
   border-radius: 4px;
   border: 1px solid var(--border-fantasy);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease;
+}
+
+.layout-detalhes img:hover {
+  transform: scale(1.03);
+  border-color: var(--gold);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.9), 0 0 15px rgba(212, 175, 55, 0.2);
 }
 
 .texto-lore h3 {
@@ -354,6 +365,27 @@ h2::after {
   box-shadow: 0 0 15px var(--blood-glow);
 }
 
+/* Logo Home responsiva */
+.logo-container {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  padding: 0 10px;
+}
+
+.logo-home {
+  max-width: 500px;
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.5));
+  transition: transform 0.3s ease;
+}
+
+.logo-home:hover {
+  transform: scale(1.02);
+}
+
 /* =====================================================
    FOOTER (RODAPÉ)
    ===================================================== */
@@ -369,53 +401,121 @@ footer {
 }
 
 /* =====================================================
-   RESPONSIVIDADE (MOBILE)
-   ===================================================== */
+   RESPONSIVIDADE CONSTANTE (MEDIA QUERIES CORRIGIDAS)
+   ==================================================== */
+
+/* Ajustes gerais para Tablets e Telas Médias */
 @media (max-width: 950px) {
-  #header { flex-direction: column; gap: 15px; }
-  .rpg-grid-botoes { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-  .layout-detalhes { grid-template-columns: 1fr; }
-  .banner-content h1 { font-size: 3rem; }
+  body {
+    padding-top: 130px; /* Aumenta o recuo porque o menu empilha verticalmente no mobile */
+  }
+
+  #header { 
+    flex-direction: column; 
+    gap: 15px; 
+    padding: 15px 20px;
+  }
+  
+  .nav ul {
+    justify-content: center;
+    gap: 15px 20px;
+  }
+
+  .nav li a {
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+  }
+
+  .banner-content h1 { 
+    font-size: 3rem; 
+    letter-spacing: 2px;
+  }
+
+  .banner-content p {
+    font-size: 1.1rem;
+  }
+
+  .container {
+    padding: 40px 20px; /* Reduz margens externas para dar espaço ao conteúdo */
+  }
+
+  .layout-detalhes { 
+    grid-template-columns: 1fr; 
+    gap: 30px;
+  }
+
+  .layout-detalhes img {
+    max-width: 500px;
+    margin: 0 auto; /* Centraliza a imagem da lore se ela empilhar */
+  }
+
+  .rpg-grid-botoes { 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 20px; 
+    padding: 0 10px;
+  }
+  
+  h2 {
+    font-size: 2rem;
+  }
 }
+
+/* Ajustes finos para Celulares (Telas até 600px) */
 @media (max-width: 600px) {
-  .rpg-grid-botoes { grid-template-columns: 1fr; }
-  .card-rpg { padding: 20px; }
-}
-/* =====================================================
-   EFEITO DE ZOOM MÍSTICO NAS IMAGENS (HOVER)
-   ===================================================== */
+  body {
+    padding-top: 140px; /* Espaço adequado para a navbar em celulares menores */
+  }
 
-/* Seleciona o container da imagem para garantir que ela não "suba" ou saia das bordas */
-.layout-detalhes {
-  overflow: hidden;
-}
+  .logo {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+  }
 
-/* Configura a imagem base com uma transição suave */
-.layout-detalhes img {
-  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease;
-}
+  .nav ul {
+    gap: 10px 15px;
+  }
 
-/* O efeito de "zoomzinho" e brilho na borda ao passar o mouse */
-.layout-detalhes img:hover {
-  transform: scale(1.03); /* Dá o leve zoom de 3% */
-  border-color: var(--gold); /* Transforma a borda em dourado */
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.9), 0 0 15px rgba(212, 175, 55, 0.2); /* Deixa a sombra mais profunda e com um leve brilho místico */
-}
-.logo-container {
-  text-align: center;
-  margin-top: 20px;
-  margin-bottom: 40px;
-}
+  .nav li a {
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+  }
 
-.logo-home {
-  max-width: 500px; /* Define o tamanho máximo ideal para desktops */
-  width: 100%;       /* Faz com que ela diminua proporcionalmente em celulares */
-  height: auto;
-  display: inline-block;
-  filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.5)); /* Adiciona uma sombra sutil para destacar do fundo */
-  transition: transform 0.3s ease;
-}
+  .banner-content h1 { 
+    font-size: 2.2rem; 
+  }
 
-.logo-home:hover {
-  transform: scale(1.02); /* Dá um efeito leve ao passar o mouse */
+  .card-rpg { 
+    padding: 25px 15px; /* Evita que o preenchimento interno esmague o texto no mobile */
+    margin-bottom: 30px;
+  }
+
+  .rpg-grid-botoes { 
+    grid-template-columns: 1fr; 
+    gap: 15px;
+  }
+
+  .btn-rpg {
+    height: 75px; /* Fica ligeiramente mais baixo para encaixar melhor */
+  }
+
+  .btn-texto {
+    font-size: 1rem;
+    letter-spacing: 2px;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+    margin-bottom: 25px;
+  }
+  
+  .desc-intro {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+
+  .btn-principal {
+    width: 100%; /* Botões grandes ocupam a largura total no celular para melhor clique */
+    text-align: center;
+    padding: 12px 20px;
+  }
 }

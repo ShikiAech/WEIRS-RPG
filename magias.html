@@ -728,7 +728,36 @@
   {nome:"🧊 Nevasca Congelante (Freezing Sphere)",nivel:6,escola:"Evocação",tempo:"1 Ação",alcance:"90m",componentes:"V, S, M (esfera de cristal)",duracao:"Instantânea",classes:["mago","feiticeiro","druida"],descricao:"Esfera de gelo explode em raio de 12m. <strong>10d6 de dano de frio</strong> (CON metade). Congela água em raio de 9m (1,5m de espessura). Pode segurar a esfera por 1 minuto (explode ao arremessar)."},
   
   // NÍVEL 7
-  {nome:"🌟 Chuva de Meteoros (Meteor Shower)",nivel:7,escola:"Evocação",tempo:"1 Ação",alcance:"150m",componentes:"V, S, M (meteorito)",duracao:"Instantânea",classes:["mago","feiticeiro","druida"],descricao:"Pequenos meteoros caem em cilindro de 12m de raio. Criaturas sofrem <strong>8d6 de dano de fogo + 8d6 de dano de contusão</strong> (DES metade). Terreno fica difícil e em chamas (2d6 de fogo por turno)."}      
+  {nome:"🌟 Chuva de Meteoros (Meteor Shower)",nivel:7,escola:"Evocação",tempo:"1 Ação",alcance:"150m",componentes:"V, S, M (meteorito)",duracao:"Instantânea",classes:["mago","feiticeiro","druida"],descricao:"Pequenos meteoros caem em cilindro de 12m de raio. Criaturas sofrem <strong>8d6 de dano de fogo + 8d6 de dano de contusão</strong> (DES metade). Terreno fica difícil e em chamas (2d6 de fogo por turno)."},
+    // ==================== 12 MAGIAS FINAIS (COMPLETANDO 420) ====================
+
+  // Nível 0 (Truque)
+  {nome:"✨ Palavra de Radiância (Word of Radiance)",nivel:0,escola:"Evocação",tempo:"1 Ação",alcance:"Pessoal (1,5m raio)",componentes:"V, M (símbolo sagrado)",duracao:"Instantânea",classes:["clerigo"],descricao:"Você entoa uma palavra divina. Criaturas adjacentes a você devem fazer um teste de CON ou sofrer <strong>1d6 de dano radiante</strong>. Aumenta para 2d6 (5º), 3d6 (11º), 4d6 (17º)."},
+
+  // Nível 1
+  {nome:"⚔️ Favor Divino (Divine Favor)",nivel:1,escola:"Evocação",tempo:"1 Ação Bônus",alcance:"Pessoal",componentes:"V, S",duracao:"Concentração, até 1 min",classes:["paladino","clerigo"],descricao:"Suas armas brilham com energia divina. Seus ataques com armas causam <strong>1d4 de dano radiante adicional</strong> por 1 minuto."},
+  {nome:"🌟 Raio Guiado (Guiding Bolt)",nivel:1,escola:"Evocação",tempo:"1 Ação",alcance:"36m",componentes:"V, S",duracao:"Instantânea",classes:["clerigo","paladino"],descricao:"Um raio de luz estelar atinge o alvo. Ataque mágico à distância: <strong>4d6 de dano radiante</strong>. O próximo ataque contra o alvo antes do fim do seu próximo turno tem <strong>vantagem</strong>. +1d6 por nível acima."},
+
+  // Nível 2
+  {nome:"🔥 Marca de Corte (Branding Smite)",nivel:2,escola:"Evocação",tempo:"1 Ação Bônus",alcance:"Pessoal",componentes:"V",duracao:"Concentração, até 1 min",classes:["paladino","clerigo"],descricao:"Sua arma é imbuída com fogo divino. No próximo ataque corpo a corpo, causa <strong>2d6 de dano radiante extra</strong> e o alvo fica visível (não pode ficar invisível) pela duração. +1d6 por nível acima."},
+  {nome:"🙏 Oração de Cura (Prayer of Healing)",nivel:2,escola:"Abjuração",tempo:"10 Minutos",alcance:"9m",componentes:"V",duracao:"Instantânea",classes:["clerigo","paladino"],descricao:"Até 6 criaturas à sua escolha recuperam <strong>2d8 + mod de Sabedoria</strong> pontos de vida. Não afeta mortos-vivos ou construtos. +1d8 por nível acima."},
+
+  // Nível 3
+  {nome:"🛡️ Manto do Cruzado (Crusader's Mantle)",nivel:3,escola:"Evocação",tempo:"1 Ação",alcance:"Pessoal (9m raio)",componentes:"V",duracao:"Concentração, até 1 min",classes:["paladino","clerigo"],descricao:"Emana uma aura sagrada de 9m. Aliados na área (incluindo você) causam <strong>1d4 de dano radiante adicional</strong> em ataques com armas."},
+
+  // Nível 4
+  {nome:"💀 Proteção contra a Morte (Death Ward)",nivel:4,escola:"Abjuração",tempo:"1 Ação",alcance:"Toque",componentes:"V, S",duracao:"8 horas",classes:["clerigo","paladino"],descricao:"Protege criatura tocada. Na primeira vez que cair a 0 PV, automaticamente fica com 1 PV. Se sofrer efeito de morte instantânea, o efeito é anulado. Termina após evitar uma morte."},
+  {nome:"🦅 Localizar Montaria Maior (Find Greater Steed)",nivel:4,escola:"Conjuração",tempo:"10 Minutos",alcance:"9m",componentes:"V, S",duracao:"Instantânea",classes:["paladino"],descricao:"Invoca espírito em forma de montaria poderosa (Grifo, Pégaso, Pesadelo, etc.). Você e a montaria compartilham bônus de magias ativas. Montaria some a 0 PV."},
+
+  // Nível 5
+  {nome:"🔥 Coluna de Chamas (Flame Strike)",nivel:5,escola:"Evocação",tempo:"1 Ação",alcance:"18m",componentes:"V, S, M (enxofre)",duracao:"Instantânea",classes:["clerigo","paladino"],descricao:"Coluna de fogo divino com 3m de raio e 12m de altura desce dos céus. Criaturas na área sofrem <strong>4d6 de dano de fogo + 4d6 de dano radiante</strong> (DES metade). +1d6 de cada por nível acima."},
+
+  // Nível 6
+  {nome:"⚔️ Barreira de Lâminas (Blade Barrier)",nivel:6,escola:"Evocação",tempo:"1 Ação",alcance:"27m",componentes:"V, S",duracao:"Concentração, até 10 min",classes:["clerigo"],descricao:"Parede circular de lâminas mágicas (18m diâmetro, 6m altura). Criaturas que entram ou começam turno na parede sofrem <strong>6d10 de dano cortante</strong> (DES metade). Criaturas dentro do círculo podem sair atravessando a parede."},
+  {nome:"🍗 Banquete dos Heróis (Heroes' Feast)",nivel:6,escola:"Conjuração",tempo:"10 Minutos",alcance:"9m",componentes:"V, S, M (tigela incrustada de gemas 1000po)",duracao:"24 horas",classes:["clerigo","druida"],descricao:"Cria banquete para 12 criaturas. Cada uma ganha: <strong>+2d10 PV máximos</strong>, imunidade a veneno e medo, vantagem em salvaguardas de SAB. Efeito dura 24h. A tigela é consumida."},
+
+  // Nível 7
+  {nome:"📖 Palavra Divina (Divine Word)",nivel:7,escola:"Evocação",tempo:"1 Ação Bônus",alcance:"9m",componentes:"V",duracao:"Instantânea",classes:["clerigo"],descricao:"Você profere palavra de poder que afeta criaturas à sua escolha em raio de 9m. Efeito baseado nos PV atuais: ≤50 PV: <strong>surda</strong> por 1 min, ≤40: surda e <strong>cega</strong> por 10 min, ≤30: surda, cega e <strong>atordoada</strong> por 1 hora, ≤20: <strong>morte instantânea</strong>. Fadas, infernais e celestiais nativos de outros planos que falharem são banidos para seu plano natal."}      
 ];
 
     
