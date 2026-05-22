@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caçador Sanguinário — Weirs RPG</title>
+  <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+  <style>
+    .bloco-bloodhunter {
+      background: rgba(128, 0, 32, 0.03);
+      border: 1px solid rgba(128, 0, 32, 0.2);
+      border-left: 4px solid #8b0000;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-bloodhunter h4 {
+      font-family: 'Cinzel', serif;
+      color: #b22222;
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+    .bloco-subclasse-detalhada {
+      background: rgba(25, 25, 27, 0.85);
+      border: 1px solid var(--border-fantasy);
+      padding: 25px;
+      margin-top: 35px;
+      border-radius: 4px;
+    }
+    .bloco-subclasse-detalhada h3 {
+      font-family: 'Cinzel', serif;
+      color: #b22222;
+      border-bottom: 1px solid rgba(178, 34, 34, 0.4);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+    }
+    .sub-feature {
+      background: rgba(139, 0, 0, 0.05);
+      border-left: 3px solid #b22222;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 0 4px 4px 0;
+    }
+    .sub-feature h5 {
+      font-family: 'Cinzel', serif;
+      color: #cd5c5c;
+      font-size: 1.05rem;
+      margin-bottom: 5px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+    .tabela-rpg {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: rgba(20, 20, 22, 0.7);
+      border: 1px solid var(--border-fantasy);
+      font-size: 0.85rem;
+    }
+    .tabela-rpg th, .tabela-rpg td {
+      border: 1px solid var(--border-fantasy);
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .tabela-rpg th {
+      background: rgba(43, 33, 23, 0.6);
+      color: #b22222;
+      font-family: 'Cinzel', serif;
+    }
+    .tabela-rpg tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .tabela-rpg td.esquerda {
+      text-align: left;
+    }
+    .hemocraft-cost {
+      background: rgba(139, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 2px 10px;
+      display: inline-block;
+      font-weight: bold;
+      font-family: monospace;
+      color: #e67e22;
+    }
+    .blood-curse {
+      background: rgba(178, 34, 34, 0.1);
+      border-left: 2px solid #8b0000;
+      padding: 12px;
+      margin: 12px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="/WEIRS-RPG/pages/classes/classes.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Classes</a>
+    </div>
+
+    <h2>Caçador Sanguinário (Blood Hunter)</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://imagenslucas.weebly.com/uploads/1/0/6/8/10689847/save-follow-dm-for-order-art-for-sale-dm-follow-on-pinterest-support-on-boosty-conceptart-characterdesign-ttrpg-fantasyart-evganinart-ev-ganin-fantasy-art-created-22-0_orig.jpg" alt="Caçador Sanguinário com lâmina rubra">
+        <div class="texto-lore">
+          <h3>Forjado pelo Sangue, Caçador das Trevas</h3>
+          <p>Os Caçadores Sanguinários são guerreiros ocultistas que passaram pelo <strong>Flagelo do Caçador (Hunter's Bane)</strong> – um ritual perigoso e guardado em segredo que altera seu sangue vital, vinculando-o às sombras e aguçando seus sentidos contra as criaturas das trevas. Eles empunham ritos hemocraft, sacrificando sua própria essência vital para imbuir armas com energia elemental ou amaldiçoar inimigos.</p>
+          <p>No novo padrão de 2024, o Caçador Sanguinário se destaca como um combatente de inteligência afiada, capaz de rastrear aberrantes, mortos-vivos e outras ameaças sobrenaturais. Sua resiliência vem da mente, não do corpo – e sua maior arma é o preço que está disposto a pagar.</p>
+          
+          <h4 style="color: #b22222; margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Dado de Vida:</strong> 1d10 por nível de Caçador Sanguinário.</li>
+            <li><strong>Atributo Principal:</strong> Destreza e Inteligência.</li>
+            <li><strong>Proficiências em Armaduras:</strong> Armaduras Leves, Médias e Escudos.</li>
+            <li><strong>Proficiências em Armas:</strong> Armas Simples e Armas Marciais.</li>
+            <li><strong>Ferramentas:</strong> Suprimentos de Alquimista (Alchemist's Supplies).</li>
+            <li><strong>Testes de Resistência:</strong> Destreza e Inteligência.</li>
+            <li><strong>Perícias:</strong> Escolha três entre Acrobacia, Arcana, Atletismo, História, Intuição, Investigação, Religião e Sobrevivência.</li>
+            <li><strong>Equipamento Inicial:</strong> Escolha A ou B: (A) Armadura de Couro Batido, Espada Curta, Besta de Mão, 20 Virotes, Mochila de Aventureiro, Suprimentos de Alquimista e 7 PO; (B) 150 PO.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px; overflow-x: auto;">
+        <h3 style="font-family: 'Cinzel', serif; color: #b22222; font-size: 1.6rem; margin-bottom: 15px;">Progressão do Caçador Sanguinário</h3>
+        <table class="tabela-rpg">
+          <thead>
+            <tr>
+              <th>Nível</th>
+              <th>Prof.</th>
+              <th class="esquerda">Recursos de Classe</th>
+              <th>Usos de Maledição</th>
+              <th>Dano de Rito</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1º</td><td>+2</td><td class="esquerda">Flagelo do Caçador, Rito Carmesim, Maestria em Armas</td><td>—</td><td>1d4</td></tr>
+            <tr><td>2º</td><td>+2</td><td class="esquerda">Estilo de Luta, Maledição Sanguinária</td><td>2</td><td>1d4</td></tr>
+            <tr><td>3º</td><td>+2</td><td class="esquerda">Ordem do Caçador Sanguinário (Subclasse)</td><td>2</td><td>1d4</td></tr>
+            <tr><td>4º</td><td>+2</td><td class="esquerda">Talento de Atributo</td><td>2</td><td>1d4</td></tr>
+            <tr><td>5º</td><td>+3</td><td class="esquerda">Ataque Extra, Ritos Viscerais</td><td>3</td><td>1d6</td></tr>
+            <tr><td>6º</td><td>+3</td><td class="esquerda">Amplificação Sangrenta</td><td>3</td><td>1d6</td></tr>
+            <tr><td>7º</td><td>+3</td><td class="esquerda">Característica de Subclasse</td><td>3</td><td>1d6</td></tr>
+            <tr><td>8º</td><td>+3</td><td class="esquerda">Talento de Atributo</td><td>3</td><td>1d6</td></tr>
+            <tr><td>9º</td><td>+4</td><td class="esquerda">Psicometria Sombria, Aumento Sombrio</td><td>4</td><td>1d8</td></tr>
+            <tr><td>10º</td><td>+4</td><td class="esquerda">Alma Endurecida</td><td>4</td><td>1d8</td></tr>
+            <tr><td>11º</td><td>+4</td><td class="esquerda">Característica de Subclasse</td><td>4</td><td>1d8</td></tr>
+            <tr><td>12º</td><td>+4</td><td class="esquerda">Talento de Atributo</td><td>4</td><td>1d8</td></tr>
+            <tr><td>13º</td><td>+5</td><td class="esquerda">Inversão do Destino</td><td>5</td><td>1d10</td></tr>
+            <tr><td>14º</td><td>+5</td><td class="esquerda">Rejuvenescimento Violento</td><td>5</td><td>1d10</td></tr>
+            <tr><td>15º</td><td>+5</td><td class="esquerda">Característica de Subclasse</td><td>5</td><td>1d10</td></tr>
+            <tr><td>16º</td><td>+5</td><td class="esquerda">Talento de Atributo</td><td>5</td><td>1d10</td></tr>
+            <tr><td>17º</td><td>+6</td><td class="esquerda">Dádiva Épica</td><td>6</td><td>1d12</td></tr>
+            <tr><td>18º</td><td>+6</td><td class="esquerda">Característica de Subclasse</td><td>6</td><td>1d12</td></tr>
+            <tr><td>19º</td><td>+6</td><td class="esquerda">Característica de Subclasse (final)</td><td>6</td><td>1d12</td></tr>
+            <tr><td>20º</td><td>+6</td><td class="esquerda">Domínio Sanguinário</td><td>6</td><td>1d12</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #b22222; font-size: 1.6rem; margin-bottom: 20px;">Recursos de Classe Detalhados</h3>
+
+        <div class="bloco-bloodhunter">
+          <h4>Nível 1: Flagelo do Caçador (Hunter's Bane) & Pontos de Vida por Inteligência</h4>
+          <p><strong>Flagelo do Caçador:</strong> Você sobreviveu ao ritual que altera seu sangue. Você tem Vantagem em testes de Sabedoria (Sobrevivência) para rastrear criaturas que não são Humanoides, bem como em testes de Inteligência para recordar informações sobre elas. Além disso, você pode realizar a Ação de Estudo como uma Ação Bônus.</p>
+          <p><strong>Pontos de Vida baseados em Inteligência:</strong> No 1º nível, seus PV máximos são 10 + seu modificador de Inteligência (em vez de Constituição). A cada nível, adicione seu modificador de Inteligência à rolagem do Dado de Vida (ou use o valor fixo 6 + Inteligência). Você também usa Inteligência em vez de Constituição ao rolar Dados de Vida em Descansos Curtos.</p>
+          <p><strong>Maestria em Armas:</strong> Você possui maestria com dois tipos de armas corpo a corpo Simples ou Marciais de sua escolha. Pode trocar após um Descanso Longo.</p>
+        </div>
+
+        <div class="bloco-bloodhunter">
+          <h4>Nível 1: Rito Carmesim (Crimson Rite)</h4>
+          <p>Como uma Ação Bônus, você ativa um Rito Carmesim conhecido, sofrendo <strong class="hemocraft-cost">Perda de HP por Hemocracia</strong> igual ao seu Bônus de Proficiência. Escolha uma arma que esteja empunhando – pelo resto da duração, ataques com ela causam dano adicional do tipo escolhido (1d4, escala conforme a tabela). O dano da arma é considerado mágico. O efeito dura até um Descanso Curto/Longo, você soltar a arma ou encerrar como ação livre. Você pode aplicar o mesmo rito a múltiplas armas com a mesma ação bônus, pagando o custo de HP por arma.</p>
+          <p><strong>Ritos Conhecidos (iniciais):</strong> Rito da Chama (fogo), Rito do Gelo (frio), Rito do Frasco (ácido), Rito da Presa (veneno). No 10º nível, você aprende Ritos Esotéricos: Tempestade (relâmpago), Rugido (trovão), Oráculo (psíquico) e dos Mortos (necrótico).</p>
+        </div>
+
+        <div class="bloco-bloodhunter">
+          <h4>Nível 2: Estilo de Luta & Maledição Sanguinária</h4>
+          <p><strong>Estilo de Luta:</strong> Você ganha um talento de Estilo de Luta. Alternativamente, escolha <em>Guerreiro Ocultista (Occult Warrior)</em>: aprende dois truques de Bruxo (Warlock). Inteligência é sua habilidade de conjuração.</p>
+          <p><strong>Maledição Sanguinária (Blood Maledict):</strong> Você canaliza sua essência para amaldiçoar criaturas. Prepare uma lista de Maldições Sanguíneas igual ao seu modificador de Inteligência (mínimo 1) após um Descanso Longo. Use sua ação para aplicar uma maldição (CD 8 + Proficiência + Inteligência). Você pode <strong>Amplificar</strong> a maldição sofrendo Perda de HP por Hemocracia (igual ao seu PB) para aumentar seus efeitos. Criaturas sem sangue são imunes a menos que você amplifique. Você possui 2 usos desta característica, recuperados em Descanso Curto/Longo (mais usos nos níveis 5, 9, 13 e 17).</p>
+        </div>
+
+        <div class="bloco-bloodhunter">
+          <h4>Nível 3: Ordem do Caçador Sanguinário (Subclasse)</h4>
+          <p>Você escolhe uma Ordem: <strong>Espírito Assombrador (Ghostslayer)</strong>, <strong>Lobisomem (Lycan)</strong>, <strong>Mutante (Mutant)</strong> ou <strong>Alma Profana (Profane Soul)</strong>. A subclasse concede recursos nos níveis 3, 7, 11, 15, 18 e 19.</p>
+        </div>
+
+        <div class="bloco-bloodhunter">
+          <h4>Nível 4, 8, 12, 16: Talento de Atributo</h4>
+          <p>Você ganha o talento Aumento de Atributo ou outro talento de sua escolha.</p>
+        </div>
+
+        <div class="bloco-bloodhunter">
+          <h4>Nível 5: Ataque Extra & Ritos Viscerais</h4>
+          <p><strong>Ataque Extra:</strong> Você ataca duas vezes sempre que usa a ação Atacar.</p>
+          <p><strong>Ritos Viscerais:</strong> Você pode usar a Ação de Busca como Ação Bônus. Ao usá-la, sofra Perda de HP por Hemocracia para ativar um dos ritos abaixo (duração 10 minutos): <em>Rito do Coração Batente</em> (+5 em Intuição para detectar mentiras e visão cega 3m), <em>Rito dos Odores Ferozes</em> (+5 em Percepção olfativa e vantagem na Iniciativa), <em>Rito da Visibilidade Arcana</em> (visão normal na escuridão mágica/não mágica até 18m).</p>
+        </div>
+
+        <div class="bloco-bloodhunter">
+          <h4>Nível 6: Amplificação Sangrenta (Bloodied Amplification)</h4>
+          <p>Enquanto estiver <strong>Sangrando (metade ou menos dos PVs)</strong>, qualquer Perda de HP por Hemocracia pode ser reduzida para 1 (em vez do seu PB). Além disso, ao amplificar uma maldição contra uma criatura Sangrando, você também pode reduzir o custo para 1.</p>
+        </div>
+
+        <div class="bloco-bloodhunter">
+          <h4>Nível 9: Psicometria Sombria & Aumento Sombrio</h4>
+          <p><strong>Psicometria Sombria:</strong> Você pode lançar <em>Lenda Viva (Legend Lore)</em> uma vez por dia sem gastar espaços de magia, aprendendo informações extras sobre objetos sinistros ou entidades das trevas.</p>
+          <p><strong>Aumento Sombrio:</strong> Seu deslocamento aumenta em 1,5m. Você ganha proficiência em testes de resistência de Constituição (ou vantagem se já possuir proficiência). Seu máximo de PV não pode ser reduzido. Além disso, quando sofre Perda de HP por Hemocracia, você adiciona o valor perdido ao dano do seu próximo ataque com Rito Carmesim (dentro de 1 minuto).</p>
+        </div>
+
+        <div class="bloco-bloodhunter">
+          <h4>Nível 10: Alma Endurecida (Hardened Soul)</h4>
+          <p>Você se torna imune às condições <strong>Amedrontado (Frightened)</strong> e <strong>Enfeitiçado (Charmed)</strong>.</p>
+        </div>
+
+        <div class="bloco-bloodhunter">
+          <h4>Nível 13: Inversão do Destino (Reversal of Fate)</h4>
+          <p>Quando você falha em um teste de resistência, você pode sofrer Perda de HP por Hemocracia e rolar seu dado de Dano de Rito Carmesim, adicionando o resultado à sua rolagem. Isso pode transformar a falha em sucesso.</p>
+        </div>
+
+        <div class="bloco-bloodhunter">
+          <h4>Nível 14: Rejuvenescimento Violento (Violent Rejuvenation)</h4>
+          <p>Quando você reduz um inimigo a 0 PV ou vê o alvo da sua Maledição Sanguinária cair a 0 PV, você recupera um uso de Maledição Sanguinária e PV iguais ao seu Dado de Dano de Rito Carmesim + modificador de Inteligência. Uma vez por Descanso Curto/Longo.</p>
+        </div>
+
+        <div class="bloco-bloodhunter">
+          <h4>Nível 17: Dádiva Épica</h4>
+          <p>Você ganha um talento de Dádiva Épica (recomenda-se <em>Boon of Recovery</em>) ou outro talento à sua escolha.</p>
+        </div>
+
+        <div class="bloco-bloodhunter">
+          <h4>Nível 20: Domínio Sanguinário (Sanguine Mastery)</h4>
+          <p>Você alcança maestria total sobre as artes hemocraft: pode usar Maledição Sanguinária sem gastar uso – em vez disso, expenda um Dado de Vida. Sempre que cair a 0 PV, pode expendar um Dado de Vida para cair a 1 PV. Enquanto estiver Sangrando, você rola um dado adicional de Dano de Rito Carmesim.</p>
+        </div>
+      </div>
+
+      <!-- SUBCLASSES: ORDENS DO CAÇADOR SANGUINÁRIO -->
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #b22222; font-size: 1.6rem; margin-bottom: 10px;">Ordens do Caçador Sanguinário</h3>
+
+        <!-- GHOSTSLAYER -->
+        <div class="bloco-subclasse-detalhada">
+          <h3>🕯️ Ordem do Espírito Assombrador (Ghostslayer)</h3>
+          <p>Especialista em destruir mortos-vivos e criaturas etéreas. Seus ritos brilham com luz pútrida e sua lâmina alcança o mundo dos espíritos.</p>
+          <div class="sub-feature"><h5>Nível 3: Rito da Aurora (Rite of the Dawn)</h5><p>Você aprende o Rito da Aurora (dano Radiante). Você tem Resistência a dano Necrótico e causa 1d8 de dano radiante extra contra mortos-vivos.</p></div>
+          <div class="sub-feature"><h5>Nível 3: Esquiva Incorpórea</h5><p>Como Reação quando sofre dano, você se torna imune a todos os tipos de dano exceto Força até o final do turno atual. 1 uso por Descanso Curto/Longo.</p></div>
+          <div class="sub-feature"><h5>Nível 7: Excursão Fantasmagórica</h5><p>Você pode lançar a magia <em>Piscar (Blink)</em> sem gastar espaço de magia. Uma vez por Descanso Longo.</p></div>
+          <div class="sub-feature"><h5>Nível 11: Marca de Amarração</h5><p>Quando atinge uma criatura com um Rito Carmesim, você pode marcá-la. Pela duração, ela não pode usar teletransporte ou ações que aumentem seu deslocamento.</p></div>
+          <div class="sub-feature"><h5>Nível 15: Maledição do Exorcista</h5><p>Você aprende a Maledição Sanguínea do Exorcista. Amplificada, remove encantamento, medo ou possessão do alvo.</p></div>
+          <div class="sub-feature"><h5>Nível 18: Etherealness</h5><p>Uma vez por Descanso Longo, você pode lançar <em>Etherealness</em> sobre si mesmo, sem componentes materiais.</p></div>
+        </div>
+
+        <!-- LYCAN -->
+        <div class="bloco-subclasse-detalhada">
+          <h3>🐺 Ordem do Lobisomem (Lycan)</h3>
+          <p>Você abraça a maldição da licantropia, transformando-se em uma fera híbrida que luta com garras e presas imbuídas de sangue.</p>
+          <div class="sub-feature"><h5>Nível 3: Transformação Híbrida</h5><p>Ação Bônus para se transformar por 1 hora (usos = PB por Descanso Longo). Benefícios: Força Feral (+1 em ataques corpo a corpo, +2 no 11º, +3 no 18º; você usa Inteligência no lugar de Força para testes). Ataques Predatórios (garras/mordida 1d4, escala como Rito Carmesim). Pele Resiliente: ganha PV temporários iguais a nível + Inteligência.</p></div>
+          <div class="sub-feature"><h5>Nível 7: Proeza do Perseguidor</h5><p>Deslocamento +1,5m (+3m total transformado). Saltos aprimorados. Você ganha um Rito Visceral permanente (pode trocar após Descanso Longo).</p></div>
+          <div class="sub-feature"><h5>Nível 11: Regeneração Licantrópica</h5><p>No início de cada turno em Forma Híbrida, recupera 1 + modificador de Inteligência PV (se tiver pelo menos 1 PV). Suspenso por 1 rodada se sofrer dano de arma prateada.</p></div>
+          <div class="sub-feature"><h5>Nível 15: Presa Marcada</h5><p>Quando causa dano com Rito Carmesim, pode marcar a criatura. Ela não pode recuperar PV, usar Ações Bônus ou Reações até o final do seu próximo turno. 1 uso por Descanso Longo.</p></div>
+          <div class="sub-feature"><h5>Nível 18: Domínio da Transformação</h5><p>Transformação ilimitada, duração indefinida.</p></div>
+          <div class="sub-feature"><h5>Nível 18: Maledição do Uivo</h5><p>Você aprende a Maledição Sanguínea do Uivo (Blood Curse of the Howl).</p></div>
+        </div>
+
+        <!-- MUTANT -->
+        <div class="bloco-subclasse-detalhada">
+          <h3>🧪 Ordem do Mutante (Mutant)</h3>
+          <p>Alquimista da própria carne, o Mutante consome mutagênicos que alteram suas capacidades físicas e mentais – sem os riscos de exaustão, apenas um limite de ativações simultâneas.</p>
+          <div class="sub-feature"><h5>Nível 3: Maestria Alquímica & Fórmulas de Mutagênico</h5><p>Você ganha expertise em Suprimentos de Alquimista e pode usá-los como Kit de Herbalismo ou Veneno. Conhece 4 fórmulas de mutagênico. Após Descanso Longo, prepara um número de mutagênicos igual ao seu modificador de Inteligência (mínimo 1).</p></div>
+          <div class="sub-feature"><h5>Nível 3: Mutagênese</h5><p>Ação Bônus para consumir um mutagênico preparado. Você pode ter no máximo um número de mutagênicos ativos igual ao seu modificador de Inteligência. Se exceder, escolhe um para terminar imediatamente.</p></div>
+          <div class="sub-feature"><h5>Nível 7: Rito da Alquimia</h5><p>Quando ativa Rito do Frasco ou Rito da Presa, seu dano ignora resistência a Veneno/Ácido. Você pode ativar um Rito Visceral com a mesma ação bônus e ganha PV temporários iguais à Perda de HP por Hemocracia.</p></div>
+          <div class="sub-feature"><h5>Nível 11: Diluição Astuta</h5><p>Ao consumir um mutagênico ou poção, sofra Perda de HP por Hemocracia e faça um teste de Inteligência (Suprimentos de Alquimista) CD 15. Se passar, ganha os efeitos sem consumir o item. Você pode trocar um mutagênico preparado após um Descanso Curto.</p></div>
+          <div class="sub-feature"><h5>Nível 15: Metabolismo Estranho</h5><p>Imunidade a dano de Veneno e à condição Envenenado. Você não pode morrer de exaustão. Como ação livre, pode encerrar um mutagênico ativo e ativar outro. 1 uso por Descanso.</p></div>
+          <div class="sub-feature"><h5>Nível 18: Maledição da Corrosão</h5><p>Você aprende a Maledição Sanguínea da Corrosão. Amplificada, aplica um número de níveis de exaustão igual ao seu modificador de Inteligência.</p></div>
+        </div>
+
+        <!-- PROFANE SOUL -->
+        <div class="bloco-subclasse-detalhada">
+          <h3>🔮 Ordem da Alma Profana (Profane Soul)</h3>
+          <p>Você selou um pacto com um patrono das sombras, combinando hemocraft com magia arcana de Bruxo. Agora, sua arma flameja com poder eldritch.</p>
+          <div class="sub-feature"><h5>Nível 3: Pacto da Alma Profana</h5><p>Você aprende 2 truques de Bruxo (Inteligência é seu atributo de conjuração). Você possui uma tabela de conjuração: no 3º nível: 2 cantrips, 3 magias preparadas, 1 slot de 1º nível. A tabela escala até o 20º nível: 4 slots de 4º nível, 11 magias preparadas. Sua arma com Rito Carmesim ativo serve como foco de conjuração.</p></div>
+          <div class="sub-feature"><h5>Nível 3: Rito do Outro Mundo</h5><p>Você ganha um Rito Carmesim adicional baseado no seu patrono (ex: Fogo para Diabo, Psíquico para Great Old One).</p></div>
+          <div class="sub-feature"><h5>Nível 3: Frenesi Místico</h5><p>Quando usa a ação Atacar, pode substituir um dos ataques por um truque com tempo de conjuração de 1 ação.</p></div>
+          <div class="sub-feature"><h5>Nível 7: Dom do Sangue</h5><p>Quando sofre Perda de HP por Hemocracia, pode lançar um truque de Bruxo como ação livre (uma vez por turno).</p></div>
+          <div class="sub-feature"><h5>Nível 11: Marca da Cicatriz Debilitante</h5><p>Quando uma criatura é afetada por sua Maledição Sanguinária, você pode marcá-la. Ela tem Desvantagem em salvamentos contra suas magias de Bruxo, e você pode converter dano de Rito Carmesim em dano de Força.</p></div>
+          <div class="sub-feature"><h5>Nível 15: Vaso Profano (revisado)</h5><p>Quando reduzido a 0 PV ou fica Incapacitado, seu patrono infunde seu corpo: você recupera PV iguais ao nível de Blood Hunter, termina uma condição (amedrontado, enfeitiçado, envenenado, paralisado, atordoado) e por 1 minuto tem vantagem em todos os testes de resistência. 1 uso por Descanso Longo.</p></div>
+          <div class="sub-feature"><h5>Nível 18: Maledição do Devorador de Almas</h5><p>Você aprende a Maledição Sanguínea do Devorador de Almas (Blood Curse of the Soul Eater).</p></div>
+        </div>
+
+        <!-- SEÇÃO RESUMIDA DE MALDIÇÕES -->
+        <div style="margin-top: 35px; background: rgba(139, 0, 0, 0.1); padding: 15px; border-radius: 8px;">
+          <h4 style="color: #cd5c5c; margin-bottom: 10px;">📜 Maldições Sanguíneas (Blood Curses)</h4>
+          <p>Você prepara um número de maldições igual ao seu modificador de Inteligência (mínimo 1) dentre as opções disponíveis: <em>Ansiosa, Amarras, Agonia Inchada, Castigação, Exposição, Sem Olhos, Fantoche Caído, Identificação, Mente Turva, Sofrimento Mútuo</em>, entre outras. A CD é <strong>8 + PB + Inteligência</strong>. Efeitos padrão duram até o final do seu próximo turno; quando amplificadas, geralmente duram 1 minuto com salvamento no final de cada turno.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
