@@ -489,3 +489,48 @@ footer {
   outline-color: var(--gold-bright);
   box-shadow: 0 0 15px var(--blood-glow);
 }
+
+/* Estilos customizados para blocos de mecânicas de D&D */
+    .bloco-habilidade {
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 3px solid var(--gold);
+      padding: 20px;
+      margin-top: 25px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-habilidade h4 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-bright);
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+    /* Estilização da tabela de elementos */
+    .tabela-elementos {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      background: rgba(20, 20, 22, 0.6);
+      border: 1px solid var(--border-fantasy);
+      font-size: 0.95rem;
+    }
+    .tabela-elementos th, .tabela-elementos td {
+      border: 1px solid var(--border-fantasy);
+      padding: 10px 15px;
+      text-align: left;
+    }
+    .tabela-elementos th {
+      background: rgba(58, 50, 36, 0.3);
+      color: var(--gold);
+      font-family: 'Cinzel', serif;
+    }

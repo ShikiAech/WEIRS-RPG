@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pistoleiro — Weirs RPG</title>
+  <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+  <style>
+    /* Bloco principal para a classe Pistoleiro */
+    .bloco-pistoleiro {
+      background: rgba(210, 105, 30, 0.03);
+      border: 1px solid rgba(210, 105, 30, 0.2);
+      border-left: 4px solid #b85c1a;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-pistoleiro h4 {
+      font-family: 'Cinzel', serif;
+      color: #e67e22;
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+    .bloco-subclasse-detalhada {
+      background: rgba(25, 25, 27, 0.85);
+      border: 1px solid var(--border-fantasy);
+      padding: 25px;
+      margin-top: 35px;
+      border-radius: 4px;
+    }
+    .bloco-subclasse-detalhada h3 {
+      font-family: 'Cinzel', serif;
+      color: #d35400;
+      border-bottom: 1px solid rgba(211, 84, 0, 0.4);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+    }
+    .sub-feature {
+      background: rgba(210, 105, 30, 0.05);
+      border-left: 3px solid #d35400;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 0 4px 4px 0;
+    }
+    .sub-feature h5 {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      font-size: 1.05rem;
+      margin-bottom: 5px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+    .tabela-rpg {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: rgba(20, 20, 22, 0.7);
+      border: 1px solid var(--border-fantasy);
+      font-size: 0.85rem;
+    }
+    .tabela-rpg th, .tabela-rpg td {
+      border: 1px solid var(--border-fantasy);
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .tabela-rpg th {
+      background: rgba(43, 33, 23, 0.6);
+      color: #d35400;
+      font-family: 'Cinzel', serif;
+    }
+    .tabela-rpg tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .tabela-rpg td.esquerda {
+      text-align: left;
+    }
+    .dado-risco {
+      background: rgba(184, 92, 26, 0.2);
+      border-radius: 20px;
+      padding: 4px 12px;
+      display: inline-block;
+      font-weight: bold;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="/WEIRS-RPG/pages/classes/classes.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Classes</a>
+    </div>
+
+    <h2>Pistoleiro (Gunslinger)</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="https://imagenslucas.weebly.com/uploads/1/0/6/8/10689847/save-follow-dm-for-order-art-for-sale-dm-follow-on-pinterest-support-on-boosty-conceptart-characterdesign-ttrpg-fantasyart-evganinart-ev-ganin-fantasy-art-created-22-0_orig.jpg" alt="Pistoleiro com arcabuz">
+        <div class="texto-lore">
+          <h3>Pólvora, Audácia e Chumbo Derretido</h3>
+          <p>O risco corre nas veias de um pistoleiro. Renegados audaciosos, renegam tradições e forjam seu próprio caminho com armas de fogo perigosas e imprecisas — mas devastadoras. Sobrevivendo à base de instinto, sorte e nervos de aço, esses atiradores sabem que cada combate pode ser o último, e por isso encaram a batalha com sorriso irônico e o dedo pronto no gatilho.</p>
+          <p>No novo padrão de 2024, o Pistoleiro se consagra como o mestre das armas de fogo, combinando agilidade sobre-humana, tiros críticos devastadores e um estilo ousado que desafia a morte. Utilizando Dados de Risco (Risk Dice), ele executa manobras espetaculares que viram o jogo em frações de segundo. Seja com um revólver fumegante ou uma espingarda de cano cerrado, o pistoleiro dita o ritmo do tiroteio.</p>
+          
+          <h4 style="color: #d35400; margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Dado de Vida:</strong> 1d8 por nível de Pistoleiro.</li>
+            <li><strong>Atributo Principal:</strong> Destreza (ataques à distância e Defesa).</li>
+            <li><strong>Proficiências em Armaduras:</strong> Armaduras Leves.</li>
+            <li><strong>Proficiências em Armas:</strong> Armas Simples e Armas Marciais de Distância.</li>
+            <li><strong>Ferramentas:</strong> Nenhuma.</li>
+            <li><strong>Testes de Resistência:</strong> Destreza e Carisma.</li>
+            <li><strong>Perícias:</strong> Escolha duas entre Acrobacia, Adestramento, Atletismo, Enganação, Intuição, Intimidação, Percepção, Persuasão e Prestidigitação.</li>
+            <li><strong>Equipamento Inicial:</strong> Escolha A ou B: (A) Armadura de Couro, 2 Adagas, Revólver, 50 Balas, Mochila de Aventureiro e 11 PO; (B) 175 PO.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px; overflow-x: auto;">
+        <h3 style="font-family: 'Cinzel', serif; color: #d35400; font-size: 1.6rem; margin-bottom: 15px;">Progressão do Pistoleiro</h3>
+        <table class="tabela-rpg">
+          <thead>
+            <tr>
+              <th>Nível</th>
+              <th>Prof.</th>
+              <th class="esquerda">Recursos de Classe</th>
+              <th>Dados de Risco</th>
+              <th>Maestria em Armas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1º</td><td>+2</td><td class="esquerda">Estilo de Tiro, Saque Rápido, Maestria em Armas</td><td>—</td><td>2</td></tr>
+            <tr><td>2º</td><td>+2</td><td class="esquerda">Tiro Crítico, Risco</td><td>4d8</td><td>2</td></tr>
+            <tr><td>3º</td><td>+2</td><td class="esquerda">Arquétipo do Pistoleiro (Subclasse)</td><td>4d8</td><td>2</td></tr>
+            <tr><td>4º</td><td>+2</td><td class="esquerda">Talento de Atributo</td><td>4d8</td><td>3</td></tr>
+            <tr><td>5º</td><td>+3</td><td class="esquerda">Ataque Extra, Tiro Na Mosca</td><td>4d8</td><td>3</td></tr>
+            <tr><td>6º</td><td>+3</td><td class="esquerda">Recurso de Subclasse</td><td>5d8</td><td>3</td></tr>
+            <tr><td>7º</td><td>+3</td><td class="esquerda">Esquiva Evasiva (Evasion)</td><td>5d8</td><td>3</td></tr>
+            <tr><td>8º</td><td>+3</td><td class="esquerda">Talento de Atributo</td><td>5d8</td><td>3</td></tr>
+            <tr><td>9º</td><td>+4</td><td class="esquerda">Tiro Crítico Aprimorado</td><td>5d8</td><td>3</td></tr>
+            <tr><td>10º</td><td>+4</td><td class="esquerda">Recurso de Subclasse</td><td>5d10</td><td>4</td></tr>
+            <tr><td>11º</td><td>+4</td><td class="esquerda">Excesso (Overkill)</td><td>5d10</td><td>4</td></tr>
+            <tr><td>12º</td><td>+4</td><td class="esquerda">Talento de Atributo</td><td>5d10</td><td>4</td></tr>
+            <tr><td>13º</td><td>+5</td><td class="esquerda">Trapacear a Morte</td><td>5d10</td><td>4</td></tr>
+            <tr><td>14º</td><td>+5</td><td class="esquerda">Recurso de Subclasse</td><td>6d10</td><td>4</td></tr>
+            <tr><td>15º</td><td>+5</td><td class="esquerda">Aposta Temerária</td><td>6d10</td><td>4</td></tr>
+            <tr><td>16º</td><td>+5</td><td class="esquerda">Talento de Atributo</td><td>6d10</td><td>4</td></tr>
+            <tr><td>17º</td><td>+6</td><td class="esquerda">Tiro Crítico Superior</td><td>6d10</td><td>4</td></tr>
+            <tr><td>18º</td><td>+6</td><td class="esquerda">Manobra Ágil</td><td>6d12</td><td>4</td></tr>
+            <tr><td>19º</td><td>+6</td><td class="esquerda">Dádiva Épica</td><td>6d12</td><td>4</td></tr>
+            <tr><td>20º</td><td>+6</td><td class="esquerda">Tiro na Cabeça (Headshot)</td><td>6d12</td><td>4</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #d35400; font-size: 1.6rem; margin-bottom: 20px;">Recursos da Classe Detalhados</h3>
+
+        <div class="bloco-pistoleiro">
+          <h4>Nível 1: Estilo de Tiro, Saque Rápido & Maestria em Armas</h4>
+          <p><strong>Estilo de Tiro (Fighting Style):</strong> Você ganha um talento de Estilo de Combate à sua escolha. Se o talento exigir empunhar uma arma corpo a corpo (como Estilo de Armas Grandes), você pode usá-lo com armas de fogo de duas mãos. A cada nível de Pistoleiro, pode substituir o talento por outro estilo de luta disponível.</p>
+          <p><strong>Saque Rápido (Quick Draw):</strong> Você é mestre em sacar e atirar antes da reação alheia. Você possui vantagem em testes de Iniciativa. Além disso, pode sacar ou guardar duas armas que não possuam a propriedade <em>Duas Mãos</em> sempre que normalmente só pudesse sacar uma.</p>
+          <p><strong>Maestria em Armas (Weapon Mastery):</strong> Você treina com armas de fogo e outras armas de ataque à distância. Escolha dois tipos de Armas Simples ou Marciais de Distância para aplicar suas propriedades de maestria. Ao final de um Descanso Longo, pode trocar uma delas. O número de armas que domina aumenta conforme a tabela.</p>
+        </div>
+
+        <div class="bloco-pistoleiro">
+          <h4>Nível 2: Tiro Crítico & Risco</h4>
+          <p><strong>Tiro Crítico (Critical Shot):</strong> Seus ataques à distância com armas causam Acerto Crítico com rolagem 19 ou 20 no d20. Este limiar melhora nos níveis 9 (18–20) e 17 (17–20).</p>
+          <p><strong>Risco (Risk):</strong> Você canaliza a ousadia em proezas incríveis usando Dados de Risco. Você possui 4 dados de Risco (d8), que recupera ao final de um Descanso Curto ou Longo. Conforme avança, eles se tornam d10 (nível 10) e d12 (nível 18). Utilize esses dados para realizar manobras (listadas abaixo). A CD para resistir às suas manobras é <span class="dado-risco">8 + mod. Destreza + Proficiência</span>.</p>
+        </div>
+
+        <div class="bloco-pistoleiro">
+          <h4>Nível 3: Arquétipo do Pistoleiro</h4>
+          <p>Você escolhe sua especialização: o atirador preciso <strong>Olho de Águia (Deadeye)</strong>, o incansável atirador de dois revólveres <strong>Pistoleiro de Quadril (Pistolero)</strong> ou o portador de armas pesadas <strong>Tanque de Guerra (Gun Tank)</strong>. Esta escolha concede recursos nos níveis 3, 6, 10 e 14.</p>
+        </div>
+
+        <div class="bloco-pistoleiro">
+          <h4>Níveis 4, 8, 12, 16: Talentos de Atributo</h4>
+          <p>Você ganha o talento Aumento de Atributo ou outro talento para o qual possua os requisitos. O Pistoleiro recebe essas melhorias nos níveis indicados, reforçando sua versatilidade.</p>
+        </div>
+
+        <div class="bloco-pistoleiro">
+          <h4>Nível 5: Ataque Extra & Tiro na Mosca</h4>
+          <p><strong>Ataque Extra:</strong> Você realiza dois ataques ao invés de um sempre que usar a ação Atacar.</p>
+          <p><strong>Tiro na Mosca (Gut Shot):</strong> Quando você acerta um Crítico contra uma criatura de tamanho Grande ou menor com uma arma de fogo, o projétil fica alojado. Por 1 minuto ou até a criatura gastar um de seus ataques para remover o projétil, o deslocamento dela é reduzido à metade e ela sofre Desvantagem nas rolagens de ataque.</p>
+        </div>
+
+        <div class="bloco-pistoleiro">
+          <h4>Nível 7: Esquiva Evasiva (Evasion)</h4>
+          <p>Quando um efeito permite que você faça um teste de resistência de Destreza para receber metade do dano, você não sofre dano algum se passar no teste, e apenas metade se falhar. Não funciona se estiver Incapacitado.</p>
+        </div>
+
+        <div class="bloco-pistoleiro">
+          <h4>Nível 11: Excesso (Overkill)</h4>
+          <p>Quando você causar dano com uma arma de distância que normalmente não soma seu modificador de Destreza (como a maioria das armas de fogo), você soma seu modificador de Destreza ao dano. Se a arma já soma o modificador, o alvo sofre 1d8 extra do mesmo tipo de dano.</p>
+        </div>
+
+        <div class="bloco-pistoleiro">
+          <h4>Nível 13: Trapacear a Morte (Cheat Death)</h4>
+          <p>Quando você cair a 0 pontos de vida sem ser morto instantaneamente, pode optar por cair a 1 PV em vez disso e recuperar uma quantidade de PV igual ao seu nível de Pistoleiro. Após usar, precisa de um Descanso Curto ou Longo para usá-lo novamente.</p>
+        </div>
+
+        <div class="bloco-pistoleiro">
+          <h4>Nível 15: Aposta Temerária (Dire Gambit)</h4>
+          <p>Sempre que você rolar Iniciativa ou obtiver um Acerto Crítico, recupera um Dado de Risco gasto.</p>
+        </div>
+
+        <div class="bloco-pistoleiro">
+          <h4>Nível 18: Manobra Ágil (Deft Maneuver)</h4>
+          <p>Você recebe uma Ação Bônus adicional especial uma vez por turno, que só pode ser usada para realizar uma <strong>manobra de Risco</strong>.</p>
+        </div>
+
+        <div class="bloco-pistoleiro">
+          <h4>Nível 19: Dádiva Épica</h4>
+          <p>Você ganha um talento de Dádiva Épica ou outro talento à sua escolha. Recomenda-se a Dádiva do Ataque Irresistível (Boon of Irresistible Offense).</p>
+        </div>
+
+        <div class="bloco-pistoleiro">
+          <h4>Nível 20: Tiro na Cabeça (Headshot)</h4>
+          <p>Quando você obtém um Acerto Crítico com uma arma de distância, pode escolher que seja um Tiro na Cabeça. Se o alvo tiver menos de 100 PV, ele morre instantaneamente. Caso contrário, sofre 10d10 de dano extra do tipo da arma. Após usar, precisa de um Descanso Curto ou Longo para usar novamente, ou pode gastar três Dados de Risco para restaurar o uso (sem exigir ação).</p>
+        </div>
+      </div>
+
+      <!-- SEÇÃO DE MANOBRAS DE RISCO -->
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #d35400; font-size: 1.6rem; margin-bottom: 20px;">Manobras de Risco</h3>
+        <p>Você tem acesso a todas as manobras listadas abaixo. Gaste um Dado de Risco para ativar o efeito descrito, a menos que especificado de outra forma.</p>
+
+        <div class="sub-feature"><h5>Morder a Bala (Bite the Bullet)</h5><p><strong>Ação Bônus:</strong> Você ganha Pontos de Vida Temporários iguais ao valor rolado no Dado de Risco + seu nível de Pistoleiro.</p></div>
+        <div class="sub-feature"><h5>Disparo Cego (Blindfire)</h5><p><strong>Ação Bônus:</strong> Você adquire Visão Cega em um raio de 9 metros até o final do turno atual.</p></div>
+        <div class="sub-feature"><h5>Rolamento Evasivo (Dodge Roll)</h5><p><strong>Ação Bônus:</strong> Você se move até 4,5 metros sem provocar Ataques de Oportunidade, ignorando terreno difícil, e recarrega qualquer arma de fogo que esteja empunhando.</p></div>
+        <div class="sub-feature"><h5>Tiro Rasteiro (Grazing Shot)</h5><p><strong>Sem ação, quando errar:</strong> Ao errar um ataque à distância, você causa dano igual ao Dado de Risco + modificador de Destreza (mínimo 1) do mesmo tipo da arma. Apenas uma vez por turno.</p></div>
+        <div class="sub-feature"><h5>Espírito Indômito (Maverick Spirit)</h5><p><strong>Reação:</strong> Quando falhar em um teste de Inteligência, Sabedoria ou Carisma, adicione o Dado de Risco ao resultado, podendo transformar a falha em sucesso (uma vez por turno).</p></div>
+        <div class="sub-feature"><h5>Pele dos Dentes (Skin of Your Teeth)</h5><p><strong>Reação ao ser acertado:</strong> Adicione o valor rolado no Dado de Risco à sua CA contra aquele ataque, podendo torná-lo um erro.</p></div>
+      </div>
+
+      <!-- SUBCLASSES -->
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: #d35400; font-size: 1.6rem; margin-bottom: 10px;">Arquétipos do Pistoleiro</h3>
+
+        <!-- SUBCLASSE 1: OLHO DE ÁGUIA (DEADEYE) -->
+        <div class="bloco-subclasse-detalhada">
+          <h3>🔫 Olho de Águia (Deadeye)</h3>
+          <p>Atirador de elite focado em precisão letal. O Olho de Águia elimina ameaças a longas distâncias com um único disparo cirúrgico.</p>
+          <div class="sub-feature"><h5>Nível 3: Pontaria Milimétrica & Balança, Mas Não Cai</h5><p><strong>Pontaria Milimétrica:</strong> Quando você faz um ataque à distância com uma arma que possui a propriedade <em>Munição</em>, você pode gastar 1 Dado de Risco para adicionar o dado à rolagem de ataque (após ver o resultado, mas antes do mestre anunciar o acerto).</p><p><strong>Balança, Mas Não Cai:</strong> Você tem vantagem em testes de Destreza para manter o equilíbrio e não sofre Desvantagem em ataques à distância devido à condição <em>Agarrado</em>.</p></div>
+          <div class="sub-feature"><h5>Nível 6: Tiro de Precisão</h5><p>Uma vez por turno, quando acerta um ataque com uma arma de fogo, você pode causar dano extra igual a um rolamento do seu Dado de Risco. Se o alvo estiver dentro do primeiro intervalo normal da arma, você pode rolar o dado duas vezes e usar o melhor resultado.</p></div>
+          <div class="sub-feature"><h5>Nível 10: Mirar e Respirar</h5><p>Como uma Ação Bônus, você pode gastar 1 Dado de Risco para obter Vantagem na próxima rolagem de ataque à distância deste turno. Além disso, o ataque ignora meia cobertura e três-quartos de cobertura.</p></div>
+          <div class="sub-feature"><h5>Nível 14: Balística Terminal</h5><p>Quando você causa dano a uma criatura com uma arma de fogo e ela possui menos da metade de seus pontos de vida máximos, você pode gastar 1 Dado de Risco para transformar o dano em um Acerto Crítico automático. Pode usar essa característica um número de vezes igual ao seu modificador de Destreza (mínimo 1) por Descanso Longo.</p></div>
+        </div>
+
+        <!-- SUBCLASSE 2: PISTOLEIRO DE QUADRIL (PISTOLERO) -->
+        <div class="bloco-subclasse-detalhada">
+          <h3>🤠 Pistoleiro de Quadril (Pistolero)</h3>
+          <p>Especialista em velocidade insana, sacando dois revólveres e enchendo o ar de chumbo. O Pistoleiro é uma tempestade de pólvora.</p>
+          <div class="sub-feature"><h5>Nível 3: Estilo Faroeste & Recarga Relâmpago</h5><p><strong>Estilo Faroeste:</strong> Quando você empunha duas armas de fogo que não tenham a propriedade <em>Duas Mãos</em>, você pode atirar com ambas como parte da mesma Ação Bônus de Combate com Duas Armas. Além disso, você adiciona seu modificador de Destreza no dano do segundo tiro.</p><p><strong>Recarga Relâmpago:</strong> Você pode recarregar uma arma de fogo como parte da ação de Ataque ou da ação Bônus, sem gastar uma ação separada.</p></div>
+          <div class="sub-feature"><h5>Nível 6: Rajada de Chumbo</h5><p>Quando você usa a ação Ataque e realiza pelo menos um ataque com uma arma de fogo, pode gastar 1 Dado de Risco para realizar um ataque adicional com outra arma de fogo que esteja empunhando. Este ataque extra não soma seu modificador de habilidade no dano.</p></div>
+          <div class="sub-feature"><h5>Nível 10: Desaparecer na Fumaça</h5><p>Após acertar um ataque com uma arma de fogo, você pode gastar 1 Dado de Risco para ativar o efeito <em>Desengajar</em> e mover-se até metade do seu deslocamento sem provocar ataques de oportunidade.</p></div>
+          <div class="sub-feature"><h5>Nível 14: Chuva de Balas</h5><p>Quando você usa a ação Ataque, pode substituir um dos ataques por uma saraivada: realize dois ataques de arma de fogo contra alvos diferentes (cada ataque sofre -2 na rolagem). Você pode gastar 1 Dado de Risco para não sofrer a penalidade.</p></div>
+        </div>
+
+        <!-- SUBCLASSE 3: TANQUE DE GUERRA (GUN TANK) -->
+        <div class="bloco-subclasse-detalhada">
+          <h3>💥 Tanque de Guerra (Gun Tank)</h3>
+          <p>Arrasta pesadas armas de fogo montadas, como metralhadoras portáteis ou canhões de mão. Sua filosofia é potência bruta e resiliência.</p>
+          <div class="sub-feature"><h5>Nível 3: Couraça de Aço & Estabelecer Posição</h5><p><strong>Couraça de Aço:</strong> Você ganha proficiência em armaduras médias e escudos. Enquanto estiver usando armadura média, seu bônus de Constituição contribui para a CA em +1 (máximo de +2).</p><p><strong>Estabelecer Posição:</strong> Você pode gastar 1 Dado de Risco para, como Ação Bônus, fixar sua arma de fogo de duas mãos em uma superfície (ou usar o bipé). Enquanto mantido, você ignora a desvantagem de atirar a distância longa e tem Vantagem em testes para não ser movido à força.</p></div>
+          <div class="sub-feature"><h5>Nível 6: Fogo Suprimido</h5><p>Quando você acerta uma criatura com uma arma de fogo, pode gastar 1 Dado de Risco para impor Desvantagem no próximo ataque da criatura até o final do próximo turno dela.</p></div>
+          <div class="sub-feature"><h5>Nível 10: Andarilho Blindado</h5><p>Você recebe Resistência a dano perfurante e de impacto de ataques não mágicos. Além disso, quando sofre dano de uma fonte que você possa ver, pode usar sua reação e gastar 1 Dado de Risco para reduzir o dano em um valor igual ao rolado do dado + seu nível de Pistoleiro.</p></div>
+          <div class="sub-feature"><h5>Nível 14: Ameaça Andante</h5><p>Sua presença e poder de fogo intimidam. Sempre que você faz um disparo com uma arma de fogo, inimigos de sua escolha em um raio de 6 metros devem fazer um teste de Sabedoria (CD 8 + Proficiência + mod. Carisma) ou ficarão <em>Amedrontados</em> por 1 minuto. Uma vez que uma criatura resista a este efeito, fica imune por 24 horas.</p></div>
+        </div>
+      </div>
+      
+      <!-- NOTA SOBRE ARMAS DE FOGO -->
+      <div style="margin-top: 20px; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; border-left: 3px solid #e67e22;">
+        <p style="font-size: 0.85rem; margin: 0;"><strong>⚙️ Armas de Fogo:</strong> As armas de fogo seguem regras especiais. Geralmente não somam o modificador de Destreza ao dano, usam dois ou mais dados de dano e requerem ação de recarga. Consulte seu mestre para saber quais armas de fogo estão disponíveis na campanha (ex: Revólver, Mosquete, Escopeta, Canhão de Mão). O Pistoleiro é naturalmente proficiente com todas elas, desde que sejam armas marciais de distância.</p>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

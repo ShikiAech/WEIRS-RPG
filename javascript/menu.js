@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function() {
     // 1. Identifica qual página está aberta no momento
     const paginaAtual = window.location.pathname.split("/").pop() || "index.html";
@@ -25,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     linksMenu.forEach(link => {
         // Se a página atual for igual ao link, adiciona a classe active para acender o botão
-        const classeAtiva = (paginaAtual === link.url) ? 'class="active"' : '';
+        const classeAtiva = (paginaAtual === link.url.split("/").pop()) ? 'class="active"' : '';
         htmlMenu += `<li><a href="${link.url}" ${classeAtiva}>${link.texto}</a></li>`;
     });
 
@@ -36,6 +35,16 @@ document.addEventListener("DOMContentLoaded", function() {
     </div>
     `;
 
-    // 4. Injeta o menu no topo do body do seu HTML
+    // 4. Injeta o menu no topo do body
     document.body.insertAdjacentHTML('afterbegin', htmlMenu);
+
+    // 5. Cria e injeta o footer dinamicamente
+    const htmlFooter = `
+    <footer>
+        &copy; 2026 Weirs RPG — Todos os direitos reservados.
+    </footer>
+    `;
+
+    // Injeta o footer antes do fechamento do body
+    document.body.insertAdjacentHTML('beforeend', htmlFooter);
 });
