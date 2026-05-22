@@ -466,3 +466,26 @@ footer {
   transform: translateY(-1px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
+/* Botões Globais de Ação */
+.btn-principal {
+  display: inline-block;
+  background: linear-gradient(180deg, var(--blood-red) 0%, #4a0000 100%);
+  border: 1px solid var(--border-fantasy);
+  outline: 1px solid var(--gold-dark);
+  outline-offset: -4px;
+  border-radius: 3px;
+  padding: 14px 35px;
+  color: var(--gold-bright);
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  font-weight: 700;
+  text-decoration: none;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+  transition: all 0.2s ease;
+}
+.btn-principal:hover {
+  background: linear-gradient(180deg, #a30000 0%, var(--blood-red) 100%);
+  outline-color: var(--gold-bright);
+  box-shadow: 0 0 15px var(--blood-glow);
+}
