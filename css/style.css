@@ -410,6 +410,7 @@ footer {
     padding: 12px 20px;
   }
 }
+
 /* =====================================================
    GRADE DE BOTÕES CUSTOMIZADOS (RAÇAS / CLASSES) - CLEAN
    ===================================================== */
@@ -490,6 +491,9 @@ footer {
   box-shadow: 0 0 15px var(--blood-glow);
 }
 
+/* =====================================================
+   DISPOSIÇÃO DOS ELEMENTOS DAS CARACTERÍSTICAS DE RAÇA
+   ===================================================== */
 /* Estilos customizados para blocos de mecânicas de D&D */
     .bloco-habilidade {
       background: rgba(0, 0, 0, 0.3);
@@ -515,6 +519,9 @@ footer {
     .trait-list li strong {
       color: var(--gold);
     }
+
+
+
     /* Estilização da tabela de elementos */
     .tabela-elementos {
       width: 100%;
@@ -533,4 +540,56 @@ footer {
       background: rgba(58, 50, 36, 0.3);
       color: var(--gold);
       font-family: 'Cinzel', serif;
+    }
+
+  /* =====================================================
+   BADGES PARA TIPO DE AÇÃO
+   ===================================================== */
+
+    .badge-acao {
+      display: inline-block;
+      color: #55d65f;
+      background: rgba(55, 192, 43, 0.2);
+      padding: 3px 10px;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      border: 1px solid rgba(48, 192, 43, 0.4);
+      margin-left: 5px;
+    }
+
+    .badge-acao-bonus {
+      display: inline-block;
+      color: #55c3d6;
+      background: rgba(43, 58, 192, 0.2);
+      padding: 3px 10px;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      border: 1px solid rgba(45, 43, 192, 0.4);
+      margin-left: 5px;
+    }
+
+    .badge-livre {
+      display: inline-block;
+      color: #d6be55;
+      background: rgba(192, 177, 43, 0.2);
+      padding: 3px 10px;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      border: 1px solid rgba(192, 190, 43, 0.4);
+      margin-left: 5px;
+    }
+
+    .badge-reacao {
+      display: inline-block;
+      color: #d65555;
+      background: rgba(192, 57, 43, 0.2);
+      padding: 3px 10px;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      border: 1px solid rgba(192, 43, 43, 0.4);
+      margin-left: 5px;
     }

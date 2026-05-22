@@ -6,6 +6,11 @@ Um aplicativo web para recordação de campanhas, guia de criação básico e co
 
 ## 📋 Changelog
 
+### Versão 1.1.1
+- **Data:** 22/05/2026
+- **Melhorias:**
+  - Alterações na estrutura da página dos Elfos.
+
 ### Versão 1.1.0
 - **Data:** 22/05/2026
 - **Melhorias:**
