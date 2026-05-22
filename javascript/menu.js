@@ -5,20 +5,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 2. Cria a estrutura do menu (Adicione novas páginas aqui!)
     const linksMenu = [
-        { texto: "Início", url: "index.html" },
-        { texto: "Campanhas", url: "campanhas.html" },
-        { texto: "Raças", url: "racas.html" },
-        { texto: "Classes", url: "classes.html" },
-        { texto: "Talentos", url: "talentos.html" },
-        { texto: "Antecedentes", url: "antecedentes.html" },
-        { texto: "Magias", url: "magias.html" }
+        { texto: "Início", url: "/WEIRS-RPG/index.html" },
+        { texto: "Campanhas", url: "/WEIRS-RPG/pages/campaigns/campanhas.html" },
+        { texto: "Raças", url: "/WEIRS-RPG/pages/races/racas.html" },
+        { texto: "Classes", url: "/WEIRS-RPG/pages/classes/classes.html" },
+        { texto: "Talentos", url: "/WEIRS-RPG/pages/talentos.html" },
+        { texto: "Antecedentes", url: "/WEIRS-RPG/pages/antecedentes.html" },
+        { texto: "Magias", url: "/WEIRS-RPG/pages/magias.html" }
     ];
 
     // 3. Monta o HTML do menu dinamicamente
     let htmlMenu = `
     <div id="header-wrap">
       <header id="header">
-        <a href="index.html" class="logo">Weirs</a>
+        <a href="/WEIRS-RPG/index.html" class="logo">Weirs</a>
         <nav class="nav">
           <ul>
     `;
