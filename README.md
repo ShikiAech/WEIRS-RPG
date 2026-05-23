@@ -6,6 +6,11 @@ Um aplicativo web para recordação de campanhas, guia de criação básico e co
 
 ## 📋 Changelog
 
+### Versão 1.1.2
+- **Data:** 22/05/2026
+- **Melhorias:**
+  - Mudanaça no codigo css de badges (definição do tipo de ação usada em um feat).
+
 ### Versão 1.1.1
 - **Data:** 22/05/2026
 - **Melhorias:**
