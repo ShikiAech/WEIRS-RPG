@@ -546,7 +546,7 @@ footer {
    BADGES PARA TIPO DE AÇÃO
    ===================================================== */
 
-    .badge {
+  .badge {
   display: inline-block;
   padding: 3px 10px;
   border-radius: 3px;

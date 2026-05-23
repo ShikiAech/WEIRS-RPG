@@ -1,0 +1,616 @@
+/* ============================================
+   BADGES UNIFICADAS (versão mini)
+   ============================================ */
+.badge-mini {
+  display: inline-block;
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.4);
+  color: #aaa;
+  font-weight: normal;
+}
+
+.badge-mini.acao {
+  color: #55d65f;
+  background: rgba(55, 192, 43, 0.2);
+  border: 1px solid rgba(48, 192, 43, 0.3);
+}
+
+.badge-mini.acao-bonus {
+  color: #55c3d6;
+  background: rgba(43, 58, 192, 0.2);
+  border: 1px solid rgba(45, 43, 192, 0.3);
+}
+
+.badge-mini.livre {
+  color: #d6be55;
+  background: rgba(192, 177, 43, 0.2);
+  border: 1px solid rgba(192, 190, 43, 0.3);
+}
+
+.badge-mini.reacao {
+  color: #d65555;
+  background: rgba(192, 57, 43, 0.2);
+  border: 1px solid rgba(192, 43, 43, 0.3);
+}
+
+/* ============================================
+   BLOCOS DE CLASSE
+   ============================================ */
+.bloco-classe {
+  background: rgba(146, 137, 108, 0.04);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  border-left: 4px solid var(--gold);
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 0 4px 4px 0;
+}
+
+.bloco-classe h4 {
+  font-family: 'Cinzel', serif;
+  color: var(--gold-bright);
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+}
+
+/* Container flexível para título e badge */
+.bloco-classe .title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.bloco-classe .title-row h4 {
+  margin-bottom: 0;
+  flex: 1;
+}
+
+.bloco-classe .title-row .badge-mini {
+  margin-left: 0;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   SUBCLASSES
+   ============================================ */
+.bloco-subclasse-detalhada {
+  background: rgba(25, 25, 27, 0.8);
+  border: 1px solid var(--border-fantasy);
+  padding: 25px;
+  margin-top: 35px;
+  border-radius: 0 4px 4px 0;
+}
+
+.bloco-subclasse-detalhada h3 {
+  font-family: 'Cinzel', serif;
+  color: #5dade2;
+  border-bottom: 1px solid rgba(93, 173, 226, 0.3);
+  padding-bottom: 8px;
+  margin-bottom: 20px;
+}
+
+.sub-feature {
+  background: rgba(44, 62, 80, 0.2);
+  border-left: 3px solid #3498db;
+  padding: 15px;
+  margin-top: 15px;
+  border-radius: 0 4px 4px 0;
+}
+
+.sub-feature h5 {
+  font-family: 'Cinzel', serif;
+  color: #eaf2f8;
+  font-size: 1.05rem;
+  margin-bottom: 5px;
+}
+
+/* ============================================
+   LISTAS E TABELAS
+   ============================================ */
+.trait-list {
+  list-style: none;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.trait-list li strong {
+  color: var(--gold);
+}
+
+.tabela-rpg {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  background: rgba(20, 20, 22, 0.6);
+  border: 1px solid var(--border-fantasy);
+  font-size: 0.85rem;
+}
+
+.tabela-rpg th,
+.tabela-rpg td {
+  border: 1px solid var(--border-fantasy);
+  padding: 10px 12px;
+  text-align: center;
+}
+
+.tabela-rpg th {
+  background: rgba(58, 50, 36, 0.4);
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+}
+
+.tabela-rpg tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.tabela-rpg td.esquerda {
+  text-align: left;
+}
+
+/* Responsividade para tabelas em telas pequenas */
+@media (max-width: 768px) {
+  .tabela-rpg {
+    font-size: 0.7rem;
+  }
+  
+  .tabela-rpg th,
+  .tabela-rpg td {
+    padding: 6px 8px;
+  }
+  
+  /* Permite rolagem horizontal em tabelas muito largas */
+  .overflow-table {
+    overflow-x: auto;
+    margin: 20px 0;
+  }
+  
+  .overflow-table .tabela-rpg {
+    margin: 0;
+    min-width: 600px;
+  }
+}
+
+/* ============================================
+   DISCIPLINAS / LISTAS EM COLUNAS
+   ============================================ */
+.discipline-list {
+  columns: 2;
+  column-gap: 25px;
+  margin-top: 10px;
+}
+
+.discipline-list li {
+  margin-bottom: 8px;
+  break-inside: avoid;
+}
+
+/* Responsividade para listas em colunas */
+@media (max-width: 640px) {
+  .discipline-list {
+    columns: 1;
+  }
+}
+
+/* ============================================
+   RECURSOS (Invocações, Disciplinas, Manobras)
+   ============================================ */
+.recursos-container {
+  margin: 30px 0 20px;
+}
+
+.recursos-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+}
+
+.recursos-header h3 {
+  font-family: 'Cinzel', serif;
+  color: var(--gold, #d4af37);
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.recursos-count {
+  font-size: 0.8rem;
+  color: var(--gold, #d4af37);
+  background: rgba(212, 175, 55, 0.15);
+  padding: 4px 12px;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Grid de recursos */
+.recursos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+/* Layout em lista (alternativa ao grid) */
+.recursos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.recursos-list .recurso-card {
+  border-left-width: 3px;
+}
+
+/* Card individual de recurso */
+.recurso-card {
+  background: rgba(20, 20, 22, 0.6);
+  border: 1px solid var(--border-fantasy);
+  border-left: 3px solid var(--gold, #d4af37);
+  border-radius: 0 4px 4px 0;
+  padding: 12px 16px;
+  transition: all 0.2s ease;
+}
+
+.recurso-card:hover {
+  background: rgba(30, 30, 35, 0.8);
+  border-color: rgba(212, 175, 55, 0.4);
+}
+
+.recurso-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.recurso-nome {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--gold-bright, #e6c87d);
+}
+
+.recurso-tipo {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #aaa;
+}
+
+.recurso-descricao {
+  font-size: 0.85rem;
+  color: #ccc;
+  line-height: 1.4;
+}
+
+.recurso-descricao p {
+  margin: 0;
+}
+
+.recurso-descricao strong {
+  color: var(--gold, #d4af37);
+}
+
+.recurso-requisito {
+  font-size: 0.7rem;
+  color: #888;
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+/* Responsividade para recursos */
+@media (max-width: 768px) {
+  .recursos-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .recursos-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ============================================
+   VARIAÇÕES DE CORES PARA RECURSOS
+   ============================================ */
+.recursos-container.manobras .recurso-card {
+  border-left-color: #e74c3c;
+}
+
+.recursos-container.invocacoes .recurso-card {
+  border-left-color: #9b59b6;
+}
+
+.recursos-container.disciplinas .recurso-card {
+  border-left-color: #3498db;
+}
+
+.recursos-container.ritos .recurso-card {
+  border-left-color: #e67e22;
+}
+
+.recursos-container.riscos .recurso-card {
+  border-left-color: #e74c3c;
+}
+
+/* Versão compacta para muitos recursos */
+.recursos-compact .recurso-card {
+  padding: 8px 12px;
+}
+
+.recursos-compact .recurso-nome {
+  font-size: 0.9rem;
+}
+
+.recursos-compact .recurso-descricao {
+  font-size: 0.8rem;
+}
+
+/* ============================================
+   RESPONSIVIDADE GERAL
+   ============================================ */
+@media (max-width: 768px) {
+  .bloco-classe {
+    padding: 15px;
+  }
+  
+  .bloco-subclasse-detalhada {
+    padding: 15px;
+  }
+  
+  .sub-feature {
+    padding: 10px;
+  }
+  
+  .trait-list {
+    margin-left: 5px;
+    gap: 8px;
+  }
+  
+  .recurso-card {
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bloco-classe .title-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .recursos-count {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+  }
+  
+  .recursos-header h3 {
+    font-size: 1.2rem;
+  }
+}
+
+/* ============================================
+   SISTEMA DE ABAS PARA SUBCLASSES
+   ============================================ */
+.subclasses-container {
+  margin: 40px 0 20px;
+  background: rgba(25, 25, 27, 0.5);
+  border-radius: 0 4px 4px 0;
+  border: 1px solid var(--border-fantasy);
+  overflow: hidden;
+}
+
+/* Cabeçalho das abas com rolagem horizontal */
+.tabs-header {
+  background: rgba(20, 20, 22, 0.9);
+  border-bottom: 1px solid var(--border-fantasy);
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+
+/* Esconde a scrollbar em navegadores WebKit (opcional, mantém funcionalidade) */
+.tabs-header::-webkit-scrollbar {
+  height: 4px;
+}
+
+.tabs-header::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.tabs-header::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border-radius: 0 4px 4px 0;
+}
+
+/* Lista de abas */
+.tabs-list {
+  display: inline-flex;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Botão de cada aba */
+.tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: rgba(30, 30, 35, 0.8);
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #aaa;
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  background: rgba(212, 175, 55, 0.1);
+  color: var(--gold-bright, #e6c87d);
+}
+
+.tab-btn.active {
+  background: rgba(25, 25, 27, 0.9);
+  color: var(--gold, #d4af37);
+  border-bottom-color: var(--gold, #d4af37);
+}
+
+/* Ícone na aba (opcional) */
+.tab-btn .tab-icon {
+  font-size: 1rem;
+}
+
+/* Botões de navegação (setas) para telas pequenas */
+.tabs-nav {
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 30px;
+  background: linear-gradient(to right, rgba(20, 20, 22, 0.9), transparent);
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.tabs-nav.prev {
+  left: 0;
+  background: linear-gradient(to right, rgba(20, 20, 22, 0.95), transparent);
+}
+
+.tabs-nav.next {
+  right: 0;
+  background: linear-gradient(to left, rgba(20, 20, 22, 0.95), transparent);
+}
+
+.tabs-nav:hover {
+  background-color: rgba(212, 175, 55, 0.2);
+}
+
+/* Conteúdo das abas */
+.tabs-content {
+  padding: 25px;
+  animation: fadeIn 0.3s ease;
+}
+
+.tab-pane {
+  display: none;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Exibe setas de navegação apenas quando necessário (via JS) */
+.subclasses-container.has-overflow .tabs-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .tab-btn {
+    padding: 10px 16px;
+    font-size: 0.8rem;
+  }
+  
+  .tabs-content {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tab-btn {
+    padding: 8px 12px;
+    font-size: 0.75rem;
+  }
+  
+  .tab-btn .tab-icon {
+    font-size: 0.85rem;
+  }
+}
+
+/* Container relativo para posicionar setas */
+.tabs-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(20, 20, 22, 0.9);
+  border-bottom: 1px solid var(--border-fantasy);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+}
+
+/* Lista de abas com padding para as setas */
+.tabs-list {
+  display: inline-flex;
+  gap: 2px;
+  margin: 0;
+  padding: 0 35px; /* Espaço para as setas fixas */
+  list-style: none;
+  flex: 1;
+}
+
+/* Setas fixas nas extremidades */
+.tabs-nav {
+  position: sticky;
+  width: 30px;
+  height: 100%;
+  background: rgba(20, 20, 22, 0.95);
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: var(--gold);
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.tabs-nav.prev {
+  left: 0;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+}
+
+.tabs-nav.next {
+  right: 0;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+}
+
+.tabs-nav:hover:not([disabled]) {
+  background: rgba(212, 175, 55, 0.2);
+}
