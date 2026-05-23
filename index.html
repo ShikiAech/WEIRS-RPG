@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Weirs RPG — Início</title>
-  <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+  <link rel="stylesheet" href="/css/style.css">
   <style>
     /* Estilos exclusivos para a Página Inicial e Lore */
     .secao-guia {
@@ -93,7 +93,7 @@
 </head>
 
 <body>
-  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+  <script src="/javascript/menu.js"></script>
   
   <div class="container">
     
@@ -380,6 +380,10 @@
   let pontosAntGasto = { for: 0, des: 0, con: 0, int: 0, sab: 0, car: 0 };
   let totalAsiDisponivel = 0;
 
+  // Histórico para armazenar os conjuntos de dados das duas tentativas
+  let historicoRolagens = { r1: null, r2: null };
+  let rolagemSelecionada = null;
+
   const selectsAtributos = {
     for: document.getElementById("input-for"),
     des: document.getElementById("input-des"),
@@ -438,39 +442,100 @@
   };
 
   function finalizarRolagem() {
-    dadosRolados = [];
-    // Resetar alocações anteriores ao rolar novos dados
-    pontosAsiGasto = { for: 0, des: 0, con: 0, int: 0, sab: 0, car: 0 };
-    pontosAntGasto = { for: 0, des: 0, con: 0, int: 0, sab: 0, car: 0 };
-    
-    for(let i=0; i<6; i++) dadosRolados.push(rolar4d6k3());
-    dadosRolados.sort((a,b) => b - a);
-    poolDados.innerText = dadosRolados.join("   |   ");
+    let novosDados = [];
+    for(let i=0; i<6; i++) novosDados.push(rolar4d6k3());
+    novosDados.sort((a,b) => b - a);
 
-    // Construir os selects vinculando ID único a cada índice do dado sorteado
-    Object.keys(selectsAtributos).forEach(attr => {
-      reconstruirSelectOptions(selectsAtributos[attr]);
-    });
+    // Salva o resultado na tentativa correspondente
+    if (!historicoRolagens.r1) {
+      historicoRolagens.r1 = novosDados;
+      escolherConjuntoDados("r1"); // Seleciona automaticamente a primeira por padrão
+    } else if (!historicoRolagens.r2) {
+      historicoRolagens.r2 = novosDados;
+      escolherConjuntoDados("r2"); // Seleciona automaticamente a segunda ao rolar
+    }
+
+    renderizarPainelRolagens();
 
     if (tentativasRestantes > 0) {
       btnRolar.disabled = false;
     } else {
-      btnRolar.innerText = "Destino Selado";
-      btnRolar.style.background = "#555";
-      btnRolar.style.cursor = "not-allowed";
+      btnRolar.innerText = "Escolha sua Rolagem";
+      btnRolar.style.background = "#333";
+      btnRolar.style.cursor = "default";
     }
+  }
 
+  // Função para renderizar os cards de escolha das rolagens
+  function renderizarPainelRolagens() {
+    poolDados.innerHTML = "";
+    poolDados.style.display = "flex";
+    poolDados.style.flexDirection = "column";
+    poolDados.style.gap = "12px";
+    poolDados.style.marginTop = "10px";
+
+    if (historicoRolagens.r1) {
+      criarCardRolagem("r1", "1ª Rolagem", historicoRolagens.r1);
+    }
+    if (historicoRolagens.r2) {
+      criarCardRolagem("r2", "2ª Rolagem", historicoRolagens.r2);
+    }
+  }
+
+  function criarCardRolagem(chave, label, conjunto) {
+    const card = document.createElement("div");
+    const estaSelecionado = rolagemSelecionada === chave;
+    
+    card.style.background = estaSelecionado ? "rgba(214,175,55,0.15)" : "#1a1a1d";
+    card.style.border = estaSelecionado ? "2px solid #d4af37" : "1px solid #3a3a3e";
+    card.style.padding = "12px 16px";
+    card.style.borderRadius = "6px";
+    card.style.cursor = "pointer";
+    card.style.display = "flex";
+    card.style.alignItems = "center";
+    card.style.justifyContent = "space-between";
+    card.style.transition = "all 0.2s";
+
+    card.innerHTML = `
+      <div style="display: flex; alignItems: center; gap: 10px;">
+        <input type="radio" name="opcao-rolagem" ${estaSelecionado ? "checked" : ""} style="cursor: pointer; accent-color: #d4af37;">
+        <span style="font-family: 'Cinzel', serif; color: #bfa36b; font-size: 0.9rem;">${label}:</span>
+      </div>
+      <span style="font-weight: bold; letter-spacing: 1px; color: ${estaSelecionado ? '#fff' : '#aaa'}">${conjunto.join("   |   ")}</span>
+    `;
+
+    card.onclick = () => escolherConjuntoDados(chave);
+    poolDados.appendChild(card);
+  }
+
+  function escolherConjuntoDados(chave) {
+    rolagemSelecionada = chave;
+    dadosRolados = [...historicoRolagens[chave]];
+
+    // Resetar alocações anteriores ao alternar ou gerar conjunto de dados
+    pontosAsiGasto = { for: 0, des: 0, con: 0, int: 0, sab: 0, car: 0 };
+    pontosAntGasto = { for: 0, des: 0, con: 0, int: 0, sab: 0, car: 0 };
+
+    // Limpa a escolha atual dos selects para evitar que fiquem com índices inválidos do outro dado
+    Object.keys(selectsAtributos).forEach(attr => {
+      selectsAtributos[attr].value = "";
+    });
+
+    // Reconstrói as listas drop-down com os novos valores correspondentes
+    Object.keys(selectsAtributos).forEach(attr => {
+      reconstruirSelectOptions(selectsAtributos[attr]);
+    });
+
+    renderizarPainelRolagens();
     atualizarCalculos();
   }
 
   // Preenche a lista drop-down com IDs únicos vinculando o valor ao índice do dado
   function reconstruirSelectOptions(selectElement) {
-    const valorSalvo = selectElement.value; // Preserva seleção se aplicável
     selectElement.innerHTML = '<option value="">—</option>';
     dadosRolados.forEach((valor, index) => {
       selectElement.innerHTML += `<option value="${index}_${valor}">Dado ${index+1} (${valor})</option>`;
     });
-    if(valorSalvo) selectElement.value = valorSalvo;
   }
 
   // TRAVA MECÂNICA: Garante que um dado usado suma das outras listas em tempo real
@@ -488,7 +553,6 @@
     // Atualizar dinamicamente o estado desabilitado de cada opção em todos os menus
     Object.keys(selectsAtributos).forEach(attr => {
       const select = selectsAtributos[attr];
-      const escolhaAtual = select.value;
 
       Array.from(select.options).forEach(option => {
         if (!option.value) return; // ignora a opção nula "—"
