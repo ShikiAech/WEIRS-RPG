@@ -161,6 +161,7 @@ body {
   text-shadow: 0 0 30px rgba(0,0,0,0.9), 0 0 20px var(--blood-glow);
   background: linear-gradient(to bottom, #ffffff 0%, var(--gold) 60%, var(--gold-dark) 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -242,7 +243,6 @@ h2::after {
 }
 
 .layout-detalhes img:hover {
-  transform: scale(1.03);
   border-color: var(--gold);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.9), 0 0 15px rgba(212, 175, 55, 0.2);
 }
