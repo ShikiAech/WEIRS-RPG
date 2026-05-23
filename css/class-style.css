@@ -416,13 +416,11 @@
   border-bottom: 1px solid var(--border-fantasy);
   overflow-x: auto;
   overflow-y: hidden;
-  white-space: nowrap;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
-  position: relative;
 }
 
-/* Esconde a scrollbar em navegadores WebKit (opcional, mantém funcionalidade) */
+/* Esconde a scrollbar mas mantém funcionalidade (opcional) */
 .tabs-header::-webkit-scrollbar {
   height: 4px;
 }
@@ -479,33 +477,6 @@
   font-size: 1rem;
 }
 
-/* Botões de navegação (setas) para telas pequenas */
-.tabs-nav {
-  display: none;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 30px;
-  background: linear-gradient(to right, rgba(20, 20, 22, 0.9), transparent);
-  border: none;
-  cursor: pointer;
-  z-index: 2;
-}
-
-.tabs-nav.prev {
-  left: 0;
-  background: linear-gradient(to right, rgba(20, 20, 22, 0.95), transparent);
-}
-
-.tabs-nav.next {
-  right: 0;
-  background: linear-gradient(to left, rgba(20, 20, 22, 0.95), transparent);
-}
-
-.tabs-nav:hover {
-  background-color: rgba(212, 175, 55, 0.2);
-}
-
 /* Conteúdo das abas */
 .tabs-content {
   padding: 25px;
@@ -531,13 +502,6 @@
   }
 }
 
-/* Exibe setas de navegação apenas quando necessário (via JS) */
-.subclasses-container.has-overflow .tabs-nav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 /* Responsividade */
 @media (max-width: 768px) {
   .tab-btn {
@@ -559,58 +523,4 @@
   .tab-btn .tab-icon {
     font-size: 0.85rem;
   }
-}
-
-/* Container relativo para posicionar setas */
-.tabs-header {
-  position: relative;
-  display: flex;
-  align-items: center;
-  background: rgba(20, 20, 22, 0.9);
-  border-bottom: 1px solid var(--border-fantasy);
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-behavior: smooth;
-}
-
-/* Lista de abas com padding para as setas */
-.tabs-list {
-  display: inline-flex;
-  gap: 2px;
-  margin: 0;
-  padding: 0 35px; /* Espaço para as setas fixas */
-  list-style: none;
-  flex: 1;
-}
-
-/* Setas fixas nas extremidades */
-.tabs-nav {
-  position: sticky;
-  width: 30px;
-  height: 100%;
-  background: rgba(20, 20, 22, 0.95);
-  border: none;
-  cursor: pointer;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  color: var(--gold);
-  transition: all 0.2s;
-  flex-shrink: 0;
-}
-
-.tabs-nav.prev {
-  left: 0;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.2);
-}
-
-.tabs-nav.next {
-  right: 0;
-  box-shadow: -2px 0 5px rgba(0,0,0,0.2);
-}
-
-.tabs-nav:hover:not([disabled]) {
-  background: rgba(212, 175, 55, 0.2);
 }
