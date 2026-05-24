@@ -364,8 +364,6 @@
 
             <!-- RECURSOS DE CLASSE DETALHADOS -->
             <div >
-            
-                <!-- EXEMPLO DE RECURSOS DE CLASSE -->
                 <div class="recursos-container">
                     <div class="recursos-header">
                         <h3>Recursos da Classe</h3>
@@ -820,115 +818,655 @@
                           
                           <p><strong style="color: white;">Orientação Mágica.</strong> Quando você termina um Descanso Curto, recupera todos os usos gastos de seu Lampejo de Genialidade se estiver em Sintonia com pelo menos um item mágico.</p>
                         </div>
-                      </div>
-
-
-
-
-                      
+                      </div>                      
                     </div>
                 </div>
 
-                <!-- RECURSOS DE MANOBRA / RISCO / INVOCAÇÕES / DISCIPLINAS ETC -->
-                <div class="recursos-container">
-                    <div class="recursos-header">
-                        <h3>Manobras de Risco</h3>
-                        <span class="recursos-count">3 conhecidas</span>
-                    </div>
-                    
-                    <div class="recursos-grid">
-                        <!-- Card 1 -->
-                        <div class="recurso-card">
-                            <div class="recurso-header">
-                                <span class="recurso-nome">Morder a Bala</span>
-                                <span class="badge-mini acao-bonus">Ação Bônus</span>
-                            </div>
-                            <div class="recurso-descricao">
-                                <p>Você ganha <strong>Pontos de Vida Temporários</strong> iguais ao valor rolado no Dado de Risco + seu nível de Pistoleiro.</p>
-                            </div>
-                            <div class="recurso-requisito">
-                                Gasta 1 Dado de Risco
-                            </div>
-                        </div>
-                        
-                        <!-- Card 2 -->
-                        <div class="recurso-card">
-                            <div class="recurso-header">
-                                <span class="recurso-nome">Disparo Cego</span>
-                                <span class="badge-mini acao-bonus">Ação Bônus</span>
-                            </div>
-                            <div class="recurso-descricao">
-                                <p>Você adquire <strong>Visão Cega</strong> em um raio de 9 metros até o final do turno atual.</p>
-                            </div>
-                            <div class="recurso-requisito">
-                                Gasta 1 Dado de Risco
-                            </div>
-                        </div>
-                        
-                        <!-- Card 3 -->
-                        <div class="recurso-card">
-                            <div class="recurso-header">
-                                <span class="recurso-nome">Rolamento Evasivo</span>
-                                <span class="badge-mini acao-bonus">Ação Bônus</span>
-                            </div>
-                            <div class="recurso-descricao">
-                                <p>Você se move até <strong>4,5 metros</strong> sem provocar Ataques de Oportunidade, ignorando terreno difícil, e recarrega qualquer arma de fogo que esteja empunhando.</p>
-                            </div>
-                            <div class="recurso-requisito">
-                                Gasta 1 Dado de Risco
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                <!-- SUBCLASSES -->
                 <div class="recursos-header">
-                        <h3>Subclasses</h3>
-                    </div>
+                  <h3>Subclasses</h3>
+                </div>
                 <div class="subclasses-container" id="subclasses-artifice">
-                    
-                    <!--ABAS DE NAVEGAÇÃO-->
-                    <div class="tabs-header">
-                        <ul class="tabs-list">
-                        <li><button class="tab-btn active" data-tab="0"> Subclasse 1</button></li>
-                        <li><button class="tab-btn active" data-tab="0"> Subclasse 2</button></li>
-                        </ul>
+                  
+                  <!--ABAS DE NAVEGAÇÃO-->
+                  <div class="tabs-header">
+                    <ul class="tabs-list">
+                      <li><button class="tab-btn active" data-tab="0">Alquimista</button></li>
+                      <li><button class="tab-btn" data-tab="1">Armeiro</button></li>
+                      <li><button class="tab-btn" data-tab="1">Artilheiro</button></li>
+                      <li><button class="tab-btn" data-tab="1">Ferreiro de Batalha</button></li>
+                      <li><button class="tab-btn" data-tab="1">Cartógrafo</button></li>
+                    </ul>
+                  </div>
+                  
+                  <!--SUBCLASSE-->
+                  <div class="tabs-content">
+                    <!-- ABA 1: ALQUIMISTA -->
+                    <div class="tab-pane active">
+                      <h3 style="color: var(--gold); margin-bottom: 15px;">Alquimista</h3>
+                      <p>Um Alquimista é especialista em combinar reagentes para produzir efeitos mágicos. Alquimistas usam suas criações para dar vida e para drená-la.</p>
+                      
+                      <!-- Nível 3: Ferramentas do Ofício -->
+                      <div class="recurso-card">
+                        <div class="recurso-header">
+                          <span class="recurso-nome">Nível 3: Ferramentas do Ofício</span>
+                          
+                        </div>
+                        <div class="recurso-descricao">
+                          <p><strong style="color: white;">Proficiência em Ferramentas.</strong> Você ganha proficiência com <strong>Suprimentos de Alquimista</strong> e o <strong>Kit de Herbalismo</strong>. Se você já possui uma dessas proficiências, você ganha proficiência com um outro tipo de Ferramentas de Artesão de sua escolha (ou com dois outros tipos se você possuir ambas).</p>
+                          <p><strong style="color: white;">Fabricação de Poções.</strong> Quando você fabrica uma poção usando as regras de fabricação do <em>Dungeon Master's Guide</em>, o tempo necessário para fabricá-la é reduzido à metade.</p>
+                        </div>
+                      </div>
+                      
+                      <!-- Nível 3: Magias do Alquimista -->
+                      <div class="recurso-card">
+                        <div class="recurso-header">
+                          <span class="recurso-nome">Nível 3: Magias do Alquimista</span>
+                          
+                        </div>
+                        <div class="recurso-descricao">
+                          <p>Quando você atinge um nível de Artífice especificado na tabela de Magias do Alquimista, você sempre tem as magias listadas preparadas.</p>
+                          
+                          <h4 style="margin: 15px 0 5px; color: var(--gold)">Magias do Alquimista</h4>
+                          <table class="tabela-rpg">
+                            <thead>
+                              <tr><th>Nível de Artífice</th><th>Magias</th></tr>
+                            </thead>
+                            <tbody>
+                              <tr><td>3º</td><td>Palavra de Cura, Raio de Enfraquecimento</td></tr>
+                              <tr><td>5º</td><td>Esfera Flamejante, Flecha Ácida de Melf</td></tr>
+                              <tr><td>9º</td><td>Forma Gasosa, Cura em Massa</td></tr>
+                              <tr><td>13º</td><td>Manto da Morte, Esfera Vítriolica</td></tr>
+                              <tr><td>17º</td><td>Nuvem Mortífera, Levantar Mortos</td></tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      
+                      <!-- Nível 3: Elixir Experimental -->
+                      <div class="recurso-card">
+                        <div class="recurso-header">
+                          <span class="recurso-nome">Nível 3: Elixir Experimental</span>
+                          <span class="badge-mini acao-bonus">Ação Bônus</span>
+                        </div>
+                        <div class="recurso-descricao">
+                          <p>Sempre que você termina um Descanso Longo enquanto segura <strong>Suprimentos de Alquimista</strong>, você pode usar essa ferramenta para produzir magicamente dois elixires. Para cada elixir, role na tabela de Elixir Experimental para o efeito do elixir, que é ativado quando alguém o bebe. O elixir aparece em um frasco, e o frasco desaparece quando o elixir é bebido ou derramado. Se algum elixir permanecer quando você terminar um Descanso Longo, o elixir e seu frasco desaparecem.</p>
+                          <p><strong style="color: white;">Beber um Elixir.</strong> Como uma <strong>Ação Bônus</strong>, uma criatura pode beber o elixir ou administrá-lo a outra criatura a até 1,5 metro de si.</p>
+                          <p><strong style="color: white;">Criando Elixires Adicionais.</strong> Como uma <strong>Ação Mágica</strong> enquanto segura Suprimentos de Alquimista, você pode gastar um espaço de magia para criar outro elixir. Quando você faz isso, escolhe seu efeito da tabela de Elixir Experimental em vez de rolar.</p>
+                          <p>Quando você atinge certos níveis de Artífice, você pode fazer um elixir adicional no final de cada Descanso Longo: um total de <strong>três no nível 5</strong>, <strong>quatro no nível 9</strong> e <strong>cinco no nível 15</strong>.</p>
+                          
+                          <h4 style="margin: 15px 0 5px; color: var(--gold)">Elixir Experimental</h4>
+                          <table class="tabela-rpg">
+                            <thead>
+                              <tr><th>1d6</th><th>Efeito</th></tr>
+                            </thead>
+                            <tbody>
+                              <tr><td>1</td><td><strong>Cura.</strong> O bebedor recupera um número de Pontos de Vida igual a 2d8 + seu modificador de Inteligência. A quantidade de PV restaurados aumenta em 1d8 nos níveis 9 (3d8) e 15 (4d8).</td></tr>
+                              <tr><td>2</td><td><strong>Rapidez.</strong> O deslocamento do bebedor aumenta em 3 metros por 1 hora. Este bônus aumenta nos níveis 9 (4,5m) e 15 (6m).</td></tr>
+                              <tr><td>3</td><td><strong>Resiliência.</strong> O bebedor ganha +1 de CA por 10 minutos. A duração aumenta nos níveis 9 (1 hora) e 15 (8 horas).</td></tr>
+                              <tr><td>4</td><td><strong>Ousadia.</strong> O bebedor pode rolar 1d4 e adicionar o número rolado em cada rolagem de ataque e salvaguarda que fizer por 1 minuto. A duração aumenta nos níveis 9 (10 minutos) e 15 (1 hora).</td></tr>
+                              <tr><td>5</td><td><strong>Voo.</strong> O bebedor ganha deslocamento de voo de 3 metros por 10 minutos. O deslocamento de voo aumenta nos níveis 9 (6m) e 15 (9m).</td></tr>
+                              <tr><td>6</td><td>Você determina o efeito do elixir escolhendo uma das outras linhas desta tabela.</td></tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      
+                      <!-- Nível 5: Alquimia Espetacular -->
+                      <div class="recurso-card">
+                        <div class="recurso-header">
+                          <span class="recurso-nome">Nível 5: Alquimia Espetacular</span>
+                          
+                        </div>
+                        <div class="recurso-descricao">
+                          <p>Sempre que você conjura uma magia usando seus <strong>Suprimentos de Alquimista</strong> como Foco de Conjuração, você ganha um bônus em uma rolagem da magia. Essa rolagem deve restaurar Pontos de Vida ou ser uma rolagem de dano que cause dano de Ácido, Fogo ou Veneno. O bônus é igual ao seu <strong>modificador de Inteligência</strong> (bônus mínimo de +1).</p>
+                        </div>
+                      </div>
+                      
+                      <!-- Nível 9: Reagentes Restauradores -->
+                      <div class="recurso-card">
+                        <div class="recurso-header">
+                          <span class="recurso-nome">Nível 9: Reagentes Restauradores</span>
+                          
+                        </div>
+                        <div class="recurso-descricao">
+                          <p>Você pode conjurar <strong>Restauração Menor</strong> sem gastar um espaço de magia e sem preparar a magia, desde que use <strong>Suprimentos de Alquimista</strong> como Foco de Conjuração. Você pode fazer isso um número de vezes igual ao seu <strong>modificador de Inteligência</strong> (mínimo de uma vez), e recupera todos os usos gastos quando termina um Descanso Longo.</p>
+                        </div>
+                      </div>
+                      
+                      <!-- Nível 15: Maestria Química -->
+                      <div class="recurso-card">
+                        <div class="recurso-header">
+                          <span class="recurso-nome">Nível 15: Maestria Química</span>
+                          
+                        </div>
+                        <div class="recurso-descricao">
+                          <p>Você ganha os seguintes benefícios.</p>
+                          
+                          <p><strong style="color: white;">Erupção Alquímica.</strong> Quando você conjura uma magia de Artífice que causa dano de Ácido, Fogo ou Veneno a um alvo, você também pode causar <strong>2d8 de dano de Força</strong> a esse alvo. Você pode usar este benefício apenas uma vez em cada um de seus turnos.</p>
+                          
+                          <p><strong style="color: white;">Resistência Química.</strong> Você ganha <strong>Resistência</strong> a dano de Ácido e dano de Veneno. Você também ganha <strong>Imunidade</strong> à condição Envenenado.</p>
+                          
+                          <p><strong style="color: white;">Caldeirão Conjurado.</strong> Você pode conjurar <strong>Caldeirão Borbulhante de Tasha</strong> sem gastar um espaço de magia, sem preparar a magia e sem componentes Materiais, desde que use <strong>Suprimentos de Alquimista</strong> como Foco de Conjuração. Quando você usa esta característica, não pode usá-la novamente até terminar um Descanso Longo.</p>
+                        </div>
+                      </div>
                     </div>
                     
-                    <!--SUBCLASSE-->
-                    <div class="tabs-content">
-                        <!-- ABA 1 -->
-                        <div class="tab-pane active">
-                            <h3 style="color: var(--gold); margin-bottom: 15px;">Subclasse 1</h3>
-                            <p>Descrição da Subclasse 1.</p>
-                            <div class="recurso-card">
-                                <div class="recurso-header">
-                                    <span class="recurso-nome">Nível 3: Nome exemplo 1</span>
-                                    
-                                </div>
-                                <div class="recurso-descricao">
-                                    <p>Descrição <strong>teste</strong>.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- ABA 2 -->
-                        <div class="tab-pane active">
-                            <h3 style="color: var(--gold); margin-bottom: 15px;">Subclasse 2</h3>
-                            <p>Descrição da Subclasse 2.</p>
-                            <div class="recurso-card">
-                                <div class="recurso-header">
-                                    <span class="recurso-nome">Nível 3: Nome exemplo 1</span>
-                                    
-                                </div>
-                                <div class="recurso-descricao">
-                                    <p>Descrição <strong>teste</strong>.</p>
-                                </div>
-                            </div>
-                        </div>
+                  <!-- ABA 2: ARMEIRO -->
+                  <div class="tab-pane">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">Armeiro</h3>
+                    <p>Um Armeiro modifica armaduras para funcionar quase como uma segunda pele. A armadura é aprimorada para aprimorar a magia do Armeiro, desencadear ataques potentes e gerar uma defesa formidável.</p>
                     
+                    <!-- Nível 3: Ferramentas do Ofício -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Ferramentas do Ofício</span>
+                        
+                      </div>
+                      <div class="recurso-descricao">
+                        <p><strong style="color: white;">Treinamento com Armadura.</strong> Você ganha treinamento com <strong>Armaduras Pesadas</strong>.</p>
+                        <p><strong style="color: white;">Proficiência em Ferramentas.</strong> Você ganha proficiência com <strong>Ferramentas de Ferreiro</strong>. Se você já possui esta proficiência, você ganha proficiência com um outro tipo de Ferramentas de Artesão de sua escolha.</p>
+                        <p><strong style="color: white;">Fabricação de Armaduras.</strong> Quando você fabrica uma armadura não mágica ou mágica, o tempo necessário para fabricá-la é reduzido à metade.</p>
+                      </div>
                     </div>
                     
+                    <!-- Nível 3: Magias do Armeiro -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Magias do Armeiro</span>
+                        
+                      </div>
+                      <div class="recurso-descricao">
+                        <p>Quando você atinge um nível de Artífice especificado na tabela de Magias do Armeiro, você sempre tem as magias listadas preparadas.</p>
+                        
+                        <h4 style="margin: 15px 0 5px; color: var(--gold)">Magias do Armeiro</h4>
+                        <table class="tabela-rpg">
+                          <thead>
+                            <tr><th>Nível de Artífice</th><th>Magias</th></tr>
+                          </thead>
+                          <tbody>
+                            <tr><td>3º</td><td>Míssil Mágico, Onda Trovão</td></tr>
+                            <tr><td>5º</td><td>Imagem Espelhada, Destroçar</td></tr>
+                            <tr><td>9º</td><td>Padrão Hipnótico, Raio Relâmpago</td></tr>
+                            <tr><td>13º</td><td>Escudo de Fogo, Invisibilidade Maior</td></tr>
+                            <tr><td>17º</td><td>Passagem, Muralha de Força</td></tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    
+                    <!-- Nível 3: Armadura Arcana -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Armadura Arcana</span>
+                        <span class="badge-mini acao">Ação Mágica</span>
+                      </div>
+                      <div class="recurso-descricao">
+                        <p>Como uma <strong>Ação Mágica</strong> enquanto você tem <strong>Ferramentas de Ferreiro</strong> em mãos, você pode transformar uma armadura que está vestindo em <strong>Armadura Arcana</strong>. A armadura continua sendo Armadura Arcana até que você vista outra armadura ou morra.</p>
+                        <p>Você ganha os seguintes benefícios enquanto estiver vestindo sua Armadura Arcana.</p>
+                        <p><strong style="color: white;">Sem Exigência de Força.</strong> Se a armadura normalmente tem uma exigência de Força, a Armadura Arcana não tem essa exigência para você.</p>
+                        <p><strong style="color: white;">Vestir e Remover Rápidos.</strong> Você pode vestir ou remover a armadura como uma <strong>Ação Utilizar</strong>. A armadura não pode ser removida contra sua vontade.</p>
+                        <p><strong style="color: white;">Foco de Conjuração.</strong> Você pode usar a Armadura Arcana como Foco de Conjuração para suas magias de Artífice.</p>
+                      </div>
+                    </div>
+                    
+                    <!-- Nível 3: Modelo de Armadura -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Modelo de Armadura</span>
+                        
+                      </div>
+                      <div class="recurso-descricao">
+                        <p>Você pode personalizar sua Armadura Arcana. Quando você faz isso, escolha um dos seguintes modelos de armadura: <strong>Couraça</strong>, <strong>Guardião</strong> ou <strong>Infiltrador</strong>. O modelo que você escolher concede benefícios especiais enquanto você a veste.</p>
+                        <p>Cada modelo inclui uma arma especial. Quando você ataca com essa arma, pode adicionar seu modificador de Inteligência, em vez de seu modificador de Força ou Destreza, nas rolagens de ataque e dano.</p>
+                        <p>Você pode mudar o modelo da armadura sempre que terminar um Descanso Curto ou Longo se tiver <strong>Ferramentas de Ferreiro</strong> em mãos.</p>
+                        
+                        <details style="margin: 15px 0 10px;">
+                          <summary style="cursor: pointer; color: var(--gold); font-weight: bold;">📦 Ver detalhes dos Modelos</summary>
+                          
+                          <h4 style="margin: 15px 0 5px; color: var(--gold);">Couraça</h4>
+                          <p>Você projeta sua armadura para se tornar um gigante imponente na batalha. Ela tem as seguintes características:</p>
+                          <p><strong style="color: white;">Demolidor de Força.</strong> Uma bola de demolição arcana ou marreta projeta-se de sua armadura. O demolidor conta como uma <strong>Arma Corpo a Corpo Simples</strong> com a propriedade <strong>Alcance</strong>, e causa <strong>1d10 de dano de Força</strong> em um acerto. Se você atingir uma criatura pelo menos um tamanho menor que você com o demolidor, pode empurrá-la até 3 metros para longe de você ou puxá-la até 3 metros em sua direção.</p>
+                          <p><strong style="color: white;">Estatura Gigante.</strong> Como uma <strong>Ação Bônus</strong>, você transforma e amplia sua armadura por 1 minuto. Durante a duração, seu alcance aumenta em 1,5 metro e, se você for menor que Grande, você se torna Grande, junto com tudo o que estiver vestindo. Se não houver espaço suficiente para você aumentar de tamanho, seu tamanho não muda. Você pode usar esta Ação Bônus um número de vezes igual ao seu modificador de Inteligência (mínimo de uma vez). Você recupera todos os usos gastos quando termina um Descanso Longo.</p>
+                          
+                          <h4 style="margin: 15px 0 5px; color: var(--gold);">Guardião</h4>
+                          <p>Você projeta sua armadura para ficar na linha de frente do conflito. Ela tem as seguintes características:</p>
+                          <p><strong style="color: white;">Pulso de Trovão.</strong> Você pode descarregar rajadas de concussão com golpes de sua armadura. O pulso conta como uma <strong>Arma Corpo a Corpo Simples</strong> e causa <strong>1d8 de dano de Trovão</strong> em um acerto. Uma criatura atingida pelo pulso tem <strong>Desvantagem</strong> em rolagens de ataque contra alvos diferentes de você até o início do seu próximo turno.</p>
+                          <p><strong style="color: white;">Campo Defensivo.</strong> Enquanto estiver <strong>Sangrando</strong> (com metade ou menos de seus pontos de vida máximos), você pode usar uma <strong>Ação Bônus</strong> para ganhar <strong>Pontos de Vida Temporários</strong> iguais ao seu nível de Artífice. Você perde estes PV temporários se remover a armadura.</p>
+                          
+                          <h4 style="margin: 15px 0 5px; color: var(--gold);">Infiltrador</h4>
+                          <p>Você personaliza sua armadura para empreendimentos mais sutis. Ela tem as seguintes características:</p>
+                          <p><strong style="color: white;">Lançador de Relâmpagos.</strong> Um nó semelhante a uma gema aparece em sua armadura, do qual você pode disparar raios de relâmpago. O lançador conta como uma <strong>Arma de Distância Simples</strong> com alcance normal de 27 metros e alcance longo de 90 metros, e causa <strong>1d6 de dano de Relâmpago</strong> em um acerto. Uma vez em cada um de seus turnos, quando você atinge uma criatura com o lançador, pode causar <strong>1d6 de dano de Relâmpago extra</strong> a esse alvo.</p>
+                          <p><strong style="color: white;">Passos Potencializados.</strong> Seu deslocamento aumenta em <strong>1,5 metro</strong>.</p>
+                          <p><strong style="color: white;">Campo de Amortecimento.</strong> Você tem <strong>Vantagem</strong> em testes de Destreza (Furtividade). Se a armadura impõe Desvantagem em tais testes, a Vantagem e a Desvantagem se cancelam, como de costume.</p>
+                        </details>
+                      </div>
+                    </div>
+                    
+                    <!-- Nível 5: Ataque Extra -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 5: Ataque Extra</span>
+                        
+                      </div>
+                      <div class="recurso-descricao">
+                        <p>Você pode atacar duas vezes, em vez de uma, sempre que realizar a ação <strong>Atacar</strong> no seu turno.</p>
+                      </div>
+                    </div>
+                    
+                    <!-- Nível 9: Armeiro Aprimorado -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 9: Armeiro Aprimorado</span>
+                        
+                      </div>
+                      <div class="recurso-descricao">
+                        <p>Você ganha os seguintes benefícios.</p>
+                        <p><strong style="color: white;">Replicação de Armadura.</strong> Você aprende um plano adicional para sua característica <strong>Replicar Item Mágico</strong>, e ele deve ser da categoria <strong>Armadura</strong>. Se você substituir esse plano, deve substituí-lo por outro plano de Armadura.</p>
+                        <p>Além disso, você pode criar um item adicional com essa característica, e o item também deve ser da categoria Armadura.</p>
+                        <p><strong style="color: white;">Arsenal Aprimorado.</strong> Você ganha um <strong>bônus de +1</strong> nas rolagens de ataque e dano feitas com a arma especial do seu modelo de Armadura Arcana.</p>
+                      </div>
+                    </div>
+                    
+                    <!-- Nível 15: Armadura Perfeita -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 15: Armadura Perfeita</span>
+                        
+                      </div>
+                      <div class="recurso-descricao">
+                        <p>Sua Armadura Arcana ganha benefícios adicionais baseados em seu modelo, conforme detalhado abaixo.</p>
+                        
+                        <details style="margin: 15px 0 10px;">
+                          <summary style="cursor: pointer; color: var(--gold); font-weight: bold;">📦 Ver benefícios por modelo</summary>
+                          
+                          <p><strong style="color: white;">Couraça.</strong> O dado de dano do seu <strong>Demolidor de Força</strong> aumenta para <strong>2d6 de dano de Força</strong>.</p>
+                          <p>Além disso, quando você usa sua <strong>Estatura Gigante</strong>, seu alcance aumenta em 3 metros, seu tamanho pode aumentar para Grande ou Enorme (sua escolha), e você tem <strong>Vantagem</strong> em testes de Força e salvaguardas de Força durante a duração.</p>
+                          
+                          <p><strong style="color: white;">Guardião.</strong> O dado de dano do seu <strong>Pulso de Trovão</strong> aumenta para <strong>1d10 de dano de Trovão</strong>.</p>
+                          <p>Além disso, quando uma criatura Enorme ou menor que você pode ver termina seu turno a até 9 metros de você, você pode usar uma <strong>Reação</strong> para forçar magicamente essa criatura a fazer um teste de resistência de Força contra sua CD de salvaguarda de magia. Em uma falha, você puxa a criatura até 7,5 metros diretamente em sua direção para um espaço desocupado. Se você puxar o alvo para um espaço a até 1,5 metro de si, pode fazer um ataque de arma corpo a corpo contra ele como parte desta Reação.</p>
+                          <p>Você pode usar esta Reação um número de vezes igual ao seu modificador de Inteligência (mínimo de uma vez), e recupera todos os usos gastos quando termina um Descanso Longo.</p>
+                          
+                          <p><strong style="color: white;">Infiltrador.</strong> O dado de dano do seu <strong>Lançador de Relâmpagos</strong> aumenta para <strong>2d6 de dano de Relâmpago</strong>. Qualquer criatura que sofra dano de Relâmpago do seu Lançador de Relâmpagos brilha com luz mágica até o início do seu próximo turno. A criatura brilhante emite <strong>Luz Fraca</strong> em um raio de 1,5 metro e tem <strong>Desvantagem</strong> em rolagens de ataque contra você, pois a luz a eletrocuta se ela atacar você.</p>
+                          <p>Além disso, como uma <strong>Ação Bônus</strong>, você pode ganhar um <strong>deslocamento de voo igual ao dobro do seu deslocamento</strong> até o final do turno atual. Você pode usar esta Ação Bônus um número de vezes igual ao seu modificador de Inteligência (mínimo de uma vez), e recupera todos os usos gastos quando termina um Descanso Longo.</p>
+                        </details>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- ABA 3: ARTILHEIRO -->
+                  <div class="tab-pane">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">Artilheiro</h3>
+                    <p>Um Artilheiro é especialista em usar magia para lançar energia, projéteis e explosões em um campo de batalha.</p>
+                    
+                    <!-- Nível 3: Ferramentas do Ofício -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Ferramentas do Ofício</span>
+                      </div>
+                      <div class="recurso-descricao">
+                        <p><strong style="color: white;">Armas de Distância.</strong> Você ganha proficiência com <strong>Armas Marciais de Distância</strong>.</p>
+                        <p><strong style="color: white;">Proficiência em Ferramentas.</strong> Você ganha proficiência com <strong>Ferramentas de Entalhador</strong>. Se você já possui esta proficiência, você ganha proficiência com um outro tipo de Ferramentas de Artesão de sua escolha.</p>
+                        <p><strong style="color: white;">Fabricação de Varinhas.</strong> Quando você fabrica uma <strong>Varinha</strong> mágica, o tempo necessário para fabricá-la é reduzido à metade.</p>
+                      </div>
+                    </div>
+                    
+                    <!-- Nível 3: Magias do Artilheiro -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Magias do Artilheiro</span>
+                      </div>
+                      <div class="recurso-descricao">
+                        <p>Quando você atinge um nível de Artífice especificado na tabela de Magias do Artilheiro, você sempre tem as magias listadas preparadas.</p>
+                        
+                        <h4 style="margin: 15px 0 5px; color: var(--gold)">Magias do Artilheiro</h4>
+                        <table class="tabela-rpg">
+                          <thead>
+                            <tr><th>Nível de Artífice</th><th>Magias</th></tr>
+                          </thead>
+                          <tbody>
+                            <tr><td>3º</td><td>Escudo Arcano, Onda Trovão</td></tr>
+                            <tr><td>5º</td><td>Raio Escaldante, Destroçar</td></tr>
+                            <tr><td>9º</td><td>Bola de Fogo, Muralha de Vento</td></tr>
+                            <tr><td>13º</td><td>Tempestade de Gelo, Muralha de Fogo</td></tr>
+                            <tr><td>17º</td><td>Cone de Frio, Muralha de Força</td></tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    
+                    <!-- Nível 3: Canhão Eldritch -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Canhão Eldritch</span>
+                        <span class="badge-mini acao">Ação Mágica</span>
+                      </div>
+                      <div class="recurso-descricao">
+                        <p>Usando <strong>Ferramentas de Ferreiro</strong> ou <strong>Ferramentas de Entalhador</strong>, você pode usar uma <strong>Ação Mágica</strong> para criar um Canhão Eldritch Pequeno ou Minúsculo em um espaço desocupado sobre uma superfície horizontal a até 1,5 metro de você. As estatísticas do canhão aparecem abaixo. Você determina sua aparência, incluindo se você o carrega ou não (e sua escolha de pernas ou rodas). Ele desaparece se for reduzido a 0 Pontos de Vida ou após 1 hora. Você pode dispensá-lo mais cedo como uma Ação Mágica.</p>
+                        <p>Depois de criar um canhão, você não pode fazê-lo novamente até terminar um Descanso Longo ou gastar um espaço de magia para criar um. Você só pode ter um canhão por vez e não pode criar um enquanto já tiver um.</p>
+                        
+                        <h4 style="margin: 15px 0 5px; color: var(--gold)">Canhão Eldritch</h4>
+                        <p><em>Objeto Pequeno ou Minúsculo</em></p>
+                        <p><strong style="color: white;">Classe de Armadura:</strong> 18</p>
+                        <p><strong style="color: white;">Pontos de Vida:</strong> 5 × seu nível de Artífice (conjurar <strong>Restauração</strong> no canhão restaura 2d6 Pontos de Vida a ele)</p>
+                        <p><strong style="color: white;">Imunidades:</strong> Veneno, Psíquico</p>
+                        
+                        <p><strong style="color: white;">Ativar Canhão (Exige que você esteja a até 18 metros do Canhão).</strong> Como uma <strong>Ação Bônus</strong>, você ordena que o canhão use uma das opções abaixo; você pode direcionar o canhão para se mover até 4,5 metros antes ou depois dessa opção.</p>
+                        
+                        <details style="margin: 10px 0;">
+                          <summary style="cursor: pointer; color: var(--gold);">📦 Ver opções do Canhão</summary>
+                          
+                          <p><strong style="color: white;">Lança-chamas.</strong> O canhão exala fogo em um <strong>Cone de 4,5 metros</strong>. Cada criatura nessa área faz um teste de resistência de Destreza contra sua CD de salvaguarda de magia, sofrendo <strong>2d8 de dano de Fogo</strong> em uma falha ou metade do dano em um sucesso. Objetos inflamáveis no Cone que não estão sendo usados ou vestidos começam a queimar.</p>
+                          
+                          <p><strong style="color: white;">Balista de Força.</strong> Faça um ataque de magia à distância originado do canhão contra uma criatura ou objeto a até 36 metros dele. Em um acerto, o alvo sofre <strong>2d8 de dano de Força</strong> e, se o alvo for uma criatura, ela é empurrada até 1,5 metro para longe do canhão.</p>
+                          
+                          <p><strong style="color: white;">Protetor.</strong> O canhão emite uma rajada de energia positiva que concede a si mesmo e a cada criatura de sua escolha a até 3 metros dele um número de <strong>Pontos de Vida Temporários</strong> igual a <strong>1d8 + seu modificador de Inteligência</strong> (mínimo 1).</p>
+                        </details>
+                      </div>
+                    </div>
+                    
+                    <!-- Nível 5: Arma de Fogo Arcana -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 5: Arma de Fogo Arcana</span>
+                      </div>
+                      <div class="recurso-descricao">
+                        <p>Quando você termina um Descanso Longo, pode usar <strong>Ferramentas de Entalhador</strong> para esculpir símbolos especiais em uma <strong>Vara</strong>, <strong>Cajado</strong>, <strong>Varinha</strong> ou <strong>Arma Marcial de Distância</strong> e, assim, transformá-la em sua <strong>Arma de Fogo Arcana</strong>. Os símbolos desaparecem do objeto se você os esculpir em um item diferente posteriormente. Caso contrário, os símbolos duram indefinidamente.</p>
+                        <p>Você pode usar sua Arma de Fogo Arcana como <strong>Foco de Conjuração</strong> para suas magias de Artífice. Quando você conjura uma magia de Artífice através da arma de fogo, role <strong>1d8</strong>, e você ganha um bônus em uma das rolagens de dano da magia igual ao número rolado.</p>
+                      </div>
+                    </div>
+                    
+                    <!-- Nível 9: Canhão Explosivo -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 9: Canhão Explosivo</span>
+                      </div>
+                      <div class="recurso-descricao">
+                        <p>Todo Canhão Eldritch que você cria agora é mais destrutivo. Você ganha os seguintes benefícios.</p>
+                        
+                        <p><strong style="color: white;">Detonar.</strong> Quando seu canhão sofre dano, você pode usar uma <strong>Reação</strong> para comandar o canhão a detonar se estiver a até 18 metros dele. Isso destrói o canhão e força cada criatura a até 6 metros dele a fazer um teste de resistência de Destreza contra sua CD de salvaguarda de magia, sofrendo <strong>3d10 de dano de Força</strong> em uma falha ou metade do dano em um sucesso.</p>
+                        
+                        <p><strong style="color: white;">Potência de Fogo.</strong> As rolagens de dano do canhão e o número de Pontos de Vida Temporários concedidos pelo Protetor aumentam em <strong>1d8</strong>.</p>
+                      </div>
+                    </div>
+                    
+                    <!-- Nível 15: Posição Fortificada -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 15: Posição Fortificada</span>
+                      </div>
+                      <div class="recurso-descricao">
+                        <p>Você é um mestre em formar posições bem defendidas usando seu Canhão Eldritch. Você ganha os seguintes benefícios.</p>
+                        
+                        <p><strong style="color: white;">Potência de Fogo Dupla.</strong> Você agora pode ter <strong>dois canhões</strong> ao mesmo tempo, e pode criar dois com a mesma Ação Mágica. (Se você gastar um espaço de magia para criar o primeiro canhão, deve gastar outro espaço de magia para criar o segundo.) Você pode ativar ambos com a mesma Ação Bônus, ordenando que eles usem a mesma opção de ativação ou opções diferentes. Você não pode criar um terceiro canhão enquanto tiver dois.</p>
+                        
+                        <p><strong style="color: white;">Projeção de Campo Cintilante.</strong> Você e seus aliados têm <strong>Meia Cobertura</strong> enquanto estiverem a até 3 metros do seu Canhão Eldritch.</p>
+                      </div>
+                    </div>
+                  </div>
 
+                  <!-- ABA 4: FERREIRO DE BATALHA -->
+                  <div class="tab-pane">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">Ferreiro de Batalha</h3>
+                    <p>Um Ferreiro de Batalha é uma combinação de protetor e médico, um especialista em defender os outros e reparar tanto material quanto pessoal. Para auxiliar em seu trabalho, Ferreiros de Batalha são acompanhados por um Defensor de Aço, um companheiro protetor de sua própria criação.</p>
+                    
+                    <!-- Nível 3: Ferramentas do Ofício -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Ferramentas do Ofício</span>
+                      </div>
+                      <div class="recurso-descricao">
+                        <p><strong style="color: white;">Proficiência em Ferramentas.</strong> Você ganha proficiência com <strong>Ferramentas de Ferreiro</strong>. Se você já possui esta proficiência, você ganha proficiência com um outro tipo de Ferramentas de Artesão de sua escolha.</p>
+                        <p><strong style="color: white;">Fabricação de Armas.</strong> Quando você fabrica uma arma não mágica ou mágica, o tempo necessário para fabricá-la é reduzido à metade.</p>
+                      </div>
+                    </div>
+                    
+                    <!-- Nível 3: Magias do Ferreiro de Batalha -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Magias do Ferreiro de Batalha</span>
+                      </div>
+                      <div class="recurso-descricao">
+                        <p>Quando você atinge um nível de Artífice especificado na tabela de Magias do Ferreiro de Batalha, você sempre tem as magias listadas preparadas.</p>
+                        
+                        <h4 style="margin: 15px 0 5px; color: var(--gold)">Magias do Ferreiro de Batalha</h4>
+                        <table class="tabela-rpg">
+                          <thead>
+                            <tr><th>Nível de Artífice</th><th>Magias</th></tr>
+                          </thead>
+                          <tbody>
+                            <tr><td class="esquerda">3º</td><td class="esquerda">Heroísmo, Escudo Arcano</td></tr>
+                            <tr><td class="esquerda">5º</td><td class="esquerda">Ataque Glorioso, Vínculo Protetor</td></tr>
+                            <tr><td class="esquerda">9º</td><td class="esquerda">Aura de Vitalidade, Conjurar Barragem</td></tr>
+                            <tr><td class="esquerda">13º</td><td class="esquerda">Aura de Pureza, Escudo de Fogo</td></tr>
+                            <tr><td class="esquerda">17º</td><td class="esquerda">Ataque de Banimento, Cura em Massa</td></tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    
+                    <!-- Nível 3: Pronto para Batalha -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Pronto para Batalha</span>
+                      </div>
+                      <div class="recurso-descricao">
+                        <p>Seu treinamento de combate e seus experimentos com magia valeram a pena de duas maneiras.</p>
+                        
+                        <p><strong style="color: white;">Empoderamento Arcano.</strong> Quando você ataca com uma <strong>arma mágica</strong>, pode usar seu modificador de <strong>Inteligência</strong>, em vez de seu modificador de Força ou Destreza, para as rolagens de ataque e dano.</p>
+                        
+                        <p><strong style="color: white;">Conhecimento de Armas.</strong> Você ganha proficiência com <strong>Armas Marciais</strong>. Você pode usar uma arma com a qual tem proficiência como <strong>Foco de Conjuração</strong> para suas magias de Artífice.</p>
+                      </div>
+                    </div>
+                    
+                    <!-- Nível 3: Defensor de Aço -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Defensor de Aço</span>
+                      </div>
+                      <div class="recurso-descricao">
+                        <p>Seu trabalho lhe trouxe um companheiro, um <strong>Defensor de Aço</strong>. Você determina a aparência do defensor e se ele tem duas pernas ou quatro; suas escolhas não afetam as estatísticas do defensor.</p>
+                        <p>O defensor é <strong>Amigável</strong> para você e seus aliados e obedece você. Ele desaparece se você morrer.</p>
+                        
+                        <p><strong style="color: white;">O Defensor em Combate.</strong> Em combate, o defensor age durante seu turno. Ele pode se mover e usar sua Reação por conta própria, mas a única ação que realiza é a ação <strong>Esquivar</strong>, a menos que você use uma <strong>Ação Bônus</strong> para comandá-lo a realizar uma ação. Se você estiver com a condição <strong>Incapacitado</strong>, o defensor age por conta própria e não está limitado à ação Esquivar.</p>
+                        
+                        <p><strong style="color: white;">Restaurar ou Substituir o Defensor.</strong> Se o defensor morreu na última hora, você pode usar uma <strong>Ação Mágica</strong> para tocá-lo e gastar um espaço de magia. O defensor retorna à vida após 1 minuto com todos os seus Pontos de Vida restaurados.</p>
+                        <p>Sempre que você termina um Descanso Longo, pode criar um novo defensor se tiver <strong>Ferramentas de Ferreiro</strong> em mãos. Se você já tem um defensor desta característica, o primeiro desaparece.</p>
+                        
+                        <!-- Ficha: Defensor de Aço (Steel Defender) -->
+                        <div class="recurso-card" style="margin-top: 15px; border: 1px solid var(--border-fantasy)">
+                          <div class="recurso-header">
+                            <span class="recurso-nome">Defensor de Aço</span>
+                          </div>
+                          <div class="recurso-descricao">
+                            
+                            <p><em>Construto Médio</em></p>
+                            
+                            <table class="tabela-rpg" style="margin: 10px 0;">
+                              <tbody>
+                                <tr><td style="text-align: left;"><strong>Classe de Armadura</strong></td><td>12 + seu modificador de Inteligência</td></tr>
+                                <tr><td style="text-align: left;"><strong>Pontos de Vida</strong></td><td>5 + cinco vezes seu nível de Artífice (o defensor tem um número de Dados de Vida [d8s] igual ao seu nível de Artífice)</td></tr>
+                                <tr><td style="text-align: left;"><strong>Deslocamento</strong></td><td>12 m</td></tr>
+                              </tbody>
+                            </table>
+                            
+                            <table class="tabela-rpg" style="margin: 10px 0;">
+                              <thead>
+                                <tr><th>FOR</th><th>DES</th><th>CON</th><th>INT</th><th>SAB</th><th>CAR</th></tr>
+                              </thead>
+                              <tbody>
+                                <tr><td>14 (+2/+2)</td><td>12 (+1/+1)</td><td>14 (+2/+2)</td><td>4 (-3/-3)</td><td>10 (+0/+0)</td><td>6 (-2/-2)</td></tr>
+                              </tbody>
+                            </table>
+                            
+                            <p><strong style="color: white;">Imunidades.</strong> Veneno; Enfeitiçado, Exaustão, Envenenado</p>
+                            <p><strong style="color: white;">Sentidos.</strong> Visão no Escuro 18 m, Percepção Passiva 10</p>
+                            <p><strong style="color: white;">Idiomas.</strong> Entende os idiomas que você conhece</p>
+                            <p><strong style="color: white;">Nível de Desafio.</strong> Nenhum (XP 0; Bônus de Proficiência igual ao seu Bônus de Proficiência)</p>
+                            
+                            <h4 style="margin: 15px 0 5px; color: var(--gold);">Traços</h4>
+                            <p><strong style="color: white;">Liga de Aço.</strong> Adicione seu Bônus de Proficiência a qualquer teste de atributo ou salvaguarda que o Defensor de Aço fizer.</p>
+                            
+                            <h4 style="margin: 15px 0 5px; color: var(--gold);">Ações</h4>
+                            <p><strong style="color: white;">Garra Energizada.</strong> <em>Rolagem de Ataque Corpo a Corpo:</em> Bônus igual ao seu modificador de ataque de magia, alcance 1,5 m. <em>Acerto:</em> 1d8 + 2 + seu modificador de Inteligência de dano de Força.</p>
+                            <p><strong style="color: white;">Reparo (3/Dia).</strong> O defensor, ou um Construto ou objeto que ele possa ver a até 1,5 metro dele, recupera um número de Pontos de Vida igual a 2d8 + seu modificador de Inteligência.</p>
+                            
+                            <h4 style="margin: 15px 0 5px; color: var(--gold);">Reações</h4>
+                            <p><strong style="color: white;">Desviar Ataque.</strong> <em>Gatilho:</em> Uma criatura que o defensor pode ver a até 1,5 metro dele faz uma rolagem de ataque mirando em uma criatura diferente. <em>Resposta:</em> A criatura gatilho faz a rolagem de ataque com Desvantagem.</p>
+                            
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- Nível 5: Ataque Extra -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 5: Ataque Extra</span>
+                      </div>
+                      <div class="recurso-descricao">
+                        <p>Você pode atacar duas vezes, em vez de uma, sempre que realizar a ação <strong>Atacar</strong> no seu turno. Você pode abrir mão de um de seus ataques quando realizar a ação Atacar para comandar seu Defensor de Aço a realizar a ação <strong>Garra Energizada</strong>.</p>
+                      </div>
+                    </div>
+                    
+                    <!-- Nível 9: Impacto Arcano -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 9: Impacto Arcano</span>
+                      </div>
+                      <div class="recurso-descricao">
+                        <p>Quando você atinge um alvo com uma rolagem de ataque usando uma <strong>arma mágica</strong> ou seu Defensor de Aço atinge um alvo, você pode canalizar energia mágica através do golpe para criar um dos seguintes efeitos:</p>
+                        
+                        <p><strong style="color: white;">Energia Destrutiva.</strong> O alvo sofre <strong>2d6 de dano de Força extra</strong>.</p>
+                        
+                        <p><strong style="color: white;">Energia Restauradora.</strong> Escolha uma criatura ou objeto que você possa ver a até 9 metros do alvo. Energia curativa flui para o destinatário escolhido, restaurando <strong>2d6 Pontos de Vida</strong> a ele.</p>
+                        
+                        <p>Você pode usar esta energia um número de vezes igual ao seu <strong>modificador de Inteligência</strong> (mínimo de uma vez), mas não pode fazê-lo mais de uma vez por turno. Você recupera todos os usos gastos quando termina um Descanso Longo.</p>
+                      </div>
+                    </div>
+                    
+                    <!-- Nível 15: Defensor Aprimorado -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 15: Defensor Aprimorado</span>
+                      </div>
+                      <div class="recurso-descricao">
+                        <p>Seu Impacto Arcano e seu Defensor de Aço se tornaram mais poderosos, concedendo estes benefícios.</p>
+                        
+                        <p><strong style="color: white;">Impacto Aprimorado.</strong> O dano extra e a cura do seu Impacto Arcano aumentam para <strong>4d6</strong>.</p>
+                        
+                        <p><strong style="color: white;">Deflexão Aprimorada.</strong> Sempre que seu Defensor de Aço usa seu <strong>Desviar Ataque</strong>, o atacante sofre dano de Força igual a <strong>1d4 + seu modificador de Inteligência</strong>.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- ABA 5: CARTOGRAFO -->
+                  <div class="tab-pane">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">Cartógrafo</h3>
+                    <p>Cartógrafos são os principais navegadores e agentes de reconhecimento. Usando suas criações, Cartógrafos podem destacar ameaças, proteger aliados e esculpir portais para locais distantes.</p>
+                    
+                    <!-- Nível 3: Ferramentas do Ofício -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Ferramentas do Ofício</span>
+                      </div>
+                      <div class="recurso-descricao">
+                        <p><strong style="color: white;">Proficiência em Ferramentas.</strong> Você ganha proficiência com <strong>Suprimentos de Calígrafo</strong> e <strong>Ferramentas de Cartógrafo</strong>. Se você já possui uma dessas proficiências, você ganha proficiência com um outro tipo de Ferramentas de Artesão de sua escolha (ou com dois outros tipos se você possuir ambas).</p>
+                        <p><strong style="color: white;">Fabricação de Pergaminhos.</strong> Quando você escreve um <strong>Pergaminho de Magia</strong> usando as regras de fabricação do <em>Player's Handbook</em>, o tempo necessário para fabricá-lo é reduzido à metade.</p>
+                      </div>
+                    </div>
+                    
+                    <!-- Nível 3: Magias do Cartógrafo -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Magias do Cartógrafo</span>
+                      </div>
+                      <div class="recurso-descricao">
+                        <p>Quando você atinge um nível de Artífice especificado na tabela de Magias do Cartógrafo, você sempre tem as magias listadas preparadas.</p>
+                        
+                        <h4 style="margin: 15px 0 5px; color: var(--gold)">Magias do Cartógrafo</h4>
+                        <table class="tabela-rpg">
+                          <thead>
+                            <tr><th>Nível de Artífice</th><th>Magias</th></tr>
+                          </thead>
+                          <tbody>
+                            <tr><td class="esquerda">3º</td><td class="esquerda">Fogo das Fadas, Raio Guia, Palavra de Cura</td></tr>
+                            <tr><td class="esquerda">5º</td><td class="esquerda">Localizar Objeto, Espinho Mental</td></tr>
+                            <tr><td class="esquerda">9º</td><td class="esquerda">Conjurar Relâmpago, Clarividência</td></tr>
+                            <tr><td class="esquerda">13º</td><td class="esquerda">Banimento, Localizar Criatura</td></tr>
+                            <tr><td class="esquerda">17º</td><td class="esquerda">Visão Arcana, Círculo de Teletransporte</td></tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    
+                    <!-- Nível 3: Atlas do Aventureiro -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Atlas do Aventureiro</span>
+                      </div>
+                      <div class="recurso-descricao">
+                        <p>Sempre que você termina um Descanso Longo enquanto segura <strong>Ferramentas de Cartógrafo</strong>, você pode usar essa ferramenta para criar um conjunto de mapas mágicos tocando em pelo menos duas criaturas (uma das quais pode ser você), até um número máximo de criaturas igual a <strong>1 + seu modificador de Inteligência</strong> (mínimo de duas criaturas). Cada alvo recebe um mapa mágico, que se atualiza constantemente para mostrar a posição relativa de todos os portadores do mapa, mas é ilegível para todos os outros. Os mapas duram até você morrer ou até usar esta característica novamente, momento em que quaisquer mapas existentes criados por esta característica desaparecem imediatamente.</p>
+                        
+                        <p>Enquanto carrega o mapa, um alvo ganha os seguintes benefícios.</p>
+                        
+                        <p><strong style="color: white;">Consciência.</strong> O alvo adiciona <strong>1d4</strong> em suas rolagens de Iniciativa.</p>
+                        
+                        <p><strong style="color: white;">Posicionamento.</strong> O alvo sabe a localização de todos os outros portadores do mapa que estão no mesmo plano de existência que ele. Ao conjurar uma magia ou criar outro efeito que exija ser capaz de ver o alvo do efeito, um portador do mapa pode mirar em outro portador do mapa independentemente da visão ou cobertura, desde que o outro portador ainda esteja dentro do alcance do efeito.</p>
+                      </div>
+                    </div>
+                    
+                    <!-- Nível 3: Magia Mapeadora -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Magia Mapeadora</span>
+                      </div>
+                      <div class="recurso-descricao">
+                        <p>Você ganha os seguintes benefícios.</p>
+                        
+                        <p><strong style="color: white;">Cartografia Iluminada.</strong> Você pode conjurar <strong>Fogo das Fadas</strong> sem gastar um espaço de magia, delineando as criaturas afetadas como se fossem em tinta. Você pode fazer isso um número de vezes igual ao seu <strong>modificador de Inteligência</strong> (mínimo de uma vez), e recupera todos os usos gastos quando termina um Descanso Longo.</p>
+                        
+                        <p><strong style="color: white;">Salto de Portal.</strong> No seu turno, você pode gastar uma quantidade de deslocamento igual à <strong>metade do seu deslocamento</strong> (arredondado para baixo) para se teletransportar para um espaço desocupado que você pode ver a até 3 metros de si ou a até 1,5 metro de uma criatura que esteja a até 9 metros de você e que esteja segurando um dos mapas do seu Atlas do Aventureiro. Você não pode usar este benefício se seu deslocamento for 0.</p>
+                      </div>
+                    </div>
+                    
+                    <!-- Nível 5: Precisão Guiada -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 5: Precisão Guiada</span>
+                      </div>
+                      <div class="recurso-descricao">
+                        <p>Uma vez por turno, sempre que você conjura uma magia da sua lista de Magias do Cartógrafo ou atinge uma criatura afetada pelo seu <strong>Fogo das Fadas</strong> com uma rolagem de ataque, você pode adicionar seu <strong>modificador de Inteligência</strong> a uma rolagem de dano da magia ou do ataque.</p>
+                        
+                        <p>Além disso, sofrer dano não pode fazer você perder a <strong>Concentração</strong> em <strong>Fogo das Fadas</strong>.</p>
+                      </div>
+                    </div>
+                    
+                    <!-- Nível 9: Movimento Engenhoso -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 9: Movimento Engenhoso</span>
+                      </div>
+                      <div class="recurso-descricao">
+                        <p>Quando você usa seu <strong>Lampejo de Genialidade</strong>, você ou uma criatura disposta de sua escolha que você possa ver a até 9 metros de si pode se teletransportar até 9 metros para um espaço desocupado que você possa ver como parte da mesma <strong>Reação</strong>.</p>
+                      </div>
+                    </div>
+                    
+                    <!-- Nível 15: Atlas Superior -->
+                    <div class="recurso-card">
+                      <div class="recurso-header">
+                        <span class="recurso-nome">Nível 15: Atlas Superior</span>
+                      </div>
+                      <div class="recurso-descricao">
+                        <p>Seu Atlas do Aventureiro melhora, ganhando os seguintes benefícios.</p>
+                        
+                        <p><strong style="color: white;">Refúgio Seguro.</strong> Quando um portador do mapa seria reduzido a 0 Pontos de Vida, mas não morto instantaneamente, essa criatura pode destruir seu mapa. Os Pontos de Vida da criatura mudam para um número igual a <strong>duas vezes seu nível de Artífice</strong>, e a criatura é teletransportada para um espaço desocupado a até 1,5 metro de você ou de outro portador do mapa de sua escolha.</p>
+                        
+                        <p><strong style="color: white;">Caminho Infalível.</strong> Se você é um dos portadores do mapa do seu Atlas do Aventureiro, pode conjurar <strong>Encontrar o Caminho</strong> sem gastar um espaço de magia, sem preparar a magia e sem precisar de componentes de magia. Quando você usa este benefício, não pode usá-lo novamente até terminar um Descanso Longo.</p>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
                 </div>
             </div><!--FIM DA DIV recursos-detalhados-->
         </div> <!--FIM DA DIV card-rpg-->

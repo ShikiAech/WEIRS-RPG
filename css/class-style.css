@@ -340,6 +340,10 @@
   animation: fadeIn 0.3s ease;
 }
 
+.tabs-content .recurso-card{
+  margin: 10px 0 5px;
+}
+
 .tab-pane {
   display: none;
 }
