@@ -6,6 +6,12 @@ Um aplicativo web para recordação de campanhas, guia de criação básico e co
 
 ## 📋 Changelog
 
+### Versão 1.1.2
+- **Data:** 23/05/2026
+- **Melhorias:**
+  - Alteração do Simulador de Ficha: Add Classes novas/Add Opções de Atributos
+  - Pequenas correções de Textos em Campanhas, Humanos e Simyaris 
+
 ### Versão 1.1.1
 - **Data:** 22/05/2026
 - **Melhorias:**
