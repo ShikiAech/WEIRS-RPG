@@ -74,6 +74,14 @@
       border-radius: 3px;
       font-weight: bold;
       border: 1px solid rgba(230, 126, 34, 0.3);
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s ease;
+    }
+    .badge-feat:hover {
+      background: rgba(230, 126, 34, 0.3);
+      color: var(--gold-bright);
+      box-shadow: 0 0 8px rgba(230, 126, 34, 0.4);
     }
   </style>
 </head>
@@ -82,11 +90,6 @@
   <script src="/WEIRS-RPG/javascript/menu.js"></script>
 
   <div class="container">
-    <!--
-    <div style="margin-bottom: 30px;">
-      <a href="/WEIRS-RPG/index.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar ao Início</a>
-    </div> -->
-
     <h2>Antecedentes (Backgrounds)</h2>
     <p>Na atualização oficial do <strong>D&D 5e (2024)</strong>, os Antecedentes ganharam uma relevância mecânica sem precedentes na construção de personagens. Eles não são mais apenas escolhas narrativas com perícias secundárias: agora, <strong>o seu Antecedente dita onde estão os seus três pontos de Atributos Iniciais</strong> e concede um <strong>Talento de Origem (Origin Feat) de 1º nível</strong> fundamental para moldar o seu estilo de jogo.</p>
 
@@ -105,229 +108,200 @@
     <div class="grid-antecedentes">
 
       <div class="card-antecedente">
-        <div>
-          <h3>Acólito (Acolyte)</h3>
-          <p class="lore-antecedente">Você dedicou sua juventude a um templo, servindo a divindades e realizando rituais sagrados ou comunitários.</p>
-          <div class="detalhes-mecanicos">
-            <p><strong>Atributos:</strong> Inteligência, Sabedoria, Carisma</p>
-            <p><strong>Perícias:</strong> Intuição (Insight) e Religião</p>
-            <p><strong>Ferramenta:</strong> Kit de Caligrafia</p>
-            <p><strong>Talento de Origem:</strong> <span class="badge-feat">Iniciado em Magia (Clérigo)</span></p>
-            <p><strong>Equipamento:</strong> Símbolo Sagrado, Pergaminhos, Incenso, Vestes de Clérigo e 8 PO.</p>
-          </div>
+        <h3>Acólito</h3>
+        <p class="lore-antecedente">Você dedicou sua juventude a um templo, servindo a divindades e realizando rituais sagrados ou comunitários.</p>
+        <div class="detalhes-mecanicos">
+          <p><strong>Atributos:</strong> Inteligência, Sabedoria, Carisma</p>
+          <p><strong>Perícias:</strong> Intuição (Insight) e Religião</p>
+          <p><strong>Ferramenta:</strong> Kit de Caligrafia</p>
+          <p><strong>Talento de Origem:</strong> <a href="talentos.html?tipo=origem#iniciado-em-magia" class="badge-feat">Iniciado em Magia</a></p>
+          <p><strong>Equipamento:</strong> Símbolo Sagrado, Pergaminhos, Incenso, Vestes de Clérigo e 8 PO.</p>
         </div>
       </div>
 
       <div class="card-antecedente">
-        <div>
-          <h3>Artista (Entertainer)</h3>
-          <p class="lore-antecedente">O palco é seu lar. Você vive dos aplausos, da música, do teatro ou de performances acrobáticas em tavernas e feiras.</p>
-          <div class="detalhes-mecanicos">
-            <p><strong>Atributos:</strong> Destreza, Constituição, Carisma</p>
-            <p><strong>Perícias:</strong> Acrobacia e Performance</p>
-            <p><strong>Ferramenta:</strong> Um Instrumento Musical (à escolha)</p>
-            <p><strong>Talento de Origem:</strong> <span class="badge-feat">Músico (Musician)</span></p>
-            <p><strong>Equipamento:</strong> Instrumento Musical, Roupas de Palco, Espelho, Perfume e 11 PO.</p>
-          </div>
+        <h3>Andarilho</h3>
+        <p class="lore-antecedente">O horizon distante sempre chamou seu nome. Você passou a vida vagando de estrada em estrada, sem criar raízes fixas.</p>
+        <div class="detalhes-mecanicos">
+          <p><strong>Atributos:</strong> Destreza, Sabedoria, Carisma</p>
+          <p><strong>Perícias:</strong> Intuição (Insight) e Sobrevivência</p>
+          <p><strong>Ferramenta:</strong> Kit de Jogo (Cartas)</p>
+          <p><strong>Talento de Origem:</strong> <a href="talentos.html?tipo=origem#habilidoso" class="badge-feat">Habilidoso</a></p>
+          <p><strong>Equipamento:</strong> Sacola de Viagem, Cantil reforçado, Cobertor térmico, Roupas de cano longo e 15 PO.</p>
         </div>
       </div>
 
       <div class="card-antecedente">
-        <div>
-          <h3>Artesão (Artisan)</h3>
-          <p class="lore-antecedente">Você foi treinado por uma corporação de ofício oficial para transformar matérias-primas em obras-primas comerciais.</p>
-          <div class="detalhes-mecanicos">
-            <p><strong>Atributos:</strong> Força, Destreza, Inteligência</p>
-            <p><strong>Perícias:</strong> Investigação e Persuasão</p>
-            <p><strong>Ferramenta:</strong> Uma Ferramenta de Artesão (à escolha)</p>
-            <p><strong>Talento de Origem:</strong> <span class="badge-feat">Artesão Habilidoso (Crafter)</span></p>
-            <p><strong>Equipamento:</strong> Ferramentas escolhidas, Roupas de Viagem, Bolsa com suprimentos e 25 PO.</p>
-          </div>
+        <h3>Artesão</h3>
+        <p class="lore-antecedente">Você foi treinado por uma corporação de ofício oficial para transformar matérias-primas em obras-primas comerciais.</p>
+        <div class="detalhes-mecanicos">
+          <p><strong>Atributos:</strong> Força, Destreza, Inteligência</p>
+          <p><strong>Perícias:</strong> Investigação e Persuasão</p>
+          <p><strong>Ferramenta:</strong> Uma Ferramenta de Artesão (à escolha)</p>
+          <p><strong>Talento de Origem:</strong> <a href="talentos.html?tipo=origem#artifista" class="badge-feat">Artifista</a></p>
+          <p><strong>Equipamento:</strong> Ferramentas escolhidas, Roupas de Viagem, Bolsa com suprimentos e 25 PO.</p>
         </div>
       </div>
 
       <div class="card-antecedente">
-        <div>
-          <h3>Charlatão (Charlatan)</h3>
-          <p class="lore-antecedente">Você descobriu cedo que as pessoas acreditam no que querem, e usou isso para vender ilusões e falsos tesouros.</p>
-          <div class="detalhes-mecanicos">
-            <p><strong>Atributos:</strong> Destreza, Constituição, Carisma</p>
-            <p><strong>Perícias:</strong> Enganação (Deception) e Prestidigitação</p>
-            <p><strong>Ferramenta:</strong> Kit de Falsificação</p>
-            <p><strong>Talento de Origem:</strong> <span class="badge-feat">Sortudo (Lucky)</span></p>
-            <p><strong>Equipamento:</strong> Kit de Falsificação, Moedas falsas, Roupas Finas e 15 PO.</p>
-          </div>
+        <h3>Artista</h3>
+        <p class="lore-antecedente">O palco é seu lar. Você vive dos aplausos, da música, do teatro ou de performances acrobáticas em tavernas e feiras.</p>
+        <div class="detalhes-mecanicos">
+          <p><strong>Atributos:</strong> Destreza, Constituição, Carisma</p>
+          <p><strong>Perícias:</strong> Acrobacia e Performance</p>
+          <p><strong>Ferramenta:</strong> Um Instrumento Musical (à escolha)</p>
+          <p><strong>Talento de Origem:</strong> <a href="talentos.html?tipo=origem#musico" class="badge-feat">Músico</a></p>
+          <p><strong>Equipamento:</strong> Instrumento Musical, Roupas de Palco, Espelho, Perfume e 11 PO.</p>
         </div>
       </div>
 
       <div class="card-antecedente">
-        <div>
-          <h3>Criminoso (Criminal)</h3>
-          <p class="lore-antecedente">Você sobreviveu operando nas sombras da lei, seja como batedor de carteiras, contrabandista ou executor.</p>
-          <div class="detalhes-mecanicos">
-            <p><strong>Atributos:</strong> Destreza, Inteligência, Carisma</p>
-            <p><strong>Perícias:</strong> Furtividade (Stealth) e Enganação (Deception)</p>
-            <p><strong>Ferramenta:</strong> Ferramentas de Ladrão (Thieves' Tools)</p>
-            <p><strong>Talento de Origem:</strong> <span class="badge-feat">Alerta (Alert)</span></p>
-            <p><strong>Equipamento:</strong> Ferramentas de Ladrão, Pé de cabra, Roupas Escuras e 16 PO.</p>
-          </div>
+        <h3>Charlatão</h3>
+        <p class="lore-antecedente">Você descobriu cedo que as pessoas acreditam no que querem, e usou isso para vender ilusões e falsos tesouros.</p>
+        <div class="detalhes-mecanicos">
+          <p><strong>Atributos:</strong> Destreza, Constituição, Carisma</p>
+          <p><strong>Perícias:</strong> Enganação (Deception) e Prestidigitação</p>
+          <p><strong>Ferramenta:</strong> Kit de Falsificação</p>
+          <p><strong>Talento de Origem:</strong> <a href="talentos.html?tipo=origem#sortudo" class="badge-feat">Sortudo</a></p>
+          <p><strong>Equipamento:</strong> Kit de Falsificação, Moedas falsas, Roupas Finas e 15 PO.</p>
         </div>
       </div>
 
       <div class="card-antecedente">
-        <div>
-          <h3>Eremita (Hermit)</h3>
-          <p class="lore-antecedente">O isolamento total do mundo exterior permitiu que você escutasse verdades que o caos urbano esconde.</p>
-          <div class="detalhes-mecanicos">
-            <p><strong>Atributos:</strong> Constituição, Sabedoria, Carisma</p>
-            <p><strong>Perícias:</strong> Medicina e Religião</p>
-            <p><strong>Ferramenta:</strong> Kit de Herbalismo</p>
-            <p><strong>Talento de Origem:</strong> <span class="badge-feat">Iniciado em Magia (Druida)</span></p>
-            <p><strong>Equipamento:</strong> Kit de Herbalismo, Diário de notas místicas, Manta pesada e 15 PO.</p>
-          </div>
+        <h3>Criminoso</h3>
+        <p class="lore-antecedente">Você sobreviveu operando nas sombras da lei, seja como batedor de carteiras, contrabandista ou executor.</p>
+        <div class="detalhes-mecanicos">
+          <p><strong>Atributos:</strong> Destreza, Inteligência, Carisma</p>
+          <p><strong>Perícias:</strong> Furtividade (Stealth) e Enganação (Deception)</p>
+          <p><strong>Ferramenta:</strong> Ferramentas de Ladrão (Thieves' Tools)</p>
+          <p><strong>Talento de Origem:</strong> <a href="talentos.html?tipo=origem#alerta" class="badge-feat">Alerta</a></p>
+          <p><strong>Equipamento:</strong> Ferramentas de Ladrão, Pé de cabra, Roupas Escuras e 16 PO.</p>
         </div>
       </div>
 
       <div class="card-antecedente">
-        <div>
-          <h3>Guia (Guide)</h3>
-          <p class="lore-antecedente">Florestas, pântanos e desertos não possuem segredos para você. Seu trabalho era manter viajantes vivos no ermo.</p>
-          <div class="detalhes-mecanicos">
-            <p><strong>Atributos:</strong> Destreza, Constituição, Sabedoria</p>
-            <p><strong>Perícias:</strong> Sobrevivência e Natureza</p>
-            <p><strong>Ferramenta:</strong> Ferramentas de Cartógrafo</p>
-            <p><strong>Talento de Origem:</strong> <span class="badge-feat">Iniciado em Magia (Druida)</span></p>
-            <p><strong>Equipamento:</strong> Mapas, Pederneira, Adaga, Roupas de Caça e 14 PO.</p>
-          </div>
+        <h3>Eremita</h3>
+        <p class="lore-antecedente">O isolamento total do mundo exterior permitiu que você escutasse verdades que o caos urbano esconde.</p>
+        <div class="detalhes-mecanicos">
+          <p><strong>Atributos:</strong> Constituição, Sabedoria, Carisma</p>
+          <p><strong>Perícias:</strong> Medicina e Religião</p>
+          <p><strong>Ferramenta:</strong> Kit de Herbalismo</p>
+          <p><strong>Talento de Origem:</strong> <a href="talentos.html?tipo=origem#curandeiro" class="badge-feat">Curandeiro</a></p>
+          <p><strong>Equipamento:</strong> Kit de Herbalismo, Diário de notas místicas, Manta pesada e 15 PO.</p>
         </div>
       </div>
 
       <div class="card-antecedente">
-        <div>
-          <h3>Sábio (Sage)</h3>
-          <p class="lore-antecedente">Você passou anos trancado em grandes bibliotecas ou laboratórios arcanos dissecando a estrutura do multiverso.</p>
-          <div class="detalhes-mecanicos">
-            <p><strong>Atributos:</strong> Constituição, Inteligência, Sabedoria</p>
-            <p><strong>Perícias:</strong> Arcana e História</p>
-            <p><strong>Ferramenta:</strong> Kit de Caligrafia</p>
-            <p><strong>Talento de Origem:</strong> <span class="badge-feat">Iniciado em Magia (Mago)</span></p>
-            <p><strong>Equipamento:</strong> Tinta, Pena, Livro de Anotações acadêmicas, Roupas de Estudioso e 10 PO.</p>
-          </div>
+        <h3>Escriba</h3>
+        <p class="lore-antecedente">Você passou anos trancado em grandes bibliotecas, cartórios ou laboratórios dissecando e registrando o conhecimento do mundo.</p>
+        <div class="detalhes-mecanicos">
+          <p><strong>Atributos:</strong> Constituição, Inteligência, Sabedoria</p>
+          <p><strong>Perícias:</strong> Arcana e História</p>
+          <p><strong>Ferramenta:</strong> Kit de Caligrafia</p>
+          <p><strong>Talento de Origem:</strong> <a href="talentos.html?tipo=origem#iniciado-em-magia" class="badge-feat">Iniciado em Magia</a></p>
+          <p><strong>Equipamento:</strong> Tinta, Pena, Livro de Anotações acadêmicas, Roupas de Estudioso e 10 PO.</p>
         </div>
       </div>
 
       <div class="card-antecedente">
-        <div>
-          <h3>Marinheiro (Sailor)</h3>
-          <p class="lore-antecedente">O mar aberto moldou seus músculos e sua resiliência mental contra as tempestades e as correntes traiçoeiras.</p>
-          <div class="detalhes-mecanicos">
-            <p><strong>Atributos:</strong> Força, Destreza, Sabedoria</p>
-            <p><strong>Perícias:</strong> Atletismo e Percepção</p>
-            <p><strong>Ferramenta:</strong> Ferramentas de Navegador</p>
-            <p><strong>Talento de Origem:</strong> <span class="badge-feat">Robusto (Tough)</span></p>
-            <p><strong>Equipamento:</strong> Corda de Cânhamo (15m), Amuleto da sorte, Roupas de marujo e 10 PO.</p>
-          </div>
+        <h3>Fazendeiro</h3>
+        <p class="lore-antecedente">A terra sustentou seus ancestrais e moldou suas mãos calejadas. Você entende o ciclo da vida e da colheita.</p>
+        <div class="detalhes-mecanicos">
+          <p><strong>Atributos:</strong> Força, Constituição, Sabedoria</p>
+          <p><strong>Perícias:</strong> Adestrar Animais (Animal Handling) e Natureza</p>
+          <p><strong>Ferramenta:</strong> Veículos Terrestres (Carroças)</p>
+          <p><strong>Talento de Origem:</strong> <a href="talentos.html?tipo=origem#vigoroso" class="badge-feat">Vigoroso</a></p>
+          <p><strong>Equipamento:</strong> Enxada, Foice, Roupas de Trabalho de Lona e 23 PO.</p>
         </div>
       </div>
 
       <div class="card-antecedente">
-        <div>
-          <h3>Soldado (Soldier)</h3>
-          <p class="lore-antecedente">Você marchou em formação, escutou os tambores da guerra e sabe exatamente como manter a calma sob pressão militar.</p>
-          <div class="detalhes-mecanicos">
-            <p><strong>Atributos:</strong> Força, Constituição, Carisma</p>
-            <p><strong>Perícias:</strong> Atletismo e Intimidação</p>
-            <p><strong>Ferramenta:</strong> Um Kit de Jogo (Cartas ou Dados)</p>
-            <p><strong>Talento de Origem:</strong> <span class="badge-feat">Atacante Selvagem (Savage Attacker)</span></p>
-            <p><strong>Equipamento:</strong> Insígnia de Patente, Dados de Osso, Traje militar remendado e 15 PO.</p>
-          </div>
+        <h3>Guarda</h3>
+        <p class="lore-antecedente">Seu trabalho era manter a ordem e proteger os portões de cidadelas ou as caravanas de mercadores ricos contra invasores.</p>
+        <div class="detalhes-mecanicos">
+          <p><strong>Atributos:</strong> Força, Inteligência, Sabedoria</p>
+          <p><strong>Perícias:</strong> Atletismo e Percepção</p>
+          <p><strong>Ferramenta:</strong> Kit de Jogo (Dados)</p>
+          <p><strong>Talento de Origem:</strong> <a href="talentos.html?tipo=origem#alerta" class="badge-feat">Alerta</a></p>
+          <p><strong>Equipamento:</strong> Lanterna de fenda, Apito de ferro, Manoplas, Algemas e 12 PO.</p>
         </div>
       </div>
 
       <div class="card-antecedente">
-        <div>
-          <h3>Nobre (Noble)</h3>
-          <p class="lore-antecedente">Você nasceu em berço de ouro, cercado de heráldicas, privilégios dinásticos e o peso da política cortesã.</p>
-          <div class="detalhes-mecanicos">
-            <p><strong>Atributos:</strong> Inteligência, Sabedoria, Carisma</p>
-            <p><strong>Perícias:</strong> História e Persuasão</p>
-            <p><strong>Ferramenta:</strong> Kit de Jogo (Xadrez Dragão)</p>
-            <p><strong>Talento de Origem:</strong> <span class="badge-feat">Habilidoso (Skilled)</span></p>
-            <p><strong>Equipamento:</strong> Anel de Sinete, Pergaminho de Linhagem, Roupas Finas e 25 PO.</p>
-          </div>
+        <h3>Guia</h3>
+        <p class="lore-antecedente">Florestas, pântanos e desertos não possuem segredos para você. Seu trabalho era manter viajantes vivos no ermo.</p>
+        <div class="detalhes-mecanicos">
+          <p><strong>Atributos:</strong> Destreza, Constituição, Sabedoria</p>
+          <p><strong>Perícias:</strong> Sobrevivência e Natureza</p>
+          <p><strong>Ferramenta:</strong> Ferramentas de Cartógrafo</p>
+          <p><strong>Talento de Origem:</strong> <a href="talentos.html?tipo=origem#iniciado-em-magia" class="badge-feat">Iniciado em Magia</a></p>
+          <p><strong>Equipamento:</strong> Mapas, Pederneira, Adaga, Roupas de Caça e 14 PO.</p>
         </div>
       </div>
 
       <div class="card-antecedente">
-        <div>
-          <h3>Fazendeiro (Farmer)</h3>
-          <p class="lore-antecedente">A terra sustentou seus ancestrais e moldou suas mãos calejadas. Você entende o ciclo da vida e da colheita.</p>
-          <div class="detalhes-mecanicos">
-            <p><strong>Atributos:</strong> Força, Constituição, Sabedoria</p>
-            <p><strong>Perícias:</strong> Adestrar Animais (Animal Handling) e Natureza</p>
-            <p><strong>Ferramenta:</strong> Veículos Terrestres (Carroças)</p>
-            <p><strong>Talento de Origem:</strong> <span class="badge-feat">Robusto (Tough)</span></p>
-            <p><strong>Equipamento:</strong> Enxada, Foice, Roupas de Trabalho de Lona e 23 PO.</p>
-          </div>
+        <h3>Marinheiro</h3>
+        <p class="lore-antecedente">O mar aberto moldou seus músculos e sua resiliência mental contra as tempestades e as correntes traiçoeiras.</p>
+        <div class="detalhes-mecanicos">
+          <p><strong>Atributos:</strong> Força, Destreza, Sabedoria</p>
+          <p><strong>Perícias:</strong> Atletismo e Percepção</p>
+          <p><strong>Ferramenta:</strong> Ferramentas de Navegador</p>
+          <p><strong>Talento de Origem:</strong> <a href="talentos.html?tipo=origem#vigoroso" class="badge-feat">Vigoroso</a></p>
+          <p><strong>Equipamento:</strong> Corda de Cânhamo (15m), Amuleto da sorte, Roupas de marujo e 10 PO.</p>
         </div>
       </div>
 
       <div class="card-antecedente">
-        <div>
-          <h3>Guarda (Guard)</h3>
-          <p class="lore-antecedente">Seu trabalho era manter a ordem e proteger os portões de cidadelas ou as caravanas de mercadores ricos contra invasores.</p>
-          <div class="detalhes-mecanicos">
-            <p><strong>Atributos:</strong> Força, Inteligência, Sabedoria</p>
-            <p><strong>Perícias:</strong> Atletismo e Percepção</p>
-            <p><strong>Ferramenta:</strong> Kit de Jogo (Dados)</p>
-            <p><strong>Talento de Origem:</strong> <span class="badge-feat">Alerta (Alert)</span></p>
-            <p><strong>Equipamento:</strong> Lanterna de fenda, Apito de ferro, Manoplas, Algemas e 12 PO.</p>
-          </div>
+        <h3>Mercador</h3>
+        <p class="lore-antecedente">Comprar na baixa e vender na alta. Você conhece o valor de cada moeda de ouro e sabe como negociar em qualquer mercado.</p>
+        <div class="detalhes-mecanicos">
+          <p><strong>Atributos:</strong> Constituição, Inteligência, Carisma</p>
+          <p><strong>Perícias:</strong> Persuasão e Investigação</p>
+          <p><strong>Ferramenta:</strong> Balança de Mercador</p>
+          <p><strong>Talento de Origem:</strong> <a href="talentos.html?tipo=origem#artifista" class="badge-feat">Artifista</a></p>
+          <p><strong>Equipamento:</strong> Balança, Livro de Razão comercial, Caneta e Tinta, Roupas de mercador e 22 PO.</p>
         </div>
       </div>
 
       <div class="card-antecedente">
-        <div>
-          <h3>Mercador (Merchant)</h3>
-          <p class="lore-antecedente">Comprar na baixa e vender na alta. Você conhece o valor de cada moeda de ouro e sabe como negociar em qualquer mercado.</p>
-          <div class="detalhes-mecanicos">
-            <p><strong>Atributos:</strong> Constituição, Inteligência, Carisma</p>
-            <p><strong>Perícias:</strong> Persuasão e Investigação</p>
-            <p><strong>Ferramenta:</strong> Balança de Mercador</p>
-            <p><strong>Talento de Origem:</strong> <span class="badge-feat">Artesão Habilidoso (Crafter)</span></p>
-            <p><strong>Equipamento:</strong> Balança, Livro de Razão comercial, Caneta e Tinta, Roupas de mercador e 22 PO.</p>
-          </div>
+        <h3>Nobre</h3>
+        <p class="lore-antecedente">Você nasceu em berço de ouro, cercado de heráldicas, privilégios dinásticos e o peso da política cortesã.</p>
+        <div class="detalhes-mecanicos">
+          <p><strong>Atributos:</strong> Inteligência, Sabedoria, Carisma</p>
+          <p><strong>Perícias:</strong> História e Persuasão</p>
+          <p><strong>Ferramenta:</strong> Kit de Jogo (Xadrez Dragão)</p>
+          <p><strong>Talento de Origem:</strong> <a href="talentos.html?tipo=origem#habilidoso" class="badge-feat">Habilidoso</a></p>
+          <p><strong>Equipamento:</strong> Anel de Sinete, Pergaminho de Linhagem, Roupas Finas e 25 PO.</p>
         </div>
       </div>
 
       <div class="card-antecedente">
-        <div>
-          <h3>Órfão de Rua (Urchin)</h3>
-          <p class="lore-antecedente">Sem teto e sem herança, os becos escuros da cidade grande foram seus professores e os ratos seus únicos aliados.</p>
-          <div class="detalhes-mecanicos">
-            <p><strong>Atributos:</strong> Força, Destreza, Constituição</p>
-            <p><strong>Perícias:</strong> Prestidigitação (Sleight of Hand) e Furtividade</p>
-            <p><strong>Ferramenta:</strong> Kit de Disfarce</p>
-            <p><strong>Talento de Origem:</strong> <span class="badge-feat">Sortudo (Lucky)</span></p>
-            <p><strong>Equipamento:</strong> Faca pequena, Mapa da cidade natal, Petrechos de trapaça e 18 PO.</p>
-          </div>
+        <h3>Sábio</h3>
+        <p class="lore-antecedente">Você passou anos estudando pergaminhos antigos e teorias complexas para desvendar mistérios históricos ou da natureza.</p>
+        <div class="detalhes-mecanicos">
+          <p><strong>Atributos:</strong> Constituição, Inteligência, Sabedoria</p>
+          <p><strong>Perícias:</strong> História e Natureza</p>
+          <p><strong>Ferramenta:</strong> Kit de Caligrafia</p>
+          <p><strong>Talento de Origem:</strong> <a href="talentos.html?tipo=origem#iniciado-em-magia" class="badge-feat">Iniciado em Magia</a></p>
+          <p><strong>Equipamento:</strong> Tinta, Pena, Caderno de anotações, Roupas de Estudioso e 10 PO.</p>
         </div>
       </div>
 
       <div class="card-antecedente">
-        <div>
-          <h3>Viajante (Wayfarer)</h3>
-          <p class="lore-antecedente">O horizonte distante sempre chamou seu nome. Você passou a vida vagando de estrada em estrada, sem criar raízes fixas.</p>
-          <div class="detalhes-mecanicos">
-            <p><strong>Atributos:</strong> Destreza, Sabedoria, Carisma</p>
-            <p><strong>Perícias:</strong> Intuição (Insight) e Sobrevivência</p>
-            <p><strong>Ferramenta:</strong> Kit de Jogo (Cartas)</p>
-            <p><strong>Talento de Origem:</strong> <span class="badge-feat">Líder Nato (Skilled)</span></p>
-            <p><strong>Equipamento:</strong> Sacola de Viagem, Cantil reforçado, Cobertor térmico, Roupas de cano longo e 15 PO.</p>
-          </div>
+        <h3>Soldado</h3>
+        <p class="lore-antecedente">Você marchou em formação, escutou os tambores da guerra e sabe exatamente como manter a calma sob pressão militar.</p>
+        <div class="detalhes-mecanicos">
+          <p><strong>Atributos:</strong> Força, Constituição, Carisma</p>
+          <p><strong>Perícias:</strong> Atletismo e Intimidação</p>
+          <p><strong>Ferramenta:</strong> Um Kit de Jogo (Cartas ou Dados)</p>
+          <p><strong>Talento de Origem:</strong> <a href="talentos.html?tipo=origem#atacante-selvagem" class="badge-feat">Atacante Selvagem</a></p>
+          <p><strong>Equipamento:</strong> Insígnia de Patente, Dados de Osso, Traje militar remendado e 15 PO.</p>
         </div>
       </div>
 
+    </div>
+
+    </div>
     </div>
   </div>
 

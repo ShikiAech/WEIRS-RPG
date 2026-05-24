@@ -6,6 +6,7 @@ Um aplicativo web para recordação de campanhas, guia de criação básico e co
 
 ## 📋 Changelog
 
+<<<<<<< HEAD
 ### Versão 1.4.1
 - **Data:** 24/05/2026
 - **Melhorias:**
@@ -39,6 +40,53 @@ Um aplicativo web para recordação de campanhas, guia de criação básico e co
 - **Data:** 22/05/2026
 - **Melhorias:**
   - Mudanaça no codigo css de badges (definição do tipo de ação usada em um feat).
+=======
+### Versão 1.1.2
+- **Data:** 23/05/2026
+- **Melhorias:**
+  - Alteração do Simulador de Ficha: Add Classes novas/Add Opções de Atributos
+  - Pequenas correções de Textos em Campanhas, Humanos e Simyaris 
+>>>>>>> mudancas-luva
+
+### Versão 1.4.1
+- **Data:** 24/05/2026
+- **Melhorias:**
+  - Correção das subclasses do bárbaro.
+
+### Versão 1.4.0
+- **Data:** 24/05/2026
+- **Melhorias:**
+  - Finalização da página do Bruxo.
+  - Adição de subclasses UA para Artífice, Bárbaro e Bardo.
+  - Correção do botão do Artífice na página classes.
+
+### Versão 1.3.0
+- **Data:** 24/05/2026
+- **Melhorias:**
+  - Finalização da página do Bárbaro.
+
+### Versão 1.2.1
+- **Data:** 23/05/2026
+- **Melhorias:**
+  - Finalização da página do Artífice.
+
+### Versão 1.1.3
+- **Data:** 23/05/2026
+- **Melhorias:**
+  - Adição da página de testes para classe, servindo de base para a reconstrução das demais.
+  - Mudanças no arquivo styles.css e adição do arquivo class-styles.css para cumprir com os estilos das páginas de classe especificamente.
+  - Adição do arquivo subclass-tab.js para funcionalidade de aba de subclasses.
+
+### Versão 1.1.2
+- **Data:** 22/05/2026
+- **Melhorias:**
+  - Mudanaça no codigo css de badges (definição do tipo de ação usada em um feat).
+
+### Versão 1.1.2
+- **Data:** 23/05/2026
+- **Melhorias:**
+  - Alteração do Simulador de Ficha: Add Classes novas/Add Opções de Atributos
+  - Pequenas correções de Textos em Campanhas, Humanos e Simyaris 
 
 ### Versão 1.1.1
 - **Data:** 22/05/2026
