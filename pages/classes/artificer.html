@@ -1112,6 +1112,7 @@
               <li><button class="tab-btn" data-tab="2">Artilheiro</button></li>
               <li><button class="tab-btn" data-tab="3">Ferreiro de Batalha</button></li>
               <li><button class="tab-btn" data-tab="4">Cartógrafo</button></li>
+              <li><button class="tab-btn" data-tab="4">Reanimador</button></li>
             </ul>
           </div>
 
@@ -2118,6 +2119,149 @@
                 </div>
               </div>
             </div>
+
+            <!-- Reanimator (UA) -->
+            <div class="tab-pane">
+              <h3 style="color: var(--gold); margin-bottom: 15px;">Reanimador</h3>
+              <p>Reanimadores desafiam as leis da natureza em busca de experimentos macabros. Estes sombrios Artífices costuram servos de cadáveres díspares, usam magia obscura para fortalecer os vivos e transformam a arte da necromancia em uma ciência aterrorizante.</p>
+              
+              <!-- Nível 3: Magias do Reanimador -->
+              <div class="recurso-card">
+                <div class="recurso-header">
+                  <span class="recurso-nome">Nível 3: Magias do Reanimador</span>
+                </div>
+                <div class="recurso-descricao">
+                  <p>Quando você atinge um nível de Artífice especificado na tabela de Magias do Reanimador, você sempre tem as magias listadas preparadas.</p>
+                  
+                  <h4 style="margin: 15px 0 5px; color: var(--gold);">Magias do Reanimador</h4>
+                  <table class="tabela-rpg">
+                    <thead>
+                      <tr><th>Nível de Artífice</th><th>Magias</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr><td class="esquerda">3º</td><td class="esquerda">Falsa Vida, Abençoar os Moribundos, Raio Arcano</td></tr>
+                      <tr><td class="esquerda">5º</td><td class="esquerda">Cegueira/Surdez, Aumentar Atributo</td></tr>
+                      <tr><td class="esquerda">9º</td><td class="esquerda">Animar Mortos, Raio Relâmpago</td></tr>
+                      <tr><td class="esquerda">13º</td><td class="esquerda">Praga, Manto da Morte</td></tr>
+                      <tr><td class="esquerda">17º</td><td class="esquerda">Casca Anti-Vida, Levantar Mortos</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              
+              <!-- Nível 3: Choque de Vida -->
+              <div class="recurso-card">
+                <div class="recurso-header">
+                  <span class="recurso-nome">Nível 3: Choque de Vida</span>
+                </div>
+                <div class="recurso-descricao">
+                  <p>Quando você conjura <strong>Abençoar os Moribundos</strong>, pode modificar a magia para que ela envie um choque de eletricidade através do alvo, revivendo-o. O alvo recupera <strong>1 Ponto de Vida</strong>, e cada criatura em uma <strong>Emanação de 3 metros</strong> originada do alvo faz um teste de resistência de <strong>Destreza</strong> contra sua CD de salvaguarda de magia. Em uma falha, as criaturas sofrem dano de <strong>Relâmpago</strong> igual a <strong>1d4 + metade do seu nível de Artífice</strong> (arredondado para cima). Em um sucesso, elas sofrem metade do dano.</p>
+                  <p>Você pode modificar a magia desta forma um número de vezes igual ao seu <strong>modificador de Inteligência</strong>, e recupera todos os usos gastos quando termina um <strong>Descanso Longo</strong>.</p>
+                </div>
+              </div>
+              
+              <!-- Nível 3: Companheiro Reanimado -->
+              <div class="recurso-card">
+                <div class="recurso-header">
+                  <span class="recurso-nome">Nível 3: Companheiro Reanimado</span>
+                  <span class="badge-mini acao">Ação Mágica</span>
+                </div>
+                <div class="recurso-descricao">
+                  <p>Usando <strong>Ferramentas de Inventor</strong> ou outro tipo de Ferramentas de Artesão com as quais você tenha proficiência, você pode usar uma <strong>Ação Mágica</strong> para criar um <strong>Companheiro Reanimado</strong> através do poder da necromancia e da ciência. O companheiro se manifesta em um espaço desocupado a até <strong>1,5 metro</strong> de você. Você determina a aparência do companheiro; suas escolhas não afetam as estatísticas do companheiro.</p>
+                  <p>O companheiro é <strong>Amigável</strong> para você e seus aliados e obedece você. Ele dura até você terminar um <strong>Descanso Longo</strong> ou até que você use uma Ação Mágica para dispensá-lo mais cedo, momento em que ele colapsa inofensivamente em uma pilha de vísceras. Ele imediatamente cai a 0 Pontos de Vida e morre (ativando sua característica <strong>Explosão Mortal</strong>) se você morrer.</p>
+                  <p>Quando você cria um companheiro, não pode fazê-lo novamente até terminar um <strong>Descanso Longo</strong> ou gastar um espaço de magia para criar um. Você só pode ter um companheiro por vez e não pode criar um enquanto seu companheiro estiver presente.</p>
+                  
+                  <p><strong style="color: white;">O Companheiro em Combate.</strong> Em combate, o companheiro age durante seu turno. Ele pode se mover e usar sua Reação por conta própria, mas a única ação que realiza é a ação <strong>Esquivar</strong>, a menos que você use uma <strong>Ação Bônus</strong> para comandá-lo a realizar uma ação. Se você tiver a condição <strong>Incapacitado</strong>, o companheiro age por conta própria e não está limitado à ação Esquivar.</p>
+                  
+                  <div class="recurso-card" style="border-left:1px solid var(--border-fantasy)">
+                    <div class="recurso-header">
+                      <h4 style="margin: 15px 0 5px; color: var(--gold);">Companheiro Reanimado</h4>
+                    </div>
+                    <p><em>Pequeno Morto-Vivo, Neutro</em></p>
+
+                    <table class="tabela-rpg" style="margin: 10px 0;">
+                      <tbody>
+                        <tr><td style="text-align: left;"><strong>Classe de Armadura</strong></td><td>10 + seu modificador de Inteligência</td></tr>
+                        <tr><td style="text-align: left;"><strong>Pontos de Vida</strong></td><td>4 + quatro vezes seu nível de Artífice (o companheiro tem um número de Dados de Vida [d6s] igual ao seu nível de Artífice)</td></tr>
+                        <tr><td style="text-align: left;"><strong>Deslocamento</strong></td><td>9 m</td></tr>
+                      </tbody>
+                    </table>
+                    
+                    <table class="tabela-rpg" style="margin: 10px 0;">
+                      <thead>
+                        <tr><th>FOR</th><th>DES</th><th>CON</th><th>INT</th><th>SAB</th><th>CAR</th></tr>
+                      </thead>
+                      <tbody>
+                        <tr><td>14 (+2/+2)</td><td>10 (+0/+0)</td><td>16 (+3/+3)</td><td>4 (-3/-3)</td><td>10 (+0/+0)</td><td>6 (-2/-2)</td></tr>
+                      </tbody>
+                    </table>
+                    
+                    <p><strong style="color: white;">Resistências.</strong> Necrótico, Veneno</p>
+                    <p><strong style="color: white;">Imunidades.</strong> Relâmpago; Enfeitiçado, Exaustão, Envenenado</p>
+                    <p><strong style="color: white;">Sentidos.</strong> Visão Cega 18 m; Percepção Passiva 10</p>
+                    <p><strong style="color: white;">Idiomas.</strong> Entende os idiomas que você conhece</p>
+                    <p><strong style="color: white;">Nível de Desafio.</strong> Nenhum (XP 0; Bônus de Proficiência igual ao seu Bônus de Proficiência)</p>
+                    
+                    <p><strong style="color: white;">Traços.</strong> <strong>Explosão Mortal.</strong> O companheiro explode quando morre. <em>Teste de Resistência de Destreza:</em> CD igual à sua CD de salvaguarda de magia, cada criatura em uma Emanação de <strong>3 metros</strong> originada do companheiro. <em>Falha:</em> <strong>2d6 de dano Necrótico</strong>.</p>
+                    <p><strong style="color: white;">Absorção de Relâmpago.</strong> Sempre que o companheiro é submetido a dano de Relâmpago, ele recupera um número de Pontos de Vida igual ao dano de Relâmpago sofrido.</p>
+                    
+                    <p><strong style="color: white;">Ações.</strong> <strong>Golpe Amedrontador.</strong> <em>Rolagem de Ataque Corpo a Corpo:</em> Bônus igual ao seu modificador de ataque de magia, alcance 1,5 m. <em>Acerto:</em> 1d4 + 2 + seu modificador de Inteligência de dano Necrótico, e o alvo não pode fazer <strong>Ataques de Oportunidade</strong> até o início do seu próximo turno.</p>
+                  </div>
+                  
+                  
+                  
+                </div>
+              </div>
+              
+              <!-- Nível 5: Modificações Estranhas -->
+              <div class="recurso-card">
+                <div class="recurso-header">
+                  <span class="recurso-nome">Nível 5: Modificações Estranhas</span>
+                </div>
+                <div class="recurso-descricao">
+                  <p>Sempre que você cria um <strong>Companheiro Reanimado</strong>, ele ganha uma das seguintes opções de sua escolha. Escolha quando você cria o companheiro:</p>
+                  
+                  <p><strong style="color: white;">Conduto Arcano.</strong> Você pode conjurar magias como se estivesse no espaço do companheiro, mas deve usar seus próprios sentidos. Uma vez por turno, quando você conjura uma magia de Artífice das escolas de <strong>Evocação ou Necromancia</strong> e causa dano enquanto seu companheiro estiver a até <strong>36 metros</strong> de você, você pode adicionar seu <strong>modificador de Inteligência</strong> a uma rolagem de dano dessa magia.</p>
+                  
+                  <p><strong style="color: white;">Ferocidade.</strong> Quando você comanda seu companheiro a realizar a ação <strong>Golpe Amedrontador</strong>, o companheiro pode usá-la <strong>duas vezes</strong>.</p>
+                </div>
+              </div>
+              
+              <!-- Nível 9: Reanimação Aprimorada -->
+              <div class="recurso-card">
+                <div class="recurso-header">
+                  <span class="recurso-nome">Nível 9: Reanimação Aprimorada</span>
+                </div>
+                <div class="recurso-descricao">
+                  <p>Você experimenta e altera seu companheiro ainda mais. Sempre que você cria um <strong>Companheiro Reanimado</strong>, ele ganha uma das seguintes opções de sua escolha. Escolha quando você cria o companheiro:</p>
+                  
+                  <p><strong style="color: white;">Inchado.</strong> O companheiro se torna <strong>Grande ou Médio</strong> (sua escolha). Sempre que ele atinge uma criatura <strong>Grande ou menor</strong> com sua ação <strong>Golpe Amedrontador</strong>, essa criatura também pode ser empurrada até <strong>3 metros</strong> para longe do companheiro. Além disso, você pode adicionar seu <strong>modificador de Inteligência</strong> ao dano causado pela <strong>Explosão Mortal</strong> do companheiro.</p>
+                  
+                  <p><strong style="color: white;">Esquelético.</strong> O deslocamento do companheiro aumenta para <strong>13,5 metros</strong>, e ele ganha <strong>deslocamento de Escalada</strong> igual ao seu deslocamento. Ele pode escalar superfícies difíceis, incluindo tetos, sem precisar fazer um teste de atributo. Além disso, sempre que uma criatura de sua escolha começa seu turno dentro de uma <strong>Emanação de 3 metros</strong> originada do seu companheiro, a criatura deve ser bem-sucedida em um teste de resistência de <strong>Sabedoria</strong> contra sua CD de salvaguarda de magia ou ficará <strong>Amedrontada</strong> até o início do seu próximo turno.</p>
+                  
+                  <p><strong style="color: white;">Úmido.</strong> O companheiro ganha <strong>deslocamento de Natação</strong> igual ao seu deslocamento. Além disso, sempre que o companheiro é atingido por uma rolagem de ataque de uma criatura a até <strong>3 metros</strong> dele, o atacante sofre dano de <strong>Ácido</strong> igual ao seu <strong>modificador de Inteligência</strong>.</p>
+                </div>
+              </div>
+              
+              <!-- Nível 15: Reanimação Prometeica -->
+              <div class="recurso-card">
+                <div class="recurso-header">
+                  <span class="recurso-nome">Nível 15: Reanimação Prometeica</span>
+                </div>
+                <div class="recurso-descricao">
+                  <p>Você dominou a ciência da revivificação, concedendo os seguintes benefícios:</p>
+                  
+                  <p><strong style="color: white;">Revivificação Facilitada.</strong> Quando você conjura <strong>Reviver os Mortos</strong> ou <strong>Levantar Mortos</strong>, o custo de quaisquer componentes Materiais necessários para essa magia é <strong>reduzido à metade</strong>.</p>
+                  
+                  <p><strong style="color: white;">Companheiro Aprimorado.</strong> O dano da <strong>Explosão Mortal</strong> do seu Companheiro Reanimado aumenta para <strong>4d6</strong>. Além disso, qualquer dano Necrótico causado pelo seu companheiro <strong>ignora Resistência</strong>.</p>
+                  
+                  <p><strong style="color: white;">Transferência de Vida.</strong> Você pode sugar a magia animadora do seu companheiro para fortalecer a si mesmo. Quando você sofre dano, pode usar sua <strong>Reação</strong> para fazer com que seu Companheiro Reanimado caia a 0 Pontos de Vida. O companheiro imediatamente morre (ativando sua característica <strong>Explosão Mortal</strong>), e você recupera Pontos de Vida iguais ao <strong>seu nível de Artífice</strong>.</p>
+                </div>
+              </div>
+              
+            </div>
+
+
           </div>
         </div>
       </div><!--FIM DA DIV recursos-detalhados-->

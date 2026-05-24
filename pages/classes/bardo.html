@@ -349,6 +349,7 @@
                     <li><button class="tab-btn active" data-tab="2"> Colégio do Conhecimento</button></li>
                     <li><button class="tab-btn active" data-tab="3"> Colégio da Lua</button></li>
                     <li><button class="tab-btn active" data-tab="4"> Colégio de Valor</button></li>
+                    <li><button class="tab-btn active" data-tab="5"> Colégio dos Espíritos</button></li>
                     </ul>
                 </div>
                 
@@ -639,6 +640,93 @@
                         </div>
                         <div class="recurso-descricao">
                           <p>Depois de conjurar uma magia que tenha tempo de conjuração de uma <strong>ação</strong>, você pode fazer <strong>um ataque com uma arma</strong> como uma <strong>Ação Bônus</strong>.</p>
+                        </div>
+                      </div>
+                      
+                    </div>
+
+                    <!-- College of Spirits -->
+                    <div class="tab-pane">
+                      <h3 style="color: var(--gold); margin-bottom: 15px;">Colégio dos Espíritos</h3>
+                      <p>Usando parafernalha ocultista, Bardos do Colégio dos Espíritos conjuram espíritos lendários e há muito mortos para mudar o mundo mais uma vez. Mas tais entidades são caprichosas, e o que um Bardo invoca nem sempre está totalmente sob seu controle.</p>
+                      
+                      <!-- Nível 3: Canalizador -->
+                      <div class="recurso-card">
+                        <div class="recurso-header">
+                          <span class="recurso-nome">Nível 3: Canalizador</span>
+                        </div>
+                        <div class="recurso-descricao">
+                          <p>Você aprende a contatar espíritos além do túmulo, deixando seu poder e conhecimento fluírem através de você. Você ganha os seguintes benefícios:</p>
+                          
+                          <p><strong style="color: white;">Sussurros Guias.</strong> Você conhece o truque <strong>Orientação</strong>. Quando você o conjura, seu alcance é de <strong>18 metros</strong>.</p>
+                          
+                          <p><strong style="color: white;">Foco Espiritual.</strong> Você emprega ferramentas que o ajudam a canalizar espíritos. Você ganha um <strong>Jogo de Cartas</strong> e proficiência com ele. Além disso, você pode usar as cartas ou um dos seguintes itens como <strong>Foco de Conjuração</strong> para suas magias de Bardo: <strong>Foco Arcano (Cristal ou Orbe)</strong>, <strong>Vela ou Caneta de Tinta</strong>.</p>
+                        </div>
+                      </div>
+                      
+                      <!-- Nível 3: Espíritos do Além -->
+                      <div class="recurso-card">
+                        <div class="recurso-header">
+                          <span class="recurso-nome">Nível 3: Espíritos do Além</span>
+                          <span class="badge-mini acao-bonus">Ação Bônus</span>
+                        </div>
+                        <div class="recurso-descricao">
+                          <p>Enquanto segura um <strong>Foco de Conjuração</strong>, você pode usar uma <strong>Ação Bônus</strong> para gastar um uso de sua <strong>Inspiração de Bardo</strong> e invocar os poderes de um espírito.</p>
+                          <p>Role seu dado de Inspiração de Bardo e consulte a tabela <strong>Espíritos do Além</strong> para determinar o espírito que você canaliza. Em seguida, escolha uma criatura que você possa ver a até <strong>9 metros</strong> de você como o alvo do espírito.</p>
+                          <p>O efeito do espírito ocorre imediatamente. Se o efeito do espírito exigir um teste de resistência, a CD é igual à sua <strong>CD de salvaguarda de magia de Bardo</strong>.</p>
+                          
+                          <h4 style="margin: 15px 0 5px; color: var(--gold);">Espíritos do Além</h4>
+                          <div class="overflow-table">
+                            <table class="tabela-rpg">
+                              <thead>
+                                <tr><th>Dado</th><th>Espírito</th><th>Efeito</th></tr>
+                              </thead>
+                              <tbody>
+                                <tr><td class="esquerda">1</td><td class="esquerda"><strong>Amado</strong></td><td class="esquerda">O alvo recupera Pontos de Vida iguais a uma rolagem do seu dado de Inspiração de Bardo + seu modificador de Carisma.</td></tr>
+                                <tr><td class="esquerda">2</td><td class="esquerda"><strong>Atirador Preciso</strong></td><td class="esquerda">O alvo sofre dano de Força igual a uma rolagem do seu dado de Inspiração de Bardo + seu modificador de Carisma.</td></tr>
+                                <tr><td class="esquerda">3</td><td class="esquerda"><strong>Vingador</strong></td><td class="esquerda">Até o final do seu próximo turno, qualquer criatura que acertar o alvo com uma rolagem de ataque corpo a corpo sofre dano de Força igual a uma rolagem do seu dado de Inspiração de Bardo.</td></tr>
+                                <tr><td class="esquerda">4</td><td class="esquerda"><strong>Renegado</strong></td><td class="esquerda">O alvo pode imediatamente usar uma Reação para se teletransportar até 9 metros para um espaço desocupado que possa ver.</td></tr>
+                                <tr><td class="esquerda">5</td><td class="esquerda"><strong>Vidente</strong></td><td class="esquerda">O alvo tem Vantagem em Testes D20 até o início do seu próximo turno.</td></tr>
+                                <tr><td class="esquerda">6</td><td class="esquerda"><strong>Viajante</strong></td><td class="esquerda">O alvo ganha Pontos de Vida Temporários iguais a uma rolagem do seu dado de Inspiração de Bardo + seu nível de Bardo. Enquanto tiver estes PV temporários, o deslocamento do alvo aumenta em 3 metros.</td></tr>
+                                <tr><td class="esquerda">7</td><td class="esquerda"><strong>Trapaceiro</strong></td><td class="esquerda">O alvo faz um teste de resistência de Sabedoria. Em uma falha, sofre dano Psíquico igual a duas rolagens do seu dado de Inspiração de Bardo e fica com a condição Enfeitiçado até o início do seu próximo turno. Em um sucesso, sofre apenas metade do dano.</td></tr>
+                                <tr><td class="esquerda">8</td><td class="esquerda"><strong>Sombra</strong></td><td class="esquerda">O alvo ganha a condição Invisível até o final do seu próximo turno ou até fazer uma rolagem de ataque, causar dano ou conjurar uma magia. Quando a invisibilidade termina, cada criatura em uma Emanação de 1,5 metro originada do alvo deve ser bem-sucedida em um teste de resistência de Constituição ou sofrer dano Necrótico igual a duas rolagens do seu dado de Inspiração de Bardo.</td></tr>
+                                <tr><td class="esquerda">9</td><td class="esquerda"><strong>Incendiário</strong></td><td class="esquerda">O alvo faz um teste de resistência de Destreza, sofrendo dano de Fogo igual a quatro rolagens do seu dado de Inspiração de Bardo em uma falha ou metade em um sucesso.</td></tr>
+                                <tr><td class="esquerda">10</td><td class="esquerda"><strong>Medroso</strong></td><td class="esquerda">O alvo e cada criatura de sua escolha em uma Emanação de 9 metros originada do alvo devem ser bem-sucedidos em um teste de resistência de Sabedoria ou ficar com a condição Amedrontado até o início do seu próximo turno. Enquanto Amedrontado, o deslocamento da criatura é reduzido à metade, e ela pode realizar apenas uma ação ou uma ação bônus, não ambas.</td></tr>
+                                <tr><td class="esquerda">11</td><td class="esquerda"><strong>Brutamontes</strong></td><td class="esquerda">Cada criatura de sua escolha em uma Emanação de 9 metros originada do alvo faz um teste de resistência de Força. Em uma falha, sofre dano de Trovão igual a três rolagens do seu dado de Inspiração de Bardo e fica com a condição Caído. Em um sucesso, sofre apenas metade do dano.</td></tr>
+                                <tr><td class="esquerda">12</td><td class="esquerda"><strong>Canalização Controlada</strong></td><td class="esquerda">Você determina o efeito do espírito escolhendo uma das outras linhas desta tabela.</td></tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <!-- Nível 6: Canalização Aprimorada -->
+                      <div class="recurso-card">
+                        <div class="recurso-header">
+                          <span class="recurso-nome">Nível 6: Canalização Aprimorada</span>
+                        </div>
+                        <div class="recurso-descricao">
+                          <p>Sua habilidade de canalizar espíritos melhora. Você ganha os seguintes benefícios:</p>
+                          
+                          <p><strong style="color: white;">Poder do Além.</strong> Uma vez por turno, quando você conjura uma magia de Bardo que causa dano ou restaura Pontos de Vida, role <strong>1d6</strong>. Você ganha um bônus em uma das rolagens de dano da magia ou na cura total igual ao número rolado.</p>
+                          
+                          <p><strong style="color: white;">Manifestação Espiritual.</strong> Você sempre tem a magia <strong>Guardiões Espirituais</strong> preparada. Você pode conjurá-la <strong>uma vez sem gastar um espaço de magia</strong>, e recupera a capacidade de fazê-lo quando termina um <strong>Descanso Longo</strong>.</p>
+                          <p>Sempre que você conjura <strong>Guardiões Espirituais</strong>, pode modificá-la para que os espíritos também protejam contra ameaças mundanas. Quando conjurada desta forma:</p>
+                          <ul>
+                            <li>Você e seus aliados dentro da <strong>Emanação</strong> da magia ganham <strong>Meia Cobertura</strong>.</li>
+                          </ul>
+                          <p>Quando você modifica a magia desta forma, não pode fazê-lo novamente até terminar um <strong>Descanso Curto ou Longo</strong>.</p>
+                        </div>
+                      </div>
+                      
+                      <!-- Nível 14: Conexão Mística -->
+                      <div class="recurso-card">
+                        <div class="recurso-header">
+                          <span class="recurso-nome">Nível 14: Conexão Mística</span>
+                        </div>
+                        <div class="recurso-descricao">
+                          <p>Você ganha domínio sobre os espíritos que invoca.</p>
+                          <p>Sempre que você rola na tabela <strong>Espíritos do Além</strong>, pode rolar o dado de Inspiração de Bardo <strong>duas vezes</strong> e escolher qual dos dois efeitos conceder.</p>
                         </div>
                       </div>
                       
