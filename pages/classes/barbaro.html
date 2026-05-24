@@ -64,7 +64,7 @@
       </div>
       <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
       <!-- TABELA BÁSICA DE PROGRESSÃO - BÁRBARO -->
-        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.6rem; margin-bottom: 15px;">Características de Bárbaro (Parte A)</h3>
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.6rem; margin-bottom: 15px;">Características de Bárbaro</h3>
         <div class="overflow-table">
           <table class="tabela-rpg">
             <thead>
@@ -386,6 +386,9 @@
               <li><button class="tab-btn" data-tab="1">Caminho do Coração Selvagem</button></li>
               <li><button class="tab-btn" data-tab="2">Caminho da Árvore Mundial</button></li>
               <li><button class="tab-btn" data-tab="3">Caminho do Fanático</button></li>
+              <li><button class="tab-btn" data-tab="4">Caminho do Guardião Ancestral</button></li>
+              <li><button class="tab-btn" data-tab="5">Caminho do Lamento</button></li>
+              <li><button class="tab-btn" data-tab="6">Caminho do Arauto da Tempestade</button></li>
             </ul>
           </div>
           
@@ -639,6 +642,200 @@
                   <p><strong style="color: white;">Resistência.</strong> Você tem <strong>Resistência</strong> a dano Necrótico, Psíquico e Radiante.</p>
                   
                   <p><strong style="color: white;">Revivificação.</strong> Quando uma criatura a até <strong>9 metros</strong> de você cairia a 0 Pontos de Vida, você pode usar uma <strong>Reação</strong> para gastar um uso de sua <strong>Fúria</strong> e, em vez disso, mudar os Pontos de Vida do alvo para um número igual ao <strong>seu nível de Bárbaro</strong>.</p>
+                </div>
+              </div>
+              
+            </div>
+
+            <!-- Path of the Ancestral Guardian -->
+            <div class="tab-pane">
+              <h3 style="color: var(--gold); margin-bottom: 15px;">Caminho do Guardião Ancestral</h3>
+              <p>Bárbaros que seguem o Caminho do Guardião Ancestral invocam espíritos — sejam espíritos bestiais da natureza, espíritos de ancestrais falecidos ou espíritos de poder elemental bruto — para guiá-los e protegê-los. Quando estes Bárbaros entram em Fúria, eles contatam o reino dos espíritos e os invocam em busca de auxílio.</p>
+              
+              <!-- Nível 3: Protetores Espirituais -->
+              <div class="recurso-card">
+                <div class="recurso-header">
+                  <span class="recurso-nome">Nível 3: Protetores Espirituais</span>
+                </div>
+                <div class="recurso-descricao">
+                  <p>Sua <strong>Fúria</strong> invoca guerreiros espectrais em seu auxílio. Enquanto sua Fúria está ativa, quando você atinge uma criatura com uma arma ou um <strong>Ataque Desarmado</strong>, ela se torna o alvo dos espíritos, que causam um dos seguintes efeitos de sua escolha.</p>
+                  
+                  <p><strong style="color: white;">Distrair.</strong> Até o início do seu próximo turno, o alvo tem <strong>Desvantagem</strong> em rolagens de ataque contra alvos diferentes de você ou de outro Bárbaro que tenha esta característica.</p>
+                  
+                  <p><strong style="color: white;">Proteger.</strong> Até o final do próximo turno do alvo, na próxima vez que ele acertar uma criatura diferente de você com uma rolagem de ataque, aquela criatura tem <strong>Resistência</strong> ao dano causado pelo ataque.</p>
+                  
+                  <p><strong style="color: white;">Golpear.</strong> O alvo sofre <strong>1d6 de dano extra</strong>, que pode ser de dano <strong>Ácido, Frio, Fogo, Força, Relâmpago ou Trovão</strong> (sua escolha).</p>
+                </div>
+              </div>
+              
+              <!-- Nível 6: Escudo Espiritual -->
+              <div class="recurso-card">
+                <div class="recurso-header">
+                  <span class="recurso-nome">Nível 6: Escudo Espiritual</span>
+                  <span class="badge-mini reacao">Reação</span>
+                </div>
+                <div class="recurso-descricao">
+                  <p>Seus espíritos guardiões podem fornecer proteção sobrenatural àqueles que você defende. Enquanto sua <strong>Fúria</strong> está ativa, quando outra criatura que você pode ver a até <strong>9 metros</strong> de você sofre dano, você pode usar uma <strong>Reação</strong> para reduzir esse dano. Para determinar a quantidade pela qual o dano é reduzido, role um número de <strong>d6 igual ao seu bônus de Dano de Fúria</strong> e some-os.</p>
+                </div>
+              </div>
+              
+              <!-- Nível 10: Consultar os Espíritos -->
+              <div class="recurso-card">
+                <div class="recurso-header">
+                  <span class="recurso-nome">Nível 10: Consultar os Espíritos</span>
+                </div>
+                <div class="recurso-descricao">
+                  <p>Você ganha a capacidade de consultar seus espíritos guardiões. Quando você faz isso, conjura a magia <strong>Agouro</strong> ou <strong>Clarividência</strong>, sem gastar um espaço de magia ou precisar de componentes Materiais.</p>
+                  <p>Em vez de criar um sensor esférico, este uso de <strong>Clarividência</strong> invoca invisivelmente um de seus espíritos guardiões no local escolhido. <strong>Sabedoria</strong> é sua habilidade de conjuração para estas magias.</p>
+                  <p>Depois de conjurar qualquer uma das magias desta forma, você não pode usar esta característica novamente até terminar um <strong>Descanso Curto ou Longo</strong>.</p>
+                </div>
+              </div>
+              
+              <!-- Nível 14: Espíritos Vingativos -->
+              <div class="recurso-card">
+                <div class="recurso-header">
+                  <span class="recurso-nome">Nível 14: Espíritos Vingativos</span>
+                </div>
+                <div class="recurso-descricao">
+                  <p>Quando você faz uma rolagem de ataque com uma <strong>Arma Corpo a Corpo</strong> como parte da ação <strong>Atacar</strong> e rola <strong>18-20 no d20</strong>, você pode fazer <strong>uma rolagem de ataque adicional</strong> com a mesma arma como parte dessa ação. Quando você usa esta característica, não pode fazê-lo novamente até o início do seu próximo turno.</p>
+                </div>
+              </div>
+              
+            </div>
+
+            <!-- Path of Lament -->
+            <div class="tab-pane">
+              <h3 style="color: var(--gold); margin-bottom: 15px;">Caminho do Lamento</h3>
+              <p>Bárbaros que seguem o Caminho do Lamento aprimoram seus arrependimentos em armas mortais e canalizam suas tristezas mais profundas em ações furiosas. Impulsionados por uma dor sobrenatural, sua fúria lhes concede dons além do túmulo.</p>
+              <p>Um Bárbaro pode escolher o Caminho do Lamento, mas mais frequentemente o caminho é imposto ao Bárbaro por acidente infeliz. No coração da fúria do Bárbaro estão grande trauma e luto não resolvido — emoções dolorosas alimentadas por memórias assombradoras que vêm à tona durante momentos de adrenalina.</p>
+              
+              <!-- Nível 3: Lamento da Banshee -->
+              <div class="recurso-card">
+                <div class="recurso-header">
+                  <span class="recurso-nome">Nível 3: Lamento da Banshee</span>
+                  <span class="badge-mini acao-bonus">Ação Bônus</span>
+                </div>
+                <div class="recurso-descricao">
+                  <p>Quando você ativa sua <strong>Fúria</strong> ou como uma <strong>Ação Bônus</strong> enquanto sua Fúria está ativa, você pode emitir um lamento doloroso. Cada criatura de sua escolha em uma <strong>Emanação de 9 metros</strong> originada de você faz um teste de resistência de <strong>Constituição</strong> (CD <strong>8 + seu modificador de Constituição + seu Bônus de Proficiência</strong>). Em uma falha, uma criatura sofre dano Psíquico e fica com a condição <strong>Surdo</strong> por 1 minuto. Em um sucesso, uma criatura sofre apenas metade do dano. Para determinar o dano Psíquico, role um número de <strong>d12 igual ao seu bônus de Dano de Fúria</strong> e some-os.</p>
+                  <p>Você pode usar esta característica um número de vezes igual ao seu <strong>modificador de Constituição</strong> (mínimo de uma vez). Você recupera todos os usos gastos quando termina um <strong>Descanso Longo</strong>. Você também pode recuperar todos os usos gastando um uso de sua <strong>Fúria</strong> (sem exigir ação).</p>
+                </div>
+              </div>
+              
+              <!-- Nível 6: Comungar com os Mortos -->
+              <div class="recurso-card">
+                <div class="recurso-header">
+                  <span class="recurso-nome">Nível 6: Comungar com os Mortos</span>
+                </div>
+                <div class="recurso-descricao">
+                  <p>Você pode conjurar a magia <strong>Falar com os Mortos</strong>, mas apenas como um <strong>Ritual</strong>. <strong>Sabedoria</strong> é sua habilidade de conjuração para ela.</p>
+                </div>
+              </div>
+              
+              <!-- Nível 6: Golpe Aterrorizante -->
+              <div class="recurso-card">
+                <div class="recurso-header">
+                  <span class="recurso-nome">Nível 6: Golpe Aterrorizante</span>
+                </div>
+                <div class="recurso-descricao">
+                  <p>Uma vez por turno, quando você atinge uma criatura com uma rolagem de ataque baseada em <strong>Força</strong> enquanto sua <strong>Fúria</strong> está ativa, pode tentar aterrorizar o alvo. O alvo deve ser bem-sucedido em um teste de resistência de <strong>Sabedoria</strong> (CD <strong>8 + seu modificador de Constituição + seu Bônus de Proficiência</strong>) ou ficará com a condição <strong>Amedrontado</strong> até o início do seu próximo turno.</p>
+                </div>
+              </div>
+              
+              <!-- Nível 10: Angústia Sobrenatural -->
+              <div class="recurso-card">
+                <div class="recurso-header">
+                  <span class="recurso-nome">Nível 10: Angústia Sobrenatural</span>
+                </div>
+                <div class="recurso-descricao">
+                  <p>Você extrai poder de uma tristeza tão profunda que se estende além dos limites do reino dos vivos. Você ganha os seguintes benefícios.</p>
+                  
+                  <p><strong style="color: white;">Lamento Mortal.</strong> Se um alvo falhar em seu teste de resistência contra seu <strong>Lamento da Banshee</strong> e tiver Pontos de Vida iguais ou inferiores a <strong>duas vezes seu nível de Bárbaro</strong>, ele cai a 0 Pontos de Vida em vez de sofrer dano.</p>
+                  
+                  <p><strong style="color: white;">Tristeza Impenetrável.</strong> Você não pode ser <strong>possuído</strong>.</p>
+                  
+                  <p><strong style="color: white;">Resistência.</strong> Você tem <strong>Resistência</strong> a dano de <strong>Frio e Necrótico</strong> enquanto sua <strong>Fúria</strong> está ativa.</p>
+                </div>
+              </div>
+              
+              <!-- Nível 14: Forma de Pesar -->
+              <div class="recurso-card">
+                <div class="recurso-header">
+                  <span class="recurso-nome">Nível 14: Forma de Pesar</span>
+                </div>
+                <div class="recurso-descricao">
+                  <p>Quando você ativa sua <strong>Fúria</strong>, pode se empoderar com a não-morte. Você ganha os benefícios abaixo por <strong>1 minuto</strong> ou até cair a 0 Pontos de Vida. Quando você usa esta característica, não pode fazê-lo novamente até terminar um <strong>Descanso Longo</strong>.</p>
+                  
+                  <p><strong style="color: white;">Imunidades.</strong> Você tem <strong>Imunidade</strong> às condições <strong>Enfeitiçado e Amedrontado</strong>. Se você estiver Enfeitiçado ou Amedrontado quando se empoderar, a condição termina em você. Além disso, você não pode ganhar níveis de <strong>Exaustão</strong>.</p>
+                  
+                  <p><strong style="color: white;">Golpe Drenador de Vida.</strong> Quando uma criatura falha em seu teste de resistência contra seu <strong>Golpe Aterrorizante</strong>, a criatura sofre <strong>2d10 de dano Necrótico</strong>. Você recupera Pontos de Vida iguais ao dano Necrótico causado.</p>
+                  
+                  <p><strong style="color: white;">Morto-Vivo.</strong> Seu tipo de criatura é <strong>Morto-Vivo</strong>.</p>
+                </div>
+              </div>
+              
+            </div>
+
+            <!-- Path of the Storm Herald -->
+            <div class="tab-pane">
+              <h3 style="color: var(--gold); margin-bottom: 15px;">Caminho do Arauto da Tempestade</h3>
+              <p>Bárbaros que seguem o Caminho do Arauto da Tempestade aprendem a canalizar sua Fúria em um manto de magia primal que gira ao seu redor como uma tempestade. Quando em Fúria, esses Bárbaros aproveitam as forças elementais da natureza para criar poderosos efeitos mágicos.</p>
+              
+              <!-- Nível 3: Aura de Tempestade -->
+              <div class="recurso-card">
+                <div class="recurso-header">
+                  <span class="recurso-nome">Nível 3: Aura de Tempestade</span>
+                </div>
+                <div class="recurso-descricao">
+                  <p>Sempre que você ativa sua <strong>Fúria</strong>, escolha <strong>Deserto, Mar ou Tundra</strong>. Você estende uma <strong>aura em uma Emanação de 3 metros</strong> originada de você durante a duração de sua Fúria.</p>
+                  <p>Sua aura tem um efeito que ativa quando você entra em Fúria, e você pode ativar o efeito novamente em cada um de seus turnos como uma <strong>Ação Bônus</strong>. O efeito da sua aura depende do ambiente escolhido, conforme detalhado abaixo. Se o efeito da sua aura exigir um teste de resistência, a CD é igual a <strong>8 + seu Bônus de Proficiência + seu modificador de Constituição</strong>.</p>
+                  
+                  <p><strong style="color: white;">Deserto.</strong> Quando este efeito é ativado, role um número de <strong>d4 igual ao seu bônus de Dano de Fúria</strong> e some-os. Cada criatura na aura deve ser bem-sucedida em um teste de resistência de <strong>Destreza</strong> ou sofrer dano de <strong>Fogo</strong> igual ao número rolado. Você pode escolher uma criatura que possa ver em sua aura para automaticamente ser bem-sucedida neste teste de resistência.</p>
+                  
+                  <p><strong style="color: white;">Mar.</strong> Quando este efeito é ativado, role um número de <strong>d6 igual ao seu bônus de Dano de Fúria</strong> e some-os. Você pode então lançar um raio em uma outra criatura que possa ver dentro de sua aura. O alvo faz um teste de resistência de <strong>Destreza</strong>, sofrendo dano de <strong>Relâmpago</strong> igual ao número rolado em uma falha, ou metade do dano em um sucesso.</p>
+                  
+                  <p><strong style="color: white;">Tundra.</strong> Quando este efeito é ativado, role um número de <strong>d4 igual ao seu bônus de Dano de Fúria</strong> e some-os. Você pode escolher uma outra criatura que possa ver dentro de sua aura para atormentar com espíritos gelados. O alvo deve ser bem-sucedido em um teste de resistência de <strong>Força</strong> ou subtrairá o número rolado da próxima rolagem de dano que fizer antes do início do seu próximo turno.</p>
+                </div>
+              </div>
+              
+              <!-- Nível 6: Alma da Tempestade -->
+              <div class="recurso-card">
+                <div class="recurso-header">
+                  <span class="recurso-nome">Nível 6: Alma da Tempestade</span>
+                </div>
+                <div class="recurso-descricao">
+                  <p>A tempestade concede benefícios a você mesmo quando sua aura não está ativa. Os benefícios são baseados no ambiente que você escolheu para sua <strong>Aura de Tempestade</strong> na última vez que entrou em Fúria.</p>
+                  
+                  <p><strong style="color: white;">Deserto.</strong> Você ganha <strong>Resistência</strong> a dano de <strong>Fogo</strong>. Como uma <strong>Ação Mágica</strong>, você pode tocar um objeto inflamável que não esteja sendo usado ou carregado por outra pessoa e fazer com que o objeto comece a queimar.</p>
+                  
+                  <p><strong style="color: white;">Mar.</strong> Você ganha <strong>Resistência</strong> a dano de <strong>Relâmpago</strong> e pode <strong>respirar debaixo d'água</strong>. Você também ganha <strong>deslocamento de Natação</strong> igual ao seu deslocamento.</p>
+                  
+                  <p><strong style="color: white;">Tundra.</strong> Você ganha <strong>Resistência</strong> a dano de <strong>Frio</strong>. Como uma <strong>Ação Mágica</strong>, você pode tocar a água e transformar um <strong>Cubo de 1,5 metro</strong> dela em gelo, que derrete após 1 minuto. Esta ação falha se uma criatura estiver no Cubo.</p>
+                </div>
+              </div>
+              
+              <!-- Nível 10: Aura Protetora -->
+              <div class="recurso-card">
+                <div class="recurso-header">
+                  <span class="recurso-nome">Nível 10: Aura Protetora</span>
+                </div>
+                <div class="recurso-descricao">
+                  <p>Você pode usar seu domínio da tempestade para proteger os outros. Cada criatura de sua escolha dentro de sua <strong>Aura de Tempestade</strong> tem a <strong>Resistência</strong> a dano que você possui da característica <strong>Alma da Tempestade</strong>.</p>
+                </div>
+              </div>
+              
+              <!-- Nível 14: Tempestade Furiosa -->
+              <div class="recurso-card">
+                <div class="recurso-header">
+                  <span class="recurso-nome">Nível 14: Tempestade Furiosa</span>
+                </div>
+                <div class="recurso-descricao">
+                  <p>O poder da tempestade que você canaliza se torna mais poderoso, atingindo seus inimigos. O efeito é baseado no ambiente que você escolhe para sua <strong>Aura de Tempestade</strong>.</p>
+                  
+                  <p><strong style="color: white;">Deserto.</strong> Uma vez por turno, quando uma criatura que você pode ver falha em seu teste de resistência contra o efeito de sua <strong>Aura de Tempestade</strong>, você pode fazê-la começar a queimar por <strong>1 minuto</strong> ou até sua Fúria terminar. Uma criatura em chamas sofre <strong>1d4 de dano de Fogo extra</strong> (2d4 de dano de Fogo total) no início de cada um de seus turnos.</p>
+                  
+                  <p><strong style="color: white;">Mar.</strong> Independentemente de o alvo falhar ou ser bem-sucedido em seu teste de resistência contra o efeito de sua <strong>Aura de Tempestade</strong>, um raio salta do alvo para outro alvo de sua escolha, que deve estar a até <strong>9 metros</strong> do primeiro alvo. O novo alvo faz o mesmo teste de resistência de Destreza que o primeiro alvo.</p>
+                  
+                  <p><strong style="color: white;">Tundra.</strong> Uma vez por turno, quando uma criatura que você pode ver falha em seu teste de resistência contra o efeito de sua <strong>Aura de Tempestade</strong>, você pode fazê-la sofrer <strong>2d4 de dano de Frio</strong> e seu deslocamento é <strong>reduzido à metade</strong> até o final do seu próximo turno.</p>
                 </div>
               </div>
               
