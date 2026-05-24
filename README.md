@@ -6,6 +6,18 @@ Um aplicativo web para recordação de campanhas, guia de criação básico e co
 
 ## 📋 Changelog
 
+### Versão 1.2.1
+- **Data:** 23/05/2026
+- **Melhorias:**
+  - Finalização da página do Artífice.
+
+### Versão 1.1.3
+- **Data:** 23/05/2026
+- **Melhorias:**
+  - Adição da página de testes para classe, servindo de base para a reconstrução das demais.
+  - Mudanças no arquivo styles.css e adição do arquivo class-styles.css para cumprir com os estilos das páginas de classe especificamente.
+  - Adição do arquivo subclass-tab.js para funcionalidade de aba de subclasses.
+
 ### Versão 1.1.2
 - **Data:** 22/05/2026
 - **Melhorias:**

@@ -36,7 +36,7 @@
 }
 
 /* ============================================
-   BLOCOS DE CLASSE
+   BLOCOS DE CLASSE (não usado no HTML atual, mas mantido para compatibilidade)
    ============================================ */
 .bloco-classe {
   background: rgba(146, 137, 108, 0.04);
@@ -72,40 +72,6 @@
 .bloco-classe .title-row .badge-mini {
   margin-left: 0;
   flex-shrink: 0;
-}
-
-/* ============================================
-   SUBCLASSES
-   ============================================ */
-.bloco-subclasse-detalhada {
-  background: rgba(25, 25, 27, 0.8);
-  border: 1px solid var(--border-fantasy);
-  padding: 25px;
-  margin-top: 35px;
-  border-radius: 0 4px 4px 0;
-}
-
-.bloco-subclasse-detalhada h3 {
-  font-family: 'Cinzel', serif;
-  color: #5dade2;
-  border-bottom: 1px solid rgba(93, 173, 226, 0.3);
-  padding-bottom: 8px;
-  margin-bottom: 20px;
-}
-
-.sub-feature {
-  background: rgba(44, 62, 80, 0.2);
-  border-left: 3px solid #3498db;
-  padding: 15px;
-  margin-top: 15px;
-  border-radius: 0 4px 4px 0;
-}
-
-.sub-feature h5 {
-  font-family: 'Cinzel', serif;
-  color: #eaf2f8;
-  font-size: 1.05rem;
-  margin-bottom: 5px;
 }
 
 /* ============================================
@@ -164,7 +130,6 @@
     padding: 6px 8px;
   }
   
-  /* Permite rolagem horizontal em tabelas muito largas */
   .overflow-table {
     overflow-x: auto;
     margin: 20px 0;
@@ -173,27 +138,6 @@
   .overflow-table .tabela-rpg {
     margin: 0;
     min-width: 600px;
-  }
-}
-
-/* ============================================
-   DISCIPLINAS / LISTAS EM COLUNAS
-   ============================================ */
-.discipline-list {
-  columns: 2;
-  column-gap: 25px;
-  margin-top: 10px;
-}
-
-.discipline-list li {
-  margin-bottom: 8px;
-  break-inside: avoid;
-}
-
-/* Responsividade para listas em colunas */
-@media (max-width: 640px) {
-  .discipline-list {
-    columns: 1;
   }
 }
 
@@ -279,14 +223,6 @@
   color: var(--gold-bright, #e6c87d);
 }
 
-.recurso-tipo {
-  font-size: 0.7rem;
-  padding: 2px 8px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.1);
-  color: #aaa;
-}
-
 .recurso-descricao {
   font-size: 0.85rem;
   color: #ccc;
@@ -294,7 +230,11 @@
 }
 
 .recurso-descricao p {
-  margin: 0;
+  margin: 0 0 10px;
+}
+
+.recurso-descricao p:last-child {
+  margin-bottom: 0;
 }
 
 .recurso-descricao strong {
@@ -322,88 +262,10 @@
 }
 
 /* ============================================
-   VARIAÇÕES DE CORES PARA RECURSOS
-   ============================================ */
-.recursos-container.manobras .recurso-card {
-  border-left-color: #e74c3c;
-}
-
-.recursos-container.invocacoes .recurso-card {
-  border-left-color: #9b59b6;
-}
-
-.recursos-container.disciplinas .recurso-card {
-  border-left-color: #3498db;
-}
-
-.recursos-container.ritos .recurso-card {
-  border-left-color: #e67e22;
-}
-
-.recursos-container.riscos .recurso-card {
-  border-left-color: #e74c3c;
-}
-
-/* Versão compacta para muitos recursos */
-.recursos-compact .recurso-card {
-  padding: 8px 12px;
-}
-
-.recursos-compact .recurso-nome {
-  font-size: 0.9rem;
-}
-
-.recursos-compact .recurso-descricao {
-  font-size: 0.8rem;
-}
-
-/* ============================================
-   RESPONSIVIDADE GERAL
-   ============================================ */
-@media (max-width: 768px) {
-  .bloco-classe {
-    padding: 15px;
-  }
-  
-  .bloco-subclasse-detalhada {
-    padding: 15px;
-  }
-  
-  .sub-feature {
-    padding: 10px;
-  }
-  
-  .trait-list {
-    margin-left: 5px;
-    gap: 8px;
-  }
-  
-  .recurso-card {
-    padding: 10px 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  .bloco-classe .title-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .recursos-count {
-    font-size: 0.7rem;
-    padding: 2px 8px;
-  }
-  
-  .recursos-header h3 {
-    font-size: 1.2rem;
-  }
-}
-
-/* ============================================
    SISTEMA DE ABAS PARA SUBCLASSES
    ============================================ */
 .subclasses-container {
-  margin: 40px 0 20px;
+  margin: 20px 0 20px;
   background: rgba(25, 25, 27, 0.5);
   border-radius: 0 4px 4px 0;
   border: 1px solid var(--border-fantasy);
@@ -420,7 +282,7 @@
   -webkit-overflow-scrolling: touch;
 }
 
-/* Esconde a scrollbar mas mantém funcionalidade (opcional) */
+/* Esconde a scrollbar mas mantém funcionalidade */
 .tabs-header::-webkit-scrollbar {
   height: 4px;
 }
@@ -472,15 +334,14 @@
   border-bottom-color: var(--gold, #d4af37);
 }
 
-/* Ícone na aba (opcional) */
-.tab-btn .tab-icon {
-  font-size: 1rem;
-}
-
 /* Conteúdo das abas */
 .tabs-content {
   padding: 25px;
   animation: fadeIn 0.3s ease;
+}
+
+.tabs-content .recurso-card{
+  margin: 10px 0 5px;
 }
 
 .tab-pane {
@@ -489,6 +350,10 @@
 
 .tab-pane.active {
   display: block;
+}
+
+.tab-pane p {
+  margin: 0 0 10px;
 }
 
 @keyframes fadeIn {
@@ -502,7 +367,7 @@
   }
 }
 
-/* Responsividade */
+/* Responsividade das abas */
 @media (max-width: 768px) {
   .tab-btn {
     padding: 10px 16px;
@@ -519,8 +384,29 @@
     padding: 8px 12px;
     font-size: 0.75rem;
   }
+}
+
+/* ============================================
+   RESPONSIVIDADE GERAL
+   ============================================ */
+@media (max-width: 768px) {
+  .trait-list {
+    margin-left: 5px;
+    gap: 8px;
+  }
   
-  .tab-btn .tab-icon {
-    font-size: 0.85rem;
+  .recurso-card {
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .recursos-count {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+  }
+  
+  .recursos-header h3 {
+    font-size: 1.2rem;
   }
 }
