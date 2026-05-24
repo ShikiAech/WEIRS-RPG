@@ -9,7 +9,14 @@ Um aplicativo web para recordação de campanhas, guia de criação básico e co
 ### Versão 1.3.0
 - **Data:** 24/05/2026
 - **Melhorias:**
-  - Finalização da página do Bárbaro
+  - Finalização da página do Bruxo.
+  - Adição de subclasses UA para Artífice, Bárbaro e Bardo.
+  - Correção do botão do Artífice na página classes.
+
+### Versão 1.3.0
+- **Data:** 24/05/2026
+- **Melhorias:**
+  - Finalização da página do Bárbaro.
 
 ### Versão 1.2.1
 - **Data:** 23/05/2026
