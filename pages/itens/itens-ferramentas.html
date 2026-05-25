@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ferramentas — Weirs RPG</title>
+  <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+  <style>
+    /* PADDING CIRÚRGICO: Espaçamento no topo para o menu dinâmico não esmagar o título */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 60px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 35px;
+      border-bottom: 2px solid #b9770e;
+      padding-bottom: 20px;
+      position: relative;
+    }
+    header h2 {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Bloco de Contexto/Regras extraído diretamente do livro 2024 */
+    .bloco-regra {
+      background: rgba(185, 119, 14, 0.04);
+      border-left: 4px solid #b9770e;
+      padding: 20px;
+      margin-bottom: 35px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-regra h4 {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    /* Categorias Oficiais do Livro 2024 */
+    .category-title {
+      font-family: 'Cinzel', serif;
+      margin: 40px 0 15px 0;
+      padding-bottom: 5px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      text-transform: uppercase;
+      font-size: 1.3rem;
+      letter-spacing: 1px;
+    }
+    .category-title.artesao { color: #4caf50; }
+    .category-title.outras { color: #e67e22; }
+
+    /* Grid de Cards */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    /* Estrutura de Card de Ferramenta */
+    .tool-card {
+      background: rgba(25, 25, 27, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .tool-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .card-artesao { border-top: 4px solid #4caf50; }
+    .card-artesao:hover { box-shadow: 0 6px 15px rgba(76, 175, 80, 0.15); }
+
+    .card-outras { border-top: 4px solid #e67e22; }
+    .card-outras:hover { box-shadow: 0 6px 15px rgba(230, 126, 34, 0.15); }
+
+    .tool-card h3 {
+      font-family: 'Cinzel', serif;
+      color: #fff;
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+    .tool-details-preview {
+      font-size: 0.85rem;
+      color: #a6acaf;
+      line-height: 1.4;
+    }
+    .tool-details-preview strong {
+      color: #f39c12;
+    }
+    .tool-price {
+      margin-top: 12px;
+      font-weight: bold;
+      text-align: right;
+      color: #d4af37;
+      font-size: 0.95rem;
+    }
+
+    /* Modal de Detalhes Pop-up */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.85);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+    .modal-content {
+      background: #19191b;
+      border: 2px solid #b9770e;
+      padding: 30px;
+      border-radius: 6px;
+      max-width: 600px;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.7);
+    }
+    .close-modal {
+      position: absolute;
+      top: 15px; right: 20px;
+      font-size: 24px;
+      color: #a6acaf;
+      cursor: pointer;
+    }
+    .close-modal:hover { color: #fff; }
+    
+    .modal-title {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+      font-size: 1.4rem;
+      border-bottom: 1px solid rgba(185, 119, 14, 0.3);
+      padding-bottom: 5px;
+    }
+    .modal-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 10px;
+      border-radius: 4px;
+    }
+    .modal-meta-grid strong { color: #e67e22; }
+    
+    .modal-block {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-top: 12px;
+      color: #d0d0d0;
+    }
+    .modal-block strong {
+      color: #f39c12;
+      display: inline-block;
+      margin-bottom: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="/WEIRS-RPG/pages/itens/equipamentos.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Equipamentos</a>
+    </div>
+    
+    <header>
+      <h2>Ferramentas</h2>
+    </header>
+
+    <div class="bloco-regra">
+      <h4>Proficiência com Ferramentas</h4>
+      <p>Se você tem proficiência com uma ferramenta, adicione seu Bônus de Proficiência a qualquer teste de atributo que use a ferramenta. Se você tem proficiência em uma perícia usada com esse teste, também tem Vantagem no teste.</p>
+    </div>
+
+    <h2 class="category-title artesao">Ferramentas de Artesão</h2>
+    <div class="tools-grid" id="grid-artesao"></div>
+
+    <h2 class="category-title outras">Outras Ferramentas</h2>
+    <div class="tools-grid" id="grid-outras"></div>
+  </div>
+
+  <div id="toolModal" class="modal" onclick="closeTool(event)">
+    <div class="modal-content">
+      <span class="close-modal" onclick="document.getElementById('toolModal').style.display='none'">&times;</span>
+      <h2 id="mName" class="modal-title">Nome da Ferramenta</h2>
+      
+      <div class="modal-meta-grid">
+        <div><strong>Atributo:</strong> <span id="mAtributo">-</span></div>
+        <div><strong>Peso:</strong> <span id="mPeso">-</span></div>
+        <div><strong>Custo:</strong> <span id="mCusto">-</span></div>
+        <div><strong>Categoria:</strong> <span id="mCategoria">-</span></div>
+      </div>
+
+      <div class="modal-block">
+        <strong>Usar Objeto:</strong>
+        <p id="mUsar" style="margin: 0 0 12px 0;"></p>
+      </div>
+
+      <div class="modal-block" id="blockFabricacao">
+        <strong>Fabricação:</strong>
+        <p id="mFabricacao" style="margin: 0;"></p>
+      </div>
+
+      <div class="modal-block" id="blockVariantes" style="display: none;">
+        <strong>Variantes:</strong>
+        <p id="mVariantes" style="margin: 0; font-style: italic; font-size: 0.85rem; color: #a6acaf;"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Banco de dados extraído diretamente e estritamente das imagens fornecidas do livro D&D 2024
+    const toolsDataset = {
+      artesao: [
+        {
+          nome: "Ferramentas de Carpinteiro", custo: "8 PO", peso: "3 kg", atributo: "Força",
+          usar: "Selar ou abrir uma porta ou recipiente (CD 20)",
+          fabricacao: "Aríete Portátil, Baliza, Barril, Baú, Cajado, Clava, Clava Grande, Escada, Tocha"
+        },
+        {
+          nome: "Ferramentas de Cartógrafo", custo: "15 PO", peso: "3 kg", atributo: "Sabedoria",
+          usar: "Elaborar o mapa de uma pequena área (CD 15)",
+          fabricacao: "Mapa"
+        },
+        {
+          nome: "Ferramentas de Coureiro", custo: "5 PO", peso: "2,5 kg", atributo: "Destreza",
+          usar: "Moldar a estética de um item de couro (CD 10)",
+          fabricacao: "Algibeira, Aljava, Armadura de Couro, Armadura de Couro Batido, Cantil, Chicote, Estojo de Mapa ou Pergaminho, Estojo de Virotes de Besta, Funda, Gibão de Peles, Mochila, Pergaminho"
+        },
+        {
+          nome: "Ferramentas de Entalhador", custo: "1 PO", peso: "2,5 kg", atributo: "Destreza",
+          usar: "Entalhar um padrão em madeira (CD 10)",
+          fabricacao: "Armas à Distância (exceto Funda, Mosquete e Pistola), Cajado, Caneta Tinteiro, Clava, Clava Grande, Dardos, Flechas, Foco Arcano, Foco Druídico, Virotes"
+        },
+        {
+          nome: "Ferramentas de Ferreiro", custo: "20 PO", peso: "4 kg", atributo: "Força",
+          usar: "Forçar a abertura de uma porta ou recipiente (CD 20)",
+          fabricacao: "Qualquer arma Corpo a Corpo (exceto Cajado, Chicote, Clava, Clava Grande), armadura Média (exceto Gibão de Peles), armadura Pesada, Arpéu e Gancho, Balas de Arma de Fogo, Balas de Funda, Balde, Corrente, Esferas de Metal, Estacas de Ferro, Estrepes, Panela de Ferro, Pé de Cabra"
+        },
+        {
+          nome: "Ferramentas de Funileiro", custo: "50 PO", peso: "5 kg", atributo: "Destreza",
+          usar: "Monte um item Minúsculo composto de sucata, que se desfaz em 1 minuto (CD 20)",
+          fabricacao: "Apito Sinalizador, Armadilha de Caça, Cadeado ou Fechadura, Caixa para Fogo, Espelho, Grilhões, Lanterna Coberta, Lanterna Foca-Facho, Mosquete, Pá, Pistola, Pote, Sino"
+        },
+        {
+          nome: "Ferramentas de Joalheiro", custo: "25 PO", peso: "1 kg", atributo: "Inteligência",
+          usar: "Discernir o valor de uma gema (CD 15)",
+          fabricacao: "Foco Arcano, Símbolo Sagrado"
+        },
+        {
+          nome: "Ferramentas de Oleiro", custo: "10 PO", peso: "1,5 kg", atributo: "Inteligência",
+          usar: "Discernir como um objeto de cerâmica foi manuseado nas últimas 24 horas (CD 15)",
+          fabricacao: "Jarro, Lâmpada"
+        },
+        {
+          nome: "Ferramentas de Pedreiro", custo: "10 PO", peso: "4 kg", atributo: "Força",
+          usar: "Cinzelar um símbolo ou buraco na pedra (CD 10)",
+          fabricacao: "Roldana e Polias"
+        },
+        {
+          nome: "Ferramentas de Sapateiro", custo: "5 PO", peso: "2,5 kg", atributo: "Destreza",
+          usar: "Modificar calçado para conceder Vantagem no próximo teste de Destreza (Acrobacia) do usuário (CD 10)",
+          fabricacao: "Kit de Escalada"
+        },
+        {
+          nome: "Ferramentas de Tecelão", custo: "1 PO", peso: "2,5 kg", atributo: "Destreza",
+          usar: "Reparar um rasgo em uma roupa (CD 10) ou costurar um ornamento Minúsculo (CD 10)",
+          fabricacao: "Armadura Acolchoada, Cesta, Cobertor, Saco de Dormir, Roupas Finas, Rede, Túnica, Corda, Saca, Cordão, Tenda, Roupas de Viagem"
+        },
+        {
+          nome: "Ferramentas de Vidreiro", custo: "30 PO", peso: "2,5 kg", atributo: "Inteligência",
+          usar: "Discernir como um objeto de vidro foi manuseado nas últimas 24 horas (CD 15)",
+          fabricacao: "Frasco, Jarro, Luneta, Lupa"
+        },
+        {
+          nome: "Suprimentos de Alquimista", custo: "50 PO", peso: "4 kg", atributo: "Inteligência",
+          usar: "Identificar uma substância (CD 15) ou iniciar um incêndio (CD 15)",
+          fabricacao: "Ácido, Bolsa de Componentes, Fogo Alquímico, Óleo, Papel, Perfume"
+        },
+        {
+          nome: "Suprimentos de Calígrafo", custo: "10 PO", peso: "2,5 kg", atributo: "Destreza",
+          usar: "Escrever texto com uma caligrafia que protege contra falsificação (CD 15)",
+          fabricacao: "Pergaminho Mágico, Tinta"
+        },
+        {
+          nome: "Suprimentos de Cervejeiro", custo: "20 PO", peso: "4,5 kg", atributo: "Inteligência",
+          usar: "Detectar bebida envenenada (CD 15) ou identificar álcool (CD 10)",
+          fabricacao: "Antitoxina"
+        },
+        {
+          nome: "Suprimentos de Pintor", custo: "10 PO", peso: "2,5 kg", atributo: "Sabedoria",
+          usar: "Fazer uma pintura reconhecível de algo que você viu (CD 10)",
+          fabricacao: "Foco Druídico, Símbolo Sagrado"
+        },
+        {
+          nome: "Utensílios de Cozinheiro", custo: "1 PO", peso: "4 kg", atributo: "Sabedoria",
+          usar: "Melhorar o sabor dos alimentos (CD 10) ou detectar alimentos estragados ou envenenados (CD 15)",
+          fabricacao: "Rações"
+        }
+      ],
+      outras: [
+        {
+          nome: "Ferramentas de Ladrão", custo: "25 PO", peso: "0,5 kg", atributo: "Destreza",
+          usar: "Abrir uma fechadura (CD 15) ou desarmar uma armadilha (CD 15)",
+          fabricacao: "—"
+        },
+        {
+          nome: "Ferramentas de Navegador", custo: "25 PO", peso: "1 kg", atributo: "Sabedoria",
+          usar: "Traçar uma rota (CD 10) ou determinar a posição observando as estrelas (CD 15)",
+          fabricacao: "—"
+        },
+        {
+          nome: "Instrumento Musical", custo: "Varia", peso: "Varia", atributo: "Carisma",
+          usar: "Tocar uma música conhecida (CD 10) ou improvisar uma música (CD 15)",
+          fabricacao: "—",
+          variantes: "Alaúde (35 PO, 1 kg), Flauta (2 PO, 0,5 kg), Flauta de Pan (12 PO, 1 kg), Gaita de Foles (30 PO, 3 kg), Lira (30 PO, 1 kg), Oboé (2 PO, 0,5 kg), Tambor (6 PO, 1,5 kg), Trombeta (3 PO, 1 kg), Violino (30 PO, 0,5 kg), Xilofone (25 PO, 5 kg)"
+        },
+        {
+          nome: "Kit de Disfarce", custo: "25 PO", peso: "1,5 kg", atributo: "Carisma",
+          usar: "Aplicar maquiagem (CD 10)",
+          fabricacao: "Fantasia"
+        },
+        {
+          nome: "Kit de Falsificação", custo: "15 PO", peso: "2,5 kg", atributo: "Destreza",
+          usar: "Imitar 10 ou menos palavras escritas de outra pessoa (CD 15) ou duplicar um selo de cera (CD 20)",
+          fabricacao: "—"
+        },
+        {
+          nome: "Kit de Herbalismo", custo: "5 PO", peso: "1,5 kg", atributo: "Inteligência",
+          usar: "Identificar uma planta (CD 10)",
+          fabricacao: "Antitoxina, Kit de Curandeiro, Poção de Cura, Vela"
+        },
+        {
+          nome: "Kit de Jogos", custo: "Varia", peso: "—", atributo: "Sabedoria",
+          usar: "Discernir se alguém está trapaceando (CD 10) ou ganhar o jogo (CD 20)",
+          fabricacao: "—",
+          variantes: "Dados (1 PP), Xadrez-do-Dragão (1 PO), Baralho (5 PP), Conjunto do Jogo dos Três Dragões (1 PO)"
+        },
+        {
+          nome: "Kit de Veneno", custo: "50 PO", peso: "1 kg", atributo: "Inteligência",
+          usar: "Detectar um objeto envenenado (CD 10)",
+          fabricacao: "Veneno Básico"
+        }
+      ]
+    };
+
+    // Montador automático idêntico aos arsenais anteriores
+    function buildGrids() {
+      Object.keys(toolsDataset).forEach(category => {
+        const container = document.getElementById(`grid-${category}`);
+        if (!container) return;
+        
+        toolsDataset[category].forEach(t => {
+          const card = document.createElement('div');
+          card.className = `tool-card card-${category}`;
+          card.innerHTML = `
+            <h3>${t.nome}</h3>
+            <div class="tool-details-preview">
+              <strong>Atributo:</strong> ${t.atributo}<br>
+              <strong>Peso:</strong> ${t.peso}
+            </div>
+            <div class="tool-price">${t.custo}</div>
+          `;
+          card.onclick = () => openTool(t);
+          container.appendChild(card);
+        });
+      });
+    }
+
+    // Modal Dinâmico Pop-up
+    function openTool(tool) {
+      const isArtesao = toolsDataset.artesao.includes(tool);
+      
+      document.getElementById('mName').innerText = tool.nome;
+      document.getElementById('mAtributo').innerText = tool.atributo;
+      document.getElementById('mPeso').innerText = tool.peso;
+      document.getElementById('mCusto').innerText = tool.custo;
+      document.getElementById('mCategoria').innerText = isArtesao ? "Ferramentas de Artesão" : "Outras Ferramentas";
+      document.getElementById('mUsar').innerText = tool.usar;
+
+      // Controle do bloco de fabricação
+      const fabBlock = document.getElementById('blockFabricacao');
+      if (tool.fabricacao && tool.fabricacao !== "—") {
+        document.getElementById('mFabricacao').innerText = tool.fabricacao;
+        fabBlock.style.display = 'block';
+      } else {
+        fabBlock.style.display = 'none';
+      }
+
+      // Controle do bloco exclusivo de variantes (Instrumentos e Jogos)
+      const varBlock = document.getElementById('blockVariantes');
+      if (tool.variantes) {
+        document.getElementById('mVariantes').innerText = tool.variantes;
+        varBlock.style.display = 'block';
+      } else {
+        varBlock.style.display = 'none';
+      }
+
+      document.getElementById('toolModal').style.display = 'flex';
+    }
+
+    function closeTool(event) {
+      if (event.target === document.getElementById('toolModal')) {
+        document.getElementById('toolModal').style.display='none';
+      }
+    }
+
+    window.onload = buildGrids;
+  </script>
+</body>
+</html>

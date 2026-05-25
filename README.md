@@ -6,6 +6,11 @@ Um aplicativo web para recordação de campanhas, guia de criação básico e co
 
 ## 📋 Changelog
 
+### Versão 1.7.0
+- **Data:** 25/05/2026
+- **Melhorias:**
+  - Add a página Equipamentos
+
 ### Versão 1.6.0
 - **Data:** 24/05/2026
 - **Melhorias:**

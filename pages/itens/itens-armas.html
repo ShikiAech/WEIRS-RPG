@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arsenal de Armas — Weirs RPG</title>
+  <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+  <style>
+    /* PADDING CIRÚRGICO: Espaçamento no topo para o menu dinâmico não esmagar o título */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 60px; /* Almofada de fôlego para o menu superior respirar */
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 35px;
+      border-bottom: 2px solid #b9770e;
+      padding-bottom: 20px;
+      position: relative;
+    }
+    header h2 {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .back-btn {
+      position: absolute;
+      left: 0;
+      top: 5px;
+      color: #b9770e;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .back-btn:hover {
+      color: #f39c12;
+    }
+
+    /* Bloco de Contexto/Regras no mesmo padrão dos Antecedentes */
+    .bloco-regra {
+      background: rgba(185, 119, 14, 0.04);
+      border-left: 4px solid #b9770e;
+      padding: 20px;
+      margin-bottom: 35px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-regra h4 {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    /* Categorias Temáticas */
+    .category-title {
+      font-family: 'Cinzel', serif;
+      margin: 40px 0 15px 0;
+      padding-bottom: 5px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      text-transform: uppercase;
+      font-size: 1.3rem;
+      letter-spacing: 1px;
+    }
+    .category-title.simples-cc { color: #4caf50; }
+    .category-title.simples-dist { color: #8bc34a; }
+    .category-title.marciais-cc { color: #f44336; }
+    .category-title.marciais-dist { color: #ff9800; }
+    .category-title.eterforja { color: #00ffff; }
+
+    /* Grid de Cards baseada na estrutura de Antecedentes */
+    .weapons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 25px;
+    }
+
+    /* Estrutura de Card de Arma */
+    .weapon-card {
+      background: rgba(25, 25, 27, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .weapon-card:hover {
+      transform: translateY(-4px);
+    }
+
+    /* Cores de Borda por Tipo de Arma */
+    .card-simples-cc { border-top: 4px solid #4caf50; }
+    .card-simples-cc:hover { box-shadow: 0 6px 15px rgba(76, 175, 80, 0.15); }
+
+    .card-simples-dist { border-top: 4px solid #8bc34a; }
+    .card-simples-dist:hover { box-shadow: 0 6px 15px rgba(139, 195, 74, 0.15); }
+
+    .card-marciais-cc { border-top: 4px solid #f44336; }
+    .card-marciais-cc:hover { box-shadow: 0 6px 15px rgba(244, 67, 54, 0.15); }
+
+    .card-marciais-dist { border-top: 4px solid #ff9800; }
+    .card-marciais-dist:hover { box-shadow: 0 6px 15px rgba(255, 152, 0, 0.15); }
+    
+    .card-eterforja { border-top: 4px solid #00ffff; }
+    .card-eterforja:hover { box-shadow: 0 6px 15px rgba(0, 255, 255, 0.2); }
+
+    .weapon-card h3 {
+      font-family: 'Cinzel', serif;
+      color: #fff;
+      font-size: 1.15rem;
+      margin-bottom: 8px;
+    }
+    .weapon-details-preview {
+      font-size: 0.85rem;
+      color: #a6acaf;
+      line-height: 1.4;
+    }
+    .weapon-details-preview strong {
+      color: #e67e22;
+    }
+    .weapon-price {
+      margin-top: 12px;
+      font-weight: bold;
+      text-align: right;
+      color: #d4af37;
+      font-size: 0.95rem;
+    }
+
+    /* Modal de Detalhes da Interface */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.85);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+    .modal-content {
+      background: #19191b;
+      border: 2px solid #b9770e;
+      padding: 30px;
+      border-radius: 6px;
+      max-width: 550px;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.7);
+    }
+    .close-modal {
+      position: absolute;
+      top: 15px; right: 20px;
+      font-size: 24px;
+      color: #a6acaf;
+      cursor: pointer;
+    }
+    .close-modal:hover { color: #fff; }
+    
+    .modal-title {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+      border-bottom: 1px solid rgba(185, 119, 14, 0.3);
+      padding-bottom: 5px;
+    }
+    .modal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+    }
+    .modal-grid strong { color: #e67e22; }
+    .modal-desc {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 15px;
+      color: #d0d0d0;
+    }
+    .special-rule {
+      background: rgba(0, 255, 255, 0.05);
+      border-left: 3px solid #00ffff;
+      padding: 12px;
+      margin-top: 12px;
+      font-style: italic;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="/WEIRS-RPG/pages/itens/equipamentos.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Equipamentos </a>
+    </div>
+    
+    <header>
+      <h2>Arsenal de Armas</h2>
+    </header>
+
+    <div class="bloco-regra">
+      <h4>Propriedades Mecânicas e Maestrias</h4>
+      <p>As armas em Weirs definem o potencial tático de combate de cada herói. Lembre-se de conferir os pré-requisitos de propriedades como <i>Pesada</i> ou <i>Acuidade</i>, além da sua propriedade de <b>Maestria de Arma</b> ativa para extrair efeitos adicionais nos seus ataques.</p>
+    </div>
+
+    <h2 class="category-title simples-cc">Armas Simples Corpo a Corpo</h2>
+    <div class="weapons-grid" id="grid-simples-cc"></div>
+
+    <h2 class="category-title simples-dist">Armas Simples à Distância</h2>
+    <div class="weapons-grid" id="grid-simples-dist"></div>
+
+    <h2 class="category-title marciais-cc">Armas Marciais Corpo a Corpo</h2>
+    <div class="weapons-grid" id="grid-marciais-cc"></div>
+
+    <h2 class="category-title marciais-dist">Armas Marciais à Distância</h2>
+    <div class="weapons-grid" id="grid-marciais-dist"></div>
+
+    <h2 class="category-title eterforja">Armas de Etérforja (Homebrew)</h2>
+    <div class="weapons-grid" id="grid-eterforja"></div>
+  </div>
+
+  <div id="weaponModal" class="modal" onclick="closeWeapon(event)">
+    <div class="modal-content">
+      <span class="close-modal" onclick="document.getElementById('weaponModal').style.display='none'">&times;</span>
+      <h2 id="mName" class="modal-title">Nome da Arma</h2>
+      <div class="modal-grid">
+        <div><strong>Dano:</strong> <span id="mDamage">-</span></div>
+        <div><strong>Maestria:</strong> <span id="mMastery">-</span></div>
+        <div><strong>Peso:</strong> <span id="mWeight">-</span></div>
+        <div><strong>Preço:</strong> <span id="mPrice">-</span></div>
+      </div>
+      <div style="margin-bottom: 12px; font-size: 0.9rem;"><strong>Propriedades:</strong> <span id="mProps">-</span></div>
+      <p id="mDesc" class="modal-desc">Descrição...</p>
+      <div id="mSpecial" class="special-rule" style="display: none;"></div>
+    </div>
+  </div>
+
+  <script>
+    // Banco de dados absoluto e atualizado do jogo (com Maça Estrela, Malho e sem Martelo Grande)
+    const weaponsDataset = {
+      simples_cc: [
+        {nome: "Adaga", dano: "1d4 Perfurante", props: "Acuidade, Arremesso (Alcance 6/18), Leve", maestria: "Ágil", peso: "0,5 kg", preco: "2 PO", desc: "Uma lâmina curta e afiada, clássica para ataques furtivos ou arremessos rápidos."},
+        {nome: "Cajado", dano: "1d6 Contundente", props: "Versátil (1d8)", maestria: "Derrubar", peso: "2 kg", preco: "2 PP", desc: "Um bastão longo de madeira tratada, excelente para defesa, caminhadas e truques mágicos."},
+        {nome: "Clava Grande", dano: "1d8 Contundente", props: "Duas Mãos", maestria: "Empurrar", peso: "5 kg", preco: "2 PP", desc: "Um pedaço de madeira maciço e bruto esculpido para quebrar defesas inimigas."},
+        {nome: "Foice Curta", dano: "1d4 Cortante", props: "Leve", maestria: "Ágil", peso: "1 kg", preco: "1 PO", desc: "Uma lâmina curva leve adaptada originalmente de ferramentas de colheita agrícola."},
+        {nome: "Lança", dano: "1d6 Perfurante", props: "Arremesso (Alcance 6/18), Versátil (1d8)", maestria: "Drenar", peso: "1,5 kg", preco: "1 PO", desc: "Uma haste de madeira com uma ponta metálica perfeitamente afiada e balanceada."},
+        {nome: "Maça", dano: "1d6 Contundente", props: "—", maestria: "Empurrar", peso: "2 kg", preco: "5 PO", desc: "Haste metálica reforçada com cabeça flangeada feita sob medida para amassar armaduras rígidas."},
+        {nome: "Machadinha", dano: "1d6 Cortante", props: "Arremesso (Alcance 6/18), Leve", maestria: "Ágil", peso: "1 kg", preco: "5 PO", desc: "Pequeno machado balanceado tanto para combate em proximidade quanto para arremesso tático."},
+        {nome: "Martelo Leve", dano: "1d4 Contundente", props: "Arremesso (Alcance 6/18), Leve", maestria: "Ágil", peso: "1 kg", preco: "2 PO", desc: "Um pequeno martelo de metal leve e ágil no manuseio em combates rápidos."},
+        {nome: "Pedaço de Pau", dano: "1d4 Contundente", props: "Leve", maestria: "Lentidão", peso: "1 kg", preco: "1 PC", desc: "Um porrete simples de madeira ou porrete improvisado de baixo custo econômico."},
+        {nome: "Adaga de Soco", dano: "1d4 Perfurante", props: "Leve", maestria: "Ágil", peso: "0,5 kg", preco: "2 PO", desc: "Uma lâmina perpendicular fixada diretamente a uma manopla de soco oculta."}
+      ],
+      simples_dist: [
+        {nome: "Arco Curto", dano: "1d6 Perfurante", props: "Duas Mãos, Munição (Alcance 24/96; Flecha)", maestria: "Afligir", peso: "1 kg", preco: "25 PO", desc: "Arco compacto e leve, excelente para atiradores focados em mobilidade e escaramuças."},
+        {nome: "Besta Leve", dano: "1d8 Perfurante", props: "Duas Mãos, Munição (Alcance 24/96; Virote), Recarga", maestria: "Lentidão", peso: "2,5 kg", preco: "25 PO", desc: "Arma mecânica com excelente impacto linear acionada por um gatilho de ferro."},
+        {nome: "Dardo", dano: "1d4 Perfurante", props: "Acuidade, Arremesso (Alcance 6/18)", maestria: "Ágil", peso: "0,1 kg", preco: "5 PC", desc: "Pequenas estacas de metal aerodinâmicas feitas para arremessos rápidos e sequenciais."},
+        {nome: "Fonda", dano: "1d4 Contundente", props: "Munição (Alcance 9/36; Bala)", maestria: "Lentidão", peso: "—", preco: "1 PP", desc: "Tira de couro reforçada usada para girar e projetar esferas ou pedras em alta velocidade mecânica."}
+      ],
+      marciais_cc: [
+        {nome: "Alabarda", dano: "1d10 Cortante", props: "Duas Mãos, Pesada, Alcance", maestria: "Derrubar", peso: "3 kg", preco: "20 PO", desc: "Uma lâmina de machado com ponta perfurante montada de forma estável em uma haste longa de combate."},
+        {nome: "Cimitarra", dano: "1d6 Cortante", props: "Acuidade, Leve", maestria: "Ágil", peso: "1,5 kg", preco: "25 PO", desc: "Espada curva especializada em cortes fluidos, rápidos e contínuos em combate corporal."},
+        {nome: "Chicote", dano: "1d4 Cortante", props: "Acuidade, Alcance", maestria: "Lentidão", peso: "1 kg", preco: "2 PO", desc: "Couro trançado longo projetado para fustigar e controlar oponentes mantendo distância segura."},
+        {nome: "Espada Curta", dano: "1d6 Perfurante", props: "Acuidade, Leve", maestria: "Ágil", peso: "1 kg", preco: "10 PO", desc: "Lâmina reta, curta e extremamente leve, ideal para empunhadura dupla e combate em ambientes fechados."},
+        {nome: "Espada Grande", dano: "2d6 Cortante", props: "Duas Mãos, Pesada", maestria: "Garantido", peso: "3 kg", preco: "50 PO", desc: "Lâmina enorme e massiva focada em danos devastadores e amplos arcos horizontais."},
+        {nome: "Espada Longa", dano: "1d8 Cortante", props: "Versátil (1d10)", maestria: "Drenar", peso: "1,5 kg", preco: "15 PO", desc: "Espada de cavaleiro tradicional, muito versátil, equilibrada e adaptável a uma ou duas mãos."},
+        {nome: "Glaive", dano: "1d10 Cortante", props: "Duas Mãos, Pesada, Alcance", maestria: "Garantido", peso: "3 kg", preco: "20 PO", desc: "Uma lâmina pesada e curvada de espada modificada e cravada na ponta de uma haste de madeira."},
+        {nome: "Lança de Montaria", dano: "1d12 Perfurante", props: "Alcance, Especial", maestria: "Empurrar", peso: "3 kg", preco: "10 PO", desc: "Arma extremamente longa ideal para investidas e cargas montadas pesadas em velocidade."},
+        {nome: "Lança Grande", dano: "1d10 Perfurante", props: "Duas Mãos, Pesada, Alcance", maestria: "Empurrar", peso: "3 kg", preco: "5 PO", desc: "Haste longa fortificada e feita especificamente para deter cargas frontais de oponentes grandes."},
+        {nome: "Maça Estrela", dano: "1d8 Perfurante", props: "—", maestria: "Drenar", peso: "2 kg", preco: "15 PO", desc: "Uma cabeça metálica esférica coberta por espinhos afiados protuberantes, destrutiva contra armaduras de malha."},
+        {nome: "Machado de Batalha", dano: "1d8 Cortante", props: "Versátil (1d10)", maestria: "Derrubar", peso: "2 kg", preco: "10 PO", desc: "Machado robusto militar capaz de desferir cortes profundos de impacto contundente secundário."},
+        {nome: "Machado Grande", dano: "1d12 Cortante", props: "Duas Mãos, Pesada", maestria: "Garantido", peso: "3,5 kg", preco: "30 PO", desc: "Machado de execução massivo focado puramente em aplicação mecânica de força bruta vertical."},
+        {nome: "Malho", dano: "2d6 Contundente", props: "Duas Mãos, Pesada", maestria: "Empurrar", peso: "5 kg", preco: "25 PO", desc: "Um bloco de metal imenso e maciço fixado a um cabo longo, feito para esmagar ossos e placas metálicas com facilidade."},
+        {nome: "Mangual", dano: "1d8 Contundente", props: "—", maestria: "Drenar", peso: "1,5 kg", preco: "10 PO", desc: "Esfera de metal maciço cravada ligada por elos de corrente móveis a uma haste empunhável."},
+        {nome: "Martelo de Guerra", dano: "1d8 Contundente", props: "Versátil (1d10)", maestria: "Empurrar", peso: "1,5 kg", preco: "15 PO", desc: "Martelo militar de combate com cabeça pesada achatada e bico perfurante na zona posterior."},
+        {nome: "Picareta de Guerra", dano: "1d8 Perfurante", props: "Versátil (1d10)", maestria: "Drenar", peso: "1 kg", preco: "8 PO", desc: "Ponta perfurante militar longa projetada estruturalmente contra armaduras de placas rígidas."},
+        {nome: "Rapieira", dano: "1d8 Perfurante", props: "Acuidade", maestria: "Afligir", peso: "1 kg", preco: "25 PO", desc: "Espada fina e altamente elegante especializada em estocadas rápidas de precisão em esgrima."},
+        {nome: "Tridente", dano: "1d8 Perfurante", props: "Arremesso (Alcance 6/18), Versátil (1d10)", maestria: "Derrubar", peso: "2 kg", preco: "5 PO", desc: "Lança militar de três pontas de aço paralela eficaz em terrenos terrestres ou subaquáticos."}
+      ],
+      marciais_dist: [
+        {nome: "Arco Longo", dano: "1d8 Perfurante", props: "Duas Mãos, Munição (Alcance 45/180; Flecha), Pesada", maestria: "Lentidão", peso: "1 kg", preco: "50 PO", desc: "Arco de grande envergadura industrial oferecendo alcance balístico extremo e forte tração física."},
+        {nome: "Besta Pesada", dano: "1d10 Perfurante", props: "Duas Mãos, Munição (Alcance 30/120; Virote), Pesada, Recarga", maestria: "Lentidão", peso: "8,5 kg", preco: "50 PO", desc: "Besta pesada com alta força mecânica de impacto acionada via manivela interna."},
+        {nome: "Besta de Mão", dano: "1d6 Perfurante", props: "Munição (Alcance 9/36; Virote), Leve, Recarga", maestria: "Ágil", peso: "1,5 kg", preco: "75 PO", desc: "Besta menor e discreta empunhada e disparada facilmente com uma única mão."},
+        {nome: "Zarabatana", dano: "1 Perfurante", props: "Munição (Alcance 8/32; Agulha), Recarga", maestria: "Afligir", peso: "0,5 kg", preco: "10 PO", desc: "Tubo de sopro totalmente silencioso usado primariamente para aplicar agulhas com toxinas venenosas."},
+        {nome: "Mosquete", dano: "1d12 Perfurante", props: "Duas Mãos, Munição (Alcance 12/36; Bala), Recarga", maestria: "Lentidão", peso: "4,5 kg", preco: "500 PO", desc: "Arma de fogo ruidosa de grosso calibre para danos balísticos massivos em distâncias médias."},
+        {nome: "Pistola", dano: "1d10 Perfurante", props: "Munição (Alcance 9/27; Bala), Recarga", maestria: "Ágil", peso: "1,5 kg", preco: "250 PO", desc: "Arma de pólvora compacta de uma mão, letal a queima-roupa e ideal como armamento secundário."}
+      ],
+      eterforja: [
+        {nome: "Bacamarte de Éter", dano: "2d6 Energia", props: "Duas Mãos, Recarga (1 cristal), Éter-Dispersão", maestria: "Ágil", peso: "3,5 kg", preco: "450 PO", desc: "Esta arma de cano curto e largo dispara uma onda de estilhaços de éter instável, devastadora à queima-roupa.", special: "<strong>Éter-Dispersão:</strong> Ao atacar uma criatura a até 4,5 metros (3 quadrados), você adiciona seu modificador de atributo ao dano duas vezes. Alcance máximo de 9 metros com desvantagem."},
+        {nome: "Mosquete de Precisão Etérico", dano: "1d12 Energia", props: "Duas Mãos, Munição (Alcance 45/180), Recarga (5 cristais), Perfuração Arcana", maestria: "Lentidão", peso: "5 kg", preco: "800 PO", desc: "Uma arma longa com cano raiado e estabilizadores magnéticos para disparar projéteis de energia concentrada.", special: "<strong>Perfuração Arcana:</strong> Uma vez por turno, se rolar o dano máximo (12), o feixe atravessa o alvo primário atingindo uma segunda criatura em linha reta a até 1,5 metros atrás dele se superar sua CA."},
+        {nome: "Repetidora de Éter", dano: "2d4 Energia", props: "Pesada, Duas Mãos, Munição (Alcance 18/60), Recarga (10 cristais), Fogo de Supressão", maestria: "Drenar", peso: "7 kg", preco: "1.200 PO", desc: "Equipada com um tambor giratório de cristais, essa arma sacrifica a precisão em troca de uma cortina contínua de disparos.", special: "<strong>Fogo de Supressão:</strong> Você pode forçar todas as criaturas em um cubo de 3 metros a realizarem uma Salvaguarda de Destreza (CD = 8 + proficiência + mod. Des) ou sofrerem o dano da arma. Consome 3 cristais."},
+        {nome: "Canhão de Impacto Etérico", dano: "3d8 Energia", props: "Especial, Pesada, Duas Mãos, Recarga (1 cristal gigante), Coice Magnético", maestria: "Empurrar", peso: "18 kg", preco: "2.500 PO", desc: "Uma arma massiva usada para demolir estruturas ou obliterar alvos com esferas de plasma etérico.", special: "<strong>Coice Magnético:</strong> Exige Força 15. Se disparada sem apoio no chão, empurra o usuário 1,5m para trás e o deixa Caído. Alvos atingidos devem passar numa Salvaguarda de Força (CD 15) ou serão empurrados 3m e derrubados."}
+      ]
+    };
+
+    // Injeção Automática de Cards
+    function buildGrids() {
+      Object.keys(weaponsDataset).forEach(category => {
+        const container = document.getElementById(`grid-${category.replace('_', '-')}`);
+        if (!container) return;
+        
+        weaponsDataset[category].forEach(w => {
+          const card = document.createElement('div');
+          card.className = `weapon-card card-${category.replace('_', '-')}`;
+          card.innerHTML = `
+            <h3>${w.nome}</h3>
+            <div class="weapon-details-preview">
+              <strong>Dano:</strong> ${w.dano}<br>
+              <strong>Maestria:</strong> ${w.maestria}
+            </div>
+            <div class="weapon-price">${w.preco}</div>
+          `;
+          card.onclick = () => openWeapon(w.nome, w.dano, w.props, w.maestria, w.peso, w.preco, w.desc, w.special || '');
+          container.appendChild(card);
+        });
+      });
+    }
+
+    // Modal Dinâmico
+    function openWeapon(name, damage, props, mastery, weight, price, desc, special) {
+      document.getElementById('mName').innerText = name;
+      document.getElementById('mDamage').innerText = damage;
+      document.getElementById('mProps').innerText = props;
+      document.getElementById('mMastery').innerText = mastery;
+      document.getElementById('mWeight').innerText = weight;
+      document.getElementById('mPrice').innerText = price;
+      document.getElementById('mDesc').innerText = desc;
+      
+      const specialDiv = document.getElementById('mSpecial');
+      if (special) {
+        specialDiv.innerHTML = special;
+        specialDiv.style.display = 'block';
+      } else {
+        specialDiv.style.display = 'none';
+      }
+      document.getElementById('weaponModal').style.display = 'flex';
+    }
+
+    function closeWeapon(event) {
+      if (event.target === document.getElementById('weaponModal')) {
+        document.getElementById('weaponModal').style.display = 'none';
+      }
+    }
+
+    window.onload = buildGrids;
+  </script>
+</body>
+</html>

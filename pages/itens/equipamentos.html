@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Equipamentos — Weirs RPG</title>
+  <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+  <style>
+    /* PADDING CIRÚRGICO: Espaçamento para o menu dinâmico respirar */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 60px;
+    }
+
+    h2 {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+
+    /* Bloco de Contexto/Regras idêntico ao modelo de Antecedentes */
+    .bloco-regra {
+      background: rgba(185, 119, 14, 0.04);
+      border-left: 4px solid #b9770e;
+      padding: 20px;
+      margin-bottom: 35px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-regra h4 {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    /* --- SISTEMA DO CONVERSOR DE MOEDAS --- */
+    .conversor-box {
+      background: rgba(25, 25, 27, 0.9);
+      border: 1px solid var(--border-fantasy);
+      border-top: 4px solid #b9770e;
+      padding: 20px;
+      border-radius: 4px;
+      margin-bottom: 35px;
+    }
+    .conversor-box h3 {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+    }
+    .conversor-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      align-items: center;
+    }
+    .moeda-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .moeda-input-group label {
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: #a6acaf;
+    }
+    .moeda-input-group input {
+      background: #121212;
+      border: 1px solid rgba(185, 119, 14, 0.3);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .moeda-input-group input:focus {
+      border-color: #f39c12;
+    }
+
+    /* --- GRADE DE BOTÕES DE CATEGORIA --- */
+    .grid-botoes-itens {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+      margin-bottom: 5px;
+    }
+
+    .btn-item-categoria {
+      background: rgba(25, 25, 27, 0.9);
+      border: 1px solid var(--border-fantasy);
+      padding: 18px 20px;
+      border-radius: 4px;
+      text-align: center;
+      text-decoration: none;
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      font-size: 1.1rem;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    
+    /* Efeito de Hover igual aos badges de talentos/antecedentes */
+    .btn-item-categoria:hover {
+      background: rgba(185, 119, 14, 0.15);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(185, 119, 14, 0.2);
+      border-color: #f39c12;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+
+  <div class="container">
+    <h2>Equipamentos e Mercadorias</h2>
+    
+    <p>O comércio nas terras de Weirs é movido pela circulação de moedas metálicas fundidas, divididas em quatro cunhagens principais: <strong>Cobre (PC)</strong>, <strong>Prata (PP)</strong>, <strong>Ouro (PO)</strong> e a valiosa <strong>Platina (PL)</strong>. O Ouro serve como o padrão comercial básico para precificar a grande maioria dos bens de consumo, armas, armaduras e serviços cotidianos hospedados nas tavernas locais.</p>
+
+    <div class="bloco-regra">
+      <h4>A Lei de Conversão Comercial</h4>
+      <p>O sistema monetário segue uma escala decimal direta de conversão. Cada metal vale exatamente <b>10 vezes mais</b> que o seu antecedente imediato:</p>
+      <ul style="margin-left: 20px; display: flex; flex-direction: column; gap: 5px; font-size: 0.95rem; margin-top: 10px;">
+        <li>1 Moeda de Ouro (PO) = 10 Moedas de Prata (PP) = 100 Moedas de Cobre (PC)</li>
+        <li>1 Moeda de Platina (PL) = 10 Moedas de Ouro (PO)</li>
+      </ul>
+    </div>
+
+    <div class="conversor-box">
+      <h3>Conversor de Câmbio de Weirs</h3>
+      <div class="conversor-grid">
+        <div class="moeda-input-group">
+          <label for="input-pl">Platina (PL)</label>
+          <input type="number" id="input-pl" placeholder="0" min="0" oninput="converterMoedas('pl')">
+        </div>
+        <div class="moeda-input-group">
+          <label for="input-po">Ouro (PO)</label>
+          <input type="number" id="input-po" placeholder="0" min="0" oninput="converterMoedas('po')">
+        </div>
+        <div class="moeda-input-group">
+          <label for="input-pp">Prata (PP)</label>
+          <input type="number" id="input-pp" placeholder="0" min="0" oninput="converterMoedas('pp')">
+        </div>
+        <div class="moeda-input-group">
+          <label for="input-pc">Cobre (PC)</label>
+          <input type="number" id="input-pc" placeholder="0" min="0" oninput="converterMoedas('pc')">
+        </div>
+      </div>
+    </div>
+
+    <h2>Categorias de Itens</h2>
+    <div class="grid-botoes-itens">
+      <a href="/WEIRS-RPG/pages/itens/itens-armas.html" class="btn-item-categoria">Armas</a>
+      <a href="/WEIRS-RPG/pages/itens/itens-armaduras.html" class="btn-item-categoria">Armaduras</a>
+      <a href="/WEIRS-RPG/pages/itens/itens-ferramentas.html" class="btn-item-categoria">Ferramentas</a>
+      <a href="/WEIRS-RPG/pages/itens/itens.aventura.html" class="btn-item-categoria">Equipamentos de Aventura</a>
+      <a href="/WEIRS-RPG/pages/itens/itens-veiculos.html" class="btn-item-categoria">Montarias e Veículos</a>
+      <a href="/WEIRS-RPG/pages/itens/itens-servicos.html" class="btn-item-categoria">Serviços</a>
+      <a href="/WEIRS-RPG/pages/itens/itens-magicos.html" class="btn-item-categoria">Itens Mágicos</a>
+    </div>
+  </div>
+
+  <script>
+    function converterMoedas(moedaOrigem) {
+      const plInput = document.getElementById('input-pl');
+      const poInput = document.getElementById('input-po');
+      const ppInput = document.getElementById('input-pp');
+      const pcInput = document.getElementById('input-pc');
+
+      let totalEmCobre = 0;
+
+      // Coleta o valor digitado e descobre o equivalente na menor escala (Cobre)
+      if (moedaOrigem === 'pl' && plInput.value !== "") {
+        totalEmCobre = parseFloat(plInput.value) * 1000;
+      } else if (moedaOrigem === 'po' && poInput.value !== "") {
+        totalEmCobre = parseFloat(poInput.value) * 100;
+      } else if (moedaOrigem === 'pp' && ppInput.value !== "") {
+        totalEmCobre = parseFloat(ppInput.value) * 10;
+      } else if (moedaOrigem === 'pc' && pcInput.value !== "") {
+        totalEmCobre = parseFloat(pcInput.value);
+      } else {
+        // Se o campo for limpo, esvazia todos os outros e encerra
+        plInput.value = ""; poInput.value = ""; ppInput.value = ""; pcInput.value = "";
+        return;
+      }
+
+      // Distribui os valores proporcionais exatos para os outros campos matematicamente
+      if (moedaOrigem !== 'pl') plInput.value = Math.floor(totalEmCobre / 1000);
+      if (moedaOrigem !== 'po') poInput.value = Math.floor((totalEmCobre % 1000) / 100);
+      if (moedaOrigem !== 'pp') ppInput.value = Math.floor((totalEmCobre % 100) / 10);
+      if (moedaOrigem !== 'pc') pcInput.value = Math.floor(totalEmCobre % 10);
+    }
+  </script>
+
+</body>
+</html>

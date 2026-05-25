@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arsenal Mágico — Weirs RPG</title>
+    <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 60px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 35px;
+            border-bottom: 2px solid #b9770e;
+            padding-bottom: 20px;
+        }
+        header h2 {
+            font-family: 'Cinzel', serif;
+            color: #f39c12;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Sistema de Abas */
+        .abas-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .aba-btn {
+            background: rgba(25, 25, 27, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #a6acaf;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .aba-btn:hover, .aba-btn.ativa {
+            border-color: #f39c12;
+            color: #fff;
+            background: #b9770e;
+        }
+
+        /* Grid de Cards */
+        .magicos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .item-card {
+            background: rgba(25, 25, 27, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 18px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .item-card:hover {
+            transform: translateY(-3px);
+            border-color: #f39c12;
+        }
+
+        .item-card h3 {
+            font-family: 'Cinzel', serif;
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        /* Cores de Raridade */
+        .raridade {
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+        .comum { color: #cbd5e0; }
+        .incomum { color: #2ecc71; }
+        .raro { color: #3498db; }
+        .muito-raro { color: #9b59b6; }
+        .lendario { color: #e74c3c; }
+
+        /* Bordas laterais para indicar raridade */
+        .border-comum { border-left: 4px solid #cbd5e0; }
+        .border-incomum { border-left: 4px solid #2ecc71; }
+        .border-raro { border-left: 4px solid #3498db; }
+        .border-muito-raro { border-left: 4px solid #9b59b6; }
+        .border-lendario { border-left: 4px solid #e74c3c; }
+
+        .item-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #a6acaf;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        .sintonizacao-tag {
+            background: rgba(243, 156, 18, 0.1);
+            color: #f39c12;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            border: 1px solid rgba(243, 156, 18, 0.2);
+        }
+
+        .preco-tag {
+            color: #ecc94b;
+            font-weight: bold;
+        }
+
+        /* Modal Pop-up */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        .modal-content {
+            background: #19191b;
+            border: 2px solid #b9770e;
+            padding: 30px;
+            border-radius: 6px;
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+        }
+        .close-modal {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 24px;
+            color: #a6acaf;
+            cursor: pointer;
+        }
+        .close-modal:hover { color: #fff; }
+
+        .modal-title {
+            font-family: 'Cinzel', serif;
+            color: #f39c12;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .modal-sub {
+            font-size: 0.85rem;
+            color: #a6acaf;
+            font-style: italic;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(185, 119, 14, 0.3);
+            padding-bottom: 8px;
+        }
+
+        .modal-desc {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        
+        .modal-desc::-webkit-scrollbar { width: 5px; }
+        .modal-desc::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        .modal-desc::-webkit-scrollbar-thumb { background: #b9770e; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <script src="/WEIRS-RPG/javascript/menu.js"></script>
+
+    <div class="container">
+        <div style="margin-bottom: 30px;">
+            <a href="/WEIRS-RPG/pages/itens/equipamentos.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Equipamentos</a>
+        </div>
+
+        <header>
+            <h2>Itens Mágicos e Relíquias</h2>
+        </header>
+
+        <div class="abas-container">
+            <button class="aba-btn ativa" onclick="mudarAba('armas', this)">Armas Mágicas</button>
+            <button class="aba-btn" onclick="mudarAba('armaduras', this)">Armaduras e Escudos</button>
+            <button class="aba-btn" onclick="mudarAba('acessorios', this)">Anéis, Bastões e Cajados</button>
+            <button class="aba-btn" onclick="mudarAba('maravilhosos', this)">Itens Maravilhosos e Consumíveis</button>
+        </div>
+
+        <div class="magicos-grid" id="gridItens"></div>
+    </div>
+
+    <div id="itemModal" class="modal" onclick="fecharJanela(event)">
+        <div class="modal-content">
+            <span class="close-modal" onclick="document.getElementById('itemModal').style.display='none'">&times;</span>
+            <h2 id="mNome" class="modal-title">Nome do Item</h2>
+            <div id="mSub" class="modal-sub">Raridade, Categoria (Requer Sintonização)</div>
+
+            <div class="modal-desc">
+                <p id="mDescricao"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Banco de dados com preços de mercado estimados por raridade
+        const bancoMagicos = {
+            armas: [
+                { nome: "Arma +1", custo: "500 PO", raridade: "incomum", classeRaridade: "incomum", tipo: "Arma (Qualquer)", sintonizacao: false, desc: "Você recebe +1 de bônus nas jogadas de ataque e dano feitas com esta arma mágica." },
+                { nome: "Arma de Alarme", custo: "450 PO", raridade: "incomum", classeRaridade: "incomum", tipo: "Arma (Qualquer)", sintonizacao: true, desc: "Esta arma avisa você sobre o perigo iminente. Enquanto a arma estiver junto ao seu corpo, você tem Vantagem em jogadas de Iniciativa. Além disso, você e quaisquer companheiros a até 9 metros de você não podem ser pegos de surpresa. A arma acorda você e seus companheiros se estiverem dormindo naturalmente caso um combate comece." },
+                { nome: "Arma +2", custo: "4.000 PO", raridade: "raro", classeRaridade: "raro", tipo: "Arma (Qualquer)", sintonizacao: false, desc: "Você recebe +2 de bônus nas jogadas de ataque e dano feitas com esta arma mágica." },
+                { nome: "Língua Flamejante", custo: "5.000 PO", raridade: "raro", classeRaridade: "raro", tipo: "Arma (Espada)", sintonizacao: true, desc: "Você pode usar uma Ação Bônus para pronunciar a palavra de comando desta espada, fazendo com que chamas brotem da lâmina. Enquanto a espada estiver ardendo, ela emite luz plena num raio de 12 metros e penumbra por mais 12 metros extras. Ela causa 2d6 de dano de Fogo adicional a qualquer alvo que atingir." },
+                { nome: "Devoradora de Vidas", custo: "8.500 PO", raridade: "raro", classeRaridade: "raro", tipo: "Arma (Qualquer Cortante/Perfurante)", sintonizacao: true, desc: "Quando você atinge uma criatura viva com esta arma, o alvo sofre 1d6 de dano Necrótico extra, e você ganha pontos de vida temporários iguais ao dano necrótico causado. Esses pontos duram até você terminar um Descanso Curto ou Longo." },
+                { nome: "Arma +3", custo: "45.000 PO", raridade: "muito raro", classeRaridade: "muito-raro", tipo: "Arma (Qualquer)", sintonizacao: false, desc: "Você recebe +3 de bônus nas jogadas de ataque e dano feitas com esta arma mágica." },
+                { nome: "Vingadora Sagrada", custo: "120.000 PO", raridade: "lendário", classeRaridade: "lendario", tipo: "Arma (Espada)", sintonizacao: true, desc: "Você ganha +3 de bônus em jogadas de ataque e dano com esta arma mágica. Quando você atinge um Demônio ou Morto-Vivo, ela causa 2d10 de dano Radiante extra. Enquanto empunhar a espada, você emite uma aura de 3 metros de raio (9 metros se for Paladino) que concede Vantagem em salvaguardas contra magias para você e aliados." }
+            ],
+            armaduras: [
+                { nome: "Armadura de Placas de Adamantina", custo: "500 PO", raridade: "incomum", classeRaridade: "incomum", tipo: "Armadura (Média ou Pesada)", sintonizacao: false, desc: "Esta armadura é reforçada com adamantina. Enquanto você estiver vestindo-a, qualquer acerto crítico desferido contra você se torna um acerto normal, anulando os dados de dano extras do crítico." },
+                { nome: "Escudo do Sentinela", custo: "400 PO", raridade: "incomum", classeRaridade: "incomum", tipo: "Escudo", sintonizacao: false, desc: "Enquanto empunha este escudo decorado com um símbolo de olho vigilante, você tem Vantagem em testes de Iniciativa e testes de Sabedoria (Percepção)." },
+                { nome: "Armadura +1", custo: "3.500 PO", raridade: "raro", classeRaridade: "raro", tipo: "Armadura (Leve, Média ou Pesada)", sintonizacao: false, desc: "Você recebe +1 de bônus na sua Classe de Armadura (CA) enquanto usar esta armadura." },
+                { nome: "Armadura de Resistência", custo: "6.000 PO", raridade: "raro", classeRaridade: "raro", tipo: "Armadura (Qualquer)", sintonizacao: true, desc: "Ao sintonizar-se com esta armadura, escolha um tipo de dano elemental ou mágico. Você passa a ter Resistência a esse tipo de dano enquanto estiver vestindo o traje." },
+                { nome: "Escudo de Atração de Projéteis", custo: "2.500 PO", raridade: "raro", classeRaridade: "raro", tipo: "Escudo", sintonizacao: true, desc: "Este escudo concede +2 de bônus na CA e Resistência a dano de ataques de armas à distância. Maldição: Sempre que um ataque com arma à distância for direcionado a uma criatura a até 3 metros de você, o ataque muda o alvo para você automaticamente." },
+                { nome: "Armadura +2", custo: "22.000 PO", raridade: "muito raro", classeRaridade: "muito-raro", tipo: "Armadura (Leve, Média ou Pesada)", sintonizacao: false, desc: "Você recebe +2 de bônus na sua Classe de Armadura (CA) enquanto usar esta armadura." },
+                { nome: "Armadura +3", custo: "75.000 PO", raridade: "lendário", classeRaridade: "lendario", tipo: "Armadura (Leve, Média ou Pesada)", sintonizacao: false, desc: "Você recebe +3 de bônus na sua Classe de Armadura (CA) enquanto usar esta armadura." }
+            ],
+            acessorios: [
+                { nome: "Anel de Proteção", custo: "3.500 PO", raridade: "raro", classeRaridade: "raro", tipo: "Anel", sintonizacao: true, desc: "Enquanto estiver usando este anel místico polido, você ganha +1 de bônus na sua Classe de Armadura (CA) e também +1 de bônus em todas as suas Jogadas de Salvaguarda." },
+                { nome: "Anel de Armazenar Magia", custo: "6.500 PO", raridade: "raro", classeRaridade: "raro", tipo: "Anel", sintonizacao: true, desc: "Este anel pode armazenar até 5 níveis de magias simultaneamente. Qualquer criatura pode conjurar uma magia nele para guardá-la. O portador pode disparar as magias armazenadas usando a CD e bônus de ataque originais de quem as guardou." },
+                { nome: "Anel de Evasão", custo: "4.000 PO", raridade: "raro", classeRaridade: "raro", tipo: "Anel", sintonizacao: true, desc: "Este anel possui 3 cargas. Quando você falha em uma salvaguarda de Destreza, você pode usar sua Reação e gastar 1 carga do anel para passar automaticamente. O anel recupera 1d3 cargas diariamente ao amanhecer." },
+                { nome: "Cajado das Naus", custo: "5.500 PO", raridade: "raro", classeRaridade: "raro", tipo: "Cajado", sintonizacao: true, desc: "Focado para conjuradores. Possui 10 cargas para efeitos de controle. Você pode gastar cargas para invocar uma nuvem de insetos gigante que gera escuridão densa em uma área de 6 metros. Você ignora essa camuflagem e enxerga normalmente." },
+                { nome: "Bastão do Suserano", custo: "8.000 PO", raridade: "raro", classeRaridade: "raro", tipo: "Bastão", sintonizacao: true, desc: "Permite usar uma ação para emitir uma onda de autoridade. Cada criatura escolhida a até 36 metros deve passar em uma salvaguarda de Carisma (CD 15) ou ficar Enfeitiçada por você por 8 horas, obedecendo a ordens que não envolvam automutilação." }
+            ],
+            maravilhosos: [
+                { nome: "Poção de Cura Comum", custo: "50 PO", raridade: "comum", classeRaridade: "comum", tipo: "Poção (Consumível)", sintonizacao: false, desc: "Você recupera 2d4 + 2 pontos de vida ao ingerir este líquido translúcido vermelho brilhante." },
+                { nome: "Bolsa de Carga", custo: "250 PO", raridade: "incomum", classeRaridade: "incomum", tipo: "Item Maravilhoso", sintonizacao: false, desc: "Esta bolsa possui um espaço interior dimensional que suporta até 225 kg de carga sem alterar o peso real do item, que permanece fixado em apenas 7 kg." },
+                { nome: "Manoplas de Força do Ogro", custo: "450 PO", raridade: "incomum", classeRaridade: "incomum", tipo: "Item Maravilhoso (Mãos)", sintonizacao: true, desc: "Enquanto você calçar e vestir estas manoplas de ferro pesado, seu valor de atributo de Força torna-se automaticamente 19. Não surte efeito se sua força natural for maior." },
+                { nome: "Botas Aladas", custo: "500 PO", raridade: "incomum", classeRaridade: "incomum", tipo: "Item Maravilhoso (Pés)", sintonizacao: true, desc: "Garante deslocamento de voo idêntico ao seu deslocamento de caminhada. Pode ser usada por até 4 horas cumulativas diárias, regenerando carga quando fora de uso." },
+                { nome: "Capa do Saltimbanco", custo: "4.500 PO", raridade: "raro", classeRaridade: "raro", tipo: "Item Maravilhoso (Ombros)", sintonizacao: false, desc: "Esta capa permite ao usuário conjurar a magia Porta Dimensional (Dimension Door) como uma ação, sumindo em fumaça. O item recarrega todo amanhecer." }
+            ]
+        };
+
+        const grid = document.getElementById('gridItens');
+        const modal = document.getElementById('itemModal');
+
+        function renderizarCategoria(categoria) {
+            grid.innerHTML = '';
+            const itens = bancoMagicos[categoria];
+
+            itens.forEach(item => {
+                const card = document.createElement('div');
+                card.className = `item-card border-${item.classeRaridade}`;
+                
+                card.innerHTML = `
+                    <div>
+                        <div class="raridade ${item.classeRaridade}">${item.raridade}</div>
+                        <h3>${item.nome}</h3>
+                        <span style="font-size:0.8rem; color:#8a8d8e;">${item.tipo}</span>
+                    </div>
+                    <div class="item-meta">
+                        <span>${item.sintonizacao ? '<span class="sintonizacao-tag">Requer Sintonização</span>' : '<span style="color:#626567;">Livre</span>'}</span>
+                        <span class="preco-tag">${item.custo}</span>
+                    </div>
+                `;
+                
+                card.onclick = () => abrirModal(item);
+                grid.appendChild(card);
+            });
+        }
+
+        function abrirModal(item) {
+            document.getElementById('mNome').innerText = item.nome;
+            
+            let subTexto = `${item.raridade} • ${item.tipo} • Valor Comercial: ${item.custo}`;
+            if (item.sintonizacao) {
+                subTexto += " (Requer Sintonização)";
+            }
+            document.getElementById('mSub').innerText = subTexto;
+            
+            const subElement = document.getElementById('mSub');
+            subElement.className = "modal-sub " + item.classeRaridade;
+
+            document.getElementById('mDescricao').innerHTML = item.desc;
+            modal.style.display = 'flex';
+        }
+
+        function mudarAba(categoria, botao) {
+            document.querySelectorAll('.aba-btn').forEach(btn => btn.classList.remove('ativa'));
+            botao.classList.add('ativa');
+            renderizarCategoria(categoria);
+        }
+
+        function fecharJanela(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        renderizarCategoria('armas');
+    </script>
+</body>
+</html>

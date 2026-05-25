@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipamento de Aventura — Weirs RPG</title>
+    <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+    <style>
+        /* PADDING CIRÚRGICO: Alinhamento para que o menu dinâmico não sobreponha o conteúdo */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 60px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 35px;
+            border-bottom: 2px solid #b9770e;
+            padding-bottom: 20px;
+            position: relative;
+        }
+        header h2 {
+            font-family: 'Cinzel', serif;
+            color: #f39c12;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Controles de Filtro e Busca Rápidos */
+        .controles-painel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 35px;
+            background: rgba(25, 25, 27, 0.9);
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .busca-input {
+            flex: 1;
+            min-width: 250px;
+            background: #0d0d0d;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+        .busca-input:focus {
+            outline: none;
+            border-color: #f39c12;
+        }
+
+        .ordenar-seletor {
+            background: #0d0d0d;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Grid de Cards */
+        .equip-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 20px;
+        }
+
+        /* Estrutura de Card Compacto */
+        .equip-card {
+            background: rgba(25, 25, 27, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid #b9770e;
+            padding: 18px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .equip-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(185, 119, 14, 0.15);
+            border-color: #f39c12;
+        }
+
+        .equip-card h3 {
+            font-family: 'Cinzel', serif;
+            color: #fff;
+            font-size: 1.05rem;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .equip-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #a6acaf;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 10px;
+        }
+
+        /* Identificação de cores para moedas oficiais */
+        .preco-po { color: #ecc94b; font-weight: bold; }
+        .preco-pp { color: #cbd5e0; font-weight: bold; }
+        .preco-pc { color: #ed8936; font-weight: bold; }
+
+        /* Modal de Detalhes Pop-up */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        .modal-content {
+            background: #19191b;
+            border: 2px solid #b9770e;
+            padding: 30px;
+            border-radius: 6px;
+            max-width: 550px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.7);
+        }
+        .close-modal {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 24px;
+            color: #a6acaf;
+            cursor: pointer;
+        }
+        .close-modal:hover { color: #fff; }
+        
+        .modal-title {
+            font-family: 'Cinzel', serif;
+            color: #f39c12;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            font-size: 1.35rem;
+            border-bottom: 1px solid rgba(185, 119, 14, 0.3);
+            padding-bottom: 5px;
+        }
+        .modal-meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 18px;
+            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .modal-meta-grid strong { color: #e67e22; }
+        
+        .modal-desc {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #d0d0d0;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+
+    <script src="/WEIRS-RPG/javascript/menu.js"></script>
+
+    <div class="container">
+        
+        <div style="margin-bottom: 30px;">
+            <a href="/WEIRS-RPG/pages/itens/equipamentos.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Equipamentos</a>
+        </div>
+        
+        <header>
+            <h2>Equipamento de Aventura</h2>
+        </header>
+
+        <div class="controles-painel">
+            <input type="text" id="inputBusca" class="busca-input" placeholder="Buscar equipamento por nome...">
+            <select id="selectOrdem" class="ordenar-seletor">
+                <option value="nome">Ordenar por: Nome</option>
+                <option value="preco-cres">Preço: Menor ao Maior</option>
+                <option value="preco-decres">Preço: Maior ao Menor</option>
+                <option value="peso">Ordenar por: Peso</option>
+            </select>
+        </div>
+
+        <div class="equip-grid" id="gridEquipamentos"></div>
+    </div>
+
+    <div id="equipModal" class="modal" onclick="fecharJanela(event)">
+        <div class="modal-content">
+            <span class="close-modal" onclick="document.getElementById('equipModal').style.display='none'">&times;</span>
+            <h2 id="mNome" class="modal-title">Nome do Item</h2>
+            
+            <div class="modal-meta-grid">
+                <div><strong>Custo:</strong> <span id="mCusto">-</span></div>
+                <div><strong>Peso:</strong> <span id="mPeso">-</span></div>
+            </div>
+
+            <div class="modal-desc">
+                <p id="mDescricao"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Banco de dados completo contendo rigorosamente todos os 82 itens da tabela de aventura do Livro de 2024
+        const listaEquipamentos = [
+            { nome: "Ácido", peso: "0,5 kg", custo: "25 PO", desc: "Como uma ação, você pode espalhar o conteúdo deste frasco em uma criatura a até 1,5 metro ou arremessá-lo a até 6 metros para quebrar defesas ou causar queima corrosiva." },
+            { nome: "Água Benta", peso: "0,5 kg", custo: "25 PO", desc: "Água abençoada por rituais clericais. Pode ser arremessada como uma arma de arremesso contra mortos-vivos ou corruptores para infligir danos severos." },
+            { nome: "Algibeira", peso: "0,5 kg", custo: "5 PP", desc: "Uma pequena bolsa de couro ou tecido usada para guardar moedas, gemas ou pequenos componentes, facilmente afixada a um cinto de utilidades." },
+            { nome: "Aljava", peso: "0,5 kg", custo: "1 PO", desc: "Estojo cilíndrico de couro projetado para carregar e proteger até 20 flechas de arco ou virotes de besta." },
+            { nome: "Antitoxina", peso: "—", custo: "50 PO", desc: "Uma criatura que beber este frasco ganha Vantagem em salvaguardas contra veneno por 1 hora completa." },
+            { nome: "Apito Sinalizador", peso: "—", custo: "5 PC", desc: "Um pequeno apito de metal ou osso que emite um ruído agudo, ideal para enviar sinais de alerta através de cavernas ou florestas." },
+            { nome: "Aríete Portátil", peso: "16,5 kg", custo: "4 PO", desc: "Uma barra de ferro ou tronco reforçado. Concede um bônus de +4 em testes de Força aplicados para quebrar ou arrombar portas." },
+            { nome: "Armadilha de Caça", peso: "12,5 kg", custo: "5 PO", desc: "Um anel metálico de dentes afiados. Quando armada, prende o pé da criatura que pisar nela caso falhe numa salvaguarda de Destreza." },
+            { nome: "Arpéu", peso: "2 kg", custo: "2 PO", desc: "Um gancho de metal com garras, acoplável a uma corda para ancorar firmemente subidas em muros ou penhascos." },
+            { nome: "Balde", peso: "1 kg", custo: "5 PC", desc: "Recipiente de madeira ou metal leve com alça, com capacidade padrão para carregar 12 litros de líquido." },
+            { nome: "Baliza", peso: "3,5 kg", custo: "5 PC", desc: "Uma estaca longa de sinalização ou medição, frequentemente usada em mapeamentos, acampamentos ou demarcações tácticas." },
+            { nome: "Barril", peso: "35 kg", custo: "2 PO", desc: "Grande barril de madeira reforçado com cintas de ferro, ideal para estocar água líquida, rações a vácuo, óleos ou vinho." },
+            { nome: "Baú", peso: "12,5 kg", custo: "5 PO", desc: "Uma caixa de madeira robusta e pesada para transporte de pertences, contendo travas adequadas para fixação de cadeados." },
+            { nome: "Bolsa de Componentes", peso: "1 kg", custo: "25 PO", desc: "Uma bolsa de couro estanque contendo todos os materiais e ingredientes miúdos necessários para a conjuração de suas magias cotidianas." },
+            { nome: "Cadeado", peso: "0,5 kg", custo: "10 PO", desc: "Acompanha uma chave. Sem a chave, uma criatura precisa de um teste de Destreza bem-sucedido utilizando ferramentas de ladrão para abri-lo." },
+            { nome: "Caixa para Fogo", peso: "0,5 kg", custo: "5 PP", desc: "Pequeno estojo contendo pederneira, isqueiro e pavio seco, essencial para acender tochas ou fogueiras rapidamente." },
+            { nome: "Caneta Tinteiro", peso: "—", custo: "2 PC", desc: "Uma caneta de pena fina ou ponteira metálica ideal para anotações detalhadas de magias ou diários de bordo." },
+            { nome: "Cantil (cheio)", peso: "2,5 kg", custo: "2 PP", desc: "Cantil revestido de couro flexível abastecido com água potável suficiente para sustentar um aventureiro por um dia inteiro de marcha." },
+            { nome: "Cesta", peso: "1 kg", custo: "4 PP", desc: "Uma cesta trançada de vime com alça superior flexível, excelente para transporte de provisões leves ou ervas colhidas." },
+            { nome: "Cobertor", peso: "1,5 kg", custo: "5 PP", desc: "Manta grossa e pesada de lã trançada, item vital para evitar exaustão ao acampar sob climas frios." },
+            { nome: "Corda", peso: "2,5 kg", custo: "1 PO", desc: "Corda de cânhamo clássica com 15 metros de extensão. Possui CD 17 para ser arrombada ou cortada por pura força física." },
+            { nome: "Cordão", peso: "—", custo: "1 PP", desc: "Um rolo de fio de barbante fino mas resistente, muito útil para armadilhas de detecção com sinos ou amarras provisórias." },
+            { nome: "Corrente", peso: "5 kg", custo: "5 PO", desc: "Corrente de elos de ferro com 3 metros. Pode ser trancada por cadeados e exige um teste de Força CD 20 para ser partida." },
+            { nome: "Escada", peso: "12,5 kg", custo: "1 PP", desc: "Uma estrutura reta de madeira com 3 metros de altura, essencial para superar fossos profundos ou alcançar janelas altas." },
+            { nome: "Esferas de Metal", peso: "1 kg (saco)", custo: "1 PO", desc: "Um saco contendo milhares de pequenas esferas metálicas de rolamento. Podem ser espalhadas em superfícies lisas para derrubar perseguidores." },
+            { nome: "Espelho", peso: "250 g", custo: "5 PO", desc: "Pequeno espelho plano feito de aço polido de alto reflexo. Útil para espiar cantos cegos ou refletir raios solares." },
+            { nome: "Estacas de Ferro", peso: "2,5 kg", custo: "1 PO", desc: "Pinos de ferro pesados. Podem ser martelados em portas para trancá-las por dentro ou usados como suporte de sustentação." },
+            { nome: "Estojo, Mapa ou Pergaminho", peso: "0,5 kg", custo: "1 PO", desc: "Um tubo rígido de couro tratado com tampa de encaixe hermético, ideal para proteger papéis e pergaminhos contra umidade." },
+            { nome: "Estojo, Virote de Besta", peso: "0,5 kg", custo: "1 PO", desc: "Bolsa rígida de saque rápido projetada para armazenar até 20 virotes de besta de forma segura." },
+            { nome: "Estrepes", peso: "1 kg (saco)", custo: "1 PO", desc: "Espinhos de ferro de quatro pontas. Quando jogados no chão, perfuram os pés e reduzem drasticamente o deslocamento de quem passar correndo." },
+            { nome: "Foco Arcano", peso: "Varia", custo: "Varia", desc: "Item canalizador de magia (orbe, cristal, varinha ou cajado) obrigatório para conjurações de Feiticeiros, Bruxos e Magos." },
+            { nome: "Foco Druídico", peso: "Varia", custo: "Varia", desc: "Item de conexão natural (ramo de visco, totem entalhado ou varinha de teixo) usado por Druidas para sintonizar magias." },
+            { nome: "Fogo Alquímico", peso: "0,5 kg", custo: "50 PO", desc: "Frasco contendo uma mistura alquímica altamente volátil que inflama instantaneamente ao entrar em contato com o oxigênio." },
+            { nome: "Frasco", peso: "—", custo: "1 PO", desc: "Pequeno recipiente cilíndrico de vidro grosso ou cerâmica com rolha de cortiça, perfeito para guardar óleos, ácidos ou venenos." },
+            { nome: "Garrafa de Vidro (1 litro)", peso: "1 kg", custo: "2 PO", desc: "Garrafa de vidro padrão para armazenamento estável de vinhos finos, elixires ou poções customizadas." },
+            { nome: "Grilhões", peso: "3 kg", custo: "2 PO", desc: "Algemas de ferro reforçadas com trancas metálicas para imobilização de prisioneiros Pequenos ou Médios. CD 20 para quebrar." },
+            { nome: "Jarro (4 litros)", peso: "2 kg", custo: "2 PO", desc: "Recipiente robusto de barro cozido com alça larga, usado para transporte de leite, água ou cervejas em tavernas." },
+            { nome: "Kit de Artista", peso: "29 kg", custo: "40 PO", desc: "Contém cavaletes compactos, telas, solventes, pigmentos variados e carvões para desenhos e registros visuais artísticos." },
+            { nome: "Kit de Assaltante", peso: "21 kg", custo: "16 PO", desc: "Mochila equipada com pé de cabra, martelo, 10 pitons, caixa para fogo, lanterna coberta, 2 frascos de óleo, rações e corda." },
+            { nome: "Kit de Aventureiro", peso: "27,5 kg", custo: "10 PO", desc: "O pacote básico padrão de sobrevivência: mochila, saco de dormir, caixa de fogo, 10 tochas, 10 dias de rações e cantil." },
+            { nome: "Kit de Curandeiro", peso: "1,5 kg", custo: "5 PO", desc: "Estojo com faixas esterilizadas, unguentos medicinais, talas e torniquetes. Permite estabilizar criaturas caídas sem testes." },
+            { nome: "Kit de Diplomata", peso: "19,5 kg", custo: "39 PO", desc: "Baú elegante contendo pergaminhos finos, tinta de alta qualidade, canetas tinteiro, cera de selagem real, roupas finas e perfume." },
+            { nome: "Kit de Erudito", peso: "11 kg", custo: "40 PO", desc: "Mochila acadêmica com um livro de estudos espesso, tinteiro de vidro, canetas de pena, folhas de pergaminho limpas e uma faca de papel." },
+            { nome: "Kit de Escalada", peso: "6 kg", custo: "25 PO", desc: "Inclui pitons de fixação, amarras de segurança, sapatilhas de couro aderente e marreta de ferro para fixação em paredes rochosas." },
+            { nome: "Kit de Explorador de Masmorras", peso: "27,5 kg", custo: "12 PO", desc: "Mochila equipada com pé de cabra, marreta, 10 estacas de ferro, tochas, caixa de fogo, 10 dias de rações e cantil de viagem." },
+            { nome: "Kit de Sacerdote", peso: "14,5 kg", custo: "33 PO", desc: "Mochila clerical contendo cobertor, 10 tochas, caixa de fogo, caixa para coletas de esmolas, incensos aromáticos, incensário e rações." },
+            { nome: "Lâmpada", peso: "0,5 kg", custo: "5 PP", desc: "Emite Luz Plena em um raio de 4,5 metros. Consome um frasco inteiro de óleo mineral a cada 6 horas de atividade." },
+            { nome: "Lanterna Coberta", peso: "1 kg", custo: "5 PO", desc: "Lanterna com defletores móveis que permitem direcionar a luz ou cobri-la completamente num piscar de olhos sem apagá-la." },
+            { nome: "Lanterna Foca-facho", peso: "1 kg", custo: "10 PO", desc: "Projeta um feixe de Luz Plena focado em um cone de 18 metros à frente, e Meia-luz por mais 18 metros adicionais." },
+            { nome: "Livro", peso: "2,5 kg", custo: "25 PO", desc: "Tomo encadernado em couro com folhas costuradas, contendo histórias, registros históricos, genealogias ou teorias místicas." },
+            { nome: "Luneta", peso: "0,5 kg", custo: "1.000 PO", desc: "Instrumento óptico refinado e de altíssimo valor que aproxima imagens e objetos muito distantes através de lentes polidas." },
+            { nome: "Lupa", peso: "—", custo: "100 PO", desc: "Uma lente focal convexa de alta precisão usada para ler inscrições microscópicas ou examinar falhas ocultas em gemas." },
+            { nome: "Mapa", peso: "—", custo: "1 PO", desc: "Uma carta pergaminhada detalhando geografias de reinos, estradas comerciais seguras ou plantas de masmorras." },
+            { nome: "Mochila", peso: "2,5 kg", custo: "2 PO", desc: "Estrutura de lona ou couro reforçado capaz de suportar até 15 kg ou 30 centímetros cúbicos de carga compactada." },
+            { nome: "Munição", peso: "Varia", custo: "Varia", desc: "Flechas, virotes, agulhas de zarabatana ou balas de chumbo cruas necessárias para o uso de armas à distância." },
+            { nome: "Óleo", peso: "0,5 kg", custo: "1 PP", desc: "Combustível para lanternas. Pode ser jogado no solo e incendiado para criar barreiras ou poças de fogo táticas." },
+            { nome: "Pá", peso: "2,5 kg", custo: "2 PO", desc: "Ferramenta de metal pesada com cabo de madeira, ideal para cavar trincheiras, armadilhas fossas ou desenterrar caixões." },
+            { nome: "Papel", peso: "—", custo: "2 PP", desc: "Uma única folha de fibras vegetais prensadas de alta qualidade para escrita e anotações céleres." },
+            { nome: "Pé de Cabra", peso: "2,5 kg", custo: "2 PO", desc: "Barra de ferro curvada. Concede Vantagem em testes de Força em qualquer situação em que sua alavancagem possa ser aplicada." },
+            { nome: "Perfume", peso: "—", custo: "5 PO", desc: "Frasco com essência aromática exótica. Concede Vantagem em testes de Persuasão aplicados a humanoides neutros por 1 hora." },
+            { nome: "Pergaminho", peso: "—", custo: "1 PP", desc: "Folha de pele animal tratada de alta durabilidade, preferida por magos para confecção de mapas permanentes ou pergaminhos de magias." },
+            { nome: "Pergaminho Mágico (1º Círculo)", peso: "—", custo: "50 PO", desc: "Inscrição rúnica contendo uma magia de 1º Círculo. Pode ser lido para conjurar a magia instantaneamente, destruindo o papel." },
+            { nome: "Pergaminho Mágico (Truque)", peso: "—", custo: "30 PO", desc: "Contém as palavras de poder de um truque mágico simples pronto para ativação sem o uso de espaços de magia." },
+            { nome: "Poção de Cura", peso: "250 g", custo: "50 PO", desc: "Fluido vermelho luminescente. Consumido com uma Ação Bônus, restaura instantaneamente 2d4 + 2 de Vida da criatura." },
+            { nome: "Pote", peso: "0,5 kg", custo: "2 PC", desc: "Pote simples de cerâmica utilitário com tampa de argila, para guardar pequenas amostras biológicas ou rações líquidas." },
+            { nome: "Pote, Ferro", peso: "5 kg", custo: "2 PO", desc: "Caldeirão pesado de ferro fundido com alça de suspensão, perfeito para cozidos de rações em volta de fogueiras." },
+            { nome: "Rações", peso: "1 kg", custo: "5 PP", desc: "Provisões secas compactas para 1 dia: carne desidratada, frutas secas, pão duro de viagem e castanhas." },
+            { nome: "Rede", peso: "1,5 kg", custo: "1 PO", desc: "Arma tática de cordas com pesos nas pontas usada para imobilizar e aplicar a condição Contido em alvos de tamanho até Enorme." },
+            { nome: "Roldana e Polias", peso: "2,5 kg", custo: "1 PO", desc: "Mecanismo de redução de tração que quadriplica a capacidade de carga ou elevação vertical do usuário." },
+            { nome: "Roupas, Fantasia", peso: "2 kg", custo: "5 PO", desc: "Trajes espalhafatosos, adereços exóticos ou máscaras teatrais para disfarces em apresentações ou infiltrações festivas." },
+            { nome: "Roupas, Finas", peso: "3 kg", custo: "15 PO", desc: "Vestes luxuosas tecidas com fios de ouro ou seda fina, cruciais para interações diplomáticas ou bailes da alta nobreza." },
+            { nome: "Roupas, Viagem", peso: "2 kg", custo: "2 PO", desc: "Traje rústico reforçado composto por calças de couro, botas impermeáveis, camisas de linho e capas pesadas contra chuva." },
+            { nome: "Saca", peso: "250 g", custo: "1 PC", desc: "Grande saco de estopa ou linho grosso para armazenamento massivo de espólios de masmorra de até 15 kg." },
+            { nome: "Saco de Dormir", peso: "3,5 kg", custo: "1 PO", desc: "Manta térmica acolchoada em formato de casulo. Concede bônus em salvaguardas para resistir a efeitos climáticos de frio severo." },
+            { nome: "Símbolo Sagrado", peso: "Varia", custo: "Varia", desc: "Relicário, amuleto gravado ou escudo heráldico contendo o brasão de uma divindade, usado como foco de conjuração por Clérigos e Paladinos." },
+            { nome: "Sino", peso: "—", custo: "1 PO", desc: "Pequeno sino de latão com badalo sensível, ideal para prender em fios de alarme noturno contra emboscadas." },
+            { nome: "Tenda", peso: "10 kg", custo: "2 PO", desc: "Tenda de lona impermeável dobrável com estacas, espaçosa o suficiente para abrigar duas criaturas Médias com relativo conforto." },
+            { nome: "Tinta", peso: "—", custo: "10 PO", desc: "Frasco contendo 30ml de tinta preta densa de alta fixação para registros em pergaminhos permanentes." },
+            { nome: "Tocha", peso: "0,5 kg", custo: "1 PC", desc: "Queima continuamente por 1 hora, provendo Luz Plena em um raio de 6 metros. Pode ser empunhada como arma improvisada de fogo." },
+            { nome: "Vela", peso: "—", custo: "1 PC", desc: "Fornece Luz Plena em um raio curto de 1,5 metro por 1 hora antes de derreter completamente seu pavio." },
+            { nome: "Túnica", peso: "2 kg", custo: "1 PO", desc: "Veste comprida e folgada característica de ordens monásticas, acadêmicas ou seitas religiosas específicas." },
+            { nome: "Veneno Básico", peso: "—", custo: "100 PO", desc: "Frasco de veneno. Pode ser aplicado em uma lâmina ou munição como ação bônus para infligir 1d4 de dano de veneno extra no alvo." }
+        ];
+
+        const grid = document.getElementById('gridEquipamentos');
+        const inputBusca = document.getElementById('inputBusca');
+        const selectOrdem = document.getElementById('selectOrdem');
+
+        const modal = document.getElementById('equipModal');
+        const mNome = document.getElementById('mNome');
+        const mCusto = document.getElementById('mCusto');
+        const mPeso = document.getElementById('mPeso');
+        const mDescricao = document.getElementById('mDescricao');
+
+        // Conversor numérico de valores baseado no sistema oficial do livro (PO/PP/PC)
+        function obterValorMoeda(custoTexto) {
+            const partes = custoTexto.split(' ');
+            const num = parseFloat(partes[0].replace('.', '')) || 0;
+            const moeda = partes[1];
+            if (moeda === 'PO') return num * 100;
+            if (moeda === 'PP') return num * 10;
+            if (moeda === 'PC') return num * 1;
+            return 0; // Itens com custo "Varia"
+        }
+
+        function renderizar(dados) {
+            grid.innerHTML = '';
+            dados.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'equip-card';
+                
+                let corMoeda = 'preco-po';
+                if (item.custo.includes('PP')) corMoeda = 'preco-pp';
+                if (item.custo.includes('PC')) corMoeda = 'preco-pc';
+
+                card.innerHTML = `
+                    <h3>${item.nome}</h3>
+                    <div class="equip-meta">
+                        <span>${item.peso}</span>
+                        <span class="${corMoeda}">${item.custo}</span>
+                    </div>
+                `;
+                card.onclick = () => exibirDetalhes(item);
+                grid.appendChild(card);
+            });
+        }
+
+        function exibirDetalhes(item) {
+            mNome.innerText = item.nome;
+            mCusto.innerText = item.custo;
+            mPeso.innerText = item.peso;
+            mDescricao.innerText = item.desc;
+            modal.style.display = 'flex';
+        }
+
+        function fecharJanela(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        function processarFiltros() {
+            let filtrados = listaEquipamentos.filter(i => 
+                i.nome.toLowerCase().includes(inputBusca.value.toLowerCase())
+            );
+
+            if (selectOrdem.value === 'nome') {
+                filtrados.sort((a, b) => a.nome.localeCompare(b.nome));
+            } else if (selectOrdem.value === 'preco-cres') {
+                filtrados.sort((a, b) => obterValorMoeda(a.custo) - obterValorMoeda(b.custo));
+            } else if (selectOrdem.value === 'preco-decres') {
+                filtrados.sort((a, b) => obterValorMoeda(b.custo) - obterValorMoeda(a.custo));
+            } else if (selectOrdem.value === 'peso') {
+                filtrados.sort((a, b) => {
+                    const pesoA = parseFloat(a.peso.replace(',', '.')) || 0;
+                    const pesoB = parseFloat(b.peso.replace(',', '.')) || 0;
+                    return pesoA - pesoB;
+                });
+            }
+            renderizar(filtrados);
+        }
+
+        inputBusca.addEventListener('input', processarFiltros);
+        selectOrdem.addEventListener('change', processarFiltros);
+
+        // Inicialização primária automática
+        processarFiltros();
+    </script>
+</body>
+</html>

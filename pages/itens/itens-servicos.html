@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taverna & Serviços — Weirs RPG</title>
+    <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 60px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 35px;
+            border-bottom: 2px solid #b9770e;
+            padding-bottom: 20px;
+        }
+        header h2 {
+            font-family: 'Cinzel', serif;
+            color: #f39c12;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Sistema de Abas */
+        .abas-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .aba-btn {
+            background: rgba(25, 25, 27, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #a6acaf;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .aba-btn:hover, .aba-btn.ativa {
+            border-color: #f39c12;
+            color: #fff;
+            background: #b9770e;
+        }
+
+        /* Grid de Cards */
+        .servicos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .servico-card {
+            background: rgba(25, 25, 27, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid #b9770e;
+            padding: 18px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .servico-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(185, 119, 14, 0.2);
+            border-color: #f39c12;
+        }
+
+        .servico-card h3 {
+            font-family: 'Cinzel', serif;
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .sub-tipo {
+            font-size: 0.8rem;
+            color: #e67e22;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .servico-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #a6acaf;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 10px;
+        }
+
+        .preco-tag { color: #ecc94b; font-weight: bold; }
+        .preco-tag-pp { color: #cbd5e0; font-weight: bold; }
+        .preco-tag-pc { color: #ed8936; font-weight: bold; }
+
+        /* Modal Pop-up */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        .modal-content {
+            background: #19191b;
+            border: 2px solid #b9770e;
+            padding: 30px;
+            border-radius: 6px;
+            max-width: 550px;
+            width: 100%;
+            position: relative;
+        }
+        .close-modal {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 24px;
+            color: #a6acaf;
+            cursor: pointer;
+        }
+        .close-modal:hover { color: #fff; }
+
+        .modal-title {
+            font-family: 'Cinzel', serif;
+            color: #f39c12;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(185, 119, 14, 0.3);
+            padding-bottom: 5px;
+        }
+
+        .modal-specs {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        .modal-specs div strong { color: #e67e22; }
+
+        .modal-desc {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #d0d0d0;
+        }
+    </style>
+</head>
+<body>
+
+    <script src="/WEIRS-RPG/javascript/menu.js"></script>
+
+    <div class="container">
+        <div style="margin-bottom: 30px;">
+            <a href="/WEIRS-RPG/pages/itens/equipamentos.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Equipamentos</a>
+        </div>
+
+        <header>
+            <h2>Serviços e Estalagem</h2>
+        </header>
+
+        <div class="abas-container">
+            <button class="aba-btn ativa" onclick="mudarAba('estalagem', this)">Comida, Bebida e Hospedagem</button>
+            <button class="aba-btn" onclick="mudarAba('viagem', this)">Serviços de Viagem</button>
+            <button class="aba-btn" onclick="mudarAba('trabalhadores', this)">Contratação de Trabalhadores</button>
+            <button class="aba-btn" onclick="mudarAba('conjuracao', this)">Serviços de Conjuração</button>
+        </div>
+
+        <div class="servicos-grid" id="gridServicos"></div>
+    </div>
+
+    <div id="servicoModal" class="modal" onclick="fecharJanela(event)">
+        <div class="modal-content">
+            <span class="close-modal" onclick="document.getElementById('servicoModal').style.display='none'">&times;</span>
+            <h2 id="sNome" class="modal-title">Nome do Serviço</h2>
+            
+            <div id="sSpecs" class="modal-specs">
+                </div>
+
+            <div class="modal-desc">
+                <p id="sDescricao"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Banco de dados populado com a transcrição fidedigna das tabelas
+        const bancoServicos = {
+            estalagem: [
+                { nome: "Alojamento Desvalido", tipo: "Alojamento por Dia", custo: "7 PC", desc: "Acomodação precária, geralmente um espaço no chão de um celeiro ou um colchão de palha em um quarto comum superlotado." },
+                { nome: "Alojamento Pobre", tipo: "Alojamento por Dia", custo: "1 PP", desc: "Quarto compartilhado mal aquecido em tavernas de quinta categoria, oferecendo apenas o mínimo de proteção contra o clima." },
+                { nome: "Alojamento Modesto", tipo: "Alojamento por Dia", custo: "5 PP", desc: "Quarto pequeno, mas privado e limpo, padrão comum para aventureiros e mercadores locais em vilas e cidades." },
+                { nome: "Alojamento Confortável", tipo: "Alojamento por Dia", custo: "8 PP", desc: "Quarto espaçoso com uma cama boa, roupas de cama limpas e acesso a comodidades básicas de uma boa estalagem." },
+                { nome: "Alojamento Abastado", tipo: "Alojamento por Dia", custo: "2 PO", desc: "Acomodações luxuosas com mobília de qualidade, banho quente disponível e excelente nível de privacidade e atendimento." },
+                { nome: "Alojamento Aristocrático", tipo: "Alojamento por Dia", custo: "4 PO", desc: "Suíte suntuosa digna da alta nobreza, oferecendo o ápice do conforto, segurança mágica ou física e serviços personalizados." },
+                { nome: "Refeição Desvalida", tipo: "Refeições", custo: "1 PC", desc: "Sopa rala, restos de alimentos ou rações de baixíssima qualidade para subsistência extrema." },
+                { nome: "Refeição Pobre", tipo: "Refeições", custo: "2 PC", desc: "Mingau, pão amanhecido e água limpa. O suficiente para não passar fome." },
+                { nome: "Refeição Modesta", tipo: "Refeições", custo: "1 PP", desc: "Prato simples do dia na taverna, geralmente ensopado de vegetais com pequenos pedaços de carne rústica." },
+                { nome: "Refeição Confortável", tipo: "Refeições", custo: "2 PP", desc: "Comida farta e bem temperada, acompanhada de pão fresco e guarnições adequadas." },
+                { nome: "Refeição Abastada", tipo: "Refeições", custo: "3 PP", desc: "Banquete individual com carnes selecionadas, assados complexos e acompanhamentos finos." },
+                { nome: "Refeição Aristocrática", tipo: "Refeições", custo: "6 PO", desc: "Alta gastronomia com ingredientes raros, especiarias exóticas trazidas de longe e apresentação impecável." },
+                { nome: "Cerveja (caneca)", tipo: "Bebida", custo: "4 PC", desc: "Uma caneca cheia da tradicional cerveja artesanal local da taverna." },
+                { nome: "Vinho Comum (garrafa)", tipo: "Vinho (garrafa)", custo: "2 PP", desc: "Vinho de mesa rústico, produzido localmente e consumido no dia a dia." },
+                { nome: "Vinho Bom (garrafa)", tipo: "Vinho (garrafa)", custo: "10 PO", desc: "Vinho envelhecido de safras nobres, com sabor refinado e aroma complexo, apreciado por conhecedores." },
+                { nome: "Pão (fatia)", tipo: "Comida", custo: "2 PC", desc: "Uma porção simples de fatia de pão fresco." },
+                { nome: "Queijo (fatia)", tipo: "Comida", custo: "1 PP", desc: "Uma porção de queijo curado ou regional cortado na hora." }
+            ],
+            viagem: [
+                { nome: "Condução de carroça urbana", tipo: "Serviço de Transporte", custo: "1 PC por km", desc: "Transporte básico por meio de carroça fretada operando estritamente dentro dos limites e perímetros de uma cidade." },
+                { nome: "Condução de carroça entre vilas", tipo: "Serviço de Transporte", custo: "2 PC por km", desc: "Transporte intermunicipal por meio de estradas conectando vilas, aldeias e grandes centros urbanos." },
+                { nome: "Passagem de navio", tipo: "Serviço de Transporte", custo: "6 PC por km", desc: "Custo de tráfego náutico regular para passageiros em embarcações comerciais ao longo de rios ou mares navegáveis." },
+                { nome: "Pedágio de estrada ou portão", tipo: "Taxa Governamental", custo: "1 PC", desc: "Taxa padrão obrigatória cobrada por guardas ou feudos para cruzar pontes estratégicas, portões de cidades ou estradas vigiadas." }
+            ],
+            trabalhadores: [
+                { nome: "Mensageiro", tipo: "Trabalhador Qualificado", custo: "2 PC por 1,5 quilômetro", desc: "Profissional contratado para entregar cartas, encomendas ou avisos urgentes com rapidez e discrição ao longo das rotas estabelecidas." },
+                { nome: "Trabalhador não-qualificado", tipo: "Trabalhador Geral", custo: "2 PP por dia", desc: "Mão de obra básica para serviços pesados que não exigem proficiências ou conhecimentos especializados. Inclui carregadores, escavadores e operários gerais." },
+                { nome: "Trabalhador qualificado", tipo: "Trabalhador Especialista", custo: "2 PO por dia", desc: "Profissional com treinamento técnico ou proficiência comprovada em ferramentas, armas ou perícias. Inclui mercenários de aluguel, artesãos, ferreiros, escribas e engenheiros rústicos." }
+            ],
+            conjuracao: [
+                { nome: "Conjuração de Truque", tipo: "Magia Espontânea", custo: "30 PO", local: "Vila, aldeia ou cidade", desc: "Efeito mágico simples ou utilitário conjurado instantaneamente por conjuradores locais remunerados." },
+                { nome: "Conjuração de 1º Círculo", tipo: "Magia de Baixo Escalão", custo: "50 PO", local: "Vila, aldeia ou cidade", desc: "Serviço mágico básico, como magias de cura inicial, identificação ou proteções rústicas." },
+                { nome: "Conjuração de 2º Círculo", tipo: "Magia Menor", custo: "200 PO", local: "Vila, aldeia ou cidade", desc: "Magias comerciais utilitárias e efeitos de combate localizados comuns em pequenos povoados." },
+                { nome: "Conjuração de 3º Círculo", tipo: "Magia Intermediária", custo: "300 PO", local: "Apenas aldeia ou cidade", desc: "Requer um conjurador experiente. Serviços complexos como remoção de maldições severas ou restaurações." },
+                { nome: "Conjuração de 4º–5º Círculo", tipo: "Magia Maior", custo: "2.000 PO", local: "Apenas aldeia ou cidade", desc: "Efeitos que alteram o curso de eventos regionais ou adivinhações profundas. Difíceis de encontrar fora de grandes centros." },
+                { nome: "Conjuração de 6º–8º Círculo", tipo: "Magia de Alto Escalão", custo: "20.000 PO", local: "Apenas cidade", desc: "Feitos colossais e magias lendárias que exigem arquimagos ou sumos sacerdotes sediados estritamente em metrópoles." },
+                { nome: "Conjuração de 9º Círculo", tipo: "Magia Suprema", custo: "100.000 PO", local: "Apenas cidade", desc: "O ápice do poder mortal (como Desejo ou Ressurreição Verdadeira). Raríssimos, exigindo negociações diplomáticas e fortunas astronômicas, além de componentes caros somados à parte." }
+            ]
+        };
+
+        const grid = document.getElementById('gridServicos');
+        const modal = document.getElementById('servicoModal');
+
+        function renderizarCategoria(categoria) {
+            grid.innerHTML = '';
+            const itens = bancoServicos[categoria];
+
+            itens.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'servico-card';
+                
+                // Define a estilização da cor com base na moeda
+                let corCusto = 'preco-tag';
+                if (item.custo.includes('PP')) corCusto = 'preco-tag-pp';
+                if (item.custo.includes('PC')) corCusto = 'preco-tag-pc';
+
+                card.innerHTML = `
+                    <div>
+                        <h3>${item.nome}</h3>
+                        <div class="sub-tipo">${item.tipo}</div>
+                    </div>
+                    <div class="servico-meta">
+                        <span>${item.local ? `Disponível em: ${item.local}` : 'Tavernas / Guildas'}</span>
+                        <span class="${corCusto}">${item.custo.split(' por')[0]} ${item.custo.includes('por') ? '...' : ''}</span>
+                    </div>
+                `;
+                
+                card.onclick = () => abrirModal(item, categoria);
+                grid.appendChild(card);
+            });
+        }
+
+        function abrirModal(item, categoria) {
+            document.getElementById('sNome').innerText = item.nome;
+            document.getElementById('sDescricao').innerText = item.desc;
+            
+            const specsDiv = document.getElementById('sSpecs');
+            specsDiv.innerHTML = '';
+
+            // Monta as especificações adicionais conforme as tabelas originais
+            if (categoria === 'conjuracao') {
+                specsDiv.innerHTML = `
+                    <div><strong>Custo Base:</strong> ${item.custo}</div>
+                    <div><strong>Localidades Disponíveis:</strong> ${item.local}</div>
+                    <div style="grid-column: 1 / -1; font-size: 0.8rem; color: #a6acaf; margin-top: 5px;">
+                        * Se a magia tiver componentes caros consumíveis, adicione o valor de custo deles ao preço apresentado.
+                    </div>
+                `;
+            } else if (categoria === 'trabalhadores') {
+                specsDiv.innerHTML = `
+                    <div><strong>Taxa Mínima de Contratação:</strong> ${item.custo}</div>
+                    <div style="grid-column: 1 / -1; font-size: 0.8rem; color: #a6acaf; margin-top: 5px;">
+                        * O pagamento mostrado é o mínimo; trabalhadores especialistas ou tarefas de alto risco exigem pagamentos maiores.
+                    </div>
+                `;
+            } else if (categoria === 'viagem') {
+                specsDiv.innerHTML = `
+                    <div><strong>Tarifa do Serviço:</strong> ${item.custo}</div>
+                    <div style="grid-column: 1 / -1; font-size: 0.8rem; color: #a6acaf; margin-top: 5px;">
+                        * Os valores cobrados referem-se à condução básica, acrescidos de eventuais pedágios ou taxas de portão ao longo do trajeto.
+                    </div>
+                `;
+            } else {
+                specsDiv.innerHTML = `
+                    <div><strong>Categoria:</strong> ${item.tipo}</div>
+                    <div><strong>Preço Tabelado:</strong> ${item.custo}</div>
+                `;
+            }
+
+            modal.style.display = 'flex';
+        }
+
+        function mudarAba(categoria, botao) {
+            document.querySelectorAll('.aba-btn').forEach(btn => btn.classList.remove('ativa'));
+            botao.classList.add('ativa');
+            renderizarCategoria(categoria);
+        }
+
+        function fecharJanela(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Inicialização padrão na primeira aba
+        renderizarCategoria('estalagem');
+    </script>
+</body>
+</html>
