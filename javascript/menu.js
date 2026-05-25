@@ -10,7 +10,8 @@ document.addEventListener("DOMContentLoaded", function() {
         { texto: "Classes", url: "/WEIRS-RPG/pages/classes/classes.html" },
         { texto: "Talentos", url: "/WEIRS-RPG/pages/talentos.html" },
         { texto: "Antecedentes", url: "/WEIRS-RPG/pages/antecedentes.html" },
-        { texto: "Magias", url: "/WEIRS-RPG/pages/magias.html" }
+        { texto: "Magias", url: "/WEIRS-RPG/pages/magias.html" },
+        { texto: "Equipamentos", url: "/WEIRS-RPG/pages/itens/equipamentos.html" }
     ];
 
     // 3. Monta o HTML do menu dinamicamente

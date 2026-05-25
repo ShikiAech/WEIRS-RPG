@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armaduras e Escudos — Weirs RPG</title>
+  <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+  <style>
+    /* PADDING CIRÚRGICO: Espaçamento no topo para o menu dinâmico não esmagar o título */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 60px; /* Almofada de fôlego para o menu superior respirar */
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 35px;
+      border-bottom: 2px solid #b9770e;
+      padding-bottom: 20px;
+      position: relative;
+    }
+    header h2 {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .back-btn {
+      position: absolute;
+      left: 0;
+      top: 5px;
+      color: #b9770e;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .back-btn:hover {
+      color: #f39c12;
+    }
+
+    /* Bloco de Contexto/Regras no mesmo padrão dos Antecedentes */
+    .bloco-regra {
+      background: rgba(185, 119, 14, 0.04);
+      border-left: 4px solid #b9770e;
+      padding: 20px;
+      margin-bottom: 35px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-regra h4 {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    /* Categorias Temáticas */
+    .category-title {
+      font-family: 'Cinzel', serif;
+      margin: 40px 0 15px 0;
+      padding-bottom: 5px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      text-transform: uppercase;
+      font-size: 1.3rem;
+      letter-spacing: 1px;
+    }
+    .category-title.leves { color: #4caf50; }
+    .category-title.medias { color: #ff9800; }
+    .category-title.pesadas { color: #f44336; }
+    .category-title.escudos { color: #00ffff; }
+
+    /* Grid de Cards baseada na estrutura de Armas */
+    .armors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 25px;
+    }
+
+    /* Estrutura de Card de Armadura */
+    .armor-card {
+      background: rgba(25, 25, 27, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .armor-card:hover {
+      transform: translateY(-4px);
+    }
+
+    /* Cores de Borda por Tipo de Armadura */
+    .card-leves { border-top: 4px solid #4caf50; }
+    .card-leves:hover { box-shadow: 0 6px 15px rgba(76, 175, 80, 0.15); }
+
+    .card-medias { border-top: 4px solid #ff9800; }
+    .card-medias:hover { box-shadow: 0 6px 15px rgba(255, 152, 0, 0.15); }
+
+    .card-pesadas { border-top: 4px solid #f44336; }
+    .card-pesadas:hover { box-shadow: 0 6px 15px rgba(244, 67, 54, 0.15); }
+
+    .card-escudos { border-top: 4px solid #00ffff; }
+    .card-escudos:hover { box-shadow: 0 6px 15px rgba(0, 255, 255, 0.2); }
+
+    .armor-card h3 {
+      font-family: 'Cinzel', serif;
+      color: #fff;
+      font-size: 1.15rem;
+      margin-bottom: 8px;
+    }
+    .armor-details-preview {
+      font-size: 0.85rem;
+      color: #a6acaf;
+      line-height: 1.4;
+    }
+    .armor-details-preview strong {
+      color: #e67e22;
+    }
+    .armor-price {
+      margin-top: 12px;
+      font-weight: bold;
+      text-align: right;
+      color: #d4af37;
+      font-size: 0.95rem;
+    }
+
+    /* Modal de Detalhes da Interface */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.85);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+    .modal-content {
+      background: #19191b;
+      border: 2px solid #b9770e;
+      padding: 30px;
+      border-radius: 6px;
+      max-width: 550px;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.7);
+    }
+    .close-modal {
+      position: absolute;
+      top: 15px; right: 20px;
+      font-size: 24px;
+      color: #a6acaf;
+      cursor: pointer;
+    }
+    .close-modal:hover { color: #fff; }
+    
+    .modal-title {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+      border-bottom: 1px solid rgba(185, 119, 14, 0.3);
+      padding-bottom: 5px;
+    }
+    .modal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+    }
+    .modal-grid strong { color: #e67e22; }
+    .modal-desc {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 15px;
+      color: #d0d0d0;
+    }
+    .special-rule {
+      background: rgba(185, 119, 14, 0.05);
+      border-left: 3px solid #b9770e;
+      padding: 12px;
+      margin-top: 12px;
+      font-style: italic;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="/WEIRS-RPG/pages/itens/equipamentos.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Equipamentos </a>
+    </div>
+    
+    <header>
+      <h2>Armaduras e Escudos</h2>
+    </header>
+
+    <div class="bloco-regra">
+      <h4>Mecânicas de Proteção (Regras D&D 5e 2024)</h4>
+      <p>As armaduras protegem os heróis de Weirs contra os perigos do combate. Para usufruir de seus benefícios de CA, você precisa possuir a <b>Proficiência</b> adequada; do contrário, sofrerá Desvantagem em testes que usem Força ou Destreza e ficará impedido de conjurar magias. Fique atento às restrições de Força e tempos necessários para vestir ou despir cada peça.</p>
+    </div>
+
+    <h2 class="category-title leves">Armaduras Leves</h2>
+    <div class="armors-grid" id="grid-leves"></div>
+
+    <h2 class="category-title medias">Armaduras Médias</h2>
+    <div class="armors-grid" id="grid-medias"></div>
+
+    <h2 class="category-title pesadas">Armaduras Pesadas</h2>
+    <div class="armors-grid" id="grid-pesadas"></div>
+
+    <h2 class="category-title escudos">Escudos</h2>
+    <div class="armors-grid" id="grid-escudos"></div>
+  </div>
+
+  <div id="armorModal" class="modal" onclick="closeArmor(event)">
+    <div class="modal-content">
+      <span class="close-modal" onclick="document.getElementById('armorModal').style.display='none'">&times;</span>
+      <h2 id="mName" class="modal-title">Nome da Armadura</h2>
+      <div class="modal-grid">
+        <div><strong>Classe de Armadura (CA):</strong> <span id="mCa">-</span></div>
+        <div><strong>Furtividade:</strong> <span id="mStealth">-</span></div>
+        <div><strong>Força Mínima:</strong> <span id="mStr">-</span></div>
+        <div><strong>Peso:</strong> <span id="mWeight">-</span></div>
+      </div>
+      <div style="margin-bottom: 12px; font-size: 0.9rem;"><strong>Preço:</strong> <span id="mPrice">-</span></div>
+      <p id="mDesc" class="modal-desc">Descrição...</p>
+      <div id="mSpecial" class="special-rule" style="display: none;"></div>
+    </div>
+  </div>
+
+  <script>
+    // Banco de dados absoluto de armaduras (Regras 5e 2024 atualizadas)
+    const armorsDataset = {
+      leves: [
+        {nome: "Acolchoada", ca: "11 + mod. Destreza", stealth: "Desvantagem", str: "—", peso: "4 kg", preco: "5 PO", desc: "Feita de camadas acolchoadas de tecido e pano grosso. Embora seja leve, o volume sufoca os passos silenciosos.", special: "<strong>Tempo de Manejo:</strong> 1 minuto para Vestir ou Despir."},
+        {nome: "Couro", ca: "11 + mod. Destreza", stealth: "Normal", str: "—", peso: "5 kg", preco: "10 PO", desc: "Veste de couro fervido em óleo para enrijecer a estrutura. É a armadura padrão para exploradores ágeis.", special: "<strong>Tempo de Manejo:</strong> 1 minuto para Vestir ou Despir."},
+        {nome: "Couro Batido", ca: "12 + mod. Destreza", stealth: "Normal", str: "—", peso: "6,5 kg", preco: "45 PO", desc: "Estrutura de couro flexível totalmente reforçada com rebites, pregos ou pequenas tachas metálicas.", special: "<strong>Tempo de Manejo:</strong> 1 minuto para Vestir ou Despir."}
+      ],
+      medias: [
+        {nome: "Gibão de Peles", ca: "12 + mod. Destreza (máx +2)", stealth: "Normal", str: "—", peso: "6 kg", preco: "10 PO", desc: "Peles grossas e couro rústico sobrepostos. Muito comum entre povos de regiões bárbaras de Weirs.", special: "<strong>Tempo de Manejo:</strong> 5 minutos para Vestir | 1 minuto para Despir."},
+        {nome: "Cota de Malha Parcial", ca: "13 + mod. Destreza (máx +2)", stealth: "Normal", str: "—", peso: "10 kg", preco: "50 PO", desc: "Uma camisa de anéis metálicos cobrindo órgãos vitais, assentada sobre tecido ou couro macio.", special: "<strong>Tempo de Manejo:</strong> 5 minutos para Vestir | 1 minuto para Despir."},
+        {nome: "Loriga de Escamas", ca: "14 + mod. Destreza (máx +2)", stealth: "Desvantagem", str: "—", peso: "22 kg", preco: "50 PO", desc: "Camadas de escamas de ferro fixadas sobre couro. O atrito das placas gera ruído metálico constante.", special: "<strong>Tempo de Manejo:</strong> 5 minutos para Vestir | 1 minuto para Despir."},
+        {nome: "Couraça Peitoral", ca: "14 + mod. Destreza (máx +2)", stealth: "Normal", str: "—", peso: "10 kg", preco: "400 PO", desc: "Uma placa metálica perfeitamente moldada para cobrir o tronco, mantendo os braços totalmente livres.", special: "<strong>Tempo de Manejo:</strong> 5 minutos para Vestir | 1 minuto para Despir."},
+        {nome: "Placas Parcial", ca: "15 + mod. Destreza (máx +2)", stealth: "Desvantagem", str: "—", peso: "20 kg", preco: "750 PO", desc: "Proteção pesada nas juntas e tronco com cota de malha subjacente. Oferece excelente defesa, sacrificando a discrição.", special: "<strong>Tempo de Manejo:</strong> 5 minutos para Vestir | 1 minuto para Despir."}
+      ],
+      pesadas: [
+        {nome: "Cota de Anéis", ca: "14", stealth: "Desvantagem", str: "—", peso: "20 kg", preco: "30 PO", desc: "Anéis metálicos grossos e pesados costurados diretamente na parte externa de um traje robusto de couro.", special: "<strong>Tempo de Manejo:</strong> 10 minutos para Vestir | 5 minutos para Despir. Ignora modificador de Destreza."},
+        {nome: "Cota de Malha", ca: "16", stealth: "Desvantagem", str: "FOR 13", peso: "27 kg", preco: "75 PO", desc: "Anéis de metal entrelaçados em malha contínua sobre estofamento de pano. Robusta e eficiente.", special: "<strong>Penalidade de Atributo:</strong> Se o seu valor de Força for inferior a 13, seu deslocamento é reduzido em 3 metros. 10 min para vestir."},
+        {nome: "Armadura de Talas", ca: "17", stealth: "Desvantagem", str: "FOR 15", peso: "30 kg", preco: "200 PO", desc: "Longas tiras verticais de metal rebitadas sobre couro grosso. Estrutura rígida feita para deter impactos brutos.", special: "<strong>Penalidade de Atributo:</strong> Se o seu valor de Força for inferior a 15, seu deslocamento é reduzido em 3 metros. 10 min para vestir."},
+        {nome: "Placas", ca: "18", stealth: "Desvantagem", str: "FOR 15", peso: "32 kg", preco: "1.500 PO", desc: "O pináculo da proteção física. Placas de aço moldadas cobrindo todo o corpo, articuladas milimetricamente.", special: "<strong>Penalidade de Atributo:</strong> Se o seu valor de Força for inferior a 15, seu deslocamento é reduzido em 3 metros. 10 min para vestir."}
+      ],
+      escudos: [
+        {nome: "Escudo Padrão", ca: "+2 bônus na CA", stealth: "Normal", str: "—", peso: "3 kg", preco: "10 PO", desc: "Feito de madeira reforçada ou metal pesado, empunhado para desviar projéteis e golpes corporais diretamente.", special: "<strong>Mecânica (Regra 2024):</strong> Requer uma ação de <i>Usar Objeto</i> para ser equipado ou desequipado no braço. Você só pode se beneficiar de um único escudo por vez."}
+      ]
+    };
+
+    // Injeção Automática de Cards idêntica ao script de armas
+    function buildGrids() {
+      Object.keys(armorsDataset).forEach(category => {
+        const container = document.getElementById(`grid-${category}`);
+        if (!container) return;
+        
+        armorsDataset[category].forEach(a => {
+          const card = document.createElement('div');
+          card.className = `armor-card card-${category}`;
+          card.innerHTML = `
+            <h3>${a.nome}</h3>
+            <div class="armor-details-preview">
+              <strong>CA:</strong> ${a.ca}<br>
+              <strong>Furtividade:</strong> ${a.stealth}
+            </div>
+            <div class="armor-price">${a.preco}</div>
+          `;
+          card.onclick = () => openArmor(a.nome, a.ca, a.stealth, a.str, a.peso, a.preco, a.desc, a.special || '');
+          container.appendChild(card);
+        });
+      });
+    }
+
+    // Modal Dinâmico Pop-up
+    function openArmor(name, ca, stealth, str, weight, price, desc, special) {
+      document.getElementById('mName').innerText = name;
+      document.getElementById('mCa').innerText = ca;
+      document.getElementById('mStealth').innerText = stealth;
+      document.getElementById('mStr').innerText = str;
+      document.getElementById('mWeight').innerText = weight;
+      document.getElementById('mPrice').innerText = price;
+      document.getElementById('mDesc').innerText = desc;
+      
+      const specialDiv = document.getElementById('mSpecial');
+      if (special) {
+        specialDiv.innerHTML = special;
+        specialDiv.style.display = 'block';
+      } else {
+        specialDiv.style.display = 'none';
+      }
+      document.getElementById('armorModal').style.display = 'flex';
+    }
+
+    function closeArmor(event) {
+      if (event.target === document.getElementById('armorModal')) {
+        document.getElementById('armorModal').style.display = 'none';
+      }
+    }
+
+    window.onload = buildGrids;
+  </script>
+</body>
+</html>

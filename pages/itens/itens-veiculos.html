@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estábulo & Veículos — Weirs RPG</title>
+    <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 60px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 35px;
+            border-bottom: 2px solid #b9770e;
+            padding-bottom: 20px;
+        }
+        header h2 {
+            font-family: 'Cinzel', serif;
+            color: #f39c12;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Sistema de Abas */
+        .abas-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .aba-btn {
+            background: rgba(25, 25, 27, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #a6acaf;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .aba-btn:hover, .aba-btn.ativa {
+            border-color: #f39c12;
+            color: #fff;
+            background: #b9770e;
+        }
+
+        /* Grid de Cards */
+        .veiculos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .veiculo-card {
+            background: rgba(25, 25, 27, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid #b9770e;
+            padding: 18px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .veiculo-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(185, 119, 14, 0.2);
+            border-color: #f39c12;
+        }
+
+        .veiculo-card h3 {
+            font-family: 'Cinzel', serif;
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+
+        .veiculo-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #a6acaf;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 10px;
+        }
+
+        .preco-tag { color: #ecc94b; font-weight: bold; }
+        .preco-tag-pp { color: #cbd5e0; font-weight: bold; }
+        .preco-tag-pc { color: #ed8936; font-weight: bold; }
+
+        /* Modal Pop-up */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        .modal-content {
+            background: #19191b;
+            border: 2px solid #b9770e;
+            padding: 30px;
+            border-radius: 6px;
+            max-width: 550px;
+            width: 100%;
+            position: relative;
+        }
+        .close-modal {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 24px;
+            color: #a6acaf;
+            cursor: pointer;
+        }
+        .close-modal:hover { color: #fff; }
+
+        .modal-title {
+            font-family: 'Cinzel', serif;
+            color: #f39c12;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(185, 119, 14, 0.3);
+            padding-bottom: 5px;
+        }
+
+        .modal-specs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        .modal-specs div strong { color: #e67e22; }
+
+        .modal-desc {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #d0d0d0;
+        }
+    </style>
+</head>
+<body>
+
+    <script src="/WEIRS-RPG/javascript/menu.js"></script>
+
+    <div class="container">
+        <div style="margin-bottom: 30px;">
+            <a href="/WEIRS-RPG/pages/itens/equipamentos.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Equipamentos</a>
+        </div>
+
+        <header>
+            <h2>Montarias e Veículos</h2>
+        </header>
+
+        <div class="abas-container">
+            <button class="aba-btn ativa" onclick="mudarAba('montarias', this)">Montarias e Outros Animais</button>
+            <button class="aba-btn" onclick="mudarAba('arreios', this)">Arreios e Veículos de Tração</button>
+            <button class="aba-btn" onclick="mudarAba('aquaticos', this)">Veículos Aéreos e Aquáticos</button>
+        </div>
+
+        <div class="veiculos-grid" id="gridVeiculos"></div>
+    </div>
+
+    <div id="veiculoModal" class="modal" onclick="fecharJanela(event)">
+        <div class="modal-content">
+            <span class="close-modal" onclick="document.getElementById('veiculoModal').style.display='none'">&times;</span>
+            <h2 id="vNome" class="modal-title">Nome do Item</h2>
+            
+            <div id="vSpecs" class="modal-specs">
+                </div>
+
+            <div class="modal-desc">
+                <p id="vDescricao"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados estritos extraídos diretamente das tabelas enviadas
+        const bancoVeiculos = {
+            montarias: [
+                { nome: "Camelo", custo: "50 PO", carga: "225 kg", desc: "Animal de carga e montaria ideal para travessias em ambientes áridos ou desérticos extensos." },
+                { nome: "Cavalo de Carga", custo: "50 PO", carga: "270 kg", desc: "Cavalo robusto selecionado especificamente pela sua força e resistência para puxar carroças ou carregar suprimentos pesados." },
+                { nome: "Cavalo de Guerra", custo: "400 PO", carga: "270 kg", desc: "Montaria imponente treinada para combate avançado, capaz de manter a calma e proteger o cavaleiro em meio ao caos das batalhas." },
+                { nome: "Cavalo de Montaria", custo: "75 PO", carga: "240 kg", desc: "Cavalo veloz e versátil, balanceado para viagens rápidas através de estradas e rotas comerciais pavimentadas." },
+                { nome: "Elefante", custo: "200 PO", carga: "660 kg", desc: "Criatura massiva dotada de uma capacidade colossal de carga, frequentemente utilizada para transporte de estruturas de combate ou logística militar pesada." },
+                { nome: "Mastim", custo: "25 PO", carga: "93 kg", desc: "Cão de grande porte adaptado para guarda, rastreamento básico ou para servir de montaria para criaturas de tamanho Pequeno." },
+                { nome: "Mula", custo: "8 PO", carga: "210 kg", desc: "Animal de carga obstinado, rústico e econômico, muito popular entre mineradores e exploradores de montanhas." },
+                { nome: "Pônei", custo: "30 PO", carga: "112 kg", desc: "Montaria compacta e dócil, ideal para aventureiros de estirpe Pequena trafegarem por caminhos estreitos." }
+            ],
+            arreios: [
+                { nome: "Alimentação por dia", custo: "5 PC", peso: "5 kg", desc: "Provisões e rações diárias necessárias para manter a energia e a saúde de uma montaria de tamanho Médio ou Grande." },
+                { nome: "Biga", custo: "250 PO", peso: "50 kg", desc: "Carro de guerra leve de duas rodas, projetado para velocidade e investidas rápidas puxadas por até duas montarias." },
+                { nome: "Carroça", custo: "15 PO", peso: "100 kg", desc: "Veículo aberto simples de quatro rodas de tração, largamente utilizado para o transporte utilitário de fardos e suprimentos rústicos." },
+                { nome: "Carruagem", custo: "100 PO", peso: "300 kg", desc: "Veículo de quatro rodas fechado e luxuoso, projetado com amortecimento básico para o conforto de passageiros nobres ou diplomatas." },
+                { nome: "Estábulo por dia", custo: "5 PP", peso: "—", desc: "Custo de hospedagem, cuidados básicos, água e abrigo seguro para um animal de montaria em estalagens ou vilas." },
+                { nome: "Sela Exótica", custo: "60 PO", peso: "20 kg", desc: "Sela customizada essencial para manter o equilíbrio e a fixação do cavaleiro ao montar criaturas de tração aquática ou voadoras." },
+                { nome: "Sela Militar", custo: "20 PO", peso: "15 kg", desc: "Sela estrategicamente desenhada que concede Vantagem em qualquer teste de atributo que você realizar para permanecer montado diante de impactos ou danos." },
+                { nome: "Sela de Viagem", custo: "10 PO", peso: "12,5 kg", desc: "Sela confortável e ergonômica com pontos de amarração para mochilas, ideal para longas jornadas diárias." },
+                { nome: "Trenó", custo: "20 PO", peso: "150 kg", desc: "Veículo de tração montado sobre lâminas paralelas, ideal para ser puxado por matilhas ou montarias sobre neve profunda ou gelo." },
+                { nome: "Vagão", custo: "35 PO", peso: "200 kg", desc: "Grande vagão de carga pesada reforçado, utilizado por caravanas mercantes para mover grandes volumes de mercadorias protegidas por escoltas." }
+            ],
+            aquaticos: [
+                { nome: "Aeronau", custo: "40.000 PO", specs: { "Deslocamento": "13 km/h", "Tripulação": "10", "Passageiros": "20", "Carga": "1 Ton", "CA": "13", "PV": "300" }, desc: "Uma raríssima e imponente embarcação voadora mágica ou mecânica que singra os céus, superando barreiras terrestres tradicionais." },
+                { nome: "Barco a Remo", custo: "50 PO", specs: { "Deslocamento": "2,4 km/h", "Tripulação": "1", "Passageiros": "3", "Carga": "—", "CA": "11", "PV": "50" }, desc: "Pequeno barco de madeira simples impulsionado por remos manuais, propício para travessias rápidas de rios calmos ou lagos." },
+                { nome: "Barco de Quilha", custo: "3.000 PO", specs: { "Deslocamento": "1,6 km/h", "Tripulação": "1", "Passageiros": "6", "Carga": "0,5 Ton", "CA": "15", "PV": "100", "Limiar de Dano": "10" }, desc: "Embarcação fluvial pequena com cabine e mastro único, ideal para patrulhas ou comércios em rios largos." },
+                { nome: "Dracar", custo: "10.000 PO", specs: { "Deslocamento": "4,8 km/h", "Tripulação": "40", "Passageiros": "150", "Carga": "10 Ton", "CA": "15", "PV": "300", "Limiar de Dano": "15" }, desc: "Navio longo e veloz movido a velas e remos, famoso por sua estabilidade em águas costeiras revoltas e capacidade de incursão de tropas." },
+                { nome: "Galera", custo: "30.000 PO", specs: { "Deslocamento": "6,5 km/h", "Tripulação": "80", "Passageiros": "—", "Carga": "150 Ton", "CA": "15", "PV": "500", "Limiar de Dano": "20" }, desc: "Navio imenso movido primariamente por grandes fileiras de remadores, possuindo alta estabilidade e blindagem naval proeminente." },
+                { nome: "Navio de Guerra", custo: "25.000 PO", specs: { "Deslocamento": "4 km/h", "Tripulação": "60", "Passageiros": "60", "Carga": "200 Ton", "CA": "15", "PV": "500", "Limiar de Dano": "20" }, desc: "Fortaleza flutuante armada e blindada, construída com madeiras nobres tratadas para resistir a investidas e cercos navais intensos." },
+                { nome: "Veleiro", custo: "10.000 PO", specs: { "Deslocamento": "3,2 km/h", "Tripulação": "20", "Passageiros": "20", "Carga": "100 Ton", "CA": "15", "PV": "300", "Limiar de Dano": "15" }, desc: "Embarcação marítima tradicional de grande porte movida a panos de vela, muito equilibrada para longas rotas transoceânicas de exploração." }
+            ]
+        };
+
+        const grid = document.getElementById('gridVeiculos');
+        const modal = document.getElementById('veiculoModal');
+
+        function renderizarCategoria(categoria) {
+            grid.innerHTML = '';
+            const itens = bancoVeiculos[categoria];
+
+            itens.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'veiculo-card';
+                
+                let corCusto = 'preco-tag';
+                if (item.custo.includes('PP')) corCusto = 'preco-tag-pp';
+                if (item.custo.includes('PC')) corCusto = 'preco-tag-pc';
+
+                let metaSecundaria = "";
+                if (item.carga) metaSecundaria = `Carga: ${item.carga}`;
+                else if (item.peso) metaSecundaria = `Peso: ${item.peso}`;
+                else if (item.specs && item.specs["Deslocamento"]) metaSecundaria = item.specs["Deslocamento"];
+
+                card.innerHTML = `
+                    <h3>${item.nome}</h3>
+                    <div class="veiculo-meta">
+                        <span>${metaSecundaria}</span>
+                        <span class="${corCusto}">${item.custo}</span>
+                    </div>
+                `;
+                
+                card.onclick = () => abrirModal(item, categoria);
+                grid.appendChild(card);
+            });
+        }
+
+        function abrirModal(item, categoria) {
+            document.getElementById('vNome').innerText = item.nome;
+            document.getElementById('vDescricao').innerText = item.desc;
+            
+            const specsDiv = document.getElementById('vSpecs');
+            specsDiv.innerHTML = '';
+
+            // Monta os atributos com base nas diferentes estruturas de colunas das imagens
+            if (categoria === 'montarias') {
+                specsDiv.innerHTML = `
+                    <div><strong>Custo:</strong> ${item.custo}</div>
+                    <div><strong>Capac. Carga:</strong> ${item.carga}</div>
+                `;
+            } else if (categoria === 'arreios') {
+                specsDiv.innerHTML = `
+                    <div><strong>Custo:</strong> ${item.custo}</div>
+                    <div><strong>Peso:</strong> ${item.peso}</div>
+                `;
+            } else if (categoria === 'aquaticos') {
+                specsDiv.innerHTML = `
+                    <div><strong>Custo:</strong> ${item.custo}</div>
+                    <div><strong>Velocidade:</strong> ${item.specs["Deslocamento"]}</div>
+                    <div><strong>Tripulação:</strong> ${item.specs["Tripulação"]}</div>
+                    <div><strong>Passageiros:</strong> ${item.specs["Passageiros"]}</div>
+                    <div><strong>Carga:</strong> ${item.specs["Carga"]}</div>
+                    <div><strong>CA:</strong> ${item.specs["CA"]} | <strong>PV:</strong> ${item.specs["PV"]}</div>
+                    ${item.specs["Limiar de Dano"] ? `<div><strong>Limiar Dano:</strong> ${item.specs["Limiar de Dano"]}</div>` : ''}
+                `;
+            }
+
+            modal.style.display = 'flex';
+        }
+
+        function mudarAba(categoria, botao) {
+            document.querySelectorAll('.aba-btn').forEach(btn => btn.classList.remove('ativa'));
+            botao.classList.add('ativa');
+            renderizarCategoria(categoria);
+        }
+
+        function fecharJanela(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Renderização inicial padrão
+        renderizarCategoria('montarias');
+    </script>
+</body>
+</html>
