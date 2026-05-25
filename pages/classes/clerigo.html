@@ -5,88 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clérigo — Weirs RPG</title>
   <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
-  <style>
-    .bloco-clerigo {
-      background: rgba(241, 196, 15, 0.03);
-      border: 1px solid rgba(241, 196, 15, 0.15);
-      border-left: 4px solid #f1c40f;
-      padding: 20px;
-      margin-top: 20px;
-      border-radius: 0 4px 4px 0;
-    }
-    .bloco-clerigo h4 {
-      font-family: 'Cinzel', serif;
-      color: #f39c12;
-      font-size: 1.25rem;
-      margin-bottom: 8px;
-    }
-    .bloco-subclasse-detalhada {
-      background: rgba(25, 25, 27, 0.8);
-      border: 1px solid var(--border-fantasy);
-      padding: 25px;
-      margin-top: 35px;
-      border-radius: 4px;
-    }
-    .bloco-subclasse-detalhada h3 {
-      font-family: 'Cinzel', serif;
-      color: #f1c40f;
-      border-bottom: 1px solid rgba(241, 196, 15, 0.3);
-      padding-bottom: 8px;
-      margin-bottom: 20px;
-    }
-    .sub-feature {
-      background: rgba(241, 196, 15, 0.04);
-      border-left: 3px solid #f1c40f;
-      padding: 15px;
-      margin-top: 15px;
-      border-radius: 0 4px 4px 0;
-    }
-    .sub-feature h5 {
-      font-family: 'Cinzel', serif;
-      color: #f7dc6f;
-      font-size: 1.05rem;
-      margin-bottom: 5px;
-    }
-    .trait-list {
-      list-style: none;
-      margin-left: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .trait-list li strong {
-      color: var(--gold);
-    }
-    .tabela-rpg {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-      background: rgba(20, 20, 22, 0.6);
-      border: 1px solid var(--border-fantasy);
-      font-size: 0.85rem;
-    }
-    .tabela-rpg th, .tabela-rpg td {
-      border: 1px solid var(--border-fantasy);
-      padding: 10px 12px;
-      text-align: center;
-    }
-    .tabela-rpg th {
-      background: rgba(43, 39, 23, 0.5);
-      color: #f1c40f;
-      font-family: 'Cinzel', serif;
-    }
-    .tabela-rpg tr:nth-child(even) {
-      background: rgba(255, 255, 255, 0.02);
-    }
-    .tabela-rpg td.esquerda {
-      text-align: left;
-    }
-  </style>
+  <link rel="stylesheet" href="/WEIRS-RPG/css/class-style.css">
+  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+  <script src="/WEIRS-RPG/javascript/subclass-tab.js"></script>
+
 </head>
 <body>
-
-  <script src="/WEIRS-RPG/javascript/menu.js"></script>
-
   <div class="container">
     
     <div style="margin-bottom: 30px;">
@@ -103,268 +27,1022 @@
           <p>Os clérigos não são meros sacerdotes que proferem orações em templos pacatos. Eles são os conduítes vivos da vontade dos deuses no plano material, vestidos em armaduras de metal e erguendo brasões sagrados diante das hordas profanas. Onde quer que as trevas ameacem consumir a esperança, o clérigo se impõe como um farol.</p>
           <p>Seus milagres não advêm de estudos exaustivos ou barganhas sussurradas, mas sim de uma devoção inabalável e alinhamento com os grandes conceitos do cosmos: a vida, a luz, a guerra ou a própria ordem. Através de suas preces, feridas mortais fecham-se instantaneamente e mortos-vivos desfazem-se em cinzas sob o peso da autoridade divina.</p>
           
-          <h4 style="color: #f1c40f; margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
+          <h4 style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
           <ul class="trait-list" style="margin-top: 15px;">
-            <li><strong>Dado de Vida:</strong> 1d8 por nível de Clérigo.</li>
-            <li><strong>Atributo Principal:</strong> Sabedoria (Conjuração e Habilidades Divinas).</li>
-            <li><strong>Proficiências em Armaduras:</strong> Armaduras Leves, Armaduras Médias e Escudos.</li>
-            <li><strong>Proficiências em Armas:</strong> Armas Simples.</li>
-            <li><strong>Ferramentas:</strong> Nenhuma.</li>
-            <li><strong>Testes de Resistência:</strong> Sabedoria e Carisma.</li>
-            <li><strong>Perícias:</strong> Escolha duas entre História, Intuição, Medicina, Persuasão e Religião.</li>
+            <li><strong>Dado de Vida:</strong> 1d8 por nível de Clérigo</li>
+
+            <li><strong>Atributo Principal:</strong> Sabedoria</li>
+
+            <li><strong>Proficiências em Armaduras:</strong> Armaduras Leves, Médias e Escudos</li>
+
+            <li><strong>Proficiências em Armas:</strong> Armas Simples</li>
+
+            <li><strong>Ferramentas:</strong> Nenhuma</li>
+
+            <li><strong>Testes de Resistência:</strong> Sabedoria e Carisma</li>
+
+            <li><strong>Perícias:</strong> Escolha duas entre História, Intuição, Medicina, Persuasão ou Religião</li>
+
+            <li><strong>Equipamento Inicial:</strong> Escolha A ou B: (A) Cota de Malha, Escudo, Maça, Símbolo Sagrado, Mochila de Sacerdote e 7 PO; (B) 110 PO</li>
           </ul>
         </div>
       </div>
 
       <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px; overflow-x: auto;">
-        <h3 style="font-family: 'Cinzel', serif; color: #f1c40f; font-size: 1.6rem; margin-bottom: 15px;">Progressão de Classe</h3>
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.6rem; margin-bottom: 15px;">Características do Clérigo (Parte A)</h3>
         <table class="tabela-rpg">
-          <thead>
-            <tr>
-              <th>Nível</th>
-              <th>Prof.</th>
-              <th class="esquerda">Recursos de Classe</th>
-              <th>Truques</th>
-              <th>Magias Preparadas</th>
-              <th>1º</th>
-              <th>2º</th>
-              <th>3º</th>
-              <th>4º</th>
-              <th>5º</th>
-              <th>6º</th>
-              <th>7º</th>
-              <th>8º</th>
-              <th>9º</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>1º</td><td>+2</td><td class="esquerda">Conjuração, Ordem Divina</td><td>3</td><td>4</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>2º</td><td>+2</td><td class="esquerda">Canalizar Divindade (2/Descanso)</td><td>3</td><td>5</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>3º</td><td>+2</td><td class="esquerda">Domínio Divino (Subclasse)</td><td>3</td><td>6</td><td>4</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>4º</td><td>+2</td><td class="esquerda">Talento de Atributo (Feat)</td><td>4</td><td>7</td><td>4</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>5º</td><td>+3</td><td class="esquerda">Destruir Mortos-Vivos</td><td>4</td><td>8</td><td>4</td><td>3</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>6º</td><td>+3</td><td class="esquerda">Uso Extra de Canalizar Divindade, Recurso de Domínio</td><td>4</td><td>9</td><td>4</td><td>3</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>7º</td><td>+3</td><td class="esquerda">Surgimento Sagrado</td><td>4</td><td>10</td><td>4</td><td>3</td><td>3</td><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>8º</td><td>+3</td><td class="esquerda">Talento de Atributo (Feat), Dádiva Potente</td><td>4</td><td>11</td><td>4</td><td>3</td><td>3</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>9º</td><td>+4</td><td class="esquerda">Comunhão Menor</td><td>4</td><td>12</td><td>4</td><td>3</td><td>3</td><td>3</td><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>10º</td><td>+4</td><td class="esquerda">Intervenção Divina, Recurso de Domínio</td><td>5</td><td>12</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>11º</td><td>+4</td><td class="esquerda">Zelo Espiritual</td><td>5</td><td>13</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>12º</td><td>+4</td><td class="esquerda">Talento de Atributo (Feat)</td><td>5</td><td>13</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>13º</td><td>+5</td><td class="esquerda">Emanação Planar</td><td>5</td><td>14</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>—</td><td>—</td></tr>
-            <tr><td>14º</td><td>+5</td><td class="esquerda">Recurso de Domínio</td><td>5</td><td>14</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>—</td><td>—</td></tr>
-            <tr><td>15º</td><td>+5</td><td class="esquerda">Vigor Abençoado</td><td>5</td><td>15</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>—</td></tr>
-            <tr><td>16º</td><td>+5</td><td class="esquerda">Talento de Atributo (Feat)</td><td>5</td><td>15</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>—</td></tr>
-            <tr><td>17º</td><td>+6</td><td class="esquerda">Forma Celestial</td><td>5</td><td>16</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-            <tr><td>18º</td><td>+6</td><td class="esquerda">Intervenção Otimizada</td><td>5</td><td>16</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-            <tr><td>19º</td><td>+6</td><td class="esquerda">Talento de Atributo / Dádiva Épica</td><td>5</td><td>17</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td></tr>
-            <tr><td>20º</td><td>+6</td><td class="esquerda">Intervenção Divina Maior</td><td>5</td><td>17</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>2</td><td>2</td><td>1</td><td>1</td></tr>
-          </tbody>
+          <!-- TABELA DE PROGRESSÃO DO CLÉRIGO (PARTE A) -->
+          <div class="overflow-table">
+            <table class="tabela-rpg">
+              <thead>
+                <tr>
+                  <th>Nível</th>
+                  <th>Bônus de Proficiência</th>
+                  <th class="esquerda">Recursos de Classe</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- NÍVEL 1 -->
+                <tr><td>1º</td><td>+2</td><td class="esquerda">Conjuração, Ordem Divina</td></tr>
+                <!-- NÍVEL 2 -->
+                <tr><td>2º</td><td>+2</td><td class="esquerda">Canalizar Divindade</td></tr>
+                <!-- NÍVEL 3 -->
+                <tr><td>3º</td><td>+2</td><td class="esquerda">Subclasse do Clérigo</td></tr>
+                <!-- NÍVEL 4 -->
+                <tr><td>4º</td><td>+2</td><td class="esquerda">Talento de Atributo</td></tr>
+                <!-- NÍVEL 5 -->
+                <tr><td>5º</td><td>+3</td><td class="esquerda">Queimar Mortos-Vivos</td></tr>
+                <!-- NÍVEL 6 -->
+                <tr><td>6º</td><td>+3</td><td class="esquerda">Característica de Subclasse</td></tr>
+                <!-- NÍVEL 7 -->
+                <tr><td>7º</td><td>+3</td><td class="esquerda">Golpes Abençoados</td></tr>
+                <!-- NÍVEL 8 -->
+                <tr><td>8º</td><td>+3</td><td class="esquerda">Talento de Atributo</td></tr>
+                <!-- NÍVEL 9 -->
+                <tr><td>9º</td><td>+4</td><td class="esquerda">-</td></tr>
+                <!-- NÍVEL 10 -->
+                <tr><td>10º</td><td>+4</td><td class="esquerda">Intervenção Divina</td></tr>
+                <!-- NÍVEL 11 -->
+                <tr><td>11º</td><td>+4</td><td class="esquerda">-</td></tr>
+                <!-- NÍVEL 12 -->
+                <tr><td>12º</td><td>+4</td><td class="esquerda">Talento de Atributo</td></tr>
+                <!-- NÍVEL 13 -->
+                <tr><td>13º</td><td>+5</td><td class="esquerda">-</td></tr>
+                <!-- NÍVEL 14 -->
+                <tr><td>14º</td><td>+5</td><td class="esquerda">Golpes Abençoados Aprimorados</td></tr>
+                <!-- NÍVEL 15 -->
+                <tr><td>15º</td><td>+5</td><td class="esquerda">-</td></tr>
+                <!-- NÍVEL 16 -->
+                <tr><td>16º</td><td>+5</td><td class="esquerda">Talento de Atributo</td></tr>
+                <!-- NÍVEL 17 -->
+                <tr><td>17º</td><td>+6</td><td class="esquerda">Característica de Subclasse</td></tr>
+                <!-- NÍVEL 18 -->
+                <tr><td>18º</td><td>+6</td><td class="esquerda">-</td></tr>
+                <!-- NÍVEL 19 -->
+                <tr><td>19º</td><td>+6</td><td class="esquerda">Dádiva Épica</td></tr>
+                <!-- NÍVEL 20 -->
+                <tr><td>20º</td><td>+6</td><td class="esquerda">Intervenção Divina Superior</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- TABELA DE PROGRESSÃO DO CLÉRIGO (PARTE B) -->
+          <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.6rem; margin-bottom: 15px;">Características do Clérigo (Parte B)</h3>
+          <div class="overflow-table">
+            <table class="tabela-rpg">
+              <thead>
+                <tr>
+                  <th>Nível</th>
+                  <th>Canalizar Divindade</th>
+                  <th>Truques</th>
+                  <th>Magias Preparadas</th>
+                  <th>1º</th>
+                  <th>2º</th>
+                  <th>3º</th>
+                  <th>4º</th>
+                  <th>5º</th>
+                  <th>6º</th>
+                  <th>7º</th>
+                  <th>8º</th>
+                  <th>9º</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- NÍVEL 1 -->
+                <tr><td class="esquerda">1º</td><td>-</td><td>3</td><td>4</td><td>2</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                <!-- NÍVEL 2 -->
+                <tr><td class="esquerda">2º</td><td>2</td><td>3</td><td>5</td><td>3</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                <!-- NÍVEL 3 -->
+                <tr><td class="esquerda">3º</td><td>2</td><td>3</td><td>6</td><td>4</td><td>2</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                <!-- NÍVEL 4 -->
+                <tr><td class="esquerda">4º</td><td>2</td><td>4</td><td>7</td><td>4</td><td>3</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                <!-- NÍVEL 5 -->
+                <tr><td class="esquerda">5º</td><td>2</td><td>4</td><td>9</td><td>4</td><td>3</td><td>2</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                <!-- NÍVEL 6 -->
+                <tr><td class="esquerda">6º</td><td>3</td><td>4</td><td>10</td><td>4</td><td>3</td><td>3</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                <!-- NÍVEL 7 -->
+                <tr><td class="esquerda">7º</td><td>3</td><td>4</td><td>11</td><td>4</td><td>3</td><td>3</td><td>1</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                <!-- NÍVEL 8 -->
+                <tr><td class="esquerda">8º</td><td>3</td><td>4</td><td>12</td><td>4</td><td>3</td><td>3</td><td>2</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                <!-- NÍVEL 9 -->
+                <tr><td class="esquerda">9º</td><td>3</td><td>4</td><td>14</td><td>4</td><td>3</td><td>3</td><td>3</td><td>1</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                <!-- NÍVEL 10 -->
+                <tr><td class="esquerda">10º</td><td>3</td><td>5</td><td>15</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                <!-- NÍVEL 11 -->
+                <tr><td class="esquerda">11º</td><td>3</td><td>5</td><td>16</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>-</td><td>-</td><td>-</td></tr>
+                <!-- NÍVEL 12 -->
+                <tr><td class="esquerda">12º</td><td>3</td><td>5</td><td>16</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>-</td><td>-</td><td>-</td></tr>
+                <!-- NÍVEL 13 -->
+                <tr><td class="esquerda">13º</td><td>3</td><td>5</td><td>17</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>-</td><td>-</td></tr>
+                <!-- NÍVEL 14 -->
+                <tr><td class="esquerda">14º</td><td>3</td><td>5</td><td>17</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>-</td><td>-</td></tr>
+                <!-- NÍVEL 15 -->
+                <tr><td class="esquerda">15º</td><td>3</td><td>5</td><td>18</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>-</td></tr>
+                <!-- NÍVEL 16 -->
+                <tr><td class="esquerda">16º</td><td>3</td><td>5</td><td>18</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>-</td></tr>
+                <!-- NÍVEL 17 -->
+                <tr><td class="esquerda">17º</td><td>3</td><td>5</td><td>19</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+                <!-- NÍVEL 18 -->
+                <tr><td class="esquerda">18º</td><td>4</td><td>5</td><td>20</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+                <!-- NÍVEL 19 -->
+                <tr><td class="esquerda">19º</td><td>4</td><td>5</td><td>21</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td></tr>
+                <!-- NÍVEL 20 -->
+                <tr><td class="esquerda">20º</td><td>4</td><td>5</td><td>22</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>2</td><td>2</td><td>1</td><td>1</td></tr>
+              </tbody>
+            </table>
+          </div>
         </table>
+
+        <!-- RECURSOS DE CLASSE DETALHADOS -->
+        <div >
+            <!-- EXEMPLO DE RECURSOS DE CLASSE -->
+            <div class="recursos-container">
+                <div class="recursos-header">
+                    <h3>Recursos da Classe</h3>
+                </div>
+                <div class="recursos-list">
+  
+            <!-- Nível 1: Conjuração -->            
+            <div class="recurso-card">
+                <div class="recurso-header">
+                    <span class="recurso-nome">Nível 1: Conjuração</span>
+                </div>
+                <div class="recurso-descricao">
+                    <p>Você aprendeu a conjurar magias através de preces e meditação.</p>
+  
+                    <p><strong style="color: white;">Truques.</strong> Você conhece três truques de sua escolha da lista de magias de Clérigo. <strong>Orição</strong>, <strong>Chama Sagrada</strong> e <strong>Taumaturgia</strong> são recomendados. Sempre que você ganha um nível de Clérigo, pode substituir um dos seus truques por outro truque de sua escolha da lista de Clérigo. Quando você alcança os níveis 4 e 10 de Clérigo, aprende outro truque de sua escolha da lista de Clérigo, como mostrado na coluna <strong>Truques</strong> da tabela de Características de Classe.</p>
+  
+                    <p><strong style="color: white;">Espaços de Magia.</strong> A tabela de Características de Classe mostra quantos espaços de magia você tem para conjurar suas magias de nível 1+. Você recupera todos os espaços gastos ao final de um <strong>Descanso Longo</strong>.</p>
+  
+                    <p><strong style="color: white;">Magias Preparadas de Nível 1+.</strong> Você prepara a lista de magias de nível 1+ que estão disponíveis para conjurar com esta característica. Para começar, escolha quatro magias de nível 1 da lista de magias de Clérigo. <strong>Benção</strong>, <strong>Curação</strong>, <strong>Projétil Guiado</strong> e <strong>Escudo da Fé</strong> são recomendados.</p>
+                    <p>O número de magias na sua lista aumenta conforme você ganha níveis de Clérigo, como mostrado na coluna <strong>Magias Preparadas</strong> da tabela de Características de Classe. Sempre que esse número aumenta, escolha magias adicionais da lista de Clérigo até que o número de magias na sua lista corresponda ao número na tabela. As magias escolhidas devem ser de um nível para o qual você tenha espaços de magia. Por exemplo, se você é um Clérigo de nível 3, sua lista de magias preparadas pode incluir seis magias de níveis 1 e 2 em qualquer combinação.</p>
+                    <p>Se outra característica de Clérigo lhe conceder magias que você sempre tem preparadas, essas magias não contam contra o número de magias que você pode preparar com esta característica, mas, de outra forma, contam como magias de Clérigo para você.</p>
+  
+                    <p><strong style="color: white;">Alterando Suas Magias Preparadas.</strong> Sempre que você finalizar um <strong>Descanso Longo</strong>, pode alterar sua lista de magias preparadas, substituindo qualquer uma das magias ali por outras magias de Clérigo para as quais você tenha espaços de magia.</p>
+  
+                    <p><strong style="color: white;">Habilidade de Conjuração.</strong> <strong>Sabedoria</strong> é sua habilidade de conjuração para suas magias de Clérigo.</p>
+  
+                    <p><strong style="color: white;">Foco de Conjuração.</strong> Você pode usar um <strong>Símbolo Sagrado</strong> como Foco de Conjuração para suas magias de Clérigo.</p>
+                </div>
+            </div>
+  
+            <!-- Nível 1: Ordem Divina -->
+            <div class="recurso-card">
+                <div class="recurso-header">
+                    <span class="recurso-nome">Nível 1: Ordem Divina</span>
+                </div>
+                <div class="recurso-descricao">
+                    <p>Você se dedicou a um dos seguintes papéis sagrados de sua escolha.</p>
+  
+                    <p><strong style="color: white;">Protetor.</strong> Treinado para batalha, você ganha proficiência com <strong>armas marciais</strong> e treinamento com <strong>armaduras pesadas</strong>.</p>
+  
+                    <p><strong style="color: white;">Taumaturgo.</strong> Você conhece um truque adicional da lista de magias de Clérigo. Além disso, sua conexão mística com o divino concede um bônus em testes de <strong>Inteligência (Arcana ou Religião)</strong>. O bônus é igual ao seu modificador de <strong>Sabedoria</strong> (mínimo de +1).</p>
+                </div>
+            </div>
+  
+            <!-- Nível 2: Canalizar Divindade -->
+            <div class="recurso-card">
+                <div class="recurso-header">
+                    <span class="recurso-nome">Nível 2: Canalizar Divindade</span>
+                </div>
+                <div class="recurso-descricao">
+                    <p>Você pode canalizar energia divina diretamente dos <strong>Planos Exteriores</strong> para alimentar efeitos mágicos. Você começa com dois desses efeitos: <strong>Centelha Divina</strong> e <strong>Expulsar Mortos-Vivos</strong>, cada um descrito abaixo. Cada vez que você usa esta Canalizar Divindade da classe, escolha qual efeito de Canalizar Divindade desta classe criar. Você ganha opções de efeito adicionais em níveis mais altos de Clérigo.</p>
+  
+                    <p>Você pode usar esta Canalizar Divindade da classe <strong>duas vezes</strong>. Você recupera um dos usos gastos ao final de um <strong>Descanso Curto</strong> e recupera todos os usos gastos ao final de um <strong>Descanso Longo</strong>. Você ganha usos adicionais ao atingir certos níveis de Clérigo, como mostrado na coluna <strong>Canalizar Divindade</strong> da tabela de Características de Classe.</p>
+  
+                    <p>Se um efeito de Canalizar Divindade exigir um teste de resistência, a CD é igual à <strong>CD de resistência de magia</strong> da característica de Conjuração desta classe.</p>
+  
+                    <p><strong style="color: white;">Centelha Divina.</strong> Como uma <strong>Ação Mágica</strong>, você aponta seu <strong>Símbolo Sagrado</strong> para outra criatura que possa ver a até 9 metros de si e concentra energia divina nela. Role <strong>1d8</strong> e adicione seu modificador de <strong>Sabedoria</strong>. Você pode restaurar <strong>Pontos de Vida</strong> à criatura igual a esse total ou forçar a criatura a fazer um teste de resistência de <strong>Constituição</strong>. Em uma falha, a criatura sofre dano de <strong>Necrótico</strong> ou <strong>Radiante</strong> (sua escolha) igual a esse total. Em um sucesso, a criatura sofre metade do dano (arredondado para baixo).</p>
+  
+                    <p>Você rola um d8 adicional quando atinge os níveis 7 (2d8), 13 (3d8) e 18 (4d8) de Clérigo.</p>
+  
+                    <p><strong style="color: white;">Expulsar Mortos-Vivos.</strong> Como uma <strong>Ação Mágica</strong>, você apresenta seu <strong>Símbolo Sagrado</strong> e censura criaturas do tipo <strong>Morto-Vivo</strong>. Cada <strong>Morto-Vivo</strong> de sua escolha a até 9 metros de você deve fazer um teste de resistência de <strong>Sabedoria</strong>. Se a criatura falhar em seu teste, ela fica com as condições <strong>Amedrontado</strong> e <strong>Incapacitado</strong> por 1 minuto. Durante essa duração, ela tenta se mover o mais para longe de você possível em seus turnos. Este efeito termina mais cedo na criatura se ela sofrer qualquer dano, se você estiver com a condição <strong>Incapacitado</strong> ou se você morrer.</p>
+                </div>
+            </div>
+  
+            <!-- Nível 3: Subclasse de Clérigo -->
+            <div class="recurso-card">
+                <div class="recurso-header">
+                    <span class="recurso-nome">Nível 3: Subclasse de Clérigo</span>
+                </div>
+                <div class="recurso-descricao">
+                    <p>Você ganha uma <strong>subclasse de Clérigo</strong> de sua escolha. As subclasses <strong>Domínio da Vida</strong>, <strong>Domínio da Luz</strong>, <strong>Domínio do Engano</strong> e <strong>Domínio da Guerra</strong> são detalhadas após a descrição desta classe. Uma subclasse é uma especialização que concede características em certos níveis de Clérigo. Pelo resto de sua carreira, você ganha cada uma das características de sua subclasse que sejam de seu nível de Clérigo ou inferior.</p>
+                    <p>As subclasses de Clérigo estarão listadas no final da página.</p>
+                  </div>
+            </div>
+  
+            <!--Nível 4: Aumento no Valor de Habilidade-->
+            <div class="recurso-card">
+                <div class="recurso-header">
+                    <span class="recurso-nome">Nível 4: Aumento no Valor de Habilidade</span>
+                </div>
+                <div class="recurso-descricao">
+                    <p>Você ganha o talento <strong>Aumento no Valor de Habilidade</strong> ou outro talento de sua escolha para o qual você se qualifica. Você ganha esta característica novamente nos níveis 8, 12 e 16 de Clérigo.</p>
+                </div>
+            </div>
+  
+            <!--Nível 5: Expurgar Mortos-Vivos-->
+            <div class="recurso-card">
+                <div class="recurso-header">
+                    <span class="recurso-nome">Nível 5: Expurgar Mortos-Vivos</span>
+                </div>
+                <div class="recurso-descricao">
+                    <p>Sempre que você usar <strong>Expulsar Mortos-Vivos</strong>, você pode rolar um número de d8 igual ao seu modificador de <strong>Sabedoria</strong> (mínimo de 1d8) e somar os resultados. Cada <strong>Morto-Vivo</strong> que falhar em seu teste de resistência contra aquele uso de <strong>Expulsar Mortos-Vivos</strong> sofre dano <strong>Radiante</strong> igual ao total da rolagem. Este dano não encerra o efeito de expulsão.</p>
+                </div>
+            </div>
+  
+            <!--Nível 7: Golpes Abençoados-->
+            <div class="recurso-card">
+                <div class="recurso-header">
+                    <span class="recurso-nome">Nível 7: Golpes Abençoados</span>
+                </div>
+                <div class="recurso-descricao">
+                    <p>O poder divino infunde você em batalha. Você ganha uma das seguintes opções de sua escolha (se você obtiver qualquer uma das opções de uma subclasse de Clérigo em um livro antigo, use apenas a opção que você escolher para esta característica).</p>
+  
+                    <p><strong style="color: white;">Golpe Divino.</strong> Uma vez em cada um de seus turnos, quando você acerta uma criatura com uma rolagem de ataque usando uma <strong>arma</strong>, você pode fazer com que o alvo sofra <strong>1d8</strong> de dano <strong>Necrótico</strong> ou <strong>Radiante</strong> adicional (sua escolha).</p>
+  
+                    <p><strong style="color: white;">Conjuração Potente.</strong> Adicione seu modificador de <strong>Sabedoria</strong> ao dano que você causa com qualquer <strong>truque de Clérigo</strong>.</p>
+                </div>
+            </div>
+  
+            <!--Nível 10: Intervenção Divina-->
+            <div class="recurso-card">
+                <div class="recurso-header">
+                    <span class="recurso-nome">Nível 10: Intervenção Divina</span>
+                </div>
+                <div class="recurso-descricao">
+                    <p>Você pode invocar sua divindade ou panteão para intervir em seu favor. Como uma <strong>Ação Mágica</strong>, escolha qualquer <strong>magia de Clérigo</strong> de nível 5 ou inferior que não exija uma <strong>Reação</strong> para ser conjurada. Como parte da mesma ação, você conjura essa magia sem gastar um <strong>espaço de magia</strong> ou precisar de <strong>componentes Materiais</strong>. Você não pode usar esta característica novamente até finalizar um <strong>Descanso Longo</strong>.</p>
+                </div>
+            </div>
+  
+            <!--Nível 14: Golpes Abençoados Aprimorado-->
+            <div class="recurso-card">
+                <div class="recurso-header">
+                    <span class="recurso-nome">Nível 14: Golpes Abençoados Aprimorado</span>
+                </div>
+                <div class="recurso-descricao">
+                    <p>A opção que você escolheu para <strong>Golpes Abençoados</strong> se torna mais poderosa.</p>
+  
+                    <p><strong style="color: white;">Golpe Divino.</strong> O dano extra do seu <strong>Golpe Divino</strong> aumenta para <strong>2d8</strong>.</p>
+  
+                    <p><strong style="color: white;">Conjuração Potente.</strong> Quando você conjura um <strong>truque de Clérigo</strong> e causa dano a uma criatura com ele, você pode conceder vitalidade a si mesmo ou a outra criatura a até 18 metros de você, concedendo um número de <strong>Pontos de Vida Temporários</strong> igual ao <strong>dobro do seu modificador de Sabedoria</strong>.</p>
+                </div>
+            </div>
+  
+            <!--Nível 19: Benção Épica-->
+            <div class="recurso-card">
+                <div class="recurso-header">
+                    <span class="recurso-nome">Nível 19: Benção Épica</span>
+                </div>
+                <div class="recurso-descricao">
+                    <p>Você ganha um talento de <strong>Benção Épica</strong> ou outro talento de sua escolha para o qual você se qualifica. <strong>Benção do Destino</strong> é recomendado.</p>
+                </div>
+            </div>
+  
+            <!--Nível 20: Intervenção Divina Maior-->
+            <div class="recurso-card">
+                <div class="recurso-header">
+                    <span class="recurso-nome">Nível 20: Intervenção Divina Maior</span>
+                </div>
+                <div class="recurso-descricao">
+                    <p>Você pode invocar uma intervenção divina ainda mais poderosa. Quando você usa sua característica de <strong>Intervenção Divina</strong>, pode escolher <strong>Desejo</strong> ao selecionar uma magia. Se você fizer isso, não poderá usar <strong>Intervenção Divina</strong> novamente até finalizar <strong>2d4 Descansos Longos</strong>.</p>
+                </div>
+            </div>
+  
+                </div>
+            </div>
+  
+            <!-- SUBCLASSES -->
+            <div class="recursos-header">
+                <h3>Subclasses</h3>
+            </div>
+            <div class="subclasses-container">
+              
+                <!--ABAS DE NAVEGAÇÃO-->
+                <div class="tabs-header">
+                    <ul class="tabs-list">
+                        <li><button class="tab-btn active" data-tab="0">Domínio do Conhecimento</button></li>
+                        <li><button class="tab-btn active" data-tab="1">Domínio da Vida</button></li>
+                        <li><button class="tab-btn active" data-tab="2">Domínio da Luz</button></li>
+                        <li><button class="tab-btn active" data-tab="3">Domínio do Engano</button></li>
+                        <li><button class="tab-btn active" data-tab="4">Domínio da Guerra</button></li>
+                        <li><button class="tab-btn active" data-tab="5">Domínio do Arcano</button></li>
+                        <li><button class="tab-btn active" data-tab="6">Domínio da Sepultura</button></li>
+                        <li><button class="tab-btn active" data-tab="0">Domínio da Pestilência</button></li>
+                    </ul>
+                </div>
+              
+                <!--SUBCLASSE-->
+                <div class="tabs-content">
+                    <!-- ABA - Domínio do Conhecimento -->
+                    <div class="tab-pane active">
+                        <h3 style="color: var(--gold); margin-bottom: 15px;">Domínio do Conhecimento</h3>
+                        <p>O <strong>Domínio do Conhecimento</strong> valoriza o aprendizado e a compreensão acima de tudo. Clérigos que seguem este domínio estudam conhecimentos esotéricos, colecionam tomos antigos, mergulham em lugares secretos e examinam os processos da mente. Para eles, o conhecimento é mais valioso do que a riqueza material, e o aprendizado é um ato de adoração. Bibliotecas, universidades e outras instituições educacionais também recorrem ao poder do Domínio do Conhecimento.</p>
+                        <p>Deuses do conhecimento variam desde mestres da magia arcana até patronos do artesanato e da invenção. Em <strong>Faerûn</strong>, Clérigos do Domínio do Conhecimento adoram divindades do aprendizado e da engenhosidade como <strong>Oghma</strong> e <strong>Gond</strong>, entre muitos outros.</p>
+                        
+                        <!-- Nível 3: Bênçãos do Conhecimento -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Bênçãos do Conhecimento</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você ganha proficiência com um tipo de <strong>Ferramentas de Artesão</strong> de sua escolha e em duas das seguintes perícias de sua escolha: <strong>Arcana</strong>, <strong>História</strong>, <strong>Natureza</strong> ou <strong>Religião</strong>. Você tem <strong>Expertise</strong> nessas duas perícias.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Magias do Domínio do Conhecimento -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Magias do Domínio do Conhecimento</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Quando você atinge um nível de Clérigo especificado na tabela de <strong>Magias do Domínio do Conhecimento</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                                
+                                <div class="overflow-table">
+                                    <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                        <thead>
+                                            <tr>
+                                                <th>Nível de Clérigo</th>
+                                                <th class="esquerda">Magias Preparadas</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td>3º</td><td class="esquerda"><strong>Comando</strong>, <strong>Compreender Idiomas</strong>*, <strong>Detectar Magia</strong>*, <strong>Detectar Pensamentos</strong>*, <strong>Identificar</strong>*, <strong>Flecha Mental</strong>*</td></tr>
+                                            <tr><td>5º</td><td class="esquerda"><strong>Dispensar Magia</strong>, <strong>Não Detecção</strong>, <strong>Idiomas</strong>*</td></tr>
+                                            <tr><td>7º</td><td class="esquerda"><strong>Olho Arcano</strong>*, <strong>Banimento</strong>, <strong>Confusão</strong></td></tr>
+                                            <tr><td>9º</td><td class="esquerda"><strong>Lenda Viva</strong>*, <strong>Vidência</strong>*, <strong>Estática Sináptica</strong></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p style="font-size: 0.75rem; color: #888; margin-top: 5px;">*Magia da Escola de Adivinhação</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Magia Mental -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Magia Mental</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Como uma <strong>Ação Mágica</strong>, você pode gastar um uso de seu <strong>Canalizar Divindade</strong> para manifestar seu conhecimento mágico. Escolha uma magia da escola de <strong>Adivinhação</strong> na tabela de <strong>Magias do Domínio do Conhecimento</strong> que você tenha preparada. Como parte dessa ação, você conjura aquela magia sem gastar um <strong>espaço de magia</strong> ou precisar de <strong>componentes Materiais</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 6: Mente Livre -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 6: Mente Livre</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você ganha <strong>telepatia</strong> a até 18 metros. Quando você usa esta telepatia, pode contatar simultaneamente um número de criaturas igual ao seu modificador de <strong>Sabedoria</strong> (mínimo de uma).</p>
+                                <p>Além disso, você ganha proficiência em testes de resistência de <strong>Inteligência</strong>. Se você já possui esta proficiência, em vez disso, você ganha proficiência em testes de resistência com uma habilidade na qual você não a possui.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 17: Presciência Divina -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 17: Presciência Divina</span>
+                                <span class="badge-mini acao-bonus">Ação Bônus</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Como uma <strong>Ação Bônus</strong>, você expande magicamente sua mente para o futuro. Por 1 hora, você tem <strong>Vantagem</strong> em <strong>Testes de d20</strong>. Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Longo</strong>. Você também pode restaurar seu uso desta característica gastando um <strong>espaço de magia de nível 6+</strong> (nenhuma ação necessária).</p>
+                            </div>
+                        </div>
+                        
+
+                    </div>
+
+                    <!-- ABA - Domínio da Vida -->
+                    <div class="tab-pane">
+                        <h3 style="color: var(--gold); margin-bottom: 15px;">Domínio da Vida</h3>
+                        <p>O <strong>Domínio da Vida</strong> foca na energia positiva que ajuda a sustentar toda a vida no multiverso. Clérigos que seguem este domínio são mestres da cura, usando essa força vital para curar muitas feridas.</p>
+                        <p>A própria existência depende da energia positiva associada a este domínio, então um Clérigo de quase qualquer tradição religiosa pode escolhê-lo. Este domínio é particularmente associado a divindades agrícolas, deuses da cura ou resistência, e deuses do lar e da comunidade. Ordens religiosas de cura também buscam a magia deste domínio.</p>
+                        
+                        <!-- Nível 3: Discípulo da Vida -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Discípulo da Vida</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Quando uma magia que você conjura com um <strong>espaço de magia</strong> restaura <strong>Pontos de Vida</strong> a uma criatura, aquela criatura recupera <strong>Pontos de Vida adicionais</strong> no turno em que você conjurar a magia. Os Pontos de Vida adicionais são iguais a <strong>2 + o nível do espaço de magia</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Magias do Domínio da Vida -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Magias do Domínio da Vida</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Sua conexão com este domínio divino garante que você sempre tenha certas magias preparadas. Quando você atinge um nível de Clérigo especificado na tabela de <strong>Magias do Domínio da Vida</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                                
+                                <div class="overflow-table">
+                                    <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                        <thead>
+                                            <tr>
+                                                <th>Nível de Clérigo</th>
+                                                <th class="esquerda">Magias Preparadas</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr><td>3º</td><td class="esquerda"><strong>Auxílio</strong>, <strong>Benção</strong>, <strong>Curação</strong>, <strong>Restauração Menor</strong></td></tr>
+                                          <tr><td>5º</td><td class="esquerda"><strong>Palavra de Cura em Massa</strong>, <strong>Reviver</strong></td></tr>
+                                          <tr><td>7º</td><td class="esquerda"><strong>Aura de Vida</strong>, <strong>Morte Guardiã</strong></td></tr>
+                                          <tr><td>9º</td><td class="esquerda"><strong>Restauração Maior</strong>, <strong>Cura em Massa</strong></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Preservar Vida -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Preservar Vida</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Como uma <strong>Ação Mágica</strong>, você apresenta seu <strong>Símbolo Sagrado</strong> e gasta um uso de seu <strong>Canalizar Divindade</strong> para evocar energia de cura que pode restaurar um número de <strong>Pontos de Vida</strong> igual a <strong>cinco vezes seu nível de Clérigo</strong>. Escolha criaturas <strong>Encurraladas</strong> (abaixo de 50% dos PV) a até 9 metros de você (o que pode incluir você mesmo) e divida esses Pontos de Vida entre elas. Esta característica pode restaurar uma criatura a não mais do que <strong>metade do máximo de seus Pontos de Vida</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 6: Curador Abençoado -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 6: Curador Abençoado</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>As magias de cura que você conjura em outros também curam você. Imediatamente após conjurar uma magia com um <strong>espaço de magia</strong> que restaura <strong>Pontos de Vida</strong> a uma ou mais criaturas além de você, você recupera <strong>Pontos de Vida</strong> iguais a <strong>2 + o nível do espaço de magia</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 17: Cura Suprema -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 17: Cura Suprema</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Quando você normalmente rolaria um ou mais dados para restaurar <strong>Pontos de Vida</strong> a uma criatura com uma <strong>magia</strong> ou <strong>Canalizar Divindade</strong>, não role esses dados para a cura; em vez disso, use o <strong>número mais alto possível para cada dado</strong>. Por exemplo, em vez de restaurar <strong>2d6 Pontos de Vida</strong> a uma criatura com uma magia, você restaura <strong>12</strong>.</p>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <!-- ABA - Domínio da Luz -->
+                    <div class="tab-pane">
+                        <h3 style="color: var(--gold); margin-bottom: 15px;">Domínio da Luz</h3>
+                        <p>O <strong>Domínio da Luz</strong> enfatiza o poder divino de provocar chamas abrasadoras e revelação. Clérigos que empunham este poder são almas iluminadas, infundidas com radiação e o poder da visão discernente de suas divindades, encarregados de afastar mentiras e queimar a escuridão.</p>
+                        <p>O Domínio da Luz é associado a deuses da verdade, vigilância, beleza, percepção e renovação. Alguns desses deuses são identificados com o sol ou como condutores de bigas que guiam o sol pelo céu. Outros são sentinelas que perfuram o engano. Alguns são divindades da beleza e da arte que ensinam que a arte é um veículo para o aperfeiçoamento da alma.</p>
+                        
+                        <!-- Nível 3: Magias do Domínio da Luz -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Magias do Domínio da Luz</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Sua conexão com este domínio divino garante que você sempre tenha certas magias preparadas. Quando você atinge um nível de Clérigo especificado na tabela de <strong>Magias do Domínio da Luz</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                                
+                                <div class="overflow-table">
+                                    <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                        <thead>
+                                            <tr>
+                                                <th>Nível de Clérigo</th>
+                                                <th class="esquerda">Magias Preparadas</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td>3º</th><td class="esquerda"><strong>Mãos em Chamas</strong>, <strong>Fogo das Fadas</strong>, <strong>Raio Ardente</strong>, <strong>Ver Invisibilidade</strong></td></tr>
+                                            <tr><td>5º</th><td class="esquerda"><strong>Luz do Dia</strong>, <strong>Bola de Fogo</strong></td></tr>
+                                            <tr><td>7º</th><td class="esquerda"><strong>Olho Arcano</strong>, <strong>Muralha de Fogo</strong></td></tr>
+                                            <tr><td>9º</th><td class="esquerda"><strong>Golpe Flamejante</strong>, <strong>Vidência</strong></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Radiação do Amanhecer -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Radiação do Amanhecer</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Como uma <strong>Ação Mágica</strong>, você apresenta seu <strong>Símbolo Sagrado</strong> e gasta um uso de seu <strong>Canalizar Divindade</strong> para emitir um clarão de luz em uma <strong>Emanação de 9 metros</strong> originada de você. Qualquer <strong>Escuridão Mágica</strong> — como aquela criada pela magia <strong>Escuridão</strong> — naquela área é dissipada. Além disso, cada criatura de sua escolha naquela área deve fazer um teste de resistência de <strong>Constituição</strong>, sofrendo dano <strong>Radiante</strong> igual a <strong>2d10 + seu nível de Clérigo</strong> em uma falha ou metade do dano em um sucesso.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Chama Protetora -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Chama Protetora</span>
+                                <span class="badge-mini reacao">Reação</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Quando uma criatura que você pode ver a até 9 metros de você faz uma <strong>rolagem de ataque</strong>, você pode usar uma <strong>Reação</strong> para impor <strong>Desvantagem</strong> na rolagem de ataque, fazendo com que a luz brilhe antes de acertar ou errar.</p>
+                                <p>Você pode usar esta característica um número de vezes igual ao seu modificador de <strong>Sabedoria</strong> (mínimo de uma vez). Você recupera todos os usos gastos quando finaliza um <strong>Descanso Longo</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 6: Chama Protetora Aprimorada -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 6: Chama Protetora Aprimorada</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você recupera todos os usos gastos de sua <strong>Chama Protetora</strong> quando finaliza um <strong>Descanso Curto</strong> ou <strong>Descanso Longo</strong>.</p>
+                                <p>Além disso, sempre que você usa <strong>Chama Protetora</strong>, pode conceder ao alvo do ataque desencadeador um número de <strong>Pontos de Vida Temporários</strong> igual a <strong>2d6 + seu modificador de Sabedoria</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 17: Coroa de Luz -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 17: Coroa de Luz</span>
+                                <span class="badge-mini acao">Ação</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Como uma <strong>Ação Mágica</strong>, você faz com que você mesmo emita uma aura de luz solar que dura 1 minuto ou até você dispensá-la (nenhuma ação necessária). Você emite <strong>Luz Brilhante</strong> em um raio de 18 metros e <strong>Luz Fraca</strong> por mais 9 metros. Seus inimigos na <strong>Luz Brilhante</strong> têm <strong>Desvantagem</strong> em testes de resistência contra sua <strong>Radiação do Amanhecer</strong> e qualquer magia que cause dano de <strong>Fogo</strong> ou <strong>Radiante</strong>.</p>
+                                <p>Você pode usar esta característica um número de vezes igual ao seu modificador de <strong>Sabedoria</strong> (mínimo de uma vez) e recupera todos os usos gastos quando finaliza um <strong>Descanso Longo</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ABA - Domínio do Engano -->
+                    <div class="tab-pane">
+                        <h3 style="color: var(--gold); margin-bottom: 15px;">Domínio do Engano</h3>
+                        <p>O <strong>Domínio do Engano</strong> oferece magia de decepção, ilusão e furtividade. Clérigos que empunham esta magia são uma força disruptiva no mundo, perfurando o orgulho, zombando de tiranos, libertando cativos e desrespeitando tradições vazias. Eles preferem subterfúgios e travessuras ao confronto direto.</p>
+                        <p>Deuses do engano são criadores de travessuras e instigadores que representam um desafio constante à ordem aceita tanto entre deuses quanto entre mortais. Eles incorporam as forças da mudança e da agitação social, e são patronos de ladrões, canalhas, apostadores, rebeldes e libertadores. Ordens religiosas que operam em segredo, especialmente aquelas que buscam minar governos ou hierarquias opressivas, também recorrem ao poder do Domínio do Engano.</p>
+                        
+                        <!-- Nível 3: Bênção do Trapaceiro -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Bênção do Trapaceiro</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Como uma <strong>Ação Mágica</strong>, você pode escolher você mesmo ou uma criatura disposta a até 9 metros de você para ter <strong>Vantagem</strong> em testes de <strong>Destreza (Furtividade)</strong>. Esta bênção dura até você finalizar um <strong>Descanso Longo</strong> ou usar esta característica novamente.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Magias do Domínio do Engano -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Magias do Domínio do Engano</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Sua conexão com este domínio divino garante que você sempre tenha certas magias preparadas. Quando você atinge um nível de Clérigo especificado na tabela de <strong>Magias do Domínio do Engano</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                                
+                                <div class="overflow-table">
+                                    <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                        <thead>
+                                            <tr>
+                                                <th>Nível de Clérigo</th>
+                                                <th class="esquerda">Magias Preparadas</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td>3º</th><td class="esquerda"><strong>Enfeitiçar Pessoa</strong>, <strong>Disfarçar-se</strong>, <strong>Invisibilidade</strong>, <strong>Passar sem Deixar Rastros</strong></td></tr>
+                                            <tr><td>5º</th><td class="esquerda"><strong>Padrão Hipnótico</strong>, <strong>Não Detecção</strong></td></tr>
+                                            <tr><td>7º</th><td class="esquerda"><strong>Confusão</strong>, <strong>Porta Dimensional</strong></td></tr>
+                                            <tr><td>9º</th><td class="esquerda"><strong>Dominar Pessoa</strong>, <strong>Modificar Memória</strong></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Invocar Duplicidade -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Invocar Duplicidade</span>
+                                <span class="badge-mini acao-bonus">Ação Bônus</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Como uma <strong>Ação Bônus</strong>, você pode gastar um uso de seu <strong>Canalizar Divindade</strong> para criar uma ilusão visual perfeita de si mesmo em um espaço desocupado que você pode ver a até 9 metros de você. A ilusão é intangível e não ocupa seu espaço. Ela dura 1 minuto, mas termina mais cedo se você a dispensar (nenhuma ação necessária) ou estiver com a condição <strong>Incapacitado</strong>. A ilusão é animada e imita suas expressões e gestos. Enquanto ela persistir, você ganha os seguintes benefícios.</p>
+                                
+                                <p><strong style="color: white;">Conjurar Magias.</strong> Você pode conjurar magias como se estivesse no espaço da ilusão, mas deve usar seus próprios sentidos.</p>
+                                
+                                <p><strong style="color: white;">Distrair.</strong> Quando ambos, você e sua ilusão, estão a 1,5 metro de uma criatura que pode ver a ilusão, você tem <strong>Vantagem</strong> nas rolagens de ataque contra aquela criatura, dado o quão distrativa a ilusão é para o alvo.</p>
+                                
+                                <p><strong style="color: white;">Mover.</strong> Como uma <strong>Ação Bônus</strong>, você pode mover a ilusão até 9 metros para um espaço desocupado que você pode ver e que esteja a até 36 metros de você.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 6: Transposição do Trapaceiro -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 6: Transposição do Trapaceiro</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Sempre que você usar a <strong>Ação Bônus</strong> para criar ou mover a ilusão de seu <strong>Invocar Duplicidade</strong>, você pode <strong>teleportar</strong>, trocando de lugar com a ilusão.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 17: Duplicidade Aprimorada -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 17: Duplicidade Aprimorada</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>A ilusão de seu <strong>Invocar Duplicidade</strong> se tornou mais poderosa das seguintes maneiras.</p>
+                                
+                                <p><strong style="color: white;">Distração Compartilhada.</strong> Quando você e seus aliados fazem rolagens de ataque contra uma criatura a 1,5 metro da ilusão, as rolagens de ataque têm <strong>Vantagem</strong>.</p>
+                                
+                                <p><strong style="color: white;">Ilusão Curativa.</strong> Quando a ilusão termina, você ou uma criatura de sua escolha a 1,5 metro dela recupera um número de <strong>Pontos de Vida</strong> igual ao seu <strong>nível de Clérigo</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ABA - Domínio da Guerra -->
+                    <div class="tab-pane">
+                        <h3 style="color: var(--gold); margin-bottom: 15px;">Domínio da Guerra</h3>
+                        <p>A guerra tem muitas manifestações. Ela pode tornar heróis pessoas comuns. Pode ser desesperadora e horrível, com atos de crueldade e covardia eclipsando instâncias de excelência e coragem. Clérigos que acessam a magia do <strong>Domínio da Guerra</strong> se destacam em batalha, inspirando outros a lutar a boa luta ou oferecendo atos de violência como preces.</p>
+                        <p>Deuses do Domínio da Guerra vigiam os guerreiros e os recompensam por seus grandes feitos. Eles incluem campeões de honra e cavalaria, bem como deuses de destruição e pilhagem. Outros deuses da guerra assumem uma postura mais neutra, promovendo a guerra em todas as suas manifestações e apoiando guerreiros em qualquer circunstância.</p>
+                        
+                        <!-- Nível 3: Golpe Guiado -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Golpe Guiado</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Quando você ou uma criatura a até 9 metros de você erra uma <strong>rolagem de ataque</strong>, você pode gastar um uso de seu <strong>Canalizar Divindade</strong> e conceder um <strong>bônus de +10</strong> naquela rolagem, potencialmente fazendo com que ela acerte. Quando você usa esta característica para beneficiar a rolagem de ataque de outra criatura, deve usar uma <strong>Reação</strong> para fazê-lo.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Magias do Domínio da Guerra -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Magias do Domínio da Guerra</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Sua conexão com este domínio divino garante que você sempre tenha certas magias preparadas. Quando você atinge um nível de Clérigo especificado na tabela de <strong>Magias do Domínio da Guerra</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                                
+                                <div class="overflow-table">
+                                    <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                        <thead>
+                                            <tr>
+                                                <th>Nível de Clérigo</th>
+                                                <th class="esquerda">Magias Preparadas</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td>3º</th><td class="esquerda"><strong>Projétil Guiado</strong>, <strong>Arma Mágica</strong>, <strong>Escudo da Fé</strong>, <strong>Arma Espiritual</strong></td></tr>
+                                            <tr><td>5º</th><td class="esquerda"><strong>Manto do Cruzado</strong>, <strong>Guardiões Espirituais</strong></td></tr>
+                                            <tr><td>7º</th><td class="esquerda"><strong>Escudo de Fogo</strong>, <strong>Liberdade de Movimento</strong></td></tr>
+                                            <tr><td>9º</th><td class="esquerda"><strong>Segurar Monstro</strong>, <strong>Golpe Vento de Aço</strong></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Sacerdote da Guerra -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Sacerdote da Guerra</span>
+                                <span class="badge-mini acao-bonus">Ação Bônus</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Como uma <strong>Ação Bônus</strong>, você pode fazer um ataque com uma <strong>arma</strong> ou um <strong>Ataque Desarmado</strong>. Você pode usar esta Ação Bônus um número de vezes igual ao seu modificador de <strong>Sabedoria</strong> (mínimo de uma vez). Você recupera todos os usos gastos quando finaliza um <strong>Descanso Curto</strong> ou <strong>Descanso Longo</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 6: Bênção do Deus da Guerra -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 6: Bênção do Deus da Guerra</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você pode gastar um uso de seu <strong>Canalizar Divindade</strong> para conjurar <strong>Escudo da Fé</strong> ou <strong>Arma Espiritual</strong> em vez de gastar um <strong>espaço de magia</strong>. Quando você conjura qualquer uma dessas magias desta forma, a magia não requer <strong>Concentração</strong>. Em vez disso, a magia dura 1 minuto, mas termina mais cedo se você conjurar aquela magia novamente, estiver com a condição <strong>Incapacitado</strong> ou morrer.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 17: Avatar da Batalha -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 17: Avatar da Batalha</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você ganha <strong>Resistência</strong> a dano de <strong>Perfuração</strong>, <strong>Impacto</strong> e <strong>Corte</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ABA - Domínio do Arcano -->
+                    <div class="tab-pane">
+                        <h3 style="color: var(--gold); margin-bottom: 15px;">Domínio do Arcano</h3>
+                        <p>A magia permeia o multiverso e alimenta tanto a destruição quanto a criação. Clérigos com este domínio veem o conhecimento mágico não como poder a ser usado em busca de objetivos pessoais, mas como um dom que eles têm a responsabilidade de compartilhar.</p>
+                        <p>Deuses associados ao <strong>Domínio do Arcano</strong> conhecem intimamente os segredos e o potencial da magia. Esses deuses são frequentemente conectados ao conhecimento, já que o aprendizado e o poder arcano tendem a andar de mãos dadas, ou ao segredo ou ao poder.</p>
+                        
+                        <!-- Nível 3: Magias do Domínio do Arcano -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Magias do Domínio do Arcano</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Sua conexão com este domínio divino significa que você sempre tem certas magias preparadas. Quando você atinge um nível de Clérigo especificado na tabela de <strong>Magias do Domínio do Arcano</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                                
+                                <div class="overflow-table">
+                                    <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                        <thead>
+                                            <tr>
+                                                <th>Nível de Clérigo</th>
+                                                <th class="esquerda">Magias Preparadas</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td>3º</th><td class="esquerda"><strong>Detectar Magia</strong>, <strong>Míssil Mágico</strong>, <strong>Arma Mágica</strong>, <strong>Aura Mágica de Nystul</strong></td></tr>
+                                            <tr><td>5º</th><td class="esquerda"><strong>Contramágica</strong>, <strong>Dispensar Magia</strong></td></tr>
+                                            <tr><td>7º</th><td class="esquerda"><strong>Olho Arcano</strong>, <strong>Baú Secreto de Leomund</strong></td></tr>
+                                            <tr><td>9º</th><td class="esquerda"><strong>Mão de Bigby</strong>, <strong>Círculo de Teleporte</strong></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Iniciado Arcano -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Iniciado Arcano</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você ganha os seguintes benefícios.</p>
+                                
+                                <p><strong style="color: white;">Conhecimento Arcano.</strong> Você ganha proficiência na perícia <strong>Arcana</strong> se já não a tiver. Você também ganha <strong>Expertise</strong> na perícia Arcana.</p>
+                                
+                                <p><strong style="color: white;">Truques.</strong> Você aprende <strong>dois truques de Mago</strong> de sua escolha. Sempre que você ganha um nível de Clérigo, pode substituir um desses truques por outro truque de Mago.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Modificar Magia -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Modificar Magia</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você pode usar seu <strong>Canalizar Divindade</strong> para alterar suas magias enquanto as conjura. Quando você conjura uma magia, pode gastar um uso de seu <strong>Canalizar Divindade</strong> e alterar a magia de uma das seguintes maneiras (nenhuma ação necessária).</p>
+                                
+                                <p><strong style="color: white;">Magia Fortificante.</strong> Um alvo da magia ganha um número de <strong>Pontos de Vida Temporários</strong> igual a <strong>2d8 + seu nível de Clérigo</strong>.</p>
+                                
+                                <p><strong style="color: white;">Magia Tenaz.</strong> Quando você conjura uma magia que força uma criatura a fazer um <strong>teste de resistência</strong>, escolha um alvo da magia que você pode ver. Role <strong>1d6</strong> e aplique o número rolado como uma <strong>penalidade</strong> no teste de resistência do alvo.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 6: Recuperação Dispensadora -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 6: Recuperação Dispensadora</span>
+                                <span class="badge-mini acao-bonus">Ação Bônus</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Imediatamente após conjurar uma magia com um <strong>espaço de magia</strong> que restaura <strong>Pontos de Vida</strong> a uma criatura ou encerra uma condição em uma criatura, você pode conjurar <strong>Dispensar Magia</strong> na criatura como uma <strong>Ação Bônus</strong> sem gastar um espaço de magia.</p>
+                                <p>Você pode usar esta característica um número de vezes igual ao seu modificador de <strong>Sabedoria</strong> (mínimo de uma vez) e recupera todos os usos gastos quando finaliza um <strong>Descanso Longo</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 17: Domínio Arcano -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 17: Domínio Arcano</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você aprende <strong>quatro magias de Mago</strong>, uma de cada um dos níveis <strong>6, 7, 8 e 9</strong>. Você sempre tem essas magias preparadas. Sempre que você ganha um nível de Clérigo, pode substituir uma dessas magias por outra magia de Mago do mesmo nível.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ABA - Domínio da Sepultura -->
+                    <div class="tab-pane">
+                        <h3 style="color: var(--gold); margin-bottom: 15px;">Domínio da Sepultura</h3>
+                        <p>O <strong>Domínio da Sepultura</strong> diz respeito à fronteira entre a vida e a morte. Para aqueles que acessam o poder deste domínio, a morte é uma parte fundamental, natural e inevitável do multiverso. Tais Clérigos buscam destruir <strong>Mortos-Vivos</strong> e se esforçam para conduzir espíritos ao além-vida (quer esses espíritos queiram ir ou não).</p>
+                        <p>A magia deste domínio também permite que estes Clérigos adiem a morte por um tempo, particularmente para aqueles que ainda têm um grande trabalho a realizar no mundo. Mas isso é meramente um adiamento da morte, não uma negação dela, pois a sepultura sempre reivindicará o que lhe é devido.</p>
+                        
+                        <!-- Nível 3: Círculo da Mortalidade -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Círculo da Mortalidade</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você ganha a habilidade de manipular o equilíbrio entre vida e morte. Você ganha os seguintes benefícios.</p>
+                                
+                                <p><strong style="color: white;">Puxão da Morte.</strong> Uma vez por turno, quando você conjura uma magia ou acerta um ataque e causa dano a uma criatura <strong>Encurralada</strong>, aquela criatura sofre <strong>1d4</strong> de dano <strong>Necrótico</strong> adicional.</p>
+                                
+                                <p><strong style="color: white;">Retorno à Vida.</strong> Quando você normalmente rolaria um ou mais dados para restaurar <strong>Pontos de Vida</strong> a uma criatura com <strong>0 Pontos de Vida</strong> usando uma <strong>magia</strong> ou <strong>Canalizar Divindade</strong>, não role esses dados para a cura; em vez disso, use o <strong>número mais alto possível para cada dado</strong>. Por exemplo, em vez de restaurar <strong>2d4 Pontos de Vida</strong> a uma criatura com 0 Pontos de Vida com uma magia, você restaura <strong>8</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Magias do Domínio da Sepultura -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Magias do Domínio da Sepultura</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Sua conexão com este domínio divino garante que você sempre tenha certas magias preparadas. Quando você atinge um nível de Clérigo especificado na tabela de <strong>Magias do Domínio da Sepultura</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                                
+                                <div class="overflow-table">
+                                    <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                        <thead>
+                                            <tr>
+                                                <th>Nível de Clérigo</th>
+                                                <th class="esquerda">Magias Preparadas</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td>3º</th><td class="esquerda"><strong>Agonia</strong>, <strong>Toque Gélido</strong>, <strong>Detectar o Bem e o Mal</strong>, <strong>Repouso Serena</strong>, <strong>Raio de Debilitação</strong></td></tr>
+                                            <tr><th>5º</th><td class="esquerda"><strong>Reviver</strong>, <strong>Toque Vampírico</strong></td></tr>
+                                            <tr><th>7º</th><td class="esquerda"><strong>Pragano</strong>, <strong>Dispensar o Bem e o Mal</strong></td></tr>
+                                            <tr><th>9º</th><td class="esquerda"><strong>Segurar Monstro</strong>, <strong>Levantar Mortos</strong></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Caminho para a Sepultura -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Caminho para a Sepultura</span>
+                                <span class="badge-mini acao-bonus">Ação Bônus</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Como uma <strong>Ação Bônus</strong>, você apresenta seu <strong>Símbolo Sagrado</strong> e gasta um uso de seu <strong>Canalizar Divindade</strong> para amaldiçoar uma criatura que você pode ver a até 9 metros de você até o início de seu próximo turno. Enquanto amaldiçoada, a criatura tem <strong>Desvantagem</strong> em rolagens de ataque e testes de resistência.</p>
+                                <p>Quando você ou um aliado que você pode ver acerta o alvo amaldiçoado com uma <strong>rolagem de ataque</strong>, você pode encerrar a maldição mais cedo (nenhuma ação necessária) para fazer o ataque causar dano <strong>Necrótico</strong> ou <strong>Radiante</strong> adicional (sua escolha) igual a <strong>1d8 + seu nível de Clérigo</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 6: Sentinela da Porta da Morte -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 6: Sentinela da Porta da Morte</span>
+                                <span class="badge-mini reacao">Reação</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Quando você ou uma criatura <strong>Encurralada</strong> que você pode ver a até 9 metros de você é atingido por uma <strong>rolagem de ataque</strong>, você pode usar uma <strong>Reação</strong> para reduzir o dano daquele ataque à <strong>metade</strong>.</p>
+                                <p>Você pode usar esta característica um número de vezes igual ao seu modificador de <strong>Sabedoria</strong> (mínimo de uma vez). Você recupera todos os usos gastos quando finaliza um <strong>Descanso Longo</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 17: Ceifador Divino -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 17: Ceifador Divino</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Sua profunda conexão com este domínio o torna um arauto sagrado da morte. Você ganha os seguintes benefícios.</p>
+                                
+                                <p><strong style="color: white;">Necromancia Aprimorada.</strong> Quando você conjura uma magia de <strong>nível 5 ou inferior</strong> da escola de <strong>Necromancia</strong> que tem como alvo uma criatura, ou uma magia da tabela de <strong>Magias do Domínio da Sepultura</strong>, você pode gastar um uso de <strong>Canalizar Divindade</strong> para escolher uma <strong>segunda criatura</strong> dentro do alcance da magia como alvo.</p>
+                                <p>Se a magia exigir componentes Materiais caros ou consumidos, você deve fornecer componentes Materiais para cada alvo.</p>
+                                
+                                <p><strong style="color: white;">Guardião das Almas.</strong> Quando um <strong>inimigo morre</strong> a até 18 metros de você, você ou uma criatura que você pode ver a até 18 metros de você recupera <strong>Pontos de Vida</strong> iguais a <strong>três vezes seu nível de Clérigo</strong>. Você não pode usar esta característica se estiver com a condição <strong>Incapacitado</strong>. Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Curto</strong> ou <strong>Descanso Longo</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ABA - Domínio da Pestilência -->
+                    <div class="tab-pane">
+                        <h3 style="color: var(--gold); margin-bottom: 15px;">Domínio da Pestilência</h3>
+                        <p>Clérigos do <strong>Domínio da Pestilência</strong> utilizam praga e decadência sobrenaturais para corroer a vitalidade de seus inimigos. Embora as pessoas comuns frequentemente considerem a pestilência como uma força de destruição desenfreada, Clérigos deste domínio a empunham com precisão cirúrgica.</p>
+                        <p>O Domínio da Pestilência é associado a deuses de veneno, doença, fome e podridão. Essas divindades usam colheitas arruinadas, surtos mágicos e enxames de insetos e vermes para motivar ou punir mortais de acordo com suas doutrinas. Seus seguidores incluem boticários, médicos, envenenadores e provadores reais. Outros seguidores podem se dedicar a um deus da pestilência para poupar suas comunidades ou entes queridos da praga.</p>
+                        
+                        <!-- Nível 3: Tecelão da Praga -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Tecelão da Praga</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você ganha os seguintes benefícios.</p>
+                                
+                                <p><strong style="color: white;">Alma Inoculada.</strong> Você tem <strong>Resistência</strong> a dano de <strong>Necrótico</strong> e <strong>Veneno</strong>, e não pode ser infectado por <strong>contágios mágicos</strong>.</p>
+                                
+                                <p><strong style="color: white;">Putrefação e Supuração.</strong> O dano de suas <strong>magias de Clérigo</strong> e <strong>características de Clérigo</strong> ignora <strong>Resistência</strong> a dano de Necrótico e Veneno. Além disso, quando você conjura uma magia de Clérigo ou usa uma característica de Clérigo que causa dano Necrótico ou de Veneno, pode mudar esse dano para o outro tipo.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Magias do Domínio da Pestilência -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Magias do Domínio da Pestilência</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Sua conexão com este domínio divino garante que você sempre tenha certas magias preparadas. Quando você atinge um nível de Clérigo especificado na tabela de <strong>Magias do Domínio da Pestilência</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                                
+                                <div class="overflow-table">
+                                    <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                        <thead>
+                                            <tr>
+                                                <th>Nível de Clérigo</th>
+                                                <th class="esquerda">Magias Preparadas</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td>3º</th><td class="esquerda"><strong>Detectar Veneno e Doença</strong>, <strong>Proteção contra Veneno</strong>, <strong>Raio de Debilitação</strong>, <strong>Raio de Enfraquecimento</strong></td></tr>
+                                            <tr><th>5º</th><td class="esquerda"><strong>Nuvem Fedorenta</strong>, <strong>Toque Vampírico</strong></td></tr>
+                                            <tr><th>7º</th><td class="esquerda"><strong>Pragano</strong>, <strong>Inseto Gigante</strong></td></tr>
+                                            <tr><th>9º</th><td class="esquerda"><strong>Contágio</strong>, <strong>Praga de Insetos</strong></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Bênção da Praga -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Bênção da Praga</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Como uma <strong>Ação Mágica</strong>, você pode apresentar seu <strong>Símbolo Sagrado</strong> e gastar um uso de <strong>Canalizar Divindade</strong> para manifestar uma <strong>Emanação de 1,5 metro</strong> de praga definhadora que envolve você ou uma criatura disposta que você tocar por 1 minuto. Ela termina mais cedo se você a dispensar (nenhuma ação necessária), manifestá-la novamente ou estiver com a condição <strong>Incapacitado</strong>.</p>
+                                <p>Cada criatura de sua escolha que começa seu turno na Emanação deve ser bem-sucedida em um teste de resistência de <strong>Constituição</strong> contra sua CD de resistência de magia ou ganha <strong>1 nível de Exaustão</strong>. Esta característica não pode aumentar o nível de Exaustão de uma criatura além de um nível igual ao seu modificador de <strong>Sabedoria</strong> (mínimo de 1 nível de Exaustão). Por exemplo, se você tem um valor de Sabedoria 16, esta característica não pode aumentar o nível de Exaustão de uma criatura além de 3.</p>
+                                <p>A praga espalhada por esta característica se manifesta com um sintoma específico. Escolha-o na tabela de <strong>Sintomas da Praga</strong> ou determine-o aleatoriamente.</p>
+                                
+                                <div class="overflow-table">
+                                    <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                        <thead>
+                                            <tr><th>1d6</th><th class="esquerda">Enquanto infectada, uma criatura…</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td>1</td><td class="esquerda">É drenada de toda cor, aparecendo em tons monocromáticos de cinza.</td></tr>
+                                            <tr><td>2</td><td class="esquerda">Derrama flocos metálicos cor de ferrugem e range ao se mover.</td></tr>
+                                            <tr><td>3</td><td class="esquerda">Secreta muco de cheiro fétido.</td></tr>
+                                            <tr><td>4</td><td class="esquerda">Está cercada por uma nuvem de insetos zumbindo.</td></tr>
+                                            <tr><td>5</td><td class="esquerda">Desabrocha fungos ou outra folhagem de sua carne.</td></tr>
+                                            <tr><td>6</td><td class="esquerda">Está coberta de pústulas brilhantes.</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 6: Explosão Virulenta -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 6: Explosão Virulenta</span>
+                                <span class="badge-mini reacao">Reação</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Quando um <strong>inimigo</strong> a até 18 metros de você é reduzido a <strong>0 Pontos de Vida</strong>, você pode usar uma <strong>Reação</strong> para fazer com que a praga irrompa daquela criatura, espalhando pestilência em uma <strong>Emanação de 3 metros</strong> originada do inimigo; se o inimigo tinha pelo menos <strong>1 nível de Exaustão</strong>, o tamanho da Emanação aumenta para <strong>6 metros</strong>.</p>
+                                <p>Cada criatura de sua escolha na Emanação faz um teste de resistência de <strong>Constituição</strong> contra sua CD de resistência de magia. Em uma falha, um alvo sofre um dos seguintes efeitos:</p>
+                                
+                                <p><strong style="color: white;">Choque Pútrido.</strong> O alvo fica com a condição <strong>Incapacitado</strong> até o final de seu próximo turno. Enquanto Incapacitado, o <strong>Deslocamento</strong> do alvo é 0.</p>
+                                
+                                <p><strong style="color: white;">Infecção Tóxica.</strong> O alvo sofre <strong>3d6</strong> de dano <strong>Necrótico</strong> ou de <strong>Veneno</strong> (sua escolha).</p>
+                                
+                                <p>Você pode usar esta característica um número de vezes igual ao seu modificador de <strong>Sabedoria</strong> (mínimo de uma vez) e recupera todos os usos gastos quando finaliza um <strong>Descanso Longo</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 17: Forma de Verme -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 17: Forma de Verme</span>
+                                <span class="badge-mini acao-bonus">Ação Bônus</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Como uma <strong>Ação Bônus</strong>, você pode se transformar em um <strong>enxame Minúsculo</strong> de pestes pequenas, como baratas, larvas ou ratos. Enquanto estiver nesta forma, você mantém sua forma geral, personalidade, memórias e a capacidade de falar; qualquer equipamento que esteja vestindo ou carregando não se transforma com você, mas você pode continuar usando esse equipamento enquanto estiver nesta forma. Suas estatísticas de jogo permanecem as mesmas, exceto pelas seguintes mudanças:</p>
+                                
+                                <p><strong style="color: white;">Imunidades a Condições.</strong> Você tem <strong>Imunidade</strong> às condições <strong>Agarrar</strong>, <strong>Paralisado</strong>, <strong>Deitado</strong> e <strong>Restringido</strong>.</p>
+                                
+                                <p><strong style="color: white;">Resistências a Dano.</strong> Você tem <strong>Resistência</strong> a dano de <strong>Perfuração</strong>, <strong>Impacto</strong> e <strong>Corte</strong>.</p>
+                                
+                                <p><strong style="color: white;">Movimento.</strong> Você pode entrar e ocupar o espaço de outra criatura e vice-versa. Além disso, você tem <strong>Deslocamento de Escalada</strong> igual ao seu Deslocamento, e pode escalar superfícies difíceis — incluindo ao longo de tetos — sem precisar fazer um teste de habilidade.</p>
+                                
+                                <p><strong style="color: white;">Mordidas da Praga.</strong> Sempre que você entra no espaço de um inimigo, aquela criatura sofre dano igual ao seu modificador de <strong>Sabedoria</strong>; o dano é <strong>Necrótico</strong>, de <strong>Perfuração</strong> ou de <strong>Veneno</strong> (sua escolha). Uma criatura também sofre este dano quando entra em seu espaço ou termina seu turno lá. Uma criatura sofre este dano apenas uma vez por turno.</p>
+                                
+                                <p>Você retorna à sua forma verdadeira após <strong>10 minutos</strong>, se você escolher encerrar a transformação (nenhuma ação necessária), se estiver com a condição <strong>Incapacitado</strong> ou se morrer.</p>
+                                <p>Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Longo</strong>, a menos que gaste um <strong>espaço de magia de nível 5+</strong> (nenhuma ação necessária) para restaurar seu uso.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--FIM DA DIV recursos-detalhados-->
+
+
+
+
       </div>
 
-      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
-        <h3 style="font-family: 'Cinzel', serif; color: #f1c40f; font-size: 1.6rem; margin-bottom: 20px;">Recursos de Classe Detalhados</h3>
 
-        <div class="bloco-clerigo">
-          <h4>Nível 1: Conjuração & Ordem Divina</h4>
-          <p><strong>Conjuração:</strong> Você canaliza o poder dos planos divinos para moldar a realidade. Você prepara uma quantidade específica de magias diariamente de acordo com a tabela. Você pode conjurar qualquer magia da lista de Clérigo que tenha preparada, usando Sabedoria como seu atributo de conjuração.</p>
-          <p><strong>Ordem Divina:</strong> Você define como focar o seu treinamento eclesiástico inicial, escolhendo um dos caminhos abaixo:</p>
-          <ul class="trait-list" style="margin-top: 10px;">
-            <li><strong>Protetor (Protector):</strong> Você recebe proficiência com Armaduras Pesadas e Armas Marciais.</li>
-            <li><strong>Taumaturgo (Thaumaturgist):</strong> Você aprende um truque extra da lista de clérigo e adiciona o seu modificador de Sabedoria em seus testes da perícia Arcana ou Religião.</li>
-          </ul>
-        </div>
-
-        <div class="bloco-clerigo">
-          <h4>Nível 2: Canalizar Divindade</h4>
-          <p><strong>Canalizar Divindade:</strong> Você ganha a habilidade de manifestar a energia do seu deus diretamente no plano material. Você inicia com dois usos desta característica por Descanso Curto ou Longo. Você possui duas opções básicas de manifestação:</p>
-          <p><strong>Prece de Cura (Divine Spark):</strong> Com uma Ação, você aponta o seu símbolo sagrado para uma criatura a até 9 metros. Você pode curar pontos de vida ou causar dano radiante (ou necrótico se seu deus for maligno) igual a uma quantidade de d8s equivalentes ao seu bônus de proficiência + seu modificador de Sabedoria.</p>
-          <p><strong>Expulsar Mortos-Vivos (Turn Undead):</strong> Com uma Ação, você ergue o símbolo e profere uma injunção sagrada. Cada morto-vivo a até 9 metros deve realizar uma salvaguarda de Sabedoria. Se falhar, a criatura fica abalada e deve gastar seus turnos fugindo de você por 1 minuto ou até sofrer dano.</p>
-        </div>
-
-        <div class="bloco-clerigo">
-          <h4>Nível 3: Domínio Divino (Subclasse)</h4>
-          <p><strong>Domínio Divino:</strong> Você se dedica inteiramente a uma das vertentes de atuação de sua deidade, escolhendo entre o **Domínio da Vida**, **Domínio da Luz**, **Domínio da Natureza** ou **Domínio da Guerra**. Seu domínio concede magias sempre preparadas que não contam no seu limite diário e recursos únicos no nível 3, 6, 10 e 14.</p>
-        </div>
-
-        <div class="bloco-clerigo">
-          <h4>Níveis 4, 8, 12, 16 e 19: Talento de Atributo (Feat)</h4>
-          <p>Você pode aumentar um atributo em +2, dois atributos em +1, ou escolher um Talento Geral para o qual cumpra todos os pré-requisitos mecânicos.</p>
-        </div>
-
-        <div class="bloco-clerigo">
-          <h4>Nível 5: Destruir Mortos-Vivos</h4>
-          <p><strong>Destruir Mortos-Vivos:</strong> Quando você utiliza o seu *Canalizar Divindade* para Expulsar Mortos-Vivos, as criaturas que falharem na salvaguarda também sofrem uma descarga de energia radiante esmagadora. O dano é igual a **3d8** de dano radiante.</p>
-        </div>
-
-        <div class="bloco-clerigo">
-          <h4>Nível 6: Canalização Adicional & Recurso de Domínio</h4>
-          <p>Você agora pode utilizar a sua característica *Canalizar Divindade* três vezes por período de descanso. Além disso, você destrava o segundo recurso especial de sua subclasse.</p>
-        </div>
-
-        <div class="bloco-clerigo">
-          <h4>Nível 7: Surgimento Sagrado</h4>
-          <p><strong>Surgimento Sagrado:</strong> Sua presença exala autoridade mística. Você e seus aliados a até 3 metros de você recebem um bônus de **+2** em testes de iniciativa e salvaguardas contra efeitos de possessão ou amedrontamento.</p>
-        </div>
-
-        <div class="bloco-clerigo">
-          <h4>Nível 8: Dádiva Potente</h4>
-          <p>Você aprimora a entrega de seus milagres e ataques físicos de acordo com sua escolha de primeiro nível:</p>
-          <ul class="trait-list" style="margin-top: 10px;">
-            <li><strong>Golpe Divino (Se escolheu Protetor):</strong> Uma vez por turno, ao atingir uma criatura com um ataque de arma, você inflige **1d8** de dano radiante ou necrótico extra ao alvo.</li>
-            <li><strong>Conjuração Potente (Se escolheu Taumaturgo):</strong> Você adiciona seu modificador de Sabedoria às jogadas de dano de qualquer truque de clérigo que você conjurar.</li>
-          </ul>
-        </div>
-
-        <div class="bloco-clerigo">
-          <h4>Nível 9: Comunhão Menor</h4>
-          <p><strong>Comunhão Menor:</strong> Você pode canalizar a sabedoria cósmica para abrir seus olhos espirituais. Você pode conjurar a magia *Comunhão* como um ritual sem gastar componentes materiais uma vez por Descanso Longo.</p>
-        </div>
-
-        <div class="bloco-clerigo">
-          <h4>Nível 10: Intervenção Divina & Recurso de Domínio</h4>
-          <p><strong>Intervenção Divina:</strong> Você adquire a capacidade de clamar pelo auxílio direto de sua deidade. Com uma Ação, você pode escolher qualquer magia de clérigo de 5º círculo ou inferior que não requeira uma ação de reação. O seu deus conjura a magia instantaneamente através de você sem gastar espaços de magia ou componentes. Uma vez utilizada, você não pode usar este recurso novamente até finalizar um Descanso Longo.</p>
-        </div>
-
-        <div class="bloco-clerigo">
-          <h4>Nível 11: Zelo Espiritual</h4>
-          <p><strong>Zelo Espiritual:</strong> Quando você gasta um espaço de magia de 3º círculo ou superior para conjurar uma magia que restaure pontos de vida, a criatura curada recebe resistência a danos físicos (Concussão, Cortante e Perfurante) provenientes de armas não mágicas até o início do seu próximo turno.</p>
-        </div>
-
-        <div class="bloco-clerigo">
-          <h4>Nível 13: Emanação Planar</h4>
-          <p><strong>Emanação Planar:</strong> Uma aura protetora de energia divina envolve seu corpo a até 3 metros de distância. Inimigos que entrarem ou iniciarem o turno nessa área sofrem **2d6** de dano radiante ou necrótico. Aliados na área recebem vantagem em salvaguardas contra magias.</p>
-        </div>
-
-        <div class="bloco-clerigo">
-          <h4>Nível 15: Vigor Abençoado</h4>
-          <p><strong>Vigor Abençoado:</strong> Suas preces alimentam a durabilidade do seu grupo. Quando você conjurar uma magia de clérigo que requeira Concentração, você e um aliado visível a até 9 metros recebem pontos de vida temporários iguais ao círculo da magia conjurada + seu modificador de Sabedoria.</p>
-        </div>
-
-        <div class="bloco-clerigo">
-          <h4>Nível 17: Forma Celestial</h4>
-          <p><strong>Forma Celestial:</strong> Você manifesta traços físicos das hostes angélicas de sua deidade. Você adquire um deslocamento de voo de 9 metros e resistência a dano radiante de forma permanente.</p>
-        </div>
-
-        <div class="bloco-clerigo">
-          <h4>Nível 18: Intervenção Otimizada</h4>
-          <p><strong>Intervenção Otimizada:</strong> O limiar de sua comunhão se expande de forma grandiosa. O limite de círculos para a sua característica *Intervenção Divina* (Nível 10) aumenta, permitindo invocar magias de até **8º círculo** da lista de clérigo.</p>
-        </div>
-
-        <div class="bloco-clerigo">
-          <h4>Nível 20: Intervenção Divina Maior</h4>
-          <p><strong>Intervenção Divina Maior:</strong> Você alcança o ápice do sacerdócio tereno. Você pode utilizar a sua *Intervenção Divina* para solicitar a conjuração da lendária magia *Desejo (Wish)*. Quando evocado dessa forma, você ignora quaisquer penalidades ou estresses usuais da magia *Desejo*, executando o milagre perfeito. Uma vez usada para um Desejo, esta habilidade não pode ser usada por 2d4 dias.</p>
-        </div>
-      </div>
-
-      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
-        <h3 style="font-family: 'Cinzel', serif; color: #f1c40f; font-size: 1.6rem; margin-bottom: 10px;">Domínios Divinos (Subclasses)</h3>
-        
-        <div class="bloco-subclasse-detalhada">
-          <h3>Domínio da Vida (Life Domain)</h3>
-          <p>Focado na preservação da saúde, revitalização de aliados caídos e expulsão da morte precoce através da energia positiva pura.</p>
-          
-          <div class="sub-feature">
-            <h5>Nível 3: Discípulo da Vida & Magias de Domínio</h5>
-            <p><strong>Magias Preparadas:</strong> *Bênção*, *Curar Ferimentos*, *Restaurar Menor*, *Arma Espiritual*.</p>
-            <p><strong>Discípulo da Vida:</strong> Suas magias de cura ganham eficácia expandida. Sempre que você usar uma magia de 1º círculo ou superior para restaurar pontos de vida a uma criatura, o alvo recupera pontos de vida adicionais iguais a **2 + o círculo da magia** conjurada.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 6: Preservar a Vida (Canalizar Divindade)</h5>
-            <p>Você pode usar seu *Canalizar Divindade* para emitir uma onda de restauração. Com uma Ação, você evoca energia que cura uma quantidade de pontos de vida igual a **5 vezes o seu nível de clérigo**. Você pode distribuir esses pontos entre qualquer número de criaturas a até 9 metros, mas não pode elevar os pontos de vida de uma criatura acima de metade do seu valor máximo.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 10: Cura Abençoada</h5>
-            <p>Os milagres que você direciona aos outros ecoam em seu próprio corpo. Quando você conjurar uma magia de cura em outra criatura, você recupera pontos de vida iguais a **2 + o círculo da magia**.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 14: Cura Suprema</h5>
-            <p>Você elimina a incerteza dos seus milagres. Quando você rolar um ou mais dados para restaurar pontos de vida com uma magia, você não realiza a rolagem: use o **valor máximo possível** em cada dado.</p>
-          </div>
-        </div>
-
-        <div class="bloco-subclasse-detalhada">
-          <h3>Domínio da Luz (Light Domain)</h3>
-          <p>Servidores de deuses do sol, verdade e justiça. Utilizam o fogo sagrado e a claridade ofuscante para incinerar ilusões e inimigos.</p>
-          
-          <div class="sub-feature">
-            <h5>Nível 3: Clarão Ofuscante & Magias de Domínio</h5>
-            <p><strong>Magias Preparadas:</strong> *Fogo Fátuo*, *Mãos Flamejantes*, *Esfera Flamejante*, *Raio Ardente*.</p>
-            <p><strong>Clarão Ofuscante (Warding Flare):</strong> Como uma Reação quando uma criatura a até 9 metros ataca você ou um aliado, você projeta uma descarga de luz nos olhos do agressor, impondo **Desvantagem** na jogada de ataque. Você pode usar este recurso um número de vezes igual ao seu modificador de Sabedoria por Descanso Longo.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 6: Radiação do Sol (Canalizar Divindade)</h5>
-            <p>Você pode usar seu *Canalizar Divindade* para dissipar a escuridão e punir oponentes. Com uma Ação, você ergue seu símbolo sagrado e extingue qualquer escuridão mágica a até 9 metros. Cada criatura hostil na área deve realizar uma salvaguarda de Constituição, sofrendo dano radiante igual a **2d10 + seu nível de clérigo** se falhar (metade se passar).</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 10: Clarão Aprimorado</h5>
-            <p>A proteção da sua luz se torna irrestrita. Quando você utiliza o seu *Clarão Ofuscante* para proteger um aliado, você recupera o uso daquela reação caso o ataque do inimigo ainda assim erre o alvo.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 14: Corona de Luz</h5>
-            <p>Com uma Ação, você emana uma aura de luz solar brilhante a até 18 metros por 1 minuto. Inimigos na aura possuem **Desvantagem** em salvaguardas contra magias que causem dano Flamejante ou Radiante.</p>
-          </div>
-        </div>
-
-        <div class="bloco-subclasse-detalhada">
-          <h3>Domínio da Natureza (Nature Domain)</h3>
-          <p>Clérigos sintonizados com os ecossistemas primordiais, capazes de comandar feras, moldar elementos e cobrir seus aliados com a resiliência das matas.</p>
-          
-          <div class="sub-feature">
-            <h5>Nível 3: Acólito da Natureza & Magias de Domínio</h5>
-            <p><strong>Magias Preparadas:</strong> *Falar com Animais*, *Amizade Animal*, *Crescer Espinhos*, *Pele de Árvore*.</p>
-            <p><strong>Acólito da Natureza:</strong> Você aprende um truque de Druida à sua escolha e ganha proficiência em uma das seguintes perícias: Adestramento, Natureza ou Sobrevivência.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 6: Encantar Feras e Plantas (Canalizar Divindade)</h5>
-            <p>Você usa seu *Canalizar Divindade* para apaziguar a vida selvagem. Com uma Ação, escolha qualquer número de feras ou plantas a até 9 metros. Elas devem realizar uma salvaguarda de Sabedoria. Se falharem, ficam **Encantadas** por você por 1 minuto, cessando hostilidades imediatamente.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 10: Amortecer Elementos</h5>
-            <p>Quando você ou uma criatura a até 9 metros sofrer dano Ácido, Frio, Flamejante, Elétrico ou de Trovão, você pode usar sua Reação para conceder **Resistência** àquele tipo de dano contra o ataque atual.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 14: Mestre da Natureza</h5>
-            <p>Enquanto criaturas estiverem sob o efeito do seu recurso *Encantar Feras e Plantas*, você pode usar uma Ação Bônus para emitir comandos verbais a elas, controlando suas ações e movimentos no grid de combate.</p>
-          </div>
-        </div>
-
-        <div class="bloco-subclasse-detalhada">
-          <h3>Domínio da Guerra (War Domain)</h3>
-          <p>Cruzados e campeões de batalha que transformam o combate em um ato de adoração, fortificando golpes e liderando investidas marciais na vanguarda.</p>
-          
-          <div class="sub-feature">
-            <h5>Nível 3: Sacerdote da Guerra & Magias de Domínio</h5>
-            <p><strong>Magias Preparadas:</strong> *Auxílio Divino*, *Escudo da Fé*, *Arma Mágica*, *Sinal de Esperança*.</p>
-            <p><strong>Sacerdote da Guerra:</strong> Quando você realiza a ação de Ataque com uma arma no seu turno, você pode desferir um **ataque de arma adicional** usando sua Ação Bônus. Você pode usar este recurso um número de vezes igual ao seu modificador de Sabedoria por Descanso Longo.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 6: Ataque Guiado (Canalizar Divindade)</h5>
-            <p>Você usa seu *Canalizar Divindade* para garantir que uma lâmina encontre seu alvo. Quando você ou um aliado a até 9 metros realizar uma jogada de ataque e errar, você pode gastar sua Reação para conceder um bônus de **+10** àquela rolagem, potencialmente transformando o erro em um acerto crítico ou normal.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 10: Escudo da Guerra</h5>
-            <p>Sua presença inspira resiliência tática. Você pode conjurar a magia *Escudo da Fé* sem gastar espaços de magia um número de vezes igual ao seu bônus de proficiência por Descanso Longo. Além disso, manter a concentração nesta magia não impede você de se concentrar em outra magia de domínio.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 14: Avatar da Batalha</h5>
-            <p>O poder dos deuses do combate blinda seu corpo. Você ganha **Resistência** permanente a danos de Concussão, Cortante e Perfurante provenientes de ataques físicos ordinários ou mágicos.</p>
-          </div>
-        </div>
-
-      </div>
     </div>
   </div>
 
