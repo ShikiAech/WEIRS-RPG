@@ -6,6 +6,11 @@ Um aplicativo web para recordação de campanhas, guia de criação básico e co
 
 ## 📋 Changelog
 
+### Versão 1.6.0
+- **Data:** 24/05/2026
+- **Melhorias:**
+  - Finalização da página do Clérigo.
+
 ### Versão 1.5.0
 - **Data:** 24/05/2026
 - **Melhorias:**
