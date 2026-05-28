@@ -56,10 +56,57 @@
       margin-bottom: 10px;
     }
 
+    /* --- BOTÕES DE FILTRO (Estilo Montarias e Veículos) --- */
+    .grid-filtros {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+      justify-content: flex-start;
+    }
+    .btn-filtro {
+      background: rgba(25, 25, 27, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 10px 18px;
+      border-radius: 4px;
+      font-family: 'Cinzel', serif;
+      color: #a6acaf;
+      font-size: 0.85rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-filtro:hover {
+      background: rgba(185, 119, 14, 0.1);
+      color: #f39c12;
+      border-color: rgba(243, 156, 18, 0.4);
+    }
+    .btn-filtro.active {
+      background: #b9770e;
+      color: #fff;
+      border-color: #f39c12;
+      box-shadow: 0 4px 12px rgba(185, 119, 14, 0.2);
+    }
+
+    /* Botão de Destaque para Maestrias */
+    .btn-maestria-trigger {
+      background: rgba(243, 156, 18, 0.1);
+      border: 1px solid #b9770e;
+      color: #f39c12;
+    }
+    .btn-maestria-trigger:hover {
+      background: #b9770e !important;
+      color: #fff !important;
+    }
+
     /* Categorias Temáticas */
+    .category-section {
+      margin-bottom: 40px;
+    }
     .category-title {
       font-family: 'Cinzel', serif;
-      margin: 40px 0 15px 0;
+      margin: 20px 0 15px 0;
       padding-bottom: 5px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       text-transform: uppercase;
@@ -153,6 +200,8 @@
       width: 100%;
       position: relative;
       box-shadow: 0 5px 25px rgba(0,0,0,0.7);
+      max-height: 90vh;
+      overflow-y: auto;
     }
     .close-modal {
       position: absolute;
@@ -195,6 +244,20 @@
       font-style: italic;
       font-size: 0.85rem;
     }
+
+    /* Estilos específicos da lista de maestrias dentro do Pop-up */
+    .maestria-item {
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .maestria-item:last-child {
+      border-bottom: none;
+    }
+    .maestria-item strong {
+      color: #f39c12;
+      font-family: 'Cinzel', serif;
+    }
   </style>
 </head>
 <body>
@@ -216,20 +279,40 @@
       <p>As armas em Weirs definem o potencial tático de combate de cada herói. Lembre-se de conferir os pré-requisitos de propriedades como <i>Pesada</i> ou <i>Acuidade</i>, além da sua propriedade de <b>Maestria de Arma</b> ativa para extrair efeitos adicionais nos seus ataques.</p>
     </div>
 
-    <h2 class="category-title simples-cc">Armas Simples Corpo a Corpo</h2>
-    <div class="weapons-grid" id="grid-simples-cc"></div>
+    <div class="grid-filtros">
+      <button class="btn-filtro active" onclick="filtrarCategoria('todas', this)">Todas</button>
+      <button class="btn-filtro" onclick="filtrarCategoria('simples-cc', this)">Simples C. a C.</button>
+      <button class="btn-filtro" onclick="filtrarCategoria('simples-dist', this)">Simples à Dist.</button>
+      <button class="btn-filtro" onclick="filtrarCategoria('marciais-cc', this)">Marciais C. a C.</button>
+      <button class="btn-filtro" onclick="filtrarCategoria('marciais-dist', this)">Marciais à Dist.</button>
+      <button class="btn-filtro" onclick="filtrarCategoria('eterforja', this)">Éterforja</button>
+      <button class="btn-filtro btn-maestria-trigger" onclick="openMaestriasModal()">Propriedades de Maestria ⚔️</button>
+    </div>
 
-    <h2 class="category-title simples-dist">Armas Simples à Distância</h2>
-    <div class="weapons-grid" id="grid-simples-dist"></div>
+    <div id="sec-simples-cc" class="category-section">
+      <h2 class="category-title simples-cc">Armas Simples Corpo a Corpo</h2>
+      <div class="weapons-grid" id="grid-simples-cc"></div>
+    </div>
 
-    <h2 class="category-title marciais-cc">Armas Marciais Corpo a Corpo</h2>
-    <div class="weapons-grid" id="grid-marciais-cc"></div>
+    <div id="sec-simples-dist" class="category-section">
+      <h2 class="category-title simples-dist">Armas Simples à Distância</h2>
+      <div class="weapons-grid" id="grid-simples-dist"></div>
+    </div>
 
-    <h2 class="category-title marciais-dist">Armas Marciais à Distância</h2>
-    <div class="weapons-grid" id="grid-marciais-dist"></div>
+    <div id="sec-marciais-cc" class="category-section">
+      <h2 class="category-title marciais-cc">Armas Marciais Corpo a Corpo</h2>
+      <div class="weapons-grid" id="grid-marciais-cc"></div>
+    </div>
 
-    <h2 class="category-title eterforja">Armas de Etérforja (Homebrew)</h2>
-    <div class="weapons-grid" id="grid-eterforja"></div>
+    <div id="sec-marciais-dist" class="category-section">
+      <h2 class="category-title marciais-dist">Armas Marciais à Distância</h2>
+      <div class="weapons-grid" id="grid-marciais-dist"></div>
+    </div>
+
+    <div id="sec-eterforja" class="category-section">
+      <h2 class="category-title eterforja">Armas de Etérforja (Homebrew)</h2>
+      <div class="weapons-grid" id="grid-eterforja"></div>
+    </div>
   </div>
 
   <div id="weaponModal" class="modal" onclick="closeWeapon(event)">
@@ -245,6 +328,39 @@
       <div style="margin-bottom: 12px; font-size: 0.9rem;"><strong>Propriedades:</strong> <span id="mProps">-</span></div>
       <p id="mDesc" class="modal-desc">Descrição...</p>
       <div id="mSpecial" class="special-rule" style="display: none;"></div>
+    </div>
+  </div>
+
+  <div id="maestriasModal" class="modal" onclick="closeMaestrias(event)">
+    <div class="modal-content">
+      <span class="close-modal" onclick="document.getElementById('maestriasModal').style.display='none'">&times;</span>
+      <h2 class="modal-title">Manual de Maestrias de Arma</h2>
+      <div class="modal-desc" style="border-top: none; padding-top: 0;">
+        <div class="maestria-item">
+          <strong>Ágil:</strong> Permite realizar o ataque de uma arma leve adicional como parte da mesma Ação de Ataque, em vez de gastar uma Ação Bônus.
+        </div>
+        <div class="maestria-item">
+          <strong>Derrubar:</strong> Se você atingir uma criatura com esta arma, pode forçá-la a realizar uma Salvaguarda de Constituição ou cair na condição Caído.
+        </div>
+        <div class="maestria-item">
+          <strong>Empurrar:</strong> Quando você acerta um ataque com esta arma, pode repelir a criatura alvo em até 3 metros para longe de você de forma linear.
+        </div>
+        <div class="maestria-item">
+          <strong>Drenar:</strong> O oponente atingido por esta arma recebe Desvantagem no próximo ataque que realizar antes do início do seu próximo turno.
+        </div>
+        <div class="maestria-item">
+          <strong>Lentidão:</strong> Ao causar dano com esta arma a uma criatura, você reduz o deslocamento dela em 3 metros até o início do seu próximo turno.
+        </div>
+        <div class="maestria-item">
+          <strong>Afligir:</strong> Ao atingir um alvo com sucesso, você ganha Vantagem na sua próxima jogada de ataque contra essa mesma criatura antes do fim do seu próximo turno.
+        </div>
+        <div class="maestria-item">
+          <strong>Garantido:</strong> Se você errar um ataque com esta arma contra uma criatura, ela ainda sofre dano igual ao modificador do atributo usado para atacar.
+        </div>
+        <div class="maestria-item">
+          <strong>Trespassar:</strong> Se você atingir uma criatura com um ataque de arma corpo a corpo, pode fazer um ataque adicional com a mesma arma contra uma segunda criatura diferente que esteja a até 1,5 metros do alvo original e dentro do seu alcance.
+        </div>
+      </div>
     </div>
   </div>
 
@@ -270,7 +386,7 @@
         {nome: "Fonda", dano: "1d4 Contundente", props: "Munição (Alcance 9/36; Bala)", maestria: "Lentidão", peso: "—", preco: "1 PP", desc: "Tira de couro reforçada usada para girar e projetar esferas ou pedras em alta velocidade mecânica."}
       ],
       marciais_cc: [
-        {nome: "Alabarda", dano: "1d10 Cortante", props: "Duas Mãos, Pesada, Alcance", maestria: "Derrubar", peso: "3 kg", preco: "20 PO", desc: "Uma lâmina de machado com ponta perfurante montada de forma estável em uma haste longa de combate."},
+        {nome: "Alabarda", dano: "1d10 Cortante", props: "Duas Mãos, Pesada, Alcance", maestria: "Trespassar", peso: "3 kg", preco: "20 PO", desc: "Uma lâmina de machado com ponta perfurante montada de forma estável em uma haste longa de combate."},
         {nome: "Cimitarra", dano: "1d6 Cortante", props: "Acuidade, Leve", maestria: "Ágil", peso: "1,5 kg", preco: "25 PO", desc: "Espada curva especializada em cortes fluidos, rápidos e contínuos em combate corporal."},
         {nome: "Chicote", dano: "1d4 Cortante", props: "Acuidade, Alcance", maestria: "Lentidão", peso: "1 kg", preco: "2 PO", desc: "Couro trançado longo projetado para fustigar e controlar oponentes mantendo distância segura."},
         {nome: "Espada Curta", dano: "1d6 Perfurante", props: "Acuidade, Leve", maestria: "Ágil", peso: "1 kg", preco: "10 PO", desc: "Lâmina reta, curta e extremamente leve, ideal para empunhadura dupla e combate em ambientes fechados."},
@@ -281,7 +397,7 @@
         {nome: "Lança Grande", dano: "1d10 Perfurante", props: "Duas Mãos, Pesada, Alcance", maestria: "Empurrar", peso: "3 kg", preco: "5 PO", desc: "Haste longa fortificada e feita especificamente para deter cargas frontais de oponentes grandes."},
         {nome: "Maça Estrela", dano: "1d8 Perfurante", props: "—", maestria: "Drenar", peso: "2 kg", preco: "15 PO", desc: "Uma cabeça metálica esférica coberta por espinhos afiados protuberantes, destrutiva contra armaduras de malha."},
         {nome: "Machado de Batalha", dano: "1d8 Cortante", props: "Versátil (1d10)", maestria: "Derrubar", peso: "2 kg", preco: "10 PO", desc: "Machado robusto militar capaz de desferir cortes profundos de impacto contundente secundário."},
-        {nome: "Machado Grande", dano: "1d12 Cortante", props: "Duas Mãos, Pesada", maestria: "Garantido", peso: "3,5 kg", preco: "30 PO", desc: "Machado de execução massivo focado puramente em aplicação mecânica de força bruta vertical."},
+        {nome: "Machado Grande", dano: "1d12 Cortante", props: "Duas Mãos, Pesada", maestria: "Trespassar", peso: "3,5 kg", preco: "30 PO", desc: "Machado de execução massivo focado puramente em aplicação mecânica de força bruta vertical."},
         {nome: "Malho", dano: "2d6 Contundente", props: "Duas Mãos, Pesada", maestria: "Empurrar", peso: "5 kg", preco: "25 PO", desc: "Um bloco de metal imenso e maciço fixado a um cabo longo, feito para esmagar ossos e placas metálicas com facilidade."},
         {nome: "Mangual", dano: "1d8 Contundente", props: "—", maestria: "Drenar", peso: "1,5 kg", preco: "10 PO", desc: "Esfera de metal maciço cravada ligada por elos de corrente móveis a uma haste empunhável."},
         {nome: "Martelo de Guerra", dano: "1d8 Contundente", props: "Versátil (1d10)", maestria: "Empurrar", peso: "1,5 kg", preco: "15 PO", desc: "Martelo militar de combate com cabeça pesada achatada e bico perfurante na zona posterior."},
@@ -328,7 +444,29 @@
       });
     }
 
-    // Modal Dinâmico
+    // Lógica Dinâmica de Filtros de Categoria
+    function filtrarCategoria(categoria, botao) {
+      // Altera a classe ativa entre os botões de filtro
+      const botoes = document.querySelectorAll('.btn-filtro');
+      botoes.forEach(btn => btn.classList.remove('active'));
+      botao.classList.add('active');
+
+      const secoes = document.querySelectorAll('.category-section');
+      
+      secoes.forEach(secao => {
+        if (categoria === 'todas') {
+          secao.style.display = 'block';
+        } else {
+          if (secao.id === `sec-${categoria}`) {
+            secao.style.display = 'block';
+          } else {
+            secao.style.display = 'none';
+          }
+        }
+      });
+    }
+
+    // Pop-up das Armas
     function openWeapon(name, damage, props, mastery, weight, price, desc, special) {
       document.getElementById('mName').innerText = name;
       document.getElementById('mDamage').innerText = damage;
@@ -351,6 +489,17 @@
     function closeWeapon(event) {
       if (event.target === document.getElementById('weaponModal')) {
         document.getElementById('weaponModal').style.display = 'none';
+      }
+    }
+
+    // Pop-up Exclusivo das Maestrias
+    function openMaestriasModal() {
+      document.getElementById('maestriasModal').style.display = 'flex';
+    }
+
+    function closeMaestrias(event) {
+      if (event.target === document.getElementById('maestriasModal')) {
+        document.getElementById('maestriasModal').style.display = 'none';
       }
     }
 

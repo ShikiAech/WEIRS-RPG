@@ -56,10 +56,46 @@
       margin-bottom: 10px;
     }
 
+    /* --- BOTÕES DE FILTRO (Estilo Montarias e Veículos) --- */
+    .grid-filtros {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+      justify-content: flex-start;
+    }
+    .btn-filtro {
+      background: rgba(25, 25, 27, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 10px 18px;
+      border-radius: 4px;
+      font-family: 'Cinzel', serif;
+      color: #a6acaf;
+      font-size: 0.85rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-filtro:hover {
+      background: rgba(185, 119, 14, 0.1);
+      color: #f39c12;
+      border-color: rgba(243, 156, 18, 0.4);
+    }
+    .btn-filtro.active {
+      background: #b9770e;
+      color: #fff;
+      border-color: #f39c12;
+      box-shadow: 0 4px 12px rgba(185, 119, 14, 0.2);
+    }
+
     /* Categorias Temáticas */
+    .category-section {
+      margin-bottom: 40px;
+    }
     .category-title {
       font-family: 'Cinzel', serif;
-      margin: 40px 0 15px 0;
+      margin: 20px 0 15px 0;
       padding-bottom: 5px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       text-transform: uppercase;
@@ -149,6 +185,8 @@
       width: 100%;
       position: relative;
       box-shadow: 0 5px 25px rgba(0,0,0,0.7);
+      max-height: 90vh;
+      overflow-y: auto;
     }
     .close-modal {
       position: absolute;
@@ -212,17 +250,33 @@
       <p>As armaduras protegem os heróis de Weirs contra os perigos do combate. Para usufruir de seus benefícios de CA, você precisa possuir a <b>Proficiência</b> adequada; do contrário, sofrerá Desvantagem em testes que usem Força ou Destreza e ficará impedido de conjurar magias. Fique atento às restrições de Força e tempos necessários para vestir ou despir cada peça.</p>
     </div>
 
-    <h2 class="category-title leves">Armaduras Leves</h2>
-    <div class="armors-grid" id="grid-leves"></div>
+    <div class="grid-filtros">
+      <button class="btn-filtro active" onclick="filtrarCategoria('todas', this)">Todas</button>
+      <button class="btn-filtro" onclick="filtrarCategoria('leves', this)">Leves</button>
+      <button class="btn-filtro" onclick="filtrarCategoria('medias', this)">Médias</button>
+      <button class="btn-filtro" onclick="filtrarCategoria('pesadas', this)">Pesadas</button>
+      <button class="btn-filtro" onclick="filtrarCategoria('escudos', this)">Escudos</button>
+    </div>
 
-    <h2 class="category-title medias">Armaduras Médias</h2>
-    <div class="armors-grid" id="grid-medias"></div>
+    <div id="sec-leves" class="category-section">
+      <h2 class="category-title leves">Armaduras Leves</h2>
+      <div class="armors-grid" id="grid-leves"></div>
+    </div>
 
-    <h2 class="category-title pesadas">Armaduras Pesadas</h2>
-    <div class="armors-grid" id="grid-pesadas"></div>
+    <div id="sec-medias" class="category-section">
+      <h2 class="category-title medias">Armaduras Médias</h2>
+      <div class="armors-grid" id="grid-medias"></div>
+    </div>
 
-    <h2 class="category-title escudos">Escudos</h2>
-    <div class="armors-grid" id="grid-escudos"></div>
+    <div id="sec-pesadas" class="category-section">
+      <h2 class="category-title pesadas">Armaduras Pesadas</h2>
+      <div class="armors-grid" id="grid-pesadas"></div>
+    </div>
+
+    <div id="sec-escudos" class="category-section">
+      <h2 class="category-title escudos">Escudos</h2>
+      <div class="armors-grid" id="grid-escudos"></div>
+    </div>
   </div>
 
   <div id="armorModal" class="modal" onclick="closeArmor(event)">
@@ -250,7 +304,7 @@
         {nome: "Couro Batido", ca: "12 + mod. Destreza", stealth: "Normal", str: "—", peso: "6,5 kg", preco: "45 PO", desc: "Estrutura de couro flexível totalmente reforçada com rebites, pregos ou pequenas tachas metálicas.", special: "<strong>Tempo de Manejo:</strong> 1 minuto para Vestir ou Despir."}
       ],
       medias: [
-        {nome: "Gibão de Peles", ca: "12 + mod. Destreza (máx +2)", stealth: "Normal", str: "—", peso: "6 kg", preco: "10 PO", desc: "Peles grossas e couro rústico sobrepostos. Muito comum entre povos de regiões bárbaras de Weirs.", special: "<strong>Tempo de Manejo:</strong> 5 minutos para Vestir | 1 minuto para Despir."},
+        {nome: "Gibão de Peles", ca: "12 + mod. Destreza (máx +2)", stealth: "Normal", str: "—", peso: "6 kg", preco: "10 PO", desc: "Peles grossas e couro rústico sobrepostos. Muito comum entre povos de regiões bárbaras de Weirs.", special: "<strong>Tempo de Manejo:</strong> 5 minutes para Vestir | 1 minuto para Despir."},
         {nome: "Cota de Malha Parcial", ca: "13 + mod. Destreza (máx +2)", stealth: "Normal", str: "—", peso: "10 kg", preco: "50 PO", desc: "Uma camisa de anéis metálicos cobrindo órgãos vitais, assentada sobre tecido ou couro macio.", special: "<strong>Tempo de Manejo:</strong> 5 minutos para Vestir | 1 minuto para Despir."},
         {nome: "Loriga de Escamas", ca: "14 + mod. Destreza (máx +2)", stealth: "Desvantagem", str: "—", peso: "22 kg", preco: "50 PO", desc: "Camadas de escamas de ferro fixadas sobre couro. O atrito das placas gera ruído metálico constante.", special: "<strong>Tempo de Manejo:</strong> 5 minutos para Vestir | 1 minuto para Despir."},
         {nome: "Couraça Peitoral", ca: "14 + mod. Destreza (máx +2)", stealth: "Normal", str: "—", peso: "10 kg", preco: "400 PO", desc: "Uma placa metálica perfeitamente moldada para cobrir o tronco, mantendo os braços totalmente livres.", special: "<strong>Tempo de Manejo:</strong> 5 minutos para Vestir | 1 minuto para Despir."},
@@ -287,6 +341,28 @@
           card.onclick = () => openArmor(a.nome, a.ca, a.stealth, a.str, a.peso, a.preco, a.desc, a.special || '');
           container.appendChild(card);
         });
+      });
+    }
+
+    // Lógica Dinâmica de Filtros de Categoria (Estilo Montarias e Veículos)
+    function filtrarCategoria(categoria, botao) {
+      // Altera a classe ativa entre os botões de filtro
+      const botoes = document.querySelectorAll('.btn-filtro');
+      botoes.forEach(btn => btn.classList.remove('active'));
+      botao.classList.add('active');
+
+      const secoes = document.querySelectorAll('.category-section');
+      
+      secoes.forEach(secao => {
+        if (categoria === 'todas') {
+          secao.style.display = 'block';
+        } else {
+          if (secao.id === `sec-${categoria}`) {
+            secao.style.display = 'block';
+          } else {
+            secao.style.display = 'none';
+          }
+        }
       });
     }
 
