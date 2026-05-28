@@ -129,7 +129,7 @@
 
     <div class="bloco-regra">
       <h4>A Lei de Conversão Comercial</h4>
-      <p>O sistema monetário segue uma escala decimal direta de conversão. Cada metal vale exatamente <b>10 vezes mais</b> que o seu antecedente imediato:</p>
+      <p>O systema monetário segue uma escala decimal direta de conversão. Cada metal vale exatamente <b>10 vezes mais</b> que o seu antecedente imediato:</p>
       <ul style="margin-left: 20px; display: flex; flex-direction: column; gap: 5px; font-size: 0.95rem; margin-top: 10px;">
         <li>1 Moeda de Ouro (PO) = 10 Moedas de Prata (PP) = 100 Moedas de Cobre (PC)</li>
         <li>1 Moeda de Platina (PL) = 10 Moedas de Ouro (PO)</li>
@@ -177,28 +177,37 @@
       const ppInput = document.getElementById('input-pp');
       const pcInput = document.getElementById('input-pc');
 
-      let totalEmCobre = 0;
-
-      // Coleta o valor digitado e descobre o equivalente na menor escala (Cobre)
-      if (moedaOrigem === 'pl' && plInput.value !== "") {
-        totalEmCobre = parseFloat(plInput.value) * 1000;
-      } else if (moedaOrigem === 'po' && poInput.value !== "") {
-        totalEmCobre = parseFloat(poInput.value) * 100;
-      } else if (moedaOrigem === 'pp' && ppInput.value !== "") {
-        totalEmCobre = parseFloat(ppInput.value) * 10;
-      } else if (moedaOrigem === 'pc' && pcInput.value !== "") {
-        totalEmCobre = parseFloat(pcInput.value);
-      } else {
-        // Se o campo for limpo, esvazia todos os outros e encerra
-        plInput.value = ""; poInput.value = ""; ppInput.value = ""; pcInput.value = "";
+      // Captura o campo que disparou a alteração
+      const inputDisparador = document.getElementById('input-' + moedaOrigem);
+      
+      // Se o usuário limpar o campo, esvazia todos os outros campos e interrompe a execução
+      if (inputDisparador.value === "" || parseFloat(inputDisparador.value) < 0 || isNaN(parseFloat(inputDisparador.value))) {
+        plInput.value = ""; 
+        poInput.value = ""; 
+        ppInput.value = ""; 
+        pcInput.value = "";
         return;
       }
 
-      // Distribui os valores proporcionais exatos para os outros campos matematicamente
-      if (moedaOrigem !== 'pl') plInput.value = Math.floor(totalEmCobre / 1000);
-      if (moedaOrigem !== 'po') poInput.value = Math.floor((totalEmCobre % 1000) / 100);
-      if (moedaOrigem !== 'pp') ppInput.value = Math.floor((totalEmCobre % 100) / 10);
-      if (moedaOrigem !== 'pc') pcInput.value = Math.floor(totalEmCobre % 10);
+      let totalEmCobre = 0;
+      const valorDigitado = parseFloat(inputDisparador.value);
+
+      // Converte o valor de origem diretamente para a escala base de Cobre
+      if (moedaOrigem === 'pl') {
+        totalEmCobre = valorDigitado * 1000;
+      } else if (moedaOrigem === 'po') {
+        totalEmCobre = valorDigitado * 100;
+      } else if (moedaOrigem === 'pp') {
+        totalEmCobre = valorDigitado * 10;
+      } else if (moedaOrigem === 'pc') {
+        totalEmCobre = valorDigitado;
+      }
+
+      // Atualiza os outros campos com o valor equivalente absoluto, sem quebras por resto
+      if (moedaOrigem !== 'pl') plInput.value = Number((totalEmCobre / 1000).toFixed(3));
+      if (moedaOrigem !== 'po') poInput.value = Number((totalEmCobre / 100).toFixed(2));
+      if (moedaOrigem !== 'pp') ppInput.value = Number((totalEmCobre / 10).toFixed(1));
+      if (moedaOrigem !== 'pc') pcInput.value = Math.floor(totalEmCobre);
     }
   </script>
 
