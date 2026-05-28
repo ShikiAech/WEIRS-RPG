@@ -6,6 +6,12 @@ Um aplicativo web para recordação de campanhas, guia de criação básico e co
 
 ## 📋 Changelog
 
+### Versão 1.9.0
+- **Data:** 28/05/2026
+- **Melhorias:**
+  - Reformulação da Página de Magias
+  - Conserto da página de Equipamentos - Armas - Armaduras - Equipamentos de Aventura
+
 ### Versão 1.8.0
 - **Data:** 28/05/2026
 - **Melhorias:**
