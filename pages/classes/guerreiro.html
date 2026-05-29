@@ -5,95 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Guerreiro — Weirs RPG</title>
   <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
-  <style>
-    .bloco-guerreiro {
-      background: rgba(192, 57, 43, 0.03);
-      border: 1px solid rgba(192, 57, 43, 0.15);
-      border-left: 4px solid #d35400;
-      padding: 20px;
-      margin-top: 20px;
-      border-radius: 0 4px 4px 0;
-    }
-    .bloco-guerreiro h4 {
-      font-family: 'Cinzel', serif;
-      color: #e67e22;
-      font-size: 1.25rem;
-      margin-bottom: 8px;
-    }
-    .bloco-subclasse-detalhada {
-      background: rgba(25, 25, 27, 0.8);
-      border: 1px solid var(--border-fantasy);
-      padding: 25px;
-      margin-top: 35px;
-      border-radius: 4px;
-    }
-    .bloco-subclasse-detalhada h3 {
-      font-family: 'Cinzel', serif;
-      color: #d35400;
-      border-bottom: 1px solid rgba(211, 84, 0, 0.3);
-      padding-bottom: 8px;
-      margin-bottom: 20px;
-    }
-    .sub-feature {
-      background: rgba(211, 84, 0, 0.04);
-      border-left: 3px solid #d35400;
-      padding: 15px;
-      margin-top: 15px;
-      border-radius: 0 4px 4px 0;
-    }
-    .sub-feature h5 {
-      font-family: 'Cinzel', serif;
-      color: #f39c12;
-      font-size: 1.05rem;
-      margin-bottom: 5px;
-    }
-    .trait-list {
-      list-style: none;
-      margin-left: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .trait-list li strong {
-      color: var(--gold);
-    }
-    .tabela-rpg {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-      background: rgba(20, 20, 22, 0.6);
-      border: 1px solid var(--border-fantasy);
-      font-size: 0.85rem;
-    }
-    .tabela-rpg th, .tabela-rpg td {
-      border: 1px solid var(--border-fantasy);
-      padding: 10px 12px;
-      text-align: center;
-    }
-    .tabela-rpg th {
-      background: rgba(43, 33, 23, 0.5);
-      color: #d35400;
-      font-family: 'Cinzel', serif;
-    }
-    .tabela-rpg tr:nth-child(even) {
-      background: rgba(255, 255, 255, 0.02);
-    }
-    .tabela-rpg td.esquerda {
-      text-align: left;
-    }
-  </style>
+  <link rel="stylesheet" href="/WEIRS-RPG/css/class-style.css">
+  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+  <script src="/WEIRS-RPG/javascript/subclass-tab.js"></script>
 </head>
 <body>
-
-  <script src="/WEIRS-RPG/javascript/menu.js"></script>
-
   <div class="container">
     
     <div style="margin-bottom: 30px;">
       <a href="/WEIRS-RPG/pages/classes/classes.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Classes</a>
     </div>
 
-    <h2>Guerreiro (Fighter)</h2>
+    <h2>Guerreiro</h2>
     
     <div class="card-rpg">
       <div class="layout-detalhes">
@@ -103,260 +26,250 @@
           <p>Cavaleiros de elite, gladiadores veteranos, mercenários calejados e comandantes táticos — os guerreiros compartilham um domínio inigualável sobre as armas, armaduras e táticas de combate. Eles não dependem do favor dos deuses ou das oscilações da magia selvagem; seu poder é forjado através de suor, disciplina de ferro e memória muscular implacável.</p>
           <p>No novo padrão de 2024, o Guerreiro consolida-se como o mestre supremo do arsenal. Ele é o único combatente capaz de desbloquear as propriedades táticas secretas das armas através do sistema de Propriedades de Maestria (Mastery Properties) de forma intercambiável. Capaz de se curar no calor da batalha e forçar os limites físicos para desferir rajadas devastadoras de golpes, ele dita o ritmo de qualquer linha de frente.</p>
           
-          <h4 style="color: #d35400; margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
+          <h4 style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
           <ul class="trait-list" style="margin-top: 15px;">
             <li><strong>Dado de Vida:</strong> 1d10 por nível de Guerreiro.</li>
-            <li><strong>Atributo Principal:</strong> Força ou Destreza (Ataques e Requisitos de Armadura).</li>
-            <li><strong>Proficiências em Armaduras:</strong> Todas as Armaduras (Leves, Médias, Pesadas) e Escudos.</li>
-            <li><strong>Proficiências em Armas:</strong> Armas Simples e Armas Marciais.</li>
-            <li><strong>Ferramentas:</strong> Nenhuma.</li>
+            <li><strong>Atributos Principais:</strong> Força ou Destreza.</li>
+            <li><strong>Proficiências em Armaduras:</strong> Armaduras Leves, Médias, Pesadas e Escudos.</li>
+            <li><strong>Proficiências em Armas:</strong> Armas Simples e Marciais.</li>
             <li><strong>Testes de Resistência:</strong> Força e Constituição.</li>
-            <li><strong>Perícias:</strong> Escolha duas entre Acrobacia, Adestramento, Atletismo, História, Intimidação, Intuição, Percepção e Sobrevivência.</li>
+            <li><strong>Perícias:</strong> Escolha duas entre Acrobacia, Adestrar Animais, Atletismo, História, Intuição, Intimidação, Persuasão, Percepção ou Sobrevivência.</li>
+            <li><strong>Equipamento Inicial:</strong> Escolha A, B ou C: (A) Cota de Malha, Espada Grande, Mangual, 8 Azagaias, Pacote do Explorador de Masmorras e 4 PO; (B) Armadura de Couro Cravejado, Cimitarra, Espada Curta, Arco Longo, 20 Flechas, Coldre, Pacote do Explorador de Masmorras e 11 PO; (C) 155 PO.</li>
           </ul>
         </div>
       </div>
 
       <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px; overflow-x: auto;">
-        <h3 style="font-family: 'Cinzel', serif; color: #d35400; font-size: 1.6rem; margin-bottom: 15px;">Progressão de Classe</h3>
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.6rem; margin-bottom: 15px;">Progressão de Guerreiro</h3>
         <table class="tabela-rpg">
           <thead>
             <tr>
               <th>Nível</th>
               <th>Prof.</th>
               <th class="esquerda">Recursos de Classe</th>
+              <th>Segundo Fôlego</th>
               <th>Maestria em Armas</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td>1º</td><td>+2</td><td class="esquerda">Estilo de Combate, Retomar o Fôlego (3 usos), Maestria em Armas</td><td>3</td></tr>
-            <tr><td>2º</td><td>+2</td><td class="esquerda">Surto de Ação (1 uso), Mente Tática</td><td>3</td></tr>
-            <tr><td>3º</td><td>+2</td><td class="esquerda">Arquetipo Marcial (Subclasse)</td><td>3</td></tr>
-            <tr><td>4º</td><td>+2</td><td class="esquerda">Talento de Atributo (Feat)</td><td>4</td></tr>
-            <tr><td>5º</td><td>+3</td><td class="esquerda">Ataque Extra (1)</td><td>4</td></tr>
-            <tr><td>6º</td><td>+3</td><td class="esquerda">Talento de Atributo Extra (Feat)</td><td>4</td></tr>
-            <tr><td>7º</td><td>+3</td><td class="esquerda">Recurso de Subclasse, Mestre tático (Tactical Master)</td><td>4</td></tr>
-            <tr><td>8º</td><td>+3</td><td class="esquerda">Talento de Atributo (Feat)</td><td>4</td></tr>
-            <tr><td>9º</td><td>+4</td><td class="esquerda">Indomável (1 uso)</td><td>4</td></tr>
-            <tr><td>10º</td><td>+4</td><td class="esquerda">Recurso de Subclasse, Adestramento de Maestria (Weapon Adept)</td><td>5</td></tr>
-            <tr><td>11º</td><td>+4</td><td class="esquerda">Ataque Extra (2)</td><td>5</td></tr>
-            <tr><td>12º</td><td>+4</td><td class="esquerda">Talento de Atributo Extra (Feat)</td><td>5</td></tr>
-            <tr><td>13º</td><td>+5</td><td class="esquerda">Indomável Aprimorado (2 usos), Fôlego Tático</td><td>5</td></tr>
-            <tr><td>14º</td><td>+5</td><td class="esquerda">Recurso de Subclasse</td><td>5</td></tr>
-            <tr><td>15º</td><td>+5</td><td class="esquerda">Surto de Ação Aprimorado (2 usos)</td><td>5</td></tr>
-            <tr><td>16º</td><td>+5</td><td class="esquerda">Talento de Atributo (Feat)</td><td>5</td></tr>
-            <tr><td>17º</td><td>+6</td><td class="esquerda">Indomável Superior (3 usos), Retomar o Fôlego Máximo</td><td>6</td></tr>
-            <tr><td>18º</td><td>+6</td><td class="esquerda">Recurso de Subclasse</td><td>6</td></tr>
-            <tr><td>19º</td><td>+6</td><td class="esquerda">Talento de Atributo / Dádiva Épica</td><td>6</td></tr>
-            <tr><td>20º</td><td>+6</td><td class="esquerda">Ataque Extra (3)</td><td>6</td></tr>
+            <tr><th>1º</th><td>+2</td><td class="esquerda">Estilo de Luta, Segundo Fôlego, Maestria em Armas</td><td>2</td><td>3</td></tr>
+            <tr><th>2º</th><td>+2</td><td class="esquerda">Investida de Ação (Um Uso), Mente Tática</td><td>2</td><td>3</td></tr>
+            <tr><th>3º</th><td>+2</td><td class="esquerda">Subclasse de Guerreiro</td><td>2</td><td>3</td></tr>
+            <tr><th>4º</th><td>+2</td><td class="esquerda">Aumento no Valor de Habilidade</td><td>3</td><td>4</td></tr>
+            <tr><th>5º</th><td>+3</td><td class="esquerda">Ataque Extra, Mudança Tática</td><td>3</td><td>4</td></tr>
+            <tr><th>6º</th><td>+3</td><td class="esquerda">Aumento no Valor de Habilidade</td><td>3</td><td>4</td></tr>
+            <tr><th>7º</th><td>+3</td><td class="esquerda">Característica de Subclasse</td><td>3</td><td>4</td></tr>
+            <tr><th>8º</th><td>+3</td><td class="esquerda">Aumento no Valor de Habilidade</td><td>3</td><td>4</td></tr>
+            <tr><th>9º</th><td>+4</td><td class="esquerda">Indomável (Um Uso), Mestre Tático</td><td>3</td><td>4</td></tr>
+            <tr><th>10º</th><td>+4</td><td class="esquerda">Característica de Subclasse</td><td>4</td><td>5</td></tr>
+            <tr><th>11º</th><td>+4</td><td class="esquerda">Dois Ataques Extras</td><td>4</td><td>5</td></tr>
+            <tr><th>12º</th><td>+4</td><td class="esquerda">Aumento no Valor de Habilidade</td><td>4</td><td>5</td></tr>
+            <tr><th>13º</th><td>+5</td><td class="esquerda">Indomável (Dois Usos), Ataques Estudados</td><td>4</td><td>5</td></tr>
+            <tr><th>14º</th><td>+5</td><td class="esquerda">Aumento no Valor de Habilidade</td><td>4</td><td>5</td></tr>
+            <tr><th>15º</th><td>+5</td><td class="esquerda">Característica de Subclasse</td><td>4</td><td>5</td></tr>
+            <tr><th>16º</th><td>+5</td><td class="esquerda">Aumento no Valor de Habilidade</td><td>4</td><td>6</td></tr>
+            <tr><th>17º</th><td>+6</td><td class="esquerda">Investida de Ação (Dois Usos), Indomável (Três Usos)</td><td>4</td><td>6</td></tr>
+            <tr><th>18º</th><td>+6</td><td class="esquerda">Característica de Subclasse</td><td>4</td><td>6</td></tr>
+            <tr><th>19º</th><td>+6</td><td class="esquerda">Benção Épica</td><td>4</td><td>6</td></tr>
+            <tr><th>20º</th><td>+6</td><td class="esquerda">Três Ataques Extras</td><td>4</td><td>6</td></tr>
           </tbody>
         </table>
       </div>
 
-      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
-        <h3 style="font-family: 'Cinzel', serif; color: #d35400; font-size: 1.6rem; margin-bottom: 20px;">Recursos de Classe Detalhados</h3>
+      <!-- RECURSOS DE CLASSE DETALHADOS -->
+      <div >
+      
+          <!-- EXEMPLO DE RECURSOS DE CLASSE -->
+          <div class="recursos-container">
+              <div class="recursos-header">
+                  <h3>Recursos da Classe</h3>
+              </div>
+              
+              <div class="recursos-list">
+ 
+                <!-- Nível 1: Estilo de Luta -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 1: Estilo de Luta</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha um talento de <strong>Estilo de Luta</strong> de sua escolha (veja o capítulo 5). <strong>Defesa</strong> é recomendado.</p>
+                        <p>Sempre que você ganha um nível de <strong>Guerreiro</strong>, pode substituir o talento que escolheu por um talento de Estilo de Luta diferente.</p>
+                    </div>
+                </div>
 
-        <div class="bloco-guerreiro">
-          <h4>Nível 1: Estilo de Combate, Retomar o Fôlego & Maestria em Armas</h4>
-          <p><strong>Estilo de Combate (Fighting Style):</strong> Você ganha um talento de Estilo de Combate à sua escolha (como *Arquearia*, *Defesa*, *Duelismo*, *Combate com Duas Armas* ou *Armas Grandes*). Em 2024, esses estilos contam formalmente como talentos marciais.</p>
-          <p><strong>Retomar o Fôlego (Second Wind):</strong> Como uma Ação Bônus, você pode recuperar pontos de vida iguais a **1d10 + seu nível de guerreiro**. Você inicia com 3 usos deste recurso. Você recupera um uso gasto ao finalizar um Descanso Curto, e todos ao finalizar um Descanso Longo.</p>
-          <p><strong>Maestria em Armas (Weapon Mastery):</strong> Sua preparação física permite que você acione as propriedades de maestria de 3 tipos de armas específicas (ex: *Graze*, *Topple*, *Vex*, *Push* ou *Nick*). Ao fazer um ataque com uma arma na qual tenha maestria, você aplica sua respectiva propriedade tática.</p>
-        </div>
+                <!-- Nível 1: Segundo Fôlego -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 1: Segundo Fôlego</span>
+                        <span class="badge-mini acao-bonus">Ação Bônus</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você tem um poço limitado de resistência física e mental que pode usar. Como uma <strong>Ação Bônus</strong>, pode usá-lo para recuperar <strong>Pontos de Vida</strong> iguais a <strong>1d10 + seu nível de Guerreiro</strong>.</p>
+                        <p>Você pode usar esta característica <strong>duas vezes</strong>. Você recupera <strong>um</strong> uso gasto quando finaliza um <strong>Descanso Curto</strong> e recupera <strong>todos</strong> os usos gastos quando finaliza um <strong>Descanso Longo</strong>.</p>
+                        <p>Quando você atinge certos níveis de Guerreiro, ganha mais usos desta característica, como mostrado na coluna <strong>Segundo Fôlego</strong> da tabela de Características de Guerreiro.</p>
+                    </div>
+                </div>
 
-        <div class="bloco-guerreiro">
-          <h4>Nível 2: Surto de Ação & Mente Tática</h4>
-          <p><strong>Surto de Ação (Action Surge):</strong> Você pode forçar seus limites além dos padrões mortais. No seu turno, você pode realizar uma Ação adicional além da sua ação normal. Você possui 1 uso por Descanso Curto ou Longo. *(Nota fiel: Em 2024, esta ação adicional não pode ser usada para conjurar magias com tempo de conjuração de uma Ação)*.</p>
-          <p><strong>Mente Tática (Tactical Mind):</strong> Se você falhar em um teste de perícia fora de combate, você pode gastar um uso do seu recurso *Retomar o Fôlego* para rolar **1d10** e adicionar o resultado ao teste, podendo transformar a falha em sucesso. Se o teste ainda assim falhar, o uso do Retomar o Fôlego **não é consumido**.</p>
-        </div>
+                <!-- Nível 1: Maestria em Armas -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 1: Maestria em Armas</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Seu treinamento com armas permite que você use as propriedades de maestria de <strong>três tipos</strong> de armas <strong>Simples ou Marciais</strong> de sua escolha. Sempre que você finaliza um <strong>Descanso Longo</strong>, pode praticar exercícios com armas e <strong>mudar uma daquelas escolhas</strong>.</p>
+                        <p>Quando você atinge certos níveis de Guerreiro, ganha a capacidade de usar as propriedades de maestria de mais tipos de armas, como mostrado na coluna <strong>Maestria em Armas</strong> da tabela de Características de Guerreiro.</p>
+                    </div>
+                </div>
 
-        <div class="bloco-guerreiro">
-          <h4>Nível 3: Arquetipo Marcial (Subclasse)</h4>
-          <p>Você escolhe sua especialização de doutrina militar entre as quatro subclasses fundamentais: **Campeão**, **Mestre da Batalha**, **Cavaleiro Arcano** ou **Guerreiro Psiónico (Psi Warrior)**. Essa escolha garante recursos únicos nos níveis 3, 7, 10, 14 e 18.</p>
-        </div>
+                <!-- Nível 2: Investida de Ação -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 2: Investida de Ação</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você pode ir além de seus limites normais por um momento. Em seu turno, você pode realizar <strong>uma ação adicional</strong>, exceto a ação <strong>Mágica</strong>.</p>
+                        <p>Uma vez que você usa esta característica, não pode fazê-lo novamente até finalizar um <strong>Descanso Curto</strong> ou <strong>Descanso Longo</strong>. A partir do <strong>nível 17</strong>, você pode usá-la <strong>duas vezes</strong> antes de um descanso, mas apenas <strong>uma vez por turno</strong>.</p>
+                    </div>
+                </div>
 
-        <div class="bloco-guerreiro">
-          <h4>Níveis 4, 6, 8, 12, 14, 16 e 19: Talentos de Atributo (Feats)</h4>
-          <p>O Guerreiro mantém sua característica clássica de progressão acelerada de customização. Nos níveis citados, você ganha um Talento de Atributo ou Talento Geral. O nível 6 e o nível 14 são exclusivos da flexibilidade marcial da classe.</p>
-        </div>
+                <!-- Nível 2: Mente Tática -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 2: Mente Tática</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você tem uma mente para táticas dentro e fora do campo de batalha. Quando você <strong>falha em um teste de habilidade</strong>, pode gastar um uso de seu <strong>Segundo Fôlego</strong> para se esforçar em busca do sucesso. Em vez de recuperar Pontos de Vida, você rola <strong>1d10</strong> e <strong>adiciona</strong> o número rolado ao teste de habilidade, potencialmente transformando-o em um sucesso. Se o teste ainda falhar, este uso de <strong>Segundo Fôlego</strong> <strong>não é gasto</strong>.</p>
+                    </div>
+                </div>
 
-        <div class="bloco-guerreiro">
-          <h4>Nível 5: Ataque Extra</h4>
-          <p>Você pode realizar dois ataques, em vez de um, sempre que utilizar a ação de Ataque no seu turno.</p>
-        </div>
+                <!-- Nível 3: Subclasse de Guerreiro -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Subclasse de Guerreiro</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha uma <strong>subclasse de Guerreiro</strong> de sua escolha. As subclasses <strong>Mestre de Batalha</strong>, <strong>Campeão</strong>, <strong>Cavaleiro Élfico</strong> e <strong>Guerreiro Psíquico</strong> são detalhadas após a descrição desta classe. Uma subclasse é uma especialização que concede características em certos níveis de Guerreiro. Pelo resto de sua carreira, você ganha cada uma das características de sua subclasse que sejam de seu nível de Guerreiro ou inferior.</p>
+                        <p>As subclasses de Guerreiro estarão listadas no final da página.</p>
+                    </div>
+                </div>
 
-        <div class="bloco-guerreiro">
-          <h4>Nível 7: Mestre Tático</h4>
-          <p><strong>Mestre Tático (Tactical Master):</strong> Ao utilizar a propriedade de maestria de uma arma com a qual você possua afinidade, você pode ignorar a propriedade padrão daquela arma e substituí-la instantaneamente pelas propriedades *Push* (Empurrar), *Sap* (Debilitar) ou *Slow* (Desacelerar) durante o ataque.</p>
-        </div>
+                <!-- Nível 4: Aumento no Valor de Habilidade -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 4: Aumento no Valor de Habilidade</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha o talento <strong>Aumento no Valor de Habilidade</strong> ou outro talento de sua escolha para o qual você se qualifica. Você ganha esta característica novamente nos níveis <strong>6, 8, 12, 14 e 16</strong> de Guerreiro.</p>
+                    </div>
+                </div>
 
-        <div class="bloco-guerreiro">
-          <h4>Nível 9: Indomável</h4>
-          <p><strong>Indomável (Indomitable):</strong> Quando você falhar em um teste de resistência (salvaguarda), você pode usar sua reação para refazer a rolagem. Ao fazer isso, você adiciona um bônus igual ao **seu nível de guerreiro** ao novo resultado, garantindo quase sempre o sucesso contra efeitos devastadores. Você possui 1 uso por Descanso Longo.</p>
-        </div>
+                <!-- Nível 5: Ataque Extra -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 5: Ataque Extra</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você pode atacar <strong>duas vezes</strong> em vez de uma sempre que realizar a ação <strong>Atacar</strong> em seu turno.</p>
+                    </div>
+                </div>
 
-        <div class="bloco-guerreiro">
-          <h4>Nível 10: Adestramento de Maestria</h4>
-          <p><strong>Adestramento de Maestria (Weapon Adept):</strong> Ao finalizar um Descanso Longo, você pode escolher uma arma com a qual tenha maestria e associar **duas propriedades de maestria diferentes** a ela. Sempre que desferir um ataque com essa arma, você escolhe qual das duas propriedades aplicar ao golpe.</p>
-        </div>
+                <!-- Nível 5: Mudança Tática -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 5: Mudança Tática</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Sempre que você ativa seu <strong>Segundo Fôlego</strong> com uma <strong>Ação Bônus</strong>, pode se mover até <strong>metade do seu Deslocamento</strong> sem provocar <strong>Ataques de Oportunidade</strong>.</p>
+                    </div>
+                </div>
 
-        <div class="bloco-guerreiro">
-          <h4>Nível 11: Ataque Extra (2)</h4>
-          <p>Sua velocidade e letalidade atingem um novo patamar. Você passa a realizar **três ataques** sempre que utilizar a ação de Ataque no seu turno.</p>
-        </div>
+                <!-- Nível 9: Indomável -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 9: Indomável</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Se você <strong>falha em um teste de resistência</strong>, pode <strong>refazê-lo</strong> com um <strong>bônus igual ao seu nível de Guerreiro</strong>. Você deve usar a nova rolagem e não pode usar esta característica novamente até finalizar um <strong>Descanso Longo</strong>.</p>
+                        <p>Você pode usar esta característica <strong>duas vezes</strong> antes de um Descanso Longo a partir do <strong>nível 13</strong> e <strong>três vezes</strong> antes de um Descanso Longo a partir do <strong>nível 17</strong>.</p>
+                    </div>
+                </div>
 
-        <div class="bloco-guerreiro">
-          <h4>Nível 13: Indomável Aprimorado & Fôlego Tático</h4>
-          <p>Seus usos do recurso *Indomável* aumentam para dois por Descanso Longo. Além disso, através do **Fôlego Tático**, sempre que você ativar seu *Retomar o Fôlego*, você pode remover de si mesmo uma das seguintes condições: Caído (Prone), Assustado (Frightened) ou Envenenado (Poisoned).</p>
-        </div>
+                <!-- Nível 9: Mestre Tático -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 9: Mestre Tático</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Quando você ataca com uma <strong>arma</strong> cuja propriedade de maestria você pode usar, pode substituir aquela propriedade pela propriedade <strong>Empurrar</strong>, <strong>Debilitar</strong> ou <strong>Lento</strong> para aquele ataque.</p>
+                    </div>
+                </div>
 
-        <div class="bloco-guerreiro">
-          <h4>Nível 15: Surto de Ação Aprimorado</h4>
-          <p>A quantidade de vezes que você pode utilizar seu *Surto de Ação* aumenta para **dois usos**, embora você ainda só possa realizar um único Surto de Ação por turno de combate.</p>
-        </div>
+                <!-- Nível 11: Dois Ataques Extras -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 11: Dois Ataques Extras</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você pode atacar <strong>três vezes</strong> em vez de uma sempre que realizar a ação <strong>Atacar</strong> em seu turno.</p>
+                    </div>
+                </div>
 
-        <div class="bloco-guerreiro">
-          <h4>Nível 17: Indomável Superior & Fôlego Máximo</h4>
-          <p>Você passa a ter três usos do recurso *Indomável* por Descanso Longo. Adicionalmente, quando você rolar os dados do seu *Retomar o Fôlego*, se o resultado do d10 for menor que 5, você trata o resultado do dado automaticamente como **5**.</p>
-        </div>
+                <!-- Nível 13: Ataques Estudados -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 13: Ataques Estudados</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você estuda seus oponentes e aprende com cada ataque que faz. Se você faz uma <strong>rolagem de ataque</strong> contra uma criatura e <strong>erra</strong>, você tem <strong>Vantagem</strong> em sua próxima rolagem de ataque contra aquela criatura antes do final de seu <strong>próximo turno</strong>.</p>
+                    </div>
+                </div>
 
-        <div class="bloco-guerreiro">
-          <h4>Nível 20: Ataque Extra (3)</h4>
-          <p>Você atinge o ápice absoluto do combate marcial no multiverso. Você realiza **quatro ataques** sempre que desferir a ação de Ataque no seu turno.</p>
-        </div>
-      </div>
+                <!-- Nível 19: Benção Épica -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 19: Benção Épica</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha um talento de <strong>Benção Épica</strong> ou outro talento de sua escolha para o qual você se qualifica. <strong>Benção do Combate</strong> é recomendado.</p>
+                    </div>
+                </div>
 
-      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
-        <h3 style="font-family: 'Cinzel', serif; color: #d35400; font-size: 1.6rem; margin-bottom: 10px;">Arquétipos Marciais (Subclasses)</h3>
-        
-        <div class="bloco-subclasse-detalhada">
-          <h3>1. Campeão (Champion)</h3>
-          <p>Focado na excelência física bruta, mobilidade atlética e probabilidade expandida de desferir acertos críticos devastadores.</p>
-          
-          <div class="sub-feature">
-            <h5>Nível 3: Crítico Aprimorado & Guerreiro de Combate</h5>
-            <p><strong>Crítico Aprimorado:</strong> Suas jogadas de ataque com armas conquistam um **Acerto Crítico** em rolagens de **19 ou 20** no d20.</p>
-            <p><strong>Atleta Notável:</strong> Você ganha vantagem em testes de Força (Atletismo) ou Destreza (Acrobacia), e a distância do seu salto em comprimento aumenta em uma quantidade de metros igual ao seu modificador de Força.</p>
+                <!-- Nível 20: Três Ataques Extras -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 20: Três Ataques Extras</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você pode atacar <strong>quatro vezes</strong> em vez de uma sempre que realizar a ação <strong>Atacar</strong> em seu turno.</p>
+                    </div>
+                </div>
+              </div>
           </div>
 
-          <div class="sub-feature">
-            <h5>Nível 7: Estilo de Combate Adicional</h5>
-            <p>Você pode escolher e aprender uma segunda opção de talento de *Estilo de Combate* da lista da classe.</p>
-          </div>
 
-          <div class="sub-feature">
-            <h5>Nível 10: Crítico Heroico</h5>
-            <p>Quando você conquista um Acerto Crítico, você pode usar sua reação para mover-se até metade do seu deslocamento sem provocar ataques de oportunidade e conceder **Vantagem** no próximo ataque de um aliado próximo.</p>
-          </div>
+          <div class="recursos-header">
+                  <h3>Subclasses</h3>
+              </div>
+          <div class="subclasses-container" id="subclasses-artifice">
+              
+              <!--ABAS DE NAVEGAÇÃO-->
+              <div class="tabs-header">
+                  <ul class="tabs-list">
+                  <li><button class="tab-btn active" data-tab="0"> Subclasse 1</button></li>
+                  <li><button class="tab-btn active" data-tab="0"> Subclasse 2</button></li>
+                  </ul>
+              </div>
+              
+              <!--SUBCLASSE-->
+              <div class="tabs-content">
 
-          <div class="sub-feature">
-            <h5>Nível 14: Crítico Superior</h5>
-            <p>Seu limiar de letalidade expande-se ainda mais. Suas jogadas de ataque com armas obtêm um **Acerto Crítico** em resultados de **18, 19 ou 20** no d20.</p>
-          </div>
+              
+              </div>
+              
 
-          <div class="sub-feature">
-            <h5>Nível 18: Sobrevivente</h5>
-            <p>Você se recusa a cair. No início de cada um de seus turnos em combate, se você estiver com menos da metade dos seus pontos de vida máximos, você regenera pontos de vida iguais a **5 + seu modificador de Constituição** automaticamente. Este recurso não funciona se você estiver com 0 pontos de vida.</p>
           </div>
-        </div>
-
-        <div class="bloco-subclasse-detalhada">
-          <h3>2. Mestre da Batalha (Battle Master)</h3>
-          <p>O estrategista militar por excelência. Utiliza Conhecimento Tático e Dados de Superioridade para aplicar manobras complexas que controlam o grid de combate.</p>
-          
-          <div class="sub-feature">
-            <h5>Nível 3: Superioridade de Combate & Estudante da Guerra</h5>
-            <p><strong>Dados de Superioridade:</strong> Você ganha **quatro Dados de Superioridade (d8)**. Você gasta esses dados para executar Manobras Marcias. Você recupera todos os dados gastos ao finalizar um Descanso Curto ou Longo.</p>
-            <p><strong>Manobras Iniciais:</strong> Você aprende três manobras à sua escolha da lista oficial (ex: *Ataque de Desarmamento*, *Ataque de Distração*, *Ataque de Derrubada*, *Finta*, *Riposte*, *Aparar* ou *Comando do Capitão*). Quando aplica uma manobra, você adiciona o resultado do d8 ao dano ou efeito do golpe.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 7: Conhecer o Inimigo & Dados Adicionais</h5>
-            <p>Você aprende duas manobras adicionais e ganha mais **um** Dado de Superioridade. Além disso, se você observar uma criatura por 1 minuto fora de combate, o mestre revela se as estatísticas dela (CA, Vida ou Atributos) são superiores, inferiores ou iguais às suas.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 10: Superioridade Aprimorada</h5>
-            <p>Seus Dados de Superioridade marcial evoluem de tamanho, transformando-se de d8s para **d10s**. Você aprende duas novas manobras.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 14: Implacável</h5>
-            <p>Quando você rolar Iniciativa para um combate e não possuir nenhum Dado de Superioridade restante na sua reserva, você recupera **um** dado automaticamente para usar no confronto.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 18: Superioridade Suprema</h5>
-            <p>Seus Dados de Superioridade atingem o limite máximo de potência mecânica, evoluindo de d10s para **d12s**. Você aprende suas duas últimas manobras.</p>
-          </div>
-        </div>
-
-        <div class="bloco-subclasse-detalhada">
-          <h3>3. Cavaleiro Arcano (Eldritch Knight)</h3>
-          <p>Mescla a brutalidade das armas marciais com as magias arcanas de Abjuração e Evocação da lista de Mago, ligando-se misticamente ao seu arsenal.</p>
-          
-          <div class="sub-feature">
-            <h5>Nível 3: Vinculo com Arma & Conjuração</h5>
-            <p><strong>Conjuração:</strong> Você aprende truques e magias da lista de Mago (focando em Inteligência como atributo de conjuração) de acordo com a tabela de progressão de terço de conjurador. *(Nota fiel de 2024: A restrição rígida de escolas de magia foi afrouxada, permitindo maior flexibilidade na escolha de magias)*.</p>
-            <p><strong>Vínculo com Arma:</strong> Você realiza um ritual com até duas armas. Elas não podem ser desarmadas da sua mão e, se estiverem no mesmo plano, você pode invocá-las para a sua mão instantaneamente usando uma Ação Bônus.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 7: Magia de Guerra (War Magic)</h5>
-            <p>Quando você utilizar sua ação para conjurar um Truque de Mago, você pode desferir **um ataque de arma** como parte dessa mesma ação (substituindo um dos ataques do seu Ataque Extra por um truque ofensivo ou tático).</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 10: Investida Destrutiva (Eldritch Strike)</h5>
-            <p>Quando você atingir uma criatura com um ataque de arma, ela recebe **Desvantagem** na próxima salvaguarda que realizar contra uma magia conjurada por você até o final do seu próximo turno.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 14: Investida Arcana</h5>
-            <p>Quando você utilizar o seu recurso *Surto de Ação*, você pode se teletransportar por até 9 metros para um espaço desocupado visível. Você pode fazer este teletransporte imediatamente antes ou depois da ação adicional obtida.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 18: Magia de Guerra Maior</h5>
-            <p>Quando você utilizar sua ação para conjurar uma magia de **1º círculo ou superior**, você pode gastar sua Ação Bônus para realizar um ataque de arma devastador contra um alvo ao alcance.</p>
-          </div>
-        </div>
-
-        <div class="bloco-subclasse-detalhada">
-          <h3>4. Guerreiro Psiónico (Psi Warrior)</h3>
-          <p>Manipula a energia mental latente (Poder Psiónico) para erguer escudos de força cinética, propelir saltos impossíveis e aumentar o impacto mecânico de suas lâminas.</p>
-          
-          <div class="sub-feature">
-            <h5>Nível 3: Energia Psiónica & Talentos Telecinéticos</h5>
-            <p><strong>Dados de Energia Psiónica:</strong> Você ganha uma quantidade de dados psiónicos iguais ao **dobro do seu Bônus de Proficiência (d6)**. Você usa Inteligência para modular os efeitos.</p>
-            <p><strong>Aplicações Iniciais:</strong> Você gasta seus dados para acionar três recursos:</p>
-            <ul class="trait-list" style="margin-top: 5px;">
-              <li>*Golpe Psiónico:* Causa dano de Força extra igual a 1d6 + Inteligência ao atingir um alvo.</li>
-              <li>*Campo Telecinético:* Reduz o dano sofrido por um aliado próximo em 1d6 + Inteligência usando sua Reação.</li>
-              <li>*Movimento Telecinético:* Move um objeto ou aliado a até 9 metros por uma distância de até 9 metros.</li>
-            </ul>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 7: Impulso de Salto & Salto Mental</h5>
-            <p>Seus dados psiónicos aumentam de tamanho para **d8s**. Como uma Ação Bônus, você adquire deslocamento de voo igual ao dobro do seu deslocamento terrestre até o final do seu turno atual. Além disso, ao usar seu *Golpe Psiónico*, você pode forçar o alvo a passar em uma salvaguarda de Força ou ficar Caído (Prone).</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 10: Baluarte Guardião</h5>
-            <p>Como uma Ação Bônus, você gasta um dado psiónico para criar uma barreira de força translúcida ao redor de si ou de um aliado a até 9 metros. A criatura escolhida ganha **Meia Cobertura (+2 na CA e salvaguardas de Destreza)** por 1 minuto ou até você perder a concentração.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 14: Mente Sobre o Corpo</h5>
-            <p>Seus dados psiónicos aumentam de tamanho para **d10s**. Além disso, se você iniciar seu turno sob o efeito das condições *Enfeitiçado (Charmed)* ou *Amedrontado (Frightened)*, você pode gastar um dado psiónico para encerrar a respectiva condição de sua mente imediatamente.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 18: Mestre de Armas Telecinético</h5>
-            <p>Sua mente manipula o campo de batalha perfeitamente. Você pode conjurar a magia *Telecinésia* sem gastar espaços de magia, usando Inteligência como atributo. Enquanto mantiver a concentração nesta magia, você pode realizar um ataque de arma como Ação Bônus em cada um dos seus turnos.</p>
-          </div>
-        </div>
-
-      </div>
+      </div><!--FIM DA DIV recursos-detalhados-->
     </div>
   </div>
 
