@@ -181,6 +181,9 @@ body {
   padding: 60px 40px;
   width: 100%;
 }
+.container h2 {
+  text-align: center;
+}
 
 .desc-intro {
   font-size: 1.15rem;
