@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crônicas de Othans — Weirs RPG</title>
   <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+  <link rel="stylesheet" href="/WEIRS-RPG/css/camp-cards.css">
+  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+  <script src="/WEIRS-RPG/javascript/modal.js"></script>
   <style>
     .header-campanha {
       text-align: center;
@@ -37,6 +40,13 @@
       margin-bottom: 40px;
       border-radius: 0 4px 4px 0;
     }
+
+    .bloco-aviso-content {
+      padding-right: 15px;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+
     .bloco-aviso h4 {
       font-family: 'Cinzel', serif;
       color: #f39c12;
@@ -87,7 +97,7 @@
 </head>
 <body>
 
-  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+
 
   <div class="container">
     
@@ -100,136 +110,88 @@
       <span class="badge-status">Campanha Contínua (Ano 502)</span>
     </div>
 
-    <div class="bloco-aviso">
+    <!-- Grid de Cards -->
+      <div class="camps-grid" id="campsGrid">
+          <!-- Card 1 - Capítulo 1 -->
+          <div class="camp-card" data-modal="modal-cap1">
+              <h3>📜 CAPÍTULO 1 - 27/05/2026</h3>
+              <div class="camp-details-preview">
+                  <p>Danael, o Arcanjo da Terra, reúne cinco desconhecidos nos arredores de Hanzou. A missão: encontrar o verdadeiro Dragma, uma criança perdida...</p>
+              </div>
+              <div class="camp-meta">
+              </div>
+          </div>
 
-<div style="text-align: justify; line-height: 1.9; font-size: 18px;">
+          <!-- Adicione mais cards conforme as sessões avançarem -->
+      </div>
 
-<h2 style="margin-bottom: 25px;">CAPÍTULO 1 - 27/05/2026</h2>
+      <!-- Modal 1 - Capítulo 1 -->
+      <div id="modal-cap1" class="modal">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <div class="modal-title">Capítulo 1 - O Chamado de Danael</div>
+          <div class="modal-date">27 de Maio de 2026</div>
+          <div class="modal-desc">
+            <p>O ano era 502. Enquanto o continente de Yozaki afundava lentamente sob a expansão do Império Unificado e a ocupação militar de Phandor, cinco desconhecidos receberam cartas assinadas por uma entidade impossível de ignorar: Danael, o Arcanjo da Terra. Guiados pelas mensagens, os cinco se encontraram em um ponto isolado nos arredores de Hanzou.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-O ano era 502. Enquanto o continente de Yozaki afundava lentamente sob a expansão do Império Unificado e a ocupação militar de Phandor, cinco desconhecidos receberam cartas assinadas por uma entidade impossível de ignorar: Danael, o Arcanjo da Terra. Guiados pelas mensagens, os cinco se encontraram em um ponto isolado nos arredores de Hanzou.
-</p>
+            <p>Fen Ri foi a primeira a chegar, desconfiada e silenciosa como sempre. Pouco depois surgiu Kyusaki, o cranori armado com sua estranha pistola de ossos. Antes que os dois pudessem conversar direito, um homem surgiu tocando um alaúde despreocupadamente pela estrada: Henry Avery. Fen claramente não gostou da música, mas Kyusaki imediatamente entrou no clima, começando a cantar e dançar junto do desconhecido como se fossem velhos amigos.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Fen Ri foi a primeira a chegar, desconfiada e silenciosa como sempre. Pouco depois surgiu Kyusaki, o cranori armado com sua estranha pistola de ossos. Antes que os dois pudessem conversar direito, um homem surgiu tocando um alaúde despreocupadamente pela estrada: Henry Avery. Fen claramente não gostou da música, mas Kyusaki imediatamente entrou no clima, começando a cantar e dançar junto do desconhecido como se fossem velhos amigos.
-</p>
+            <p>Logo depois chegaram Rashad e Zephira. Henry se assustou momentaneamente ao ver a serpente da garota, mas rapidamente voltou a tocar. Rashad reconheceu Henry como um namyriano do clã da montanha e imediatamente ficou desconfiado, lembrando-se de experiências ruins que teve com membros daquele povo no passado.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Logo depois chegaram Rashad e Zephira. Henry se assustou momentaneamente ao ver a serpente da garota, mas rapidamente voltou a tocar. Rashad reconheceu Henry como um namyriano do clã da montanha e imediatamente ficou desconfiado, lembrando-se de experiências ruins que teve com membros daquele povo no passado.
-</p>
+            <p>Os cinco discutiram brevemente sobre as cartas recebidas e levantaram a possibilidade de tudo aquilo ser uma armadilha. Foi então que o céu se abriu. Danael desceu diante deles. O Arcanjo da Terra pousou calmamente no local, apresentando-se como o responsável por reuni-los ali. Sem perder tempo, revelou a verdade sobre o mundo atual. O Império Unificado havia apresentado ao mundo, anos atrás, uma falsa criança da profecia, utilizando a mentira para expandir sua influência política e religiosa.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Os cinco discutiram brevemente sobre as cartas recebidas e levantaram a possibilidade de tudo aquilo ser uma armadilha. Foi então que o céu se abriu.
-</p>
+            <p>Mas o verdadeiro Dragma ainda existia, perdido em algum lugar de Yozaki. Danael explicou que havia reunido aqueles cinco para assumirem o papel dos novos Othans, os antigos guardiões responsáveis por encontrar e proteger o verdadeiro Dragma.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Danael desceu diante deles. O Arcanjo da Terra pousou calmamente no local, apresentando-se como o responsável por reuni-los ali. Sem perder tempo, revelou a verdade sobre o mundo atual. O Império Unificado havia apresentado ao mundo, anos atrás, uma falsa criança da profecia, utilizando a mentira para expandir sua influência política e religiosa.
-</p>
+            <p>Rashad questionou imediatamente por que o próprio arcanjo não fazia aquilo sozinho. Danael respondeu que os antigos Othans eram mortais justamente porque conseguiam caminhar entre os povos sem chamar atenção, algo impossível para uma entidade como ele. Além disso, revelou que estava ocupado lidando com ameaças ainda maiores.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Mas o verdadeiro Dragma ainda existia, perdido em algum lugar de Yozaki. Danael explicou que havia reunido aqueles cinco para assumirem o papel dos novos Othans, os antigos guardiões responsáveis por encontrar e proteger o verdadeiro Dragma.
-</p>
+            <p>Mesmo desconfiado, Rashad aceitou continuar ouvindo. Kyusaki perguntou se havia alguma pista sobre a criança. Danael revelou que sentira o Éter do Dragma durante uma de suas preces e que a última presença detectada vinha da cidade de Hanzou. Também revelou o nome da mãe da criança: Ming.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Rashad questionou imediatamente por que o próprio arcanjo não fazia aquilo sozinho. Danael respondeu que os antigos Othans eram mortais justamente porque conseguiam caminhar entre os povos sem chamar atenção, algo impossível para uma entidade como ele. Além disso, revelou que estava ocupado lidando com ameaças ainda maiores.
-</p>
+            <p>Era tudo que possuía. A escassez de informações claramente frustrou o grupo. Zephira então perguntou o que exatamente eles ganhariam ajudando naquela missão. Danael respondeu que o avanço do Império colocava o futuro do mundo inteiro em risco. Além disso, afirmou acreditar que cada um deles havia sido guiado até ali por um propósito maior e que poderia ajudá-los a encontrar aquilo que mais buscavam.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Mesmo desconfiado, Rashad aceitou continuar ouvindo. Kyusaki perguntou se havia alguma pista sobre a criança. Danael revelou que sentira o Éter do Dragma durante uma de suas preces e que a última presença detectada vinha da cidade de Hanzou. Também revelou o nome da mãe da criança: Ming.
-</p>
+            <p>A resposta despertou o interesse imediato de Zephira. Antes de partir, Danael entregou ao grupo um mapa de Xintai e uma esfera de comunicação capaz de convocá-lo uma única vez. Então desapareceu.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Era tudo que possuía. A escassez de informações claramente frustrou o grupo. Zephira então perguntou o que exatamente eles ganhariam ajudando naquela missão. Danael respondeu que o avanço do Império colocava o futuro do mundo inteiro em risco. Além disso, afirmou acreditar que cada um deles havia sido guiado até ali por um propósito maior e que poderia ajudá-los a encontrar aquilo que mais buscavam.
-</p>
+            <p>Mesmo após a saída do arcanjo, Kyusaki afirmou que poderia resolver tudo sozinho caso os outros quisessem desistir. Ninguém recuou. Fen admitiu que precisava fazer aquilo para tentar se redimir de erros do passado. Rashad e Zephira concluíram que, caso o Império continuasse crescendo, talvez não existisse mais Namyr para proteger no futuro.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-A resposta despertou o interesse imediato de Zephira. Antes de partir, Danael entregou ao grupo um mapa de Xintai e uma esfera de comunicação capaz de convocá-lo uma única vez. Então desapareceu.
-</p>
+            <p>O grupo então seguiu para Hanzou. Nos portões da cidade foram recebidos por soldados phandorianos que verificaram seus documentos sem grandes dificuldades. Kyusaki apresentou todos como mercenários em busca de trabalho e hospedagem. Um dos soldados comentou que Phandor frequentemente contratava aventureiros para serviços diversos.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Mesmo após a saída do arcanjo, Kyusaki afirmou que poderia resolver tudo sozinho caso os outros quisessem desistir. Ninguém recuou. Fen admitiu que precisava fazer aquilo para tentar se redimir de erros do passado. Rashad e Zephira concluíram que, caso o Império continuasse crescendo, talvez não existisse mais Namyr para proteger no futuro.
-</p>
+            <p>Ao entrarem na cidade, encontraram um ambiente aparentemente tranquilo e organizado. Decidiram então se separar para procurar informações sobre Ming.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-O grupo então seguiu para Hanzou. Nos portões da cidade foram recebidos por soldados phandorianos que verificaram seus documentos sem grandes dificuldades. Kyusaki apresentou todos como mercenários em busca de trabalho e hospedagem. Um dos soldados comentou que Phandor frequentemente contratava aventureiros para serviços diversos.
-</p>
+            <p>Rashad e Zephira foram até o estábulo, onde conversaram com a dona do local tentando descobrir algo sobre uma mulher acompanhada de uma criança. A proprietária explicou que muitas pessoas haviam deixado a cidade recentemente, enquanto outras tantas haviam chegado fugindo dos conflitos, tornando difícil lembrar de nomes específicos. Quando Zephira perguntou o motivo da fuga de tantos moradores, a mulher pareceu desconfortável antes de responder que nem todos aceitavam a "ordem" trazida por Phandor.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Ao entrarem na cidade, encontraram um ambiente aparentemente tranquilo e organizado. Decidiram então se separar para procurar informações sobre Ming.
-</p>
+            <p>Enquanto isso, Kyusaki e Henry foram até a taverna da cidade. Lá conheceram o velho Tao, um homem receptivo e falante. Henry tomou cerveja enquanto Kyusaki apenas pediu pão e chá. Tao comentou que a cidade estava mais segura desde a chegada dos phandorianos e explicou que aquela região próxima aos portões servia como área de contenção para recém-chegados.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Rashad e Zephira foram até o estábulo, onde conversaram com a dona do local tentando descobrir algo sobre uma mulher acompanhada de uma criança. A proprietária explicou que muitas pessoas haviam deixado a cidade recentemente, enquanto outras tantas haviam chegado fugindo dos conflitos, tornando difícil lembrar de nomes específicos. Quando Zephira perguntou o motivo da fuga de tantos moradores, a mulher pareceu desconfortável antes de responder que nem todos aceitavam a “ordem” trazida por Phandor.
-</p>
+            <p>Durante a conversa, os dois notaram uma mulher sentada ao fundo da taverna segurando um bebê no colo. Desconfiados de que ela pudesse ser Ming, chamaram o restante do grupo. Zephira aproximou-se cuidadosamente e conversou com a mulher, descobrindo que ela afirmava se chamar XingXing. Disse ter fugido de Baoshan após perder o marido durante os conflitos e agora tentava sobreviver sozinha cuidando do filho.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Enquanto isso, Kyusaki e Henry foram até a taverna da cidade. Lá conheceram o velho Tao, um homem receptivo e falante. Henry tomou cerveja enquanto Kyusaki apenas pediu pão e chá. Tao comentou que a cidade estava mais segura desde a chegada dos phandorianos e explicou que aquela região próxima aos portões servia como área de contenção para recém-chegados.
-</p>
+            <p>Zephira demonstrou empatia pela situação da mulher e comentou que talvez pudesse ajudá-la com a criança. XingXing agradeceu e saiu em busca de trabalho pela cidade. Kyusaki decidiu segui-la discretamente. Durante o trajeto, viu a mulher tentar conseguir emprego na loja de poções local, mas o velho alquimista recusou contratá-la por ela ter um bebê.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Durante a conversa, os dois notaram uma mulher sentada ao fundo da taverna segurando um bebê no colo. Desconfiados de que ela pudesse ser Ming, chamaram o restante do grupo. Zephira aproximou-se cuidadosamente e conversou com a mulher, descobrindo que ela afirmava se chamar XingXing. Disse ter fugido de Baoshan após perder o marido durante os conflitos e agora tentava sobreviver sozinha cuidando do filho.
-</p>
+            <p>Mais tarde, Kyusaki conversou diretamente com XingXing e ofereceu ajuda. A mulher demonstrou gratidão, mas admitiu não confiar facilmente em estranhos, principalmente quando se tratava de seu filho.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Zephira demonstrou empatia pela situação da mulher e comentou que talvez pudesse ajudá-la com a criança. XingXing agradeceu e saiu em busca de trabalho pela cidade. Kyusaki decidiu segui-la discretamente. Durante o trajeto, viu a mulher tentar conseguir emprego na loja de poções local, mas o velho alquimista recusou contratá-la por ela ter um bebê.
-</p>
+            <p>Ao retornar para o grupo, Kyusaki compartilhou suas suspeitas. Todos começaram a considerar a possibilidade de XingXing estar escondendo sua verdadeira identidade.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Mais tarde, Kyusaki conversou diretamente com XingXing e ofereceu ajuda. A mulher demonstrou gratidão, mas admitiu não confiar facilmente em estranhos, principalmente quando se tratava de seu filho.
-</p>
+            <p>Buscando dinheiro e possíveis informações, Kyusaki dirigiu-se até a base militar phandoriana. Lá recebeu uma proposta: eliminar um pequeno acampamento do Império Unificado nos arredores da cidade e recuperar um pergaminho selado pertencente ao império rival. Em troca, receberiam cinquenta moedas de ouro.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Ao retornar para o grupo, Kyusaki compartilhou suas suspeitas. Todos começaram a considerar a possibilidade de XingXing estar escondendo sua verdadeira identidade.
-</p>
+            <p>Henry aproveitou o tempo para visitar a ferraria local, onde conheceu uma jovem ogra extremamente habilidosa trabalhando entre armas e metais. Interessou-se por uma cimitarra impecável, mas não possuía ouro suficiente para comprá-la. Antes de ir embora, a ferreira o alertou para não confiar demais em Phandor.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Buscando dinheiro e possíveis informações, Kyusaki dirigiu-se até a base militar phandoriana. Lá recebeu uma proposta: eliminar um pequeno acampamento do Império Unificado nos arredores da cidade e recuperar um pergaminho selado pertencente ao império rival. Em troca, receberiam cinquenta moedas de ouro.
-</p>
+            <p>Reunidos novamente, os cinco aceitaram a missão dos phandorianos e partiram rumo à floresta. No caminho descobriram que Phandor evitava atacar diretamente o Império Unificado para impedir uma guerra oficial, utilizando mercenários para realizar o trabalho sujo.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Henry aproveitou o tempo para visitar a ferraria local, onde conheceu uma jovem ogra extremamente habilidosa trabalhando entre armas e metais. Interessou-se por uma cimitarra impecável, mas não possuía ouro suficiente para comprá-la. Antes de ir embora, a ferreira o alertou para não confiar demais em Phandor.
-</p>
+            <p>Ao chegarem no acampamento inimigo, traçaram um plano simples. Kyusaki atrairia a atenção dos guardas enquanto Zephira e Rashad se aproximariam pelos flancos. Fen e Henry dariam cobertura.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Reunidos novamente, os cinco aceitaram a missão dos phandorianos e partiram rumo à floresta. No caminho descobriram que Phandor evitava atacar diretamente o Império Unificado para impedir uma guerra oficial, utilizando mercenários para realizar o trabalho sujo.
-</p>
+            <p>O combate explodiu rapidamente. Kyusaki disparou sua pistola etérea quase derrubando um dos soldados logo no primeiro tiro. Fen avançou brutalmente sobre outro inimigo e o derrubou com uma machadada devastadora. Rashad enfrentou dois soldados simultaneamente usando socos e chutes violentos, enquanto Zephira utilizava suas habilidades serpenteanas para prender um arqueiro e lançá-lo do alto de uma elevação.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Ao chegarem no acampamento inimigo, traçaram um plano simples. Kyusaki atrairia a atenção dos guardas enquanto Zephira e Rashad se aproximariam pelos flancos. Fen e Henry dariam cobertura.
-</p>
+            <p>O oficial do Império Unificado finalmente apareceu no campo de batalha, avançando diretamente contra Zephira. Antes que pudesse derrotá-la, Kyusaki acertou disparos decisivos que fizeram o homem cair.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-O combate explodiu rapidamente. Kyusaki disparou sua pistola etérea quase derrubando um dos soldados logo no primeiro tiro. Fen avançou brutalmente sobre outro inimigo e o derrubou com uma machadada devastadora. Rashad enfrentou dois soldados simultaneamente usando socos e chutes violentos, enquanto Zephira utilizava suas habilidades serpenteanas para prender um arqueiro e lançá-lo do alto de uma elevação.
-</p>
+            <p>Com a batalha vencida, o grupo capturou o oficial ainda vivo e exigiu o pergaminho. O homem revelou que o documento continha informações relacionadas aos "macacos", referência aos Simyaris.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-O oficial do Império Unificado finalmente apareceu no campo de batalha, avançando diretamente contra Zephira. Antes que pudesse derrotá-la, Kyusaki acertou disparos decisivos que fizeram o homem cair.
-</p>
+            <p>Antes que pudessem deixar o local, Henry percebeu movimentações estranhas na floresta. Uma mulher surgiu diante deles como um vulto silencioso empunhando uma katana. Ela afirmou que precisava daquele pergaminho e agradeceu ironicamente pelo grupo ter feito o trabalho difícil por ela.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Com a batalha vencida, o grupo capturou o oficial ainda vivo e exigiu o pergaminho. O homem revelou que o documento continha informações relacionadas aos “macacos”, referência aos Simyaris.
-</p>
+            <p>A guerreira explicou que o documento não poderia cair nem nas mãos de Phandor nem do Império Unificado. Kyusaki recusou entregar o pergaminho, alegando que precisava cumprir a missão para ganhar a confiança dos militares phandorianos.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Antes que pudessem deixar o local, Henry percebeu movimentações estranhas na floresta. Uma mulher surgiu diante deles como um vulto silencioso empunhando uma katana. Ela afirmou que precisava daquele pergaminho e agradeceu ironicamente pelo grupo ter feito o trabalho difícil por ela.
-</p>
+            <p>Após alguns instantes de tensão, a mulher apresentou uma solução inesperada: entregou ao grupo um pergaminho falso para levarem até Hanzou. Em troca, pediu que se encontrassem com ela na noite seguinte, no alto de uma montanha próxima. Lá revelaria mais sobre os Simyaris e sobre a guerra que realmente acontecia nas sombras de Xintai.</p>
 
-<p style="text-indent: 40px; margin-bottom: 18px;">
-A guerreira explicou que o documento não poderia cair nem nas mãos de Phandor nem do Império Unificado. Kyusaki recusou entregar o pergaminho, alegando que precisava cumprir a missão para ganhar a confiança dos militares phandorianos.
-</p>
-
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Após alguns instantes de tensão, a mulher apresentou uma solução inesperada: entregou ao grupo um pergaminho falso para levarem até Hanzou. Em troca, pediu que se encontrassem com ela na noite seguinte, no alto de uma montanha próxima. Lá revelaria mais sobre os Simyaris e sobre a guerra que realmente acontecia nas sombras de Xintai.
-</p>
-
-<p style="text-indent: 40px; margin-bottom: 18px;">
-Sem muitas opções, os cinco aceitaram a proposta e retornaram para Hanzou carregando o falso documento, sem muita certeza de que estavam fazendo a coisa certa.
-</p>
-
-</div>
-
-      
-    </div>
+            <p>Sem muitas opções, os cinco aceitaram a proposta e retornaram para Hanzou carregando o falso documento, sem muita certeza de que estavam fazendo a coisa certa.</p>
+          </div>
+        </div>
+      </div>
 
     <div class="secao-personagens">
       <h3>Personagens Jogadores</h3>
