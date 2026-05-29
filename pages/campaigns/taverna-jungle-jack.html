@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>A Taverna de Jungle Jack — Weirs RPG</title>
   <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+  <link rel="stylesheet" href="/WEIRS-RPG/css/camp-cards.css">
+  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+  <script src="/WEIRS-RPG/javascript/modal.js"></script>
   <style>
     .header-campanha {
       text-align: center;
@@ -86,9 +89,6 @@
   </style>
 </head>
 <body>
-
-  <script src="/WEIRS-RPG/javascript/menu.js"></script>
-
   <div class="container">
     
     <div style="margin-bottom: 30px;">
@@ -100,12 +100,32 @@
       <span class="badge-status">One Shot (Ano 502)</span>
     </div>
 
-    <div class="bloco-aviso">
-      <h4>TRAMAS</h4>
-      <p style="font-size: 0.9rem; color: #cbd5e1; margin: 0;">
-        Aqui serão registrados os acontecimentos das tramas...
-      </p>
-    </div>
+    <!-- Grid de Cards -->
+      <div class="camps-grid" id="campsGrid">
+          <!-- Card 1 - Capítulo 1 -->
+          <div class="camp-card" data-modal="modal-cap1">
+              <h3>📜 CAPÍTULO 1 - 00/00/0000</h3>
+              <div class="camp-details-preview">
+                  <p>ResumO!</p>
+              </div>
+              <div class="camp-meta">
+              </div>
+          </div>
+
+          <!-- Adicione mais cards conforme as sessões avançarem -->
+      </div>
+
+      <!-- Modal 1 - Capítulo 1 -->
+      <div id="modal-cap1" class="modal">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <div class="modal-title">Capítulo 1 - Leitada na cara</div>
+          <div class="modal-date">666 de Maio de 20999</div>
+          <div class="modal-desc">
+            <p>MUITO LEEEITEEE <strong>AAAIIIIINN</strong></p>
+          </div>
+        </div>
+      </div>
 
     <div class="secao-personagens">
       <h3>Personagens</h3>

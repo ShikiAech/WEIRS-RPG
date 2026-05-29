@@ -6,6 +6,12 @@ Um aplicativo web para recordação de campanhas, guia de criação básico e co
 
 ## 📋 Changelog
 
+### Versão 1.9.1
+- **Data:** 28/05/2026
+- **Melhorias:**
+  - Mudança na estrutura da página de campanhas.
+    - Cards clicáveis para a abertura de janelas modais com o texto resumo da sessão.
+
 ### Versão 1.9.0
 - **Data:** 28/05/2026
 - **Melhorias:**
