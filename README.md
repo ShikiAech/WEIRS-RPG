@@ -6,6 +6,12 @@ Um aplicativo web para recordação de campanhas, guia de criação básico e co
 
 ## 📋 Changelog
 
+### Versão 1.10.0
+- **Data:** 30/05/2026
+- **Melhorias:**
+  - Página do feiticeiro finalizada.
+  - Página do guerreiro finalizada.
+
 ### Versão 1.9.1
 - **Data:** 28/05/2026
 - **Melhorias:**
