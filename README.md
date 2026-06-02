@@ -5,8 +5,16 @@
 Um aplicativo web para recordação de campanhas, guia de criação básico e conteúdo traduzido de D&D 2024.
 
 ## 📋 Changelog
+### Versão 1.12.0
+- **Data:** 02/06/2026
+- **Melhorias:**
+  - Página do feiticeiro finalizada.
+  - Correção da página do mago e do feiticeiro.
+    - A página do feiticeiro estava com as características do mago.
+      - O código foi transferido para a página correta.
+
 ### Versão 1.11.0
-- **Data:**02/06/2026
+- **Data:** 02/06/2026
 - **Melhorias:**
   - Página do ladino finalizada.
   - Pequenas correções nas páginas do guerreiro e feiticeiro.
