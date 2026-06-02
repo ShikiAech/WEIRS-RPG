@@ -5,6 +5,14 @@
 Um aplicativo web para recordação de campanhas, guia de criação básico e conteúdo traduzido de D&D 2024.
 
 ## 📋 Changelog
+### Versão 1.14.0
+- **Data:** 02/06/2026
+- **Melhorias:**
+  - Página do paladino finalizada.
+  - Página do patrulheiro finalizada.
+  - Página do pistoleiro finalizada.
+  - Página do psionista finalizada.
+
 ### Versão 1.13.0
 - **Data:** 02/06/2026
 - **Melhorias:**
