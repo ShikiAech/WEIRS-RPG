@@ -5,95 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Paladino — Weirs RPG</title>
   <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
-  <style>
-    .bloco-paladino {
-      background: rgba(241, 196, 15, 0.03);
-      border: 1px solid rgba(241, 196, 15, 0.15);
-      border-left: 4px solid #f1c40f;
-      padding: 20px;
-      margin-top: 20px;
-      border-radius: 0 4px 4px 0;
-    }
-    .bloco-paladino h4 {
-      font-family: 'Cinzel', serif;
-      color: #f39c12;
-      font-size: 1.25rem;
-      margin-bottom: 8px;
-    }
-    .bloco-subclasse-detalhada {
-      background: rgba(25, 25, 27, 0.8);
-      border: 1px solid var(--border-fantasy);
-      padding: 25px;
-      margin-top: 35px;
-      border-radius: 4px;
-    }
-    .bloco-subclasse-detalhada h3 {
-      font-family: 'Cinzel', serif;
-      color: #f1c40f;
-      border-bottom: 1px solid rgba(241, 196, 15, 0.3);
-      padding-bottom: 8px;
-      margin-bottom: 20px;
-    }
-    .sub-feature {
-      background: rgba(241, 196, 15, 0.04);
-      border-left: 3px solid #f1c40f;
-      padding: 15px;
-      margin-top: 15px;
-      border-radius: 0 4px 4px 0;
-    }
-    .sub-feature h5 {
-      font-family: 'Cinzel', serif;
-      color: #f5b041;
-      font-size: 1.05rem;
-      margin-bottom: 5px;
-    }
-    .trait-list {
-      list-style: none;
-      margin-left: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .trait-list li strong {
-      color: var(--gold);
-    }
-    .tabela-rpg {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-      background: rgba(20, 20, 22, 0.6);
-      border: 1px solid var(--border-fantasy);
-      font-size: 0.85rem;
-    }
-    .tabela-rpg th, .tabela-rpg td {
-      border: 1px solid var(--border-fantasy);
-      padding: 10px 12px;
-      text-align: center;
-    }
-    .tabela-rpg th {
-      background: rgba(43, 41, 23, 0.5);
-      color: #f1c40f;
-      font-family: 'Cinzel', serif;
-    }
-    .tabela-rpg tr:nth-child(even) {
-      background: rgba(255, 255, 255, 0.02);
-    }
-    .tabela-rpg td.esquerda {
-      text-align: left;
-    }
-  </style>
+  <link rel="stylesheet" href="/WEIRS-RPG/css/class-style.css">
+  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+  <script src="/WEIRS-RPG/javascript/subclass-tab.js"></script>
 </head>
 <body>
-
-  <script src="/WEIRS-RPG/javascript/menu.js"></script>
-
   <div class="container">
     
     <div style="margin-bottom: 30px;">
       <a href="/WEIRS-RPG/pages/classes/classes.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Classes</a>
     </div>
 
-    <h2>Paladino (Paladin)</h2>
+    <h2>Paladino</h2>
     
     <div class="card-rpg">
       <div class="layout-detalhes">
@@ -103,161 +26,1017 @@
           <p>Um paladino é a personificação física de uma promessa inquebrável. Seja guiado por deuses da justiça ou pela sede implacável de vingança, o paladino canaliza o poder do cosmos através da convicção absoluta de seu **Juramento Sagrado**. No campo de batalha, eles são faróis de esperança, revestidos de aço reluzente e impulsionados por uma força espiritual capaz de pulverizar o mal.</p>
           <p>No novo padrão oficial do **D&D 5e (2024)**, o paladino agora conjura magias desde o **1º nível**, ganha acesso gratuito a montarias sagradas e manipula a energia vital com uma versatilidade sem precedentes através de seu canalizar divindade.</p>
           
-          <h4 style="color: #f1c40f; margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
+          <h4 style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
           <ul class="trait-list" style="margin-top: 15px;">
-            <li><strong>Dado de Vida:</strong> 1d10 por nível de Paladino.</li>
-            <li><strong>Atributo Principal:</strong> Força e Carisma.</li>
-            <li><strong>Proficiências em Armaduras:</strong> Todas as armaduras e Escudos.</li>
-            <li><strong>Proficiências em Armas:</strong> Armas Simples e Marciais.</li>
-            <li><strong>Testes de Resistência:</strong> Sabedoria e Carisma.</li>
+              <li><strong>Dado de Vida:</strong> 1d10 por nível de Paladino.</li>
+              <li><strong>Atributos Principais:</strong> Força e Carisma.</li>
+              <li><strong>Proficiências em Armaduras:</strong> Armaduras Leves, Médias, Pesadas e Escudos.</li>
+              <li><strong>Proficiências em Armas:</strong> Armas Simples e Marciais.</li>
+              <li><strong>Testes de Resistência:</strong> Sabedoria e Carisma.</li>
+              <li><strong>Perícias:</strong> Escolha duas entre Atletismo, Intuição, Intimidação, Medicina, Persuasão ou Religião.</li>
+              <li><strong>Equipamento Inicial:</strong> Escolha A ou B: (A) Cota de Malha, Escudo, Espada Longa, 6 Azagaias, Símbolo Sagrado, Pacote do Sacerdote e 9 PO; (B) 150 PO.</li>
           </ul>
         </div>
       </div>
 
-      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px; overflow-x: auto;">
-        <h3 style="font-family: 'Cinzel', serif; color: #f1c40f; font-size: 1.6rem; margin-bottom: 15px;">Progressão de Classe</h3>
-        <table class="tabela-rpg">
-          <thead>
-            <tr>
-              <th>Nível</th>
-              <th>Prof.</th>
-              <th class="esquerda">Recursos de Classe</th>
-              <th>Maestria</th>
-              <th>1º</th><th>2º</th><th>3º</th><th>4º</th><th>5º</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>1º</td><td>+2</td><td class="esquerda">Conjuração, Sentido Divino, Mãos Curativas</td><td>2</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>2º</td><td>+2</td><td class="esquerda">Estilo de Combate, Castigos Palacianos (Smites)</td><td>2</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>3º</td><td>+2</td><td class="esquerda">Juramento Sagrado (Subclasse), Canalizar Divindade</td><td>2</td><td>4</td><td>2</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>4º</td><td>+2</td><td class="esquerda">Talento de Atributo (Feat)</td><td>2</td><td>4</td><td>3</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>5º</td><td>+3</td><td class="esquerda">Ataque Extra, Montaria Fiel (Find Steed)</td><td>2</td><td>4</td><td>3</td><td>2</td><td>—</td><td>—</td></tr>
-            <tr><td>6º</td><td>+3</td><td class="esquerda">Aura de Proteção</td><td>2</td><td>4</td><td>3</td><td>3</td><td>—</td><td>—</td></tr>
-            <tr><td>7º</td><td>+3</td><td class="esquerda">Recurso de Juramento</td><td>3</td><td>4</td><td>3</td><td>3</td><td>1</td><td>—</td></tr>
-            <tr><td>8º</td><td>+3</td><td class="esquerda">Talento de Atributo (Feat)</td><td>3</td><td>4</td><td>3</td><td>3</td><td>2</td><td>—</td></tr>
-            <tr><td>9º</td><td>+4</td><td class="esquerda">Abjurar Inimigos</td><td>3</td><td>4</td><td>3</td><td>3</td><td>3</td><td>1</td></tr>
-            <tr><td>10º</td><td>+4</td><td class="esquerda">Aura de Coragem</td><td>3</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td></tr>
-            <tr><td>11º</td><td>+4</td><td class="esquerda">Castigo Radiante Passivo</td><td>3</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
-            <tr><td>12º</td><td>+4</td><td class="esquerda">Talento de Atributo (Feat)</td><td>3</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
-            <tr><td>13º</td><td>+5</td><td class="esquerda">Recurso de Juramento</td><td>3</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
-            <tr><td>14º</td><td>+5</td><td class="esquerda">Toque Purificador (Cleansing Touch)</td><td>4</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
-            <tr><td>15º</td><td>+5</td><td class="esquerda">Recurso de Juramento</td><td>4</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
-            <tr><td>16º</td><td>+5</td><td class="esquerda">Talento de Atributo (Feat)</td><td>4</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
-            <tr><td>17º</td><td>+6</td><td class="esquerda">Expansão de Aura (15 metros)</td><td>4</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
-            <tr><td>18º</td><td>+6</td><td class="esquerda">Cura do Conjurador Divino</td><td>4</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
-            <tr><td>19º</td><td>+6</td><td class="esquerda">Talento de Atributo / Dádiva Épica</td><td>4</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
-            <tr><td>20º</td><td>+6</td><td class="esquerda">Campeão Verdadeiro</td><td>4</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
-          </tbody>
-        </table>
-      </div>
-
       <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
-        <h3 style="font-family: 'Cinzel', serif; color: #f1c40f; font-size: 1.6rem; margin-bottom: 20px;">Recursos de Classe Detalhados</h3>
-
-        <div class="bloco-paladino">
-          <h4>Nível 1: Conjuração, Mãos Curativas & Sentido Divino</h4>
-          <p><strong>Conjuração:</strong> O Paladino de 2024 agora começa com slots e preparação de magias diretamente no 1º nível. Você usa Carisma para ditar a CD de suas magias.</p>
-          <p><strong>Mãos Curativas:</strong> Você possui uma reserva de energia igual a **5 x seu nível**. Com uma Ação, toca uma criatura e gasta pontos para curar. Pode gastar 5 pontos para remover doenças ou o efeito Envenenado.</p>
-          <p><strong>Sentido Divino:</strong> Com uma Ação Bônus, você detecta Celestiais, Fiéis ou Mortos-Vivos a até 18 metros. Usos iguais ao Modificador de Carisma.</p>
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.6rem; margin-bottom: 15px;">Características de Classe (Parte A)</h3>
+        <div class="overflow-table">
+            <table class="tabela-rpg">
+                <thead>
+                    <tr>
+                        <th>Nível</th>
+                        <th>Prof.</th>
+                        <th>Recursos de Classe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><th>1º</th><td>+2</th><td class="esquerda">Imposição das Mãos, Conjuração, Maestria em Armas</th></tr>
+                    <tr><th>2º</th><td>+2</th><td class="esquerda">Estilo de Luta, Golpe do Paladino</th></tr>
+                    <tr><th>3º</th><td>+2</th><td class="esquerda">Canalizar Divindade, Subclasse de Paladino</th></tr>
+                    <tr><th>4º</th><td>+2</th><td class="esquerda">Aumento no Valor de Habilidade</th></tr>
+                    <tr><th>5º</th><td>+3</th><td class="esquerda">Ataque Extra, Montaria Fiel</th></tr>
+                    <tr><th>6º</th><td>+3</th><td class="esquerda">Aura de Proteção</th><tr>
+                    <tr><th>7º</th><td>+3</th><td class="esquerda">Característica de Subclasse</th></tr>
+                    <tr><th>8º</th><td>+3</th><td class="esquerda">Aumento no Valor de Habilidade</th></tr>
+                    <tr><th>9º</th><td>+4</th><td class="esquerda">Repelir Inimigos</th></tr>
+                    <tr><th>10º</th><td>+4</th><td class="esquerda">Aura de Coragem</th></tr>
+                    <tr><th>11º</th><td>+4</th><td class="esquerda">Golpes Radiantes</th></tr>
+                    <tr><th>12º</th><td>+4</th><td class="esquerda">Aumento no Valor de Habilidade</th></tr>
+                    <tr><th>13º</th><td>+5</th><td class="esquerda">-</th><tr>
+                    <tr><th>14º</th><td>+5</th><td class="esquerda">Toque Restaurador</th></tr>
+                    <tr><th>15º</th><td>+5</th><td class="esquerda">Característica de Subclasse</th></tr>
+                    <tr><th>16º</th><td>+5</th><td class="esquerda">Aumento no Valor de Habilidade</th></tr>
+                    <tr><th>17º</th><td>+6</th><td class="esquerda">-</th><tr>
+                    <tr><th>18º</th><td>+6</th><td class="esquerda">Expansão de Aura</th></tr>
+                    <tr><th>19º</th><td>+6</th><td class="esquerda">Benção Épica</th></tr>
+                    <tr><th>20º</th><td>+6</th><td class="esquerda">Característica de Subclasse</th></tr>
+                </tbody>
+            </table>
         </div>
-
-        <div class="bloco-paladino">
-          <h4>Nível 2: Estilo de Combate, Smites & Maestria</h4>
-          <p><strong>Estilo de Combate:</strong> Ganha um talento de estilo. Em 2024, pode escolher "Guerreiro Abençoado" para ganhar dois truques de Clérigo.</p>
-          <p><strong>Castigos Palacianos:</strong> O *Castigo Divino (Divine Smite)* agora é uma magia de 1º círculo. Você a conjura com uma **Ação Bônus** imediatamente após acertar um golpe. Causa 2d8 radiante + 1d8 por círculo extra.</p>
-          <p><strong>Maestria em Armas:</strong> Você desbloqueia as propriedades táticas de dois tipos de armas.</p>
-        </div>
-
-        <div class="bloco-paladino">
-          <h4>Nível 3: Juramento Sagrado & Canalizar Divindade</h4>
-          <p>Você escolhe sua subclasse (Juramento). Começa com 1 uso de *Canalizar Divindade* por descanso curto ou longo para ativar efeitos de subclasse ou Abjurar Inimigos.</p>
-        </div>
-
-        <div class="bloco-paladino">
-          <h4>Níveis 4, 8, 12, 16 e 19: Talento de Atributo (Feat)</h4>
-          <p><strong>Aperfeiçoamento Físico e Mental:</strong> Ao atingir estes níveis, você pode aumentar um atributo em +2, dois atributos em +1, ou escolher um **Talento Geral (Feat)** para o qual cumpra os pré-requisitos. No nível 4, paladinos costumam focar em aumentar sua Força para precisão ou Carisma para fortalecer suas futuras Auras.</p>
-        </div>
-
-        <div class="bloco-paladino">
-          <h4>Nível 5: Ataque Extra & Montaria Fiel</h4>
-          <p>Você ataca duas vezes por ação. Além disso, tem a magia *Encontrar Montaria* sempre preparada e pode conjurá-la uma vez por dia gratuitamente.</p>
-        </div>
-
-        <div class="bloco-paladino">
-          <h4>Nível 6: Aura de Proteção</h4>
-          <p>Aliados a até 3 metros recebem um bônus em todos os testes de resistência igual ao seu **Modificador de Carisma**.</p>
-        </div>
-
-        <div class="bloco-paladino">
-          <h4>Nível 9: Abjurar Inimigos</h4>
-          <p>Como uma ação, força inimigos a até 9 metros a passarem em salvaguarda de Sabedoria ou ficarem **Amedrontados** com deslocamento 0.</p>
-        </div>
-
-        <div class="bloco-paladino">
-          <h4>Nível 11: Castigo Radiante Passivo</h4>
-          <p>Todos os seus ataques corpo a corpo causam **1d8 de dano radiante extra** permanentemente, sem gasto de recursos.</p>
-        </div>
-
-        <div class="bloco-paladino">
-          <h4>Nível 14: Toque Purificador</h4>
-          <p>Como uma **Ação Bônus**, encerra uma magia ou as condições Enfeitiçado, Amedrontado ou Atordoado em si ou em um aliado. Usos iguais ao Mod. Carisma.</p>
-        </div>
-
-        <div class="bloco-paladino">
-          <h4>Nível 17: Expansão de Aura</h4>
-          <p>O raio de todas as suas auras (Proteção, Coragem e Subclasse) aumenta de 3 metros para **15 metros**.</p>
-        </div>
-
-        <div class="bloco-paladino">
-          <h4>Nível 20: Campeão Verdadeiro</h4>
-          <p>Você atinge o ápice do seu juramento, destravando a transformação final de sua subclasse.</p>
+        <!-- TABELA DE CANALIZAR DIVINDADE, MAGIAS PREPARADAS E ESPAÇOS DE MAGIA -->
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.6rem; margin-bottom: 15px;">Características de Classe (Parte B)</h3>
+        <div class="overflow-table">
+            <table class="tabela-rpg">
+                <thead>
+                    <tr>
+                        <th>Nível</th>
+                        <th>Canalizar Divindade</th>
+                        <th>Magias Preparadas</th>
+                        <th>1º</th>
+                        <th>2º</th>
+                        <th>3º</th>
+                        <th>4º</th>
+                        <th>5º</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><th>1º</th><td>-</th><td>2</th><td>2</th><td>-</th><td>-</th><td>-</th><td>-</th></tr>
+                    <tr><th>2º</th><td>-</th><td>3</th><td>2</th><td>-</th><td>-</th><td>-</th><td>-</th></tr>
+                    <tr><th>3º</th><td>2</th><td>4</th><td>3</th><td>-</th><td>-</th><td>-</th><td>-</th></tr>
+                    <tr><th>4º</th><td>2</th><td>5</th><td>3</th><td>-</th><td>-</th><td>-</th><td>-</th></tr>
+                    <tr><th>5º</th><td>2</th><td>6</th><td>4</th><td>2</th><td>-</th><td>-</th><td>-</th></tr>
+                    <tr><th>6º</th><td>2</th><td>6</th><td>4</th><td>2</th><td>-</th><td>-</th><td>-</th></tr>
+                    <tr><th>7º</th><td>2</th><td>7</th><td>4</th><td>3</th><td>-</th><td>-</th><td>-</th></tr>
+                    <tr><th>8º</th><td>2</th><td>7</th><td>4</th><td>3</th><td>-</th><td>-</th><td>-</th></tr>
+                    <tr><th>9º</th><td>2</th><td>9</th><td>4</th><td>3</th><td>2</th><td>-</th><td>-</th></tr>
+                    <tr><th>10º</th><td>2</th><td>9</th><td>4</th><td>3</th><td>2</th><td>-</th><td>-</th></tr>
+                    <tr><th>11º</th><td>3</th><td>10</th><td>4</th><td>3</th><td>3</th><td>-</th><td>-</th></tr>
+                    <tr><th>12º</th><td>3</th><td>10</th><td>4</th><td>3</th><td>3</th><td>-</th><td>-</th></tr>
+                    <tr><th>13º</th><td>3</th><td>11</th><td>4</th><td>3</th><td>3</th><td>1</th><td>-</th></tr>
+                    <tr><th>14º</th><td>3</th><td>11</th><td>4</th><td>3</th><td>3</th><td>1</th><td>-</th></tr>
+                    <tr><th>15º</th><td>3</th><td>12</th><td>4</th><td>3</th><td>3</th><td>2</th><td>-</th></tr>
+                    <tr><th>16º</th><td>3</th><td>12</th><td>4</th><td>3</th><td>3</th><td>2</th><td>-</th></tr>
+                    <tr><th>17º</th><td>3</th><td>14</th><td>4</th><td>3</th><td>3</th><td>3</th><td>1</th></td>
+                    <tr><th>18º</th><td>3</th><td>14</th><td>4</th><td>3</th><td>3</th><td>3</th><td>1</th></tr>
+                    <tr><th>19º</th><td>3</th><td>15</th><td>4</th><td>3</th><td>3</th><td>3</th><td>2</th></tr>
+                    <tr><th>20º</th><td>3</th><td>15</th><td>4</th><td>3</th><td>3</th><td>3</th><td>2</th></tr>
+                </tbody>
+            </table>
         </div>
       </div>
+    
+      <!-- RECURSOS DE CLASSE DETALHADOS -->
+      <div >
+      
+          <!-- EXEMPLO DE RECURSOS DE CLASSE -->
+          <div class="recursos-container">
+              <div class="recursos-header">
+                  <h3>Recursos da Classe</h3>
+              </div>
 
-      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
-        <h3 style="font-family: 'Cinzel', serif; color: #f1c40f; font-size: 1.6rem; margin-bottom: 10px;">Juramentos Sagrados (Subclasses)</h3>
-        
-        <div class="bloco-subclasse-detalhada">
-          <h3>Juramento de Devoção (Devotion)</h3>
-          <p>O paladino clássico focado em justiça e proteção.</p>
-          <div class="sub-feature">
-            <h5>Recursos Principais</h5>
-            <p><strong>Lâmina Sagrada (Nível 3):</strong> Adiciona Carisma nos ataques por 1 minuto.</p>
-            <p><strong>Aura de Devoção (Nível 7):</strong> Imunidade a ser Enfeitiçado para o grupo.</p>
+              <div class="recursos-list">
+
+                <!-- Nível 1: Imposição das Mãos -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 1: Imposição das Mãos</span>
+                        <span class="badge-mini acao-bonus">Ação Bônus</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Seu toque abençoado pode curar feridas. Você tem um <strong>reservatório de poder de cura</strong> que se reabastece quando você finaliza um <strong>Descanso Longo</strong>. Com esse reservatório, você pode restaurar um número total de <strong>Pontos de Vida</strong> igual a <strong>cinco vezes seu nível de Paladino</strong>.</p>
+                        <p>Como uma <strong>Ação Bônus</strong>, você pode tocar uma <strong>criatura</strong> (que pode ser você mesmo) e usar o reservatório de cura para restaurar um número de <strong>Pontos de Vida</strong> àquela criatura, até o máximo restante no reservatório.</p>
+                        <p>Você também pode gastar <strong>5 Pontos de Vida</strong> do reservatório de poder de cura para <strong>remover a condição Envenenado</strong> da criatura; esses pontos não restauram Pontos de Vida à criatura.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 1: Conjuração -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 1: Conjuração</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você aprendeu a conjurar magias através de preces e meditação.</p>
+
+                        <p><strong style="color: white;">Espaços de Magia.</strong> A tabela de Características de Paladino mostra quantos espaços de magia você tem para conjurar suas magias de nível 1+. Você recupera todos os espaços gastos ao final de um <strong>Descanso Longo</strong>.</p>
+
+                        <p><strong style="color: white;">Magias Preparadas de Nível 1+.</strong> Você prepara a lista de magias de nível 1+ que estão disponíveis para conjurar com esta característica. Para começar, escolha <strong>duas magias de nível 1 de Paladino</strong>. <strong>Heroísmo</strong> e <strong>Golpe Ardente</strong> são recomendados.</p>
+                        <p>O número de magias na sua lista aumenta conforme você ganha níveis de Paladino, como mostrado na coluna <strong>Magias Preparadas</strong> da tabela de Características de Paladino. Sempre que esse número aumenta, escolha magias adicionais da lista de Paladino até que o número de magias na sua lista corresponda ao número na tabela. As magias escolhidas devem ser de um nível para o qual você tenha espaços de magia. Por exemplo, se você é um Paladino de <strong>nível 5</strong>, sua lista de magias preparadas pode incluir <strong>seis magias de Paladino</strong> de níveis 1 e 2 em qualquer combinação.</p>
+                        <p>Se outra característica de Paladino lhe conceder magias que você sempre tem preparadas, essas magias não contam contra o número de magias que você pode preparar com esta característica, mas, de outra forma, contam como magias de Paladino para você.</p>
+
+                        <p><strong style="color: white;">Alterando Suas Magias Preparadas.</strong> Sempre que você finaliza um <strong>Descanso Longo</strong>, pode substituir <strong>uma magia</strong> em sua lista por outra magia de Paladino para a qual você tenha espaços de magia.</p>
+
+                        <p><strong style="color: white;">Habilidade de Conjuração.</strong> <strong>Carisma</strong> é sua habilidade de conjuração para suas magias de Paladino.</p>
+
+                        <p><strong style="color: white;">Foco de Conjuração.</strong> Você pode usar um <strong>Símbolo Sagrado</strong> como Foco de Conjuração para suas magias de Paladino.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 1: Maestria em Armas -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 1: Maestria em Armas</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Seu treinamento com armas permite que você use as <strong>propriedades de maestria</strong> de <strong>dois tipos</strong> de armas de sua escolha com as quais você tem proficiência, como <strong>Espadas Longas</strong> e <strong>Azagaias</strong>.</p>
+                        <p>Sempre que você finaliza um <strong>Descanso Longo</strong>, pode <strong>mudar os tipos</strong> de armas que escolheu. Por exemplo, você poderia mudar para usar as propriedades de maestria de <strong>Alabardas</strong> e <strong>Mangual</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 2: Estilo de Luta -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 2: Estilo de Luta</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha um talento de <strong>Estilo de Luta</strong> de sua escolha (veja o capítulo 5). Em vez de escolher um desses talentos, você pode escolher a opção abaixo.</p>
+                        
+                        <p><strong style="color: white;">Guerreiro Abençoado.</strong> Você aprende <strong>dois truques de Clérigo</strong> de sua escolha. <strong>Orição</strong> e <strong>Chama Sagrada</strong> são recomendados. Os truques escolhidos contam como magias de Paladino para você, e <strong>Carisma</strong> é sua habilidade de conjuração para eles. Sempre que você ganha um <strong>nível de Paladino</strong>, pode substituir <strong>um desses truques</strong> por outro truque de Clérigo.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 2: Golpe do Paladino -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 2: Golpe do Paladino</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você sempre tem a magia <strong>Golpe Divino</strong> preparada.</p>
+                        <p>Você pode conjurá-la <strong>sem gastar um espaço de magia</strong>, mas deve finalizar um <strong>Descanso Longo</strong> antes de poder conjurá-la desta forma novamente.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 3: Canalizar Divindade -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Canalizar Divindade</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você pode canalizar energia divina diretamente dos <strong>Planos Exteriores</strong>, usando-a para alimentar efeitos mágicos. Você começa com <strong>um efeito</strong>: <strong>Sentido Divino</strong>, que é descrito abaixo. Outras características de Paladino fornecem opções adicionais de efeitos de Canalizar Divindade. Cada vez que você usa esta Canalizar Divindade da classe, escolhe qual efeito desta classe criar.</p>
+                        
+                        <p>Você pode usar esta Canalizar Divindade da classe <strong>duas vezes</strong>. Você recupera <strong>um</strong> de seus usos gastos quando finaliza um <strong>Descanso Curto</strong> e recupera <strong>todos</strong> os usos gastos quando finaliza um <strong>Descanso Longo</strong>. Você ganha um <strong>uso adicional</strong> quando atinge o <strong>nível 11 de Paladino</strong>.</p>
+                        <p>Se um efeito de Canalizar Divindade exigir um <strong>teste de resistência</strong>, a CD é igual à <strong>CD de resistência de magia</strong> da característica de Conjuração desta classe.</p>
+                        
+                        <p><strong style="color: white;">Sentido Divino.</strong> Como uma <strong>Ação Bônus</strong>, você pode abrir sua consciência para detectar <strong>Celestiais</strong>, <strong>Infernais</strong> e <strong>Mortos-Vivos</strong>. Pelos próximos <strong>10 minutos</strong> ou até você estar com a condição <strong>Incapacitado</strong>, você sabe a localização de qualquer criatura desses tipos a até <strong>18 metros</strong> de você e sabe seu tipo de criatura. Dentro do mesmo raio, você também detecta a presença de qualquer <strong>lugar ou objeto</strong> que tenha sido <strong>consagrado ou profanado</strong>, como pela magia <strong>Sagrado</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 3: Subclasse de Paladino -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Subclasse de Paladino</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha uma <strong>subclasse de Paladino</strong> de sua escolha. As subclasses <strong>Juramento da Devoção</strong>, <strong>Juramento da Glória</strong>, <strong>Juramento dos Antigos</strong> e <strong>Juramento da Vingança</strong> são detalhadas após a descrição desta classe. Uma subclasse é uma especialização que concede características em certos níveis de Paladino. Pelo resto de sua carreira, você ganha cada uma das características de sua subclasse que sejam de seu nível de Paladino ou inferior.</p>
+                        
+                        <p><strong style="color: white;">Quebrando Seu Juramento.</strong> Um Paladino tenta manter os mais altos padrões de conduta, mas mesmo os mais dedicados são falíveis. Às vezes, um Paladino transgride seu juramento.</p>
+                        <p>Um Paladino que quebrou um voto tipicamente busca <strong>absolvição</strong>, passando uma vigília durante a noite como um sinal de penitência ou realizando um jejum. Após um rito de perdão, o Paladino começa de novo.</p>
+                        <p>Se seu Paladino <strong>violar seu juramento sem arrependimento</strong>, converse com seu <strong>Mestre</strong>. Seu Paladino provavelmente deve adotar uma subclasse mais apropriada ou até mesmo abandonar a classe e adotar outra.</p>
+                        
+                        <p>As subclasses de Paladino estarão listadas no final da página.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 4: Aumento no Valor de Habilidade -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 4: Aumento no Valor de Habilidade</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha o talento <strong>Aumento no Valor de Habilidade</strong> ou outro talento de sua escolha para o qual você se qualifica. Você ganha esta característica novamente nos níveis <strong>8, 12 e 16</strong> de Paladino.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 5: Ataque Extra -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 5: Ataque Extra</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você pode atacar <strong>duas vezes</strong> em vez de uma sempre que realizar a ação <strong>Atacar</strong> em seu turno.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 5: Montaria Fiel -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 5: Montaria Fiel</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você pode invocar a ajuda de uma <strong>montaria de outro mundo</strong>. Você sempre tem a magia <strong>Encontrar Montaria</strong> preparada.</p>
+                        <p>Você também pode conjurar a magia <strong>uma vez sem gastar um espaço de magia</strong> e recupera sua capacidade de fazê-lo quando finaliza um <strong>Descanso Longo</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 6: Aura de Proteção -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 6: Aura de Proteção</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você irradia uma <strong>aura protetora e invisível</strong> em uma <strong>Emanação de 3 metros</strong> que se origina de você. A aura está inativa enquanto você estiver com a condição <strong>Incapacitado</strong>.</p>
+                        <p>Você e seus <strong>aliados</strong> na aura ganham um <strong>bônus</strong> em testes de resistência igual ao seu modificador de <strong>Carisma</strong> (mínimo de +1).</p>
+                        <p>Se outro <strong>Paladino</strong> estiver presente, uma criatura pode se beneficiar de apenas <strong>uma Aura de Proteção</strong> por vez; a criatura escolhe qual aura enquanto estiver nelas.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 9: Repelir Inimigos -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 9: Repelir Inimigos</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Como uma <strong>Ação Mágica</strong>, você pode gastar <strong>um uso desta classe de Canalizar Divindade</strong> para sobrecarregar inimigos com temor. Ao apresentar seu <strong>Símbolo Sagrado</strong> ou arma, pode ter como alvo um número de <strong>criaturas igual ao seu modificador de Carisma</strong> (mínimo de uma criatura) que você pode ver a até <strong>18 metros</strong> de você. Cada alvo deve ser bem-sucedido em um teste de resistência de <strong>Sabedoria</strong> ou ter a condição <strong>Amedrontado</strong> por <strong>1 minuto</strong> ou até sofrer qualquer dano. Enquanto estiver Amedrontado desta forma, um alvo pode fazer apenas <strong>uma</strong> das seguintes opções em seus turnos: <strong>mover</strong>, <strong>realizar uma ação</strong> ou <strong>realizar uma Ação Bônus</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 10: Aura de Coragem -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 10: Aura de Coragem</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você e seus aliados têm <strong>Imunidade</strong> à condição <strong>Amedrontado</strong> enquanto estiverem em sua <strong>Aura de Proteção</strong>. Se um aliado Amedrontado entrar na aura, aquela condição <strong>não tem efeito</strong> sobre aquele aliado enquanto ele estiver lá.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 11: Golpes Radiantes -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 11: Golpes Radiantes</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Seus golpes agora carregam <strong>poder sobrenatural</strong>. Quando você acerta um alvo com uma rolagem de ataque usando uma <strong>arma corpo a corpo</strong> ou um <strong>Ataque Desarmado</strong>, o alvo sofre <strong>1d8</strong> de dano <strong>Radiante</strong> extra.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 14: Toque Restaurador -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 14: Toque Restaurador</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Quando você usa <strong>Imposição das Mãos</strong> em uma criatura, também pode remover <strong>uma ou mais</strong> das seguintes condições da criatura: <strong>Cego</strong>, <strong>Enfeitiçado</strong>, <strong>Surdo</strong>, <strong>Amedrontado</strong>, <strong>Paralisado</strong> ou <strong>Atordoado</strong>. Você deve gastar <strong>5 Pontos de Vida</strong> do reservatório de cura de <strong>Imposição das Mãos</strong> para cada uma dessas condições que você remover; esses pontos <strong>não restauram Pontos de Vida</strong> à criatura.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 18: Expansão de Aura -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 18: Expansão de Aura</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Sua <strong>Aura de Proteção</strong> agora é uma <strong>Emanação de 9 metros</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 19: Benção Épica -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 19: Benção Épica</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha um talento de <strong>Benção Épica</strong> ou outro talento de sua escolha para o qual você se qualifica. <strong>Benção da Visão Verdadeira</strong> é recomendado.</p>
+                    </div>
+                </div>
+
+
+
+
+
+              </div>
           </div>
-        </div>
 
-        <div class="bloco-subclasse-detalhada">
-          <h3>Juramento de Glória (Glory)</h3>
-          <p>Focado em feitos atléticos e heroísmo épico.</p>
-          <div class="sub-feature">
-            <h5>Recursos Principais</h5>
-            <p><strong>Atleta Incomparável (Nível 3):</strong> Vantagem em Atletismo/Acrobacia e dobro de salto.</p>
-            <p><strong>Aura de Alacridade (Nível 7):</strong> +3 metros de deslocamento para o grupo.</p>
+          <div class="recursos-header">
+                  <h3>Subclasses</h3>
+              </div>
+          <div class="subclasses-container" id="subclasses-artifice">
+              
+              <!--ABAS DE NAVEGAÇÃO-->
+              <div class="tabs-header">
+                  <ul class="tabs-list">
+                  <li><button class="tab-btn active" data-tab="0"> Juramento da Devoção</button></li>
+                  <li><button class="tab-btn active" data-tab="1"> Juramento da Glória</button></li>
+                  <li><button class="tab-btn active" data-tab="2"> Juramento dos Antigos</button></li>
+                  <li><button class="tab-btn active" data-tab="3"> Juramento dos Gênios Nobres</button></li>
+                  <li><button class="tab-btn active" data-tab="4"> Juramento da Vingança</button></li>
+                  <li><button class="tab-btn active" data-tab="5"> Juramento do Guardião Arcano</button></li>
+                  <li><button class="tab-btn active" data-tab="6"> Quebrador de Juramento</button></li>
+                  </ul>
+              </div>
+              
+              <!--SUBCLASSE-->
+              <div class="tabs-content">
+                <!-- ABA - Juramento da Devoção -->
+                <div class="tab-pane">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">Juramento da Devoção</h3>
+                    <p>O <strong>Juramento da Devoção</strong> vincula Paladinos aos ideais de <strong>Justiça e Ordem</strong>. Estes Paladinos personificam o arquétipo do cavaleiro de armadura reluzente. Eles se mantêm nos mais altos padrões de conduta, e alguns — para o bem ou para o mal — mantêm o resto do mundo nos mesmos padrões.</p>
+                    <p>Muitos que juram este juramento são dedicados a deuses da lei e do bem e usam os princípios de seus deuses como medida de devoção pessoal. Outros têm anjos como seus ideais e incorporam imagens de asas angelicais em seus capacetes ou brasões.</p>
+                    <p>Estes Paladinos compartilham os seguintes <strong>princípios</strong>:</p>
+                    <ul>
+                        <li><em>Que sua palavra seja sua promessa.</em></li>
+                        <li><em>Proteja os fracos e nunca tema agir.</em></li>
+                        <li><em>Que seus atos honrosos sejam um exemplo.</em></li>
+                    </ul>
+                    
+                    <!-- Nível 3: Magias do Juramento da Devoção -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Magias do Juramento da Devoção</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>A magia do seu juramento garante que você sempre tenha certas magias preparadas; quando você atinge um nível de Paladino especificado na tabela de <strong>Magias do Juramento da Devoção</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                            
+                            <div class="overflow-table">
+                                <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                    <thead>
+                                        <tr>
+                                            <th>Nível de Paladino</th>
+                                            <th class="esquerda">Magias Preparadas</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><th>3º</th><td class="esquerda"><strong>Proteção contra o Bem e o Mal</strong>, <strong>Escudo da Fé</strong></td></tr>
+                                        <tr><th>5º</th><td class="esquerda"><strong>Auxílio</strong>, <strong>Zona da Verdade</strong></td></tr>
+                                        <tr><th>9º</th><td class="esquerda"><strong>Farol de Esperança</strong>, <strong>Dispensar Magia</strong></td></tr>
+                                        <tr><th>13º</th><td class="esquerda"><strong>Liberdade de Movimento</strong>, <strong>Guardião da Fé</strong></td></tr>
+                                        <tr><th>17º</th><td class="esquerda"><strong>Comungar</strong>, <strong>Golpe Flamejante</strong></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Arma Sagrada -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Arma Sagrada</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você realiza a ação <strong>Atacar</strong>, pode gastar <strong>um uso de seu Canalizar Divindade</strong> para imbuir <strong>uma arma corpo a corpo</strong> que você está segurando com <strong>energia positiva</strong>. Por <strong>10 minutos</strong> ou até você usar esta característica novamente, você adiciona seu modificador de <strong>Carisma</strong> às rolagens de ataque que você faz com aquela arma (mínimo de +1), e cada vez que você acerta com ela, pode fazê-la causar seu tipo de dano normal ou <strong>dano Radiante</strong>.</p>
+                            <p>A arma também emite <strong>Luz Brilhante</strong> em um raio de <strong>6 metros</strong> e <strong>Luz Fraca</strong> por mais <strong>6 metros</strong> além disso.</p>
+                            <p>Você pode encerrar este efeito mais cedo (nenhuma ação necessária). Este efeito também termina se você não estiver carregando a arma.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 7: Aura de Devoção -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 7: Aura de Devoção</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você e seus aliados têm <strong>Imunidade</strong> à condição <strong>Enfeitiçado</strong> enquanto estiverem em sua <strong>Aura de Proteção</strong>. Se um aliado Enfeitiçado entrar na aura, aquela condição <strong>não tem efeito</strong> sobre aquele aliado enquanto ele estiver lá.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 15: Golpe de Proteção -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 15: Golpe de Proteção</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Seu golpe mágico agora irradia <strong>energia protetora</strong>. Sempre que você conjura <strong>Golpe Divino</strong>, você e seus aliados têm <strong>Cobertura Metade</strong> enquanto estiverem em sua <strong>Aura de Proteção</strong>.</p>
+                            <p>A aura tem este benefício até o <strong>início de seu próximo turno</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 20: Auréola Sagrada -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 20: Auréola Sagrada</span>
+                            <span class="badge-mini acao-bonus">Ação Bônus</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Como uma <strong>Ação Bônus</strong>, você pode imbuir sua <strong>Aura de Proteção</strong> com poder sagrado, concedendo os benefícios abaixo por <strong>10 minutos</strong> ou até você encerrá-los (nenhuma ação necessária). Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Longo</strong>. Você também pode restaurar seu uso dela gastando um <strong>espaço de magia de nível 5</strong> (nenhuma ação necessária).</p>
+                            
+                            <p><strong style="color: white;">Proteção Sagrada.</strong> Você tem <strong>Vantagem</strong> em qualquer teste de resistência que for forçado a fazer por um <strong>Infernal</strong> ou um <strong>Morto-Vivo</strong>.</p>
+                            
+                            <p><strong style="color: white;">Dano Radiante.</strong> Sempre que um <strong>inimigo</strong> começa seu turno na aura, aquela criatura sofre dano <strong>Radiante</strong> igual ao seu modificador de <strong>Carisma + seu Bônus de Proficiência</strong>.</p>
+                            
+                            <p><strong style="color: white;">Luz Solar.</strong> A aura é preenchida com <strong>Luz Brilhante</strong> que é <strong>luz solar</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+                                
+                <!-- ABA - Juramento da Glória -->
+                <div class="tab-pane">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">Juramento da Glória</h3>
+                    <p>Paladinos que fazem o <strong>Juramento da Glória</strong> acreditam que eles e seus companheiros estão destinados a alcançar a <strong>glória através de feitos de heroísmo</strong>. Eles treinam diligentemente e incentivam seus companheiros, para que todos estejam prontos quando o destino chamar.</p>
+                    <p>Estes Paladinos compartilham os seguintes <strong>princípios</strong>:</p>
+                    <ul>
+                        <li><em>Esforce-se para ser conhecido por seus atos.</em></li>
+                        <li><em>Enfrente as dificuldades com coragem.</em></li>
+                        <li><em>Inspire outros a lutar pela glória.</em></li>
+                    </ul>
+                    
+                    <!-- Nível 3: Golpe Inspirador -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Golpe Inspirador</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Imediatamente após você conjurar <strong>Golpe Divino</strong>, pode gastar <strong>um uso de seu Canalizar Divindade</strong> e distribuir <strong>Pontos de Vida Temporários</strong> para <strong>criaturas de sua escolha</strong> a até <strong>9 metros</strong> de você, que pode incluir você mesmo. O número total de Pontos de Vida Temporários é igual a <strong>2d8 + seu nível de Paladino</strong>, dividido entre as criaturas escolhidas como você desejar.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Magias do Juramento da Glória -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Magias do Juramento da Glória</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>A magia do seu juramento garante que você sempre tenha certas magias preparadas; quando você atinge um nível de Paladino especificado na tabela de <strong>Magias do Juramento da Glória</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                            
+                            <div class="overflow-table">
+                                <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                    <thead>
+                                        <tr>
+                                            <th>Nível de Paladino</th>
+                                            <th class="esquerda">Magias Preparadas</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><th>3º</th><td class="esquerda"><strong>Projétil Guiado</strong>, <strong>Heroísmo</strong></th></tr>
+                                        <tr><th>5º</th><td class="esquerda"><strong>Aumentar Habilidade</strong>, <strong>Arma Mágica</strong></th></tr>
+                                        <tr><th>9º</th><td class="esquerda"><strong>Acelerar</strong>, <strong>Proteção contra Energia</strong></th></tr>
+                                        <tr><th>13º</th><td class="esquerda"><strong>Compulsão</strong>, <strong>Liberdade de Movimento</strong></th></tr>
+                                        <tr><th>17º</th><td class="esquerda"><strong>Lenda Viva</strong>, <strong>Presença Régia de Yolande</strong></th></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Atleta Incomparável -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Atleta Incomparável</span>
+                            <span class="badge-mini acao-bonus">Ação Bônus</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Como uma <strong>Ação Bônus</strong>, você pode gastar <strong>um uso de seu Canalizar Divindade</strong> para aumentar seu atletismo. Por <strong>1 hora</strong>, você tem <strong>Vantagem</strong> em testes de <strong>Força (Atletismo)</strong> e <strong>Destreza (Acrobacia)</strong>, e a distância de seus <strong>Saltos Longos e em Altura</strong> aumenta em <strong>3 metros</strong> (esta distância extra custa movimento como normal).</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 7: Aura de Presteza -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 7: Aura de Presteza</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Seu <strong>Deslocamento</strong> aumenta em <strong>3 metros</strong>.</p>
+                            <p>Além disso, sempre que um <strong>aliado</strong> <strong>entra em sua Aura de Proteção</strong> pela primeira vez em um turno ou <strong>começa seu turno lá</strong>, o <strong>Deslocamento</strong> do aliado aumenta em <strong>3 metros</strong> até o final de seu próximo turno.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 15: Defesa Gloriosa -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 15: Defesa Gloriosa</span>
+                            <span class="badge-mini reacao">Reação</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você pode transformar defesa em um <strong>golpe repentino</strong>. Quando <strong>você ou outra criatura</strong> que você pode ver a até <strong>3 metros</strong> de você é <strong>atingido por uma rolagem de ataque</strong>, você pode usar uma <strong>Reação</strong> para conceder um <strong>bônus na CA do alvo</strong> contra aquele ataque, potencialmente fazendo-o errar. O bônus é igual ao seu modificador de <strong>Carisma</strong> (mínimo de +1). Se o ataque errar, você pode fazer <strong>um ataque com uma arma</strong> contra o atacante como parte desta Reação se o atacante estiver dentro do <strong>alcance da sua arma</strong>.</p>
+                            <p>Você pode usar esta característica um número de vezes igual ao seu modificador de <strong>Carisma</strong> (mínimo de uma vez) e recupera todos os usos gastos quando finaliza um <strong>Descanso Longo</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 20: Lenda Viva -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 20: Lenda Viva</span>
+                            <span class="badge-mini acao-bonus">Ação Bônus</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você pode se fortalecer com as <strong>lendas</strong> — sejam verdadeiras ou exageradas — de seus grandes feitos. Como uma <strong>Ação Bônus</strong>, você ganha os benefícios abaixo por <strong>10 minutos</strong>. Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Longo</strong>. Você também pode restaurar seu uso dela gastando um <strong>espaço de magia de nível 5</strong> (nenhuma ação necessária).</p>
+                            
+                            <p><strong style="color: white;">Carismático.</strong> Você é abençoado com uma <strong>presença de outro mundo</strong> e tem <strong>Vantagem</strong> em todos os testes de <strong>Carisma</strong>.</p>
+                            
+                            <p><strong style="color: white;">Rerrolagem de Teste de Resistência.</strong> Se você <strong>falhar em um teste de resistência</strong>, pode usar uma <strong>Reação</strong> para <strong>refazê-lo</strong>. Você deve usar esta nova rolagem.</p>
+                            
+                            <p><strong style="color: white;">Golpe Infalível.</strong> <strong>Uma vez em cada um de seus turnos</strong> quando você faz uma <strong>rolagem de ataque</strong> com uma arma e erra, pode fazer com que aquele ataque <strong>acerte</strong> em vez disso.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ABA - Juramento dos Antigos -->
+                <div class="tab-pane">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">Juramento dos Antigos</h3>
+                    <p>O <strong>Juramento dos Antigos</strong> é tão antigo quanto os primeiros elfos. Paladinos que juram este juramento <strong>cultivam a luz</strong>; eles amam as coisas belas e vivificantes do mundo mais do que quaisquer princípios de honra, coragem e justiça. Frequentemente adornam suas armaduras e roupas com imagens de coisas que crescem — folhas, chifres ou flores — para refletir seu compromisso de preservar a vida e a luz.</p>
+                    <p>Estes Paladinos compartilham os seguintes <strong>princípios</strong>:</p>
+                    <ul>
+                        <li><em>Acenda a luz da esperança.</em></li>
+                        <li><em>Abrigue a vida.</em></li>
+                        <li><em>Deleite-se na arte e no riso.</em></li>
+                    </ul>
+                    
+                    <!-- Nível 3: Fúria da Natureza -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Fúria da Natureza</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Como uma <strong>Ação Mágica</strong>, você pode gastar <strong>um de seus usos de Canalizar Divindade</strong> para conjurar <strong>vinhas espectrais</strong> ao redor de criaturas próximas. Cada <strong>criatura de sua escolha</strong> que você pode ver a até <strong>4,5 metros</strong> de você deve ser bem-sucedida em um teste de resistência de <strong>Força</strong> ou ter a condição <strong>Restringido</strong> por <strong>1 minuto</strong>. Uma criatura Restringida <strong>repete o teste</strong> no final de cada um de seus turnos, encerrando o efeito em um sucesso.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Magias do Juramento dos Antigos -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Magias do Juramento dos Antigos</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>A magia do seu juramento garante que você sempre tenha certas magias preparadas; quando você atinge um nível de Paladino especificado na tabela de <strong>Magias do Juramento dos Antigos</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                            
+                            <div class="overflow-table">
+                                <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                    <thead>
+                                        <tr>
+                                            <th>Nível de Paladino</th>
+                                            <th class="esquerda">Magias Preparadas</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><th>3º</th><td class="esquerda"><strong>Golpe Aprisionador</strong>, <strong>Falar com Animais</strong></td></tr>
+                                        <tr><th>5º</th><td class="esquerda"><strong>Passo Nebuloso</strong>, <strong>Raio Lunar</strong></td></tr>
+                                        <tr><th>9º</th><td class="esquerda"><strong>Crescimento de Plantas</strong>, <strong>Proteção contra Energia</strong></td></tr>
+                                        <tr><th>13º</th><td class="esquerda"><strong>Tempestade de Gelo</strong>, <strong>Pele de Pedra</strong></td></tr>
+                                        <tr><th>17º</th><td class="esquerda"><strong>Comungar com a Natureza</strong>, <strong>Passagem por Árvores</strong></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 7: Aura de Proteção Arcaica -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 7: Aura de Proteção Arcaica</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Magia antiga repousa tão intensamente sobre você que forma uma <strong>proteção arcaica</strong>, amortecendo a energia de além do <strong>Plano Material</strong>; você e seus aliados têm <strong>Resistência</strong> a dano de <strong>Necrótico</strong>, <strong>Psíquico</strong> e <strong>Radiante</strong> enquanto estiverem em sua <strong>Aura de Proteção</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 15: Sentinela Imortal -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 15: Sentinela Imortal</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você é <strong>reduzido a 0 Pontos de Vida</strong> e não morre imediatamente, pode <strong>cair para 1 Ponto de Vida</strong> em vez disso e recuperar um número de <strong>Pontos de Vida</strong> igual a <strong>três vezes seu nível de Paladino</strong>. Uma vez que você usa esta característica, não pode fazê-lo novamente até finalizar um <strong>Descanso Longo</strong>.</p>
+                            <p>Além disso, você <strong>não pode ser envelhecido magicamente</strong> e <strong>cessa de envelhecer visivelmente</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 20: Campeão Ancião -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 20: Campeão Ancião</span>
+                            <span class="badge-mini acao-bonus">Ação Bônus</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Como uma <strong>Ação Bônus</strong>, você pode imbuir sua <strong>Aura de Proteção</strong> com poder primordial, concedendo os benefícios abaixo por <strong>1 minuto</strong> ou até você encerrá-los (nenhuma ação necessária). Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Longo</strong>. Você também pode restaurar seu uso dela gastando um <strong>espaço de magia de nível 5</strong> (nenhuma ação necessária).</p>
+                            
+                            <p><strong style="color: white;">Enfraquecer Desafio.</strong> <strong>Inimigos na aura</strong> têm <strong>Desvantagem</strong> em testes de resistência contra suas <strong>magias</strong> e opções de <strong>Canalizar Divindade</strong>.</p>
+                            
+                            <p><strong style="color: white;">Regeneração.</strong> No <strong>início de cada um de seus turnos</strong>, você recupera <strong>10 Pontos de Vida</strong>.</p>
+                            
+                            <p><strong style="color: white;">Magias Rápidas.</strong> Sempre que você conjura uma <strong>magia</strong> que tem tempo de conjuração de uma <strong>ação</strong>, pode conjurá-la usando uma <strong>Ação Bônus</strong> em vez disso.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ABA - Juramento dos Gênios Nobres -->
+                <div class="tab-pane">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">Juramento dos Gênios Nobres</h3>
+                    <p>Paladinos que juram o <strong>Juramento dos Gênios Nobres</strong> reverenciam as forças dos <strong>Planos Elementais</strong>. Ao fazer este juramento, os Paladinos extraem poder dos <strong>quatro tipos diferentes de gênios</strong> — <strong>dao</strong>, mestres da terra; <strong>djinn</strong>, mestres do ar; <strong>efreet</strong>, mestres do fogo; e <strong>marids</strong>, mestres da água. Em <strong>Faerûn</strong>, muitos Paladinos que juram este juramento vêm de <strong>Calimshan</strong>, uma terra repleta de gênios.</p>
+                    <p>Paladinos que juram este juramento frequentemente empreendem missões que os levam por todos os Reinos e através do multiverso — incluindo os <strong>Planos Elementais</strong>. Estes paladinos compartilham os seguintes <strong>princípios</strong>:</p>
+                    <ul>
+                        <li><em>Semeie a criação entre as cinzas da destruição.</em></li>
+                        <li><em>Liderar com esplendor e graça.</em></li>
+                        <li><em>Respeite os elementos e tema sua fúria.</em></li>
+                    </ul>
+                    
+                    <!-- Nível 3: Golpe Elemental -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Golpe Elemental</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Imediatamente após você conjurar <strong>Golpe Divino</strong>, pode gastar <strong>um uso de seu Canalizar Divindade</strong> e invocar um dos seguintes efeitos.</p>
+                            
+                            <p><strong style="color: white;">Esmagamento do Dao.</strong> A terra se ergue ao redor do alvo de seu <strong>Golpe Divino</strong>. O alvo tem a condição <strong>Agarrar</strong> (CD de fuga igual à sua CD de resistência de magia). Enquanto Agarrar, o alvo tem a condição <strong>Restringido</strong>.</p>
+                            
+                            <p><strong style="color: white;">Fuga do Djinni.</strong> Você <strong>teleporta</strong> para um espaço desocupado que você pode ver a até <strong>9 metros</strong> de você e assume uma <strong>forma semi-incorpórea</strong>, que dura até o final de seu próximo turno. Enquanto estiver nesta forma, você tem <strong>Resistência</strong> a dano de <strong>Perfuração</strong>, <strong>Impacto</strong> e <strong>Corte</strong> e tem <strong>Imunidade</strong> às condições <strong>Agarrar</strong>, <strong>Deitado</strong> e <strong>Restringido</strong>.</p>
+                            
+                            <p><strong style="color: white;">Fúria do Efreeti.</strong> O alvo de seu <strong>Golpe Divino</strong> sofre <strong>2d4</strong> de dano de <strong>Fogo</strong> extra, e o fogo salta do alvo para outra <strong>criatura</strong> que você pode ver a até <strong>9 metros</strong> de você. A segunda criatura também sofre <strong>2d4</strong> de dano de <strong>Fogo</strong>.</p>
+                            
+                            <p><strong style="color: white;">Ímpeto do Marid.</strong> O alvo de seu <strong>Golpe Divino</strong> e cada <strong>criatura de sua escolha</strong> em uma <strong>Emanação de 3 metros</strong> originada de você fazem um teste de resistência de <strong>Força</strong> contra sua CD de resistência de magia. Em uma falha, uma criatura é empurrada <strong>4,5 metros</strong> diretamente para longe de você e tem a condição <strong>Deitado</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Magias do Gênio -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Magias do Gênio</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você atinge um nível de Paladino especificado na tabela de <strong>Magias do Gênio</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                            
+                            <div class="overflow-table">
+                                <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                    <thead>
+                                        <tr>
+                                            <th>Nível de Paladino</th>
+                                            <th class="esquerda">Magias Preparadas</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><th>3º</th><td class="esquerda"><strong>Orbe Cromático</strong>, <strong>Elementalismo</strong>, <strong>Golpe Trovejante</strong></td></tr>
+                                        <tr><th>5º</th><td class="esquerda"><strong>Imagem Espelhada</strong>, <strong>Força Fantasmagórica</strong></td></tr>
+                                        <tr><th>9º</th><td class="esquerda"><strong>Voar</strong>, <strong>Forma Gasosa</strong></td></tr>
+                                        <tr><th>13º</th><td class="esquerda"><strong>Conjurar Elementais Menores</strong>, <strong>Conjurar Elemental</strong></td></tr>
+                                        <tr><th>17º</th><td class="esquerda"><strong>Golpe de Banimento</strong>, <strong>Contatar Outro Plano</strong></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Esplendor do Gênio -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Esplendor do Gênio</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você não está usando <strong>nenhuma armadura</strong>, sua <strong>Classe de Armadura base</strong> é igual a <strong>10 + seu modificador de Destreza + seu modificador de Carisma</strong>. Você pode usar um <strong>Escudo</strong> e ainda assim ganhar este benefício.</p>
+                            <p>Você também ganha proficiência em uma das seguintes <strong>perícias</strong> de sua escolha: <strong>Acrobacia</strong>, <strong>Intimidação</strong>, <strong>Atuação</strong> ou <strong>Persuasão</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 7: Aura de Proteção Elemental -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 7: Aura de Proteção Elemental</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Escolha <strong>um</strong> dos seguintes tipos de dano: <strong>Ácido</strong>, <strong>Frio</strong>, <strong>Fogo</strong>, <strong>Relâmpago</strong> ou <strong>Trovão</strong>. Você e seus aliados têm <strong>Resistência</strong> àquele tipo de dano enquanto estiverem em sua <strong>Aura de Proteção</strong>.</p>
+                            <p>No <strong>início de cada um de seus turnos</strong>, você pode <strong>mudar o tipo de dano</strong> afetado por esta característica para uma das outras opções listadas (nenhuma ação necessária).</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 15: Repreensão Elemental -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 15: Repreensão Elemental</span>
+                            <span class="badge-mini reacao">Reação</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você é <strong>atingido por uma rolagem de ataque</strong>, pode usar uma <strong>Reação</strong> para <strong>reduzir o dano do ataque contra você pela metade</strong> (arredondado para baixo) e forçar o atacante a fazer um teste de resistência de <strong>Destreza</strong> contra sua CD de resistência de magia. Em uma falha, o atacante sofre dano igual a <strong>2d10 + seu modificador de Carisma</strong> de um dos seguintes tipos (sua escolha): <strong>Ácido</strong>, <strong>Frio</strong>, <strong>Fogo</strong>, <strong>Relâmpago</strong> ou <strong>Trovão</strong>. Em um sucesso, o atacante sofre apenas <strong>metade do dano</strong>.</p>
+                            <p>Você pode usar esta característica um número de vezes igual ao seu modificador de <strong>Carisma</strong> (mínimo de uma vez) e recupera todos os usos gastos quando finaliza um <strong>Descanso Longo</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 20: Descendência Nobre -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 20: Descendência Nobre</span>
+                            <span class="badge-mini acao-bonus">Ação Bônus</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Como uma <strong>Ação Bônus</strong>, você ganha os benefícios abaixo por <strong>10 minutos</strong> ou até você encerrá-los (nenhuma ação necessária). Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Longo</strong>. Você também pode restaurar seu uso dela gastando um <strong>espaço de magia de nível 5</strong> (nenhuma ação necessária).</p>
+                            
+                            <p><strong style="color: white;">Voo.</strong> Você tem um <strong>Deslocamento de Voo</strong> de <strong>18 metros</strong> e pode <strong>pairar</strong>.</p>
+                            
+                            <p><strong style="color: white;">Desejo Menor.</strong> Quando <strong>você ou um aliado</strong> em sua <strong>Aura de Proteção</strong> falha em um <strong>Teste de d20</strong>, você pode usar uma <strong>Reação</strong> para fazer com que você ou aquele aliado <strong>tenha sucesso</strong> em vez disso.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ABA - Juramento da Vingança -->
+                <div class="tab-pane">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">Juramento da Vingança</h3>
+                    <p>O <strong>Juramento da Vingança</strong> é um compromisso solene de <strong>punir aqueles que cometeram atos gravemente malignos</strong>. Quando exércitos malignos massacram aldeões indefesos, quando um tirano desafia a vontade dos deuses, quando uma guilda de ladrões se torna violenta demais, quando um dragão causa estragos pelo interior — em momentos como estes, Paladinos se levantam e juram o <strong>Juramento da Vingança</strong> para corrigir o que deu errado.</p>
+                    <p>Estes Paladinos compartilham os seguintes <strong>princípios</strong>:</p>
+                    <ul>
+                        <li><em>Não mostre misericórdia aos perversos.</em></li>
+                        <li><em>Combata a injustiça e suas causas.</em></li>
+                        <li><em>Ajude aqueles prejudicados pela injustiça.</em></li>
+                    </ul>
+                    
+                    <!-- Nível 3: Magias do Juramento da Vingança -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Magias do Juramento da Vingança</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>A magia do seu juramento garante que você sempre tenha certas magias preparadas; quando você atinge um nível de Paladino especificado na tabela de <strong>Magias do Juramento da Vingança</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                            
+                            <div class="overflow-table">
+                                <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                    <thead>
+                                        <tr>
+                                            <th>Nível de Paladino</th>
+                                            <th class="esquerda">Magias Preparadas</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><th>3º</th><td class="esquerda"><strong>Agonia</strong>, <strong>Marca do Caçador</strong></td></tr>
+                                        <tr><th>5º</th><td class="esquerda"><strong>Segurar Pessoa</strong>, <strong>Passo Nebuloso</strong></td></tr>
+                                        <tr><th>9º</th><td class="esquerda"><strong>Acelerar</strong>, <strong>Proteção contra Energia</strong></td></tr>
+                                        <tr><th>13º</th><td class="esquerda"><strong>Banimento</strong>, <strong>Porta Dimensional</strong></td></tr>
+                                        <tr><th>17º</th><td class="esquerda"><strong>Segurar Monstro</strong>, <strong>Vidência</strong></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Voto de Inimizade -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Voto de Inimizade</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você realiza a ação <strong>Atacar</strong>, pode gastar <strong>um uso de seu Canalizar Divindade</strong> para proferir um <strong>voto de inimizade</strong> contra uma <strong>criatura</strong> que você pode ver a até <strong>9 metros</strong> de você. Você tem <strong>Vantagem</strong> em rolagens de ataque contra a criatura por <strong>1 minuto</strong> ou até você usar esta característica novamente.</p>
+                            <p>Se a criatura <strong>cair a 0 Pontos de Vida</strong> antes do voto terminar, você pode <strong>transferir o voto para uma criatura diferente</strong> a até 9 metros de você (nenhuma ação necessária).</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 7: Vingador Incansável -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 7: Vingador Incansável</span>
+                            <span class="badge-mini reacao">Reação</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Seu foco sobrenatural ajuda você a fechar a retirada de um inimigo. Quando você <strong>acerta uma criatura</strong> com um <strong>Ataque de Oportunidade</strong>, pode <strong>reduzir o Deslocamento da criatura a 0</strong> até o final do turno atual. Você pode então <strong>se mover até metade de seu Deslocamento</strong> como parte da mesma <strong>Reação</strong>. Este movimento <strong>não provoca Ataques de Oportunidade</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 15: Alma da Vingança -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 15: Alma da Vingança</span>
+                            <span class="badge-mini reacao">Reação</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Imediatamente após uma <strong>criatura sob o efeito de seu Voto de Inimizade</strong> <strong>acertar ou errar</strong> com uma rolagem de ataque, você pode usar uma <strong>Reação</strong> para fazer um <strong>ataque corpo a corpo</strong> contra aquela criatura se ela estiver dentro do alcance.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 20: Anjo Vingador -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 20: Anjo Vingador</span>
+                            <span class="badge-mini acao-bonus">Ação Bônus</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Como uma <strong>Ação Bônus</strong>, você ganha os benefícios abaixo por <strong>10 minutos</strong> ou até você encerrá-los (nenhuma ação necessária). Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Longo</strong>. Você também pode restaurar seu uso dela gastando um <strong>espaço de magia de nível 5</strong> (nenhuma ação necessária).</p>
+                            
+                            <p><strong style="color: white;">Voo.</strong> Você brota <strong>asas espectrais</strong> em suas costas e tem um <strong>Deslocamento de Voo</strong> de <strong>18 metros</strong> e pode <strong>pairar</strong>.</p>
+                            
+                            <p><strong style="color: white;">Aura Amedrontadora.</strong> Sempre que um <strong>inimigo</strong> começa seu turno em sua <strong>Aura de Proteção</strong>, aquela criatura deve ser bem-sucedida em um teste de resistência de <strong>Sabedoria</strong> ou ter a condição <strong>Amedrontado</strong> por <strong>1 minuto</strong> ou até sofrer qualquer dano. <strong>Rolagens de ataque</strong> contra a criatura Amedrontada têm <strong>Vantagem</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ABA - Juramento do Guardião Arcano -->
+                <div class="tab-pane">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">Juramento do Guardião Arcano</h3>
+                    <p>Paladinos que fazem o <strong>Juramento do Guardião Arcano</strong> são comprometidos a <strong>combater aqueles que usam magia para prejudicar outros</strong>. Frequentemente servem como guarda-costas de magos íntegros, mas seu papel mais importante é proteger aliados de ataques mágicos devastadores. Aqueles que juram este juramento garantem que <strong>vilões que abusam da magia sejam levados à justiça</strong>.</p>
+                    <p>Estes paladinos compartilham os seguintes <strong>princípios</strong>:</p>
+                    <ul>
+                        <li><em>Proteja os inocentes de magos perversos.</em></li>
+                        <li><em>Impeça que a magia caia nas mãos de vilões.</em></li>
+                        <li><em>Proteja magos que usam magia honrosamente.</em></li>
+                    </ul>
+                    
+                    <!-- Nível 3: Vínculo do Guardião -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Vínculo do Guardião</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Como uma <strong>Ação Mágica</strong>, você pode gastar <strong>um uso de seu Canalizar Divindade</strong> para forjar um <strong>vínculo divino</strong> com uma <strong>criatura disposta</strong> a até <strong>1,5 metro</strong> de você. O vínculo dura por <strong>1 hora</strong> ou até você ter a condição <strong>Inconsciente</strong>. Durante a duração, enquanto a criatura vinculada estiver dentro de seu <strong>alcance</strong> e for <strong>atingida por uma rolagem de ataque</strong>, você pode usar uma <strong>Reação</strong> para adicionar seu modificador de <strong>Carisma</strong> (mínimo de +1) à <strong>CA daquela criatura</strong>, possivelmente fazendo com que o ataque erre.</p>
+                            <p>Você pode encerrar seu vínculo divino a qualquer momento (nenhuma ação necessária). Se você já tem um vínculo divino quando forja um novo, o vínculo anterior termina.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Magias do Juramento do Guardião Arcano -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Magias do Juramento do Guardião Arcano</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>A magia do seu juramento garante que você sempre tenha certas magias preparadas; quando você atinge um nível de Paladino especificado na tabela de <strong>Magias do Juramento do Guardião Arcano</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                            
+                            <div class="overflow-table">
+                                <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                    <thead>
+                                        <tr>
+                                            <th>Nível de Paladino</th>
+                                            <th class="esquerda">Magias Preparadas</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><th>3º</th><td class="esquerda"><strong>Detectar Magia</strong>, <strong>Escudo</strong></td></tr>
+                                        <tr><th>5º</th><td class="esquerda"><strong>Ver Invisibilidade</strong>, <strong>Silêncio</strong></td></tr>
+                                        <tr><th>9º</th><td class="esquerda"><strong>Contramágica</strong>, <strong>Dispensar Magia</strong></td></tr>
+                                        <tr><th>13º</th><td class="esquerda"><strong>Liberdade de Movimento</strong>, <strong>Esfera Resiliente de Otiluke</strong></td></tr>
+                                        <tr><th>17º</th><td class="esquerda"><strong>Círculo de Poder</strong>, <strong>Sagrado</strong></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Golpe do Guardião Arcano -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Golpe do Guardião Arcano</span>
+                            <span class="badge-mini reacao">Reação</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você vê uma <strong>criatura</strong> dentro de seu alcance conjurando uma magia com componentes <strong>Verbais</strong>, <strong>Somáticos</strong> ou <strong>Materiais</strong>, você pode usar uma <strong>Reação</strong> para fazer um <strong>ataque corpo a corpo</strong> com uma <strong>arma</strong> ou um <strong>Ataque Desarmado</strong> contra aquela criatura.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 7: Aura de Concentração -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 7: Aura de Concentração</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Sua aura de proteção promove <strong>foco mental</strong>. Você e seus aliados têm <strong>Vantagem</strong> em testes de resistência de <strong>Constituição</strong> para <strong>manter Concentração</strong> enquanto estiverem em sua <strong>Aura de Proteção</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 15: Lâmina Quebradora de Magias -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 15: Lâmina Quebradora de Magias</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Imediatamente após você <strong>acertar uma criatura</strong> com seu <strong>Golpe do Guardião Arcano</strong>, pode conjurar <strong>Contramágica</strong> como parte da mesma <strong>Reação</strong>.</p>
+                            <p>Quando você conjura <strong>Contramágica</strong> com um <strong>espaço de magia</strong>, aquele espaço <strong>não é gasto</strong> se a magia falhar em parar uma magia.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 20: Guardião Arcano Eterno -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 20: Guardião Arcano Eterno</span>
+                            <span class="badge-mini acao-bonus">Ação Bônus</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Como uma <strong>Ação Bônus</strong>, você pode fortalecer sua <strong>Aura de Proteção</strong>, concedendo os benefícios abaixo por <strong>1 minuto</strong> ou até você encerrá-los (nenhuma ação necessária). Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Longo</strong>. Você pode restaurar seu uso desta habilidade gastando um <strong>espaço de magia de nível 5</strong> (nenhuma ação necessária).</p>
+                            
+                            <p><strong style="color: white;">Guarda-Costas.</strong> Enquanto o <strong>alvo de seu Vínculo do Guardião</strong> estiver na aura, aquela criatura tem <strong>Resistência</strong> a <strong>todos os danos</strong>.</p>
+                            
+                            <p><strong style="color: white;">Proteção contra Magia.</strong> Você e seus aliados na aura têm <strong>Vantagem</strong> em testes de resistência contra <strong>magias</strong>.</p>
+                            
+                            <p><strong style="color: white;">Proteção Arcano.</strong> <strong>Rolagens de ataque de magia</strong> contra você e seus aliados na aura têm <strong>Desvantagem</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ABA - Quebrador de Juramento -->
+                <div class="tab-pane">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">Quebrador de Juramento</h3>
+                    <p>O poder do <strong>juramento de um Paladino</strong> é tão grande que mantém um <strong>poder distorcido</strong> mesmo quando é violado. Quando um Paladino trai os princípios de seu juramento devido à <strong>corrupção</strong>, <strong>orgulho</strong> ou <strong>sede de poder</strong>, ele perde a bênção concedida por seu juramento original, mas às vezes assume a <strong>bênção sinistra do Quebrador de Juramento</strong> em seu lugar. Quebradores de Juramento usam <strong>medo e poder avassalador</strong> para alcançar seus objetivos. Embora muitos Quebradores de Juramento estejam além da redenção, alguns Paladinos utilizam este juramento para alcançar um <strong>feito grandioso e nobre</strong> para expiar seus males passados.</p>
+                    <p>A critério do <strong>Mestre</strong>, um Paladino de qualquer nível que viola os princípios de seu juramento pode perder os benefícios concedidos por sua subclasse original e ganhar as características da subclasse <strong>Quebrador de Juramento</strong> em seu lugar. Alternativamente, um Paladino pode escolher esta subclasse no <strong>nível 3</strong> com base no histórico do personagem de ter caído em desgraça.</p>
+                    <p>Estes Paladinos frequentemente compartilham os seguintes <strong>princípios</strong>:</p>
+                    <ul>
+                        <li><em>O medo é uma ferramenta nas mãos dos poderosos.</em></li>
+                        <li><em>Busque poder a qualquer custo.</em></li>
+                        <li><em>Faça o que precisa ser feito, mas nunca perca de vista seu objetivo.</em></li>
+                    </ul>
+                    
+                    <!-- Nível 3: Conjurar Mortos-Vivos -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Conjurar Mortos-Vivos</span>
+                            <span class="badge-mini acao-bonus">Ação Bônus</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Como uma <strong>Ação Bônus</strong>, você pode gastar <strong>um uso de seu Canalizar Divindade</strong> para invocar um número de <strong>Mortos-Vivos</strong> igual a <strong>metade do seu modificador de Carisma</strong> (arredondado para cima; mínimo de um Morto-Vivo invocado).</p>
+                            <p>Cada Morto-Vivo aparece em um <strong>espaço desocupado</strong> que você pode ver a até <strong>9 metros</strong> de você e é de um tipo de sua escolha: <strong>Esqueleto</strong> ou <strong>Zumbi</strong>.</p>
+                            <p>Os Mortos-Vivos estão sob seu controle por <strong>1 minuto</strong>, após o qual se dissolvem em cinzas. Cada Morto-Vivo é um <strong>aliado</strong> para você e seus aliados.</p>
+                            <p>Em combate, os Mortos-Vivos compartilham seu <strong>número de Iniciativa</strong>, mas agem imediatamente após o seu turno. Eles obedecem aos seus <strong>comandos verbais</strong> (nenhuma ação necessária de sua parte). Se você não emitir nenhum comando, eles realizam a ação <strong>Esquivar</strong> e usam seu movimento para evitar perigo.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Aspecto Amedrontador -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Aspecto Amedrontador</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Imediatamente após você conjurar <strong>Golpe Divino</strong>, pode gastar <strong>um uso de seu Canalizar Divindade</strong> para canalizar uma <strong>explosão de ameaça mágica</strong>. Cada <strong>criatura de sua escolha</strong> em uma <strong>Emanação de 9 metros</strong> originada de você deve ser bem-sucedida em um teste de resistência de <strong>Sabedoria</strong> ou ter a condição <strong>Amedrontado</strong> por <strong>1 minuto</strong>. Uma criatura Amedrontada <strong>repete o teste</strong> no final de cada um de seus turnos, encerrando o efeito em si mesma em um sucesso.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Magias do Quebrador de Juramento -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Magias do Quebrador de Juramento</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>A magia do seu juramento garante que você sempre tenha certas magias preparadas; quando você atinge um nível de Paladino especificado na tabela de <strong>Magias do Quebrador de Juramento</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                            
+                            <div class="overflow-table">
+                                <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                    <thead>
+                                        <tr>
+                                            <th>Nível de Paladino</th>
+                                            <th class="esquerda">Magias Preparadas</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><th>3º</th><td class="esquerda"><strong>Repreensão Infernal</strong>, <strong>Raio da Bruxa</strong></td></tr>
+                                        <tr><th>5º</th><td class="esquerda"><strong>Coroa da Loucura</strong>, <strong>Escuridão</strong></td></tr>
+                                        <tr><th>9º</th><td class="esquerda"><strong>Medo</strong>, <strong>Conjurar Morto-Vivo</strong></td></tr>
+                                        <tr><th>13º</th><td class="esquerda"><strong>Pragano</strong>, <strong>Assassino Fantasmagórico</strong></td></tr>
+                                        <tr><th>17º</th><td class="esquerda"><strong>Contágio</strong>, <strong>Golpe do Vento de Aço</strong></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 7: Aura de Ódio -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 7: Aura de Ódio</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando <strong>você</strong>, bem como qualquer <strong>Infernal</strong> ou <strong>Morto-Vivo</strong> em sua <strong>Aura de Proteção</strong> que seja um <strong>aliado</strong>, acerta uma criatura com um <strong>ataque corpo a corpo</strong>, aquele ataque causa <strong>dano Necrótico</strong> extra igual ao seu modificador de <strong>Carisma</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 15: Resistência Sobrenatural -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 15: Resistência Sobrenatural</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você ganha <strong>Resistência</strong> a dano de <strong>Perfuração</strong>, <strong>Impacto</strong> e <strong>Corte</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 20: Senhor do Terror -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 20: Senhor do Terror</span>
+                            <span class="badge-mini acao-bonus">Ação Bônus</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Como uma <strong>Ação Bônus</strong>, você pode imbuir sua <strong>Aura de Proteção</strong> com <strong>penumbra profana</strong>, concedendo os benefícios abaixo por <strong>10 minutos</strong> ou até você encerrá-los (nenhuma ação necessária). Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Longo</strong>. Você também pode restaurar seu uso dela gastando um <strong>espaço de magia de nível 5</strong> (nenhuma ação necessária).</p>
+                            
+                            <p><strong style="color: white;">Escuridão.</strong> <strong>Escuridão Mágica</strong> preenche sua <strong>Aura de Proteção</strong>. Você e aliados em sua <strong>Aura de Proteção</strong> podem <strong>ver dentro desta Escuridão Mágica</strong>.</p>
+                            
+                            <p><strong style="color: white;">Medo.</strong> Sempre que uma <strong>criatura com a condição Amedrontado</strong> começa seu turno em sua <strong>Aura de Proteção</strong>, aquela criatura sofre <strong>4d10</strong> de dano <strong>Psíquico</strong>.</p>
+                            
+                            <p><strong style="color: white;">Golpe das Sombras.</strong> Como uma <strong>Ação Bônus</strong>, você pode fazer um <strong>ataque de magia corpo a corpo</strong>, moldando a penumbra que emana de você em uma lâmina que tem como alvo <strong>uma criatura em sua Aura de Proteção</strong>. Em um acerto, o ataque causa dano <strong>Necrótico</strong> igual a <strong>3d10 + seu modificador de Carisma</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+
+              </div>
           </div>
-        </div>
-
-        <div class="bloco-subclasse-detalhada">
-          <h3>Juramento dos Anciões (Ancients)</h3>
-          <p>O cavaleiro verde protetor da natureza e da luz.</p>
-          <div class="sub-feature">
-            <h5>Recursos Principais</h5>
-            <p><strong>Fúria da Natureza (Nível 3):</strong> Vinhas místicas que imobilizam inimigos.</p>
-            <p><strong>Aura de Guardião (Nível 7):</strong> Resistência a dano de magias para o grupo.</p>
-          </div>
-        </div>
-
-        <div class="bloco-subclasse-detalhada">
-          <h3>Juramento de Vingança (Vengeance)</h3>
-          <p>O carrasco implacável de abominações.</p>
-          <div class="sub-feature">
-            <h5>Recursos Principais</h5>
-            <p><strong>Voto de Inimizade (Nível 3):</strong> Vantagem em todos os ataques contra um alvo.</p>
-            <p><strong>Vingador Implacável (Nível 7):</strong> Move-se após um ataque de oportunidade.</p>
-          </div>
-        </div>
-
-      </div>
+      </div><!--FIM DA DIV recursos-detalhados-->
     </div>
   </div>
 
