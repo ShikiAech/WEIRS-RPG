@@ -5,6 +5,11 @@
 Um aplicativo web para recordação de campanhas, guia de criação básico e conteúdo traduzido de D&D 2024.
 
 ## 📋 Changelog
+### Versão 1.13.0
+- **Data:** 02/06/2026
+- **Melhorias:**
+  - Página do monge finalizada.
+
 ### Versão 1.12.0
 - **Data:** 02/06/2026
 - **Melhorias:**
