@@ -4,107 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Psionista (Psion) — Weirs RPG</title>
-  <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
-  <style>
-    .bloco-psion {
-      background: rgba(106, 13, 173, 0.03);
-      border: 1px solid rgba(106, 13, 173, 0.2);
-      border-left: 4px solid #9b59b6;
-      padding: 20px;
-      margin-top: 20px;
-      border-radius: 0 4px 4px 0;
-    }
-    .bloco-psion h4 {
-      font-family: 'Cinzel', serif;
-      color: #bf77f0;
-      font-size: 1.25rem;
-      margin-bottom: 8px;
-    }
-    .bloco-subclasse-detalhada {
-      background: rgba(25, 25, 27, 0.85);
-      border: 1px solid var(--border-fantasy);
-      padding: 25px;
-      margin-top: 35px;
-      border-radius: 4px;
-    }
-    .bloco-subclasse-detalhada h3 {
-      font-family: 'Cinzel', serif;
-      color: #bf77f0;
-      border-bottom: 1px solid rgba(155, 89, 182, 0.4);
-      padding-bottom: 8px;
-      margin-bottom: 20px;
-    }
-    .sub-feature {
-      background: rgba(106, 13, 173, 0.05);
-      border-left: 3px solid #9b59b6;
-      padding: 15px;
-      margin-top: 15px;
-      border-radius: 0 4px 4px 0;
-    }
-    .sub-feature h5 {
-      font-family: 'Cinzel', serif;
-      color: #c39bd3;
-      font-size: 1.05rem;
-      margin-bottom: 5px;
-    }
-    .trait-list {
-      list-style: none;
-      margin-left: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .trait-list li strong {
-      color: var(--gold);
-    }
-    .tabela-rpg {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-      background: rgba(20, 20, 22, 0.7);
-      border: 1px solid var(--border-fantasy);
-      font-size: 0.85rem;
-    }
-    .tabela-rpg th, .tabela-rpg td {
-      border: 1px solid var(--border-fantasy);
-      padding: 10px 12px;
-      text-align: center;
-    }
-    .tabela-rpg th {
-      background: rgba(43, 33, 23, 0.6);
-      color: #bf77f0;
-      font-family: 'Cinzel', serif;
-    }
-    .tabela-rpg tr:nth-child(even) {
-      background: rgba(255, 255, 255, 0.02);
-    }
-    .tabela-rpg td.esquerda {
-      text-align: left;
-    }
-    .energy-die {
-      background: rgba(155, 89, 182, 0.3);
-      border-radius: 20px;
-      padding: 2px 10px;
-      display: inline-block;
-      font-weight: bold;
-      font-family: monospace;
-      color: #d7bde2;
-    }
-    .discipline-list {
-      columns: 2;
-      column-gap: 25px;
-      margin-top: 10px;
-    }
-    .discipline-list li {
-      margin-bottom: 8px;
-      break-inside: avoid;
-    }
-  </style>
+    <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+    <link rel="stylesheet" href="/WEIRS-RPG/css/class-style.css">
+    <script src="/WEIRS-RPG/javascript/menu.js"></script>
+    <script src="/WEIRS-RPG/javascript/subclass-tab.js"></script>
 </head>
 <body>
-
-  <script src="/WEIRS-RPG/javascript/menu.js"></script>
-
   <div class="container">
     
     <div style="margin-bottom: 30px;">
@@ -121,206 +26,821 @@
           <p>Psionistas tecem magia e poderes extraordinários através da força de suas mentes. Eles desenvolvem seu intelecto como uma fonte de poder que manifesta feitiços e habilidades psiónicas, crescendo ao longo de sua carreira aventureira. Enquanto outros conjuradores dependem de gestos, palavras ou componentes, o psionista opera pelo puro esforço da consciência — dobrando a realidade com o pensamento.</p>
           <p>No novo padrão de 2024, o Psionista é um conjurador completo de Inteligência com acesso a magias arcanas, mas sua verdadeira força está nos <strong>Dados de Energia Psiónica (Psionic Energy Dice)</strong> e nas <strong>Disciplinas Psiónicas</strong>, que modulam e amplificam seus feitiços de maneiras únicas. Combinando sutileza telecinética, ataques mentais devastadores e resistência psíquica, o psionista é uma das classes mais flexíveis e táticas do jogo.</p>
           
-          <h4 style="color: #bf77f0; margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
+          <h4 style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
           <ul class="trait-list" style="margin-top: 15px;">
-            <li><strong>Dado de Vida:</strong> 1d6 por nível de Psionista.</li>
-            <li><strong>Atributo Principal:</strong> Inteligência.</li>
-            <li><strong>Proficiências em Armaduras:</strong> Nenhuma.</li>
-            <li><strong>Proficiências em Armas:</strong> Armas Simples.</li>
-            <li><strong>Ferramentas:</strong> Nenhuma.</li>
-            <li><strong>Testes de Resistência:</strong> Inteligência e Sabedoria.</li>
-            <li><strong>Perícias:</strong> Escolha duas entre Arcana, Intuição, Intimidação, Investigação, Medicina, Percepção e Persuasão.</li>
-            <li><strong>Equipamento Inicial:</strong> Escolha A ou B: (A) Azagaia, 2 Adagas, Besta Leve, 20 Virotes, Estojo, Mochila de Aventureiro e 6 PO; (B) 50 PO.</li>
+              <li><strong>Dado de Vida:</strong> 1d6 por nível de Psionista.</li>
+              <li><strong>Atributo Principal:</strong> Inteligência.</li>
+              <li><strong>Proficiências em Armaduras:</strong> Nenhuma.</li>
+              <li><strong>Proficiências em Armas:</strong> Armas Simples.</li>
+              <li><strong>Testes de Resistência:</strong> Inteligência e Sabedoria.</li>
+              <li><strong>Perícias:</strong> Escolha duas entre Arcana, Intuição, Intimidação, Investigação, Medicina, Percepção ou Persuasão.</li>
+              <li><strong>Equipamento Inicial:</strong> Escolha A ou B: (A) Lança, 2 Adagas, Besta Leve, 20 Virote, Estojo, Pacote do Explorador de Masmorras e 6 PO; (B) 50 PO.</li>
           </ul>
         </div>
       </div>
 
       <!-- TABELA DE PROGRESSÃO (PARTE A: NÍVEIS, DADOS DE ENERGIA) -->
       <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px; overflow-x: auto;">
-        <h3 style="font-family: 'Cinzel', serif; color: #bf77f0; font-size: 1.6rem; margin-bottom: 15px;">Progressão do Psionista</h3>
-        <table class="tabela-rpg">
-          <thead>
-            <tr>
-              <th>Nível</th>
-              <th>Prof.</th>
-              <th class="esquerda">Recursos de Classe</th>
-              <th>Dados de Energia</th>
-              <th>Cantrips</th>
-              <th>Magias Prep.</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>1º</td><td>+2</td><td class="esquerda">Poder Psiónico, Conjuração, Telecinese Sutil</td><td>4d6</td><td>2</td><td>4</td></tr>
-            <tr><td>2º</td><td>+2</td><td class="esquerda">Disciplina Psiónica</td><td>4d6</td><td>2</td><td>5</td></tr>
-            <tr><td>3º</td><td>+2</td><td class="esquerda">Subclasse Psionista</td><td>4d6</td><td>2</td><td>6</td></tr>
-            <tr><td>4º</td><td>+2</td><td class="esquerda">Talento de Atributo</td><td>4d6</td><td>3</td><td>7</td></tr>
-            <tr><td>5º</td><td>+3</td><td class="esquerda">Disciplina Psiónica, Restauração Psiónica</td><td>6d8</td><td>3</td><td>9</td></tr>
-            <tr><td>6º</td><td>+3</td><td class="esquerda">Característica de Subclasse</td><td>6d8</td><td>3</td><td>10</td></tr>
-            <tr><td>7º</td><td>+3</td><td class="esquerda">Ímpeto Psiónico (Psionic Surge)</td><td>6d8</td><td>3</td><td>11</td></tr>
-            <tr><td>8º</td><td>+3</td><td class="esquerda">Talento de Atributo</td><td>6d8</td><td>3</td><td>12</td></tr>
-            <tr><td>9º</td><td>+4</td><td class="esquerda">—</td><td>8d8</td><td>3</td><td>14</td></tr>
-            <tr><td>10º</td><td>+4</td><td class="esquerda">Disciplina Psiónica, Característica de Subclasse</td><td>8d8</td><td>4</td><td>15</td></tr>
-            <tr><td>11º</td><td>+4</td><td class="esquerda">—</td><td>8d10</td><td>4</td><td>16</td></tr>
-            <tr><td>12º</td><td>+4</td><td class="esquerda">Talento de Atributo</td><td>8d10</td><td>4</td><td>16</td></tr>
-            <tr><td>13º</td><td>+5</td><td class="esquerda">Disciplina Psiónica</td><td>10d10</td><td>4</td><td>17</td></tr>
-            <tr><td>14º</td><td>+5</td><td class="esquerda">Característica de Subclasse</td><td>10d10</td><td>4</td><td>17</td></tr>
-            <tr><td>15º</td><td>+5</td><td class="esquerda">—</td><td>10d10</td><td>4</td><td>18</td></tr>
-            <tr><td>16º</td><td>+5</td><td class="esquerda">Talento de Atributo</td><td>10d10</td><td>4</td><td>18</td></tr>
-            <tr><td>17º</td><td>+6</td><td class="esquerda">Disciplina Psiónica</td><td>12d12</td><td>4</td><td>19</td></tr>
-            <tr><td>18º</td><td>+6</td><td class="esquerda">Reservas Psiónicas (Psionic Reserves)</td><td>12d12</td><td>4</td><td>20</td></tr>
-            <tr><td>19º</td><td>+6</td><td class="esquerda">Dádiva Épica</td><td>12d12</td><td>4</td><td>21</td></tr>
-            <tr><td>20º</td><td>+6</td><td class="esquerda">Força Vital Incandescente (Enkindled Lifeforce)</td><td>12d12</td><td>4</td><td>22</td></tr>
-          </tbody>
-        </table>
-        <!-- Tabela de Slots de Magia adicional para facilitar consulta -->
-        <p style="font-size: 0.75rem; text-align: center; margin-top: -10px;">* Slots de Magia: conjurador completo (1º ao 9º círculo). Tabela completa na descrição da classe.</p>
+        <!-- TABELA BÁSICA DE PROGRESSÃO COM SUPORTE A ROLAGEM HORIZONTAL -->
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.6rem; margin-bottom: 15px;">Características de Classe (Parte A)</h3>
+        <div class="overflow-table">
+            <table class="tabela-rpg">
+                <thead>
+                    <tr>
+                        <th>Nível</th>
+                        <th>Prof.</th>
+                        <th>Recursos de Classe</th>
+                        <th>Dados de Energia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><th>1º</th><td>+2</th><td class="esquerda">Poder Psíquico, Conjuração, Telecinese Sutil</th><td class="esquerda">4d6</th></tr>
+                    <tr><th>2º</th><td>+2</th><td class="esquerda">Disciplina Psíquica</th><td class="esquerda">4d6</th></tr>
+                    <tr><th>3º</th><td>+2</th><td class="esquerda">Subclasse de Psionista</th><td class="esquerda">4d6</th></tr>
+                    <tr><th>4º</th><td>+2</th><td class="esquerda">Aumento no Valor de Habilidade</th><td class="esquerda">4d6</th></tr>
+                    <tr><th>5º</th><td>+3</th><td class="esquerda">Disciplina Psíquica, Restauração Psíquica</th><td class="esquerda">6d8</th></tr>
+                    <tr><th>6º</th><td>+3</th><td class="esquerda">Característica de Subclasse</th><td class="esquerda">6d8</th></tr>
+                    <tr><th>7º</th><td>+3</th><td class="esquerda">Surto Psíquico</th><td class="esquerda">6d8</th></tr>
+                    <tr><th>8º</th><td>+3</th><td class="esquerda">Aumento no Valor de Habilidade</th><td class="esquerda">6d8</th></tr>
+                    <tr><th>9º</th><td>+4</th><td class="esquerda">-</th><td class="esquerda">8d8</th></tr>
+                    <tr><th>10º</th><td>+4</th><td class="esquerda">Disciplina Psíquica, Característica de Subclasse</th><td class="esquerda">8d8</th></tr>
+                    <tr><th>11º</th><td>+4</th><td class="esquerda">-</th><td class="esquerda">8d10</th></tr>
+                    <tr><th>12º</th><td>+4</th><td class="esquerda">Aumento no Valor de Habilidade</th><td class="esquerda">8d10</th></tr>
+                    <tr><th>13º</th><td>+5</th><td class="esquerda">Disciplina Psíquica</th><td class="esquerda">10d10</th></tr>
+                    <tr><th>14º</th><td>+5</th><td class="esquerda">Característica de Subclasse</th><td class="esquerda">10d10</th></tr>
+                    <tr><th>15º</th><td>+5</th><td class="esquerda">-</th><td class="esquerda">10d10</th></td>
+                    <tr><th>16º</th><td>+5</th><td class="esquerda">Aumento no Valor de Habilidade</th><td class="esquerda">10d10</th></tr>
+                    <tr><th>17º</th><td>+6</th><td class="esquerda">Disciplina Psíquica</th><td class="esquerda">12d12</th></tr>
+                    <tr><th>18º</th><td>+6</th><td class="esquerda">Reservas Psíquicas</th><td class="esquerda">12d12</th></tr>
+                    <tr><th>19º</th><td>+6</th><td class="esquerda">Benção Épica</th><td class="esquerda">12d12</th></tr>
+                    <tr><th>20º</th><td>+6</th><td class="esquerda">Força Vital Incandescende</th><td class="esquerda">12d12</th></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- TABELA DE TRUQUES, MAGIAS PREPARADAS E ESPAÇOS DE MAGIA -->
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.6rem; margin-bottom: 15px;">Características de Classe (Parte B)</h3>
+        <div class="overflow-table">
+            <table class="tabela-rpg">
+                <thead>
+                    <tr>
+                        <th>Nível</th>
+                        <th>Truques</th>
+                        <th>Magias Preparadas</th>
+                        <th>1º</th>
+                        <th>2º</th>
+                        <th>3º</th>
+                        <th>4º</th>
+                        <th>5º</th>
+                        <th>6º</th>
+                        <th>7º</th>
+                        <th>8º</th>
+                        <th>9º</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><th>1º</th><td>2</th><td>4</th><td>2</th><td>-</th><td>-</th><td>-</th><td>-</th><td>-</th><td>-</th><td>-</th><td>-</th></tr>
+                    <tr><th>2º</th><td>2</th><td>5</th><td>3</th><td>-</th><td>-</th><td>-</th><td>-</th><td>-</th><td>-</th><td>-</th><td>-</th></tr>
+                    </tr><th>3º</th><td>2</th><td>6</th><td>4</th><td>2</th><td>-</th><td>-</th><td>-</th><td>-</th><td>-</th><td>-</th><td>-</th></tr>
+                    <tr><th>4º</th><td>3</th><td>7</th><td>4</th><td>3</th><td>-</th><td>-</th><td>-</th><td>-</th><td>-</th><td>-</th><td>-</th></tr>
+                    <tr><th>5º</th><td>3</th><td>9</th><td>4</th><td>3</th><td>2</th><td>-</th><td>-</th><td>-</th><td>-</th><td>-</th><td>-</th></tr>
+                    <tr><th>6º</th><td>3</th><td>10</th><td>4</th><td>3</th><td>3</th><td>-</th><td>-</th><td>-</th><td>-</th><td>-</th><td>-</th></tr>
+                    <tr><th>7º</th><td>3</th><td>11</th><td>4</th><td>3</th><td>3</th><td>1</th><td>-</th><td>-</th><td>-</th><td>-</th><td>-</th></tr>
+                    <tr><th>8º</th><td>3</th><td>12</th><td>4</th><td>3</th><td>3</th><td>2</th><td>-</th><td>-</th><td>-</th><td>-</th><td>-</th></td>
+                    <tr><th>9º</th><td>3</th><td>14</th><td>4</th><td>3</th><td>3</th><td>3</th><td>1</th><td>-</th><td>-</th><td>-</th><td>-</th></td>
+                    <tr><th>10º</th><td>4</th><td>15</th><td>4</th><td>3</th><td>3</th><td>3</th><td>2</th><td>-</th><td>-</th><td>-</th><td>-</th></td>
+                    <tr><th>11º</th><td>4</th><td>16</th><td>4</th><td>3</th><td>3</th><td>3</th><td>2</th><td>1</th><td>-</th><td>-</th><td>-</th></td>
+                    <tr><th>12º</th><td>4</th><td>16</th><td>4</th><td>3</th><td>3</th><td>3</th><td>2</th><td>1</th><td>-</th><td>-</th><td>-</th>
+                    <tr><th>13º</th><td>4</th><td>17</th><td>4</th><td>3</th><td>3</th><td>3</th><td>2</th><td>1</th><td>1</th><td>-</th><td>-</th></tr>
+                    <tr><th>14º</th><td>4</th><td>17</th><td>4</th><td>3</th><td>3</th><td>3</th><td>2</th><td>1</th><td>1</th><td>-</th><td>-</th></tr>
+                    <tr><th>15º</th><td>4</th><td>18</th><td>4</th><td>3</th><td>3</th><td>3</th><td>2</th><td>1</th><td>1</th><td>1</th><td>-</th></td>
+                    <tr><th>16º</th><td>4</th><td>18</th><td>4</th><td>3</th><td>3</th><td>3</th><td>2</th><td>1</th><td>1</th><td>1</th><td>-</th></td>
+                    <tr><th>17º</th><td>4</th><td>19</th><td>4</th><td>3</th><td>3</th><td>3</th><td>2</th><td>1</th><td>1</th><td>1</th><td>1</th></td>
+                    <tr><th>18º</th><td>4</th><td>20</th><td>4</th><td>3</th><td>3</th><td>3</th><td>3</th><td>1</th><td>1</th><td>1</th><td>1</th></tr>
+                    <tr><th>19º</th><td>4</th><td>21</th><td>4</th><td>3</th><td>3</th><td>3</th><td>3</th><td>2</th><td>1</th><td>1</th><td>1</th></tr>
+                    <tr><th>20º</th><td>4</th><td>22</th><td>4</th><td>3</th><td>3</th><td>3</th><td>3</th><td>2</th><td>2</th><td>1</th><td>1</th></tr>
+                </tbody>
+              </table>
+        </div>
+
       </div>
 
-      <!-- RECURSOS DETALHADOS -->
-      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
-        <h3 style="font-family: 'Cinzel', serif; color: #bf77f0; font-size: 1.6rem; margin-bottom: 20px;">Recursos de Classe Detalhados</h3>
+      <!-- RECURSOS DE CLASSE DETALHADOS -->
+      <div >
+      
+          <!-- EXEMPLO DE RECURSOS DE CLASSE -->
+          <div class="recursos-container">
+              <div class="recursos-header">
+                  <h3>Recursos da Classe</h3>
+              </div>
+              
+              <div class="recursos-list">
+            
+                <!-- Nível 1: Poder Psíquico -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 1: Poder Psíquico</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você abriga uma fonte de <strong>energia psíquica</strong> dentro de si. Esta energia é representada por seus <strong>Dados de Energia Psíquica</strong>. Seu nível de Psionista determina o tamanho do dado e o número de Dados de Energia Psíquica que você tem, como mostrado nas colunas <strong>Dado de Energia</strong> e <strong>Número de Dados</strong> da tabela de Características de Psionista.</p>
+                        <p>Seus <strong>Dados de Energia Psíquica</strong> são usados para melhorar ou alimentar certas características de Psionista. Você começa com <strong>duas</strong> dessas características: <strong>Impulso Telecinético</strong> e <strong>Conexão Telepática</strong>, cada uma detalhada abaixo. Alguns de seus poderes <strong>gastam</strong> os Dados de Energia Psíquica, conforme especificado na descrição do poder, e você não pode usar um poder se ele exigir o uso de um dado quando todos os seus Dados de Energia Psíquica estiverem gastos.</p>
+                        <p>Você recupera <strong>um</strong> Dado de Energia Psíquica gasto quando finaliza um <strong>Descanso Curto</strong> e recupera <strong>todos</strong> eles quando finaliza um <strong>Descanso Longo</strong>.</p>
+                        <p>Algumas características que usam Dados de Energia Psíquica exigem que seu alvo faça um <strong>teste de resistência</strong>. A CD é igual à <strong>CD de resistência de magia</strong> da característica de Conjuração desta classe.</p>
 
-        <div class="bloco-psion">
-          <h4>Nível 1: Poder Psiónico & Conjuração & Telecinese Sutil</h4>
-          <p><strong>Poder Psiónico:</strong> Você possui Dados de Energia Psiónica (<span class="energy-die">Dados de Energia</span>), que começam como 4d6 e evoluem conforme a tabela. Use esses dados para potencializar recursos. Você recupera um dado gasto em um Descanso Curto e todos em um Descanso Longo.</p>
-          <ul>
-            <li><strong>Impulso Telecinético:</strong> Como Ação Bônus, escolha uma criatura Grande ou menor a até 9m. Ela deve ser bem-sucedida em um teste de Força ou é movida 1,5m em sua direção ou para longe. Opcionalmente, gasta um Dado de Energia: se o alvo falhar, move-se 1,5m x o valor rolado.</li>
-            <li><strong>Conexão Telepática:</strong> Telepatia com alcance de 9m. Como Ação Bônus, role um Dado de Energia e aumente o alcance em 3m x o resultado por 1 hora. A primeira vez após um Descanso Longo não gasta o dado.</li>
-          </ul>
-          <p><strong>Conjuração Psiónica (Spellcasting):</strong> Você conjura magias da lista de Psionista (similar a Mago/Bruxo mental) usando Inteligência. Você prepara um número de magias igual ao da tabela + Inteligência (recomenda-se: <em>Amarrar Pessoa, Comandar, Palavra Dissonante, Armadura Arcana</em>). <strong>Conjuração Psiónica:</strong> Suas magias de Psionista não exigem componentes Verbais ou Materiais (a menos que o material seja consumido ou tenha custo). Você também aprende truques (<em>Ilusão Menor</em> e <em>Arremesso Telecinético</em> são recomendados).</p>
-          <p><strong>Telecinese Sutil:</strong> Você conhece o truque <em>Mão Mágica (Mage Hand)</em>. Pode conjurá-lo sem componentes Somáticos e tornar a mão espectral Invisível.</p>
-        </div>
+                        <p><strong style="color: white;">Impulso Telecinético.</strong> Como uma <strong>Ação Bônus</strong>, escolha uma <strong>criatura</strong> que não seja você, <strong>Grande ou menor</strong>, que você pode ver a até <strong>9 metros</strong> de você. Quando você faz isso, o alvo deve ser bem-sucedido em um teste de resistência de <strong>Força</strong> ou ser movido <strong>1,5 metro</strong> diretamente em sua direção ou diretamente para longe de você. Alternativamente, você pode rolar <strong>um Dado de Energia Psíquica</strong> quando usa esta Ação Bônus, e a distância movida é igual a <strong>1,5 metro vezes o número rolado</strong>. O dado é <strong>gasto apenas se o alvo falhar no teste de resistência</strong>.</p>
 
-        <div class="bloco-psion">
-          <h4>Nível 2: Disciplina Psiónica</h4>
-          <p>Você aprende duas disciplinas da lista (ex: <em>Consciência Expandida</em>, <em>Insinuação do Id</em>). Disciplinas são habilidades ativadas que gastam Dados de Energia, uma vez por turno. Você ganha disciplinas adicionais nos níveis 5, 10, 13 e 17. Pode substituir uma disciplina conhecida por outra a cada nível de Psionista.</p>
-          <p><strong>Disciplinas disponíveis (resumo):</strong> <em>Biofeedback, Precognição Reforçada, Pensamentos Destrutivos, Língua Diabólica, Consciência Expandida, Insinuação do Id, Pontaria Infalível, Mente Observadora, Represália Psiónica, Guardas Psiónicos, Mente Afiada.</em> (detalhadas ao final da página).</p>
-        </div>
+                        <p><strong style="color: white;">Conexão Telepática.</strong> Você tem <strong>telepatia</strong> com alcance de <strong>9 metros</strong>. Como uma <strong>Ação Bônus</strong>, você pode rolar <strong>um Dado de Energia Psíquica</strong>. Pela próxima <strong>hora</strong>, o alcance de sua telepatia aumenta em um número de <strong>metros igual a 3 vezes o número rolado</strong>. A <strong>primeira vez</strong> que você usa esta Ação Bônus após cada <strong>Descanso Longo</strong>, você <strong>não gasta o Dado de Energia Psíquica</strong>. Todas as outras vezes que você usa esta característica, você <strong>gasta o dado</strong>.</p>
+                    </div>
+                </div>
 
-        <div class="bloco-psion">
-          <h4>Nível 3: Subclasse Psionista</h4>
-          <p>Você escolhe sua especialização: <strong>Metamorfo (Metamorph)</strong>, <strong>Psicocinético (Psykinetic)</strong> ou <strong>Telepata (Telepath)</strong>. As subclasses concedem recursos nos níveis 3, 6, 10 e 14.</p>
-        </div>
+                <!-- Nível 1: Conjuração -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 1: Conjuração</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você aprendeu a canalizar energia mágica usando o <strong>poder de sua mente</strong>.</p>
 
-        <div class="bloco-psion">
-          <h4>Níveis 4, 8, 12, 16: Talento de Atributo</h4>
-          <p>Aumente um atributo em +2 ou dois em +1, ou escolha um talento geral.</p>
-        </div>
+                        <p><strong style="color: white;">Truques.</strong> Você conhece <strong>dois truques de Psionista</strong> de sua escolha. <strong>Ilusão Menor</strong> e <strong>Arremesso Telecinético</strong> são recomendados. Sempre que você ganha um <strong>nível de Psionista</strong>, pode substituir <strong>um de seus truques</strong> desta característica por outro truque de Psionista de sua escolha.</p>
+                        <p>Quando você atinge os níveis <strong>4 e 10 de Psionista</strong>, aprende <strong>outro truque de Psionista</strong> de sua escolha, como mostrado na coluna <strong>Truques</strong> da tabela de Características de Psionista.</p>
 
-        <div class="bloco-psion">
-          <h4>Nível 5: Restauração Psiónica</h4>
-          <p>Você pode realizar uma meditação de 1 minuto para recuperar Dados de Energia gastos. Uma vez por Descanso Longo.</p>
-        </div>
+                        <p><strong style="color: white;">Espaços de Magia.</strong> A tabela de Características de Psionista mostra quantos espaços de magia você tem para conjurar suas magias de nível 1+. Você recupera todos os espaços gastos ao final de um <strong>Descanso Longo</strong>.</p>
 
-        <div class="bloco-psion">
-          <h4>Nível 7: Ímpeto Psiónico (Psionic Surge)</h4>
-          <p>Após rolar um ou mais Dados de Energia, você pode gastar um Dado de Vida e transformar qualquer resultado 1, 2 ou 3 nesses dados em 4.</p>
-        </div>
+                        <p><strong style="color: white;">Magias Preparadas de Nível 1+.</strong> Você prepara a lista de magias de nível 1+ que estão disponíveis para conjurar com esta característica. Para começar, escolha <strong>quatro magias de nível 1 de Psionista</strong>. <strong>Enfeitiçar Pessoa</strong>, <strong>Comando</strong>, <strong>Sussurros Discordantes</strong> e <strong>Armadura de Mago</strong> são recomendados.</p>
+                        <p>O número de magias na sua lista aumenta conforme você ganha níveis de Psionista, como mostrado na coluna <strong>Magias Preparadas</strong> da tabela de Características de Psionista. Sempre que esse número aumenta, escolha magias adicionais de Psionista até que o número de magias na sua lista corresponda ao número na tabela. As magias escolhidas devem ser de um nível para o qual você tenha espaços de magia. Por exemplo, se você é um Psionista de <strong>nível 3</strong>, sua lista de magias preparadas pode incluir <strong>seis magias de Psionista</strong> de níveis 1 e 2 em qualquer combinação.</p>
+                        <p>Se outra característica de Psionista lhe conceder magias que você sempre tem preparadas, essas magias não contam contra o número de magias que você pode preparar com esta característica, mas, de outra forma, contam como magias de Psionista para você.</p>
 
-        <div class="bloco-psion">
-          <h4>Nível 18: Reservas Psiónicas</h4>
-          <p>Quando você rola Iniciativa e possui menos de 4 Dados de Energia, você recupera dados até ter exatamente 4.</p>
-        </div>
+                        <p><strong style="color: white;">Alterando Suas Magias Preparadas.</strong> Sempre que você ganha um <strong>nível de Psionista</strong>, pode substituir <strong>uma magia</strong> em sua lista por outra magia de Psionista para a qual você tenha espaços de magia.</p>
 
-        <div class="bloco-psion">
-          <h4>Nível 19: Dádiva Épica</h4>
-          <p>Você ganha um talento de Dádiva Épica (<em>Boon of Energy Resistance</em> recomendado).</p>
-        </div>
+                        <p><strong style="color: white;">Habilidade de Conjuração.</strong> <strong>Inteligência</strong> é sua habilidade de conjuração para suas magias de Psionista.</p>
 
-        <div class="bloco-psion">
-          <h4>Nível 20: Força Vital Incandescente</h4>
-          <p>Uma vez por turno, ao rolar Dados de Energia para um recurso, você pode gastar 1 ou 2 Dados de Vida. Para cada Dado de Vida gasto, role um Dado de Energia extra e adicione ao total (este dado extra não é consumido).</p>
-        </div>
-      </div>
+                        <p><strong style="color: white;">Conjuração Psíquica.</strong> Quando você conjura uma <strong>magia de Psionista</strong>, essa magia <strong>não requer componentes Verbais ou Materiais</strong>, mesmo que a magia inclua "V" ou "M" em sua entrada de "Componentes", exceto componentes Materiais que são <strong>consumidos pela magia</strong> ou que tenham um <strong>custo especificado</strong> na magia.</p>
+                    </div>
+                </div>
 
-      <!-- LISTA DE DISCIPLINAS PSIÔNICAS COMPLETA -->
-      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
-        <h3 style="font-family: 'Cinzel', serif; color: #bf77f0; font-size: 1.6rem; margin-bottom: 20px;">Disciplinas Psiónicas</h3>
-        <p>As disciplinas são ativadas quando você realiza certas ações (como conjurar uma magia de uma escola específica, fazer um teste ou ser atacado). A menos que especificado, custam 1 Dado de Energia.</p>
-        <div class="discipline-list">
-          <ul>
-            <li><strong>Biofeedback:</strong> Ao conjurar magia de Necromancia ou Transmutação, gaste até Int Dados de Energia, ganhe PV temporários = total rolado + Int.</li>
-            <li><strong>Precognição Reforçada:</strong> Ao conjurar Abjuração ou Adivinhação, dê a uma criatura bônus no próximo D20 Test = valor rolado.</li>
-            <li><strong>Pensamentos Destrutivos:</strong> Ao conjurar Conjuração ou Evocação, alvo sofre dano Psíquico = total rolado + Int, independente do salvamento.</li>
-            <li><strong>Língua Diabólica:</strong> Ao usar a Ação Influenciar, adicione o Dado de Energia ao teste. Se virar falha em sucesso, o dado é gasto.</li>
-            <li><strong>Consciência Expandida:</strong> Ao usar a Ação Buscar, adicione o Dado de Energia. Se virar sucesso, gasta o dado.</li>
-            <li><strong>Insinuação do Id:</strong> Ao conjurar Encantamento ou Ilusão, um alvo subtrai metade do valor rolado (arredondado para cima) do salvamento.</li>
-            <li><strong>Pontaria Infalível:</strong> Quando errar um ataque, adicione o Dado ao ataque. Se acertar, gasta o dado.</li>
-            <li><strong>Mente Observadora:</strong> Ao usar a Ação Estudar, adicione o Dado ao teste. Se virar sucesso, gasta o dado.</li>
-            <li><strong>Represália Psiónica:</strong> Reação ao ser atingido: reduza o dano em 2×dado + Int. O atacante faz salvamento Sabedoria ou sofre dano Psíquico igual à redução.</li>
-            <li><strong>Guardas Psiónicos:</strong> No início do seu turno, gaste 1 Dado. Até o início do próximo turno: imunidade a Enfeitiçado/Amedrontado e vantagem em testes de Inteligência. Termina condições atuais. Permite usar outra disciplina no mesmo turno.</li>
-            <li><strong>Mente Afiada:</strong> No início do turno, gaste 1 Dado, anote o valor. Por 1 minuto: seus danos ignoram resistência a Psíquico; uma vez por turno, substitua um dado de dano Psíquico pelo valor anotado.</li>
-          </ul>
-        </div>
-        <p style="margin-top: 15px;">Todas as CDs envolvendo disciplinas ou magias usam <strong>8 + Proficiência + Inteligência</strong>.</p>
-      </div>
+                <!-- Nível 1: Telecinese Sutil -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 1: Telecinese Sutil</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você conhece o truque <strong>Mão Mágica</strong>. Você pode conjurá-lo <strong>sem componentes Somáticos</strong> e pode tornar a mão espectral <strong>Invisível</strong> quando a conjura.</p>
+                    </div>
+                </div>
 
-      <!-- TABELA DE SLOGAS (SLOTS POR NÍVEL) – Omissa na tabela principal, adicionamos aqui -->
-      <div style="margin-top: 25px; background: rgba(155, 89, 182, 0.1); padding: 15px; border-radius: 8px; overflow-x: auto;">
-        <h4 style="color: #d2b4de;">Slots de Magia por Nível de Psionista</h4>
-        <table class="tabela-rpg" style="font-size: 0.8rem;">
-          <thead><tr><th>Nível</th><th>1º</th><th>2º</th><th>3º</th><th>4º</th><th>5º</th><th>6º</th><th>7º</th><th>8º</th><th>9º</th></tr></thead>
-          <tbody>
-            <tr><td>1º</td><td>2</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
-            <tr><td>2º</td><td>3</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
-            <tr><td>3º</td><td>4</td><td>2</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
-            <tr><td>4º</td><td>4</td><td>3</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
-            <tr><td>5º</td><td>4</td><td>3</td><td>2</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
-            <tr><td>6º</td><td>4</td><td>3</td><td>3</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
-            <tr><td>7º</td><td>4</td><td>3</td><td>3</td><td>1</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
-            <tr><td>8º</td><td>4</td><td>3</td><td>3</td><td>2</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
-            <tr><td>9º</td><td>4</td><td>3</td><td>3</td><td>3</td><td>1</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
-            <tr><td>10º</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
-            <tr><td>11º</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>-</td><td>-</td><td>-</td></tr>
-            <tr><td>12º</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>-</td><td>-</td><td>-</td></tr>
-            <tr><td>13º</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>-</td><td>-</td></tr>
-            <tr><td>14º</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>-</td><td>-</td></tr>
-            <tr><td>15º</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>-</td></tr>
-            <tr><td>16º</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>-</td></tr>
-            <tr><td>17º</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-            <tr><td>18º</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-            <tr><td>19º</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td></tr>
-            <tr><td>20º</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>2</td><td>2</td><td>1</td><td>1</td></tr>
-          </tbody>
-         </table>
-      </div>
+                <!-- Nível 2: Disciplina Psíquica -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 2: Disciplina Psíquica</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você aprende novas técnicas psíquicas que são alimentadas por seus <strong>Dados de Energia Psíquica</strong>. Você ganha <strong>duas disciplinas</strong> de sua escolha, como <strong>Consciência Expandida</strong> e <strong>Insinuação do Id</strong>. Disciplinas são descritas em <strong>Disciplinas Psíquicas</strong>.</p>
+                        <p>Você pode usar apenas <strong>uma Disciplina por turno</strong> e apenas <strong>uma vez por turno</strong>, a menos que indicado de outra forma em uma dessas opções.</p>
+                        <p>Sempre que você ganha um <strong>nível de Psionista</strong>, pode substituir <strong>uma de suas opções de Disciplina Psíquica</strong> por uma que você não conhece. Você ganha <strong>uma opção adicional</strong> nos níveis <strong>5, 10, 13 e 17</strong> de Psionista.</p>
+                    </div>
+                </div>
 
-      <!-- SUBCLASSES RESUMIDAS (Metamorph, Psykinetic, Telepath) – adaptadas conforme UA -->
-      <div style="margin-top: 30px;">
-        <h3 style="font-family: 'Cinzel', serif; color: #bf77f0;">Subclasses do Psionista</h3>
-        
-        <div class="bloco-subclasse-detalhada">
-          <h3>🧬 Metamorfo (Metamorph)</h3>
-          <p>Psionista que altera sua própria biologia e estrutura física, moldando a carne com o pensamento.</p>
-          <div class="sub-feature"><h5>Nível 3: Adaptação Celular</h5><p>Quando você conjura uma magia de Transmutação, ganha Resistência a um tipo de dano (Ácido, Fogo, Frio, Elétrico ou Trovão) por 1 hora. Você pode gastar 1 Dado de Energia para estender a duração.</p></div>
-          <div class="sub-feature"><h5>Nível 6: Membros Alongados</h5><p>Seu alcance corpo a corpo aumenta em 1,5m. Como Ação Bônus, gaste 1 Dado de Energia para ganhar deslocamento de escalada e natação igual ao seu deslocamento por 1 hora.</p></div>
-          <div class="sub-feature"><h5>Nível 10: Forma Fluida</h5><p>Você pode conjurar <em>Forma Gasosa</em> em si mesmo sem gastar slot, uma vez por Descanso Longo, e pode gastar Dados de Energia para aumentar a duração.</p></div>
-          <div class="sub-feature"><h5>Nível 14: Evolução Maior</h5><p>Você pode ativar duas mutações simultâneas (Adaptação Celular e Membros Alongados, por exemplo) sem custo extra, e aprende o truque <em>Alteração de Aparência (Disguise Self)</em>.</p></div>
-        </div>
+                <!-- Nível 3: Subclasse de Psionista -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Subclasse de Psionista</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha uma <strong>subclasse de Psionista</strong> de sua escolha. As subclasses <strong>Metamorfo</strong>, <strong>Psicocinético</strong> e <strong>Telepata</strong> são detalhadas após a descrição desta classe.</p>
+                        <p>Uma subclasse é uma especialização que concede características em certos níveis de Psionista. Pelo resto de sua carreira, você ganha cada uma das características de sua subclasse que sejam de seu nível de Psionista ou inferior.</p>
+                        <p>As subclasses de Psionista estarão listadas no final da página.</p>
+                    </div>
+                </div>
 
-        <div class="bloco-subclasse-detalhada">
-          <h3>⚡ Psicocinético (Psykinetic)</h3>
-          <p>Mestre da força bruta do pensamento – arremessa inimigos, cria escudos e manipula o campo de batalha.</p>
-          <div class="sub-feature"><h5>Nível 3: Escudo Cinético</h5><p>Como Reação ao sofrer dano, gaste 1 Dado de Energia e reduza o dano em 1d10 + Inteligência. Você pode empurrar o atacante 3m para trás.</p></div>
-          <div class="sub-feature"><h5>Nível 6: Arremesso Aprimorado</h5><p>Quando usa Impulso Telecinético, pode mover criaturas de tamanho Enorme. Além disso, pode arremessar objetos ou criaturas para causar dano: 2d6 de dano por 3m percorridos.</p></div>
-          <div class="sub-feature"><h5>Nível 10: Levitação Controlada</h5><p>Você pode levitar voluntariamente até 6m do chão como Ação Bônus, ganhando deslocamento de voo 9m. Gaste 1 Dado de Energia para também levitar um aliado.</p></div>
-          <div class="sub-feature"><h5>Nível 14: Onda de Choque</h5><p>Ação: gaste até 3 Dados de Energia; cada criatura em cone de 9m faz teste de Força. Falha: sofre 4d6 + Int dano de Força e é derrubada. Gasta um dado extra para aumentar o dano em 2d6.</p></div>
-        </div>
+                <!-- Nível 4: Aumento no Valor de Habilidade -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 4: Aumento no Valor de Habilidade</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha o talento <strong>Aumento no Valor de Habilidade</strong> ou outro talento de sua escolha para o qual você se qualifica. Você ganha esta característica novamente nos níveis <strong>8, 12 e 16</strong> de Psionista.</p>
+                    </div>
+                </div>
 
-        <div class="bloco-subclasse-detalhada">
-          <h3>🧠 Telepata (Telepath)</h3>
-          <p>Especialista em invadir mentes, ler pensamentos e controlar vontades.</p>
-          <div class="sub-feature"><h5>Nível 3: Invasão Mental</h5><p>Quando conjura uma magia de Encantamento ou Ilusão, você pode gastar 1 Dado de Energia para ler os pensamentos superficiais do alvo (como <em>Detectar Pensamentos</em>) até o final do seu próximo turno.</p></div>
-          <div class="sub-feature"><h5>Nível 6: Sussurro Insidioso</h5><p>Como Ação Bônus, escolha uma criatura a até 18m. Ela deve ser bem-sucedida em teste de Sabedoria ou ficará com Desvantagem no próximo ataque/habilidade. Você pode gastar 1 Dado de Energia para também causar 2d8 de dano Psíquico.</p></div>
-          <div class="sub-feature"><h5>Nível 10: Rede Telepática</h5><p>Você pode estabelecer uma rede de telepatia com até Inteligência aliados, com alcance de 1,5km. Durante um minuto, eles podem se comunicar silenciosamente.</p></div>
-          <div class="sub-feature"><h5>Nível 14: Dominar Vontade</h5><p>Uma vez por Descanso Longo, você pode conjurar <em>Dominar Pessoa</em> ou <em>Sugestão em Massa</em> sem gastar slot. Alvos têm desvantagem no teste se você gastar 2 Dados de Energia.</p></div>
-        </div>
-      </div>
+                <!-- Nível 5: Restauração Psíquica -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 5: Restauração Psíquica</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você pode realizar uma <strong>meditação</strong> que foca a mente por <strong>1 minuto</strong>. Ao final dela, você recupera <strong>Dados de Energia Psíquica gastos</strong>.</p>
+                        <p>Uma vez que você usa esta característica, não pode fazê-lo novamente até finalizar um <strong>Descanso Longo</strong>.</p>
+                    </div>
+                </div>
 
-      <!-- NOTA FINAL E COMPONENTES -->
-      <div style="margin-top: 20px; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; border-left: 3px solid #9b59b6;">
-        <p style="font-size: 0.85rem; margin: 0;"><strong>🧠 Poder Psiónico:</strong> O Psionista não precisa de bolsas de componentes. Todas as suas magias de classe ignoram componentes Verbais e Materiais (exceto itens consumidos ou com custo). A lista de magias do Psionista é a mesma do Mago (Wizard), mas com foco em Adivinhação, Encantamento, Ilusão, Transmutação e algumas de Evocação.</p>
-      </div>
+                <!-- Nível 7: Surto Psíquico -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 7: Surto Psíquico</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você pode impulsionar seus poderes psíquicos usando sua <strong>força vital</strong>. Depois de rolar <strong>um ou mais Dados de Energia Psíquica</strong>, você pode gastar <strong>um de seus Dados de Vida</strong> e tratar qualquer rolagem de <strong>1, 2 ou 3</strong> naqueles Dados de Energia Psíquica como <strong>4</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 18: Reservas Psíquicas -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 18: Reservas Psíquicas</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Quando você rola <strong>Iniciativa</strong>, você recupera usos gastos de <strong>Dados de Energia Psíquica</strong> até ter <strong>quatro</strong> se você tiver <strong>menos do que isso</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 19: Benção Épica -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 19: Benção Épica</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha um talento de <strong>Benção Épica</strong> ou outro talento de sua escolha para o qual você se qualifica. <strong>Benção da Resistência Energética</strong> é recomendado.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 20: Força Vital Incandescende -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 20: Força Vital Incandescende</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você queima sua <strong>força vital</strong> para alcançar poderes psíquicos maiores. <strong>Uma vez por turno</strong>, quando você rola <strong>um ou mais Dados de Energia Psíquica</strong> para uma <strong>característica de Psionista</strong> ou <strong>Disciplina Psíquica</strong>, pode gastar <strong>um ou dois de seus Dados de Vida</strong>.</p>
+                        <p>Para cada <strong>Dado de Vida</strong> gasto, role um <strong>Dado de Energia Psíquica adicional</strong> e adicione os números rolados ao total. Esta rolagem <strong>não gasta o Dado de Energia Psíquica</strong>.</p>
+                    </div>
+                </div>
+              </div>
+          </div>
+
+          <div class="recursos-header">
+                  <h3>Subclasses</h3>
+              </div>
+          <div class="subclasses-container" id="subclasses-artifice">
+              
+              <!--ABAS DE NAVEGAÇÃO-->
+              <div class="tabs-header">
+                  <ul class="tabs-list">
+                  <li><button class="tab-btn active" data-tab="0"> Metamorfo</button></li>
+                  <li><button class="tab-btn active" data-tab="1"> Distorcedor Psíquico</button></li>
+                  <li><button class="tab-btn active" data-tab="2"> Psicocinético</button></li>
+                  <li><button class="tab-btn active" data-tab="3"> Telepata</button></li>
+                  </ul>
+              </div>
+              
+              <!--SUBCLASSE-->
+              <div class="tabs-content">
+                <!-- ABA - Metamorfo -->
+                <div class="tab-pane">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">Metamorfo</h3>
+                    <p>Seu domínio dos poderes psíquicos se volta para dentro. Sua própria carne se torna como argila para você, e você a molda no <strong>vaso perfeito para seus poderes psíquicos</strong>. A experiência em manipular sua energia vital também permite que você ajuste a força vital de amigos e inimigos.</p>
+                    
+                    <!-- Nível 3: Magias do Metamorfo -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Magias do Metamorfo</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você atinge um nível de Psionista especificado na tabela de <strong>Magias do Metamorfo</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                            
+                            <div class="overflow-table">
+                                <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                    <thead>
+                                        <tr>
+                                            <th>Nível de Psionista</th>
+                                            <th class="esquerda">Magias Preparadas</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><th>3º</th><td class="esquerda"><strong>Alterar-se</strong>, <strong>Curação</strong>, <strong>Infligir Ferimentos</strong>, <strong>Restauração Menor</strong></td></tr>
+                                        <tr><th>5º</th><td class="esquerda"><strong>Aura de Vitalidade</strong>, <strong>Acelerar</strong></td></tr>
+                                        <tr><th>7º</th><td class="esquerda"><strong>Metamorfose</strong>, <strong>Pele de Pedra</strong></td></tr>
+                                        <tr><th>9º</th><td class="esquerda"><strong>Contágio</strong>, <strong>Cura em Massa</strong></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Forma Mutável -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Forma Mutável</span>
+                            <span class="badge-mini acao-bonus">Ação Bônus</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Como uma <strong>Ação Bônus</strong>, você pode gastar <strong>um Dado de Energia Psíquica</strong> para esticar psionicamente seus membros por <strong>1 minuto</strong>. Role o Dado de Energia Psíquica gasto e ganhe um número de <strong>Pontos de Vida Temporários</strong> igual ao número rolado <strong>+ seu modificador de Inteligência</strong> (mínimo de 1 PV temporário). Além disso, você ganha os seguintes benefícios enquanto esta característica estiver ativa.</p>
+                            
+                            <p><strong style="color: white;">Alcance.</strong> Seu alcance aumenta em <strong>1,5 metro</strong>.</p>
+                            
+                            <p><strong style="color: white;">Deslocamento.</strong> Seu <strong>Deslocamento</strong> aumenta em <strong>1,5 metro</strong>.</p>
+                            
+                            <p><strong style="color: white;">Toque.</strong> Quando você conjura uma <strong>magia</strong> que tem alcance de <strong>Toque</strong> e tempo de conjuração de uma <strong>ação</strong>, pode fazer o alcance da magia ser <strong>3 metros</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Armas Orgânicas -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Armas Orgânicas</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você pode moldar seus membros em armas. Como uma <strong>Ação Mágica</strong>, você pode reformar sua <strong>mão livre</strong> em uma das seguintes <strong>armas orgânicas</strong>: <strong>Lâmina de Osso</strong>, <strong>Malho de Carne</strong> ou <strong>Lançador de Vísceras</strong>. Quando você realiza a ação <strong>Atacar</strong>, pode usar esta característica antes de fazer a rolagem de ataque. Seu membro mantém a forma da arma orgânica até você usar uma Ação Mágica para mudá-la para outra arma orgânica, você estar com a condição <strong>Inconsciente</strong> ou retornar o membro à sua forma anterior (nenhuma ação necessária).</p>
+                            <p>Sempre que você ataca com a arma, pode usar seu modificador de <strong>Inteligência</strong> para as rolagens de ataque e dano em vez de usar Força ou Destreza.</p>
+                            
+                            <p><strong style="color: white;">Lâmina de Osso.</strong> Uma lâmina feita de osso brota de seu antebraço ou se estende de sua mão. A lâmina conta como uma <strong>arma corpo a corpo Simples</strong> com a propriedade <strong>Acuidade</strong> e causa <strong>1d8</strong> de dano de <strong>Perfuração</strong> em um acerto. Você tem <strong>Vantagem</strong> na rolagem de ataque que faz com a lâmina se pelo menos <strong>um de seus aliados</strong> estiver a até <strong>1,5 metro</strong> do alvo e o aliado não estiver com a condição <strong>Incapacitado</strong>.</p>
+                            
+                            <p><strong style="color: white;">Malho de Carne.</strong> Seu punho e antebraço se coalescem em uma massa endurecida de carne e osso. O malho conta como uma <strong>arma corpo a corpo Simples</strong> e causa <strong>1d10</strong> de dano de <strong>Impacto</strong> em um acerto. Uma criatura atingida pelo malho tem <strong>Desvantagem</strong> no próximo teste de resistência de <strong>Força</strong> ou <strong>Constituição</strong> que fizer antes do início de seu próximo turno.</p>
+                            
+                            <p><strong style="color: white;">Lançador de Vísceras.</strong> Sua mão e antebraço se transformam em uma <strong>besta</strong> feita de músculo e tendão que dispara projéteis de bile. O lançador conta como uma <strong>arma de ataque à distância Simples</strong> com alcance normal de <strong>9 metros</strong> e alcance longo de <strong>27 metros</strong>, e causa <strong>1d6</strong> de dano de <strong>Ácido</strong> em um acerto. <strong>Uma vez em cada um de seus turnos</strong> quando você acerta uma criatura com uma rolagem de ataque usando o lançador, pode causar <strong>1d6</strong> de dano de <strong>Ácido</strong> extra ao alvo.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 6: Ataque Extra -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 6: Ataque Extra</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você pode atacar <strong>duas vezes</strong> em vez de uma sempre que realizar a ação <strong>Atacar</strong> em seu turno.</p>
+                            <p>Além disso, pode conjurar <strong>um de seus truques de Psionista</strong> que tenha tempo de conjuração de uma <strong>ação</strong> no lugar de <strong>um daqueles ataques</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 6: Modelador de Carne -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 6: Modelador de Carne</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você usa <strong>Forma Mutável</strong>, pode gastar <strong>um Dado de Energia Psíquica adicional</strong> para ganhar os seguintes benefícios enquanto a característica estiver ativa.</p>
+                            
+                            <p><strong style="color: white;">Defesa Orgânica.</strong> Você ganha um <strong>bônus de +2 na CA</strong>.</p>
+                            
+                            <p><strong style="color: white;">Cura Potencializada.</strong> Quando você conjura uma <strong>magia</strong> com um <strong>espaço de magia</strong> que restaura <strong>Pontos de Vida</strong> a uma ou mais criaturas, pode gastar <strong>um Dado de Energia Psíquica</strong>, rolá-lo e adicionar o número rolado ao número de <strong>Pontos de Vida restaurados</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 10: Forma Mutável Aprimorada -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 10: Forma Mutável Aprimorada</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você usa <strong>Forma Mutável</strong>, a duração aumenta para <strong>10 minutos</strong> e você ganha <strong>um dos seguintes benefícios</strong> de sua escolha, cujos efeitos duram até Forma Mutável terminar.</p>
+                            
+                            <p><strong style="color: white;">Epiderme Pedregosa.</strong> Você tem <strong>Vantagem</strong> em testes de resistência de <strong>Constituição</strong> para manter <strong>Concentração</strong>. Além disso, escolha <strong>um dos seguintes tipos de dano</strong>: Ácido, Impacto, Frio, Fogo, Relâmpago, Perfuração, Veneno, Corte ou Trovão. Você ganha <strong>Resistência</strong> ao tipo de dano escolhido.</p>
+                            
+                            <p><strong style="color: white;">Passada Superior.</strong> Enquanto você não estiver usando <strong>armadura</strong>, pode realizar a ação <strong>Correr</strong> como uma <strong>Ação Bônus</strong> e tem um <strong>Deslocamento de Escalada</strong> e <strong>Deslocamento de Natação</strong> iguais ao seu <strong>Deslocamento</strong>.</p>
+                            
+                            <p><strong style="color: white;">Flexibilidade Não Natural.</strong> Você ganha um <strong>bônus de +1 na CA</strong> e seu corpo — juntamente com qualquer equipamento que você esteja vestindo ou carregando — torna-se <strong>flexível</strong>. Você pode se mover através de qualquer espaço tão estreito quanto <strong>2,5 centímetros</strong> e pode gastar <strong>1,5 metro de movimento</strong> para escapar de <strong>restrições não mágicas</strong> ou encerrar a condição <strong>Agarrar</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 14: Armas de Vida Mutante -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 14: Armas de Vida Mutante</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Sua arma fica envolta em <strong>energia negativa</strong> e você irradia energia psíquica que repara a vida. Quando você acerta um alvo com uma <strong>rolagem de ataque</strong> usando sua <strong>Arma Orgânica</strong>, role <strong>um Dado de Energia Psíquica</strong>. O alvo sofre dano <strong>Necrótico</strong> extra igual ao número rolado. Esta rolagem <strong>não gasta o dado</strong>.</p>
+                            <p>Alternativamente, quando você acerta uma <strong>criatura</strong> com sua <strong>Arma Orgânica</strong>, pode, em vez disso, gastar <strong>um Dado de Energia Psíquica</strong> e rolá-lo. O alvo sofre dano <strong>Necrótico</strong> extra igual à rolagem, e cada <strong>criatura de sua escolha</strong> em uma <strong>Emanação de 9 metros</strong> originada de você recupera <strong>Pontos de Vida</strong> iguais ao número rolado <strong>+ seu modificador de Inteligência</strong>. Uma vez que você usa esta característica, não pode fazê-lo novamente até o <strong>início de seu próximo turno</strong>.</p>
+                        </div>
+                    </div>
+                </div>                
+
+                <!-- ABA - Distorcedor Psíquico -->
+                <div class="tab-pane">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">Distorcedor Psíquico</h3>
+                    <p>Distorcedores Psíquicos sintonizam seus poderes psíquicos para <strong>manipular o espaço entre objetos</strong>. Capazes de teleportar pelo campo de batalha e criar vácuos no espaço, um Distorcedor Psíquico <strong>nunca fica em um lugar por muito tempo</strong>.</p>
+                    
+                    <!-- Nível 3: Magias do Distorcedor Psíquico -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Magias do Distorcedor Psíquico</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você atinge um nível de Psionista especificado na tabela de <strong>Magias do Distorcedor Psíquico</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                            
+                            <div class="overflow-table">
+                                <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                    <thead>
+                                        <tr>
+                                            <th>Nível de Psionista</th>
+                                            <th class="esquerda">Magias Preparadas</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><th>3º</th><td class="esquerda"><strong>Retirada Expedita</strong>, <strong>Queda de Penas</strong>, <strong>Passo Nebuloso</strong>, <strong>Esmigalhar</strong></td></tr>
+                                        <tr><th>5º</th><td class="esquerda"><strong>Piscar</strong>, <strong>Acelerar</strong></td></tr>
+                                        <tr><th>7º</th><td class="esquerda"><strong>Banimento</strong>, <strong>Porta Dimensional</strong></td></tr>
+                                        <tr><th>9º</th><td class="esquerda"><strong>Golpe do Vento de Aço</strong>, <strong>Círculo de Teleporte</strong></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Teleporte -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Teleporte</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você pode conjurar <strong>Passo Nebuloso</strong> <strong>sem gastar um espaço de magia</strong> e deve finalizar um <strong>Descanso Longo</strong> antes de poder conjurá-lo desta forma novamente. Você também pode restaurar seu uso dela gastando <strong>um Dado de Energia Psíquica</strong> (nenhuma ação necessária).</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Propulsão Distorcida -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Propulsão Distorcida</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando um alvo <strong>falha em seu teste de resistência</strong> contra seu <strong>Impulso Telecinético</strong>, em vez de empurrá-lo, você pode <strong>teleportar o alvo</strong> para um <strong>espaço desocupado</strong> que você pode ver a até <strong>9 metros</strong> de você que esteja <strong>horizontal</strong> a você.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 6: Distorção Espacial -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 6: Distorção Espacial</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você conjura <strong>Esmigalhar</strong>, pode gastar <strong>um Dado de Energia Psíquica</strong> para modificar a magia de modo que o <strong>raio da Esfera da magia se torne 6 metros</strong>.</p>
+                            <p>Além disso, criaturas que <strong>falham no teste de resistência</strong> contra a magia são <strong>puxadas diretamente em direção ao centro da Esfera</strong>, terminando em um <strong>espaço desocupado</strong> o mais próximo possível do centro da Esfera.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 6: Combate Teleportador -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 6: Combate Teleportador</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Imediatamente após você conjurar <strong>Passo Nebuloso</strong>, pode conjurar <strong>um de seus truques de Psionista</strong> que tenha tempo de conjuração de uma <strong>ação</strong> como parte da <strong>Ação Bônus</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 10: Alvo Duplicado -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 10: Alvo Duplicado</span>
+                            <span class="badge-mini reacao">Reação</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando uma <strong>criatura</strong> que você pode ver faz uma <strong>rolagem de ataque</strong> contra você, você pode usar uma <strong>Reação</strong> para gastar <strong>um Dado de Energia Psíquica</strong> e escolher uma <strong>criatura disposta</strong> que você pode ver a até <strong>9 metros</strong> de você que não esteja com a condição <strong>Incapacitado</strong>. Você e a criatura disposta <strong>teleportam, trocando de lugar</strong> um com o outro.</p>
+                            <p>A criatura então se torna o <strong>alvo da rolagem de ataque</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 14: Teleporte em Massa -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 14: Teleporte em Massa</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Como uma <strong>Ação Mágica</strong>, você gasta <strong>quatro Dados de Energia Psíquica</strong> e escolhe <strong>criaturas Enormes ou menores</strong> a até <strong>9 metros</strong> de você, até um número de criaturas igual ao seu <strong>modificador de Inteligência</strong> (mínimo de uma criatura). Cada uma das criaturas escolhidas é <strong>teleportada</strong> para um <strong>espaço desocupado</strong> que você pode ver a até <strong>45 metros</strong> de você. Uma criatura <strong>não disposta</strong> que for bem-sucedida em um teste de resistência de <strong>Sabedoria</strong> contra sua CD de resistência de magia <strong>não é afetada</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ABA - Psicocinético -->
+                <div class="tab-pane">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">Psicocinético</h3>
+                    <p>Um Psicocinético controla seus poderes psíquicos como uma <strong>força maleável</strong>. Eles moldam suas energias telecinéticas em <strong>barreiras resistentes</strong> e atacam com a força de um <strong>aríete</strong>.</p>
+                    
+                    <!-- Nível 3: Magias do Psicocinético -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Magias do Psicocinético</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você atinge um nível de Psionista especificado na tabela de <strong>Magias do Psicocinético</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                            
+                            <div class="overflow-table">
+                                <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                    <thead>
+                                        <tr>
+                                            <th>Nível de Psionista</th>
+                                            <th class="esquerda">Magias Preparadas</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><th>3º</th><td class="esquerda"><strong>Nuvem de Adagas</strong>, <strong>Levitar</strong>, <strong>Escudo</strong>, <strong>Onda Trovejante</strong></td></tr>
+                                        <tr><th>5º</th><td class="esquerda"><strong>Desacelerar</strong>, <strong>Esmagamento Telecinético</strong> (UA)</th></tr>
+                                        <tr><th>7º</th><td class="esquerda"><strong>Esfera Resiliente de Otiluke</strong>, <strong>Moldar Pedra</strong></th></tr>
+                                        <tr><th>9º</th><td class="esquerda"><strong>Telecinésia</strong>, <strong>Muralha de Força</strong></th></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Telecinesia Fortalecida -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Telecinesia Fortalecida</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você conjura <strong>Mão Mágica</strong>, seu alcance aumenta em <strong>9 metros</strong> quando você a conjura, e a mão pode carregar até <strong>9 quilos</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Técnicas Telecinéticas -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Técnicas Telecinéticas</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você usa <strong>Impulso Telecinético</strong>, pode rolar <strong>1d4</strong> e usar o número rolado em vez de gastar um <strong>Dado de Energia Psíquica</strong>.</p>
+                            <p>Além disso, quando um <strong>alvo falha no teste de resistência</strong> contra seu <strong>Impulso Telecinético</strong>, você pode impor <strong>um dos seguintes efeitos</strong> naquele alvo.</p>
+                            
+                            <p><strong style="color: white;">Impulsionar.</strong> O <strong>Deslocamento</strong> do alvo aumenta em <strong>3 metros</strong> até o início de seu próximo turno.</p>
+                            
+                            <p><strong style="color: white;">Desorientar.</strong> O alvo <strong>não pode fazer Ataques de Oportunidade</strong> até o início de seu próximo turno.</p>
+                            
+                            <p><strong style="color: white;">Projétil Telecinético.</strong> O alvo sofre dano de <strong>Força</strong> igual ao número rolado no <strong>Dado de Energia Psíquica</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 6: Estado Destrutivo -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 6: Estado Destrutivo</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>No <strong>início de seu turno</strong>, você pode gastar <strong>um Dado de Energia Psíquica</strong> para entrar em um <strong>estado destrutivo</strong>. Pelos próximos <strong>10 minutos</strong>, você ganha um <strong>Deslocamento de Voo</strong> de <strong>6 metros</strong> e pode <strong>pairar</strong>, e quando você conjura uma <strong>magia de Psionista</strong> que gasta um <strong>espaço de magia</strong>, pode rolar seu <strong>Dado de Energia Psíquica</strong> e adicionar o número rolado a <strong>uma rolagem de dano</strong> daquela magia. Esta rolagem <strong>não gasta o Dado de Energia Psíquica</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 6: Campo de Repulsão -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 6: Campo de Repulsão</span>
+                            <span class="badge-mini reacao">Reação</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você conjura <strong>Escudo</strong> em resposta a ser atingido por uma <strong>rolagem de ataque</strong> e faz com que o ataque desencadeador <strong>erre</strong>, pode gastar <strong>um Dado de Energia Psíquica</strong> para <strong>lançar a força de volta ao atacante</strong>. O atacante faz um teste de resistência de <strong>Destreza</strong>. Role <strong>um Dado de Energia Psíquica</strong>.</p>
+                            <p>Em uma falha, o atacante sofre dano de <strong>Força</strong> igual ao número rolado <strong>+ seu modificador de Inteligência</strong>. Em um sucesso, o atacante sofre apenas <strong>metade do dano</strong>. Se o alvo falhar ou for bem-sucedido no teste de resistência, você ganha <strong>Pontos de Vida Temporários</strong> iguais à quantidade de dano causado.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 10: Esmagamento Telecinético Aprimorado -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 10: Esmagamento Telecinético Aprimorado</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você conjura <strong>Esmagamento Telecinético</strong> (UA), pode gastar <strong>um Dado de Energia Psíquica</strong> para modificar a magia de modo que, <strong>quer a criatura falhe ou seja bem-sucedida</strong> no teste de resistência contra a magia, seu <strong>Deslocamento</strong> seja <strong>reduzido à metade</strong> até o início de seu próximo turno. Além disso, você pode rolar o <strong>Dado de Energia Psíquica</strong> gasto e adicionar o número rolado a <strong>uma rolagem de dano</strong> da magia.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 14: Telecinesia Elevada -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 14: Telecinesia Elevada</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você pode conjurar <strong>Telecinésia</strong> <strong>sem gastar um espaço de magia</strong> em vez disso, gastando <strong>quatro Dados de Energia Psíquica</strong>. Quando você conjura <strong>Telecinésia</strong> sem gastar um espaço de magia usando esta característica, pode modificar a magia para que <strong>não exija Concentração</strong>. Se você fizer isso, a duração da magia se torna <strong>1 minuto</strong> para aquela conjuração, e você pode ter como alvo <strong>criaturas e objetos Gargantuescos</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ABA - Telepata -->
+                <div class="tab-pane">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">Telepata</h3>
+                    <p>Telepatas são mestres da <strong>magia mental</strong>. Eles usam seus poderes psíquicos para todos os assuntos da mente, seja para <strong>reforçar as defesas mentais de aliados</strong> ou para <strong>vasculhar os pensamentos de outros sem ser detectado</strong>. Um telepata pode ser um <strong>baluarte de auxílio psíquico</strong> ou um <strong>manipulador astuto</strong>.</p>
+                    
+                    <!-- Nível 3: Infiltrador Mental -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Infiltrador Mental</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você conjura <strong>Detectar Pensamentos</strong>, pode gastar <strong>um Dado de Energia Psíquica</strong> para modificar a magia de modo que a magia <strong>não exija componentes de magia ou Concentração</strong>. Além disso, quando você usa o efeito <strong>Ler Pensamentos</strong> da magia, o alvo <strong>não sabe que você está vasculhando sua mente</strong> se ele falhar no teste de resistência de <strong>Sabedoria</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Magias do Telepata -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Magias do Telepata</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você atinge um nível de Psionista especificado na tabela de <strong>Magias do Telepata</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                            
+                            <div class="overflow-table">
+                                <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                    <thead>
+                                        <tr>
+                                            <th>Nível de Psionista</th>
+                                            <th class="esquerda">Magias Preparadas</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><th>3º</th><td class="esquerda"><strong>Agonia</strong>, <strong>Comando</strong>, <strong>Detectar Pensamentos</strong>, <strong>Flecha Mental</strong></td></tr>
+                                        <tr><th>5º</th><td class="esquerda"><strong>Contramágica</strong>, <strong>Desacelerar</strong></td></tr>
+                                        <tr><th>7º</th><td class="esquerda"><strong>Compulsão</strong>, <strong>Confusão</strong></td></tr>
+                                        </tr><th>9º</th><td class="esquerda"><strong>Modificar Memória</strong>, <strong>Presença Régia de Yolande</strong></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Distração Telepática -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Distração Telepática</span>
+                            <span class="badge-mini reacao">Reação</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando uma <strong>criatura</strong> que você pode ver dentro do <strong>alcance de sua telepatia</strong> <strong>acerta com uma rolagem de ataque</strong>, você pode usar uma <strong>Reação</strong> para rolar <strong>um Dado de Energia Psíquica</strong> e <strong>subtrair o número rolado da rolagem de ataque</strong>, potencialmente fazendo com que o ataque erre. O dado é <strong>gasto apenas se o alvo errar o ataque</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 6: Mente Baluarte -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 6: Mente Baluarte</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>No <strong>início de seu turno</strong>, você pode gastar <strong>um Dado de Energia Psíquica</strong> para fortalecer sua mente e entrar em um <strong>estado fortificado</strong>. Pelos próximos <strong>10 minutos</strong>, você tem <strong>Resistência</strong> a dano <strong>Psíquico</strong>; e sempre que você faz um teste de resistência de <strong>Inteligência</strong>, <strong>Sabedoria</strong> ou <strong>Carisma</strong>, você <strong>adiciona uma rolagem do seu Dado de Energia Psíquica</strong> ao teste. Rolar o Dado de Energia Psíquica <strong>não o gasta</strong>. Você não pode usar este benefício se estiver com a condição <strong>Incapacitado</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 6: Pensamentos Potentes -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 6: Pensamentos Potentes</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você tem <strong>telepatia</strong> com alcance de <strong>18 metros</strong>. Além disso, você adiciona seu modificador de <strong>Inteligência</strong> ao dano que causa com qualquer <strong>truque de Psionista</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 10: Reforço Telepático -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 10: Reforço Telepático</span>
+                            <span class="badge-mini reacao">Reação</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando <strong>você ou uma criatura</strong> que você pode ver dentro do <strong>alcance de sua telepatia</strong> <strong>falha em um teste de habilidade</strong> ou <strong>erra com uma rolagem de ataque</strong>, você pode usar uma <strong>Reação</strong> para gastar <strong>um Dado de Energia Psíquica</strong>. Role o dado e <strong>adicione o número rolado ao d20</strong>, potencialmente transformando um teste falho em sucesso ou um erro em acerto. O <strong>Dado de Energia Psíquica é gasto apenas se o teste for bem-sucedido ou o ataque acertar</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 14: Embaralhar Mentes -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 14: Embaralhar Mentes</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você pode conjurar <strong>Confusão</strong> <strong>sem gastar um espaço de magia</strong> em vez disso, gastando <strong>quatro Dados de Energia Psíquica</strong>. Quando você conjura <strong>Confusão</strong> sem um espaço de magia usando esta característica, pode modificar a magia de modo que o <strong>raio da Esfera da magia se torne 9 metros</strong> e você pode escolher <strong>uma criatura</strong> que você pode ver na área da magia para <strong>ser bem-sucedida automaticamente</strong> em seu teste de resistência contra a magia.</p>
+                            <p>Além disso, quando uma <strong>criatura sob o efeito da magia</strong> começa seu turno, você <strong>escolhe seu comportamento</strong> na tabela para o turno em vez de a criatura rolar para determinar seu comportamento.</p>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              
+
+          </div>
+
+
+          <!-- DISCIPLINAS PSÍQUICAS -->
+          <div class="recursos-container">
+              <div class="recursos-header">
+                  <h3>Disciplinas Psíquicas</h3>
+                  <span class="recursos-count">11 conhecidas</span>
+              </div>
+              
+              <div class="recursos-grid">
+                  
+                  <!-- Card - Biofeedback -->
+                  <div class="recurso-card">
+                      <div class="recurso-header">
+                          <span class="recurso-nome">Biofeedback</span>
+                      </div>
+                      <div class="recurso-descricao">
+                          <p>Quando você conjura uma <strong>magia de Psionista</strong> das escolas de <strong>Necromancia</strong> ou <strong>Transmutação</strong>, pode gastar um número de <strong>Dados de Energia Psíquica</strong> até o seu <strong>modificador de Inteligência</strong>, rolá-los e ganhar um número de <strong>Pontos de Vida Temporários</strong> igual ao total rolado <strong>+ seu modificador de Inteligência</strong> (mínimo de um).</p>
+                      </div>
+                  </div>
+                  
+                  <!-- Card - Precognição Reforçadora -->
+                  <div class="recurso-card">
+                      <div class="recurso-header">
+                          <span class="recurso-nome">Precognição Reforçadora</span>
+                      </div>
+                      <div class="recurso-descricao">
+                          <p>Quando você conjura uma <strong>magia de Psionista</strong> das escolas de <strong>Abjuração</strong> ou <strong>Adivinhação</strong>, pode gastar <strong>um Dado de Energia Psíquica</strong>. Role o dado e escolha uma <strong>criatura</strong> que você pode ver a até <strong>18 metros</strong> (que pode ser você mesmo). Até o final de seu próximo turno, a criatura ganha um <strong>bônus</strong> no próximo <strong>Teste de d20</strong> que fizer igual ao número rolado.</p>
+                      </div>
+                  </div>
+                  
+                  <!-- Card - Pensamentos Destrutivos -->
+                  <div class="recurso-card">
+                      <div class="recurso-header">
+                          <span class="recurso-nome">Pensamentos Destrutivos</span>
+                      </div>
+                      <div class="recurso-descricao">
+                          <p>Quando você conjura uma <strong>magia de Psionista</strong> das escolas de <strong>Conjuração</strong> ou <strong>Evocação</strong> que força uma <strong>criatura</strong> que você pode ver a fazer um <strong>teste de resistência</strong> contra a magia, você pode gastar um número de <strong>Dados de Energia Psíquica</strong> até o seu <strong>modificador de Inteligência</strong> e rolá-los. A criatura sofre dano <strong>Psíquico</strong> igual ao total rolado <strong>+ seu modificador de Inteligência</strong> (mínimo de um), independentemente do resultado do teste de resistência.</p>
+                      </div>
+                  </div>
+                  
+                  <!-- Card - Língua Diabólica -->
+                  <div class="recurso-card">
+                      <div class="recurso-header">
+                          <span class="recurso-nome">Língua Diabólica</span>
+                      </div>
+                      <div class="recurso-descricao">
+                          <p>Quando você realiza a ação <strong>Influenciar</strong>, pode rolar <strong>um Dado de Energia Psíquica</strong> e adicionar o número rolado ao teste de habilidade. Se isso fizer com que você <strong>tenha sucesso</strong> no teste de habilidade, o dado é <strong>gasto</strong>.</p>
+                      </div>
+                  </div>
+                  
+                  <!-- Card - Consciência Expandida -->
+                  <div class="recurso-card">
+                      <div class="recurso-header">
+                          <span class="recurso-nome">Consciência Expandida</span>
+                      </div>
+                      <div class="recurso-descricao">
+                          <p>Quando você realiza a ação <strong>Buscar</strong>, pode rolar <strong>um Dado de Energia Psíquica</strong> e adicionar o número rolado ao teste de habilidade. Se isso fizer com que você <strong>tenha sucesso</strong> no teste de habilidade, o dado é <strong>gasto</strong>.</p>
+                      </div>
+                  </div>
+                  
+                  <!-- Card - Insinuação do Id -->
+                  <div class="recurso-card">
+                      <div class="recurso-header">
+                          <span class="recurso-nome">Insinuação do Id</span>
+                      </div>
+                      <div class="recurso-descricao">
+                          <p>Quando você conjura uma <strong>magia de Psionista</strong> das escolas de <strong>Encantamento</strong> ou <strong>Ilusão</strong> que força uma criatura a fazer um <strong>teste de resistência</strong>, pode gastar <strong>um Dado de Energia Psíquica</strong> e rolá-lo. Um alvo da magia que você pode ver <strong>subtrai metade do número rolado</strong> (arredondado para cima) de seu teste de resistência contra a magia.</p>
+                      </div>
+                  </div>
+                  
+                  <!-- Card - Mira Infalível -->
+                  <div class="recurso-card">
+                      <div class="recurso-header">
+                          <span class="recurso-nome">Mira Infalível</span>
+                      </div>
+                      <div class="recurso-descricao">
+                          <p>Quando você faz uma <strong>rolagem de ataque</strong> contra uma criatura e <strong>erra</strong>, pode rolar <strong>um Dado de Energia Psíquica</strong> e adicionar o número rolado à rolagem de ataque, potencialmente transformando o erro em um acerto. Se isso fizer com que o ataque <strong>acerte</strong>, o dado é <strong>gasto</strong>.</p>
+                      </div>
+                  </div>
+                  
+                  <!-- Card - Mente Observadora -->
+                  <div class="recurso-card">
+                      <div class="recurso-header">
+                          <span class="recurso-nome">Mente Observadora</span>
+                      </div>
+                      <div class="recurso-descricao">
+                          <p>Quando você realiza a ação <strong>Estudar</strong>, pode rolar <strong>um Dado de Energia Psíquica</strong> e adicionar o número rolado ao teste de habilidade. Se isso fizer com que você <strong>tenha sucesso</strong> no teste de habilidade, o dado é <strong>gasto</strong>.</p>
+                      </div>
+                  </div>
+                  
+                  <!-- Card - Represália Psíquica -->
+                  <div class="recurso-card">
+                      <div class="recurso-header">
+                          <span class="recurso-nome">Represália Psíquica</span>
+                          <span class="badge-mini reacao">Reação</span>
+                      </div>
+                      <div class="recurso-descricao">
+                          <p>Imediatamente após uma <strong>criatura</strong> que você pode ver <strong>acertar você</strong> com uma <strong>rolagem de ataque</strong>, você pode usar uma <strong>Reação</strong> para gastar <strong>um Dado de Energia Psíquica</strong>, rolá-lo e <strong>reduzir o dano</strong> que você sofre do ataque em <strong>duas vezes o número rolado + seu modificador de Inteligência</strong> (mínimo de dois). Além disso, você pode forçar o atacante a fazer um teste de resistência de <strong>Sabedoria</strong>. Em uma falha, o alvo sofre dano <strong>Psíquico</strong> igual à quantidade de dano que você reduziu.</p>
+                      </div>
+                  </div>
+                  
+                  <!-- Card - Guardas Psíquicas -->
+                  <div class="recurso-card">
+                      <div class="recurso-header">
+                          <span class="recurso-nome">Guardas Psíquicas</span>
+                      </div>
+                      <div class="recurso-descricao">
+                          <p>No <strong>início de seu turno</strong>, você pode gastar <strong>um Dado de Energia Psíquica</strong>. Até o <strong>início de seu próximo turno</strong>, você tem <strong>Imunidade</strong> às condições <strong>Enfeitiçado</strong> e <strong>Amedrontado</strong> e <strong>Vantagem</strong> em testes de resistência de <strong>Inteligência</strong>. Se você estiver <strong>Enfeitiçado</strong> ou <strong>Amedrontado</strong> quando usar esta disciplina, a condição termina em você.</p>
+                          <p>Quando você usa <strong>Guardas Psíquicas</strong>, também pode usar uma <strong>disciplina psíquica diferente</strong> neste turno.</p>
+                      </div>
+                  </div>
+                  
+                  <!-- Card - Mente Afiada -->
+                  <div class="recurso-card">
+                      <div class="recurso-header">
+                          <span class="recurso-nome">Mente Afiada</span>
+                      </div>
+                      <div class="recurso-descricao">
+                          <p>No <strong>início de seu turno</strong>, você pode gastar <strong>um Dado de Energia Psíquica</strong> para aprimorar seus poderes psíquicos destrutivos. Role o dado e registre o número rolado. Você ganha os seguintes benefícios por <strong>1 minuto</strong> ou até você estar com a condição <strong>Incapacitado</strong>.</p>
+                          
+                          <p><strong style="color: white;">Psíquico Penetrante.</strong> O dano de seus <strong>ataques com arma</strong>, <strong>magias de Psionista</strong> e <strong>características de Psionista</strong> <strong>ignora Resistência</strong> a dano <strong>Psíquico</strong>.</p>
+                          
+                          <p><strong style="color: white;">Modo de Ataque.</strong> <strong>Uma vez por turno</strong>, quando você causa dano <strong>Psíquico</strong> a uma ou mais criaturas, pode substituir o número rolado em <strong>um dos dados de dano</strong> pelo número registrado quando você ativou esta Disciplina Psíquica.</p>
+                          
+                          <p>Quando você usa <strong>Mente Afiada</strong>, também pode usar uma <strong>disciplina psíquica diferente</strong> neste turno.</p>
+                      </div>
+                  </div>
+                  
+              </div>
+          </div>
+      </div><!--FIM DA DIV recursos-detalhados-->
 
     </div>
   </div>
