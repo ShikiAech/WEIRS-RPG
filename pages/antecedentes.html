@@ -5,97 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Antecedentes — Weirs RPG</title>
   <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
-  <style>
-    .grid-antecedentes {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 25px;
-      margin-top: 30px;
-    }
-    .card-antecedente {
-      background: rgba(25, 25, 27, 0.9);
-      border: 1px solid var(--border-fantasy);
-      border-top: 4px solid #b9770e;
-      padding: 20px;
-      border-radius: 4px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .card-antecedente:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(185, 119, 14, 0.15);
-    }
-    .card-antecedente h3 {
-      font-family: 'Cinzel', serif;
-      color: #f39c12;
-      margin-bottom: 5px;
-      font-size: 1.3rem;
-      border-bottom: 1px solid rgba(185, 119, 14, 0.2);
-      padding-bottom: 5px;
-    }
-    .lore-antecedente {
-      font-style: italic;
-      font-size: 0.85rem;
-      color: #a6acaf;
-      margin-bottom: 15px;
-      line-height: 1.3;
-    }
-    .detalhes-mecanicos {
-      font-size: 0.9rem;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .detalhes-mecanicos p {
-      margin: 0;
-    }
-    .detalhes-mecanicos strong {
-      color: #e67e22;
-    }
-    .bloco-regra {
-      background: rgba(185, 119, 14, 0.04);
-      border-left: 4px solid #b9770e;
-      padding: 20px;
-      margin-bottom: 35px;
-      border-radius: 0 4px 4px 0;
-    }
-    .bloco-regra h4 {
-      font-family: 'Cinzel', serif;
-      color: #f39c12;
-      margin-top: 0;
-      margin-bottom: 10px;
-    }
-    .badge-feat {
-      background: rgba(230, 126, 34, 0.15);
-      color: #f39c12;
-      padding: 2px 6px;
-      border-radius: 3px;
-      font-weight: bold;
-      border: 1px solid rgba(230, 126, 34, 0.3);
-      text-decoration: none;
-      display: inline-block;
-      transition: all 0.2s ease;
-    }
-    .badge-feat:hover {
-      background: rgba(230, 126, 34, 0.3);
-      color: var(--gold-bright);
-      box-shadow: 0 0 8px rgba(230, 126, 34, 0.4);
-    }
-  </style>
+  <link rel="stylesheet" href="/WEIRS-RPG/css/backgrounds.css">
+  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+  <script src="/WEIRS-RPG/javascript/filtro-bg.js"></script>
+
+  <!-- Link para o novo script de controle -->
+  <script src="/WEIRS-RPG/javascript/background-filter.js" defer></script>
 </head>
 <body>
 
-  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+
 
   <div class="container">
     <h2>Antecedentes</h2>
     <p>Antecedentes representam a origem, vivências e experiências que moldaram a história de um personagem antes de sua jornada como aventureiro. Eles refletem sua criação, profissão, cultura, conexões e os caminhos que percorreu, concedendo conhecimentos, habilidades e traços únicos que influenciam sua forma de agir no mundo.</p>
 
-    <div class="grid-antecedentes">
+    <!-- NOVA BARRA DE FILTROS -->
+    <div class="container-filtros">
+      <div class="filtros-alinhados">
+        <div class="campo-filtro filtro-busca">
+          <input type="text" id="busca-nome-antecedente" placeholder="Buscar antecedente pelo nome...">
+        </div>
+        <div class="campo-filtro filtro-dropdown">
+          <select id="filtro-categoria-antecedente">
+            <option value="todos">Todos as Categorias</option>
+            <option value="comum">Comum</option>
+            <option value="eberron">Eberron</option>
+            <option value="faerun">Faerûn</option>
+            <option value="ravenloft">Ravenloft</option>
+            <option value="exotico">Exótico</option>
+          </select>
+        </div>
+      </div>
+    </div>
 
-      <div class="card-antecedente">
+    <!-- COMUNS -->
+    <div class="grid-antecedentes" data-categoria="comum" style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+
+      <div class="card-antecedente" data-categoria="comum" data-nome="acolito">
         <h3>Acólito</h3>
         <p class="lore-antecedente">Você dedicou sua juventude a um templo, servindo a divindades e realizando rituais sagrados ou comunitários.</p>
         <div class="detalhes-mecanicos">
@@ -107,9 +54,9 @@
         </div>
       </div>
 
-      <div class="card-antecedente">
+      <div class="card-antecedente" data-categoria="comum" data-nome="andarilho">
         <h3>Andarilho</h3>
-        <p class="lore-antecedente">O horizon distante sempre chamou seu nome. Você passou a vida vagando de estrada em estrada, sem criar raízes fixas.</p>
+        <p class="lore-antecedente">O horizonte distante sempre chamou seu nome. Você passou a vida vagando de estrada em estrada, sem criar raízes fixas.</p>
         <div class="detalhes-mecanicos">
           <p><strong>Atributos:</strong> Destreza, Sabedoria, Carisma</p>
           <p><strong>Perícias:</strong> Intuição (Insight) e Sobrevivência</p>
@@ -119,7 +66,7 @@
         </div>
       </div>
 
-      <div class="card-antecedente">
+      <div class="card-antecedente" data-categoria="comum" data-nome="artesao">
         <h3>Artesão</h3>
         <p class="lore-antecedente">Você foi treinado por uma corporação de ofício oficial para transformar matérias-primas em obras-primas comerciais.</p>
         <div class="detalhes-mecanicos">
@@ -131,7 +78,7 @@
         </div>
       </div>
 
-      <div class="card-antecedente">
+      <div class="card-antecedente" data-categoria="comum" data-nome="artista">
         <h3>Artista</h3>
         <p class="lore-antecedente">O palco é seu lar. Você vive dos aplausos, da música, do teatro ou de performances acrobáticas em tavernas e feiras.</p>
         <div class="detalhes-mecanicos">
@@ -143,9 +90,9 @@
         </div>
       </div>
 
-      <div class="card-antecedente">
+      <div class="card-antecedente" data-categoria="comum" data-nome="charlatao">
         <h3>Charlatão</h3>
-        <p class="lore-antecedente">Você descobriu cedo que as pessoas acreditam no que querem, e usou isso para vender ilusões e falsos tesouros.</p>
+        <p class="lore-antecedente">Você descobriu cedo que as pessoas acreditam no que querem, e usou isso para vender illusions e falsos tesouros.</p>
         <div class="detalhes-mecanicos">
           <p><strong>Atributos:</strong> Destreza, Constituição, Carisma</p>
           <p><strong>Perícias:</strong> Enganação (Deception) e Prestidigitação</p>
@@ -155,7 +102,7 @@
         </div>
       </div>
 
-      <div class="card-antecedente">
+      <div class="card-antecedente" data-categoria="comum" data-nome="criminoso">
         <h3>Criminoso</h3>
         <p class="lore-antecedente">Você sobreviveu operando nas sombras da lei, seja como batedor de carteiras, contrabandista ou executor.</p>
         <div class="detalhes-mecanicos">
@@ -167,7 +114,7 @@
         </div>
       </div>
 
-      <div class="card-antecedente">
+      <div class="card-antecedente" data-categoria="comum" data-nome="eremita">
         <h3>Eremita</h3>
         <p class="lore-antecedente">O isolamento total do mundo exterior permitiu que você escutasse verdades que o caos urbano esconde.</p>
         <div class="detalhes-mecanicos">
@@ -179,7 +126,7 @@
         </div>
       </div>
 
-      <div class="card-antecedente">
+      <div class="card-antecedente" data-categoria="comum" data-nome="escriba">
         <h3>Escriba</h3>
         <p class="lore-antecedente">Você passou anos trancado em grandes bibliotecas, cartórios ou laboratórios dissecando e registrando o conhecimento do mundo.</p>
         <div class="detalhes-mecanicos">
@@ -191,7 +138,7 @@
         </div>
       </div>
 
-      <div class="card-antecedente">
+      <div class="card-antecedente" data-categoria="comum" data-nome="fazendeiro">
         <h3>Fazendeiro</h3>
         <p class="lore-antecedente">A terra sustentou seus ancestrais e moldou suas mãos calejadas. Você entende o ciclo da vida e da colheita.</p>
         <div class="detalhes-mecanicos">
@@ -203,7 +150,7 @@
         </div>
       </div>
 
-      <div class="card-antecedente">
+      <div class="card-antecedente" data-categoria="comum" data-nome="guarda">
         <h3>Guarda</h3>
         <p class="lore-antecedente">Seu trabalho era manter a ordem e proteger os portões de cidadelas ou as caravanas de mercadores ricos contra invasores.</p>
         <div class="detalhes-mecanicos">
@@ -215,7 +162,7 @@
         </div>
       </div>
 
-      <div class="card-antecedente">
+      <div class="card-antecedente" data-categoria="comum" data-nome="guia">
         <h3>Guia</h3>
         <p class="lore-antecedente">Florestas, pântanos e desertos não possuem segredos para você. Seu trabalho era manter viajantes vivos no ermo.</p>
         <div class="detalhes-mecanicos">
@@ -227,7 +174,7 @@
         </div>
       </div>
 
-      <div class="card-antecedente">
+      <div class="card-antecedente" data-categoria="comum" data-nome="marinheiro">
         <h3>Marinheiro</h3>
         <p class="lore-antecedente">O mar aberto moldou seus músculos e sua resiliência mental contra as tempestades e as correntes traiçoeiras.</p>
         <div class="detalhes-mecanicos">
@@ -239,7 +186,7 @@
         </div>
       </div>
 
-      <div class="card-antecedente">
+      <div class="card-antecedente" data-categoria="comum" data-nome="mercador">
         <h3>Mercador</h3>
         <p class="lore-antecedente">Comprar na baixa e vender na alta. Você conhece o valor de cada moeda de ouro e sabe como negociar em qualquer mercado.</p>
         <div class="detalhes-mecanicos">
@@ -251,7 +198,7 @@
         </div>
       </div>
 
-      <div class="card-antecedente">
+      <div class="card-antecedente" data-categoria="comum" data-nome="nobre">
         <h3>Nobre</h3>
         <p class="lore-antecedente">Você nasceu em berço de ouro, cercado de heráldicas, privilégios dinásticos e o peso da política cortesã.</p>
         <div class="detalhes-mecanicos">
@@ -263,7 +210,7 @@
         </div>
       </div>
 
-      <div class="card-antecedente">
+      <div class="card-antecedente" data-categoria="comum" data-nome="sabio">
         <h3>Sábio</h3>
         <p class="lore-antecedente">Você passou anos estudando pergaminhos antigos e teorias complexas para desvendar mistérios históricos ou da natureza.</p>
         <div class="detalhes-mecanicos">
@@ -275,7 +222,7 @@
         </div>
       </div>
 
-      <div class="card-antecedente">
+      <div class="card-antecedente" data-categoria="comum" data-nome="soldado">
         <h3>Soldado</h3>
         <p class="lore-antecedente">Você marchou em formação, escutou os tambores da guerra e sabe exatamente como manter a calma sob pressão militar.</p>
         <div class="detalhes-mecanicos">
@@ -289,7 +236,19 @@
 
     </div>
 
-    </div>
+    <div class="grid-antecedentes" data-categoria="eberron" style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+      <div class="card-antecedente" data-categoria="eberron" data-nome="herdeiro-aberrante">
+        <h3>Herdeiro Aberrante</h3>
+        <p class="lore-antecedente">Sua marca aberrante tem tornado a vida desafiadora desde que se manifestou. Você pode tê-la escondido com sucesso pela maior parte de sua vida ou conseguido evitar ser notado. Alternativamente, você pode ter encontrado suspeita e medo, talvez juntamente com o antagonismo declarado de uma ou mais casas marcadas. Você pode ter formado uma associação com a organização criminosa Casa Tarkanan (nomeada em homenagem a um dos líderes mais notórios dos marcados aberrantes na Guerra das Marcas há vinte e cinco séculos). Ou você pode lutar para encontrar seu próprio caminho no mundo, contando com sua inteligência e o poder de sua marca.</p>
+        <div class="detalhes-mecanicos">
+          <p><strong>Atributos:</strong> Força, Constituição, Carisma</p>
+          <p><strong>Perícias:</strong> História e Intimidação</p>
+          <p><strong>Ferramenta:</strong> Kit de Disfarce</p>
+          <p><strong>Talento de Origem:</strong> <a href="talentos.html?tipo=origem#marca-aberrante" class="badge-feat">Marca Aberrante</a></p>
+          <p><strong>Equipamento:</strong> Escolha A ou B: (A) Adaga, Kit de Disfarce, Fantasia, Roupas de Viajante, 16 PO; ou (B) 50 PO.</p>
+        </div>
+      </div>
+
     </div>
   </div>
 
