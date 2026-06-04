@@ -1,0 +1,119 @@
+/* Filtros Customizados */
+.container-filtros {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 25px 0 35px 0;
+}
+
+.btn-filtro {
+  background: rgba(25, 25, 27, 0.8);
+  border: 1px solid var(--border-fantasy);
+  color: var(--text-soft);
+  padding: 10px 20px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-filtro:hover,
+.btn-filtro.ativo {
+  border-color: #b9770e;
+  color: var(--gold-bright);
+  background: rgba(185, 119, 14, 0.1);
+  box-shadow: 0 0 10px rgba(185, 119, 14, 0.2);
+}
+
+/* Grade de Talentos */
+.grid-talentos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.card-talento {
+  background: rgba(25, 25, 27, 0.9);
+  border: 1px solid var(--border-fantasy);
+  border-top: 4px solid #b9770e;
+  padding: 20px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card-talento:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(185, 119, 14, 0.15);
+}
+
+.card-talento h4 {
+  font-family: 'Cinzel', serif;
+  color: #f39c12;
+  margin: 0 0 10px 0;
+  font-size: 1.25rem;
+  border-bottom: 1px solid rgba(185, 119, 14, 0.2);
+  padding-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+/* Badges de Categoria */
+.badge-tipo {
+  font-size: 0.7rem;
+  padding: 3px 8px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.badge-origem {
+  background: rgba(39, 174, 96, 0.2);
+  color: #2ecc71;
+  border-color: rgba(39, 174, 96, 0.4);
+}
+
+.badge-geral {
+  background: rgba(41, 128, 185, 0.2);
+  color: #3498db;
+  border-color: rgba(41, 128, 185, 0.4);
+}
+
+.badge-luta {
+  background: rgba(230, 126, 34, 0.2);
+  color: #e67e22;
+  border-color: rgba(230, 126, 34, 0.4);
+}
+
+.badge-epico {
+  background: rgba(155, 89, 182, 0.2);
+  color: #9b59b6;
+  border-color: rgba(155, 89, 182, 0.4);
+}
+
+.requisito {
+  font-size: 0.85rem;
+  color: #e74c3c;
+  font-style: italic;
+  margin-bottom: 12px;
+}
+
+.card-talento p {
+  margin: 8px 0;
+}
+
+p strong {
+  color: var(--gold);
+}
