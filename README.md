@@ -6,7 +6,7 @@ Um aplicativo web para recordação de campanhas, guia de criação básico e co
 
 ## 📋 Changelog
 
-### Versão 1.14.1
+### Versão 1.14.1 
 - **Data:** 04/06/2026
 - **Melhorias:**
   - Mudança na página de talentos.
