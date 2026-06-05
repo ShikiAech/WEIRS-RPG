@@ -5,6 +5,17 @@
 Um aplicativo web para recordação de campanhas, guia de criação básico e conteúdo traduzido de D&D 2024.
 
 ## 📋 Changelog
+### Versão 1.14.3
+- **Data:** 04/06/2026
+- **Melhorias:**
+  - Adição de todos os backgrounds do wikidot.
+
+### Versão 1.14.2
+- **Data:** 04/06/2026
+- **Melhorias:**
+  - Mudança na página de talentos.
+    - Remoção das dragonmarks que estavam na categoria geral.
+    - Adição de filtro para a página de antecetendes.
 
 ### Versão 1.14.1 
 - **Data:** 04/06/2026
