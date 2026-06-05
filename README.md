@@ -6,6 +6,11 @@ Um aplicativo web para recordação de campanhas, guia de criação básico e co
 
 ## 📋 Changelog
 ### Versão 1.14.3
+- **Data:** 05/06/2026
+- **Melhorias:**
+  - Adição do capítulo 2 da mesa Othans.
+
+### Versão 1.14.3
 - **Data:** 04/06/2026
 - **Melhorias:**
   - Adição de todos os backgrounds do wikidot.
