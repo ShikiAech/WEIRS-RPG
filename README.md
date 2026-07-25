@@ -5,6 +5,11 @@
 Um aplicativo web para recordação de campanhas, guia de criação básico e conteúdo traduzido de D&D 2024.
 
 ## 📋 Changelog
+### Versão 1.14.8
+- **Data:** 25/07/2026
+- **Melhorias:**
+  - Adição do personagem Sun na página dos Othans.
+
 ### Versão 1.14.7
 - **Data:** 24/07/2026
 - **Melhorias:**
