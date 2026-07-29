@@ -5,148 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Campanhas — Weirs RPG</title>
   <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
-  <style>
-    /* ESTILIZAÇÃO DO PAINEL DE CAMPANHAS */
-    .introducao-campanhas {
-      text-align: center;
-      margin-bottom: 40px;
-    }
+  <link rel="stylesheet" href="/WEIRS-RPG/css/campanhas.css">
 
-    .grid-campanhas {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-      gap: 30px;
-      margin-top: 20px;
-    }
-
-    .card-campanha {
-      background: rgba(25, 25, 27, 0.95);
-      border: 1px solid var(--border-fantasy);
-      border-radius: 6px;
-      padding: 30px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Detalhes temáticos para diferenciar as campanhas */
-    .card-campanha.othans {
-      border-top: 4px solid #8e44ad; /* Roxo Místico */
-    }
-
-    .card-campanha.jungle-jack {
-      border-top: 4px solid #27ae60; /* Verde Taverna */
-    }
-
-    .card-campanha:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
-    }
-
-    .card-campanha.othans:hover {
-      border-color: #8e44ad;
-      box-shadow: 0 10px 25px rgba(142, 68, 173, 0.15);
-    }
-
-    .card-campanha.jungle-jack:hover {
-      border-color: #27ae60;
-      box-shadow: 0 10px 25px rgba(39, 174, 96, 0.15);
-    }
-
-    .emblema-campanha {
-      font-size: 3rem;
-      text-align: center;
-      margin-bottom: 15px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-    }
-
-    .titulo-campanha {
-      font-family: 'Cinzel', serif;
-      color: #f39c12;
-      text-align: center;
-      font-size: 1.5rem;
-      margin-bottom: 15px;
-      letter-spacing: 1px;
-    }
-
-    .sinopse-campanha {
-      font-size: 0.9rem;
-      line-height: 1.6;
-      color: #cbd5e1;
-      text-align: justify;
-      margin-bottom: 25px;
-      flex-grow: 1;
-    }
-
-    .sinopse-campanha strong {
-      color: #f1c40f;
-    }
-
-    .meta-campanha-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px 12px;
-      background: rgba(20, 20, 22, 0.6);
-      padding: 12px;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      margin-bottom: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.02);
-    }
-
-    .meta-item-campanha {
-      color: #d0d0d0;
-    }
-
-    .meta-item-campanha strong {
-      color: #f1c40f;
-      font-family: 'Cinzel', serif;
-    }
-
-    /* BOTÃO ESTILO RAÇAS E CLASSES */
-    .btn-campanha {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      text-align: center;
-      background: rgba(20, 20, 22, 0.8);
-      border: 1px solid var(--border-fantasy);
-      color: #fff;
-      font-family: 'Cinzel', serif;
-      font-size: 0.9rem;
-      text-decoration: none;
-      border-radius: 4px;
-      letter-spacing: 1px;
-      transition: all 0.2s ease;
-    }
-
-    .card-campanha.othans .btn-campanha:hover {
-      background: #8e44ad;
-      border-color: #a29bfe;
-      color: #fff;
-      box-shadow: 0 0 10px rgba(142, 68, 173, 0.4);
-    }
-
-    .card-campanha.jungle-jack .btn-campanha:hover {
-      background: #27ae60;
-      border-color: #55efc4;
-      color: #fff;
-      box-shadow: 0 0 10px rgba(39, 174, 96, 0.4);
-    }
-  </style>
 </head>
 <body>
 
   <script src="/WEIRS-RPG/javascript/menu.js"></script>
 
   <div class="container">
-    <!--
-    <div style="margin-bottom: 30px;">
-      <a href="/WEIRS-RPG/index.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar ao Início</a>
-    </div> -->
 
     <div class="introducao-campanhas">
       <div class="card-rpg" style="max-width: 900px; margin: 0 auto; padding: 25px;">
@@ -178,6 +44,28 @@
         </div>
         
         <a href="othans.html" class="btn-campanha">Explorar Campanha &rarr;</a>
+      </div>
+
+      <div class="card-campanha epm-502">
+        <div>
+          <h3 class="titulo-campanha">Escola de Princípios Místicos</h3>
+          
+          <div class="meta-campanha-grid">
+            <div class="meta-item-campanha"><strong>Duração:</strong> One-shot</div>
+            <div class="meta-item-campanha"><strong>Nível:</strong> 4</div>
+            <div class="meta-item-campanha" style="grid-column: 1 / -1;"><strong>Mestre:</strong> Luva</div>
+          </div>
+          
+          <p class="sinopse-campanha">
+            Há quatro séculos, as terras nativas de Gorvahn pertenciam a elfos e fadas, até serem colonizadas pela expansão humana. Após duzentos anos de marginalização, a descoberta do poder bélico da magia élfica levou Gorvahn a se aliar ao reino de Therpya, fundando o <strong>Império Unificado</strong> e oficializando o uso dos elfos como armas de guerra descartáveis. Outras raças como Draconianos, Onis, Demônios, Ogros e Namyrianos continuaram sofrendo opressão severa. Vendo a magia como o único meio de libertação, os magos ancestrais <strong>Malken Leodan</strong> e <strong>Luthier Sovel</strong> fundaram secretamente a <strong>EPM</strong> (Escola de Princípios Místicos). O racha entre eles ocorreu quando o Império exigiu acesso total aos registros dos alunos. Luthier aceitou para mudar o sistema por dentro; Malken recusou-se a expor seus protegidos, aliou-se à guerrilha e tornou-se o terrorista mais procurado do reino.
+            <br><br>
+            Vocês são alunos não-humanos do segundo ano da EPM, bolsistas carentes que receberam 300 peças de ouro para gastar na lojinha de suprimentos mágicos do campus. A rotina de estudos é interrompida quando o reitor <strong>Luthier Sovel</strong> os convoca secretamente. A missão é urgente: Malken Leodan cruzou uma linha perigosa ao capturar a filha de um Barão do Império. Há um infiltrado entre os rebeldes, e o exército imperial planeja uma emboscada nas próximas horas. Luthier acredita que seu velho amigo ainda tem salvação e não pode deixá-lo morrer nesse massacre.
+            <br><br>
+            Vocês têm nível mágico menor, perfeitos para cruzar as patrulhas da fronteira sem chamar atenção. A missão é clara: encontrem o acampamento antes do exército, avisem Malken sobre a emboscada, salvem sua vida e resgatem a filha do barão para conter a retaliação do Império. Com o mapa em mãos e os equipamentos comprados, o destino de Malken e da refém está em suas mãos.
+          </p>
+        </div>
+        
+        <a href="epm.html" class="btn-campanha">Explorar Campanha &rarr;</a>
       </div>
 
       <div class="card-campanha jungle-jack">

@@ -5,7 +5,11 @@
 Um aplicativo web para recordação de campanhas, guia de criação básico e conteúdo traduzido de D&D 2024.
 
 ## 📋 Changelog
-### Versão 1.14.8
+### Versão 1.14.9
+- **Data:** 29/07/2026
+- **Melhorias:**
+  - Adição da campanha EPM - Escola de Princípios Místicos.
+
 - **Data:** 25/07/2026
 - **Melhorias:**
   - Adição do personagem Sun na página dos Othans.

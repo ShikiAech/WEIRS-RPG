@@ -1,0 +1,149 @@
+/* ESTILIZAÇÃO DO PAINEL DE CAMPANHAS */
+    .introducao-campanhas {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .grid-campanhas {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .card-campanha {
+      background: rgba(25, 25, 27, 0.95);
+      border: 1px solid var(--border-fantasy);
+      border-radius: 6px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Detalhes temáticos para diferenciar as campanhas */
+    .card-campanha.othans {
+      border-top: 4px solid #8e44ad; /* Roxo Místico */
+    }
+
+    .card-campanha.jungle-jack {
+      border-top: 4px solid #27ae60; /* Verde Taverna */
+    }
+
+    .card-campanha:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+    }
+
+    .card-campanha.othans:hover {
+      border-color: #8e44ad;
+      box-shadow: 0 10px 25px rgba(142, 68, 173, 0.15);
+    }
+
+    .card-campanha.jungle-jack:hover {
+      border-color: #27ae60;
+      box-shadow: 0 10px 25px rgba(39, 174, 96, 0.15);
+    }
+
+    .emblema-campanha {
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 15px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    }
+
+    .titulo-campanha {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      text-align: center;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+    }
+
+    .sinopse-campanha {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #cbd5e1;
+      text-align: justify;
+      margin-bottom: 25px;
+      flex-grow: 1;
+    }
+
+    .sinopse-campanha strong {
+      color: #f1c40f;
+    }
+
+    .meta-campanha-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 12px;
+      background: rgba(20, 20, 22, 0.6);
+      padding: 12px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.02);
+    }
+
+    .meta-item-campanha {
+      color: #d0d0d0;
+    }
+
+    .meta-item-campanha strong {
+      color: #f1c40f;
+      font-family: 'Cinzel', serif;
+    }
+
+    /* BOTÃO ESTILO RAÇAS E CLASSES */
+    .btn-campanha {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      text-align: center;
+      background: rgba(20, 20, 22, 0.8);
+      border: 1px solid var(--border-fantasy);
+      color: #fff;
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      text-decoration: none;
+      border-radius: 4px;
+      letter-spacing: 1px;
+      transition: all 0.2s ease;
+    }
+
+    .card-campanha.othans .btn-campanha:hover {
+      background: #8e44ad;
+      border-color: #a29bfe;
+      color: #fff;
+      box-shadow: 0 0 10px rgba(142, 68, 173, 0.4);
+    }
+
+    .card-campanha.jungle-jack .btn-campanha:hover {
+      background: #27ae60;
+      border-color: #55efc4;
+      color: #fff;
+      box-shadow: 0 0 10px rgba(39, 174, 96, 0.4);
+    }
+
+        /* Adicione esta regra à classe .card-campanha existente */
+    .card-campanha.epm-502 {
+      border-top: 4px solid #e67e22; /* Laranja - mistério/urgência */
+    }
+
+    /* Adicione esta regra para o hover da campanha EPM */
+    .card-campanha.epm-502:hover {
+      border-color: #e67e22;
+      box-shadow: 0 10px 25px rgba(230, 126, 34, 0.15);
+    }
+
+    /* Adicione esta regra para o botão da campanha EPM */
+    .card-campanha.epm-502 .btn-campanha:hover {
+      background: #e67e22;
+      border-color: #f39c12;
+      color: #fff;
+      box-shadow: 0 0 10px rgba(230, 126, 34, 0.4);
+    }

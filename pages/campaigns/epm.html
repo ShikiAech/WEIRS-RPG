@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Taverna de Jungle Jack — Weirs RPG</title>
+  <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+  <link rel="stylesheet" href="/WEIRS-RPG/css/camp-cards.css">
+  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+  <script src="/WEIRS-RPG/javascript/modal.js"></script>
+  <style>
+    .header-campanha {
+      text-align: center;
+      border-bottom: 2px solid #e67e22;
+      padding-bottom: 20px;
+      margin-bottom: 40px;
+    }
+    .header-campanha h1 {
+      font-family: 'Cinzel', serif;
+      color: #cc952e;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    .badge-status {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(190, 120, 40, 0.2);
+      border: 1px solid #e67e22;
+      color: #cc752e;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .bloco-aviso {
+      background: rgba(174, 138, 39, 0.05);
+      border-left: 4px solid #e67e22;
+      padding: 20px;
+      margin-bottom: 40px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-aviso h4 {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    .secao-personagens {
+      margin-top: 30px;
+    }
+    .secao-personagens h3 {
+      font-family: 'Cinzel', serif;
+      color: #f39c12;
+      border-bottom: 1px solid var(--border-fantasy);
+      padding-bottom: 10px;
+      margin-bottom: 25px;
+    }
+    .grid-personagens {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .card-pj {
+      background: rgba(27, 26, 25, 0.9);
+      border: 1px solid var(--border-fantasy);
+      border-radius: 4px;
+      padding: 20px;
+      transition: border-color 0.2s;
+    }
+    .card-pj:hover {
+      border-color: #e67e22;
+    }
+    .nome-pj {
+      font-family: 'Cinzel', serif;
+      color: #fff;
+      font-size: 1.2rem;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    .detalhe-pj {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      margin-bottom: 4px;
+    }
+    .detalhe-pj strong {
+      color: #f1c40f;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="/WEIRS-RPG/pages/campaigns/campanhas.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Campanhas</a>
+    </div>
+
+    <div class="header-campanha">
+      <h1>A TAVERNA DE JUNGLE JACK</h1>
+      <span class="badge-status">One Shot (Ano 502)</span>
+    </div>
+
+    <!-- Grid de Cards -->
+      <div class="camps-grid" id="campsGrid">
+          <!-- Card 1 - Capítulo 1 -->
+          <div class="camp-card" data-modal="modal-cap1">
+              <h3>📜 CAPÍTULO 1 - 00/00/0000</h3>
+              <div class="camp-details-preview">
+                  <p>ResumO!</p>
+              </div>
+              <div class="camp-meta">
+              </div>
+          </div>
+
+          <!-- Adicione mais cards conforme as sessões avançarem -->
+      </div>
+
+      <!-- Modal 1 - Capítulo 1 -->
+      <div id="modal-cap1" class="modal">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <div class="modal-title">Capítulo 1 - Leitada na cara</div>
+          <div class="modal-date">6 de Julho de 420</div>
+          <div class="modal-desc">
+            <p>MUITO LEEEITEEE <strong>AAAIIIIINN</strong></p>
+          </div>
+        </div>
+      </div>
+
+    <div class="secao-personagens">
+      <h3>Personagens</h3>
+      <div class="grid-personagens">
+        
+        <div class="card-pj">
+          <h4 class="nome-pj">Nome do Personagem - Nome do Jogador</h4>
+          <div class="detalhe-pj"><strong>Raça:</strong> --- </div>
+          <div class="detalhe-pj"><strong>Classe:</strong> --- </div>
+          <div class="detalhe-pj" style="margin-top: 10px; font-style: italic; color: #a6acaf;">Espaço reservado para uma breve descrição ou frase marcante do herói.</div>
+        </div>
+
+         <div class="card-pj">
+          <h4 class="nome-pj">Nome do Personagem - Nome do Jogador</h4>
+          <div class="detalhe-pj"><strong>Raça:</strong> --- </div>
+          <div class="detalhe-pj"><strong>Classe:</strong> --- </div>
+          <div class="detalhe-pj" style="margin-top: 10px; font-style: italic; color: #a6acaf;">Espaço reservado para uma breve descrição ou frase marcante do herói.</div>
+        </div>
+
+        <div class="card-pj">
+          <h4 class="nome-pj">Nome do Personagem - Nome do Jogador</h4>
+          <div class="detalhe-pj"><strong>Raça:</strong> --- </div>
+          <div class="detalhe-pj"><strong>Classe:</strong> --- </div>
+          <div class="detalhe-pj" style="margin-top: 10px; font-style: italic; color: #a6acaf;">Espaço reservado para uma breve descrição ou frase marcante do herói.</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
