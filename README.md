@@ -5,6 +5,13 @@
 Um aplicativo web para recordação de campanhas, guia de criação básico e conteúdo traduzido de D&D 2024.
 
 ## 📋 Changelog
+### Versão 1.14.11
+- **Data:** 04/08/2026
+- **Melhorias:**
+  - Adição do capítulo 10 da mesa Othans.
+  - Correção das datas dos capítulos anteriores.
+
+### Versão 1.14.10
 - **Data:** 03/08/2026
 - **Melhorias:**
   - Adição do capítulo 9 da mesa Othans.
