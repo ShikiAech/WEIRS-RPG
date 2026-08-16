@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crônicas de Othans — Weirs RPG</title>
   <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+  <link rel="stylesheet" href="/WEIRS-RPG/css/camp-cards.css">
+  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+  <script src="/WEIRS-RPG/javascript/modal.js"></script>
   <style>
     .header-campanha {
       text-align: center;
@@ -37,6 +40,13 @@
       margin-bottom: 40px;
       border-radius: 0 4px 4px 0;
     }
+
+    .bloco-aviso-content {
+      padding-right: 15px;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+
     .bloco-aviso h4 {
       font-family: 'Cinzel', serif;
       color: #f39c12;
@@ -87,7 +97,7 @@
 </head>
 <body>
 
-  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+
 
   <div class="container">
     
@@ -100,42 +110,747 @@
       <span class="badge-status">Campanha Contínua (Ano 502)</span>
     </div>
 
-    <div class="bloco-aviso">
-      <h4>TRAMAS</h4>
-      <p style="font-size: 0.9rem; color: #cbd5e1; margin: 0;">
-        Aqui serão registrados os acontecimentos das tramas...
-      </p>
-    </div>
+    <!-- Grid de Cards -->
+      <div class="camps-grid" id="campsGrid">
+          <!-- Capítulo 1 -->
+          <div class="camp-card" data-modal="modal-cap1">
+              <h3>📜 CAPÍTULO 1 - 27/05/2026</h3>
+              <div class="camp-details-preview">
+                  <p>Danael, o Arcanjo da Terra, reúne cinco desconhecidos nos arredores de Hanzou. A missão: encontrar o verdadeiro Dragma...</p>
+              </div>
+              <div class="camp-meta">
+              </div>
+          </div>
 
-    <div class="secao-personagens">
-      <h3>Personagens Jogadores</h3>
-      <div class="grid-personagens">
-        
-        <div class="card-pj">
-          <h4 class="nome-pj">Nome do Personagem - Nome do Jogador</h4>
-          <div class="detalhe-pj"><strong>Raça:</strong> --- </div>
-          <div class="detalhe-pj"><strong>Classe:</strong> --- </div>
-          <div class="detalhe-pj" style="margin-top: 10px; font-style: italic; color: #a6acaf;">Espaço reservado para uma breve descrição ou frase marcante do herói.</div>
+          <!-- Capítulo 2 -->
+          <div class="camp-card" data-modal="modal-cap2">
+              <h3>📜 CAPÍTULO 2 - 02/06/2026</h3>
+              <div class="camp-details-preview">
+                  <p>Othans aceitam uma nova missão da ferreira local para recuperar seu material roubado, mas são forçados a recuar com a ajuda de Nadja...</p>
+              </div>
+              <div class="camp-meta">
+              </div>
+          </div>
+
+          <!-- Capítulo 3 -->
+          <div class="camp-card" data-modal="modal-cap3">
+            <h3>📜 CAPÍTULO 3 - 10/06/2026</h3>
+            <div class="camp-details-preview">
+              <p>Após a derrota humilhante contra os demônios, os Othans se dividem para invadir a base phandoriana em busca do livro de registros, enquanto Henry, Fen Ri e Zephira enfrentam uma provação mística na montanha e descobrem que a resistência de Yan Li planeja uma emboscada contra os ocupantes de Hanzou...</p>
+            </div>
+            <div class="camp-meta">
+            </div>
+          </div>
+
+          <!-- Capítulo 4 -->
+          <div class="camp-card" data-modal="modal-cap4">
+            <h3>📜 CAPÍTULO 4 - 17/06/2026</h3>
+            <div class="camp-details-preview">
+              <p>Kyusaki e Rashad se infiltram na base phandoriana para roubar o livro de registros, mas Rashad desaparece misteriosamente; enquanto Zephira busca pelo pai e Kyusaki descobre que Ming partiu para Yorozu, os Othans precisam levantar fundos para a viagem, mas ao se prepararem para partir, descobrem que XingXing foi presa pela patrulha, forçando-os a escolher entre a missão divina e a luta por Hanzou...</p>
+            </div>
+            <div class="camp-meta">
+            </div>
+          </div>
+
+          <!-- Capítulo 5 -->
+          <div class="camp-card" data-modal="modal-cap5">
+            <h3>📜 CAPÍTULO 5 - 01/07/2026</h3>
+            <div class="camp-details-preview">
+              <p>Enquanto a ferreira lidera o resgate dos prisioneiros em Hanzou, os Othans se juntam a Yan Li e aos Simyaris para emboscar as tropas de Phandor nas gargantas da montanha; após uma batalha brutal contra a elite colonial, a cidade é libertada e os heróis recebem a Água do Ordo e um navio para continuarem sua jornada em direção a Yorozu...</p>
+            </div>
+            <div class="camp-meta">
+            </div>
+          </div>
+
+          <!-- Capítulo 6 -->
+          <div class="camp-card" data-modal="modal-cap6">
+            <h3>📜 CAPÍTULO 6 - 08/07/2026</h3>
+            <div class="camp-details-preview">
+              <p>Os Othans enfrentam um clérigo fanático de Phandor que invoca um sinalizador mágico; após a libertação de Hanzou, partem para a costa e negociam itens mágicos com um mercador, mas ao zarparem em direção a Yorozu, testemunham um dragão negro voando para destruir a cidade que libertaram, forçando-os a seguir viagem impotentes...</p>
+            </div>
+            <div class="camp-meta">
+            </div>
+          </div>
+
+          <!-- Capítulo 7 -->
+          <div class="camp-card" data-modal="modal-cap7">
+            <h3>📜 CAPÍTULO 7 - 15/07/2026</h3>
+            <div class="camp-details-preview">
+              <p>Durante a viagem marítima, os Othans enfrentam piratas e resgatam uma misteriosa garota chamada Juno, que se revela uma vampira e os ataca; após uma batalha claustrofóbica no porão, Kyusaki a destrói com luz solar refletida. Ao chegarem em Yorozu, encontram um fazendeiro amaldiçoado chamado Shun, um nobre arrogante filho do Barão local, e descobrem que a cidade é assolada por mortes misteriosas.</p>
+            </div>
+            <div class="camp-meta">
+            </div>
+          </div>
+
+          <!-- Capítulo 8 -->
+          <div class="camp-card" data-modal="modal-cap8">
+            <h3>📜 CAPÍTULO 8 - 23/07/2026</h3>
+            <div class="camp-details-preview">
+              <p>Henry finalmente se junta ao grupo em Yorozu, onde encontram Sun, outro amaldiçoado amnésico. Na capela, Frei Sato revela a história da rebelião contra Phandor e sugere que procurem Sarah Rubris. Após negociações com o Barão, os Othans aceitam proteger a fazenda durante a lua cheia em troca de 300 moedas de ouro para comprar um pergaminho de Remover Maldição, mas descobrem que Sarah pode estar envolvida no roubo da caixa mística de Sun.</p>
+            </div>
+            <div class="camp-meta">
+            </div>
+          </div>
+
+          <!-- Capítulo 9 -->
+          <div class="camp-card" data-modal="modal-cap9">
+            <h3>📜 CAPÍTULO 9 - 29/07/2026</h3>
+            <div class="camp-details-preview">
+              <p>Kyusaki é infectado pela maldição do lobisomem ao consumir a sopa da taverna, e a investigação revela que a Família Rubris alimenta a população com carne humana amaldiçoada fornecida por Phandor, enquanto Zephira, também infectada, desaparece; Kai, o mercador, revela-se um agente secreto que planeja invadir as criptas para libertar os prisioneiros.</p>
+            </div>
+            <div class="camp-meta">
+            </div>
+          </div>
+
+          <!-- Capítulo 10 -->
+          <div class="camp-card" data-modal="modal-cap10">
+          <h3>📜 CAPÍTULO 10 - 05/08/2026</h3>
+          <div class="camp-details-preview">
+            <p>Zephira retorna, mas a revelação de que Kyusaki era um agente de Phandor abala o grupo; após uma perseguição e confronto, ele é perdoado. Sarah devolve a caixa de Sun, e a investigação na vinícola revela frascos de sangue humano, documentos de refugiados e um alçapão com um fedor insuportável de carne podre, desencadeando a maldição de Zephira.</p>
+          </div>
+          <div class="camp-meta">
+          </div>
         </div>
 
-        <div class="card-pj">
-          <h4 class="nome-pj">Nome do Personagem - Nome do Jogador</h4>
-          <div class="detalhe-pj"><strong>Raça:</strong> --- </div>
-          <div class="detalhe-pj"><strong>Classe:</strong> --- </div>
-          <div class="detalhe-pj" style="margin-top: 10px; font-style: italic; color: #a6acaf;">Espaço reservado para uma breve descrição ou frase marcante do herói.</div>
-        </div>
 
-        <div class="card-pj">
-          <h4 class="nome-pj">Nome do Personagem - Nome do Jogador</h4>
-          <div class="detalhe-pj"><strong>Raça:</strong> --- </div>
-          <div class="detalhe-pj"><strong>Classe:</strong> --- </div>
-          <div class="detalhe-pj" style="margin-top: 10px; font-style: italic; color: #a6acaf;">Espaço reservado para uma breve descrição ou frase marcante do herói.</div>
-        </div>
 
       </div>
-    </div>
 
-  </div>
+      <!-- Personagens -->
+      <div class="secao-personagens">
+        <h3>Personagens Jogadores</h3>
+        <div class="grid-personagens">
+          
+          <div class="card-pj">
+            <h4 class="nome-pj">Kyusaki - Felipe</h4>
+            <div class="detalhe-pj"><strong>Raça:</strong> Cranori</div>
+            <div class="detalhe-pj"><strong>Classe: </strong> Pistoleiro</div>
+            <div class="detalhe-pj" style="margin-top: 10px; font-style: italic; color: #a6acaf;">Kyusaki nasceu entre os Cranori, um povo que venerava a força acima de tudo. Crescendo sob uma tradição brutal onde irmãos deviam lutar até a morte, ele nunca conseguiu aceitar completamente os costumes de sua tribo. Sua única paz vinha dos encontros secretos com uma misteriosa fada nos limites das praias cranoris, que lhe contava histórias sobre o mundo além das ilhas. Quando o dia de enfrentar o próprio irmão chegou, Kyusaki venceu, mas recusou-se a matá-lo. Desonrado perante sua família e seu povo, foi espancado até quase morrer pelo próprio pai. Salvo pela fada, que sacrificou a própria vida para curá-lo, Kyusaki retornou consumido pela dor e pela fúria. Após matar o pai, utilizou seus ossos para forjar sua Relíquia Etérea: uma pistola de osso alimentada por energia espiritual. Desde então, vaga pelo mundo como mercenário, carregando consigo o eco da alma da fada que o salvou.</div>
+          </div>
+
+          <div class="card-pj">
+            <h4 class="nome-pj">Henry Avery - Ayrllon</h4>
+            <div class="detalhe-pj"><strong>Raça:</strong> Namyriano</div>
+            <div class="detalhe-pj"><strong>Classe:</strong> Bardo</div>
+            <div class="detalhe-pj" style="margin-top: 10px; font-style: italic; color: #a6acaf;">Henry Avery e sua esposa Sabrina viajavam pelo mundo como artistas itinerantes, levando música e alegria por onde passavam. Ao chegarem em Xintai, encontraram um povo destruído pela ocupação imperial e decidiram criar um clube clandestino para devolver esperança através da arte. Porém, o Império descobriu o local e todos foram presos. Henry e Sabrina foram levados para a terrível Divisão Leviathan, onde sofreram anos de torturas e experimentos. Sabrina acabou morrendo, e Henry perdeu quase completamente sua sanidade. Vagando sem rumo após escapar durante uma rebelião, ele encontrou no chamado de Danael talvez a última razão para continuar vivendo.</div>
+          </div>
+
+          <div class="card-pj">
+            <h4 class="nome-pj">Fen Ri - Raissa</h4>
+            <div class="detalhe-pj"><strong>Raça:</strong> Humana</div>
+            <div class="detalhe-pj"><strong>Classe:</strong> Bárbara</div>
+            <div class="detalhe-pj" style="margin-top: 10px; font-style: italic; color: #a6acaf;">Fen Ri nasceu em um pequeno vilarejo de Longyen, em Xintai, onde atuava como guarda local e utilizava sua força para proteger os moradores. Vivendo apenas ao lado do irmão mais novo, gravemente doente, Fen lutava diariamente para conseguir dinheiro suficiente para manter seus tratamentos. Quando o Império Unificado chegou oferecendo ouro em troca de informações sobre a vila e suas rotas secretas, o desespero falou mais alto. Fen aceitou o acordo, mas acabou perdendo tudo: seu irmão morreu, e seu povo passou a enxergá-la como uma traidora. Consumida pela culpa e pela raiva, ela abandonou sua terra natal e passou a sobreviver em lutas clandestinas, até receber o misterioso chamado de Danael.</div>
+          </div>
+
+          <div class="card-pj">
+            <h4 class="nome-pj">Zephira - Saloto</h4>
+            <div class="detalhe-pj"><strong>Raça:</strong> Humana</div>
+            <div class="detalhe-pj"><strong>Classe:</strong> Patrulheira</div>
+            <div class="detalhe-pj" style="margin-top: 10px; font-style: italic; color: #a6acaf;">Zephira nasceu no momento em que sua mãe sacrificou a própria alma em um pacto demoníaco para salvar Rashad. Marcada desde o nascimento pela influência de Apófis, ela cresceu carregando habilidades serpentescas e um destino que jamais escolheu. Criada em meio à fuga, à guerra e à resistência contra Elinor nas terras de Namyr, Zephira aprendeu desde cedo a sobreviver em um mundo cruel. Ao lado do pai, tornou-se uma patrulheira habilidosa e uma combatente implacável, mesmo sem jamais compreender totalmente a origem dos poderes que herdou. Agora, atendendo ao chamado de Danael, ela parte para Xintai em busca de respostas e talvez de um propósito maior do que a maldição que carrega.</div>
+          </div>
+
+          <div class="card-pj">
+            <h4 class="nome-pj">Rashad - Braia</h4>
+            <div class="detalhe-pj"><strong>Raça:</strong> Humano</div>
+            <div class="detalhe-pj"><strong>Classe:</strong> Monge</div>
+            <div class="detalhe-pj" style="margin-top: 10px; font-style: italic; color: #a6acaf;">Rashad trabalhou durante anos como mercenário para o reino de Elinor ao lado de sua esposa, vivendo uma vida relativamente confortável. Porém, tudo mudou quando ela engravidou. Desejando abandonar as missões mais perigosas e construir uma vida pacífica, Rashad procurou o reino em busca de trabalhos menos arriscados. Em resposta, foi enviado para uma missão suicida e instruído a realizar um pacto demoníaco para sobreviver. A entidade Apófis exigiu duas almas em troca do poder necessário. Incapaz de aceitar o preço, Rashad hesitou… mas sua esposa tomou a decisão por ele. Ela entregou sua própria alma para salvar a família, desaparecendo no instante do pacto e deixando para trás apenas a filha recém-nascida. Devastado, Rashad fugiu com a criança e passou a viver como refugiado, carregando os poderes amaldiçoados da serpente que agora corriam em seu sangue.</div>
+          </div>
+
+          <div class="card-pj">
+            <h4 class="nome-pj">Sun - Deyrick</h4>
+            <div class="detalhe-pj"><strong>Raça:</strong> Simyari</div>
+            <div class="detalhe-pj"><strong>Classe:</strong> Monge</div>
+            <div class="detalhe-pj" style="margin-top: 10px; font-style: italic; color: #a6acaf;">Desde sua infância no Mosteiro de Shiyun, Sun sempre foi diferente dos demais aprendizes. Enquanto os outros encontravam paz na disciplina, ele via o mundo como um enorme quebra-cabeça, movido por uma curiosidade insaciável que o levava a explorar tudo ao seu redor. Apenas a Mestra Yue compreendia sua natureza, guiando sua curiosidade em vez de tentar sufocá-la. Certo dia, Yue lhe confiou uma pequena caixa cilíndrica de madeira escura e bronze, com mecanismos complexos, e pediu que a entregasse a um antigo companheiro chamado Wen. Sun nunca conseguiu abri-la, mesmo após anos tentando, e passou a aceitar trabalhos como mensageiro e escolta para financiar sua jornada, sempre carregando a caixa consigo. O que ele ainda não sabia é que o verdadeiro segredo nunca esteve dentro da caixa, mas na pessoa destinada a carregá-la.</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Capítulo 1 -->
+      <div id="modal-cap1" class="modal">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <div class="modal-title">Capítulo 1 - O Chamado de Danael</div>
+          <div class="modal-date">27 de Maio de 2026</div>
+          <div class="modal-desc">
+            <p>O ano era 502. Enquanto o continente de Yozaki afundava lentamente sob a expansão do Império Unificado e a ocupação militar de Phandor, cinco desconhecidos receberam cartas assinadas por uma entidade impossível de ignorar: Danael, o Arcanjo da Terra. Guiados pelas mensagens, os cinco se encontraram em um ponto isolado nos arredores de Hanzou.</p>
+
+            <p>Fen Ri foi a primeira a chegar, desconfiada e silenciosa como sempre. Pouco depois surgiu Kyusaki, o cranori armado com sua estranha pistola de ossos. Antes que os dois pudessem conversar direito, um homem surgiu tocando um alaúde despreocupadamente pela estrada: Henry Avery. Fen claramente não gostou da música, mas Kyusaki imediatamente entrou no clima, começando a cantar e dançar junto do desconhecido como se fossem velhos amigos.</p>
+
+            <p>Logo depois chegaram Rashad e Zephira. Henry se assustou momentaneamente ao ver a serpente da garota, mas rapidamente voltou a tocar. Rashad reconheceu Henry como um namyriano do clã da montanha e imediatamente ficou desconfiado, lembrando-se de experiências ruins que teve com membros daquele povo no passado.</p>
+
+            <p>Os cinco discutiram brevemente sobre as cartas recebidas e levantaram a possibilidade de tudo aquilo ser uma armadilha. Foi então que o céu se abriu. Danael desceu diante deles. O Arcanjo da Terra pousou calmamente no local, apresentando-se como o responsável por reuni-los ali. Sem perder tempo, revelou a verdade sobre o mundo atual. O Império Unificado havia apresentado ao mundo, anos atrás, uma falsa criança da profecia, utilizando a mentira para expandir sua influência política e religiosa.</p>
+
+            <p>Mas o verdadeiro Dragma ainda existia, perdido em algum lugar de Yozaki. Danael explicou que havia reunido aqueles cinco para assumirem o papel dos novos Othans, os antigos guardiões responsáveis por encontrar e proteger o verdadeiro Dragma.</p>
+
+            <p>Rashad questionou imediatamente por que o próprio arcanjo não fazia aquilo sozinho. Danael respondeu que os antigos Othans eram mortais justamente porque conseguiam caminhar entre os povos sem chamar atenção, algo impossível para uma entidade como ele. Além disso, revelou que estava ocupado lidando com ameaças ainda maiores.</p>
+
+            <p>Mesmo desconfiado, Rashad aceitou continuar ouvindo. Kyusaki perguntou se havia alguma pista sobre a criança. Danael revelou que sentira o Éter do Dragma durante uma de suas preces e que a última presença detectada vinha da cidade de Hanzou. Também revelou o nome da mãe da criança: Ming.</p>
+
+            <p>Era tudo que possuía. A escassez de informações claramente frustrou o grupo. Zephira então perguntou o que exatamente eles ganhariam ajudando naquela missão. Danael respondeu que o avanço do Império colocava o futuro do mundo inteiro em risco. Além disso, afirmou acreditar que cada um deles havia sido guiado até ali por um propósito maior e que poderia ajudá-los a encontrar aquilo que mais buscavam.</p>
+
+            <p>A resposta despertou o interesse imediato de Zephira. Antes de partir, Danael entregou ao grupo um mapa de Xintai e uma esfera de comunicação capaz de convocá-lo uma única vez. Então desapareceu.</p>
+
+            <p>Mesmo após a saída do arcanjo, Kyusaki afirmou que poderia resolver tudo sozinho caso os outros quisessem desistir. Ninguém recuou. Fen admitiu que precisava fazer aquilo para tentar se redimir de erros do passado. Rashad e Zephira concluíram que, caso o Império continuasse crescendo, talvez não existisse mais Namyr para proteger no futuro.</p>
+
+            <p>O grupo então seguiu para Hanzou. Nos portões da cidade foram recebidos por soldados phandorianos que verificaram seus documentos sem grandes dificuldades. Kyusaki apresentou todos como mercenários em busca de trabalho e hospedagem. Um dos soldados comentou que Phandor frequentemente contratava aventureiros para serviços diversos.</p>
+
+            <p>Ao entrarem na cidade, encontraram um ambiente aparentemente tranquilo e organizado. Decidiram então se separar para procurar informações sobre Ming.</p>
+
+            <p>Rashad e Zephira foram até o estábulo, onde conversaram com a dona do local tentando descobrir algo sobre uma mulher acompanhada de uma criança. A proprietária explicou que muitas pessoas haviam deixado a cidade recentemente, enquanto outras tantas haviam chegado fugindo dos conflitos, tornando difícil lembrar de nomes específicos. Quando Zephira perguntou o motivo da fuga de tantos moradores, a mulher pareceu desconfortável antes de responder que nem todos aceitavam a "ordem" trazida por Phandor.</p>
+
+            <p>Enquanto isso, Kyusaki e Henry foram até a taverna da cidade. Lá conheceram o velho Tao, um homem receptivo e falante. Henry tomou cerveja enquanto Kyusaki apenas pediu pão e chá. Tao comentou que a cidade estava mais segura desde a chegada dos phandorianos e explicou que aquela região próxima aos portões servia como área de contenção para recém-chegados.</p>
+
+            <p>Durante a conversa, os dois notaram uma mulher sentada ao fundo da taverna segurando um bebê no colo. Desconfiados de que ela pudesse ser Ming, chamaram o restante do grupo. Zephira aproximou-se cuidadosamente e conversou com a mulher, descobrindo que ela afirmava se chamar XingXing. Disse ter fugido de Baoshan após perder o marido durante os conflitos e agora tentava sobreviver sozinha cuidando do filho.</p>
+
+            <p>Zephira demonstrou empatia pela situação da mulher e comentou que talvez pudesse ajudá-la com a criança. XingXing agradeceu e saiu em busca de trabalho pela cidade. Kyusaki decidiu segui-la discretamente. Durante o trajeto, viu a mulher tentar conseguir emprego na loja de poções local, mas o velho alquimista recusou contratá-la por ela ter um bebê.</p>
+
+            <p>Mais tarde, Kyusaki conversou diretamente com XingXing e ofereceu ajuda. A mulher demonstrou gratidão, mas admitiu não confiar facilmente em estranhos, principalmente quando se tratava de seu filho.</p>
+
+            <p>Ao retornar para o grupo, Kyusaki compartilhou suas suspeitas. Todos começaram a considerar a possibilidade de XingXing estar escondendo sua verdadeira identidade.</p>
+
+            <p>Buscando dinheiro e possíveis informações, Kyusaki dirigiu-se até a base militar phandoriana. Lá recebeu uma proposta: eliminar um pequeno acampamento do Império Unificado nos arredores da cidade e recuperar um pergaminho selado pertencente ao império rival. Em troca, receberiam cinquenta moedas de ouro.</p>
+
+            <p>Henry aproveitou o tempo para visitar a ferraria local, onde conheceu uma jovem ogra extremamente habilidosa trabalhando entre armas e metais. Interessou-se por uma cimitarra impecável, mas não possuía ouro suficiente para comprá-la. Antes de ir embora, a ferreira o alertou para não confiar demais em Phandor.</p>
+
+            <p>Reunidos novamente, os cinco aceitaram a missão dos phandorianos e partiram rumo à floresta. No caminho descobriram que Phandor evitava atacar diretamente o Império Unificado para impedir uma guerra oficial, utilizando mercenários para realizar o trabalho sujo.</p>
+
+            <p>Ao chegarem no acampamento inimigo, traçaram um plano simples. Kyusaki atrairia a atenção dos guardas enquanto Zephira e Rashad se aproximariam pelos flancos. Fen e Henry dariam cobertura.</p>
+
+            <p>O combate explodiu rapidamente. Kyusaki disparou sua pistola etérea quase derrubando um dos soldados logo no primeiro tiro. Fen avançou brutalmente sobre outro inimigo e o derrubou com uma machadada devastadora. Rashad enfrentou dois soldados simultaneamente usando socos e chutes violentos, enquanto Zephira utilizava suas habilidades serpenteanas para prender um arqueiro e lançá-lo do alto de uma elevação.</p>
+
+            <p>O oficial do Império Unificado finalmente apareceu no campo de batalha, avançando diretamente contra Zephira. Antes que pudesse derrotá-la, Kyusaki acertou disparos decisivos que fizeram o homem cair.</p>
+
+            <p>Com a batalha vencida, o grupo capturou o oficial ainda vivo e exigiu o pergaminho. O homem revelou que o documento continha informações relacionadas aos "macacos", referência aos Simyaris.</p>
+
+            <p>Antes que pudessem deixar o local, Henry percebeu movimentações estranhas na floresta. Uma mulher surgiu diante deles como um vulto silencioso empunhando uma katana. Ela afirmou que precisava daquele pergaminho e agradeceu ironicamente pelo grupo ter feito o trabalho difícil por ela.</p>
+
+            <p>A guerreira explicou que o documento não poderia cair nem nas mãos de Phandor nem do Império Unificado. Kyusaki recusou entregar o pergaminho, alegando que precisava cumprir a missão para ganhar a confiança dos militares phandorianos.</p>
+
+            <p>Após alguns instantes de tensão, a mulher apresentou uma solução inesperada: entregou ao grupo um pergaminho falso para levarem até Hanzou. Em troca, pediu que se encontrassem com ela na noite seguinte, no alto de uma montanha próxima. Lá revelaria mais sobre os Simyaris e sobre a guerra que realmente acontecia nas sombras de Xintai.</p>
+
+            <p>Sem muitas opções, os cinco aceitaram a proposta e retornaram para Hanzou carregando o falso documento, sem muita certeza de que estavam fazendo a coisa certa.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Capítulo 2 -->
+      <div id="modal-cap2" class="modal">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <div class="modal-title">Capítulo 2 - A Emboscada Demoníaca</div>
+          <div class="modal-date">02 de Junho de 2026</div>
+          <div class="modal-desc">
+            <p>Sob o crepúsculo vespertino e após a conclusão da missão anterior, os Othans novamente atravessaram os portões de Hanzou, içados de imediato pelos guardas que amistosamente receberam o bando desta vez. O elenco então, se dirigiu à junta militar para coletar a recompensa.</p>
+
+            <p>Chegando ao escritório do oficial responsável, o mesmo se encontrava em sua mesa de trabalho, imerso em pilhas de papéis, assinando um após o outro. Guardas ao fundo dividiam o peso de uma gaiola que transportavam.</p>
+
+            <p>Próximo da mesa, Kyusaki deixou sobre a superfície o suposto pergaminho requisitado nos pormenores do serviço, se fazendo ser notado.</p>
+
+            <p>- Era isso que você queria? - questionou o rapaz cranori</p>
+
+            <p>Percebendo a presença do grupo, o homem fardado os recebe com espanto:</p>
+
+            <p>- Olá, boa noite! Estou impressionado com a rapidez em que concluíram essa tarefa.</p>
+
+            <p>Rashad o respondeu sem desvios:</p>
+
+            <p>- A equipe é grande e também eficiente.</p>
+
+            <p>- E vocês tiveram algum problema por lá? - indagou o oficial, enquanto segurava e analisava o exterior do pergaminho.</p>
+
+            <p>- Só pra abrir a boca do comandante, mas fora isso, tá aí o que você queria. - respondeu Kyusaki</p>
+
+            <p>- Entendo. E eram muitos deles?</p>
+
+            <p>- Mais ou menos uma dezena, eu acho?</p>
+
+            <p>- Pouco menos de uma dezena, uns oito inimigos. - acrescentou Rashad</p>
+
+            <p>- Vocês não parecem ter sido feridos, devem ser um grupo realmente eficiente - concluiu o militar</p>
+
+            <p>A aproximação do grupo possibilitou uma visão clara do conteúdo da gaiola carregada pelos guardas e a curiosidade tomou conta do espaço mental dos observadores, por se tratar de um macaco humanoide, que trajava vestes xintaienses tradicionais e apresentava comportamento civilizado. Ele estava bem fraco e tinha diversos ferimentos ao longo de seu corpo.</p>
+
+            <p>- Foi mal cortar o assunto, mas... Vocês vão fazer o quê com aquilo ali? É sopa? - questionou Kyusaki, voltando os olhos para a gaiola</p>
+
+            <p>- É... São alguns problemas que Phandor vem tendo. Talvez eu recrute vocês para alguma missão em que vocês tenham que lidar diretamente com esses tipos de criaturas.</p>
+
+            <p>- E de que tipo estamos falando, exatamente? - indagou Rashad</p>
+
+            <p>- Eles chamam de Simiares, são um povo problemático que vem trazendo complicações para o império de Phandor e estamos tentando cuidar disso agora.</p>
+
+            <p>- Problemático como? - inquiriu Fen Ri</p>
+
+            <p>- Ah, você sabe, eles são selvagens e não respeitam as nossas ordens, apesar de a gente só querer proteger essas terras do Império Unificado.</p>
+
+            <p>- Esse aí me parece bem calmo. - disse Rashad</p>
+
+            <p>- Depois que a gente derrubou ele, ficou calminho. - concluiu o oficial, enquanto removia o selo e lia o conteúdo do pergaminho</p>
+
+            <p>- Tá, beleza, mas... E o dinheiro que você prometeu? - questionou Kyusaki</p>
+
+            <p>- Calma, amigo, só estou verificando se está tudo certo por aqui.</p>
+
+            <p>O homem prosseguiu com a análise do item, mantendo uma expressão neutra no rosto por bons minutos enquanto um silêncio constrangedor tomava conta da sala, que ficou ainda mais quieta após os guardas com a gaiola deixarem o ambiente.</p>
+
+            <p>Após o fim da leitura, o militar olhou brevemente para o grupo e então direcionou sua atenção para a parte inferior da mesa, de onde tirou um saco cheio de peças de ouro, que colocou sobre a extremidade do tampo próxima a Kyusaki. Ele cumprimentou o grupo com uma expressão amigável e disse que ficaria feliz em revê-los para mais serviços.</p>
+
+            <p>Deixando a junta militar, a maior parte do grupo se dirigiu para a taverna em que se hospedaram, para descansarem e dividirem o lucro, enquanto Henry foi até a ferreira da cidade buscando aprimorar seu arsenal para melhorar seu desempenho em batalha. Lá, a mulher responsável pelo local o atendeu e disse que seu pedido customizado sairia mais caro que o normal, pois ela trabalha com um material especial, o Fhilza, que vinha sendo roubado por criaturas peculiares e isso estava trazendo prejuízos enormes ao negócio.</p>
+
+            <p>Como Henry não poderia se dar ao luxo de arcar com o custo e, ela esteve observando a movimentação do grupo na junta militar do outro lado da rua, a mulher sugeriu um acordo em que eles realizassem um serviço para resgatar seus itens roubados e em troca ela ofereceria ouro e equipamento customizado.</p>
+
+            <p>Voltando à taverna, Henry informou o grupo sobre a proposta de trabalho e todos concordaram com a missão, que marcaram para o começo do dia seguinte. Enquanto todos foram dormir, Zephira decidiu aguardar pelo momento oportuno para se encontrar com Xingxing e poderem conversar a sós.</p>
+
+            <p>A conversa permitiu com que ambas se aprofundassem nas vidas uma da outra e dada a situação atual da mulher, Zephira a ajudou financeiramente. A conversa, contudo, revelou que Xingxing não se tratava da pessoa que o bando procura, afinal, ela está em uma situação de fuga e desamparo devido às suas crenças religiosas.</p>
+
+            <p>Na manhã seguinte, a equipe partiu para a loja de ferragens para tratar dos detalhes do trabalho oferecido. A ferreira os contou que os ladrões se tratavam de um perigoso bando de demônios e deu ao grupo dos Othans um dispositivo rúnico que ressoa com o Fhilza para a identificação do paradeiro da carga. Eles precisariam de um transporte adequado para acomodar a todos juntamente ao material pesado.</p>
+
+            <p>No estábulo de Hanzou, a atendente não estava menos desagradável que o normal e fechou o pacote da carroça com dois cavalos por um valor, que veio então a ser substituído por outro de última hora. Zephira, irada pelo comportamento da mulher, combateu a extorsão intimidando-a com um intenso olhar ofídico e menção da recente relação do grupo com o poderio militar da região. Entretanto, tal tentativa não surtiu efeito sobre a mulher, talvez por seu sangue de barata ou pelo costume de enganar seus clientes?</p>
+
+            <p>Dada a escassez de tempo e o importante encontro com a espadachim da floresta os aguardando à noite, Rashad optou por pagar de uma vez o valor cobrado. Kyusaki e Rashad se dirigiram aos cavalos para levá-los até a carroça do lado de fora. O animal abordado pelo rapaz cranori não demonstrou resistência, diferente do outro cavalo, que respondeu com hostilidade à aproximação de Rashad. O homem-cobra, contudo, já habituado a pré-julgamentos de forma geral, insistiu com paciência e por fim conseguiu uma trégua amistosa com a criatura.</p>
+
+            <p>Com o uso da bússola rúnica, não houve dificuldade em chegar ao paradeiro da carga e a rota também foi tranquila. O mesmo pode se dizer da identificação dos inimigos e a preparação para o combate, ou quase. O plano era cercar os demônios e surpreendê-los, com a linha de frente sendo feita pelos atiradores à distância, Kyusaki e Zephira, enquanto os outros se escondiam e os pegariam pelas costas e laterais. Henry e Rashad conseguiram adquirir tal vantagem, mas a natureza bruta de Fen Ri a sabotou nessa tentativa furtiva. Esta falha, porém, não resultou em problemas ao grupo, e muito menos à bárbara, que se viu cara a cara com os ditos demônios e logo se empolgou para balançar seu machado.</p>
+
+            <p>O posicionamento foi majoritariamente bem sucedido e o grupo parecia ter a vantagem, e foi só quando eles efetivamente iniciaram o combate, partindo dos atiradores - que viram seus projéteis não surtirem o costumeiro efeito - seguidos dos atacantes da linha de frente - que sentiram a rigidez dos corpos dos demônios com suas mãos e lâminas - que eles perceberam que estavam fodidos.</p>
+
+            <p>Se iniciou então a contagem fatal da queda dos Othans. O primeiro a sucumbir foi o bardo da equipe, Henry até conseguiu desarmar um dos demônios com um de seus feitiços mas rapidamente descobriu que os adversários eram letais com ou sem armas. A próxima a abraçar o chão foi Fen Ri, que mesmo sendo capaz de golpear diversos inimigos simultaneamente com seu robusto machado, não teria como lidar com a quantidade de demônios que a cercaram de uma só vez. Kyusaki, apesar da distância vantajosa que o manteve seguro dos atacantes corpo a corpo, logo teve sua localização descoberta pelos impiedosos atiradores inimigos e mesmo após ter sua vida poupada pelo apoio curativo da magia de Zephira, se sentira pressionado a ponto de deixar o campo de batalha.</p>
+
+            <p>E foi quando Rashad percebeu que a próxima desta fila fúnebre seria sua amada Phira, ele dedicou suas furiosas últimas forças à atropelar o carrasco de sua filha, mas pouco antes dele alcançá-la, o inimigo já havia a derrubado. Com sua intenção assassina completamente concentrada no demônio em questão, o homem-cobra, de presas à mostra e embebidas em veneno gotejante, estava pronto para desmembrar aquele corpo de demônio até que chegara aos seus ouvidos a única voz que poderia confortá-lo naquele momento de frenesi.</p>
+
+            <p>Zephira havia se levantado e ela solicitava a calma do pai, garantindo a Rashad que estava bem e notificando que o foco mental era necessário. Ao olhar para sua filha, ele realmente a viu em bom condicionamento físico, e quando voltou sua visão para o campo de batalha, percebeu o afastamento progressivo dos demônios. Rashad então compreendeu o que acabara de ocorrer, Nadja mais uma vez havia tirado proveito de um momento de necessidade extrema de sua família, mas não restando outra alternativa, o resultado também fora o mesmo de antes. O homem partiu em direção à sua companheira de equipe mais próxima, realizando um procedimento curativo em Fen Ri, ao mesmo tempo em que Zephira fazia o mesmo com Henry.</p>
+
+            <p>Notando a repentina aquietação do campo de batalha, Kyusaki se reaproximou de seus companheiros para iniciarem a fuga imediata, mas Zephira o garantiu que os demônios não retornariam enquanto ela estivesse ali. A equipe então se organizou para encontrar a carga e levá-la até a carroça. A missão havia sido concluída e a recompensa os aguardava, mas não se encontrava nenhum tipo de satisfação ou comemoração nos rostos dos Othans, a viagem de volta para Hanzou fora silenciosa e soturna.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Capítulo 3 -->
+      <div id="modal-cap3" class="modal">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <div class="modal-title">Capítulo 3 - A Provação da Montanha</div>
+          <div class="modal-date">10 de Junho de 2026</div>
+          <div class="modal-desc">
+            <p>O silêncio que se instalou na taverna após a quase fatídica batalha contra os demônios era denso e carregado de frustração. O grupo desfrutou de um descanso amargo, curando as feridas do corpo enquanto as da mente continuavam abertas. Rashad, consumido pela culpa e pelo peso do vislumbre de Nadja no campo de batalha, isolou-se em seu quarto por horas a fio, incapaz de encarar os companheiros ou a própria filha.</p>
+
+            <p>Ao amanhecer, os Othans se reuniram no salão principal para comer, mas o ambiente já não era o mesmo. O velho Tao, outrora tão receptivo e falante, movia-se de forma ríspida, evitando contato visual e ostentando uma frieza desconfortável. Até mesmo a qualidade da comida havia decaído drasticamente. Antes que pudessem questionar a mudança, as portas da taverna se abriram e um soldado phandoriano marchou em direção à mesa do grupo.</p>
+
+            <p>Sem rodeios, o militar revelou que a mesquinha dona do estábulo havia denunciado os aventureiros, alegando ter sido ameaçada por eles no dia anterior. O soldado ponderou que, como o oficial da junta militar havia gostado da eficiência do bando, eles receberiam uma segunda chance e o caso seria abafado; contudo, deixou um aviso claro: era bom tomarem cuidado e não causarem mais problemas na cidade.</p>
+
+            <p>Ameaçados e com o tempo contra eles, os heróis perceberam que Hanzou se tornava cada vez mais hostil. Decididos a não dependerem apenas da sorte, resolveram se espalhar pela cidade em busca de informações mais sólidas sobre o paradeiro de Ming e o controle de Phandor.</p>
+
+            <p>Henry e Fen Ri retornaram à ferraria. Entre o calor da forja e o som do metal, o bardo tentou extrair segredos da jovem ogra. A ferreira revelou que a base militar de Phandor guardava um livro de registros extremamente valioso, onde eram anotadas meticulosamente todas as mercadorias, recursos e indivíduos que passavam pelos portões. Enquanto Henry conversava, os olhos de Fen Ri foram atraídos pelas armas pesadas dispostas na parede. Após analisar minuciosamente o arsenal, a bárbara comprou um robusto mangual, sentindo o peso da arma perfeito para extravasar a fúria que ainda guardava da última derrota.</p>
+
+            <p>Em outra parte de Hanzou, Kyusaki direcionou seus passos até o bordel local, ciente de que os segredos de uma cidade ocupada costumam sussurrar nos travesseiros. Usando de seu charme e astúcia, o cranori conversou com a matrona do estabelecimento e confirmou a mesma suspeita: os phandorianos possuíam um livro rígido de controle de entradas e saídas. Se Ming ou qualquer refugiado estivesse na cidade, o nome estaria ali.</p>
+
+            <p>Enquanto isso, Zephira foi ao encontro da ferreira para alinhar os detalhes pendentes do resgate da carga de Fhilza. Para a surpresa da patrulheira, a ogra revelou-se muito mais do que uma artesã: ela confessou fazer parte de uma resistência local que lutava contra a opressão phandoriana, trabalhando diretamente com Yan Li, a misteriosa garota da katana. A ferreira reforçou o aviso de que o grupo não ousasse faltar ao encontro na montanha naquela mesma noite.</p>
+
+            <p>Reunidos novamente na taverna, os Othans cruzaram os dados e concluíram que o livro de registros era a melhor pista para avançarem na missão de Danael. Eles precisavam invadir a base phandoriana. O grupo se dirigiu até os arredores do quartel-general para analisar a estrutura por fora, traçando rotas de fuga e pontos cegos, enquanto Kyusaki aproveitava sua boa reputação com os militares para entrar pela porta da frente.</p>
+
+            <p>O cranori foi recebido pelo oficial responsável. Fingindo submissão, Kyusaki tocou no assunto da denúncia da dona do estábulo. O oficial deu de ombros, explicando que, por mais que soubesse do temperamento dos mercenários, precisava ouvir a mulher, visto que ela era uma importante contribuinte financeira para a manutenção das forças de Phandor na região. Conforme o diálogo avançava, o oficial convidou Kyusaki para um escritório fechado nos fundos para discutir novos contratos de trabalho sujo.</p>
+
+            <p>Os olhos atentos de Kyusaki mapearam o ambiente interno. Ao retornar para o grupo, o pistoleiro trouxe informações cruciais: ele havia avistado uma entrada lateral nos fundos do escritório que dava acesso direto a uma área subterrânea onde prisioneiros Simyaris eram mantidos enjaulados. Se conseguissem entrar por aquela brecha à noite, teriam acesso livre à sala onde o livro de registros provavelmente estava guardado.</p>
+
+            <p>Com duas missões urgentes e o tempo escasso, os Othans tomaram uma decisão arriscada: iriam se dividir. Kyusaki e Rashad — que finalmente saíra de seu confinamento, silencioso e focado — ficariam responsáveis por infiltrar-se na base militar de Phandor sob o manto da noite. Enquanto isso, Henry, Fen Ri e Zephira partiriam imediatamente rumo à montanha para o encontro com a espadachim.</p>
+
+            <p>A subida da montanha foi íngreme e silenciosa. Ao atingirem o topo, os três se depararam com uma visão hipnotizante e surreal: uma ponte natural de pedra cruzava o abismo, completamente envolta por uma neblina densa e iluminada pelas cores místicas de uma aurora boreal que rasgava o céu noturno. Receosos, eles deram os primeiros passos sobre a estrutura.</p>
+
+            <p>De repente, a névoa pareceu ganhar vida. Fen Ri e Henry foram atingidos em cheio por uma forte onda psíquica. A realidade ao redor deles se desfez.</p>
+
+            <p>Fen Ri estacou o passo, os olhos arregalados de horror. Diante dela, na beira do penhasco, surgiu a figura de seu irmão mais novo, pálido e debilitado pela doença. Com uma voz carregada de mágoa e rancor, o espectro a acusava de tê-lo abandonado para morrer em busca de ouro e sangue. Ao mesmo tempo, Henry deu um passo à frente, em transe. Ele via Sabrina, sua falecida esposa, estendendo as mãos em meio a marcas de tortura, implorando para que ele se juntasse a ela no abraço da morte. Ambos, consumidos pela culpa e pela dor, começaram a caminhar a passos largos em direção à queda livre do desfiladeiro.</p>
+
+            <p>Zephira, protegida por sua herança mística e determinação, não caiu na ilusão. Vendo o perigo iminente, ela gritou pelos companheiros, mas eles estavam surdos para o mundo real. Agindo por puro instinto, a patrulheira comandou sua serpente, que se lançou e envolveu Henry com força, puxando-o de volta para o chão de pedra a poucos centímetros da borda. Zephira esticou o braço desesperadamente para alcançar Fen Ri, mas a bárbara estava longe demais.</p>
+
+            <p>Antes que Fen Ri desse o passo final para o abismo, um vulto veloz cortou a névoa. Yan Li surgiu como um relâmpago, agarrando a bárbara pelo colarinho e jogando-a com brutalidade de volta à segurança da ponte. O choque quebrou a ilusão, deixando Fen e Henry caídos, arfando e tremendo com o eco de seus traumas revividos.</p>
+
+            <p>Grave e serena, Yan Li embainhou sua katana e explicou que a névoa da ponte não era um feitiço inimigo, mas sim uma provação da própria natureza daquele lugar sagrado; um teste para medir a pureza e a verdade no coração daqueles que ousavam cruzar o caminho da resistência.</p>
+
+            <p>A explicação acendeu a fúria do grupo. Fen Ri, ainda trêmula, e Henry, com o olhar perdido, questionaram rudemente a necessidade de uma crueldade daquelas. Yan Li apenas respondeu, impassível, que aqueles que fazem tudo e carregam cicatrizes profundas por quem amam possuem corações dignos de confiança. E ela precisava ter certeza de com quem estava lidando.</p>
+
+            <p>A guerreira da katana então revelou a verdade nua e crua sobre a situação geopolítica da região. Os phandorianos não eram salvadores; eram tão cruéis e gananciosos quanto o Império Unificado. Sob o pretexto de manter a ordem, eles haviam caçado, escravizado e executado todos os Simyaris que encontraram em Yozaki, além de prenderem qualquer cidadão de Hanzou que demonstrasse simpatia ou oferecesse abrigo a eles. A missão de Yan Li era clara e inegociável: expulsar Phandor e libertar Hanzou daquela tirania disfarçada.</p>
+
+            <p>Ainda que magoados pelo teste da ponte, os Othans se compadeceram da dor daquele povo. Henry expressou sua dúvida, questionando por que moradores como o taverneiro Tao ou a dona do estábulo pareciam satisfeitos com a presença dos militares. Yan Li sorriu com amargura e explicou a podridão da ganância humana: para aquelas pessoas, pouco importava o sangue derramado nas sombras, desde que os bolsos estivessem cheios e o comércio estivesse lucrando com os soldados colonizadores.</p>
+
+            <p>Por fim, a espadachim revelou sua jogada. O pergaminho falso que o grupo havia entregue aos militares continha coordenadas geográficas adulteradas. Phandor morderia a isca e enviaria um contingente de soldados diretamente para uma emboscada preparada por ela nas gargantas da montanha. Yan Li olhou nos olhos de cada um dos três e estendeu a mão, solicitando formalmente a força dos novos Othans naquela batalha que estava por vir.</p>
+
+            <p>Após um breve instante de hesitação e reflexão sobre as injustiças que eles próprios já haviam sofrido nas mãos de tiranos, Henry, Fen Ri e Zephira trocaram olhares cúmplices. A decisão estava tomada. Eles iriam ajudar a resistência a sangrar as forças de Phandor.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Capítulo 4 -->
+      <div id="modal-cap4" class="modal">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <div class="modal-title">Capítulo 4 - A Encruzilhada de Hanzou</div>
+          <div class="modal-date">07 de Junho de 2026</div>
+          <div class="modal-desc">
+            <p>Enquanto uma parte do grupo subia a montanha para selar o pacto com a resistência, Kyusaki e Rashad deram início à perigosa infiltração na base de Phandor. O plano era cirúrgico: o monge humano ficaria do lado de fora, camuflado nas sombras para garantir a retaguarda e vigiar os arredores, enquanto o cranori aproveitaria as rotas mapeadas para acessar o interior do complexo.</p>
+
+            <p>Descendo silenciosamente pelas brechas da estrutura, Kyusaki alcançou os calabouços subterrâneos. Ali, deparou-se com uma visão desoladora: os prisioneiros Simyaris estavam trancados em jaulas de ferro, ostentando ferimentos profundos provocados por torturas e correntes. Apesar da fraqueza física, aqueles homens-macaco mantinham uma postura orgulhosa e firme. Ao perceberem a silhueta do pistoleiro, uma mistura de desconfiança e uma fagulha desesperada de esperança brilhou nos olhos do povo oprimido. Kyusaki aproximou-se das grades e sussurrou, categórico, que não era um inimigo, mas que infelizmente não poderia libertá-los naquele exato momento. Garantiu que retornaria por eles e pediu que resistissem um pouco mais.</p>
+
+            <p>Deixando as celas para trás, o cranori subiu até o escritório do oficial. O ambiente estava deserto. Vasculhando o local com precisão, ele encontrou um armário de madeira maciça trancado. Após alguns minutos de esforço tenso para arrombar a fechadura sem produzir um único ruído metálico, as portas cederam, revelando o pesado e grosso livro de registros de Hanzou. Ciente de que não teria tempo hábil para folhear as centenas de páginas ali mesmo, Kyusaki tomou uma decisão audaciosa: colocou o tomo sob a capa e preparou-se para sair, tendo o cuidado minucioso de não deixar vestígios do arrombamento, pois pretendia devolver o livro ao seu devido lugar antes do amanhecer.</p>
+
+            <p>Ao emergir do complexo militar para se reagrupar, o pistoleiro deparou-se com um mistério perturbador: Rashad havia sumido de seu posto de vigia. Kyusaki vasculhou os becos adjacentes e sussurrou pelo companheiro, mas encontrou apenas o silêncio da noite. Sem alternativas e com o tempo correndo contra si, ele retornou sozinho para a taverna.</p>
+
+            <p>A reunião do bando foi tensa. Quando os outros três integrantes retornaram da montanha com a promessa de ajudar Yan Li na emboscada, Kyusaki revelou o roubo do livro e o desaparecimento do monge. Zephira entrou em desespero imediato com o sumiço do pai. Fisicamente exaustos pelos traumas psíquicos da ponte na floresta, Fen Ri e Henry recolheram-se para dormir, enquanto os dois restantes dividiram as tarefas da madrugada: Kyusaki debruçou-se sobre as páginas do registro militar e Zephira saltou as muralhas da cidade, avançando pela escuridão da floresta na tentativa de rastrear os passos de Rashad.</p>
+
+            <p>A busca da patrulheira foi infrutífera, mas a floresta reservava suas próprias bizarrias. Em dado momento, sua cobra de estimação manifestou um comportamento errático e bizarro. O réptil — batizado carinhosamente de Toninho — parecia possuído por uma força externa e profana. Falando com uma voz que claramente não era a sua, a entidade manifestada na serpente ofereceu uma barganha: ela poderia guiar Zephira diretamente até o paradeiro de Rashad, mas o favor cobraria um preço alto, um "trabalho especial" que a garota deveria realizar para essa força oculta no futuro.</p>
+
+            <p>Atordoada e sem respostas, Zephira regressou à taverna. Lá, Kyusaki trazia a primeira grande vitória da noite. Folheando os registros de entradas e saídas, seus olhos cravaram-se em um nome: <strong>Ming</strong>. O livro comprovava que a mulher que carregava o bebê da profecia havia deixado Hanzou semanas atrás, seguindo viagem em direção a <strong>Yorozu, na região de Kaeshin</strong>. O verdadeiro Dragma tinha um rastro.</p>
+
+            <p>Antes que o sol nascesse, Kyusaki esgueirou-se mais uma vez para dentro da base phandoriana para devolver o livro. Ao cruzar novamente pelos calabouços, o pistoleiro reforçou sua promessa aos Simyaris, pedindo que fossem pacientes, pois seu retorno seria breve. Desta vez, o ancião da tribo, o mais velho entre os prisioneiros, ergueu a cabeça e deixou um aviso sombrio: alertou sobre a verdadeira face dos phandorianos, revelando que a obsessão dos militares na região não era apenas a colonização, mas sim encontrar uma relíquia divina ancestral pertencente aos Simyaris. Pensativo e carregando o peso daquela revelação, o cranori voltou para a estalagem.</p>
+
+            <p>Na manhã seguinte, os Othans remanescentes colocaram as cartas na mesa. A missão principal dada por Danael exigia que eles partissem o quanto antes para Yorozu atrás de Ming. Para isso, precisavam de transporte próprio. O grupo dirigiu-se ao estábulo e, mais uma vez, a proprietária os recebeu com a habitual soberba e desdém. Engolindo o orgulho e controlando os impulsos violentos, os heróis apenas cotaram os preços e descobriram que uma carroça forte com cavalos saudáveis custaria muito mais do que possuíam no momento. Eles precisavam de ouro, e rápido.</p>
+
+            <p>A solução foi morder o anzol de Phandor. O bando marchou até o quartel e aceitou um trabalho aparentemente simples que o oficial havia comentado: caçar javalis selvagens que vinham assolando os arredores para abastecer a despensa da cidade.</p>
+
+            <p>Seguindo as trilhas na floresta, Zephira usou de seus talentos naturais para conjurar magia e conversar com um sapo local, que indicou com precisão a localização do bando de animais. Os Othans cercaram o alvo e depararam-se com cinco espécimes: quatro javalis comuns e um macho alfa de proporções colossais. Cientes de que precisavam preservar a carne intacta para garantir o pagamento total, os heróis lutaram com precisão cirúrgica. Fen Ri transformou o combate em um espetáculo sangrento de maestria marcial; brandindo seu novo mangual com fúria controlada, a bárbara decapitou três dos animais em movimentos brutais e contínuos, garantindo a vitória do grupo.</p>
+
+            <p>Ao retornarem com a caça, a ganância dos colonizadores mostrou suas garras novamente. O taverneiro Tao, mancomunado com a administração militar, pagou as 20 moedas de ouro prometidas por cada um dos javalis comuns, mas insistiu em pagar a mesmíssima quantia pelo animal gigante, ignorando o tamanho e o risco da criatura. Segurando a raiva para não iniciarem uma guerra dentro do salão, os Othans aceitaram o pagamento injusto, quitaram todas as dívidas pendentes com a estalagem e marcharam até o estábulo, comprando finalmente a carroça e os cavalos necessários para a viagem.</p>
+
+            <p>A partida parecia iminente. No entanto, ao subirem até o corredor dos quartos para recolherem seus pertences, os heróis depararam-se com uma cena alarmante: a porta do quarto de XingXing estava escancarada, com o interior completamente revirado e bagunçado. No centro da cama, o bebê da mulher chorava copiosamente, sozinho e desamparado.</p>
+
+            <p>Ao investigarem o cômodo em busca de pistas, os Othans encontraram jogado ao chão o livro sagrado da fé da refugiada. Ficou claro o que havia acontecido: a patrulha de Phandor havia descoberto a heresia religiosa da mulher e a levara à força para os calabouços.</p>
+
+            <p>Ali, com os cavalos prontos no pátio e o rastro do verdadeiro Dragma finalmente apontando para Yorozu, os novos Othans viram-se diante de uma encruzilhada moral devastadora. Ir embora e focar na missão divina de Danael, ou dar as costas à estrada para salvar os inocentes que Hanzou continuava a triturar?</p>
+
+            <p>Olhando para o bebê chorando e lembrando-se dos Simyaris e de Yan Li, o grupo tomou sua decisão. Eles não iriam a lugar nenhum. Eles iam ficar e lutar.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Capítulo 5 -->
+      <div id="modal-cap5" class="modal">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <div class="modal-title">Capítulo 5 - A Libertação de Hanzou</div>
+          <div class="modal-date">01 de Julho de 2026</div>
+          <div class="modal-desc">
+            <p>Com o quarto de XingXing revirado e o bebê chorando nos braços de Henry, o bando tentava traçar um plano de resgate quando o caos se aprofundou: ao olharem para o lado, perceberam que Zephira havia desaparecido sem deixar rastros. A urgência dobrou de tamanho. Agora, com a missão de salvar XingXing e encontrar os companheiros perdidos, os três Othans restantes precisavam agir. A ideia inicial era invadir o complexo militar pela entrada subterrânea que Kyusaki descobrira, mas restava um dilema: o que fazer com a criança? O único porto seguro em toda a cidade de Hanzou era a ferraria.</p>
+
+            <p>Ao chegarem lá, encontraram a jovem ogra em um estado de pura ansiedade. Antes mesmo que o grupo pudesse relatar o rapto de XingXing, a ferreira despejou uma informação crucial: ela passara o dia monitorando os quartéis e descobrira que a marcha dos phandorianos em direção ao mapa adulterado aconteceria naquele exato dia. O meio-dia se aproximava e as tropas aguardavam apenas a chegada de um carregamento para iniciar o deslocamento às 14 horas. Aquela movimentação em massa deixaria a base militar de Hanzou severamente desprotegida, guarnecida por meros dois guardas.</p>
+
+            <p>O grupo relatou o sumiço de XingXing e o perigo que ela corria. Demonstrando a liderança pragmática da resistência, a ferreira tomou as rédeas da situação: ordenou que Henry, Fen Ri e Kyusaki partissem imediatamente para a montanha para garantir o sucesso da emboscada ao lado de Yan Li. Ela própria assumiria a responsabilidade de proteger o bebê e, aproveitando o esvaziamento da guarnição, lideraria a invasão à base para libertar os prisioneiros Simyaris e a refugiada.</p>
+
+            <p>Sem tempo a perder, os três Othans marcharam rumo ao ponto de encontro nas gargantas da montanha. Lá, Yan Li os aguardava flanqueada por três guerreiros Simyaris de olhar obstinado: Lao, Lee e Zhang. A disparidade numérica gerou uma tensão evidente no bando; afinal, eram apenas sete combatentes contra uma tropa inteira de soldados altamente disciplinados.</p>
+
+            <p>O plano precisava ser cirúrgico. Aproveitando a geografia hostil do vale, eles se posicionaram estrategicamente no topo dos desfiladeiros. Quando a coluna de Phandor adentrou o estreito gargalo de pedra, os rebeldes agiram: atearam fogo na ponte rústica por onde os soldados haviam entrado, cortando qualquer chance de retirada, e empurraram uma gigantesca rocha encosta abaixo, esmagando e soterrando a vanguarda inimiga no fundo do vale.</p>
+
+            <p>O impacto inicial foi devastador, mas o contingente de Phandor era massivo e os sobreviventes rapidamente se reorganizaram. O combate fragmentou-se em pura selvageria. Kyusaki escalou as rochas, assumindo uma posição de sniper e despejando projéteis espirituais de sua pistola de ossos de cima para baixo. Na linha de frente, Fen Ri liberou sua fúria bárbara, brandindo o novo mangual ao lado da katana veloz de Yan Li, enquanto Henry canalizava suas melodias remanescentes da retaguarda para manter o ímpeto do grupo.</p>
+
+            <p>Após um confronto sangrento, a primeira horda de soldados — os rostos familiares da guarnição de Hanzou — foi aniquilada. Antes de tombar com o peito perfurado, o oficial comandante fixou os olhos em Kyusaki, estampando uma profunda decepção pela traição do mercenário em quem havia confiado, mas morreu antes que pudesse proferir suas últimas palavras.</p>
+
+            <p>Não houve tempo para respirar ou comemorar. O som de tambores ecoou pelo vale e o verdadeiro pesadelo se manifestou: os reforços de Phandor, uma divisão especial da elite colonial, chegaram ao campo de batalha. Estes guerreiros eram taticamente superiores, implacáveis e devastadores.</p>
+
+            <p>A exaustão cobrou seu preço e a linha de defesa começou a ruir. Os golpes brutais da elite derrubaram Fen Ri em meio ao sangue e ceifaram as forças do guerreiro Simyari Lee. No limite de suas capacidades e flertando com a morte, Kyusaki e Yan Li desferiram seus últimos e mais desesperados ataques, conseguindo, por um fio de distico milagre marcial, derrubar os últimos algozes.</p>
+
+            <p>O vale silenciou, coberto de corpos e fumaça. Henry, cambaleando, usou os últimos resquícios de sua magia de bardo para tecer uma canção de cura, trazendo Fen Ri e os feridos de volta à consciência. Foi quando o som de múltiplos passos marchando em direção a eles fez o grupo empunhar as armas novamente, temendo o pior.</p>
+
+            <p>Contudo, a visão que cruzou a névoa trouxe um alívio avassalador. À frente do grupo vinha a ferreira ogra, ladeada por XingXing e pelas dezenas de prisioneiros Simyaris sobreviventes. Hanzou havia sido tomada. Entre lágrimas, abraços emocionados e agradecimentos, o povo declarou que a cidade estava finalmente liberta da opressão colonialista.</p>
+
+            <p>Kyusaki desabou sobre uma rocha com um sorriso cansado no rosto, mas a mente do cranori não parava de trabalhar. Pensando no paradeiro de Ming e na missão dos Othans, ele questionou os Simyaris se, como recompensa, eles poderiam ajudá-los a alcançar Yorozu de forma mais rápida e segura.</p>
+
+            <p>O ancião dos Simyaris deu um passo à frente. Em sinal de profundo respeito, entregou ao bando quatro frascos contendo um líquido luminescente e sagrado: a <strong>Água do Ordo</strong>, uma substância mística capaz de curar ferimentos gravíssimos em situações de extrema emergência. Além do presente, o ancião apontou o caminho para as docas ocultas, revelando que os rebeldes haviam capturado um navio militar pertencente a Phandor e que os heróis poderiam tomá-lo para si. Antes de se despedir, deixou um último e sombrio aviso: a jornada deles seria perigosa, pois todo o país de Kaeshin era uma colônia sob o domínio ferrenho de Phandor.</p>
+
+            <p>Vislumbrando a utilidade da embarcação, Kyusaki solicitou alguns uniformes dos soldados mortos para servirem de disfarce e garantiu que usariam o navio na manhã seguinte.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Capítulo 6 -->
+      <div id="modal-cap6" class="modal">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <div class="modal-title">Capítulo 6 - O Sinalizador do Dragão</div>
+          <div class="modal-date">08 de Julho de 2026</div>
+          <div class="modal-desc">
+            <p>Após um dia inteiro de um descanso tão profundo que os novos Othans mal conseguiam se lembrar de como haviam desabado nas camas, a cidade de Hanzou mergulhou em uma noite de festa e celebração. As ruas ecoavam a liberdade recém-conquistada.</p>
+
+            <p>Ao despertar no quarto da taverna, Henry deparou-se com uma surpresa: Zephira estava ali, acordando na cama ao lado. A patrulheira parecia profundamente abalada e exausta, mas o detalhe mais perturbador era visual: seu rosto, e principalmente seus olhos, estavam cobertos por uma gosma estranha e desconhecida. Henry a questionou sobre onde estivera e o que havia acontecido, mas a garota manteve-se em um silêncio retraído, recusando-se a dar qualquer detalhe sobre o seu sumiço — ou sobre o paradeiro de seu pai, Rashad, que continuava desaparecido.</p>
+
+            <p>Enquanto isso, em outro quarto, Kyusaki acordou com um brilho insistente vindo de sua mochila. Era a esfera de comunicação rúnica deixada por Danael. Ao ler a mensagem mágica que piscava no artefato, o cranori sentiu um calafrio de puro nervosismo. Sem perder um segundo, ele marchou pelo corredor, batendo nas portas e convocando todos para arrumarem os pertences imediatamente. O grupo se reuniu no corredor, ainda confuso e sonolento, mas a urgência na voz do pistoleiro deixou claro que eles precisavam bater em retirada de Hanzou o quanto antes.</p>
+
+            <p>Ao cruzarem as portas da taverna em direção à carroça, os heróis depararam-se com uma grande comoção popular em frente ao templo local. O ancião Simyari gesticulava exasperado, explicando que ninguém conseguia entrar na capela — tampouco na base militar —, pois ambas haviam sido abruptamente seladas por uma barreira mágica. O ancião reforçou que aquele templo era um local sagrado para as crenças ancestrais dos Simyaris, profanado pelos colonizadores.</p>
+
+            <p>Movidos pelo senso de dever, os Othans decidiram intervir. Ao analisarem a estrutura, confirmaram a presença de um campo de força purpúreo e intransponível. Henry deu um passo à frente e canalizou sua magia arcana, tecendo as palavras certas para forçar uma pequena e instável abertura no tecido mágico. Kyusaki, Fen Ri e Henry saltaram para o interior do templo antes que a fresta se fechasse violentamente, isolando-os lá dentro.</p>
+
+            <p>No altar da capela, um clérigo fanático de Phandor gesticulava freneticamente, recitando preces profanas em um idioma incompreensível e desconhecido. Acima de suas mãos, uma esfera de pura energia violeta crescia a passos largos. Os heróis tentaram ordenar que ele parasse, mas o fanático respondeu com um sorriso ríspido, bradando que todos pagariam pelo sangue derramado dos soldados coloniais. Sem hesitar, Kyusaki puxou o gatilho de sua arma de ossos. O disparo certeiro atingiu o clérigo e a súbita quebra de sua concentração causou uma rápida oscilação na barreira externa; aproveitando o milésimo de segundo, Zephira — acompanhada de sua serpente Toninho — conseguiu rolar para dentro do templo, juntando-se ao combate.</p>
+
+            <p>Enfurecido, o clérigo phandoriano conjurou sua influência mental, evocando lacaios locais que haviam sido dominados por sua magia. Sob o efeito do transe, essas pessoas avançaram cegamente contra o grupo. Zephira ergueu o arco e disparou contra o clérigo, mas a flecha errou o alvo, e Toninho também não conseguiu prendê-lo nas presas. Fen Ri, por sua vez, ativou sua fúria e desfechou um golpe violento contra o líder fanático. O ataque atraiu a atenção imediata de todos os lacaios enfurecidos, que se viraram como uma horda ruidosa na direção da bárbara.</p>
+
+            <p>Percebendo o perigo do combate fechado, Kyusaki recuou taticamente para buscar uma posição elevada. Zephira guardou o arco e, em um salto acrobático, esquivou-se das mãos dos servos dominados, sacando suas adagas e desferindo uma sequência de golpes poderosos contra o clérigo. No entanto, a ousadia da ranger custou caro: os lacaios flanquearam a garota e a subjugaram sob o peso dos números, derrubando Zephira inconsciente no chão de pedra.</p>
+
+            <p>Enquanto o clérigo canalizava milagres para curar os próprios ferimentos, os lacaios fecharam o cerco contra os heróis restantes. Fen Ri, usando cada gota de sua força bruta, desceu seu machado com violência apocalíptica, partindo a cabeça de um dos lacaios e deixando o clérigo à beira da morte. Para impedir que a bárbara fosse soterrada pelos inimigos, Kyusaki escalou uma das imponentes estátuas do templo; do alto, o cranori disparou rajadas barulhentas contra o líder, zombando e atraindo a fúria dos servos, que tentavam em vão alcançá-lo na estrutura elevada.</p>
+
+            <p>Na retaguarda, Henry elevou sua voz em uma melodia inspiradora, fortalecendo o espírito e os músculos de seus aliados. Sob o efeito da canção de bardo, Fen Ri desferiu o golpe de misericórdia, decapitando o clérigo de Phandor. Contudo, o esforço final não foi rápido o suficiente: antes de tombar, o fanático conseguiu liberar a esfera violeta, que cruzou o teto do templo e disparou em direção ao firmamento.</p>
+
+            <p>Por um segundo de puro terror, os Othans pensaram que o artefato explodiria a cidade inteira, mas a energia simplesmente se dissipou nas nuvens altas. Conforme os heróis deixavam a capela, os lacaios começaram a piscar os olhos, acordando do transe mental como se despertassem de um pesadelo sem memórias. O campo de força que cobria a base e o templo desfez-se por completo.</p>
+
+            <p>O povo de Hanzou rompeu em aplausos e lágrimas de gratidão. Diante da iminente partida dos salvadores, os cidadãos se reuniram em uma despedida emocionante. A ferreira ogra aproximou-se de Zephira e a presenteou com uma armadura de couro finamente encantada. XingXing entregou uma cesta generosa de bolinhos de banana para a viagem e o guerreiro Simyari Lee, em um ato de extrema nobreza, devolveu aos heróis todo o ouro que eles haviam gasto para comprar a carroça e os cavalos. Abastecidos de suprimentos e com os bolsos cheios, os Othans se despediram e pegaram a estrada.</p>
+
+            <p>A viagem em direção ao litoral foi longa e extenuante, estendendo-se por todo o resto do dia e cruzando a madrugada. Pela manhã, com a brisa salgada anunciando a proximidade da costa, o grupo cruzou o caminho de um vendedor ambulante que guiava uma carroça puxada por duas lhamas.</p>
+
+            <p>Kyusaki ergueu a mão, ordenando que a carroça parasse, interessado em fazer negócios. O pistoleiro tentou oferecer como moeda de troca a pistola militar que havia saqueado do oficial morto na emboscada. Percebendo que o grupo carregava ouro vivo, o astuto mercador, que se apresentou como Kai, sorriu e decidiu mostrar seus produtos mais exóticos e valiosos. De compartimentos ocultos, Kai retirou três itens extraordinários: uma pena mística capaz de escrever mensagens que apenas os escolhidos pelo portador podiam ler; um saco sem fundo capaz de armazenar volumes impossíveis; e um par de espelhos interligados que funcionavam como portais mágicos portáteis.</p>
+
+            <p>Maravilhado com o arsenal utilitário, Kyusaki chamou Henry para ajudá-lo na barganha. Após uma intensa rodada de negociações, Kai fez uma proposta irrecusável: entregaria os dois espelhos portais, a pena mística, o saco sem fundo e três poções de cura em troca da pistola militar e 150 peças de ouro. Os Othans juntaram suas moedas, fecharam o acordo e seguiram viagem de bolsos vazios de ouro, mas ricos em magia.</p>
+
+            <p>Ao finalmente atingirem a costa de Kaeshin, o grupo colocou o plano de infiltração em prática. Vestindo as fardas oficiais dos soldados phandorianos mortos, eles marcharam até as docas, onde um jovem recruta guardava o navio militar capturado. Kyusaki assumiu a postura autoritária de um superior e ordenou que preparassem a embarcação para zarpar. A cópia dos documentos militares que os heróis carregavam foi o suficiente para aplacar qualquer suspeita; o soldado bateu em retirada imediatamente para buscar um navegador oficial para conduzir a viagem.</p>
+
+            <p>Enquanto aguardavam nas docas, um detalhe no horizonte começou a incomodar os heróis: o céu na direção de Hanzou estava se tornando densamente escuro e pesado, embora eles tentassem se convencer de que era apenas uma frente de tempestade comum. Henry aproveitou o tempo para comprar rações para os cavalos com os mercadores locais e, por pura excentricidade, adquiriu um pacote misterioso de erva de gato. Zephira, ainda sombria, comprou de um livreiro um tomo negro e antigo que narrava a história de um homem que havia cruzado as fronteiras de Tenebris e retornado.</p>
+
+            <p>Após acomodarem os cavalos, a carroça e os suprimentos no convés, o navegador phandoriano assumiu o leme. Naquele exato instante, o clima transformou-se em um pesadelo vivo. O vento uivou com violência descomunal, as ondas agitaram-se em fúria espumante e o céu sobre eles tingiu-se de uma escuridão sobrenatural. Assustados, os Othans levaram as mãos às armas, mas o navegador phandoriano soltou uma risada rústica, acalmando-os ao dizer que não precisavam temer, pois aquilo era a manifestação dos "Guardiões de Phandor", divindades que jamais fariam mal aos seus próprios soldados.</p>
+
+            <p>Foi quando o terror se materializou. Rasgando as nuvens carregadas acima do mastro, um gigantesco e monumental <strong>Dragão Negro</strong> sobrevoou a embarcação. A mera passagem de suas asas colossais ergueu a tempestade caótica que assolava o mar. O monstro ignorou o navio, batendo suas asas imensas e voando em linha reta na direção exata de Hanzou.</p>
+
+            <p>O clérigo fanático não havia falhado. A esfera violeta lançada ao céu era um sinalizador, uma convocação. Os Othans entreolharam-se em um silêncio sepulcral, engolindo em seco ao perceberem o destino cruel que aguardava a cidade que haviam acabado de libertar. O Império de Phandor estava enviando um dragão para apagar a rebelião do mapa. Contudo, feridos, sem Rashad e diante de uma força divina daquela magnitude, eles sabiam que não podiam fazer nada. Mantendo o sangue frio e o coração apertado pela impotência, os heróis voltaram as costas para a fumaça no horizonte.</p>
+
+            <p>O navegador girou o leme, informando que a viagem marítima até o porto de Yorozu duraria entre três e quatro dias. O navio militar cortou as ondas, levando os novos Othans em direção ao próximo capítulo de sua profecia, enquanto Hanzou queimava nas sombras.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Capítulo 7 -->
+      <div id="modal-cap7" class="modal">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <div class="modal-title">Capítulo 7 - O Monstro Noturno</div>
+          <div class="modal-date">15 de Julho de 2026</div>
+          <div class="modal-desc">
+            <p>Após um dia de viagem a bordo do navio, os Othans experimentavam uma calmaria um tanto estranha e atípica. Na parte interna da embarcação, o bardo Henry Avery passava a maior parte do tempo recolhido em sua rede, com o estômago completamente revirado pelo enjoo marítimo, dormindo para esquecer a náusea do balanço das águas. No convés do navio militar de Phandor, o vento soprava suave e o jovem recruta phandoriano pilotava a embarcação sob as ordens do grupo, enquanto Fen Ri, Zephira e Kyusaki observavam a imensidão azul. Aproveitando o momento de tranquilidade, Kyusaki aproximou-se de Zephira, que mantinha o olhar perdido no horizonte com uma expressão cabisbaixa. Com cuidado, ele a questionou sobre seu sumiço em Hanzou e o que de fato havia acontecido com seu pai, Rashad. Mais calma, a patrulheira finalmente abriu o coração e explicou toda a trágica história. Ela revelou que o primeiro contrato de seu pai com Nadja começou por causa dela, pelo fato de sua mãe ter engravidado, e que passou a vida inteira acreditando que sua alma já pertencia àquela entidade. Mas justamente quando descobriu que não... foi exatamente o momento em que se viu forçada a entregá-la. Zephira revelou que foi por conta disso que Rashad sumira na noite anterior: o monge havia se entregado voluntariamente a Nadja para barganhar e resgatar a alma da filha. O peso daquela revelação tocou profundamente Kyusaki, que sentiu bastante e se compadeceu da dor da companheira. Com determinação no olhar, a garota afirmou que seu objetivo final era encontrar e matar Nadja de uma vez por todas, destruindo a linhagem da maldição. Kyusaki apenas assentiu com a cabeça, selando um pacto implícito de apoio mútuo.</p>
+
+            <p>O momento de vulnerabilidade foi interrompido pela voz do navegador phandoriano, que gritou do leme apontando para algo que surgia na névoa marítima, incapaz de identificar a silhueta. Zephira escalou rapidamente o mastro principal até a gávea e, com sua visão aguçada, identificou um navio se aproximando em rota de colisão rápida e agressiva. Como o navegador confirmou que não havia registros de rotas de Phandor naquela região e o navio avançava com hostilidade, o grupo imediatamente preparou as defesas, posicionando-se ao redor de um dos canhões do deque. O galeão que emparelhou era uma visão impressionante: um barco grande, todo marcado por cicatrizes de destruição e tábuas queimadas, mantendo-se navegando por puro milagre. Piratas barulhentos se aproximaram e anunciaram a abordagem, ordenando que os Othans entregassem o navio de imediato ou sofreriam as consequências. Kyusaki tentou blefar, gritando de volta que aquele era um navio militar de Phandor e que os piratas estavam cometendo um grave erro, mas o capitão inimigo soltou uma gargalhada desdenhosa e ignorou o aviso.</p>
+
+            <p>A resposta veio com fogo e pólvora. Fen Ri acendeu o pavio do canhão e o tiro certeiro cruzou o vão entre as duas embarcações, atingindo a bateria inimiga e danificando severamente o canhão adversário, embora não o tenha inutilizado por completo. A horda de piratas correu para pular no navio do grupo. Três deles iniciaram a abordagem e um quarto tripulante permaneceu na retaguarda para preparar a artilharia danificada. De seu posto, o capitão pirata sacou uma pistola pesada e disparou, atingindo Fen Ri e Zephira e machucando-as um pouco. Kyusaki moveu-se com a precisão de um raio. Usando de suas habilidades ágeis, ele disparou uma sequência rápida com sua pistola de ossos espirituais e matou o pirata que preparava o canhão do outro navio em um único movimento. Ao ver outro marujo correr para assumir o controle da artilharia, Kyusaki gritou, avisando que ele seria o próximo.</p>
+
+            <p>Ao mesmo tempo, os outros dois piratas invasores partiram para cima de Fen Ri com cimitarras em punho. Na retaguarda, Zephira ordenou que sua cobra Toninho sobrevoasse o navio inimigo e canalizou sua marca de caçadora sobre o capitão, disparando duas flechas consecutivas com seu arco. O líder pirata desviou da primeira por puro reflexo, mas foi atingido em cheio pela segunda, sendo ferido pela primeira vez e ficando visivelmente apreensivo. No convés, Fen Ri provou o motivo de carregar a fúria bárbara e, com um único arco devastador de seu mangual, cortou os braços de um dos piratas e o lançou sem vida nas águas escuras do mar, deixando o segundo invasor sangrando gravemente no chão de madeira. O capitão pirata, assustado com o estrago monumental causado por Kyusaki, tentou apontar sua pistola contra o cranori, mas o nervosismo fez suas mãos falharem e a arma emperrou. No navio inimigo, o segundo tripulante continuava a preparar o canhão, enquanto o pirata ferido que Fen mutilara tentou uma última cartada desesperada, perfurando a bárbara com sua adaga. Kyusaki não deu margem para erros e fulminou novamente o segundo operador do canhão pirata. Zephira comandou Toninho para fustigar o capitão e disparou uma flecha infundida com energia espiritual que quase partiu o peito do corsário ao meio, deixando-o bastante machucado. Fen Ri encerrou a ameaça no convés ao descer sua lâmina e decapitar o segundo pirata que a importunava.</p>
+
+            <p>Gravemente ferido e cercado, o capitão pirata pediu calma e perguntou se eles não gostariam de fechar um acordo financeiro para poupar sua vida. Os Othans ignoraram as súplicas e continuaram avançando, fazendo com que o capitão desse meia-volta e corresse desesperadamente na direção do interior de seu próprio navio. O grupo iniciou a perseguição. Toninho quase alcançou os calcanhares do fugitivo, fazendo o homem desviar desengonçado — a brecha perfeita para que Zephira disparasse uma última flecha certeira, finalizando o capitão pirata no chão de sua cabine.</p>
+
+            <p>Buscando algo útil que pudesse servir de espólio, Kyusaki e Zephira adentraram as entranhas do galeão pirata, descendo rumo ao interior do navio. Lá, depararam-se com uma figura inesperada escondendo-se na escuridão do porão: uma jovem garota extremamente assustada, suja e vestindo trapos rasgados. Zephira guardou suas adagas e aproximou-se com cuidado, suavizando o tom de voz para acalmá-la. A garota, tremendo sob a penumbra, murmurou que seu nome era Juno e explicou, com a voz fraca, que a luz forte do sol lhe causava uma dor insuportável. Compadecida, a patrulheira entregou-lhe algumas roupas para que ela se cobrisse totalmente e a convidou para o navio dos Othans. Enquanto Zephira a guiava para fora, Kyusaki estava ocupado tentando arrancar o chapéu extravagante do capitão pirata que havia ficado preso pela flecha na parede de madeira.</p>
+
+            <p>Após conseguir seu troféu, Kyusaki vasculhou os destroços do escritório do navio. O local estava tão retorcido quanto o resto do casco, exibindo uma mesa de documentos repleta de papéis úmidos e, ao lado, uma cela de ferro maciço cujas grades de metal haviam sido violentamente retorcidas de dentro para fora, deixando uma abertura escancarada. Ao olhar para a mesa, o cranori avistou uma faca cravada diretamente sobre um cartaz de procurado que oferecia a imensa recompensa de 500 moedas de ouro. No papel, havia a ilustração exata da jovem garota sob o codinome de "Monstro Noturno". Ele olhou pela janela e viu que Juno já havia entrado no navio do grupo, estando na companhia de Zephira e Fen Ri. Devido à claridade do sol, a misteriosa garota retirou-se rapidamente para a parte inferior da embarcação dos heróis. Kyusaki recolheu rapidamente um saco de moedas quase vazio e uma garrafa de vinho na mesma situação e correu de volta para o navio dos Othans para alertar os companheiros sobre o perigo.</p>
+
+            <p>No entanto, já era tarde demais. Assim que Kyusaki pisou no convés, um grito de puro desespero ecoou do porão. Era a voz do navegador phandoriano. O cranori desembainhou sua pistola e desceu as escadas correndo, deparando-se com uma cena de terror: Juno estava com suas presas afiadas cravadas profundamente no pescoço do navegador, sugando seu sangue com violência selvagem. A criatura se afastou, alegando que não havia conseguido resistir por estar com muita fome. Kyusaki empurrou a vampira para trás, agarrou o corpo enfraquecido do marinheiro e o arrastou para o convés, onde Zephira usou suas magias de cura para estancar o sangramento e salvar a vida do timoneiro. Enquanto isso, Fen Ri e Kyusaki voltaram para enfrentar a criatura no porão escuro.</p>
+
+            <p>A batalha foi claustrofóbica e letal. Juno moveu-se com velocidade sobrenatural, flanqueando Fen Ri e desferindo um ataque brutal que deixou a bárbara à beira da morte, forçando a guerreira a usar cada gota de sua tenacidade para continuar de pé. Kyusaki percebeu que as armas comuns teriam dificuldade contra a regeneração da criatura e fitou os feixes de sol que cortavam a escotilha aberta. Em um lampejo de genialidade, o cranori puxou de sua mochila o espelho místico que havia comprado do mercador Kai e apontou a luz refletida do sol diretamente contra a mulher, percebendo que a claridade a machucava muito. Zephira desceu novamente ao porão após curar o navegador, atacando a vampira e saltando logo em seguida para o pequeno foco de luz solar protetor ao lado dos companheiros. Os três Othans, extremamente feridos e exaustos pela sequência de combates, mantinham-se ombro a ombro naquele pequeno espaço iluminado.</p>
+
+            <p>A vampira, contudo, usou de sua agilidade sombria para contornar a iluminação. Ela surgiu das sombras atrás de Fen Ri, desferindo um golpe sorrateiro que finalmente derrubou a bárbara inconsciente no chão, e tentou em seguida dilacerar Kyusaki, que esquivou por milagre. Percebendo que eles não tinham muito tempo nem opções de combate, Kyusaki decidiu usar o espelho místico mais uma vez em vez de suas armas convencionais. Ele avançou e apontou o feixe de sol concentrado diretamente contra a face de Juno. O efeito foi instantâneo e devastador: ao ser atingida pela intensidade da luz de tão perto, o corpo do "Monstro Noturno" desfez-se em cinzas incandescentes que simplesmente evaporaram no ar úmido do porão. Kyusaki guardou o espelho e soltou um suspiro frustrado, lamentando terem perdido a generosa recompensa de ouro. Zephira correu e usou suas últimas energias para curar e levantar Fen Ri. Do convés, o navegador phandoriano — grato por ter sua vida salva duas vezes — gritou que eles deveriam descansar nos quartos, pois ele assumiria o leme e cuidaria de chegar em Yorozu o mais rápido possível para retribuir o favor.</p>
+
+            <p>O grupo recolheu-se para descansar e, após horas de um sono profundo e reparador, os Othans acordaram com o navio ancorado na costa rochosa de Yorozu. Para evitar carregar volumes suspeitos, eles utilizaram o saco sem fundo de Kai para armazenar a carroça, os cavalos e todos os seus pertences pesados, desembarcando apenas com o essencial. Antes de partir, Kyusaki instruiu o navegador a cuidar da embarcação militar e a avisar Henry Avery — que continuava dormindo na rede para se recuperar do enjoo — sobre a direção que o grupo havia tomado assim que o bardo finalmente acordasse. Durante as despedidas, Kyusaki manteve sua habitual mania cômica de chamar o timoneiro por nomes de jogadores de futebol completamente diferentes, como Ronaldo, Rivaldo e Robson, o que não pareceu ofendê-lo. No entanto, quando Zephira tentou fazer a mesma brincadeira chamando-o por um nome incorreto, o marinheiro virou-se com o rosto vermelho de pura irritação, exigindo respeito.</p>
+
+            <p>O grupo deixou as docas e seguiu pela estrada de terra batida que serpenteava em direção aos grandes portões de Yorozu. No meio do caminho, depararam-se com uma cena bizarra: um homem estava caído à beira da estrada, completamente nu e coberto de esterco de cavalo. Ao ser acordado pelos heróis, o homem sentou-se assustado e completamente desnorteado. Ele revelou que seu nome era Shun e que trabalhava em uma fazenda local, mas não possuía a menor memória sobre o que havia acontecido na noite anterior ou sobre como havia parado ali naquela situação degradante. Kyusaki cruzou os braços, relutante em ajudar mais um estranho na estrada após o quase desastre que sofreram no mar, mas Zephira sentiu um aperto no peito e chamou os companheiros para um canto afastado. A patrulheira compartilhou suas suspeitas, apontando que a perda de memória e o estado selvagem ao acordar indicavam que se tratava de um caso de licantropia. Shun estava amaldiçoado a se transformar em um lobisomem. Como o rapaz havia mencionado que sua família estava morta e que ele vivia sozinho na floresta, Zephira apontou que eles tinham apenas dois caminhos: ou o matavam ali mesmo para acabar com o sofrimento antes que fizesse novas vítimas, ou o levavam para a cidade para encontrar um clérigo poderoso o suficiente para pagar pela cura da maldição.</p>
+
+            <p>Identificando-se profundamente com a dor de carregar uma maldição que jamais escolhera, a ranger insistiu para que o ajudassem. Sensibilizados pela história, os Othans concordaram em guiar Shun até Yorozu, mas tomaram a decisão de ocultar dele a verdade sobre sua condição lupina por enquanto. Ao se aproximarem das muralhas, Kyusaki relembrou um detalhe político crucial do livro de registros de Hanzou: embora o país de Kaeshin fosse considerado uma colônia sob o domínio militar de Phandor, a cidade de Yorozu mantinha-se independente, sob o controle autônomo de um barão local. Portanto, seria muito mais inteligente que eles escondessem os uniformes de Phandor e entrassem como viajantes comuns para não atrair a fúria ou suspeita das autoridades locais.</p>
+
+            <p>Nos portões de entrada, um guarda de Yorozu cruzou as lanças, questionando o propósito do bando. Os Othans explicaram de forma simples que estavam apenas ajudando o pobre Shun a retornar à civilização para que ele pudesse se limpar. Desconfiado do estado do homem nu, o soldado convocou sua superior. A capitã Yamada aproximou-se com passos firmes e exigiu a documentação de todos. Zephira apresentou um documento falso com o nome de Sabrina. Após uma análise rápida, a capitã permitiu a entrada do grupo, deixando um aviso rígido para que não causassem nenhuma desordem dentro dos limites das muralhas de Yorozu.</p>
+
+            <p>Assim que cruzaram os portões, os heróis guiaram Shun diretamente para a taverna local para que ele pudesse finalmente tomar um banho quente e se livrar do cheiro de esterco. O taverneiro cobrou duas moedas de ouro pelo uso das termas dos fundos e o grupo sentou-se para esperar. Enquanto aguardavam, o jovem filho do estalajadeiro aproximou-se oferecendo uma amostra grátis de uma sopa de vegetais que borbulhava no balcão, garantindo que era muito boa. Os Othans aceitaram de bom grado. Nesse instante, passos firmes e barulhentos ecoaram pela escada de madeira que dava para os quartos superiores. Um jovem de cabelos loiros perfeitamente alinhados, pele extremamente pálida e trajando vestes de seda fina desceu as escadas reclamando em voz alta sobre o odor insuportável de fezes que subia pelo assoalho, ordenando que o taverneiro limpasse aquela imundície imediatamente. O taverneiro, visivelmente tenso e amedrontado, curvou-se e apressou-se em atender aos caprichos do rapaz.</p>
+
+            <p>O jovem nobre caminhou em direção à saída da taverna. Ao passar pela mesa dos Othans, percebeu que Zephira o encarava com uma expressão de profundo desdém. O loiro estacou os passos e a encarou de cima para baixo, questionando se ela havia perdido alguma coisa na cara dele. Como resposta, Zephira simplesmente cuspiu no chão de madeira, bem próximo às botas limpas do nobre. O homem sorriu com escárnio e rebateu antes de empurrar as portas, dizendo que agora sabia exatamente de onde vinha o cheiro de merda que empestava o salão. Assim que ele cruzou as portas, um dos clientes locais da taverna aproximou-se da mesa dos heróis com os olhos arregalados, sussurrando um alerta urgente para que não mexessem com ele sob hipótese alguma, pois ele era o filho do poderoso Barão Rubris, o governante absoluto de Yorozu.</p>
+
+            <p>Ignorando as ameaças do nobre por hora, o grupo provou as amostras da sopa e surpreendeu-se com o sabor extraordinário do caldo, pedindo ao garoto três tigelas cheias para recuperar as forças. Shun retornou do banho, devidamente limpo e vestindo roupas simples emprestadas. Ele sentou-se à mesa e, com o olhar preocupado, questionou o motivo de aventureiros como eles estarem visitando Yorozu, revelando que a cidade era perigosa e famosa pelas mortes misteriosas e sangrentas que ocorriam sob o manto da noite devido a monstros e criaturas ferozes que as patrulhas do Barão não conseguiam conter. Os Othans acalmaram Shun, garantindo que ele estaria seguro ao lado deles e que não precisava se preocupar. O grupo terminou suas refeições, levantou-se da mesa e pediu para que o jovem fazendeiro os guiasse diretamente até a capela de Yorozu. Eles precisavam encontrar um clérigo antes que a noite caísse e revelasse o terrível segredo de seu novo companheiro.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Capítulo 8 -->
+      <div id="modal-cap8" class="modal">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <div class="modal-title">Capítulo 8 - O Preço da Cura</div>
+          <div class="modal-date">23 de Julho de 2026</div>
+          <div class="modal-desc">
+            <p>Ao despertar em sua rede na parte interna do navio militar, Henry Avery finalmente se sentiu recuperado do terrível enjoo que o acompanhara por toda a viagem. Contudo, ao colocar os pés no chão, deparou-se com um cenário de puro horror: as paredes e o assoalho da cabine inferior estavam lavados com muito sangue fresco espalhado por toda parte, herança do confronto mortal contra a vampira Juno. Assustado, o bardo subiu correndo os degraus até o convés e encontrou o jovem navegador phandoriano ao leme. Henry questionou o marinheiro sobre o paradeiro de seus companheiros, e o homem, ainda abatido, explicou que o grupo já havia desembarcado e partido em direção à cidade de Yorozu seguindo pela estrada de terra batida logo à frente. Sem perder tempo, o músico recolheu suas coisas e marchou pelo caminho até alcançar os imponentes portões da cidade independente. Ao abordar a guarda na entrada, Henry informou ao sentinela que pertencia ao mesmo grupo que cruzara as muralhas mais cedo. O guarda exigiu seus documentos de identidade, conferiu os papéis e permitiu sua entrada, deixando um aviso rígido e idêntico ao dado aos outros: que ele não arranjasse nenhuma confusão nas ruas. Assim que cruzou o portal de ferro, Henry parou um transeunte para perguntar onde ficava a taverna local e, seguindo as indicações do morador, apressou o passo pelas ruelas.</p>
+
+            <p>Na taverna, a conversa tensa entre os Othans e Shun continuava. Sentados à mesa aguardando a refeição, eles haviam decidido que iriam até a capela da cidade logo depois que terminassem de comer. O jovem fazendeiro desabafava sobre sua tragédia pessoal, contando que toda a sua família fora brutalmente morta por um dos monstros noturnos; ele relembrara, com os olhos marejados, a dor de ter chegado em casa pela manhã e encontrado seus parentes completamente dilacerados. Nesse momento, o filho do estalajadeiro serviu as tigelas e eles começaram a comer a sopa com muito gosto, deliciando-se com o sabor extraordinário do caldo. Foi quando Henry adentrou o salão, avistou os companheiros e sentou-se à mesa com eles. Enquanto o bardo tomava seu prato, Fen Ri, Kyusaki e Zephira atualizaram o músico sobre todos os eventos extraordinários que haviam acontecido enquanto ele esteve apagado na rede: o ataque pirata, o confronto claustrofóbico contra o "Monstro Noturno", o uso do espelho místico para pulverizar a vampira e o resgate de Shun na estrada.</p>
+
+            <p>Satisfeitos e alimentados, os cinco companheiros, acompanhados de Shun, deixaram o estabelecimento e partiram em direção à grande capela. O caminho os levou para uma área mais afastada e periférica da cidade, onde o cenário urbano dava lugar a extensos campos abertos e fazendas. No meio do trajeto, o grupo deparou-se com uma carroça batida à beira da estrada, em péssimo estado de conservação. Ao se aproximarem para investigar, perceberam que havia alguém despertando em meio aos destroços internos: tratava-se de um jovem Simyari de feições felinas. Contudo, a visão ao redor era aterradora: no banco dos condutores, no lugar onde deveriam estar os motoristas, havia apenas uma quantidade massiva de sangue, pedaços de carne espalhados e corpos completamente irreconhecíveis e dilacerados. O rapaz Simyari sentou-se atordoado, assustando-se bastante com a carnificina e alegando que não conseguia se lembrar de absolutamente nada do que havia acontecido nas últimas horas. A amnésia repentina fez o grupo achar a situação extremamente estranha.</p>
+
+            <p>Kyusaki cruzou os braços e levantou imediatamente a hipótese de que o recém-chegado fosse mais um amaldiçoado pela licantropia, exatamente como Shun. No entanto, Zephira aproximou-se e adverteu o pistoleiro sobre um detalhe crucial: ao contrário de Shun, que fora encontrado nu, as roupas daquele Simyari estavam perfeitamente intactas, sem um único rasgão que indicasse uma transformação bestial. Kyusaki mudou de tática e argumentou que, se ele não era um lobisomem, poderia muito bem ser um vampiro disfarçado, assim como a Juno que os atacara no porão do navio. O grupo pressionou o rapaz com perguntas e ele se apresentou, dizendo que seu nome era Sun e reforçando que estava completamente perdido, sem saber sequer em qual região do país se encontrava. Julgando perigoso demais deixar um suspeito de maldição vagando sozinho, os Othans acharam melhor mantê-lo por perto sob constante vigilância. Sun e Shun juntaram-se à marcha e todos seguiram juntos até o destino.</p>
+
+            <p>Ao chegarem, depararam-se com a imponência da capela de Yorozu, construída logo em frente ao cemitério da cidade, um local sombrio composto por dezenas de lápides de pedra e algumas criptas familiares antigas. Ao empurrarem as portas pesadas do templo, os heróis avistaram um homem de mais idade ajoelhado diante do altar em profunda oração, enquanto uma garota jovem aguardava nos bancos de trás, fumando tranquilamente. A jovem notou a entrada do grupo e perguntou se eles estavam ali para falar com o frei. Diante da resposta afirmativa dos Othans, ela deu de ombros e comentou que também aguardava por ele, mas que eles podiam ir primeiro e iniciar a conversa. O clérigo idêntico levantou-se, apresentou-se como Frei Sato e, com um tom sereno, questionou o que os viajantes desejavam. O grupo explicou que estava ciente das mortes misteriosas que assolavam a região e expressou o desejo de ajudar, questionando qual era a verdadeira causa por trás daquele banho de sangue noturno.</p>
+
+            <p>Sato soltou um suspiro pesado e explicou que havia uma forte crença popular de que a cidade de Yorozu estava passando por um severo castigo divino, uma afirmação que batia com os boatos sobre criaturas que Shun já havia citado na taverna. Os heróis pediram que ele explicasse melhor as origens daquela história. O frei narrou que, há alguns anos, quando o Império de Phandor marchou para anexar o território, a população de Yorozu recusou-se a aceitar a submissão. Alguns revolucionários locais decidiram iniciar uma luta armada pela independência da região, o que trouxe uma época sombria repleta de morte, sangue e dor. O motivo principal da discórdia era a recusa dos rebeldes em se submeterem à fé oficial de Phandor, que exigia a devoção cega aos Cinco Dragões divinos. Sato afirmou que essa heresia e a rebelião causaram uma revolta divina direta, e, por essa razão, a cidade vinha sofrendo o castigo implacável das feras noturnas. A insurreição só terminou quando o Barão Rubris assumiu o controle, intermediou a situação e selou um acordo de boas relações políticas com Phandor; desde então, o exército imperial recuou e as coisas na cidade haviam "melhorado".</p>
+
+            <p>Zephira franziu o cenho, incomodada com a lógica do clérigo, e argumentou que uma divindade que impusesse um castigo tão cruel sobre civis inocentes — pessoas que sequer haviam pegado em armas ou agido de fato contra ela — não poderia ser considerada justa. Sato balançou a cabeça resignado e respondeu que toda a cidade pagava pelos erros de alguns poucos e que os fiéis não questionavam as tragédias, pois os mortais não eram capazes de compreender a complexidade dos planos divinos. Mesmo não concordando com a filosofia punitiva, Zephira respondeu que respeitava a fé do idoso. O grupo mudou de assunto e foi direto ao ponto principal da visita: perguntaram se o frei possuía a habilidade de canalizar magia sagrada para curar alguém afligido por uma maldição de sangue. Sato negou prontamente, explicando que ele não mexia com artes arcanas ou feitiçaria, operando seus milagres cotidianos apenas através de sua fé e orações. Kyusaki tomou a palavra e questionou se ele não conhecia ninguém na cidade que pudesse realizar tal feito. O frei pensou por um instante e recomendou que eles procurassem por Sarah Rubris, uma das filhas do barão, revelando que a jovem era uma verdadeira entusiasta do estudo de magia. Zephira questionou se uma aproximação com a nobreza seria difícil, mas Sato os tranquilizou, explicando que a família do Barão Rubris era bastante acessível ao povo e que eles não teriam problemas para conseguir uma audiência.</p>
+
+            <p>Os Othans agradeceram ao clérigo e deixaram a capela em direção às terras da propriedade do barão. Assim que pisaram no cemitério externo, os ânimos entre Zephira e Kyusaki esquentaram e uma discussão acalorada teve início. O cranori argumentou de forma fria que o grupo estava perdendo tempo demais com Shun, insistindo que eles não tinham obrigação alguma de carregar ou salvar um fazendeiro desconhecido. Zephira bateu o pé, afirmando com firmeza que faria absolutamente tudo o que estivesse ao seu alcance para ajudar o homem amaldiçoado e que só cogitaria matá-lo caso não houvesse mais nenhuma alternativa de salvação. Kyusaki retrucou com desdém, dizendo que aquela empatia era uma tremenda burrice pragmática. Irritada, a patrulheira respondeu que, se eles achavam o fardo pesado demais, não precisavam continuar acompanhando-a; ela seguiria sozinha e curaria Shun sem a ajuda de ninguém. Apesar do atrito e de não gostarem da situação, os Othans decidiram que não iriam se separar e que continuariam juntos na missão.</p>
+
+            <p>O grupo retomou a caminhada em direção à fazenda, ladeado por Sun e Shun. Durante o trajeto, Zephira aproximou-se de Shun e questionou se ele não achava estranho ter dormido durante todo o massacre de sua família sem ter ouvido um único grito ou barulho de luta, tentando extrair mais detalhes sobre o passado do rapaz. Ao mesmo tempo, Sun decidiu compartilhar suas próprias origens para tentar dissipar as suspeitas de Kyusaki: ele explicou que viera de um monastério isolado na região de Xintai e que recebera de sua mestra a missão vital de entregar uma caixa trancada a um destinatário cujo nome e endereço eram completamente desconhecidos. No entanto, quando o Simyari colocou as mãos nas vestes para mostrar o artefato ao grupo, percebeu com absoluto choque que a tal caixa havia desaparecido. Henry ofereceu-se para retornar com ele até os destroços da carroça batida para revistar o local. Os dois vasculharam cada canto da madeira quebrada, mas não encontraram sinal do objeto. Durante a busca minuciosa na carga, Henry notou algo estranho: havia uma pegada nítida deixada sobre as verduras esmagadas, uma marca de sapatos civis cujo solado carregava vestígios de uma terra escura e muito específica. Sun comentou que não fazia ideia do que havia guardado no interior da caixa, reforçando que ninguém jamais conseguira abri-la e que ele próprio nem sabia se tinha a permissão de tentar.</p>
+
+            <p>Henry relatou a descoberta da pegada misteriosa aos companheiros e o grupo se preparou para seguir até a sede da fazenda. Contudo, antes que pudessem marchar, uma patrulha da guarda de Yorozu surgiu na estrada. A capitã Yamada aproximou-se a cavalo e perguntou se os aventureiros sabiam de algo ou se tinham testemunhado o que causara as mortes violentas na carroça destruída. Mantendo o disfarce, os heróis explicaram que apenas haviam encontrado o veículo naquele estado. Yamada assentiu com frieza, comentando que tudo bem, já que aquela carnificina se tratava nitidamente de mais um ataque noturno convencional com o qual a guarda já estava infelizmente acostumada a lidar nas fronteiras. A oficial olhou fixamente para cada um e renovou o aviso para que ficassem longe de problemas. Os Othans tentaram se oferecer para ajudar nas investigações das patrulhas, mas a capitã recusou o apoio de prontidão, ordenando que seguissem viagem. Assim que os guardas se afastaram, Zephira comentou que achava extremamente suspeita a forma como a oficial recusara ajuda externa tão rapidamente diante de uma crise daquela magnitude. Henry concordou com a desconfiança, mas o recém-chegado Sun levantou a hipótese de que a capitã talvez estivesse apenas tentando mantê-los seguros e afastados dos perigos mortais da cidade. Zephira discordou veementemente, afirmando que em uma situação de extremo perigo as autoridades deveriam aceitar toda a ajuda possível. Henry ponderou, argumentando que talvez o governo local não devesse confiar a segurança pública a estranhos desconhecidos que recém haviam cruzado os portões.</p>
+
+            <p>Após cruzarem as cercas da enorme e próspera propriedade dos Rubris, Shun abriu um sorriso aliviado e informou que era exatamente ali que ele trabalhava como fazendeiro. O rapaz agradeceu ao grupo, despediu-se temporariamente e seguiu em direção aos campos para executar suas tarefas diárias, enquanto os Othans caminhavam em direção ao casarão principal para tentar falar com Sarah. Antes de se afastar, Shun deixou um último alerta: pediu para que tivessem muito cuidado ao lidar com o mordomo da propriedade, um homem chamado Giovani, pois ele era famoso por não ser nem um pouco receptivo com visitas. Dito e feito, ao se aproximarem da entrada principal, os heróis foram interceptados por Giovani. O homem sequer se deu ao trabalho de cumprimentá-los; cruzou os braços e perguntou de forma ríspida o que um bando de estrangeiros estava fazendo ali. Os heróis mantiveram a educação e explicaram que desejavam apenas uma audiência com a jovem Sarah. O mordomo rebateu secamente, dizendo que não iria incomodar a rotina da patroa com viajantes da estrada. Os Othans continuaram insistindo na diplomacia e tentaram suborná-lo de forma sutil, sugerindo que tinham algo de grande valor para oferecer em troca do favor. Giovani arqueou a sobrancelha e questionou se eles por acaso carregavam itens mágicos, revelando que Sarah era fascinada por esse tipo de artefato e perguntando se fora isso que vieram trazer. O grupo confirmou a mentira.</p>
+
+            <p>Para provar o argumento, Kyusaki retirou do saco sem fundo a pena de escrita direcionada que haviam comprado do mercador Kai. Os heróis realizaram uma rápida demonstração prática, mostrando o funcionamento do objeto cujas palavras escritas só podiam ser lidas pelos olhos dos escolhidos pelo portador. Impressionado com a utilidade do item, Giovani finalmente cedeu, mudou a postura e aceitou entrar na residência para chamar a jovem nobre. Minutos depois, uma adolescente de pele extremamente pálida e longos cabelos loiros saiu eufórica pela porta principal. Sarah Rubris demonstrou uma imensa hospitalidade e uma animação contagiante ao conhecer os viajantes. Ao pousar os olhos sobre Sun, a garota ficou completamente maravilhada e impressionada pelo fato de ele ser um Simyari felino; sem pedir qualquer permissão, ela começou a passar a mão carinhosamente pelo pelo macio do rapaz. Sun permaneceu completamente estático e sem reação, não por timidez, mas porque estava com a boca entupida de morangos frescos que havia pego das plantações da fazenda sem autorização.</p>
+
+            <p>O grupo interrompeu a cena e perguntou a Sarah se ela possuía o conhecimento necessário para conjurar magias, pois precisavam urgentemente de um favor místico. A adolescente soltou um suspiro dramático e explicou que infelizmente não sabia conjurar feitiços próprios, apesar de ser o seu maior sonho na vida; ela revelou que sua atuação limitava-se a colecionar artefatos mágicos e canalizar encantamentos apenas através das propriedades dos itens que comprava. Zephira tomou a frente e perguntou se entre sua vasta coleção havia algum amuleto ou poção capaz de quebrar e curar maldições severas. Sarah sorriu sem graça e respondeu que só possuía itens voltados para curar maldições cosméticas, como excesso de pele oleosa ou problemas capilares graves. Diante da óbvia decepção estampada no rosto dos Othans, a garota tentou ajudar e comentou que o seu fornecedor particular de itens mágicos com certeza teria algo útil para o caso deles. Animada, ela os convidou para entrar na residência e subir até o seu quarto de estudos. Ao cruzarem a suntuosa sala de estar, os heróis avistaram as outras duas irmãs de Sarah sentadas nos sofás, que mal reagiram à presença dos estranhos, e foram formalmente cumprimentados pelo Barão Rubris, que aproveitava a brisa sentado na varanda, tomando sol e lendo seus documentos.</p>
+
+            <p>Assim que entraram no quarto de Sarah, a jovem nobre começou a revirar seus pertences e explicou que comprava todo o seu arsenal místico de um homem misterioso com quem se comunicava periodicamente através de uma grande esfera de cristal mágica. No entanto, ela confessou com um bico de frustração que sua mesada daquele mês já havia terminado, impossibilitando-a de comprar qualquer coisa nova. Enquanto a garota organizava a mesa, Henry Avery notou um belíssimo alaúde decorado apoiado no canto do quarto. O bardo perguntou se ela era uma entusiasta da música, e Sarah respondeu que até tentara aprender a tocar o instrumento no passado, mas que havia se desinteressado completamente das aulas particulares após as primeiras tentativas. A nobre concentrou sua energia na esfera mágica e estabeleceu a conexão com seu contato. Em poucos segundos, uma voz masculina e grave ecoou com clareza pelas paredes do quarto. O homem apresentou-se como Luigi e questionou de forma profissional o que Sarah precisava naquela manhã. A garota explicou rapidamente que a compra não era para ela, mas sim para um grupo de aventureiros que estava em seu quarto, e pediu para que os Othans explicassem a demanda. Zephira aproximou-se do artefato e revelou que precisavam de um recurso capaz de expurgar uma maldição de sangue.</p>
+
+            <p>Do outro lado da linha mística, Luigi respondeu que tinha em seu estoque um pergaminho antigo contendo a poderosa runa de <em>Remover Maldição</em> e explicou que, caso houvesse um conjurador de magias experiente no grupo deles — como um bardo ou um clérigo —, a runa poderia ser ativada sem problemas. Os heróis entreolharam-se aliviados e confirmaram o interesse no item. Sarah pegou a palavra e questionou o preço do pergaminho. A resposta de Luigi foi um balde de água fria: <strong>300 moedas de ouro</strong>. No mesmo instante, a expressão de felicidade sumiu do rosto dos Othans, que lembraram que seus bolsos estavam praticamente vazios após as negociações da estrada. Kyusaki pigarreou e informou que eles dariam um jeito de levantar a quantia necessária. Sarah despediu-se de Luigi, informando que entraria em contato assim que o grupo retornasse com o pagamento em mãos, e encerrou a transmissão. O grupo perguntou à adolescente se ela não sabia de nenhum trabalho disponível na propriedade ou se o seu pai, o Barão, não teria alguma missão que demandasse o uso de mercenários em troca de uma boa recompensa. Sarah sorriu e sugeriu que eles aceitassem almoçar na residência naquela tarde, pois assim poderiam conversar diretamente com o Barão Rubris sobre negócios.</p>
+
+            <p>Os Othans aceitaram prontamente o convite. A jovem nobre os conduziu de volta até a varanda e apresentou formalmente o grupo ao seu pai, retirando-se em seguida para a cozinha para ajudar a preparar a refeição. Os heróis acomodaram-se nas cadeiras ao redor do Barão Rubris e começaram a explicar sua situação atual, reforçando que eram viajantes experientes em busca de contratos de trabalho e questionando sobre a crise que assolava o território de Yorozu. O Barão suspirou profundamente, pousou seus papéis na mesa e explicou que vinha tentando fazer absolutamente tudo o que estava ao seu alcance para proteger e dar dignidade ao povo da cidade, mas confessou que aquela era uma maldição terrível e implacável. Ele revelou que o período atual era o mais crítico do mês devido à chegada iminente das três noites consecutivas de lua cheia. O nobre desabafou que seus próprios trabalhadores rurais vinham sendo massacrados nos campos e que ele fora obrigado a abrir mão da guarda militar particular de sua fazenda, enviando seus soldados pessoais para reforçar as defesas das muralhas da cidade e proteger o restante da população urbana.</p>
+
+            <p>O grupo questionou se o Barão possuía mais detalhes sobre a anatomia e o comportamento dessas feras noturnas que atacavam as estradas. O governante explicou que as criaturas assemelhavam-se a lobos monstruosos, porém eram muito maiores que os animais comuns, possuíam a capacidade horripilante de andar sobre duas patas e eram movidas por um instinto assassino incontrolável, caçando sempre por carne humana fresca. O Barão olhou atentamente para as armas do grupo e perguntou se eles possuíam habilidades reais de combate; em caso positivo, ele gostaria de contratá-los para realizar a segurança e a guarda armada dos limites de sua fazenda durante as duas noites restantes de lua cheia que viriam. Além disso, o nobre acrescentou um pedido especial: gostaria que eles ensinassem os fundamentos práticos de magia para sua filha Sarah durante o período de estadia, um assunto sobre o qual os heróis já haviam conversado com a garota e que a deixara extremamente entusiasmada. Como pagamento por toda a empreitada, o Barão Rubris ofereceu a quantia de 150 moedas de ouro.</p>
+
+            <p>Os Othans argumentaram que a proposta era honrosa, mas explicaram que precisavam de um valor consideravelmente maior devido à urgência de suas despesas pessoais — pensando nas 300 moedas cobradas por Luigi. O Barão Rubris lamentou, explicando que gostaria muito de poder ajudar com mais, porém a situação financeira de Yorozu estava muito complicada devido à crise e ele não poderia extrapolar aquele orçamento, que já considerava um valor justo para os padrões locais. Os heróis insistiram, perguntando se não haveria nenhuma tarefa adicional ou favor extra que pudessem realizar na propriedade para inflacionar a recompensa. O Barão Rubris permaneceu em silêncio por alguns instantes, pensativo. Seus olhos então se fixaram no belíssimo alaúde de madeira que Henry Avery carregava nas costas. O nobre ajeitou-se na cadeira e pediu para que o bardo tocasse alguma melodia ali mesmo, pois gostaria de avaliar o nível de talento do músico.</p>
+
+            <p>Henry Avery sorriu, retirou o instrumento das costas e dedilhou as cordas, testando a afinação. Ele questionou que tipo de melodia o Barão gostaria de ouvir, e o nobre solicitou uma música tranquila, típica da terra natal de onde o bardo havia vindo. Henry fechou os olhos e iniciou uma performance musical simplesmente incrível. As notas suaves e a poesia de sua canção ecoaram pela varanda, tocando profundamente o coração de cada pessoa presente no recinto. Enquanto a música flutuava no ar, Kyusaki perdeu-se em pensamentos, lembrando-se com nostalgia de sua distante terra natal de Cranor. Zephira sentiu os olhos marejarem ao ser tomada por lembranças vívidas de seu pai, Rashad. O Simyari Sun perdeu-se em reflexões sobre sua longa jornada até ali, recordando-se perfeitamente do conselho de sua mestra em Xintai, que lhe dissera que muitas vezes a jornada em si era muito mais importante e valiosa do que o próprio destino final, e que ele deveria aprender a aproveitar cada segundo do caminho.</p>
+
+            <p>Completamente encantado e comovido com a genialidade da música, o Barão Rubris levantou-se e fez uma contraproposta irrecusável. Ele explicou que Henry poderia tocar na taverna da cidade ao lado de sua outra filha, Stella, que estava precisando urgentemente de um instrumentista de alto nível. Stella realizaria uma grande apresentação musical em um evento público organizado pelo próprio Barão, uma festividade cujo objetivo era tentar acalmar e trazer um pouco de alegria ao povo aterrorizado da cidade. O nobre revelou, com um tom pesaroso, que Henry precisaria assumir a vaga porque os antigos membros da banda de sua filha haviam sido as mais recentes vítimas fatais das feras noturnas nos campos. Unindo os serviços de guarda da fazenda, as aulas de magia para Sarah e a performance musical de Henry no evento, o Barão Rubris ofereceu a quantia certeira de 200 moedas de ouro garantidas, acrescentando que, a depender do sucesso e do desempenho da apresentação na taverna, ele pagaria um bônus que elevaria o total para <strong>300 moedas de ouro</strong>. O grupo encheu-se de entusiasmo e aceitou o contrato imediatamente. O Barão orientou que eles utilizassem o antigo moinho da fazenda para se instalarem e guardarem seus pertences, avisando que deveriam retornar ao casarão assim que o almoço estivesse servido.</p>
+
+            <p>No caminho em direção ao moinho, os Othans conversavam e debatiam sobre as primeiras impressões que tiveram, concordando que a família Rubris parecia ser composta por pessoas genuinamente boas e generosas. Zephira comentou, impressionada, sobre a nobreza de caráter do Barão, que preferira abrir mão da segurança de suas próprias terras e plantações para garantir que os soldados protegessem os cidadãos dentro das muralhas. Henry Avery, por sua vez, mantinha uma expressão visivelmente preocupada e tensa, digerindo o fato de que os músicos anteriores da banda haviam sido estraçalhados pelos lobisomens. Assim que o grupo atingiu a estrutura de pedra do moinho e empurrou a grande porta de madeira, depararam-se com uma cena inesperada: um dos trabalhadores da fazenda que estava lá dentro saltou para trás abruptamente, encolhendo-se freneticamente nas sombras para se esconder do feixe de luz do sol que entrava pela abertura da porta.</p>
+
+            <p>O grupo inteiro estacou os passos na soleira, achando aquele comportamento extremamente suspeito, e hesitou em dar um passo para dentro. Com a experiência recente que tiveram a bordo do navio, a certeza de que estavam diante de mais um vampiro acendeu um alerta vermelho na mente dos heróis. O homem recolheu-se na penumbra, ajeitou suas vestes simples e apresentou-se de forma educada como Renji, explicando que trabalhava nos campos da fazenda há alguns meses. Henry Avery, que passara a viagem de navio inteira dormindo na rede, não entendeu o motivo de tanta hesitação e desconfiança por parte de seus companheiros. Em voz baixa, os Othans explicaram rapidamente ao bardo todas as características físicas e comportamentais da vampira Juno que haviam enfrentado no mar. O grupo iniciou uma conversa cautelosa com Renji para testar suas intenções, mas o rapaz demonstrou uma postura absolutamente tranquila, pacífica e controlada. Ele comentou, com um sorriso triste, que sua extrema sensibilidade à luz solar era como uma espécie de maldição pessoal com a qual ele havia aprendido a lidar no cotidiano rústico, e deixou claro que os aventureiros podiam ficar totalmente à vontade para usar o espaço do moinho. Apesar de manterem as suspeitas elevadas, os heróis perceberam que ele parecia ter seus instintos sob perfeito controle.</p>
+
+            <p>Eles acomodaram suas mochilas nos cantos do moinho e retornaram para a casa principal do Barão Rubris para o almoço. Ao cruzarem o hall de entrada, depararam-se com Samuel, o filho mais velho da família e o mesmo jovem loiro arrogante que havia provocado Zephira na taverna mais cedo. Ao avistar o grupo dentro de sua residência, o rapaz cruzou os braços e disparou uma nova provocação ácida, questionando com desdém o que aquele bando de miseráveis estava fazendo entrando na casa de sua família. O Barão Rubris interveio imediatamente com uma voz firme, repreendendo o primogênito e exigindo que ele demonstrasse modos diante dos convidados. Revoltado e bufando de frustração, Samuel deu meia-volta e marchou pisando duro em direção ao seu quarto no andar superior.</p>
+
+            <p>Com os ânimos acalmados, todos se sentaram ao redor da grande mesa de jantar e os pratos foram servidos. Os Othans notaram imediatamente que nenhuma das refeições continha qualquer ingrediente de origem animal. O Barão desculpou-se cordialmente por não ter avisado com antecedência, mas explicou com orgulho que o vegetarianismo estrito era o modo de vida e a filosofia adotada por toda a sua família. Giovani serviu as taças com um vinho tinto de fabricação própria da fazenda, e o grupo impressionou-se bastante com a qualidade excepcional e o sabor refinado da bebida. Durante a refeição, Stella, a filha mais velha, puxou assunto com Henry, demonstrando interesse em seu talento e comentando que eles precisavam organizar os ensaios da banda o quanto antes. Empolgado com o clima familiar, o Barão Rubris estendeu a mão e pediu para que o bardo tocasse mais uma de suas canções logo após o término do almoço. Dessa vez, Henry Avery mudou o tom e dedilhou uma melodia extremamente animada, festiva e contagiante. O ritmo foi tão cativante que fez a esposa do barão, a nobre Selinna, levantar-se para dançar alegremente pelo salão, enquanto Stella acompanhava o ritmo cantarolando a letra. Todos na sala foram contagiados pela energia vibrante da música. Kyusaki sentou-se na cadeira, batendo os pés e demonstrando animação por alguns instantes; contudo, de forma abrupta, o cranori hesitou, sua expressão fechou-se em uma súbita desconfiança e ele se afastou do epicentro da comemoração, recolhendo-se em um canto isolado da sala.</p>
+
+            <p>Enquanto a música continuava a ecoar pelo andar de baixo, Sun e Zephira despediram-se temporariamente da mesa e subiram até o quarto de Sarah a convite da adolescente, que prometera mostrar o restante de sua coleção particular de itens exóticos. A garota acomodou-se no chão e começou a mexer nos compartimentos de sua mochila de feltro. Foi nesse instante que a visão aguçada de Zephira percebeu um movimento suspeito: Sarah tentava, de forma visivelmente desajeitada e nervosa, ocultar um objeto volumoso no fundo do tecido. A ranger imediatamente ativou sua memória de caçadora e lembrou-se do alerta de Henry sobre a investigação na carroça batida: a marca de sapatos civis com terra escura encontrada sobre as verduras batia perfeitamente com os calçados limpos que vira no armário de Sarah. A suspeita de que a nobre estivera na cena do crime acendeu em sua mente. Contudo, o faro de Sun foi ainda mais rápido e preciso. Ao esticar o pescoço felino por cima do ombro da adolescente, o Simyari visualizou perfeitamente a textura, os entalhes e o formato exato do objeto que Sarah tentava esconder nas profundezas da mochila: era a sua própria caixa mística roubada do monastério de Xintai.</p>
+          </div>
+        </div>
+      </div>
+        
+      <!-- Capítulo 9 -->
+      <div id="modal-cap9" class="modal">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <div class="modal-title">Capítulo 9 - A Sopa Amaldiçoada</div>
+          <div class="modal-date">29 de Julho de 2026</div>
+          <div class="modal-desc">
+            <p>O silêncio nos aposentos da Mansão Rubris era quase sufocante, quebrado apenas pelo tilintar discreto de relíquias e o eco de respirações tensas. No quarto de Sarah, os olhos ágeis de Sun captaram o contorno de uma caixa misteriosa, mas o Simyari, mestre em disfarces e na arte de não ler o ambiente de forma óbvia, manteve a postura impecável. Sarah não desconfiou de nada. Em vez disso, continuou exibindo suas pequenas propriedades com uma empolgação quase infantil: bugigangas mágicas, futilidades de nobreza e, por fim, uma pequena caixa de música mística que parecia ecoar uma melodia gravada no próprio tecido do arcano.</p>
+
+            <p>Enquanto isso, do outro lado do cômodo, a atmosfera congelou. Os olhos de Zephira pousaram sobre uma carta esquecida na mesa de Sarah. O destinatário escrito na caligrafia elegante disparou um gatilho de horror na mente da tiefling: "Para meu pai, Salazar". O ar pareceu faltar em seus pulmões. Paralisada por um instante que pareceu uma eternidade, Zephira virou as costas e saiu apressada, os passos rápidos ecoando como um aviso de tempestade.</p>
+
+            <p>No corredor, a silhueta pragmática de Kyusaki barrou seu caminho. Preocupado, o guerreiro exigiu explicações, mas o olhar de Zephira era de puro desespero. "Preciso me ausentar... como da última vez. Vocês precisam segurar as pontas por um tempo", ela sussurrou, a voz trêmula. Diante da recusa dela em revelar mais, Kyusaki apenas assentiu, deixando-a partir para as sombras, carregando um segredo pesado demais para compartilhar.</p>
+
+            <p>Tentando manter a normalidade, Sun e Sarah levaram a misteriosa caixa de música até Henry. O bardo analisou o mecanismo com olhos analíticos e fascinados; ele compreendia a engenharia mística por trás do objeto, mas confessou não saber como gravar novas melodias ali. Ainda assim, a faísca nos olhos de Sarah não diminuiu: ela já sonhava em usar o artefato para eternizar a apresentação de sua irmã dali a alguns dias.</p>
+
+            <p>Com um aceno de cabeça e sorrisos polidos, o grupo despediu-se da família do Barão. Havia um trabalho noturno a ser feito.</p>
+
+            <p>O entardecer trouxe uma calmaria enganosa. Ao redor do moinho, o perímetro foi analisado minuciosamente. Planos de ação foram traçados e revisados sob a luz morna do sol poente. Kyusaki, sempre em busca de respostas, aproximou-se do jovem Renji e questionou se a fazenda já havia sofrido ataques de lobisomens. A resposta do rapaz foi um seco e honesto "não".</p>
+
+            <p>Mais tarde, Kyusaki usou o tempo para ajudar o atormentado Shun. Em uma conversa franca, as peças do quebra-cabeça se encaixaram: os relatos de perdas de memória de Shun batiam exatamente com as noites de lua cheia. O rapaz confessou que, mesmo trancado e evitando olhar para o céu, o esquecimento e o terror o dominavam do mesmo jeito. Ele não sabia que virava uma fera, e Kyusaki, por misericórdia ou estratégia, escolheu manter o garoto na ignorância.</p>
+
+            <p>Às 18 horas, um evento bizarro quebrou a rotina: uma garota de passos silenciosos e olhar enigmático aproximou-se de Renji, entregando-lhe uma garrafa de vidro escuro. O rapaz a recebeu de forma rápida e discreta, escondendo-a como se fosse um tesouro proibido.</p>
+
+            <p>Uma hora depois, o relógio bateu dezenove horas. O turno começou.</p>
+
+            <p>A noite caiu como um manto de chumbo sobre a Fazenda Rubris. Junto com a lua, uma névoa densa e sobrenatural rastejou pelo solo, limitando a visão a poucos metros. Foi então que Henry congelou. O uivo cortou a escuridão, seguido pelo som de patas pesadas rasgando a grama úmida. Das sombras da névoa, quatro silhuetas caninas massivas emergiram em velocidade assustadora. Quatro feras. O número congelou o sangue do grupo.</p>
+
+            <p>O acordo prévio, contudo, permaneceu firme na mente de todos: força não letal. Uma daquelas criaturas era Shun, e eles não podiam carregar o fardo de matá-lo. O combate, por conta disso, tornou-se uma dança mortal e contida.</p>
+
+            <p>Fen Ri ergueu seu escudo, uma parede de metal inquebrável, postando-se ao lado de Sun. O Simyari, apesar de nunca ter enfrentado o horror vivo daquelas feras em um combate real, moveu-se com a precisão letal de seu treinamento clássico. Seus golpes eram rápidos como o vento. Na retaguarda, a música de Henry ecoava pelo campo, infundindo coragem e força nos músculos de seus aliados, enquanto Kyusaki disparava de longe, minando as defesas das feras.</p>
+
+            <p>A batalha foi feroz. Presas rasgaram carne e garras colidiram contra o aço. Fen, banhada em sangue e suor, desferiu um golpe brutal que fez um dos lobos recuar e fugir para a escuridão da floresta por sua vida — Kyusaki tentou derrubá-lo à distância, mas o projétil se perdeu na névoa. Mesmo feridos e exaustos, a linha de frente resistiu. Fen derrubou a segunda fera; Kyusaki, controlando a força de seu ataque com precisão cirúrgica, nocauteou a terceira. O último lobo saltou salivando, mas os movimentos ágeis e fulminantes de Sun o interceptaram, fazendo o monstro desabar inconsciente no solo.</p>
+
+            <p>A vitória foi deles, mas o preço estava prestes a ser cobrado.</p>
+
+            <p>Enquanto Fen e Sun limpavam suas feridas, Kyusaki cambaleou. Algo estava terrivelmente errado em sua mente. Seus dedos perderam a precisão ao redor do cabo de sua arma. De repente, um vazio avassalador e uma fome monstruosa, primitiva e irresistível, atingiram seu estômago. Seus olhos focaram no sangue que escorria dos ferimentos de Fen e Sun. O impulso de saltar sobre seus próprios companheiros e devorá-los quase o dominou.</p>
+
+            <p>Em um ato de puro desespero e força de vontade, ele jogou suas armas no chão. "Fui infectado... provavelmente. Vou tentar resolver isso", ele cuspiu as palavras, afastando-se rapidamente em direção à escuridão, deixando o grupo em choque. Como aquilo era possível? Ele sequer havia sido tocado pelos lobos. A mente de Henry e dos outros trabalhou rápido: teria sido a vampira do porão do navio? Mas o sol não o havia afetado durante o dia...</p>
+
+            <p>Enquanto Henry usava suas magias para curar as feras caídas e amarrá-las, o destino cobrou mais uma peça. Um dos lobos não resistiu aos ferimentos e morreu. Os outros dois foram subjugados. O grupo decidiu se dividir para patrulhar o restante da fazenda, deixando Henry cuidando dos prisioneiros. Foi um erro.</p>
+
+            <p>Sozinho na névoa, os olhos de Henry captaram um vulto rápido, uma silhueta que se moveu além da velocidade humana. Depois disso, a mente do bardo apagou. Quando Fen e Sun retornaram, Henry estava atordoado, os lobos haviam sumido sem deixar rastros e a frustração tomou conta do moinho.</p>
+
+            <p>Enquanto isso, Kyusaki arrastava seus passos até a capela da fazenda, implorando por salvação. Lá dentro, ele encontrou a mesma garota misteriosa que entregara a garrafa a Renji, fumando calmamente nas sombras sagradas. Kyusaki expôs sua maldição, exigindo ajuda. A garota, esquiva, negou saber de qualquer coisa repetidas vezes, mas a postura ameaçadora e desesperada do guerreiro a fez ceder.</p>
+
+            <p>"Não revele a ninguém que falou comigo", ela sibilou, os caninos proeminentes brilhando sob a luz da lua. Ela era uma vampira. "O que te afeta é a maldição do lobisomem. Mas o ritual só se completará se você se alimentar de carne humana. Você foi infectado pela boca... comeu algo amaldiçoado."</p>
+
+            <p>Horrorizado pela revelação, Kyusaki buscou refúgio em uma das criptas da Família Rubris para passar a noite. Lá, entre os túmulos, ele encontrou o que menos queria: marcas profundas de garras nas paredes e rastros de sangue fresco descendo em direção às escadarias escuras do subterrâneo.</p>
+
+            <p>A manhã nasceu fria. Kyusaki, com a mente fervendo em desconfiança, marchou até a taverna. Apenas ele e Zephira haviam consumido a sopa de carne no dia anterior; os outros estavam limpos. A resposta estava ali. Ele pediu uma nova porção para viagem ao atendente e esperou.</p>
+
+            <p>Foi quando a porta da taverna foi escancarada. O marinheiro phandoriano — Robson, Rivaldo ou Ronaldo, o homem de mil nomes — entrou em puro desespero. Ele correu até Kyusaki, puxando-o pelo braço até o banheiro para terem privacidade.</p>
+
+            <p>"Uma tropa de elite de Phandor chegou na cidade! Eu descobri tudo... sei que vocês não são phandorianos de verdade", o marinheiro confessou, os olhos arregalados, "mas continuo leal a vocês. Vocês salvaram minha vida. O problema é que duas mulheres de Xintai chegaram com muita violência me caçando e procurando por você, Kyusaki!"</p>
+
+            <p>O marinheiro ergueu a camisa, revelando os ferimentos brutais provocados pelas xintaineses. Ao ver o sangue fresco, a fome de lobo rasgou a sanidade de Kyusaki mais uma vez. Ele empurrou o marinheiro para fora do banheiro com violência e desabou sobre o vaso sanitário, vomitando o horror que subia por sua garganta. Controlando-se a duras penas, ele saiu e entregou uma carta selada a Rivaldo. O marinheiro sorriu, sentindo-se confiante, e questionou se os outros subordinados sabiam daquela aliança. Kyusaki limitou-se a dizer que eram apenas parceiros e que não sabiam de nada. O conteúdo daquela carta permaneceu um mistério guardado a sete chaves.</p>
+
+            <p>Ao sair do banheiro, Kyusaki quase deu de cara com as duas mulheres xintainesas que desciam as escadas em direção ao salão principal. Mudando de rota abruptamente, ele subiu para o segundo andar para fugir pelas janelas, mas percebeu que havia esquecido a sopa. No corredor superior, uma figura feminina o barrou. Escondendo-se estrategicamente da luz do sol que entrava pela vidraça, a mulher revelou sua natureza: era a segunda vampira da fazenda, a mesma que entregara o sangue a Renji.</p>
+
+            <p>Ela o ameaçou, mas Kyusaki foi mais rápido. Ele propôs um acordo: levaria a garrafa de sangue para Renji se ela pegasse a sopa para ele. Rivaldo subiu logo em seguida, pagou pelo alimento, e com um movimento ágil, Kyusaki saltou pela janela do segundo andar, gritando para o marinheiro encontrá-lo na igreja.</p>
+
+            <p>Na segurança das criptas, Kyusaki ordenou que Robson esperasse ali e prometeu reunir o restante do grupo, explicando por cima o horror da maldição. Ele correu até o moinho, acordou Fen, Sun e Henry, e despejou toda a verdade sobre a noite anterior — ocultando apenas o fato de que duas caçadoras de Xintai estavam especificamente atrás de sua cabeça. Ele entregou o sangue a Renji, que aceitou sem entender a gravidade da situação, e o grupo desceu unido para resgatar Ronaldo na igreja.</p>
+
+            <p>Foi quando o cenário mudou completamente.</p>
+
+            <p>Um comboio massivo, uma verdadeira muralha de escudos e lanças do exército de Phandor, marchava para dentro dos limites da Fazenda Rubris. O Barão e seu filho aguardavam os soldados com sorrisos polidos e gananciosos. Antes que o grupo pudesse esboçar qualquer reação, uma voz familiar e sarcástica ecoou atrás deles.</p>
+
+            <p>Era Kai, o comerciante ambulante que haviam conhecido na saída de Xintai.</p>
+
+            <p>O olhar de Kai não era mais o de um vendedor de bugigangas; era o de um homem perigoso e focado. "O que vocês realmente estão fazendo aqui? Quem são vocês?", ele exigiu, a voz fria. Diante da insistência e do tom de autoridade de Kai, o grupo percebeu que ele sabia mais do que demonstrava. Ele revelou ser o fornecedor misterioso de Sarah.</p>
+
+            <p>Para conversarem sem os olhos do Império, Kai tirou o chapéu e revelou uma dimensão de bolso em seu interior. O grupo entrou no espaço mágico e abriu o jogo: revelaram que foram reunidos por uma entidade divina e que o livro de registros phandoriano os trouxera até ali atrás de alguém crucial.</p>
+
+            <p>As peças do tabuleiro de Yorozu finalmente se uniram nas palavras de Kai:</p>
+
+            <p>"Vocês encontraram o pior lugar possível. O Reino de Yorozu tem um acordo sombrio com Phandor. Todos os prisioneiros políticos e indesejados são enviados para cá como carga. E de lá, nenhum deles retorna vivo. Minha missão secreta como fornecedor da Sarah era investigar isso e resgatar essas pessoas antes que chegassem às mãos do Barão. Mas eu não consigo salvar todos."</p>
+
+            <p>Kyusaki, com as mãos trêmulas, estendeu a garrafa de sopa que trouxera da taverna. Kai puxou um pequeno frasco, pingou um reagente e analisou o líquido. O veredito foi um soco no estômago de cada um ali dentro:</p>
+
+            <p>"Isso aqui é carne humana. Carne humana amaldiçoada."</p>
+
+            <p>O horror se instalou no chapéu de bolso. A verdade por trás da opulência dos Rubris estava escancarada: os prisioneiros de Phandor eram transformados em banquete. O Barão alimentava a maldição do lobisomem na região através da taverna, e o fato de a família nobre ser estritamente "vegetariana" não era uma escolha moral... era a única forma de não consumirem a própria monstruosidade que serviam ao povo.</p>
+
+            <p>Kai guardou seus pertences e entregou ao grupo uma esfera de comunicação mágica. O plano estava traçado: à noite, eles se reuniriam para invadir o complexo, libertar a nova carga de prisioneiros que acabara de chegar com o comboio e descobrir o destino final dos que desciam às criptas.</p>
+
+            <p>Mas o relógio corria contra eles. Eles precisavam manter o disfarce de phandorianos e, acima de tudo, precisavam encontrar Zephira antes que a noite caísse... pois ela também havia tomado daquela sopa maldita.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Capítulo 10 -->
+      <div id="modal-cap10" class="modal">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <div class="modal-title">Capítulo 10 - A Vinícola dos Horrores</div>
+          <div class="modal-date">05 de Agosto de 2026</div>
+          <div class="modal-desc">
+            <p>Zephira finalmente retornou de seu sumiço repentino. Quando o grupo a questionou sobre onde estivera, a garota esquivou-se, preferindo manter o segredo. Sem pressionar, os companheiros despejaram sobre ela a enxurrada de descobertas e acontecimentos das últimas horas, deixando-a visivelmente atordoada e confusa com tanta informação. Enquanto absorviam o retorno da aliada, todos observavam ao longe a caravana phandoriana concluir as negociações com o Barão e seguir viagem pela estrada, na direção da vinícola.</p>
+
+            <p>Antes que pudessem raciocinar sobre o movimento dos soldados, Giovani se aproximou e chamou o grupo para uma audiência no escritório de Salazar Rubris. Diante do Barão, quando questionados sobre o que realmente havia ocorrido na noite anterior, eles decidiram contar a verdade. Salazar lamentou profundamente a situação, admitindo que deveria ter conversado com eles antes sobre o que sabia. Olhando com atenção para Sun e Fen, o nobre perguntou se ambos eram de fato xintainenses. Diante da confirmação, o Barão explicou que os phandorianos costumavam trazer prisioneiros e que ele os ajudava como podia, oferecendo abrigo e trabalho. Salazar revelou acreditar que os recentes ataques de lobisomens estavam sendo direcionados especificamente aos refugiados de Xintai e que Phandor poderia estar por trás disso.</p>
+
+            <p>Diante do espanto do grupo, o Barão detalhou que levava os prisioneiros para sua vinícola, onde examinava cada um para prestar auxílio, citando Shun como exemplo de um xintainense acolhido. Ele inclusive pediu ao grupo que procurasse o rapaz para checar seu estado, já que ele não havia aparecido para trabalhar naquele dia. Questionado se sua teoria era de que Phandor criava e controlava as feras para seus próprios fins, Salazar admitiu não entender a mecânica da maldição, mas acreditava ser exatamente isso. Sobre o motivo de o Império não invadir a cidade de vez, o Barão explicou que seu acordo garantia aos phandorianos uma boa fatia do ouro arrecadado na região. Por fim, prevendo que a alta concentração de xintainenses na vinícola atrairia os lobos, Salazar pediu que o grupo fizesse a guarda do local naquela noite. Eles aceitaram, deixando a mansão convencidos de que, apesar das desconfianças levantadas por Kai, o Barão era um homem de bem.</p>
+
+            <p>Seguindo pela estrada em busca de Shun, o grupo se aproximou da capela e avistou Yan Li acompanhada da Ferreira Ogra junto à porta do templo. No mesmo instante, Kyusaki entrou em pânico, afirmando que elas vieram para atacá-los e insistindo para que não perdessem tempo ali nem chamassem atenção. Zephira estranhou a reação, lembrando que elas eram aliadas, mas Kyusaki argumentou que elas deviam julgá-los responsáveis pelo ataque do dragão e não ouviriam razão. Irritada, Zephira rebateu que seria uma tolice ignorá-las quando poderiam esclarecer tudo e somar forças. Sem margem para discutir, Kyusaki cedeu.</p>
+
+            <p>Quando o grupo se aproximou, as duas mulheres se viraram. Ao fixarem os olhos em Kyusaki, uma fúria brutal estampou-se em seus rostos, embora o olhar dedicado ao restante do grupo fosse neutro. Pressionada por Zephira sobre o motivo daquela hostilidade, Yan Li cuspiu as palavras, dizendo que eles mereciam ouvir a verdade diretamente da boca de Kyusaki. O guerreiro respirou fundo e, sob o olhar atônito de seus companheiros, revelou que durante todo o tempo em que esteve com eles trabalhou como um agente secreto para Phandor, usando a conveniência da jornada para seu próprio benefício com a missão de entregar o dragma ao Império.</p>
+
+            <p>O grupo desabou em choque e desolação. Traída, Zephira perguntou se ele fez tudo aquilo apenas por ouro, mas Kyusaki permaneceu em silêncio. Yan Li tomou a palavra e contou que, após a partida do grupo, invadiram a base phandoriana e encontraram o diário do oficial relatando toda a negociação com Kyusaki. Pouco depois, o ataque do dragão destruiu tudo, e Yan Li relembrou os gritos de desespero e o choro de XingXing ao ver seu bebê morto. Pressionado, Kyusaki tentou se justificar, alegando que avisara para que saíssem da base, mas Yan Li rebateu que um aviso vago não deixava claro o horror que estava por vir. Zephira o acusou abertamente de covarde por tentar dar desculpas para o indefensável.</p>
+
+            <p>Dizendo que iria encarecer seu erro, Kyusaki sacou sua pistola contra Yan Li. No mesmo segundo, o marinheiro phandoriano surgiu oferecendo ajuda, mas recuou sob as ameaças do grupo e a ordem direta de Kyusaki para que sumisse dali — o marinheiro correu em disparada para alertar a tropa na cidade. Fen, tomada pela indignação, avançou sem hesitar e desferiu um golpe devastador, rasgando o ombro de Kyusaki em um corte profundo. Sangrando, o guerreiro disparou em fuga mata a dentro.</p>
+
+            <p>A perseguição começou imediatamente. Apenas Sun permaneceu estático, paralisado sem compreender a complexidade daquela traição. Henry e Zephira tentaram conjurar magias para desacelerar o fugitivo, mas os feitiços falharam, e o grupo não conseguia alcançá-lo. Yan Li, contudo, cortou caminho e encurralou Kyusaki, exigindo saber por que ele havia se vendido a um império tão nefasto antes que ela tirasse sua vida. Zephira esbravejou ao longe para que ele ao menos demonstrasse arrepender-se e tentasse reparar o mal que causara.</p>
+
+            <p>Kyusaki parou. Encarando os companheiros, confessou que achou ter neutralizado a grande ameaça ao deterem o clérigo em Hanzou, e que, vivendo no automático sem perspectivas ao aceitar o serviço para Phandor, viu sua visão de mundo mudar radicalmente pelo tempo que passou ao lado do grupo. Yan Li abaixou as armas, admitindo que sua fúria buscava apenas um alvo para descarregar a dor, mas que matar Kyusaki não mudaria a tirania de Phandor. Ela revelou que seu verdadeiro objetivo era organizar uma resistência para enfrentar o Império no futuro, e que esperava contar com o grupo e com o próprio Kyusaki quando a hora chegasse. Ele assentiu em silêncio.</p>
+
+            <p>Enquanto Yan Li se afastava, Zephira questionou se ela conhecia o Talismã Lunar, mas a guerreira negou qualquer conhecimento. A garota então se aproximou de Kyusaki, seguida por Henry e Fen, e afirmou que gostaria de mantê-lo no grupo se ele estivesse disposto a caminhar genuinamente ao lado deles. Henry concordou, e Fen, embora relutante, aceitou a redenção do companheiro. Kyusaki agradeceu a oportunidade. Retornando à estrada, ele interceptou os soldados phandorianos chamados pelo marinheiro, usou sua autoridade para despistá-los e ordenou que o marinheiro voltasse imediatamente para cuidar do navio.</p>
+
+            <p>Mais adiante, o grupo encontrou Sarah caminhando em direção à padaria. Ao notar que ela carregava nas costas a mochila onde estava a caixa roubada de Sun, o Simyari decidiu segui-la, acompanhado por Henry. O restante do grupo desviou para procurar Shun, encontrando o rapaz ferido na estrada. Zephira usou suas artes místicas para curá-lo, e juntos retornaram à fazenda.</p>
+
+            <p>Na padaria, Sarah retirou um pacote reservado com carinho pelos donos. Henry e Sun pegaram alguns doces, que a garota pediu para colocar na conta de sua família. No caminho de volta, o olfato apurado de Sun captou um forte cheiro de carne vindo do embrulho de Sarah. Assim que a jovem entrou na mansão, ele compartilhou a estranha descoberta com os outros.</p>
+
+            <p>A aula com Sarah começou em seguida. A garota expressou o desejo de aprender uma magia capaz de reviver memórias e esvaziou a mochila para mostrar uma pequena caixa piramidal, na qual conseguia visualizar a imagem de si mesma ao lado de uma amiga falecida. O grupo se comoveu com a dor da garota, notando seu completo desdém pelo restante dos objetos na bolsa — incluindo a caixa de Sun. Quando o Simyari comentou que aquele objeto lhe pertencia, Sarah explicou surpresa que fora Shun quem lhe trouxera a caixa de presente e, sem saber a procedência, devolveu-a imediatamente ao dono.</p>
+
+            <p>O baque de perceberem que haviam julgado a família Rubris erroneamente atingiu Zephira em cheio. Profundamente abalada por mais um equívoco nas conclusões do grupo, ela se afastou para ter uma conversa particular com Kyusaki, mantendo o teor do diálogo em segredo dos demais. Enquanto Henry ensinava acordes de violão para Sarah, Giovani passou pelo corredor carregando o pacote da padaria. O cheiro denso de carne atingiu as narinas de Zephira, fazendo a garota balançar e quase perder o controle da maldição.</p>
+
+            <p>Encerrada a aula, o grupo se reuniu com Kyusaki e decidiu seguir Giovani para investigar a vinícola, temendo o horror que poderiam encontrar. Ao chegarem ao casarão, depararam-se com um silêncio sepulcral: o local estava completamente abandonado, sem sinal de Giovani ou dos refugiados xintainenses.</p>
+
+            <p>Eles iniciaram uma varredura minuciosa. No subterrâneo, numa adega sombria, Kyusaki e Fen encontraram dezenas de caixas empilhadas, todas armazenando frascos de sangue humano. No andar superior, Sun vistoriou os quartos e achou um baú trancado, além de um escritório repleto de tomos antigos vindos de fora do continente. Zephira e Henry se juntaram à busca no escritório, onde a garota encontrou documentos oficiais registrando a entrada de refugiados de Xintai desde cinquenta anos atrás.</p>
+
+            <p>Reunidos novamente, os companheiros concordaram que Zephira não deveria descer à adega, pois o cheiro de sangue deflagraria sua metamorfose. Enquanto o restante permaneceu no subterrâneo em busca de passagens secretas, Zephira e Kyusaki subiram para arrombar o baú do quarto. Dentro dele, descobriram diversos livros de rituais e magias profanas escritos em runas antigas; Zephira tomou para si um tomo marcado com o símbolo de uma lua minguante.</p>
+
+            <p>Na adega, a investigação continuou. Henry examinou as paredes enquanto Fen inspecionava mais caixas infestadas de sangue. Sun, por sua vez, descobriu um enorme reservatório que disfarçava um alçapão no chão. Do buraco, subia um fedor insuportável de carne podre que impregnou o ar.</p>
+
+            <p>Impulsionados pela descoberta da passagem, Kyusaki e Zephira desceram apressados à adega para avisar os outros sobre os livros rúnicos, esquecendo-se por completo do perigo que o ambiente representava para a garota. Ao pisar no recinto saturado pelo cheiro de sangue e pela podridão que emanava do alçapão, os sentidos de Zephira colapsaram. A maldição tomou conta de suas veias, e a garota perdeu completamente o controle de si mesma.</p>
+          </div>
+        </div>
+      </div>
 
 </body>
 </html>

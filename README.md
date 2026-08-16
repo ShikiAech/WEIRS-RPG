@@ -5,6 +5,177 @@
 Um aplicativo web para recordação de campanhas, guia de criação básico e conteúdo traduzido de D&D 2024.
 
 ## 📋 Changelog
+### Versão 1.15.0
+- **Data:** 15/08/2026
+- **Melhorias:**
+  - Adição das raças tenebrianas (Archais, Baphoritas, Ímpios, Lilins e Zebulins)
+
+### Versão 1.14.11
+- **Data:** 04/08/2026
+- **Melhorias:**
+  - Adição do capítulo 10 da mesa Othans.
+  - Correção das datas dos capítulos anteriores.
+
+### Versão 1.14.10
+- **Data:** 03/08/2026
+- **Melhorias:**
+  - Adição do capítulo 9 da mesa Othans.
+
+### Versão 1.14.9
+- **Data:** 29/07/2026
+- **Melhorias:**
+  - Adição da campanha EPM - Escola de Princípios Místicos.
+
+- **Data:** 25/07/2026
+- **Melhorias:**
+  - Adição do personagem Sun na página dos Othans.
+
+### Versão 1.14.7
+- **Data:** 24/07/2026
+- **Melhorias:**
+  - Adição do capítulo 8 da mesa Othans.
+
+### Versão 1.14.6
+- **Data:** 09/07/2026
+- **Melhorias:**
+  - Adição do capítulo 7 da mesa Othans.
+  - Correção da página feiticeiro (adição das metamagias)
+  - Remoção do footer duplicado da página de magias.
+
+### Versão 1.14.5
+- **Data:** 09/07/2026
+- **Melhorias:**
+  - Adição do capítulo 6 da mesa Othans.
+
+### Versão 1.14.4
+- **Data:** 08/07/2026
+- **Melhorias:**
+  - Adição dos capítulos 3, 4 e 5 da mesa Othans.
+
+### Versão 1.14.3
+- **Data:** 05/06/2026
+- **Melhorias:**
+  - Adição do capítulo 2 da mesa Othans.
+
+### Versão 1.14.3
+- **Data:** 04/06/2026
+- **Melhorias:**
+  - Adição de todos os backgrounds do wikidot.
+
+### Versão 1.14.2
+- **Data:** 04/06/2026
+- **Melhorias:**
+  - Mudança na página de talentos.
+    - Remoção das dragonmarks que estavam na categoria geral.
+    - Adição de filtro para a página de antecetendes.
+
+### Versão 1.14.1 
+- **Data:** 04/06/2026
+- **Melhorias:**
+  - Mudança na página de talentos.
+    - Alteração no sistema de filtro.
+    - Adição de todos os talentos presentes no wikidot.
+
+### Versão 1.14.0
+- **Data:** 02/06/2026
+- **Melhorias:**
+  - Página do paladino finalizada.
+  - Página do patrulheiro finalizada.
+  - Página do pistoleiro finalizada.
+  - Página do psionista finalizada.
+
+### Versão 1.13.0
+- **Data:** 02/06/2026
+- **Melhorias:**
+  - Página do monge finalizada.
+
+### Versão 1.12.0
+- **Data:** 02/06/2026
+- **Melhorias:**
+  - Página do feiticeiro finalizada.
+  - Correção da página do mago e do feiticeiro.
+    - A página do feiticeiro estava com as características do mago.
+      - O código foi transferido para a página correta.
+
+### Versão 1.11.0
+- **Data:** 02/06/2026
+- **Melhorias:**
+  - Página do ladino finalizada.
+  - Pequenas correções nas páginas do guerreiro e feiticeiro.
+    - Adição da div class="overflow-table" para visualização em celulares.
+
+### Versão 1.10.0
+- **Data:** 30/05/2026
+- **Melhorias:**
+  - Página do feiticeiro finalizada.
+  - Página do guerreiro finalizada.
+
+### Versão 1.9.1
+- **Data:** 28/05/2026
+- **Melhorias:**
+  - Mudança na estrutura da página de campanhas.
+    - Cards clicáveis para a abertura de janelas modais com o texto resumo da sessão.
+
+### Versão 1.9.0
+- **Data:** 28/05/2026
+- **Melhorias:**
+  - Reformulação da Página de Magias
+  - Conserto da página de Equipamentos - Armas - Armaduras - Equipamentos de Aventura
+
+### Versão 1.8.0
+- **Data:** 28/05/2026
+- **Melhorias:**
+  - Finalização da página do Druida.
+
+### Versão 1.7.0
+- **Data:** 25/05/2026
+- **Melhorias:**
+  - Add a página Equipamentos
+
+### Versão 1.6.0
+- **Data:** 24/05/2026
+- **Melhorias:**
+  - Finalização da página do Clérigo.
+
+### Versão 1.5.0
+- **Data:** 24/05/2026
+- **Melhorias:**
+  - Correção da Página Antecedentes (add link para talentos)
+  - Correção da Página de Talentos (add sistema de grade de cards e filtro dinamico)
+
+### Versão 1.4.1
+- **Data:** 24/05/2026
+- **Melhorias:**
+  - Correção das subclasses do bárbaro.
+
+### Versão 1.4.0
+- **Data:** 24/05/2026
+- **Melhorias:**
+  - Finalização da página do Bruxo.
+  - Adição de subclasses UA para Artífice, Bárbaro e Bardo.
+  - Correção do botão do Artífice na página classes.
+
+### Versão 1.3.0
+- **Data:** 24/05/2026
+- **Melhorias:**
+  - Finalização da página do Bárbaro.
+
+### Versão 1.2.1
+- **Data:** 23/05/2026
+- **Melhorias:**
+  - Finalização da página do Artífice.
+
+### Versão 1.1.4
+- **Data:** 23/05/2026
+- **Melhorias:**
+  - Adição da página de testes para classe, servindo de base para a reconstrução das demais.
+  - Mudanças no arquivo styles.css e adição do arquivo class-styles.css para cumprir com os estilos das páginas de classe especificamente.
+  - Adição do arquivo subclass-tab.js para funcionalidade de aba de subclasses.
+
+### Versão 1.1.3
+- **Data:** 22/05/2026
+- **Melhorias:**
+  - Mudanaça no codigo css de badges (definição do tipo de ação usada em um feat).
 
 ### Versão 1.1.2
 - **Data:** 23/05/2026

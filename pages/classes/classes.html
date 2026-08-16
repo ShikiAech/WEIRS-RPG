@@ -5,42 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Classes — Weirs RPG</title>
   <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
-  <style>
-    /* Ajuste exclusivo para alinhar perfeitamente as 13 classes na tela */
-    .grid-classes {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 30px;
-      max-width: 1100px;
-      margin: 40px auto 60px auto;
-    }
-
-    /* As 3 primeiras linhas ocupam 4 colunas cada (3 botões por linha: 3x4=12) */
-    .grid-classes .btn-rpg {
-      grid-column: span 4;
-    }
-
-    /* A última linha ocupa 3 colunas cada (4 botões na linha: 4x3=12) */
-    .grid-classes .btn-rpg.linha-final {
-      grid-column: span 3;
-    }
-
-    /* Responsividade para telas menores */
-    @media (max-width: 950px) {
-      .grid-classes {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .grid-classes .btn-rpg, 
-      .grid-classes .btn-rpg.linha-final {
-        grid-column: span 1 !important;
-      }
-    }
-    @media (max-width: 600px) {
-      .grid-classes {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
 </head>
 <body>
 
@@ -53,7 +17,7 @@
     <div class="grid-classes">
       
   <a href="/WEIRS-RPG/pages/classes/artificer.html" class="btn-rpg">
-    <span class="btn-texto">Artíficer</span>
+    <span class="btn-texto">Artífice</span>
   </a>
 
   <a href="/WEIRS-RPG/pages/classes/barbaro.html" class="btn-rpg">

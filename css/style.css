@@ -27,6 +27,8 @@ html {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
   background: 
     linear-gradient(rgba(11, 11, 12, 0.94), rgba(7, 7, 8, 0.98)),
     url('https://images.unsplash.com/photo-1518709268805-4e9042af2176?q=80&w=2070');
@@ -38,6 +40,8 @@ body {
   line-height: 1.8;
   letter-spacing: 0.5px;
   padding-top: 80px; /* Evita que o menu fixo cubra o conteúdo */
+  
+  min-height: 100vh; /* Garante que o body tenha no mínimo o tamanho da tela */
 }
 
 /* Scrollbar Estilo Masmorra */
@@ -161,6 +165,7 @@ body {
   text-shadow: 0 0 30px rgba(0,0,0,0.9), 0 0 20px var(--blood-glow);
   background: linear-gradient(to bottom, #ffffff 0%, var(--gold) 60%, var(--gold-dark) 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -179,6 +184,9 @@ body {
   margin: auto;
   padding: 60px 40px;
   width: 100%;
+}
+.container h2 {
+  text-align: center;
 }
 
 .desc-intro {
@@ -242,7 +250,6 @@ h2::after {
 }
 
 .layout-detalhes img:hover {
-  transform: scale(1.03);
   border-color: var(--gold);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.9), 0 0 15px rgba(212, 175, 55, 0.2);
 }
@@ -289,6 +296,14 @@ footer {
   font-size: 0.9rem;
   color: var(--text-soft);
   letter-spacing: 1px;
+}
+
+
+
+
+/* O contêiner principal de conteúdo (ou a classe que envelopa seu miolo) */
+.container {
+  flex: 1 0 auto; /* Faz o conteúdo esticar e ocupar todo o espaço restante */
 }
 
 /* =====================================================
@@ -546,50 +561,71 @@ footer {
    BADGES PARA TIPO DE AÇÃO
    ===================================================== */
 
-    .badge-acao {
-      display: inline-block;
-      color: #55d65f;
-      background: rgba(55, 192, 43, 0.2);
-      padding: 3px 10px;
-      border-radius: 3px;
-      font-size: 0.8rem;
-      font-weight: bold;
-      border: 1px solid rgba(48, 192, 43, 0.4);
-      margin-left: 5px;
+  .badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-left: 5px;
+
+  &.acao {
+    color: #55d65f;
+    background: rgba(55, 192, 43, 0.2);
+    border: 1px solid rgba(48, 192, 43, 0.4);
+  }
+
+  &.acao-bonus {
+    color: #55c3d6;
+    background: rgba(43, 58, 192, 0.2);
+    border: 1px solid rgba(45, 43, 192, 0.4);
+  }
+
+  &.livre {
+    color: #d6be55;
+    background: rgba(192, 177, 43, 0.2);
+    border: 1px solid rgba(192, 190, 43, 0.4);
+  }
+
+  &.reacao {
+    color: #d65555;
+    background: rgba(192, 57, 43, 0.2);
+    border: 1px solid rgba(192, 43, 43, 0.4);
+  }
+}
+
+
+    /* Ajuste exclusivo para alinhar perfeitamente as 13 classes na tela */
+    .grid-classes {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 30px;
+      max-width: 1100px;
+      margin: 40px auto 60px auto;
     }
 
-    .badge-acao-bonus {
-      display: inline-block;
-      color: #55c3d6;
-      background: rgba(43, 58, 192, 0.2);
-      padding: 3px 10px;
-      border-radius: 3px;
-      font-size: 0.8rem;
-      font-weight: bold;
-      border: 1px solid rgba(45, 43, 192, 0.4);
-      margin-left: 5px;
+    /* As 3 primeiras linhas ocupam 4 colunas cada (3 botões por linha: 3x4=12) */
+    .grid-classes .btn-rpg {
+      grid-column: span 4;
     }
 
-    .badge-livre {
-      display: inline-block;
-      color: #d6be55;
-      background: rgba(192, 177, 43, 0.2);
-      padding: 3px 10px;
-      border-radius: 3px;
-      font-size: 0.8rem;
-      font-weight: bold;
-      border: 1px solid rgba(192, 190, 43, 0.4);
-      margin-left: 5px;
+    /* A última linha ocupa 3 colunas cada (4 botões na linha: 4x3=12) */
+    .grid-classes .btn-rpg.linha-final {
+      grid-column: span 3;
     }
 
-    .badge-reacao {
-      display: inline-block;
-      color: #d65555;
-      background: rgba(192, 57, 43, 0.2);
-      padding: 3px 10px;
-      border-radius: 3px;
-      font-size: 0.8rem;
-      font-weight: bold;
-      border: 1px solid rgba(192, 43, 43, 0.4);
-      margin-left: 5px;
+    /* Responsividade para telas menores */
+    @media (max-width: 950px) {
+      .grid-classes {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .grid-classes .btn-rpg, 
+      .grid-classes .btn-rpg.linha-final {
+        grid-column: span 1 !important;
+      }
+    }
+    @media (max-width: 600px) {
+      .grid-classes {
+        grid-template-columns: 1fr;
+      }
     }

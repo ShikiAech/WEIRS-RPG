@@ -5,96 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pistoleiro — Weirs RPG</title>
   <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
-  <style>
-    /* Bloco principal para a classe Pistoleiro */
-    .bloco-pistoleiro {
-      background: rgba(210, 105, 30, 0.03);
-      border: 1px solid rgba(210, 105, 30, 0.2);
-      border-left: 4px solid #b85c1a;
-      padding: 20px;
-      margin-top: 20px;
-      border-radius: 0 4px 4px 0;
-    }
-    .bloco-pistoleiro h4 {
-      font-family: 'Cinzel', serif;
-      color: #e67e22;
-      font-size: 1.25rem;
-      margin-bottom: 8px;
-    }
-    .bloco-subclasse-detalhada {
-      background: rgba(25, 25, 27, 0.85);
-      border: 1px solid var(--border-fantasy);
-      padding: 25px;
-      margin-top: 35px;
-      border-radius: 4px;
-    }
-    .bloco-subclasse-detalhada h3 {
-      font-family: 'Cinzel', serif;
-      color: #d35400;
-      border-bottom: 1px solid rgba(211, 84, 0, 0.4);
-      padding-bottom: 8px;
-      margin-bottom: 20px;
-    }
-    .sub-feature {
-      background: rgba(210, 105, 30, 0.05);
-      border-left: 3px solid #d35400;
-      padding: 15px;
-      margin-top: 15px;
-      border-radius: 0 4px 4px 0;
-    }
-    .sub-feature h5 {
-      font-family: 'Cinzel', serif;
-      color: #f39c12;
-      font-size: 1.05rem;
-      margin-bottom: 5px;
-    }
-    .trait-list {
-      list-style: none;
-      margin-left: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .trait-list li strong {
-      color: var(--gold);
-    }
-    .tabela-rpg {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-      background: rgba(20, 20, 22, 0.7);
-      border: 1px solid var(--border-fantasy);
-      font-size: 0.85rem;
-    }
-    .tabela-rpg th, .tabela-rpg td {
-      border: 1px solid var(--border-fantasy);
-      padding: 10px 12px;
-      text-align: center;
-    }
-    .tabela-rpg th {
-      background: rgba(43, 33, 23, 0.6);
-      color: #d35400;
-      font-family: 'Cinzel', serif;
-    }
-    .tabela-rpg tr:nth-child(even) {
-      background: rgba(255, 255, 255, 0.02);
-    }
-    .tabela-rpg td.esquerda {
-      text-align: left;
-    }
-    .dado-risco {
-      background: rgba(184, 92, 26, 0.2);
-      border-radius: 20px;
-      padding: 4px 12px;
-      display: inline-block;
-      font-weight: bold;
-      font-family: monospace;
-    }
-  </style>
+  <link rel="stylesheet" href="/WEIRS-RPG/css/class-style.css">
+  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+  <script src="/WEIRS-RPG/javascript/subclass-tab.js"></script>
+
 </head>
 <body>
-
-  <script src="/WEIRS-RPG/javascript/menu.js"></script>
 
   <div class="container">
     
@@ -102,7 +18,7 @@
       <a href="/WEIRS-RPG/pages/classes/classes.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Classes</a>
     </div>
 
-    <h2>Pistoleiro (Gunslinger)</h2>
+    <h2>Pistoleiro</h2>
     
     <div class="card-rpg">
       <div class="layout-detalhes">
@@ -112,177 +28,1397 @@
           <p>O risco corre nas veias de um pistoleiro. Renegados audaciosos, renegam tradições e forjam seu próprio caminho com armas de fogo perigosas e imprecisas — mas devastadoras. Sobrevivendo à base de instinto, sorte e nervos de aço, esses atiradores sabem que cada combate pode ser o último, e por isso encaram a batalha com sorriso irônico e o dedo pronto no gatilho.</p>
           <p>No novo padrão de 2024, o Pistoleiro se consagra como o mestre das armas de fogo, combinando agilidade sobre-humana, tiros críticos devastadores e um estilo ousado que desafia a morte. Utilizando Dados de Risco (Risk Dice), ele executa manobras espetaculares que viram o jogo em frações de segundo. Seja com um revólver fumegante ou uma espingarda de cano cerrado, o pistoleiro dita o ritmo do tiroteio.</p>
           
-          <h4 style="color: #d35400; margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
+          <h4 style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
           <ul class="trait-list" style="margin-top: 15px;">
-            <li><strong>Dado de Vida:</strong> 1d8 por nível de Pistoleiro.</li>
-            <li><strong>Atributo Principal:</strong> Destreza (ataques à distância e Defesa).</li>
+            <li><strong>Dado de Vida:</strong> 1d8 por nível de Atirador.</li>
+            <li><strong>Atributo Principal:</strong> Destreza.</li>
             <li><strong>Proficiências em Armaduras:</strong> Armaduras Leves.</li>
-            <li><strong>Proficiências em Armas:</strong> Armas Simples e Armas Marciais de Distância.</li>
-            <li><strong>Ferramentas:</strong> Nenhuma.</li>
+            <li><strong>Proficiências em Armas:</strong> Armas Simples e armas Marciais de Ataque à Distância.</li>
             <li><strong>Testes de Resistência:</strong> Destreza e Carisma.</li>
-            <li><strong>Perícias:</strong> Escolha duas entre Acrobacia, Adestramento, Atletismo, Enganação, Intuição, Intimidação, Percepção, Persuasão e Prestidigitação.</li>
-            <li><strong>Equipamento Inicial:</strong> Escolha A ou B: (A) Armadura de Couro, 2 Adagas, Revólver, 50 Balas, Mochila de Aventureiro e 11 PO; (B) 175 PO.</li>
+            <li><strong>Perícias:</strong> Escolha duas entre Acrobacia, Adestrar Animais, Atletismo, Enganação, Intuição, Intimidação, Percepção, Persuasão, Prestidigitação ou Furtividade.</li>
+            <li><strong>Equipamento Inicial:</strong> Escolha A ou B: (A) Armadura de Couro, 2 Adagas, Revólver, 50 Balas, Pacote do Explorador e 11 PO; (B) 175 PO.</li>
           </ul>
         </div>
       </div>
 
       <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px; overflow-x: auto;">
-        <h3 style="font-family: 'Cinzel', serif; color: #d35400; font-size: 1.6rem; margin-bottom: 15px;">Progressão do Pistoleiro</h3>
-        <table class="tabela-rpg">
-          <thead>
-            <tr>
-              <th>Nível</th>
-              <th>Prof.</th>
-              <th class="esquerda">Recursos de Classe</th>
-              <th>Dados de Risco</th>
-              <th>Maestria em Armas</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>1º</td><td>+2</td><td class="esquerda">Estilo de Tiro, Saque Rápido, Maestria em Armas</td><td>—</td><td>2</td></tr>
-            <tr><td>2º</td><td>+2</td><td class="esquerda">Tiro Crítico, Risco</td><td>4d8</td><td>2</td></tr>
-            <tr><td>3º</td><td>+2</td><td class="esquerda">Arquétipo do Pistoleiro (Subclasse)</td><td>4d8</td><td>2</td></tr>
-            <tr><td>4º</td><td>+2</td><td class="esquerda">Talento de Atributo</td><td>4d8</td><td>3</td></tr>
-            <tr><td>5º</td><td>+3</td><td class="esquerda">Ataque Extra, Tiro Na Mosca</td><td>4d8</td><td>3</td></tr>
-            <tr><td>6º</td><td>+3</td><td class="esquerda">Recurso de Subclasse</td><td>5d8</td><td>3</td></tr>
-            <tr><td>7º</td><td>+3</td><td class="esquerda">Esquiva Evasiva (Evasion)</td><td>5d8</td><td>3</td></tr>
-            <tr><td>8º</td><td>+3</td><td class="esquerda">Talento de Atributo</td><td>5d8</td><td>3</td></tr>
-            <tr><td>9º</td><td>+4</td><td class="esquerda">Tiro Crítico Aprimorado</td><td>5d8</td><td>3</td></tr>
-            <tr><td>10º</td><td>+4</td><td class="esquerda">Recurso de Subclasse</td><td>5d10</td><td>4</td></tr>
-            <tr><td>11º</td><td>+4</td><td class="esquerda">Excesso (Overkill)</td><td>5d10</td><td>4</td></tr>
-            <tr><td>12º</td><td>+4</td><td class="esquerda">Talento de Atributo</td><td>5d10</td><td>4</td></tr>
-            <tr><td>13º</td><td>+5</td><td class="esquerda">Trapacear a Morte</td><td>5d10</td><td>4</td></tr>
-            <tr><td>14º</td><td>+5</td><td class="esquerda">Recurso de Subclasse</td><td>6d10</td><td>4</td></tr>
-            <tr><td>15º</td><td>+5</td><td class="esquerda">Aposta Temerária</td><td>6d10</td><td>4</td></tr>
-            <tr><td>16º</td><td>+5</td><td class="esquerda">Talento de Atributo</td><td>6d10</td><td>4</td></tr>
-            <tr><td>17º</td><td>+6</td><td class="esquerda">Tiro Crítico Superior</td><td>6d10</td><td>4</td></tr>
-            <tr><td>18º</td><td>+6</td><td class="esquerda">Manobra Ágil</td><td>6d12</td><td>4</td></tr>
-            <tr><td>19º</td><td>+6</td><td class="esquerda">Dádiva Épica</td><td>6d12</td><td>4</td></tr>
-            <tr><td>20º</td><td>+6</td><td class="esquerda">Tiro na Cabeça (Headshot)</td><td>6d12</td><td>4</td></tr>
-          </tbody>
-        </table>
+
+        <!-- TABELA BÁSICA DE PROGRESSÃO COM SUPORTE A ROLAGEM HORIZONTAL -->
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.6rem; margin-bottom: 15px;">Características de Classe</h3>
+        <div class="overflow-table">
+            <table class="tabela-rpg">
+                <thead>
+                    <tr>
+                        <th>Nível</th>
+                        <th>Prof.</th>
+                        <th >Recursos de Classe</th>
+                        <th>Dados de Risco</th>
+                        <th>Maestria em Armas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><th>1º</th><td>+2</th><td class="esquerda" >Estilo de Luta, Saque Rápido, Maestria em Armas</th><td >-</th><td >2</th></tr>
+                    <tr><th>2º</th><td>+2</th><td class="esquerda" >Disparo Crítico, Risco</th><td >4d8</th><td >2</th></tr>
+                    <tr><th>3º</th><td>+2</th><td class="esquerda" >Subclasse de Atirador</th><td >4d8</th><td >2</th></tr>
+                    <tr><th>4º</th><td>+2</th><td class="esquerda" >Aumento no Valor de Habilidade</th><td >4d8</th><td >3</th></tr>
+                    <tr><th>5º</th><td>+3</th><td class="esquerda" >Ataque Extra, Tiro no Estômago</th><td >4d8</th><td >3</th></tr>
+                    <tr><th>6º</th><td>+3</th><td class="esquerda" >Característica de Subclasse</th><td >5d8</th><td >3</th></tr>
+                    <tr><th>7º</th><td>+3</th><td class="esquerda" >Evasão</th><td >5d8</th><td >3</th></tr>
+                    <tr><th>8º</th><td>+3</th><td class="esquerda" >Aumento no Valor de Habilidade</th><td >5d8</th><td >3</th></tr>
+                    <tr><th>9º</th><td>+4</th><td class="esquerda" >Disparo Crítico</th><td >5d8</th><td >3</th></tr>
+                    <tr><th>10º</th><td>+4</th><td class="esquerda" >Característica de Subclasse</th><td >5d10</th><td >4</th></tr>
+                    <tr><th>11º</th><td>+4</th><td class="esquerda" >Excesso</th><td >5d10</th><td >4</th></td>
+                    <tr><th>12º</th><td>+4</th><td class="esquerda" >Aumento no Valor de Habilidade</th><td >5d10</th><td >4</th></tr>
+                    <tr><th>13º</th><td>+5</th><td class="esquerda" >Enyganar a Morte</th><td >5d10</th><td >4</th></tr>
+                    <tr><th>14º</th><td>+5</th><td class="esquerda" >Característica de Subclasse</th><td >6d10</th><td >4</th></tr>
+                    <tr><th>15º</th><td>+5</th><td class="esquerda" >Aposta Temerária</th><td >6d10</th><td >4</th></tr>
+                    <tr><th>16º</th><td>+5</th><td class="esquerda" >Aumento no Valor de Habilidade</th><td >6d10</th><td >4</th></tr>
+                    <tr><th>17º</th><td>+6</th><td class="esquerda" >Disparo Crítico</th><td >6d10</th><td >4</th></tr>
+                    <tr><th>18º</th><td>+6</th><td class="esquerda" >Manobra Ágil</th><td >6d12</th><td >4</th></tr>
+                    <tr><th>19º</th><td>+6</th><td class="esquerda" >Benção Épica</th><td >6d12</th><td >4</th></tr>
+                    <tr><th>20º</th><td>+6</th><td class="esquerda" >Tiro na Cabeça</th><td >6d12</th><td >4</th></tr>
+                </tbody>
+            </table>
+        </div>
+
       </div>
 
-      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
-        <h3 style="font-family: 'Cinzel', serif; color: #d35400; font-size: 1.6rem; margin-bottom: 20px;">Recursos da Classe Detalhados</h3>
-
-        <div class="bloco-pistoleiro">
-          <h4>Nível 1: Estilo de Tiro, Saque Rápido & Maestria em Armas</h4>
-          <p><strong>Estilo de Tiro (Fighting Style):</strong> Você ganha um talento de Estilo de Combate à sua escolha. Se o talento exigir empunhar uma arma corpo a corpo (como Estilo de Armas Grandes), você pode usá-lo com armas de fogo de duas mãos. A cada nível de Pistoleiro, pode substituir o talento por outro estilo de luta disponível.</p>
-          <p><strong>Saque Rápido (Quick Draw):</strong> Você é mestre em sacar e atirar antes da reação alheia. Você possui vantagem em testes de Iniciativa. Além disso, pode sacar ou guardar duas armas que não possuam a propriedade <em>Duas Mãos</em> sempre que normalmente só pudesse sacar uma.</p>
-          <p><strong>Maestria em Armas (Weapon Mastery):</strong> Você treina com armas de fogo e outras armas de ataque à distância. Escolha dois tipos de Armas Simples ou Marciais de Distância para aplicar suas propriedades de maestria. Ao final de um Descanso Longo, pode trocar uma delas. O número de armas que domina aumenta conforme a tabela.</p>
-        </div>
-
-        <div class="bloco-pistoleiro">
-          <h4>Nível 2: Tiro Crítico & Risco</h4>
-          <p><strong>Tiro Crítico (Critical Shot):</strong> Seus ataques à distância com armas causam Acerto Crítico com rolagem 19 ou 20 no d20. Este limiar melhora nos níveis 9 (18–20) e 17 (17–20).</p>
-          <p><strong>Risco (Risk):</strong> Você canaliza a ousadia em proezas incríveis usando Dados de Risco. Você possui 4 dados de Risco (d8), que recupera ao final de um Descanso Curto ou Longo. Conforme avança, eles se tornam d10 (nível 10) e d12 (nível 18). Utilize esses dados para realizar manobras (listadas abaixo). A CD para resistir às suas manobras é <span class="dado-risco">8 + mod. Destreza + Proficiência</span>.</p>
-        </div>
-
-        <div class="bloco-pistoleiro">
-          <h4>Nível 3: Arquétipo do Pistoleiro</h4>
-          <p>Você escolhe sua especialização: o atirador preciso <strong>Olho de Águia (Deadeye)</strong>, o incansável atirador de dois revólveres <strong>Pistoleiro de Quadril (Pistolero)</strong> ou o portador de armas pesadas <strong>Tanque de Guerra (Gun Tank)</strong>. Esta escolha concede recursos nos níveis 3, 6, 10 e 14.</p>
-        </div>
-
-        <div class="bloco-pistoleiro">
-          <h4>Níveis 4, 8, 12, 16: Talentos de Atributo</h4>
-          <p>Você ganha o talento Aumento de Atributo ou outro talento para o qual possua os requisitos. O Pistoleiro recebe essas melhorias nos níveis indicados, reforçando sua versatilidade.</p>
-        </div>
-
-        <div class="bloco-pistoleiro">
-          <h4>Nível 5: Ataque Extra & Tiro na Mosca</h4>
-          <p><strong>Ataque Extra:</strong> Você realiza dois ataques ao invés de um sempre que usar a ação Atacar.</p>
-          <p><strong>Tiro na Mosca (Gut Shot):</strong> Quando você acerta um Crítico contra uma criatura de tamanho Grande ou menor com uma arma de fogo, o projétil fica alojado. Por 1 minuto ou até a criatura gastar um de seus ataques para remover o projétil, o deslocamento dela é reduzido à metade e ela sofre Desvantagem nas rolagens de ataque.</p>
-        </div>
-
-        <div class="bloco-pistoleiro">
-          <h4>Nível 7: Esquiva Evasiva (Evasion)</h4>
-          <p>Quando um efeito permite que você faça um teste de resistência de Destreza para receber metade do dano, você não sofre dano algum se passar no teste, e apenas metade se falhar. Não funciona se estiver Incapacitado.</p>
-        </div>
-
-        <div class="bloco-pistoleiro">
-          <h4>Nível 11: Excesso (Overkill)</h4>
-          <p>Quando você causar dano com uma arma de distância que normalmente não soma seu modificador de Destreza (como a maioria das armas de fogo), você soma seu modificador de Destreza ao dano. Se a arma já soma o modificador, o alvo sofre 1d8 extra do mesmo tipo de dano.</p>
-        </div>
-
-        <div class="bloco-pistoleiro">
-          <h4>Nível 13: Trapacear a Morte (Cheat Death)</h4>
-          <p>Quando você cair a 0 pontos de vida sem ser morto instantaneamente, pode optar por cair a 1 PV em vez disso e recuperar uma quantidade de PV igual ao seu nível de Pistoleiro. Após usar, precisa de um Descanso Curto ou Longo para usá-lo novamente.</p>
-        </div>
-
-        <div class="bloco-pistoleiro">
-          <h4>Nível 15: Aposta Temerária (Dire Gambit)</h4>
-          <p>Sempre que você rolar Iniciativa ou obtiver um Acerto Crítico, recupera um Dado de Risco gasto.</p>
-        </div>
-
-        <div class="bloco-pistoleiro">
-          <h4>Nível 18: Manobra Ágil (Deft Maneuver)</h4>
-          <p>Você recebe uma Ação Bônus adicional especial uma vez por turno, que só pode ser usada para realizar uma <strong>manobra de Risco</strong>.</p>
-        </div>
-
-        <div class="bloco-pistoleiro">
-          <h4>Nível 19: Dádiva Épica</h4>
-          <p>Você ganha um talento de Dádiva Épica ou outro talento à sua escolha. Recomenda-se a Dádiva do Ataque Irresistível (Boon of Irresistible Offense).</p>
-        </div>
-
-        <div class="bloco-pistoleiro">
-          <h4>Nível 20: Tiro na Cabeça (Headshot)</h4>
-          <p>Quando você obtém um Acerto Crítico com uma arma de distância, pode escolher que seja um Tiro na Cabeça. Se o alvo tiver menos de 100 PV, ele morre instantaneamente. Caso contrário, sofre 10d10 de dano extra do tipo da arma. Após usar, precisa de um Descanso Curto ou Longo para usar novamente, ou pode gastar três Dados de Risco para restaurar o uso (sem exigir ação).</p>
-        </div>
-      </div>
-
-      <!-- SEÇÃO DE MANOBRAS DE RISCO -->
-      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
-        <h3 style="font-family: 'Cinzel', serif; color: #d35400; font-size: 1.6rem; margin-bottom: 20px;">Manobras de Risco</h3>
-        <p>Você tem acesso a todas as manobras listadas abaixo. Gaste um Dado de Risco para ativar o efeito descrito, a menos que especificado de outra forma.</p>
-
-        <div class="sub-feature"><h5>Morder a Bala (Bite the Bullet)</h5><p><strong>Ação Bônus:</strong> Você ganha Pontos de Vida Temporários iguais ao valor rolado no Dado de Risco + seu nível de Pistoleiro.</p></div>
-        <div class="sub-feature"><h5>Disparo Cego (Blindfire)</h5><p><strong>Ação Bônus:</strong> Você adquire Visão Cega em um raio de 9 metros até o final do turno atual.</p></div>
-        <div class="sub-feature"><h5>Rolamento Evasivo (Dodge Roll)</h5><p><strong>Ação Bônus:</strong> Você se move até 4,5 metros sem provocar Ataques de Oportunidade, ignorando terreno difícil, e recarrega qualquer arma de fogo que esteja empunhando.</p></div>
-        <div class="sub-feature"><h5>Tiro Rasteiro (Grazing Shot)</h5><p><strong>Sem ação, quando errar:</strong> Ao errar um ataque à distância, você causa dano igual ao Dado de Risco + modificador de Destreza (mínimo 1) do mesmo tipo da arma. Apenas uma vez por turno.</p></div>
-        <div class="sub-feature"><h5>Espírito Indômito (Maverick Spirit)</h5><p><strong>Reação:</strong> Quando falhar em um teste de Inteligência, Sabedoria ou Carisma, adicione o Dado de Risco ao resultado, podendo transformar a falha em sucesso (uma vez por turno).</p></div>
-        <div class="sub-feature"><h5>Pele dos Dentes (Skin of Your Teeth)</h5><p><strong>Reação ao ser acertado:</strong> Adicione o valor rolado no Dado de Risco à sua CA contra aquele ataque, podendo torná-lo um erro.</p></div>
-      </div>
-
-      <!-- SUBCLASSES -->
-      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
-        <h3 style="font-family: 'Cinzel', serif; color: #d35400; font-size: 1.6rem; margin-bottom: 10px;">Arquétipos do Pistoleiro</h3>
-
-        <!-- SUBCLASSE 1: OLHO DE ÁGUIA (DEADEYE) -->
-        <div class="bloco-subclasse-detalhada">
-          <h3>🔫 Olho de Águia (Deadeye)</h3>
-          <p>Atirador de elite focado em precisão letal. O Olho de Águia elimina ameaças a longas distâncias com um único disparo cirúrgico.</p>
-          <div class="sub-feature"><h5>Nível 3: Pontaria Milimétrica & Balança, Mas Não Cai</h5><p><strong>Pontaria Milimétrica:</strong> Quando você faz um ataque à distância com uma arma que possui a propriedade <em>Munição</em>, você pode gastar 1 Dado de Risco para adicionar o dado à rolagem de ataque (após ver o resultado, mas antes do mestre anunciar o acerto).</p><p><strong>Balança, Mas Não Cai:</strong> Você tem vantagem em testes de Destreza para manter o equilíbrio e não sofre Desvantagem em ataques à distância devido à condição <em>Agarrado</em>.</p></div>
-          <div class="sub-feature"><h5>Nível 6: Tiro de Precisão</h5><p>Uma vez por turno, quando acerta um ataque com uma arma de fogo, você pode causar dano extra igual a um rolamento do seu Dado de Risco. Se o alvo estiver dentro do primeiro intervalo normal da arma, você pode rolar o dado duas vezes e usar o melhor resultado.</p></div>
-          <div class="sub-feature"><h5>Nível 10: Mirar e Respirar</h5><p>Como uma Ação Bônus, você pode gastar 1 Dado de Risco para obter Vantagem na próxima rolagem de ataque à distância deste turno. Além disso, o ataque ignora meia cobertura e três-quartos de cobertura.</p></div>
-          <div class="sub-feature"><h5>Nível 14: Balística Terminal</h5><p>Quando você causa dano a uma criatura com uma arma de fogo e ela possui menos da metade de seus pontos de vida máximos, você pode gastar 1 Dado de Risco para transformar o dano em um Acerto Crítico automático. Pode usar essa característica um número de vezes igual ao seu modificador de Destreza (mínimo 1) por Descanso Longo.</p></div>
-        </div>
-
-        <!-- SUBCLASSE 2: PISTOLEIRO DE QUADRIL (PISTOLERO) -->
-        <div class="bloco-subclasse-detalhada">
-          <h3>🤠 Pistoleiro de Quadril (Pistolero)</h3>
-          <p>Especialista em velocidade insana, sacando dois revólveres e enchendo o ar de chumbo. O Pistoleiro é uma tempestade de pólvora.</p>
-          <div class="sub-feature"><h5>Nível 3: Estilo Faroeste & Recarga Relâmpago</h5><p><strong>Estilo Faroeste:</strong> Quando você empunha duas armas de fogo que não tenham a propriedade <em>Duas Mãos</em>, você pode atirar com ambas como parte da mesma Ação Bônus de Combate com Duas Armas. Além disso, você adiciona seu modificador de Destreza no dano do segundo tiro.</p><p><strong>Recarga Relâmpago:</strong> Você pode recarregar uma arma de fogo como parte da ação de Ataque ou da ação Bônus, sem gastar uma ação separada.</p></div>
-          <div class="sub-feature"><h5>Nível 6: Rajada de Chumbo</h5><p>Quando você usa a ação Ataque e realiza pelo menos um ataque com uma arma de fogo, pode gastar 1 Dado de Risco para realizar um ataque adicional com outra arma de fogo que esteja empunhando. Este ataque extra não soma seu modificador de habilidade no dano.</p></div>
-          <div class="sub-feature"><h5>Nível 10: Desaparecer na Fumaça</h5><p>Após acertar um ataque com uma arma de fogo, você pode gastar 1 Dado de Risco para ativar o efeito <em>Desengajar</em> e mover-se até metade do seu deslocamento sem provocar ataques de oportunidade.</p></div>
-          <div class="sub-feature"><h5>Nível 14: Chuva de Balas</h5><p>Quando você usa a ação Ataque, pode substituir um dos ataques por uma saraivada: realize dois ataques de arma de fogo contra alvos diferentes (cada ataque sofre -2 na rolagem). Você pode gastar 1 Dado de Risco para não sofrer a penalidade.</p></div>
-        </div>
-
-        <!-- SUBCLASSE 3: TANQUE DE GUERRA (GUN TANK) -->
-        <div class="bloco-subclasse-detalhada">
-          <h3>💥 Tanque de Guerra (Gun Tank)</h3>
-          <p>Arrasta pesadas armas de fogo montadas, como metralhadoras portáteis ou canhões de mão. Sua filosofia é potência bruta e resiliência.</p>
-          <div class="sub-feature"><h5>Nível 3: Couraça de Aço & Estabelecer Posição</h5><p><strong>Couraça de Aço:</strong> Você ganha proficiência em armaduras médias e escudos. Enquanto estiver usando armadura média, seu bônus de Constituição contribui para a CA em +1 (máximo de +2).</p><p><strong>Estabelecer Posição:</strong> Você pode gastar 1 Dado de Risco para, como Ação Bônus, fixar sua arma de fogo de duas mãos em uma superfície (ou usar o bipé). Enquanto mantido, você ignora a desvantagem de atirar a distância longa e tem Vantagem em testes para não ser movido à força.</p></div>
-          <div class="sub-feature"><h5>Nível 6: Fogo Suprimido</h5><p>Quando você acerta uma criatura com uma arma de fogo, pode gastar 1 Dado de Risco para impor Desvantagem no próximo ataque da criatura até o final do próximo turno dela.</p></div>
-          <div class="sub-feature"><h5>Nível 10: Andarilho Blindado</h5><p>Você recebe Resistência a dano perfurante e de impacto de ataques não mágicos. Além disso, quando sofre dano de uma fonte que você possa ver, pode usar sua reação e gastar 1 Dado de Risco para reduzir o dano em um valor igual ao rolado do dado + seu nível de Pistoleiro.</p></div>
-          <div class="sub-feature"><h5>Nível 14: Ameaça Andante</h5><p>Sua presença e poder de fogo intimidam. Sempre que você faz um disparo com uma arma de fogo, inimigos de sua escolha em um raio de 6 metros devem fazer um teste de Sabedoria (CD 8 + Proficiência + mod. Carisma) ou ficarão <em>Amedrontados</em> por 1 minuto. Uma vez que uma criatura resista a este efeito, fica imune por 24 horas.</p></div>
-        </div>
-      </div>
+      <!-- RECURSOS DE CLASSE DETALHADOS -->
+      <div >
       
-      <!-- NOTA SOBRE ARMAS DE FOGO -->
-      <div style="margin-top: 20px; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; border-left: 3px solid #e67e22;">
-        <p style="font-size: 0.85rem; margin: 0;"><strong>⚙️ Armas de Fogo:</strong> As armas de fogo seguem regras especiais. Geralmente não somam o modificador de Destreza ao dano, usam dois ou mais dados de dano e requerem ação de recarga. Consulte seu mestre para saber quais armas de fogo estão disponíveis na campanha (ex: Revólver, Mosquete, Escopeta, Canhão de Mão). O Pistoleiro é naturalmente proficiente com todas elas, desde que sejam armas marciais de distância.</p>
-      </div>
+          <!-- EXEMPLO DE RECURSOS DE CLASSE -->
+          <div class="recursos-container">
+              <div class="recursos-header">
+                  <h3>Recursos da Classe</h3>
+              </div>
+              
+              <div class="recursos-list">
+                <!-- Nível 1: Estilo de Luta -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 1: Estilo de Luta</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha um talento de <strong>Estilo de Luta</strong> de sua escolha. Se você escolher um talento, como <strong>Luta com Arma Pesada</strong>, que exija que você segure uma <strong>arma corpo a corpo</strong> em uma ou duas mãos, você pode usar aquele talento com <strong>armas de Ataque à Distância</strong>.</p>
+                        <p>Sempre que você ganha um <strong>nível de Atirador</strong>, pode substituir o talento que escolheu por um talento de Estilo de Luta diferente.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 1: Saque Rápido -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 1: Saque Rápido</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você é adepto a sacar e disparar antes que outros tenham tempo de reagir, concedendo-lhe os seguintes benefícios.</p>
+                        
+                        <p><strong style="color: white;">Iniciativa.</strong> Você tem <strong>Vantagem</strong> em rolagens de <strong>Iniciativa</strong>.</p>
+                        
+                        <p><strong style="color: white;">Saque Duplo.</strong> Você pode <strong>sacar ou guardar duas armas</strong> que não possuam a propriedade <strong>Duas Mãos</strong> quando normalmente seria capaz de sacar ou guardar apenas uma.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 1: Maestria em Armas -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 1: Maestria em Armas</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Seu treinamento com armas permite que você use as <strong>propriedades de maestria</strong> de <strong>dois tipos</strong> de armas de <strong>Ataque à Distância Simples ou Marciais</strong> de sua escolha. Sempre que você finaliza um <strong>Descanso Longo</strong>, pode praticar exercícios com armas e <strong>mudar uma daquelas escolhas</strong>.</p>
+                        <p>Quando você atinge certos níveis de Atirador, ganha a capacidade de usar as propriedades de maestria de mais tipos de armas, como mostrado na coluna <strong>Maestria em Armas</strong> da tabela de Características de Atirador.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 2: Disparo Crítico -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 2: Disparo Crítico</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Suas rolagens de ataque com <strong>armas de Ataque à Distância</strong> podem causar um <strong>Acerto Crítico</strong> em uma rolagem de <strong>19 ou 20 no d20</strong>.</p>
+                        <p>No <strong>nível 9 de Atirador</strong>, suas rolagens de ataque com armas de Ataque à Distância causam um Acerto Crítico em uma rolagem de <strong>18–20</strong>. No <strong>nível 17 de Atirador</strong>, elas causam um Acerto Crítico em uma rolagem de <strong>17–20</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 2: Risco -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 2: Risco</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você pode realizar feitos incríveis de ousadia alimentados por dados especiais chamados <strong>Dados de Risco</strong>.</p>
+                        
+                        <p><strong style="color: white;">Dados de Risco.</strong> Você tem <strong>quatro Dados de Risco</strong>, que são <strong>d8</strong>. Um Dado de Risco é <strong>gasto</strong> quando você o usa. Você recupera todos os Dados de Risco gastos quando finaliza um <strong>Descanso Curto</strong> ou <strong>Descanso Longo</strong>. Seu Dado de Risco muda e mais Dados de Risco se tornam disponíveis como mostrado na coluna <strong>Dados de Risco</strong> da tabela de Características de Atirador.</p>
+                        
+                        <p><strong style="color: white;">Manobras.</strong> Você pode gastar <strong>Dados de Risco</strong> para realizar <strong>manobras</strong>. Suas opções de manobra são detalhadas posteriormente na descrição da classe.</p>
+                        
+                        <p><strong style="color: white;">Testes de Resistência.</strong> Se uma manobra exigir um <strong>teste de resistência</strong>, a CD é igual a <strong>8 + seu modificador de Destreza + Bônus de Proficiência</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 3: Subclasse de Atirador -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Subclasse de Atirador</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha uma <strong>subclasse de Atirador</strong> de sua escolha. Uma subclasse é uma especialização que concede características em certos níveis de Atirador. Pelo resto de sua carreira, você ganha cada uma das características de sua subclasse que sejam de seu nível de Atirador ou inferior.</p>
+                        <p>As subclasses de Atirador estarão listadas no final da página.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 4: Aumento no Valor de Habilidade -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 4: Aumento no Valor de Habilidade</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha o talento <strong>Aumento no Valor de Habilidade</strong> ou outro talento de sua escolha para o qual você se qualifica. Você ganha esta característica novamente nos níveis <strong>8, 12 e 16</strong> de Atirador.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 5: Ataque Extra -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 5: Ataque Extra</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você pode atacar <strong>duas vezes</strong> em vez de uma sempre que realizar a ação <strong>Atacar</strong> em seu turno.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 5: Tiro no Estômago -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 5: Tiro no Estômago</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Sempre que você causa um <strong>Acerto Crítico</strong> contra uma criatura <strong>Grande ou menor</strong> com um <strong>ataque à distância</strong> usando uma arma, o projétil se aloja no alvo. Por <strong>1 minuto</strong> ou até o alvo <strong>substituir um de seus ataques</strong> para remover o projétil, seu <strong>Deslocamento</strong> é <strong>reduzido à metade</strong> e ele tem <strong>Desvantagem</strong> em rolagens de ataque.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 7: Evasão -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 7: Evasão</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Quando você está sujeito a um <strong>efeito</strong> que permite que você faça um teste de resistência de <strong>Destreza</strong> para sofrer apenas <strong>metade do dano</strong>, em vez disso, você <strong>não sofre dano</strong> se for bem-sucedido no teste de resistência e apenas <strong>metade do dano</strong> se falhar. Você não se beneficia desta característica se estiver com a condição <strong>Incapacitado</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 11: Excesso -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 11: Excesso</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Quando você causa dano com uma <strong>arma de Ataque à Distância</strong> que <strong>não adiciona seu modificador de habilidade</strong> à rolagem, você adiciona seu modificador de habilidade mesmo assim. Se você já adiciona seu modificador à rolagem de dano, o alvo sofre <strong>1d8</strong> extra do tipo da arma.</p>
+                        <p>Note que armas que têm a propriedade <strong>Fogo</strong> não adicionam seu modificador de habilidade às rolagens de dano.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 13: Enganar a Morte -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 13: Enganar a Morte</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Quando você é <strong>reduzido a 0 Pontos de Vida</strong> e não morre imediatamente, pode <strong>cair para 1 Ponto de Vida</strong> em vez disso e recupera um número de <strong>Pontos de Vida</strong> igual ao seu <strong>nível de Atirador</strong>.</p>
+                        <p>Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Curto</strong> ou <strong>Descanso Longo</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 15: Aposta Temerária -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 15: Aposta Temerária</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Sempre que você rola <strong>Iniciativa</strong> ou causa um <strong>Acerto Crítico</strong>, você recupera <strong>um Dado de Risco gasto</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 18: Manobra Ágil -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 18: Manobra Ágil</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha uma <strong>Ação Bônus adicional especial</strong> que pode ser feita <strong>uma vez em cada um de seus turnos</strong>. Você pode usar esta Ação Bônus especial apenas para <strong>usar uma manobra</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 19: Benção Épica -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 19: Benção Épica</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha um talento de <strong>Benção Épica</strong> ou outro talento de sua escolha para o qual você se qualifica. <strong>Benção do Ofensivo Irresistível</strong> é recomendado.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 20: Tiro na Cabeça -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 20: Tiro na Cabeça</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Quando você causa um <strong>Acerto Crítico</strong> contra uma criatura usando uma <strong>arma de Ataque à Distância</strong>, pode escolher que seja um <strong>Tiro na Cabeça</strong>. Se a criatura tiver <strong>menos de 100 Pontos de Vida</strong>, ela <strong>morre</strong>. Caso contrário, ela sofre <strong>10d10</strong> extra do tipo da arma.</p>
+                        <p>Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Curto</strong> ou <strong>Descanso Longo</strong>. Você também pode restaurar seu uso dela gastando <strong>três Dados de Risco</strong> (nenhuma ação necessária).</p>
+                    </div>
+                </div>
+
+              </div>
+
+
+
+              <div class="recursos-header">
+                  <h3>Subclasses</h3>
+              </div>
+              <div class="subclasses-container" id="subclasses-artifice">
+                  
+                  <!--ABAS DE NAVEGAÇÃO-->
+                  <div class="tabs-header">
+                      <ul class="tabs-list">
+                      <li><button class="tab-btn active" data-tab="0"> Caçador de Grandes Presas</button></li>
+                      <li><button class="tab-btn active" data-tab="1"> Atirador Certeiro</button></li>
+                      <li><button class="tab-btn active" data-tab="2"> Granadeiro</button></li>
+                      <li><button class="tab-btn active" data-tab="3"> Tanque de Guerra</button></li>
+                      <li><button class="tab-btn active" data-tab="4"> Mestre do Gun-Ko</button></li>
+                      <li><button class="tab-btn active" data-tab="5"> Apostador</button></li>
+                      <li><button class="tab-btn active" data-tab="6"> Laserista</button></li>
+                      <li><button class="tab-btn active" data-tab="7"> Mosqueteiro</button></li>
+                      <li><button class="tab-btn active" data-tab="8"> Pistoleiro</button></li>
+                      <li><button class="tab-btn active" data-tab="9"> Agente Secreto</button></li>
+                      <li><button class="tab-btn active" data-tab="10"> Cowboy Espacial</button></li>
+                      <li><button class="tab-btn active" data-tab="11"> Conjurador de Armas</button></li>
+                      <li><button class="tab-btn active" data-tab="12"> Tiro Truqueado</button></li>
+                      <li><button class="tab-btn active" data-tab="13"> Chapéu Branco</button></li>
+                      </ul>
+                  </div>
+                  
+                  <!--SUBCLASSE-->
+                  <div class="tabs-content">
+<!-- ABA - Caçador de Grandes Presas -->
+<div class="tab-pane">
+    <h3 style="color: var(--gold); margin-bottom: 15px;">Caçador de Grandes Presas</h3>
+    <p>Armados com as maiores armas possíveis, Caçadores de Grandes Presas buscam <strong>derrubar titãs perigosos</strong> — como dinossauros, hidras e bestas gigantes — antes que eles possam ameaçar os pequenos. Presas tão pequenas quanto corujas-de-garras ou tão inteligentes quanto gigantes são mal adequadas para a sensibilidade de tal caçador, pois eles se deliciam mais na conquista de titãs e no cheiro de seus <strong>Elephant Guns</strong> brilhando em brasa.</p>
+    
+    <!-- Nível 3: Elephant Gun -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Elephant Gun</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Você ganha uma arma de proporções impressionantes: um <strong>Elephant Gun</strong>. Apenas você tem <strong>proficiência</strong> com esta arma. O Elephant Gun é uma <strong>arma de ataque à distância</strong> com as seguintes características:</p>
+            
+            <p><strong style="color: white;">Categoria de Arma:</strong> Marcial de Ataque à Distância<br>
+            <strong style="color: white;">Dano em um Acerto:</strong> 2d8 de Perfuração<br>
+            <strong style="color: white;">Propriedades:</strong> Munição (alcance 24/96; Bala), Fogo, Pesada, Alto Calibre, Duas Mãos<br>
+            <strong style="color: white;">Maestria:</strong> Lento (você pode usar esta propriedade, e ela não conta contra o número de propriedades que você pode usar com Maestria em Armas)</p>
+            
+            <p><strong style="color: white;">Substituindo um Elephant Gun.</strong> Se seu Elephant Gun for perdido, você pode construir um novo durante um <strong>Descanso Longo</strong> usando materiais no valor de <strong>100+ PO</strong>.</p>
+            
+            <p><strong style="color: white;">Alto Calibre.</strong> O Elephant Gun tem a propriedade especial <strong>Alto Calibre</strong>. Você só pode fazer <strong>um ataque</strong> com esta arma quando realizar a ação <strong>Atacar</strong>, e apenas como o <strong>primeiro ataque</strong> que fizer em seu turno. Uma vez que você faz um ataque com esta arma, você <strong>não pode fazer nenhum ataque</strong> até o início de seu próximo turno.</p>
+            
+            <p>Conforme você atinge certos níveis de Atirador, o <strong>dano do Elephant Gun</strong> muda, como mostrado na tabela a seguir.</p>
+            
+            <div class="overflow-table">
+                <table class="tabela-rpg" style="font-size: 0.8rem;">
+                    <thead>
+                        <tr><th>Nível de Atirador</th><th>Dano</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="esquerda"><strong>3º</strong></th><td class="esquerda">2d8</th></tr>
+                        <tr><td class="esquerda"><strong>5º</strong></th><td class="esquerda">4d10</th></tr>
+                        <tr><td class="esquerda"><strong>11º</strong></th><td class="esquerda">5d10</th></tr>
+                        <tr><td class="esquerda"><strong>17º</strong></th><td class="esquerda">6d10</th></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Nível 3: Lado Largo de um Celeiro -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Lado Largo de um Celeiro</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Você <strong>não tem Desvantagem</strong> em rolagens de ataque contra alvos <strong>Grandes ou maiores</strong> como resultado de atacar em <strong>alcance longo</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 6: Rastreador -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 6: Rastreador</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Você se destaca em rastrear sua presa, concedendo-lhe os seguintes benefícios.</p>
+            
+            <p><strong style="color: white;">Identificação de Pegadas.</strong> Ao examinar as <strong>pegadas</strong> deixadas por uma criatura como uma ação <strong>Estudar</strong>, você pode determinar sem um teste de habilidade o <strong>tipo específico de criatura</strong> que as deixou, <strong>há quanto tempo</strong> as deixou, o <strong>tamanho da criatura</strong> e se a criatura estava <strong>faltando algum de seus Pontos de Vida</strong> quando deixou as pegadas.</p>
+            
+            <p><strong style="color: white;">Expertise em Sobrevivência.</strong> Você ganha <strong>proficiência</strong> na perícia <strong>Sobrevivência</strong> e ganha <strong>Expertise</strong> com essa perícia.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 10: Disparo Lendário -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 10: Disparo Lendário</span>
+            <span class="badge-mini reacao">Reação</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando uma <strong>criatura</strong> que você pode ver a até <strong>24 metros</strong> de você <strong>realiza uma Ação Lendária</strong>, você pode usar uma <strong>Reação</strong> para fazer um <strong>ataque</strong> contra ela usando seu <strong>Elephant Gun</strong>. Você pode fazer este ataque mesmo se já tiver feito um ataque usando seu Elephant Gun em seu turno. Em um acerto, a <strong>Ação Lendária é perdida</strong>.</p>
+            <p>Uma vez que você usa esta característica, não pode fazê-lo novamente até finalizar um <strong>Descanso Curto</strong> ou <strong>Descanso Longo</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 14: Calibre Exótico -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 14: Calibre Exótico</span>
+            <span class="badge-mini acao-bonus">Ação Bônus</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Você pode usar uma <strong>Ação Bônus</strong> para carregar seu <strong>Elephant Gun</strong> com um dos seguintes tipos de <strong>munição</strong>. Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Curto</strong> ou <strong>Descanso Longo</strong>. Você também pode restaurar seu uso dela gastando <strong>dois Dados de Risco</strong> (nenhuma ação necessária).</p>
+            
+            <p><strong style="color: white;">Tiro de Estilhaço.</strong> Você carrega seu Elephant Gun com dezenas de pelotas de chumbo que se espalham na próxima vez que a arma for disparada. O ataque se torna um <strong>Cone de 9 metros</strong>. Cada criatura na área faz um teste de resistência de <strong>Destreza</strong> contra sua CD de resistência de manobra, sofrendo o <strong>dano do Elephant Gun</strong> em uma falha ou <strong>metade do dano</strong> em um sucesso.</p>
+            
+            <p><strong style="color: white;">Tiro Explosivo.</strong> Você carrega seu Elephant Gun com um projétil que explode na próxima vez que a arma for disparada. O ataque se torna uma <strong>explosão</strong>. Escolha um ponto que você pode ver a até <strong>24 metros</strong> de você. Cada criatura em uma <strong>Esfera de 3 metros de raio</strong> faz um teste de resistência de <strong>Destreza</strong> contra sua CD de resistência de manobra, sofrendo dano de <strong>Fogo</strong> igual ao <strong>dano do seu Elephant Gun</strong> em uma falha ou <strong>metade do dano</strong> em um sucesso.</p>
+            
+            <p><strong style="color: white;">Tiro Perfurante.</strong> Você carrega seu Elephant Gun com um projétil cônico que penetra através de seu alvo na próxima vez que a arma for disparada. O ataque se torna uma <strong>Linha de 1,5 metro de largura e 24 metros de comprimento</strong>. Cada criatura na área faz um teste de resistência de <strong>Destreza</strong> contra sua CD de resistência de manobra, sofrendo o <strong>dano do Elephant Gun</strong> em uma falha ou <strong>metade do dano</strong> em um sucesso.</p>
+        </div>
+    </div>
+</div>
+            
+<!-- ABA - Atirador Certeiro -->
+<div class="tab-pane">
+    <h3 style="color: var(--gold); margin-bottom: 15px;">Atirador Certeiro</h3>
+    <p>Uma bala bem colocada é mais poderosa do que uma espada, flecha ou magia. De fato, você acredita que todo conflito violento deve soar como um único estalo alto seguido por um longo silêncio. Tais disparos exigem <strong>perfeição</strong>, mesmo à distância, pois quando são feitos corretamente, são tão mortais para o alvo quanto são estupendos para a audiência.</p>
+    
+    <!-- Nível 3: Olho de Águia [Manobra] -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Olho de Águia</span>
+        </div>
+        <div class="recurso-descricao">
+            <p><strong>Uma vez por turno</strong> quando você <strong>erra</strong> com uma rolagem de <strong>ataque à distância</strong>, pode gastar <strong>um Dado de Risco</strong> e <strong>adicioná-lo à rolagem de ataque</strong>, potencialmente fazendo com que o ataque acerte.</p>
+        </div>
+        <div class="recurso-requisito">
+            Gasta 1 Dado de Risco (Manobra)
+        </div>
+    </div>
+    
+    <!-- Nível 3: Postura do Atirador -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Postura do Atirador</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Você treinou para atirar de uma <strong>posição Prone estável</strong>, concedendo as seguintes condições.</p>
+            
+            <p><strong style="color: white;">Atirar Deitado.</strong> Você <strong>não tem Desvantagem</strong> em rolagens de ataque à distância como resultado da condição <strong>Deitado</strong>.</p>
+            
+            <p><strong style="color: white;">Levantar Rápido.</strong> Quando você tem a condição <strong>Deitado</strong>, pode se endireitar e, assim, encerrar a condição com apenas <strong>1,5 metro de movimento</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 6: Posição Camuflada -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 6: Posição Camuflada</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Você se destaca em atirar de <strong>camuflagem</strong>, concedendo-lhe os seguintes benefícios.</p>
+            
+            <p><strong style="color: white;">Camuflagem.</strong> Você pode realizar a ação <strong>Esconder</strong> mesmo se não estiver em <strong>Alta Obscuridade</strong> ou atrás de <strong>Cobertura Três Quartos</strong> ou <strong>Cobertura Total</strong>, desde que você tenha a condição <strong>Deitado</strong>. A condição <strong>Invisível</strong> desta ação Esconder termina se você <strong>não tiver a condição Deitado</strong>.</p>
+            
+            <p><strong style="color: white;">Ninho do Atirador.</strong> Se você faz uma <strong>rolagem de ataque</strong> enquanto está <strong>escondido</strong> e a rolagem <strong>erra</strong>, fazer a rolagem de ataque <strong>não revela sua localização</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 10: Reposicionar -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 10: Reposicionar</span>
+            <span class="badge-mini reacao">Reação</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Sempre que uma <strong>criatura erra você</strong> com uma <strong>rolagem de ataque</strong>, você pode usar uma <strong>Reação</strong> para <strong>encerrar a condição Deitado</strong> em si mesmo e se mover até <strong>metade de seu Deslocamento</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 14: Disparo Focado -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 14: Disparo Focado</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você realiza a ação <strong>Atacar</strong>, pode escolher fazer <strong>apenas uma rolagem de ataque à distância</strong> usando uma arma para fazer um <strong>Disparo Focado</strong>. Você tem <strong>Vantagem</strong> nesta rolagem de ataque e, em um acerto, causa um <strong>Acerto Crítico</strong>.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ABA - Granadeiro -->
+<div class="tab-pane">
+    <h3 style="color: var(--gold); margin-bottom: 15px;">Granadeiro</h3>
+    <p>Você acredita que virtualmente todos os problemas podem ser resolvidos com a <strong>aplicação cuidadosa de explosivos de alto poder</strong> e irá a grandes comprimentos para provar esta tese. Demolições são sua especialidade, e qualquer coisa que possa causar explosões à longa distância é seu instrumento. Se necessário, você pode se contentar com uma arma comum, mas simplesmente não é tão satisfatório quanto <strong>explodir seus inimigos em pedaços</strong>.</p>
+    
+    <!-- Nível 3: Tiro Explosivo -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Tiro Explosivo</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você faz um <strong>ataque à distância</strong> usando uma arma cuja propriedade de maestria você pode usar, pode substituir aquela propriedade pela propriedade <strong>Explodir</strong> para aquele ataque. O <strong>dano deste ataque é de Fogo</strong> em vez do tipo de dano normal da arma.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 3: Munição Pesada [Manobra] -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Munição Pesada</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Sempre que você usa a propriedade <strong>Explodir</strong> de uma arma, pode usar uma <strong>Ação Bônus</strong> e gastar <strong>um Dado de Risco</strong> para aumentar o <strong>raio da explosão</strong> para uma <strong>Esfera de 3 metros de raio</strong>. Adicione o <strong>Dado de Risco</strong> à rolagem de dano.</p>
+        </div>
+        <div class="recurso-requisito">
+            Gasta 1 Dado de Risco (Manobra)
+        </div>
+    </div>
+    
+    <!-- Nível 6: Explosão Configurável -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 6: Explosão Configurável</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você usa a propriedade <strong>Explodir</strong> de uma arma, pode escolher <strong>um dos seguintes benefícios</strong> para aquele ataque.</p>
+            
+            <p><strong style="color: white;">Explosão de Demolição.</strong> A explosão causa <strong>dano dobrado</strong> a objetos e <strong>ignora o limite de dano</strong> de objetos.</p>
+            
+            <p><strong style="color: white;">Explosão Elemental.</strong> Você faz com que a explosão cause dano de <strong>Ácido</strong>, <strong>Frio</strong>, <strong>Relâmpago</strong> ou <strong>Trovão</strong> em vez de seu tipo de dano normal.</p>
+            
+            <p><strong style="color: white;">Explosão Incendiária.</strong> <strong>Objetos inflamáveis</strong> na área da explosão que não estão sendo vestidos ou carregados <strong>começam a queimar</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 10: Proteger-se -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 10: Proteger-se</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Cada <strong>criatura que você escolher</strong> ganha os benefícios de sua característica <strong>Evasão</strong> enquanto estiver a até <strong>1,5 metro</strong> de você.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 14: Bomba de Fragmentação -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 14: Bomba de Fragmentação</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você usa a propriedade <strong>Explodir</strong> de uma arma, pode disparar uma <strong>Bomba de Fragmentação</strong>. A explosão é uma <strong>Esfera de 6 metros de raio</strong>. Em uma falha, uma criatura sofre <strong>10d6</strong> de dano de <strong>Fogo</strong>, ou <strong>metade do dano</strong> em um sucesso. Este dano <strong>ignora Resistência</strong>. Uma criatura <strong>Enorme ou menor</strong> que sofre dano da Bomba de Fragmentação tem a condição <strong>Deitado</strong>.</p>
+            <p>Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Curto</strong> ou <strong>Descanso Longo</strong>. Você também pode restaurar seu uso dela gastando <strong>quatro Dados de Risco</strong> (nenhuma ação necessária).</p>
+        </div>
+    </div>
+</div>
+
+<!-- ABA - Tanque de Guerra -->
+<div class="tab-pane">
+    <h3 style="color: var(--gold); margin-bottom: 15px;">Tanque de Guerra</h3>
+    <p>Seja maior, mais perverso e mais resistente, e ninguém ficará em seu caminho. Você é uma <strong>máquina de cerco viva</strong>, um titã de músculos, brandindo armas que a maioria das pessoas é incapaz de levantar. Armado com estas armas de fogo devastadoras, você <strong>avança no campo de batalha</strong>, bombardeando e destruindo aqueles tolos o suficiente para se oporem a você.</p>
+    
+    <!-- Nível 3: Atirador Pesado -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Atirador Pesado</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Você pode carregar armas enormes e ignorar balas recebidas, concedendo-lhe os seguintes benefícios.</p>
+            
+            <p><strong style="color: white;">Treinamento com Armaduras.</strong> Você ganha treinamento com <strong>Armaduras Médias e Pesadas</strong>.</p>
+            
+            <p><strong style="color: white;">Ataques Fortes.</strong> Você pode usar <strong>Força</strong>, em vez de Destreza, para rolagens de ataque e dano usando <strong>armas de Ataque à Distância</strong>. Você também pode adicionar sua <strong>Força</strong>, em vez de Destreza, à sua <strong>CD de resistência de manobra</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 3: Torre Anda -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Torre Anda</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Sua experiência com armas montadas concede-lhe os seguintes benefícios.</p>
+            
+            <p><strong style="color: white;">Arsenal Montado.</strong> Enquanto você estiver segurando uma <strong>arma de Ataque à Distância</strong> cuja propriedade de maestria você pode usar, pode usar a propriedade de maestria <strong>Montada</strong> com aquela arma. Enquanto uma arma estiver <strong>montada em uma posição fixa</strong>, seus <strong>dados de dano aumentam em um passo</strong> (d4 → d6 → d8 → d10 → d12, até um máximo de d12).</p>
+            
+            <p><strong style="color: white;">Mover-se Montado.</strong> Você pode mover uma <strong>arma com a propriedade Montada</strong> que está em uma posição fixa. Enquanto se move com tal arma, cada <strong>metro de movimento custa 1 metro extra</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 6: Crânio Duro -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 6: Crânio Duro</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Você tem <strong>Vantagem</strong> em testes de resistência que faz para <strong>evitar ou encerrar</strong> as condições <strong>Enfeitiçado</strong>, <strong>Amedrontado</strong> e <strong>Atordoado</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 10: À Prova de Balas -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 10: À Prova de Balas</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você usa sua manobra <strong>Morder a Bala</strong>, você tem <strong>Resistência</strong> a dano de <strong>Perfuração</strong>, <strong>Impacto</strong> e <strong>Corte</strong> até o final de seu próximo turno.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 14: Tiro de Metralhadora -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 14: Tiro de Metralhadora</span>
+        </div>
+        <div class="recurso-descricao">
+            <p><strong>Uma vez em cada um de seus turnos</strong>, quando você acerta um inimigo com um <strong>ataque à distância</strong> usando uma arma, pode fazer <strong>outro ataque</strong> com a arma contra o mesmo alvo. Este ataque é sempre feito com <strong>Desvantagem</strong>, independentemente das circunstâncias.</p>
+            <p>Se este ataque <strong>acertar</strong>, você pode fazer <strong>outro ataque</strong> contra o mesmo alvo. Você pode <strong>repetir este ataque</strong> até errar ou fazer um total de <strong>cinco ataques</strong> contra o alvo.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ABA - Mestre do Gun-Ko -->
+<div class="tab-pane">
+    <h3 style="color: var(--gold); margin-bottom: 15px;">Mestre do Gun-Ko</h3>
+    <p>A antiga arte do <strong>gun-ko</strong> é passada através de gerações de Atiradores que estudam a arma como uma <strong>arma perfeita</strong> e meditam sobre suas complexidades. Este caminho não é para os impacientes ou para os fracos de coração, mas aqueles que praticam diligentemente podem <strong>transformar a arma em uma extensão de si mesmos</strong>, atirando e golpeando com velocidade hipnotizante.</p>
+    
+    <!-- Nível 3: Tiro Corpo a Corpo -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Tiro Corpo a Corpo</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Estar a até <strong>1,5 metro</strong> de um inimigo <strong>não impõe Desvantagem</strong> em suas rolagens de ataque com <strong>armas de Ataque à Distância</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 3: Gun-Ko -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Gun-Ko</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Você aprende a arte imortal do <strong>gun-ko</strong>, que lhe concede os seguintes benefícios.</p>
+            
+            <p><strong style="color: white;">Atingir com Qualquer Coisa.</strong> Quando você ataca com uma <strong>arma de Ataque à Distância</strong> cuja propriedade de maestria você pode usar, pode substituir aquela propriedade pela propriedade <strong>Atingir</strong> para aquele ataque.</p>
+            
+            <p><strong style="color: white;">Ataque com Ação Bônus.</strong> Quando você faz uma <strong>rolagem de ataque à distância</strong> com uma arma contra um inimigo a até <strong>1,5 metro</strong> de você, pode fazer um <strong>ataque corpo a corpo</strong> usando a propriedade <strong>Atingir</strong> daquela arma como uma <strong>Ação Bônus</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 6: Desarmar Relâmpago [Manobra] -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 6: Desarmar Relâmpago</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Se uma <strong>criatura</strong> a até <strong>1,5 metro</strong> de você estiver segurando uma <strong>arma</strong>, você pode gastar <strong>um Dado de Risco</strong> como uma <strong>Ação Bônus</strong> para tentar <strong>tomá-la</strong>. O alvo deve ser bem-sucedido em um teste de resistência de <strong>Destreza</strong> ou você <strong>toma a arma</strong> dela após uma série de movimentos rápidos. Você deve ter uma <strong>mão livre</strong> para usar esta manobra.</p>
+        </div>
+        <div class="recurso-requisito">
+            Gasta 1 Dado de Risco (Manobra)
+        </div>
+    </div>
+    
+    <!-- Nível 6: Corrida na Parede [Manobra] -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 6: Corrida na Parede</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Você pode gastar <strong>um Dado de Risco</strong> para realizar a ação <strong>Correr</strong> como uma <strong>Ação Bônus</strong>. Até o final de seu turno, você tem um <strong>Deslocamento de Escalada</strong> igual ao seu <strong>Deslocamento</strong> e pode se mover em <strong>superfícies verticais</strong> enquanto mantém as mãos livres.</p>
+        </div>
+        <div class="recurso-requisito">
+            Gasta 1 Dado de Risco (Manobra)
+        </div>
+    </div>
+    
+    <!-- Nível 10: Esquiva Preditiva -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 10: Esquiva Preditiva</span>
+            <span class="badge-mini acao-bonus">Ação Bônus</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Seus reflexos são aprimorados o suficiente para desviar de balas recebidas. Você pode usar uma <strong>Ação Bônus</strong> para escolher <strong>uma criatura</strong> que você pode ver a até <strong>9 metros</strong> de você. Até o <strong>início de seu próximo turno</strong>, você ganha os benefícios da ação <strong>Esquivar</strong> contra as <strong>rolagens de ataque à distância</strong> do alvo e seus <strong>efeitos que forçam você a fazer um teste de resistência de Destreza</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 14: Assalto Relâmpago -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 14: Assalto Relâmpago</span>
+            <span class="badge-mini acao-bonus">Ação Bônus</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Como uma <strong>Ação Bônus</strong>, você pode fazer <strong>um ataque à distância</strong> com uma arma e <strong>um ataque corpo a corpo</strong> usando a propriedade <strong>Atingir</strong> daquela arma. Você pode se <strong>mover entre esses ataques</strong>. Se você acertar uma criatura <strong>Grande ou menor</strong> com <strong>ambos os ataques</strong>, ela tem a condição <strong>Deitado</strong>.</p>
+            <p>Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Curto</strong> ou <strong>Descanso Longo</strong>. Você também pode restaurar seu uso dela gastando <strong>dois Dados de Risco</strong> (nenhuma ação necessária).</p>
+        </div>
+    </div>
+</div>
+
+<!-- ABA - Apostador -->
+<div class="tab-pane">
+    <h3 style="color: var(--gold); margin-bottom: 15px;">Apostador</h3>
+    <p>A sorte é uma coisa volúvel — a menos que você seja um <strong>Apostador</strong>. Estes Atiradores são mestres em jogos de cartas e dados que misturam seu amor pelo <strong>risco</strong> com seu talento para atirar. Apostadores forçam sua sorte até ela acabar, então forçam ainda mais. Por que se contentar com uma vitória quando você poderia apostar tudo e ganhar muito?</p>
+    
+    <!-- Nível 3: Cara de Pau -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Cara de Pau</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Você ganha <strong>proficiência</strong> com todos os <strong>Kits de Jogo</strong> e em <strong>uma das seguintes perícias</strong> de sua escolha: <strong>Enganação</strong>, <strong>Intuição</strong> ou <strong>Percepção</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 3: Dado do Mentiroso [Manobra] -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Dado do Mentiroso</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você faz uma <strong>rolagem de dano</strong> com uma <strong>arma de Ataque à Distância</strong>, pode gastar <strong>um Dado de Risco</strong> como uma <strong>Ação Bônus</strong> e declará-la uma <strong>rolagem escondida</strong>. Role o dano em segredo e declare qualquer total que desejar. O <strong>Mestre</strong> tem a opção de <strong>tirar sua mentira</strong>, caso em que você revela os dados de dano que rolou. Isso tem diferentes consequências com base em se você mentiu ou não.</p>
+            
+            <p><strong style="color: white;">O Mestre Tira Sua Mentira; Você Mentiu.</strong> O dano que você causa é <strong>reduzido à metade</strong>.</p>
+            
+            <p><strong style="color: white;">O Mestre Tira Sua Mentira; Você Falou a Verdade.</strong> O dano que você causa é <strong>dobrado</strong>.</p>
+            
+            <p><strong style="color: white;">O Mestre Não Tira Sua Mentira.</strong> Use o dano total que você declarou, mesmo se você rolou um total diferente.</p>
+        </div>
+        <div class="recurso-requisito">
+            Gasta 1 Dado de Risco (Manobra)
+        </div>
+    </div>
+    
+    <!-- Nível 6: Negócio Arriscado -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 6: Negócio Arriscado</span>
+        </div>
+        <div class="recurso-descricao">
+            <p><strong>Uma vez por turno</strong> quando você faz uma <strong>rolagem de ataque</strong> contra um inimigo e a rolagem <strong>não tem Desvantagem</strong>, pode <strong>escolher fazer a rolagem com Desvantagem</strong>. Quando você faz isso, você recupera <strong>um Dado de Risco gasto</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 10: Arriscador -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 10: Arriscador</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Você pode usar suas manobras <strong>Espírito Independente</strong> e <strong>Por um Triz</strong> <strong>sem gastar um Dado de Risco</strong>. Quando você faz isso, role um <strong>d6</strong> em vez de um Dado de Risco.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 14: Dobrar ou Nada -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 14: Dobrar ou Nada</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você causa um <strong>Acerto Crítico</strong> usando uma <strong>arma de Ataque à Distância</strong>, pode <strong>apostar por um resultado maior</strong>. Role um <strong>d20</strong>. Se a rolagem for <strong>10 ou mais</strong>, role <strong>todos os dados de dano do ataque quatro vezes</strong> e some-os, em vez de apenas duas vezes como normal para um Acerto Crítico. Se você rolar <strong>9 ou menos</strong> no d20, o <strong>Acerto Crítico se torna um acerto normal</strong>.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ABA - Laserista -->
+<div class="tab-pane">
+    <h3 style="color: var(--gold); margin-bottom: 15px;">Laserista</h3>
+    <p>Atirar, como você bem entende, é mais <strong>ciência do que arte</strong>, especialmente ao usar tecnologia de blaster de ponta. Como um <strong>Laserista</strong>, você está interessado em <strong>maximizar a produção do blaster enquanto minimiza sobreviventes</strong>, iterando e personalizando seus blasters para criar a arma perfeita.</p>
+    
+    <!-- Nível 3: Disparo de Feixe [Manobra] -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Disparo de Feixe</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você realiza a ação <strong>Atacar</strong> usando uma arma que tem a propriedade <strong>Blaster</strong>, pode gastar <strong>um Dado de Risco</strong> como uma <strong>Ação Bônus</strong> para substituir <strong>um de seus ataques</strong> por um <strong>disparo de laser penetrante</strong>. Este ataque se torna uma <strong>Linha de 1,5 metro de largura</strong> que se estende até o <strong>alcance normal da arma</strong>. Cada <strong>criatura</strong> na Linha faz um teste de resistência de <strong>Destreza</strong>. Em uma falha, uma criatura sofre dano igual ao <strong>dano normal da arma + o Dado de Risco</strong>, ou <strong>metade do dano</strong> em um sucesso. O dano é do mesmo tipo causado pela arma.</p>
+        </div>
+        <div class="recurso-requisito">
+            Gasta 1 Dado de Risco (Manobra)
+        </div>
+    </div>
+    
+    <!-- Nível 3: Blaster Multimodo -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Blaster Multimodo</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Você pode gastar <strong>1 minuto</strong> integrando <strong>duas armas com a propriedade Blaster</strong> em um único chassi, concedendo-lhe uma arma <strong>extremamente flexível</strong>. Você só pode ter <strong>um Blaster Multimodo</strong> por vez. Sempre que você faz um ataque com o blaster, você escolhe qual das <strong>duas armas integradas</strong> você usa para aquele ataque.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 6: Disparo Carregado -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 6: Disparo Carregado</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você realiza a ação <strong>Atacar</strong>, pode substituir <strong>um de seus ataques</strong> por <strong>carregar uma arma</strong> que tenha a propriedade <strong>Blaster</strong> que você está segurando. Até o <strong>início de seu próximo turno</strong>, a arma está <strong>carregando</strong> e não pode ser usada para fazer um ataque. Depois disso, a arma fica <strong>carregada</strong> até o final do turno. Quando você faz um ataque com uma <strong>arma carregada</strong>, ela causa <strong>dois dados extras de dano</strong> em um acerto.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 10: Escudo Energético [Manobra] -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 10: Escudo Energético</span>
+            <span class="badge-mini reacao">Reação</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Você instalou um <strong>dispositivo eletromagnético sofisticado</strong> em sua pessoa. Como uma <strong>Reação</strong> em resposta a sofrer dano de <strong>Frio</strong>, <strong>Fogo</strong>, <strong>Relâmpago</strong>, <strong>Necrótico</strong>, <strong>Radiante</strong> ou <strong>Trovão</strong>, pode gastar <strong>um Dado de Risco</strong> para ganhar <strong>Resistência</strong> a este dano até o <strong>início de seu próximo turno</strong>, incluindo contra o dano desencadeador.</p>
+        </div>
+        <div class="recurso-requisito">
+            Gasta 1 Dado de Risco (Manobra)
+        </div>
+    </div>
+    
+    <!-- Nível 14: Disparo de Refração -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 14: Disparo de Refração</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Sempre que você <strong>acerta uma criatura</strong> com um <strong>ataque à distância</strong> usando uma arma que tem a propriedade <strong>Blaster</strong>, pode fazer com que o <strong>projétil do blaster desvie</strong> do alvo para uma <strong>segunda criatura</strong> que você pode ver a até <strong>9 metros</strong> do alvo original. O alvo sofre dano do tipo da arma igual ao seu <strong>modificador de Destreza</strong> (mínimo de 1).</p>
+        </div>
+    </div>
+</div>
+
+<!-- ABA - Mosqueteiro -->
+<div class="tab-pane">
+    <h3 style="color: var(--gold); margin-bottom: 15px;">Mosqueteiro</h3>
+    <p>Você acredita que <strong>camaradagem e glória andam de mãos dadas</strong>, que você e seus aliados são <strong>invencíveis</strong> enquanto estiverem juntos. Como um <strong>Mosqueteiro</strong>, você treinou com <strong>lâminas e armas de fogo em conjunto</strong> para que possa lutar <strong>ombro a ombro</strong> ao lado de seus aliados. Seu lugar não é atirando de longe, mas <strong>carregando para o meio do combate</strong> para que todos possam ter sucesso ou falhar como um.</p>
+    
+    <!-- Nível 3: Treinamento de Infantaria -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Treinamento de Infantaria</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Você recebeu treinamento em guerra que mistura <strong>armas de fogo com armas convencionais</strong>, concedendo-lhe os seguintes benefícios.</p>
+            
+            <p><strong style="color: white;">Armas Marciais.</strong> Você ganha <strong>proficiência com todas as armas Marciais</strong> em vez de apenas armas Marciais de Ataque à Distância.</p>
+            
+            <p><strong style="color: white;">Maestria Corpo a Corpo.</strong> Você pode escolher <strong>armas corpo a corpo</strong> além de armas de Ataque à Distância quando seleciona armas para sua <strong>Maestria em Armas</strong>.</p>
+            
+            <p><strong style="color: white;">Ignorar Recarga.</strong> Você <strong>ignora a propriedade de Recarga</strong> do <strong>Blunderbuss</strong>, <strong>Pistola</strong> e <strong>Mosquete</strong>. Se você estiver segurando um deles, pode <strong>carregar uma munição</strong> mesmo se não tiver uma mão livre.</p>
+            
+            <p><strong style="color: white;">Baionetas.</strong> Você tem <strong>proficiência com Baionetas</strong>. Uma <strong>Baioneta</strong> é uma <strong>Adaga especial</strong> que pode ser <strong>fixada ou removida</strong> de qualquer arma de Ataque à Distância com a propriedade <strong>Duas Mãos</strong> como uma ação <strong>Utilizar</strong>. Enquanto fixada, você pode tratar a arma de Ataque à Distância como uma <strong>arma corpo a corpo</strong> com a propriedade <strong>Acuidade</strong>. Quando você acerta uma criatura com um <strong>ataque corpo a corpo</strong> usando a Baioneta, ela causa dano de <strong>Perfuração</strong> igual a <strong>1d8 + o modificador de habilidade usado para a rolagem de ataque</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 3: Escaramuça [Manobra] -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Escaramuça</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você faz um <strong>ataque</strong> usando uma arma, pode gastar <strong>um Dado de Risco</strong> como uma <strong>Ação Bônus</strong> para fazer um <strong>ataque</strong> usando uma arma mais tarde no mesmo turno. Um ataque deve ser uma <strong>rolagem de ataque corpo a corpo</strong> e o outro deve ser uma <strong>rolagem de ataque à distância</strong>.</p>
+        </div>
+        <div class="recurso-requisito">
+            Gasta 1 Dado de Risco (Manobra)
+        </div>
+    </div>
+    
+    <!-- Nível 6: Aumento de Moral -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 6: Aumento de Moral</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você usa a manobra <strong>Morder a Bala</strong>, escolha até <strong>5 aliados</strong> que você pode ver a até <strong>9 metros</strong> de você. Cada aliado escolhido ganha <strong>Pontos de Vida Temporários</strong> iguais a <strong>uma rolagem do seu Dado de Risco + metade do seu nível de Atirador</strong> (arredondado para baixo).</p>
+        </div>
+    </div>
+    
+    <!-- Nível 10: Táticas Móveis -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 10: Táticas Móveis</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você <strong>acerta uma criatura</strong> com um ataque, o alvo <strong>não pode fazer Ataques de Oportunidade contra você</strong> até o início de seu próximo turno.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 14: Um por Todos -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 14: Um por Todos</span>
+            <span class="badge-mini reacao">Reação</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Sempre que um <strong>aliado</strong> a até <strong>3 metros</strong> de você é <strong>atingido por uma rolagem de ataque</strong>, você pode usar uma <strong>Reação</strong> para fazer um <strong>ataque à distância</strong> usando uma arma contra o atacante.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ABA - Pistoleiro -->
+<div class="tab-pane">
+    <h3 style="color: var(--gold); margin-bottom: 15px;">Pistoleiro</h3>
+    <p>Balas são poder, e você sempre acreditou que <strong>mais balas significam mais poder</strong>. Sua especialidade é entregar uma <strong>saraivada de fogo mortal</strong> para pulverizar seus inimigos. Nem toda bala precisa ser precisa para fazer a diferença.</p>
+    
+    <!-- Nível 3: Tiro Corpo a Corpo -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Tiro Corpo a Corpo</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Estar a até <strong>1,5 metro</strong> de um inimigo <strong>não impõe Desvantagem</strong> em suas rolagens de ataque com <strong>armas de Ataque à Distância</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 3: Sacar o Revólver [Manobra] -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Sacar o Revólver</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você realiza a ação <strong>Atacar</strong> com uma <strong>arma de Ataque à Distância</strong> que não tenha a propriedade <strong>Duas Mãos</strong>, pode gastar <strong>um Dado de Risco</strong> como uma <strong>Ação Bônus</strong> para fazer <strong>dois ataques à distância adicionais</strong> com aquela arma. Estes ataques adicionais sempre têm <strong>Desvantagem</strong>, independentemente das circunstâncias. Você <strong>não pode usar a propriedade de maestria Automática</strong> com estes ataques e deve ter uma <strong>mão livre</strong> para usar esta manobra.</p>
+        </div>
+        <div class="recurso-requisito">
+            Gasta 1 Dado de Risco (Manobra)
+        </div>
+    </div>
+    
+    <!-- Nível 6: Desarmar -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 6: Desarmar</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você causa um <strong>Acerto Crítico</strong> e ativa sua característica <strong>Tiro no Estômago</strong> contra uma criatura, pode <strong>desarmar o alvo</strong> em vez de alojar um projétil nele. O alvo <strong>derruba um objeto</strong> de sua escolha que está segurando, com o objeto caindo em um <strong>espaço de sua escolha a até 4,5 metros</strong> do alvo.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 10: Duelo [Manobra] -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 10: Duelo</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você rola <strong>Iniciativa</strong>, pode gastar <strong>um Dado de Risco</strong> para <strong>sacar uma arma de Ataque à Distância</strong> e fazer um <strong>ataque</strong> usando-a. Adicione o <strong>Dado de Risco</strong> à rolagem de dano. Em um acerto, o alvo tem <strong>Desvantagem</strong> em rolagens de ataque contra criaturas que não sejam você no <strong>primeiro round de combate</strong>.</p>
+        </div>
+        <div class="recurso-requisito">
+            Gasta 1 Dado de Risco (Manobra)
+        </div>
+    </div>
+    
+    <!-- Nível 14: Tempo de Bala -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 14: Tempo de Bala</span>
+        </div>
+        <div class="recurso-descricao">
+            <p><strong>Uma vez em cada um de seus turnos</strong> quando você faz um <strong>ataque à distância</strong> usando uma arma, pode ganhar <strong>Vantagem</strong> na rolagem.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ABA - Agente Secreto -->
+<div class="tab-pane">
+    <h3 style="color: var(--gold); margin-bottom: 15px;">Agente Secreto</h3>
+    <p>Conhecimento é poder. A melhor maneira de derrotar seus inimigos é <strong>roubando o que eles sabem e substituindo por desinformação</strong>. Para esse fim, você foi treinado nos caminhos da <strong>guerra encoberta</strong>, concedendo-lhe uma ampla gama de habilidades para complementar suas formidáveis habilidades de atirador.</p>
+    
+    <!-- Nível 3: Treinamento Operativo -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Treinamento Operativo</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Seu treinamento encoberto concede-lhe os seguintes benefícios:</p>
+            
+            <p><strong style="color: white;">Disparo Oculto.</strong> Você aprende o truque <strong>Disparo Oculto</strong>. <strong>Inteligência</strong>, <strong>Sabedoria</strong> ou <strong>Carisma</strong> é sua habilidade de conjuração para este truque (escolha quando selecionar esta subclasse).</p>
+            
+            <p><strong style="color: white;">Ferramentas Operativas.</strong> Você ganha um <strong>Kit de Disfarce</strong> e <strong>Ferramentas de Ladrão</strong> e tem <strong>proficiência</strong> com eles.</p>
+            
+            <p><strong style="color: white;">Proficiências em Perícias.</strong> Você ganha <strong>proficiência</strong> em <strong>duas</strong> destas perícias de sua escolha: <strong>Enganação</strong>, <strong>Investigação</strong>, <strong>Persuasão</strong>, <strong>Prestidigitação</strong> ou <strong>Furtividade</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 3: Disparo de Despedida [Manobra] -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Disparo de Despedida</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você realiza a ação <strong>Correr</strong>, <strong>Desengajar</strong> ou <strong>Esquivar</strong> em seu turno, pode gastar <strong>um Dado de Risco</strong> para fazer um <strong>ataque à distância</strong> usando uma arma como uma <strong>Ação Bônus</strong>. Adicione o <strong>Dado de Risco</strong> à rolagem de dano em um acerto.</p>
+        </div>
+        <div class="recurso-requisito">
+            Gasta 1 Dado de Risco (Manobra)
+        </div>
+    </div>
+    
+    <!-- Nível 6: Perícia de Campo -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 6: Perícia de Campo</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Sua experiência no campo concede-lhe os seguintes benefícios.</p>
+            
+            <p><strong style="color: white;">Troca Rápida.</strong> Usando um <strong>Kit de Disfarce</strong>, você pode criar uma <strong>Fantasia</strong> e <strong>vesti-la como uma Ação Bônus</strong>.</p>
+            
+            <p><strong style="color: white;">Falante Astuto.</strong> Sempre que você faz um teste de <strong>Carisma (Enganação)</strong> ou <strong>Carisma (Persuasão)</strong>, pode tratar uma rolagem de d20 de <strong>9 ou menos como 10</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 10: Estratégia de Saída -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 10: Estratégia de Saída</span>
+            <span class="badge-mini reacao">Reação</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você <strong>sofre dano</strong>, pode usar uma <strong>Reação</strong> para <strong>evitar mais danos</strong>. Você tem a condição <strong>Invisível</strong> até o <strong>início de seu próximo turno</strong> e pode se mover imediatamente até <strong>3 metros</strong>.</p>
+            <p>Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Curto</strong> ou <strong>Descanso Longo</strong>. Você também pode restaurar seu uso dela gastando <strong>um Dado de Risco</strong> (nenhuma ação necessária).</p>
+        </div>
+    </div>
+    
+    <!-- Nível 14: Licença para Matar -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 14: Licença para Matar</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Sempre que você causa dano com uma <strong>arma de Ataque à Distância</strong>, pode gastar <strong>um ou dois Dados de Risco</strong> e <strong>adicioná-los à rolagem de dano</strong>. Se você rolar o <strong>número mais alto em um Dado de Risco</strong>, pode <strong>rolar o dado novamente e adicioná-lo ao dano sem gastá-lo</strong>, rolando novamente se for o número mais alto novamente, e assim por diante. O <strong>número máximo de Dados de Risco</strong> que você pode adicionar ao dano é igual ao seu <strong>Bônus de Proficiência</strong>.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ABA - Cowboy Espacial -->
+<div class="tab-pane">
+    <h3 style="color: var(--gold); margin-bottom: 15px;">Cowboy Espacial</h3>
+    <p>Nada importa mais para você do que a <strong>liberdade</strong>. Com um blaster no quadril e o céu aberto para explorar, você não precisa mais responder a ninguém. Os perigos da <strong>fronteira final</strong> tendem a atrair aventureiros e apostadores, sejam eles <strong>contrabandistas inescrupulosos</strong>, <strong>caçadores de recompensas sanguinários</strong> ou <strong>grandes heróis</strong>.</p>
+    
+    <!-- Nível 3: Tiro Quente -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Tiro Quente</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você ataca com uma <strong>arma de Ataque à Distância</strong> cuja propriedade de maestria você pode usar, pode substituir aquela propriedade pela propriedade <strong>Superaquecer</strong> para aquele ataque.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 3: Arma com Nome -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Arma com Nome</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Durante um <strong>Descanso Longo</strong>, você pode <strong>personalizar uma de suas armas de Ataque à Distância</strong>, fazendo com que ela se torne uma <strong>Arma Nomeada</strong>. Você só pode ter <strong>uma Arma Nomeada</strong> por vez. Esta arma tem os seguintes benefícios.</p>
+            
+            <p><strong style="color: white;">Cano Estendido.</strong> O <strong>alcance normal e longo</strong> da Arma Nomeada <strong>dobram</strong>.</p>
+            
+            <p><strong style="color: white;">Montagem Magnética.</strong> O <strong>eletroímã quântico</strong> instalado na Arma Nomeada permite que você use uma <strong>Ação Bônus</strong> para <strong>puxar a arma para sua mão aberta</strong> se ela estiver a até <strong>18 metros</strong> de você e não estiver sendo carregada. Você <strong>não pode ser desarmado</strong> da arma, a menos que esteja com a condição <strong>Incapacitado</strong>.</p>
+            
+            <p><strong style="color: white;">Estrutura Reforçada.</strong> A Arma Nomeada ganha a propriedade de maestria <strong>Atingir</strong> além de sua propriedade de maestria normal, embora você possa usar apenas <strong>uma propriedade de maestria</strong> em cada ataque. Esta propriedade <strong>não conta</strong> contra o número de armas que você pode usar com Maestria em Armas.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 6: Deslize Poderoso -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 6: Deslize Poderoso</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você usa a manobra <strong>Rolamento Evasivo</strong>, você tem <strong>Vantagem</strong> no próximo ataque que fizer antes do final de seu turno.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 10: Esquiva Sortuda -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 10: Esquiva Sortuda</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Sempre que você é <strong>atingido por uma rolagem de ataque</strong>, pode rolar um <strong>d6</strong> (nenhuma ação necessária). Em um <strong>6</strong>, o ataque <strong>erra você automaticamente</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 14: Linha Vermelha -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 14: Linha Vermelha</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você usa a propriedade de maestria <strong>Superaquecer</strong>, a arma superaquecida pode ser usada novamente no <strong>início de seu próximo turno</strong>.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ABA - Conjurador de Armas -->
+<div class="tab-pane">
+    <h3 style="color: var(--gold); margin-bottom: 15px;">Conjurador de Armas</h3>
+    <p>Magia e armas não são tão diferentes — o poder arcano é como a pólvora, uma magia é como uma bala, e você é como uma arma, direcionando suas magias com precisão em alvos desafortunados. Conjuradores de Armas misturam as disciplinas de <strong>tiro e conjuração</strong>, às vezes carregando cargas arcanas com seus disparos e atirando balas aprimoradas com relâmpago, gelo ou chamas.</p>
+    
+    <!-- Nível 3: Conjuração -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Conjuração</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Você complementa suas balas com a habilidade de conjurar magias.</p>
+
+            <p><strong style="color: white;">Truques.</strong> Você conhece <strong>dois truques</strong> de sua escolha da lista de magias de <strong>Mago</strong>. <strong>Bola de Fogo</strong> e <strong>Mensagem</strong> são recomendados. Sempre que você ganha um <strong>nível de Atirador</strong>, pode substituir <strong>um desses truques</strong> por outro truque de sua escolha da lista de magias de Mago. Quando você atinge o <strong>nível 10 de Atirador</strong>, aprende <strong>outro truque de Mago</strong> de sua escolha.</p>
+
+            <p><strong style="color: white;">Espaços de Magia.</strong> A tabela de <strong>Conjuração do Conjurador de Armas</strong> mostra quantos espaços de magia você tem para conjurar suas magias de nível 1+. Você recupera todos os espaços gastos ao final de um <strong>Descanso Longo</strong>.</p>
+
+            <p><strong style="color: white;">Magias Preparadas de Nível 1+.</strong> Você prepara a lista de magias de nível 1+ que estão disponíveis para conjurar com esta característica. Para começar, escolha <strong>três magias de nível 1 de Mago</strong>. <strong>Orbe Cromático</strong>, <strong>Salto</strong> e <strong>Escudo</strong> são recomendados.</p>
+            <p>O número de magias na sua lista aumenta conforme você ganha níveis de Atirador, como mostrado na coluna <strong>Magias Preparadas</strong> da tabela de Conjuração do Conjurador de Armas. Sempre que esse número aumenta, escolha magias adicionais da lista de Mago até que o número de magias na sua lista corresponda ao número na tabela. As magias escolhidas devem ser de um nível para o qual você tenha espaços de magia. Por exemplo, se você é um Atirador de <strong>nível 7</strong>, sua lista de magias preparadas pode incluir <strong>cinco magias de Mago</strong> de níveis 1 e 2 em qualquer combinação.</p>
+
+            <p><strong style="color: white;">Alterando Suas Magias Preparadas.</strong> Sempre que você ganha um <strong>nível de Atirador</strong>, pode substituir <strong>uma magia</strong> em sua lista por outra magia de Mago para a qual você tenha espaços de magia.</p>
+
+            <p><strong style="color: white;">Habilidade de Conjuração.</strong> <strong>Inteligência</strong> é sua habilidade de conjuração para suas magias de Mago.</p>
+
+            <p><strong style="color: white;">Foco de Conjuração.</strong> Você pode usar um <strong>Foco Arcano</strong> ou uma <strong>arma de Ataque à Distância</strong> como Foco de Conjuração para suas magias de Mago.</p>
+
+            <!-- Tabela de Conjuração do Conjurador de Armas -->
+            <p><strong style="color: white;">Conjuração do Conjurador de Armas</strong></p>
+            <div class="overflow-table">
+                <table class="tabela-rpg" style="font-size: 0.8rem;">
+                    <thead>
+                        <tr>
+                            <th>Nível de Atirador</th>
+                            <th>Magias Preparadas</th>
+                            <th>1º</th>
+                            <th>2º</th>
+                            <th>3º</th>
+                            <th>4º</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><th>3º</th><td>3</th><td class="esquerda">2</th><td class="esquerda">-</th><td class="esquerda">-</th><td class="esquerda">-</th></tr>
+                        <tr><th>4º</th><td>4</th><td class="esquerda">3</th><td class="esquerda">-</th><td class="esquerda">-</th><td class="esquerda">-</th></tr>
+                        <tr><th>5º</th><td>4</th><td class="esquerda">3</th><td class="esquerda">-</th><td class="esquerda">-</th><td class="esquerda">-</th></tr>
+                        <tr><th>6º</th><td>4</th><td class="esquerda">3</th><td class="esquerda">-</th><td class="esquerda">-</th><td class="esquerda">-</th></tr>
+                        <tr><th>7º</th><td>5</th><td class="esquerda">4</th><td class="esquerda">2</th><td class="esquerda">-</th><td class="esquerda">-</th></tr>
+                        <tr><th>8º</th><td>6</th><td class="esquerda">4</th><td class="esquerda">2</th><td class="esquerda">-</th><td class="esquerda">-</th></td>
+                        <tr><th>9º</th><td>6</th><td class="esquerda">4</th><td class="esquerda">2</th><td class="esquerda">-</th><td class="esquerda">-</th></tr>
+                        <tr><th>10º</th><td>7</th><td class="esquerda">4</th><td class="esquerda">3</th><td class="esquerda">-</th><td class="esquerda">-</th></tr>
+                        <tr><th>11º</th><td>8</th><td class="esquerda">4</th><td class="esquerda">3</th><td class="esquerda">-</th><td class="esquerda">-</th></tr>
+                        <tr><th>12º</th><td>8</th><td class="esquerda">4</th><td class="esquerda">3</th><td class="esquerda">-</th><td class="esquerda">-</th></tr>
+                        <tr><th>13º</th><td>9</th><td class="esquerda">4</th><td class="esquerda">3</th><td class="esquerda">2</th><td class="esquerda">-</th></tr>
+                        <tr><th>14º</th><td>10</th><td class="esquerda">4</th><td class="esquerda">3</th><td class="esquerda">2</th><td class="esquerda">-</th></tr>
+                        <tr><th>15º</th><td>10</th><td class="esquerda">4</th><td class="esquerda">3</th><td class="esquerda">2</th><td class="esquerda">-</th></tr>
+                        <tr><th>16º</th><td>11</th><td class="esquerda">4</th><td class="esquerda">3</th><td class="esquerda">3</th><td class="esquerda">-</th></tr>
+                        <tr><th>17º</th><td>11</th><td class="esquerda">4</th><td class="esquerda">3</th><td class="esquerda">3</th><td class="esquerda">-</th></tr>
+                        <tr><th>18º</th><td>11</th><td class="esquerda">4</th><td class="esquerda">3</th><td class="esquerda">3</th><td class="esquerda">-</th><tr>
+                        <tr><th>19º</th><td>12</th><td class="esquerda">4</th><td class="esquerda">3</th><td class="esquerda">3</th><td class="esquerda">1</th></tr>
+                        <tr><th>20º</th><td>13</th><td class="esquerda">4</th><td class="esquerda">3</th><td class="esquerda">3</th><td class="esquerda">1</th></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Nível 3: Bang, Você Está Morto! -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Bang, Você Está Morto!</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Você pode usar magia no lugar de armas.</p>
+            
+            <p><strong style="color: white;">Dedos em Arma.</strong> Você aprende o truque <strong>Dedos em Arma</strong>. Veja a seção Novas Magias para detalhes.</p>
+            
+            <p><strong style="color: white;">Disparo Arcano.</strong> Quando você acerta um alvo com um ataque de <strong>Dedos em Arma</strong>, pode gastar <strong>um Dado de Risco</strong> como uma <strong>Ação Bônus</strong> e <strong>adicioná-lo à rolagem de dano</strong>.</p>
+        </div>
+        <div class="recurso-requisito">
+            Gasta 1 Dado de Risco (Manobra)
+        </div>
+    </div>
+    
+    <!-- Nível 6: Disparo Mágico -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 6: Disparo Mágico</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você realiza a ação <strong>Atacar</strong> em seu turno, pode <strong>substituir um dos ataques</strong> pela conjuração de <strong>um de seus truques de Mago</strong> que tenha tempo de conjuração de uma <strong>ação</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 10: Contramago -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 10: Contramago</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Sua experiência em combater conjuradores concede-lhe os seguintes benefícios.</p>
+            
+            <p><strong style="color: white;">Quebrador de Abjuração.</strong> Sempre que você faz uma <strong>rolagem de ataque à distância</strong>, você <strong>perturba temporariamente a magia protetora</strong> que afeta o alvo. Durante a duração do ataque, os <strong>efeitos de magias</strong> que têm como alvo a criatura, como <strong>Armadura de Mago</strong>, bem como as propriedades e poderes de <strong>itens mágicos</strong> vestidos ou carregados pela criatura, são <strong>suprimidos e não funcionam</strong>. O alvo do ataque <strong>não pode usar uma Reação</strong> para conjurar magias como <strong>Escudo</strong> em resposta ao ataque ou dano.</p>
+            
+            <p><strong style="color: white;">Disparo Antimagia.</strong> Quando você causa um <strong>Acerto Crítico</strong> e o alvo é afetado por sua característica <strong>Tiro no Estômago</strong>, ele também <strong>impede a capacidade do alvo de conjurar magias</strong>. Enquanto o projétil estiver alojado no alvo, ele <strong>não pode conjurar magias</strong> ou realizar a ação <strong>Mágica</strong>. Além disso, o alvo tem <strong>Desvantagem</strong> em testes de resistência de <strong>Constituição</strong> que faz para manter <strong>Concentração</strong>.</p>
+            
+            <p><strong style="color: white;">Imune à Magia.</strong> Quando você <strong>falha em um teste de resistência</strong> contra uma <strong>magia ou efeito mágico</strong>, pode usar uma <strong>Reação</strong> para rolar <strong>1d6</strong> e <strong>adicioná-lo à rolagem</strong>, potencialmente transformando a falha em um sucesso.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 14: Bala Mágica [Manobra] -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 14: Bala Mágica</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você faz uma <strong>rolagem de ataque de magia</strong>, pode gastar <strong>um Dado de Risco</strong> como uma <strong>Ação Bônus</strong> para <strong>substituir o ataque de magia</strong> por um <strong>ataque à distância</strong> usando uma arma. Adicione o <strong>Dado de Risco</strong> à rolagem de ataque. Em um acerto, o ataque causa o <strong>dano normal da arma</strong>, além dos <strong>efeitos da rolagem de ataque de magia</strong>.</p>
+        </div>
+        <div class="recurso-requisito">
+            Gasta 1 Dado de Risco (Manobra)
+        </div>
+    </div>
+</div>
+
+<!-- ABA - Tiro Truqueado -->
+<div class="tab-pane">
+    <h3 style="color: var(--gold); margin-bottom: 15px;">Tiro Truqueado</h3>
+    <p>Precisão significa coisas diferentes para pessoas diferentes. Para você, a verdadeira precisão não está necessariamente em acertar o alvo no primeiro disparo, mas pode incluir <strong>acertar o alvo depois que a bala ricocheteia uma dúzia de vezes</strong>. Seus ataques são tão perigosos quando erram, ou mesmo depois de acertar seu alvo, quanto os de outros enquanto ainda estão no ar.</p>
+    
+    <!-- Nível 3: Trajetória Criativa -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Trajetória Criativa</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Você pode fazer seus projéteis viajarem de maneiras inesperadas. Seus <strong>ataques à distância</strong> com armas <strong>ignoram Cobertura Metade e Cobertura Três Quartos</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 3: Ricochete [Manobra] -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Ricochete</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você <strong>erra</strong> com um <strong>ataque à distância</strong> usando uma arma, pode usar uma <strong>Ação Bônus</strong> e gastar <strong>um Dado de Risco</strong> para <strong>refazer a rolagem de ataque</strong> e <strong>adicionar o Dado de Risco</strong> à rolagem. Você deve usar a nova rolagem.</p>
+        </div>
+        <div class="recurso-requisito">
+            Gasta 1 Dado de Risco (Manobra)
+        </div>
+    </div>
+    
+    <!-- Nível 6: Tiroteio Estiloso -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 6: Tiroteio Estiloso</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Seus truques de arma chamativos concedem-lhe os seguintes benefícios.</p>
+            
+            <p><strong style="color: white;">Giro da Arma.</strong> <strong>Uma vez por turno</strong> quando você faz um teste de <strong>Carisma (Atuação)</strong> ou <strong>Destreza (Prestidigitação)</strong> usando uma de suas <strong>armas de Ataque à Distância</strong>, pode rolar um <strong>Dado de Risco</strong> e <strong>adicioná-lo ao teste de habilidade sem gastá-lo</strong>.</p>
+            
+            <p><strong style="color: white;">Carregador Rápido.</strong> Em seu turno, você pode <strong>recarregar uma arma com a propriedade Recarga</strong> <strong>sem usar uma ação ou Ação Bônus</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 10: Deflexão Ágil [Manobra] -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 10: Deflexão Ágil</span>
+            <span class="badge-mini reacao">Reação</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Você pode <strong>atirar projéteis do ar</strong>. Quando um <strong>aliado</strong> a até <strong>9 metros</strong> de você é <strong>atingido por um ataque</strong>, você pode usar uma <strong>Reação</strong> e gastar <strong>um Dado de Risco</strong> para conceder àquele aliado o benefício da manobra <strong>Por um Triz</strong> contra aquele ataque. Você deve estar segurando uma <strong>arma de Ataque à Distância</strong> para usar esta manobra.</p>
+        </div>
+        <div class="recurso-requisito">
+            Gasta 1 Dado de Risco (Manobra)
+        </div>
+    </div>
+    
+    <!-- Nível 14: Tiro Pinball -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 14: Tiro Pinball</span>
+        </div>
+        <div class="recurso-descricao">
+            <p><strong>Uma vez em cada um de seus turnos</strong> quando você <strong>acerta uma criatura</strong> com um <strong>ataque à distância</strong> usando uma arma, pode <strong>desviar o projétil para alvos adicionais</strong>. Escolha um <strong>alvo diferente</strong> a até <strong>9 metros</strong> do primeiro e faça uma <strong>rolagem de ataque</strong> contra ele. Em um acerto, você pode <strong>repetir este ataque</strong> contra um novo alvo a até 9 metros até <strong>errar</strong> ou fazer um total de <strong>cinco ataques</strong>. Você <strong>não pode ter como alvo a mesma criatura</strong> com mais de um ataque cada vez que usar esta característica.</p>
+            <p>Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Curto</strong> ou <strong>Descanso Longo</strong>. Você também pode restaurar seu uso dela gastando <strong>dois Dados de Risco</strong> (nenhuma ação necessária).</p>
+        </div>
+    </div>
+</div>
+
+<!-- ABA - Chapéu Branco -->
+<div class="tab-pane">
+    <h3 style="color: var(--gold); margin-bottom: 15px;">Chapéu Branco</h3>
+    <p>Alguns Atiradores vivem por um <strong>código</strong> e esperam que outros façam o mesmo. Estes Atiradores, conhecidos como <strong>Chapéus Brancos</strong>, às vezes servem como oficiais da lei, mas nunca hesitam em fazer o que é certo quando a lei diz o contrário. Apesar de sua afinidade por armas mortais, Chapéus Brancos preferem <strong>manter seus amigos seguros e subjugar seus inimigos de forma não violenta</strong> — uma preferência que seus inimigos muitas vezes não atendem.</p>
+    
+    <!-- Nível 3: Estabelecer a Lei [Manobra] -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Estabelecer a Lei</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Você pode usar uma <strong>Ação Bônus</strong> e gastar <strong>um Dado de Risco</strong> para ficar atento a perigos que ameaçam seus companheiros. Escolha um <strong>aliado</strong> que você pode ver a até <strong>18 metros</strong> de você. Aquele aliado ganha <strong>Pontos de Vida Temporários</strong> iguais ao número rolado no Dado de Risco. Até o <strong>início de seu próximo turno</strong>, se o aliado for <strong>atingido por um ataque</strong>, você pode usar uma <strong>Reação</strong> para fazer um <strong>ataque à distância</strong> usando uma arma contra o atacante.</p>
+        </div>
+        <div class="recurso-requisito">
+            Gasta 1 Dado de Risco (Manobra)
+        </div>
+    </div>
+    
+    <!-- Nível 3: Aura de Olhar Firme -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 3: Aura de Olhar Firme</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Uma <strong>aura de confiança estoica</strong> irradia de você em uma <strong>Emanação de 3 metros</strong>. Você e aliados dentro da Emanação têm <strong>Vantagem</strong> em testes de resistência feitos para <strong>evitar ou encerrar</strong> a condição <strong>Amedrontado</strong>. A aura está inativa enquanto você estiver com a condição <strong>Incapacitado</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 6: Mãos para o Céu -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 6: Mãos para o Céu</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Quando você causa um <strong>Acerto Crítico</strong> contra uma criatura, você <strong>pede que o alvo se renda</strong> em vez de alojar um projétil nele. O alvo deve ser bem-sucedido em um teste de resistência de <strong>Sabedoria</strong> contra sua CD de resistência de manobra ou ter as condições <strong>Amedrontado</strong> e <strong>Incapacitado</strong> por <strong>1 minuto</strong>. Estas condições terminam mais cedo se a criatura <strong>sofrer qualquer dano</strong>, se você estiver com a condição <strong>Incapacitado</strong> ou se você <strong>morrer</strong>. A criatura pode <strong>repetir o teste de resistência de Sabedoria</strong> no final de cada um de seus turnos, encerrando as condições em si mesma em um sucesso.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 10: Braço Longo da Lei -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 10: Braço Longo da Lei</span>
+        </div>
+        <div class="recurso-descricao">
+            <p><strong>Uma vez por turno</strong> quando você acerta uma criatura <strong>Grande ou menor</strong> com um <strong>ataque à distância</strong> usando uma arma, você pode <strong>manejar o alvo</strong>. A criatura <strong>não pode se mover</strong> em seu próximo turno, a menos que primeiro use a ação <strong>Desengajar</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- Nível 14: Herói Estrela de Ouro -->
+    <div class="recurso-card">
+        <div class="recurso-header">
+            <span class="recurso-nome">Nível 14: Herói Estrela de Ouro</span>
+        </div>
+        <div class="recurso-descricao">
+            <p>Através do heroísmo do atirador, você ganha os seguintes benefícios.</p>
+            
+            <p><strong style="color: white;">Aura Aprimorada.</strong> O alcance de sua característica <strong>Aura de Olhar Firme</strong> aumenta para <strong>9 metros</strong>.</p>
+            
+            <p><strong style="color: white;">Lei de Ferro.</strong> Quando você usa sua manobra <strong>Estabelecer a Lei</strong>, o aliado tem <strong>Resistência</strong> a dano de <strong>Perfuração</strong>, <strong>Impacto</strong> e <strong>Corte</strong> até o início de seu próximo turno.</p>
+            
+            <p><strong style="color: white;">Rendição Atordoada.</strong> Quando uma criatura <strong>falha em seu teste de resistência</strong> contra sua característica <strong>Mãos para o Céu</strong>, ela tem a condição <strong>Atordoado</strong> em vez da condição <strong>Incapacitado</strong>.</p>
+        </div>
+    </div>
+</div>
+
+                  </div>
+              </div>
+
+              <!-- RECURSOS DE MANOBRA / RISCO -->
+              <div class="recursos-container">
+                  <div class="recursos-header">
+                      <h3>Opções de Manobra</h3>
+                      <span class="recursos-count">6 conhecidas</span>
+                  </div>
+                  
+                  <div class="recursos-grid">
+                      
+                      <!-- Card 1 - Morder a Bala -->
+                      <div class="recurso-card">
+                          <div class="recurso-header">
+                              <span class="recurso-nome">Morder a Bala</span>
+                              <span class="badge-mini acao-bonus">Ação Bônus</span>
+                          </div>
+                          <div class="recurso-descricao">
+                              <p>Você ganha <strong>Pontos de Vida Temporários</strong> iguais ao valor rolado no Dado de Risco + seu nível de Atirador.</p>
+                          </div>
+                          <div class="recurso-requisito">
+                              Gasta 1 Dado de Risco
+                          </div>
+                      </div>
+                      
+                      <!-- Card 2 - Disparo Cego -->
+                      <div class="recurso-card">
+                          <div class="recurso-header">
+                              <span class="recurso-nome">Disparo Cego</span>
+                              <span class="badge-mini acao-bonus">Ação Bônus</span>
+                          </div>
+                          <div class="recurso-descricao">
+                              <p>Você adquire <strong>Visão às Cegas</strong> em um raio de <strong>9 metros</strong> até o final do turno atual.</p>
+                          </div>
+                          <div class="recurso-requisito">
+                              Gasta 1 Dado de Risco
+                          </div>
+                      </div>
+                      
+                      <!-- Card 3 - Rolamento Evasivo -->
+                      <div class="recurso-card">
+                          <div class="recurso-header">
+                              <span class="recurso-nome">Rolamento Evasivo</span>
+                              <span class="badge-mini acao-bonus">Ação Bônus</span>
+                          </div>
+                          <div class="recurso-descricao">
+                              <p>Você se move até <strong>4,5 metros</strong> sem provocar Ataques de Oportunidade, ignorando terreno difícil, e recarrega qualquer arma de Ataque à Distância que esteja empunhando.</p>
+                          </div>
+                          <div class="recurso-requisito">
+                              Gasta 1 Dado de Risco
+                          </div>
+                      </div>
+                      
+                      <!-- Card 4 - Disparo de Raspão -->
+                      <div class="recurso-card">
+                          <div class="recurso-header">
+                              <span class="recurso-nome">Disparo de Raspão</span>
+                          </div>
+                          <div class="recurso-descricao">
+                              <p>Quando você erra com uma rolagem de <strong>ataque à distância</strong> usando uma arma, você causa dano àquela criatura igual a uma rolagem do Dado de Risco + seu modificador de Destreza (mínimo de 1). O dano é do mesmo tipo causado pela arma. Você pode usar esta manobra apenas <strong>uma vez por turno</strong>.</p>
+                          </div>
+                          <div class="recurso-requisito">
+                              Gasta 1 Dado de Risco (nenhuma ação necessária)
+                          </div>
+                      </div>
+                      
+                      <!-- Card 5 - Espírito Independente -->
+                      <div class="recurso-card">
+                          <div class="recurso-header">
+                              <span class="recurso-nome">Espírito Independente</span>
+                          </div>
+                          <div class="recurso-descricao">
+                              <p>Quando você falha em um <strong>teste de habilidade</strong> ou <strong>teste de resistência</strong> de Inteligência, Sabedoria ou Carisma, pode adicionar uma rolagem do Dado de Risco à rolagem, potencialmente transformando-a em um sucesso. Você pode usar esta manobra apenas <strong>uma vez por turno</strong>.</p>
+                          </div>
+                          <div class="recurso-requisito">
+                              Gasta 1 Dado de Risco (nenhuma ação necessária)
+                          </div>
+                      </div>
+                      
+                      <!-- Card 6 - Por um Triz -->
+                      <div class="recurso-card">
+                          <div class="recurso-header">
+                              <span class="recurso-nome">Por um Triz</span>
+                              <span class="badge-mini reacao">Reação</span>
+                          </div>
+                          <div class="recurso-descricao">
+                              <p>Quando uma criatura que você pode ver acerta você com uma <strong>rolagem de ataque</strong>, você pode adicionar uma rolagem do Dado de Risco à sua CA contra este ataque, potencialmente fazendo com que ele erre.</p>
+                          </div>
+                          <div class="recurso-requisito">
+                              Gasta 1 Dado de Risco (Reação)
+                          </div>
+                      </div>
+                      
+                  </div>
+              </div>
+
+
+          </div>
+        </div>  
 
     </div>
   </div>

@@ -1,0 +1,139 @@
+
+/* =====================================================
+    BARRA DE FILTROS ALINHADA (Texto + Dropdown)
+    ===================================================== */
+.container-filtros {
+    background: rgba(25, 25, 27, 0.95);
+    border: 1px solid var(--border-fantasy);
+    padding: 15px 20px;
+    border-radius: 4px;
+    margin: 25px 0 35px 0;
+}
+
+.filtros-alinhados {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.campo-filtro {
+    display: flex;
+    flex-direction: column;
+}
+
+.filtro-busca {
+    flex: 3;
+    min-width: 200px;
+}
+
+.filtro-dropdown {
+    flex: 1;
+    min-width: 180px;
+}
+
+#busca-nome-antecedente,
+#filtro-categoria-antecedente {
+    width: 100%;
+    padding: 12px 16px;
+    background: rgba(15, 15, 17, 0.8);
+    border: 1px solid var(--border-fantasy);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    border-radius: 4px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#filtro-categoria-antecedente option {
+    background: #19191b;
+    color: var(--text);
+}
+
+#busca-nome-antecedente:focus,
+#filtro-categoria-antecedente:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 8px rgba(185, 119, 14, 0.2);
+}
+
+/* =====================================================
+    GRID E CARDS DE ANTECEDENTES
+    ===================================================== */
+.grid-antecedentes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+.card-antecedente {
+    background: rgba(25, 25, 27, 0.9);
+    border: 1px solid var(--border-fantasy);
+    border-top: 4px solid #b9770e;
+    padding: 20px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.card-antecedente:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(185, 119, 14, 0.15);
+}
+.card-antecedente h3 {
+    font-family: 'Cinzel', serif;
+    color: #f39c12;
+    margin-bottom: 5px;
+    font-size: 1.3rem;
+    border-bottom: 1px solid rgba(185, 119, 14, 0.2);
+    padding-bottom: 5px;
+}
+.lore-antecedente {
+    font-style: italic;
+    font-size: 0.85rem;
+    color: #a6acaf;
+    margin-bottom: 15px;
+    line-height: 1.3;
+}
+.detalhes-mecanicos {
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.detalhes-mecanicos p {
+    margin: 0;
+}
+.detalhes-mecanicos strong {
+    color: #e67e22;
+}
+.bloco-regra {
+    background: rgba(185, 119, 14, 0.04);
+    border-left: 4px solid #b9770e;
+    padding: 20px;
+    margin-bottom: 35px;
+    border-radius: 0 4px 4px 0;
+}
+.bloco-regra h4 {
+    font-family: 'Cinzel', serif;
+    color: #f39c12;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+.badge-feat {
+    background: rgba(230, 126, 34, 0.15);
+    color: #f39c12;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: bold;
+    border: 1px solid rgba(230, 126, 34, 0.3);
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s ease;
+}
+.badge-feat:hover {
+    background: rgba(230, 126, 34, 0.3);
+    color: var(--gold-bright);
+    box-shadow: 0 0 8px rgba(230, 126, 34, 0.4);
+}

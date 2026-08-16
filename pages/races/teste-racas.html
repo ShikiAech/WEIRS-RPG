@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BASE PARA TABELA DE RAÇA — Weirs RPG</title>
+    <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+    <link rel="stylesheet" href="/WEIRS-RPG/css/class-style.css">
+    <script src="/WEIRS-RPG/javascript/menu.js"></script>
+    <script src="/WEIRS-RPG/javascript/subclass-tab.js"></script>
+</head>
+
+<body>
+    <div class="container">
+
+        <!--BOTÃO DE RETORNO-->
+        <div style="margin-bottom: 30px;">
+            <a href="/WEIRS-RPG/pages/races/racas.html" class="btn-principal"
+                style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Raças</a>
+        </div>
+
+        <!--TÍTULO-->
+        <h2>NOME DA RAÇA</h2>
+
+        <div class="card-rpg">
+
+            <!--DETALHES DE CLASSE-->
+            <div class="layout-detalhes">
+                <img src="https://imagenslucas.weebly.com/uploads/1/0/6/8/10689847/frostpunk-units_orig.jpg"
+                    alt="Artífice">
+                <div class="texto-lore">
+                    <h3>SUBTÍTULO</h3>
+                    <p>LEGENDA.</p>
+
+                    <!--CARACTERÍSTICAS BASICAS-->
+                    <h4
+                        style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">
+                        Características Iniciais</h4>
+                    <ul class="trait-list" style="margin-top: 15px;">
+                        <li><strong>Tipo de Criatura:</strong> Humanóide.</li>
+                        <li><strong>Tamanho:</strong> Médio.</li>
+                        <li><strong>Deslocamento:</strong> 30 pés.</li>
+                        <li><strong>Idade:</strong> Você atinge maioridade aos 10 anos e vive em média 80 anos.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- HABILIDADES RACIAIS -->
+            <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+                <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Habilidades Raciais</h3>
+                
+                <ul class="trait-list">
+                    <li><strong>Visão no Escuro:</strong> Você tem visão no escuro 60 pés.</li>
+                    <li><strong>Resistência à Magia:</strong> Você tem vantagem em testes de resistência contra os efeitos que lhe causem encantamento, surdez ou cegueira, e tem vantagem em testes para decifrar ilusões.</li>
+                    <li><strong>Armas Naturais:</strong> Suas garras afiadas podem ser usadas como armas. Você usa seu modificador de destreza no acerto, e causa 1d6 + seu modificador de Destreza como dano cortante.</li>
+                </ul>
+            </div>
+
+                <div >
+                
+                    <!-- EXEMPLO DE RECURSOS DE CLASSE -->
+                    <div class="recursos-container">
+                        <div class="recursos-header">
+                            <h3>Recursos da Classe</h3>
+                        </div>
+                        
+                        <div class="recursos-list">
+                            <div class="recurso-card">
+                                <div class="recurso-header">
+                                    <span class="recurso-nome">Nível 1: Nome exemplo 1</span>
+                                    <span class="badge-mini livre">Passiva</span>
+                                </div>
+                                <div class="recurso-descricao">
+                                    <p>Descrição <strong>teste</strong>.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="recurso-card">
+                                <div class="recurso-header">
+                                    <span class="recurso-nome">Nível 2: Nome exemplo 2</span>
+                                    <span class="badge-mini acao">Ação</span>
+                                </div>
+                                <div class="recurso-descricao">
+                                    <p>Descrição...</p>
+                                    <p><strong>SUBTÍTULO.</strong> Descrição...</p>
+                                    <details style="margin: 10px 0; font-size: 0.85rem;">
+                                        <summary style="cursor: pointer; color: var(--gold);">📦 Ver lista completa de itens (5 itens)</summary>
+                                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px 12px; margin-top: 10px; padding-left: 10px;">
+                                            <div>• Balas de Rolamento</div><div>• Frasco</div><div>• Bolsa</div>
+                                            <div>• Cesto</div><div>• Gancho de Agarrar</div>
+                                        </div>
+                                    </details>
+                                </div>
+                            </div>
+
+                            <div class="recurso-card">
+                                <div class="recurso-header">
+                                    <span class="recurso-nome">Nível 3: Nome exemplo 3</span>
+                                    <span class="badge-mini acao-bonus">Ação Bônus</span>
+                                </div>
+                                <div class="recurso-descricao">
+                                    <p>Você tem acesso aos recursos descritos na tabela abaixo:</p>
+                                </div>
+                                <table class="tabela-rpg">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th class="esquerda">Descrição do recurso</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Exemplo</td><td class="esquerda">Descrição...</td></tr>
+                                        <tr><td>Exemplo</td><td class="esquerda">Descrição...</td></tr>
+                                        <tr><td>Exemplo</td><td class="esquerda">Descrição...</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                    </div>
+                </div>
+                    
+                </div>
+            </div><!--FIM DA DIV recursos-detalhados-->
+        </div> <!--FIM DA DIV card-rpg-->
+    </div> <!--FIM DA DIV container-->
+</body>
+</html>

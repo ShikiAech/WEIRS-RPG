@@ -1,0 +1,233 @@
+/* =====================================================
+   GRID DE CARDS PARA NARRATIVAS
+   ===================================================== */
+
+/* Grid de Cards baseada na estrutura de Antecedentes */
+.camps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+/* Estrutura de Card de Campanha */
+.camp-card {
+  background: rgba(25, 25, 27, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.camp-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(212, 175, 55, 0.4);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.camp-card h3 {
+  font-family: 'Cinzel', serif;
+  color: var(--gold, #d4af37);
+  font-size: 1.15rem;
+  margin-bottom: 12px;
+  border-left: 3px solid var(--gold, #d4af37);
+  padding-left: 12px;
+}
+
+.camp-details-preview {
+  font-size: 0.85rem;
+  color: #a6acaf;
+  line-height: 1.5;
+}
+
+.camp-details-preview strong {
+  color: var(--gold, #d4af37);
+}
+
+.camp-meta {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.7rem;
+  color: #888;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Indicador de leitura */
+.read-indicator {
+  font-size: 0.65rem;
+  color: var(--gold, #d4af37);
+  background: rgba(212, 175, 55, 0.15);
+  padding: 2px 8px;
+  border-radius: 12px;
+  transition: background 0.2s;
+}
+
+.camp-card:hover .read-indicator {
+  background: rgba(212, 175, 55, 0.3);
+}
+
+/* =====================================================
+   MODAL PARA NARRATIVAS COMPLETAS
+   ===================================================== */
+
+/* Modal de Detalhes da Interface */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.95);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-content {
+  background: #19191b;
+  border: 2px solid var(--gold, #b9770e);
+  padding: 30px;
+  border-radius: 6px;
+  max-width: 700px;
+  max-height: 85vh;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.7);
+  overflow-y: auto;
+}
+
+/* Scrollbar personalizada para o modal */
+.modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: var(--gold, #d4af37);
+  border-radius: 3px;
+}
+
+.close-modal {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  color: #a6acaf;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close-modal:hover {
+  color: var(--gold, #f39c12);
+}
+
+.modal-title {
+  font-family: 'Cinzel', serif;
+  color: var(--gold, #f39c12);
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(185, 119, 14, 0.3);
+  padding-bottom: 5px;
+}
+
+.modal-date {
+  font-size: 0.8rem;
+  color: #888;
+  margin-bottom: 20px;
+}
+
+.modal-desc {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #d0d0d0;
+  text-align: justify;
+}
+
+.modal-desc p {
+  margin-bottom: 15px;
+  text-indent: 40px;
+}
+
+.modal-desc p:first-of-type {
+  margin-top: 0;
+}
+
+.modal-desc p:last-of-type {
+  margin-bottom: 0;
+}
+
+/* =====================================================
+   RESPONSIVIDADE
+   ===================================================== */
+
+@media (max-width: 768px) {
+  .camps-grid {
+    gap: 15px;
+  }
+  
+  .camp-card {
+    padding: 15px;
+  }
+  
+  .camp-card h3 {
+    font-size: 1rem;
+  }
+  
+  .modal-content {
+    padding: 20px;
+    max-width: 95%;
+  }
+  
+  .modal-title {
+    font-size: 1.2rem;
+  }
+  
+  .modal-desc {
+    font-size: 0.85rem;
+  }
+  
+  .modal-desc p {
+    text-indent: 30px;
+    margin-bottom: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .camp-card h3 {
+    font-size: 0.9rem;
+  }
+  
+  .camp-details-preview {
+    font-size: 0.75rem;
+  }
+  
+  .modal-title {
+    font-size: 1rem;
+  }
+  
+  .modal-date {
+    font-size: 0.7rem;
+  }
+  
+  .modal-desc {
+    font-size: 0.8rem;
+  }
+  
+  .modal-desc p {
+    text-indent: 20px;
+  }
+}

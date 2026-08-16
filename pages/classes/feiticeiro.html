@@ -5,95 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Feiticeiro — Weirs RPG</title>
   <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
-  <style>
-    .bloco-feiticeiro {
-      background: rgba(231, 76, 60, 0.03);
-      border: 1px solid rgba(231, 76, 60, 0.15);
-      border-left: 4px solid #e74c3c;
-      padding: 20px;
-      margin-top: 20px;
-      border-radius: 0 4px 4px 0;
-    }
-    .bloco-feiticeiro h4 {
-      font-family: 'Cinzel', serif;
-      color: #ec7063;
-      font-size: 1.25rem;
-      margin-bottom: 8px;
-    }
-    .bloco-subclasse-detalhada {
-      background: rgba(25, 25, 27, 0.8);
-      border: 1px solid var(--border-fantasy);
-      padding: 25px;
-      margin-top: 35px;
-      border-radius: 4px;
-    }
-    .bloco-subclasse-detalhada h3 {
-      font-family: 'Cinzel', serif;
-      color: #e74c3c;
-      border-bottom: 1px solid rgba(231, 76, 60, 0.3);
-      padding-bottom: 8px;
-      margin-bottom: 20px;
-    }
-    .sub-feature {
-      background: rgba(231, 76, 60, 0.04);
-      border-left: 3px solid #e74c3c;
-      padding: 15px;
-      margin-top: 15px;
-      border-radius: 0 4px 4px 0;
-    }
-    .sub-feature h5 {
-      font-family: 'Cinzel', serif;
-      color: #f5b041;
-      font-size: 1.05rem;
-      margin-bottom: 5px;
-    }
-    .trait-list {
-      list-style: none;
-      margin-left: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .trait-list li strong {
-      color: var(--gold);
-    }
-    .tabela-rpg {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-      background: rgba(20, 20, 22, 0.6);
-      border: 1px solid var(--border-fantasy);
-      font-size: 0.85rem;
-    }
-    .tabela-rpg th, .tabela-rpg td {
-      border: 1px solid var(--border-fantasy);
-      padding: 10px 12px;
-      text-align: center;
-    }
-    .tabela-rpg th {
-      background: rgba(43, 23, 23, 0.5);
-      color: #e74c3c;
-      font-family: 'Cinzel', serif;
-    }
-    .tabela-rpg tr:nth-child(even) {
-      background: rgba(255, 255, 255, 0.02);
-    }
-    .tabela-rpg td.esquerda {
-      text-align: left;
-    }
-  </style>
+  <link rel="stylesheet" href="/WEIRS-RPG/css/class-style.css">
+  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+  <script src="/WEIRS-RPG/javascript/subclass-tab.js"></script>
 </head>
 <body>
-
-  <script src="/WEIRS-RPG/javascript/menu.js"></script>
-
   <div class="container">
     
     <div style="margin-bottom: 30px;">
       <a href="/WEIRS-RPG/pages/classes/classes.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Classes</a>
     </div>
 
-    <h2>Feiticeiro (Sorcerer)</h2>
+    <h2>Feiticeiro</h2>
     
     <div class="card-rpg">
       <div class="layout-detalhes">
@@ -103,255 +26,1477 @@
           <p>Muitos buscam a magia através de preces fervorosas ou de décadas dedicadas ao estudo de fórmulas complexas gravadas em pergaminhos antigos. O feiticeiro, no entanto, é a própria fórmula. A magia não é algo que ele faz, mas sim o que ele é. Uma anomalia cósmica, uma linhagem tocada por dragões imperiais, ou o subproduto mutável do caos puro.</p>
           <p>Eles conjuram feitiços através da força bruta de sua personalidade, moldando o Éter de forma intuitiva, crua e incrivelmente maleável. Através de sua Metamagia, um feiticeiro pode dobrar as regras da própria urdidura mágica, estendendo alcances, duplicando feitiços e acelerando encantamentos em velocidades absurdas, provando que o poder verdadeiro obedece à vontade, não à teoria.</p>
           
-          <h4 style="color: #e74c3c; margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
+          <h4 style="color: var(--gold);; margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
           <ul class="trait-list" style="margin-top: 15px;">
             <li><strong>Dado de Vida:</strong> 1d6 por nível de Feiticeiro.</li>
-            <li><strong>Atributo Principal:</strong> Carisma (Conjuração e Habilidades Inatas).</li>
+            <li><strong>Atributo Principal:</strong> Carisma.</li>
             <li><strong>Proficiências em Armaduras:</strong> Nenhuma.</li>
             <li><strong>Proficiências em Armas:</strong> Armas Simples.</li>
-            <li><strong>Ferramentas:</strong> Nenhuma.</li>
             <li><strong>Testes de Resistência:</strong> Constituição e Carisma.</li>
-            <li><strong>Perícias:</strong> Escolha duas entre Arcana, Enganação, Intimidação, Intuição, Persuasão e Religião.</li>
+            <li><strong>Perícias:</strong> Escolha duas entre Arcana, Enganação, Intuição, Intimidação, Persuasão ou Religião.</li>
+            <li><strong>Equipamento Inicial:</strong> Escolha A ou B: (A) Lança, 2 Adagas, Foco Arcano (cristal), Pacote do Explorador de Masmorras e 28 PO; (B) 50 PO.</li>
           </ul>
         </div>
       </div>
 
       <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px; overflow-x: auto;">
-        <h3 style="font-family: 'Cinzel', serif; color: #e74c3c; font-size: 1.6rem; margin-bottom: 15px;">Progressão de Classe</h3>
-        <table class="tabela-rpg">
-          <thead>
-            <tr>
-              <th>Nível</th>
-              <th>Prof.</th>
-              <th class="esquerda">Recursos de Classe</th>
-              <th>Pontos de Feitiçaria</th>
-              <th>Truques</th>
-              <th>Magias Conhecidas</th>
-              <th>1º</th>
-              <th>2º</th>
-              <th>3º</th>
-              <th>4º</th>
-              <th>5º</th>
-              <th>6º</th>
-              <th>7º</th>
-              <th>8º</th>
-              <th>9º</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>1º</td><td>+2</td><td class="esquerda">Conjuração, Foco Inato (Innate Sorcery)</td><td>—</td><td>4</td><td>2</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>2º</td><td>+2</td><td class="esquerda">Fonte de Magia (Font of Magic), Metamagia (Duas opções)</td><td>2</td><td>4</td><td>3</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>3º</td><td>+2</td><td class="esquerda">Origem Feérica/Subclasse</td><td>3</td><td>4</td><td>4</td><td>4</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>4º</td><td>+2</td><td class="esquerda">Talento de Atributo (Feat)</td><td>4</td><td>5</td><td>5</td><td>4</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>5º</td><td>+3</td><td class="esquerda">Erupção de Feitiçaria (Sorcerous Burst Aprimorado)</td><td>5</td><td>5</td><td>6</td><td>4</td><td>3</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>6º</td><td>+3</td><td class="esquerda">Recurso de Origem</td><td>6</td><td>5</td><td>7</td><td>4</td><td>3</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>7º</td><td>+3</td><td class="esquerda">Metamagia Adicional (Três opções)</td><td>7</td><td>5</td><td>8</td><td>4</td><td>3</td><td>3</td><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>8º</td><td>+3</td><td class="esquerda">Talento de Atributo (Feat)</td><td>8</td><td>5</td><td>9</td><td>4</td><td>3</td><td>3</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>9º</td><td>+4</td><td class="esquerda">Surto de Carisma</td><td>9</td><td>5</td><td>10</td><td>4</td><td>3</td><td>3</td><td>3</td><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>10º</td><td>+4</td><td class="esquerda">Recurso de Origem</td><td>10</td><td>6</td><td>11</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>11º</td><td>+4</td><td class="esquerda">Urdidura Estendida</td><td>11</td><td>6</td><td>12</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>12º</td><td>+4</td><td class="esquerda">Talento de Atributo (Feat)</td><td>12</td><td>6</td><td>12</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>13º</td><td>+5</td><td class="esquerda">Metamagia Adicional (Quatro opções)</td><td>13</td><td>6</td><td>13</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>—</td><td>—</td></tr>
-            <tr><td>14º</td><td>+5</td><td class="esquerda">Recurso de Origem</td><td>14</td><td>6</td><td>13</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>—</td><td>—</td></tr>
-            <tr><td>15º</td><td>+5</td><td class="esquerda">Encantamento Flexível</td><td>15</td><td>6</td><td>14</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>—</td></tr>
-            <tr><td>16º</td><td>+5</td><td class="esquerda">Talento de Atributo (Feat)</td><td>16</td><td>6</td><td>14</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>—</td></tr>
-            <tr><td>17º</td><td>+6</td><td class="esquerda">Apoteose Metamágica</td><td>17</td><td>6</td><td>15</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-            <tr><td>18º</td><td>+6</td><td class="esquerda">Feitiçaria Indomável</td><td>18</td><td>6</td><td>15</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-            <tr><td>19º</td><td>+6</td><td class="esquerda">Talento de Atributo / Dádiva Épica</td><td>19</td><td>6</td><td>16</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td></tr>
-            <tr><td>20º</td><td>+6</td><td class="esquerda">Restauração Arcana Completa</td><td>20</td><td>6</td><td>16</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>2</td><td>2</td><td>1</td><td>1</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
-        <h3 style="font-family: 'Cinzel', serif; color: #e74c3c; font-size: 1.6rem; margin-bottom: 20px;">Recursos de Classe Detalhados</h3>
-
-        <div class="bloco-feiticeiro">
-          <h4>Nível 1: Conjuração & Foco Inato</h4>
-          <p><strong>Conjuração:</strong> Suas magias emanam de uma centelha interna. Você conhece uma quantidade fixa de magias da lista de Feiticeiro baseada na tabela e usa Carisma como seu atributo de conjuração. Você também ganha o truque exclusivo *Surto Feérico (Sorcerous Burst)*, cujo dado pode explodir se rolar o valor máximo.</p>
-          <p><strong>Foco Inato (Innate Sorcery):</strong> Como uma Ação Bônus, você pode libertar a magia latente que corre em seu corpo por 1 minuto. Enquanto este estado estiver ativo, a Classe de Armadura contra suas magias aumenta em **+1** e todas as suas jogadas de ataque com magias de Feiticeiro ganham **Vantagem**. Você pode usar este recurso duas vezes por Descanso Longo.</p>
-        </div>
-
-        <div class="bloco-feiticeiro">
-          <h4>Nível 2: Fonte de Magia & Metamagia</h4>
-          <p><strong>Fonte de Magia (Font of Magic):</strong> Você manifesta uma reserva interna de energia bruta medida em Pontos de Feitiçaria (conforme a tabela). Você pode gastar esses pontos como uma Ação Bônus para criar espaços de magia adicionais ou sacrificar espaços de magia para obter mais Pontos de Feitiçaria.</p>
-          <p><strong>Metamagia:</strong> Você aprende duas opções de Metamagia para torcer a natureza dos seus feitiços. Você pode aplicar apenas uma Metamagia por feitiço, a menos que a opção diga o contrário:</p>
-          <ul class="trait-list" style="margin-top: 10px;">
-            <li><strong>Magia Acelerada (Quicken Spell):</strong> Custo de 2 pontos. Altera o tempo de conjuração de uma magia de uma Ação para uma Ação Bônus.</li>
-            <li><strong>Magia Duplicada (Twinned Spell):</strong> Custo de 1 ponto por círculo da magia. Permite que uma magia que alveje apenas uma criatura e não tenha alcance "Si mesmo" afete um segundo alvo no mesmo alcance.</li>
-            <li><strong>Magia Cuidadosa (Careful Spell):</strong> Custo de 1 ponto. Permite que até uma quantidade de criaturas igual ao seu modificador de Carisma passem automaticamente na salvaguarda da magia.</li>
-            <li><strong>Magia Sutil (Subtle Spell):</strong> Custo de 1 ponto. Permite conjurar uma magia ignorando totalmente seus componentes somáticos e verbais.</li>
-            <li><strong>Magia Potencializada (Empowered Spell):</strong> Custo de 1 ponto. Permite refazer até uma quantidade de dados de dano da magia igual ao seu modificador de Carisma.</li>
-            <li><strong>Magia Distante (Distant Spell):</strong> Custo de 1 ponto. Dobra o alcance de uma magia, ou altera um alcance de Toque para 9 metros.</li>
-          </ul>
-        </div>
-
-        <div class="bloco-feiticeiro">
-          <h4>Nível 3: Origem Feérica (Subclasse)</h4>
-          <p><strong>Origem Feérica:</strong> A fonte do seu poder se estabelece de forma clara, escolhendo entre a **Linhagem Dracônica**, **Magia Selvagem**, **Feiticeiro Abissal** ou **Mente Aberrante**. Sua origem concede magias bônus temáticas sempre preparadas que não contam no seu limite e recursos nos níveis 3, 6, 10 e 14.</p>
-        </div>
-
-        <div class="bloco-feiticeiro">
-          <h4>Níveis 4, 8, 12, 16 e 19: Talento de Atributo (Feat)</h4>
-          <p>Aumente um atributo de sua escolha em +2, dois atributos em +1, ou selecione um Talento Geral respeitando as regras de pré-requisito.</p>
-        </div>
-
-        <div class="bloco-feiticeiro">
-          <h4>Nível 5: Erupção de Feitiçaria</h4>
-          <p><strong>Erupção de Feitiçaria:</strong> Seu controle sobre o truque *Surto Feérico* atinge um novo patamar. O limite de vezes que o dado de dano desse truque pode explodir (rolar novamente pelo valor máximo) passa a ser igual ao seu modificador de Carisma em um único ataque.</p>
-        </div>
-
-        <div class="bloco-feiticeiro">
-          <h4>Nível 7: Metamagia Adicional</h4>
-          <p>Você escolhe e aprende uma terceira opção de Metamagia da lista disponível no nível 2.</p>
-        </div>
-
-        <div class="bloco-feiticeiro">
-          <h4>Nível 9: Surto de Carisma</h4>
-          <p><strong>Surto de Carisma:</strong> Quando você falhar em um teste de perícia que utilize o atributo Carisma, você pode gastar 1 Ponto de Feitiçaria para rolar um dado de **1d6** e adicionar o valor ao resultado, podendo transformar a falha em um sucesso.</p>
-        </div>
-
-        <div class="bloco-feiticeiro">
-          <h4>Nível 11: Urdidura Estendida</h4>
-          <p><strong>Urdidura Estendida:</strong> Quando você ativa seu recurso *Foco Inato* (Nível 1), você pode escolher gastar 2 Pontos de Feitiçaria adicionais para estender a duração do efeito para 10 minutos, mantendo a vantagem em ataques mágicos por combates subsequentes.</p>
-        </div>
-
-        <div class="bloco-feiticeiro">
-          <h4>Nível 13: Metamagia Adicional</h4>
-          <p>Você expande seu arsenal de manipulação arcana, escolhendo e aprendendo uma quarta opção de Metamagia.</p>
-        </div>
-
-        <div class="bloco-feiticeiro">
-          <h4>Nível 15: Encantamento Flexível</h4>
-          <p><strong>Encantamento Flexível:</strong> Você pode usar sua característica de converter pontos em espaços de magia e vice-versa sem gastar sua Ação Bônus, integrando essa conversão como parte da própria Ação usada para conjurar um feitiço.</p>
-        </div>
-
-        <div class="bloco-feiticeiro">
-          <h4>Nível 17: Apoteose Metamágica</h4>
-          <p><strong>Apoteose Metamágica:</strong> Você aprende o segredo de combinar distorções. Você passa a poder aplicar até **duas opções de Metamagia simultaneamente** em um único feitiço que você conjurar.</p>
-        </div>
-
-        <div class="bloco-feiticeiro">
-          <h4>Nível 18: Feitiçaria Indomável</h4>
-          <p><strong>Feitiçaria Indomável:</strong> Quando você sofrer dano enquanto o seu *Foco Inato* estiver ativo, você pode gastar sua Reação e 3 Pontos de Feitiçaria para emitir uma onda de choque defensiva. O dano sofrido é reduzido pela metade e todas as criaturas hostis a até 3 metros sofrem dano de força igual ao seu nível de feiticeiro.</p>
-        </div>
-
-        <div class="bloco-feiticeiro">
-          <h4>Nível 20: Restauração Arcana Completa</h4>
-          <p><strong>Restauração Arcana Completa:</strong> Seu sangue pulsa com o Éter em sua forma mais pura. Sempre que você rolar Iniciativa para um combate e possuir menos de **4 Pontos de Feitiçaria** em sua reserva, sua energia se regenera instantaneamente até que você tenha 4 pontos disponíveis.</p>
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.6rem; margin-bottom: 15px;">Progressão de Classe</h3>
+        <div class="overflow-table">
+            <div class="overflow-table">
+                <table class="tabela-rpg">
+                    <thead>
+                        <tr>
+                            <th>Nível</th>
+                            <th>Prof.</th>
+                            <th class="esquerda">Recursos de Classe</th>
+                            <th>Pontos de Feitiçaria</th>
+                            <th>Truques</th>
+                            <th>Magias Preparadas</th>
+                            <th>1º</th>
+                            <th>2º</th>
+                            <th>3º</th>
+                            <th>4º</th>
+                            <th>5º</th>
+                            <th>6º</th>
+                            <th>7º</th>
+                            <th>8º</th>
+                            <th>9º</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><th>1º</th><td>+2</td><td class="esquerda">Conjuração, Feitiçaria Inata</td><td>-</td><td>4</td><td>2</td><td>2</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                        <tr><th>2º</th><td>+2</td><td class="esquerda">Fonte de Magia, Metamagia</td><td>2</td><td>4</td><td>4</td><td>3</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                        <tr><th>3º</th><td>+2</td><td class="esquerda">Subclasse de Feiticeiro</td><td>3</td><td>4</td><td>6</td><td>4</td><td>2</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                        <tr><th>4º</th><td>+2</td><td class="esquerda">Aumento no Valor de Habilidade</td><td>4</td><td>5</td><td>7</td><td>4</td><td>3</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                        <tr><th>5º</th><td>+3</td><td class="esquerda">Restauração Feiticeira</td><td>5</td><td>5</td><td>9</td><td>4</td><td>3</td><td>2</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                        <tr><th>6º</th><td>+3</td><td class="esquerda">Característica de Subclasse</td><td>6</td><td>5</td><td>10</td><td>4</td><td>3</td><td>3</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                        <tr><th>7º</th><td>+3</td><td class="esquerda">Feitiçaria Encarnada</td><td>7</td><td>5</td><td>11</td><td>4</td><td>3</td><td>3</td><td>1</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                        <tr><th>8º</th><td>+3</td><td class="esquerda">Aumento no Valor de Habilidade</td><td>8</td><td>5</td><td>12</td><td>4</td><td>3</td><td>3</td><td>2</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                        <tr><th>9º</th><td>+4</td><td>-</td><td>9</td><td>5</td><td>14</td><td>4</td><td>3</td><td>3</td><td>3</td><td>1</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                        <tr><th>10º</th><td>+4</td><td class="esquerda">Metamagia</td><td>10</td><td>6</td><td>15</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                        <tr><th>11º</th><td>+4</td><td>-</td><td>11</td><td>6</td><td>16</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>-</td><td>-</td><td>-</td></tr>
+                        <tr><th>12º</th><td>+4</td><td class="esquerda">Aumento no Valor de Habilidade</td><td>12</td><td>6</td><td>16</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>-</td><td>-</td><td>-</td></tr>
+                        <tr><th>13º</th><td>+5</td><td>-</td><td>13</td><td>6</td><td>17</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>-</td><td>-</td></tr>
+                        <tr><th>14º</th><td>+5</td><td class="esquerda">Característica de Subclasse</td><td>14</td><td>6</td><td>17</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>-</td><td>-</td></tr>
+                        <tr><th>15º</th><td>+5</td><td>-</td><td>15</td><td>6</td><td>18</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>-</td></tr>
+                        <tr><th>16º</th><td>+5</td><td class="esquerda">Aumento no Valor de Habilidade</td><td>16</td><td>6</td><td>18</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>-</td></tr>
+                        <tr><th>17º</th><td>+6</td><td class="esquerda">Metamagia</td><td>17</td><td>6</td><td>19</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+                        <tr><th>18º</th><td>+6</td><td class="esquerda">Característica de Subclasse</td><td>18</td><td>6</td><td>20</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+                        <tr><th>19º</th><td>+6</td><td class="esquerda">Benção Épica</td><td>19</td><td>6</td><td>21</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>2</td><td>1</td><td>1</td><td>1</td></tr>
+                        <tr><th>20º</th><td>+6</td><td class="esquerda">Apoteose Arcano</td><td>20</td><td>6</td><td>22</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>2</td><td>2</td><td>1</td><td>1</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
       </div>
+      
+      <!-- RECURSOS DE CLASSE DETALHADOS -->
+      <div>
+          <!-- EXEMPLO DE RECURSOS DE CLASSE -->
+          <div class="recursos-container">
+            <div class="recursos-header">
+              <h3>Recursos de Feiticeiro</h3>
+            </div>
+            <div class="recursos-list">
+              
+                <!-- Nível 1: Conjuração -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 1: Conjuração</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Baseando-se em sua magia inata, você pode conjurar magias.</p>
 
-      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
-        <h3 style="font-family: 'Cinzel', serif; color: #e74c3c; font-size: 1.6rem; margin-bottom: 10px;">Origens Feéricas (Subclasses)</h3>
+                        <p><strong style="color: white;">Truques.</strong> Você conhece <strong>quatro truques de Feiticeiro</strong> de sua escolha. <strong>Luz</strong>, <strong>Prestidigitação</strong>, <strong>Toque Chocante</strong> e <strong>Explosão Feiticeira</strong> são recomendados. Sempre que você ganha um <strong>nível de Feiticeiro</strong>, pode substituir <strong>um de seus truques</strong> desta característica por outro truque de Feiticeiro de sua escolha.</p>
+                        <p>Quando você atinge os níveis <strong>4 e 10 de Feiticeiro</strong>, aprende <strong>outro truque de Feiticeiro</strong> de sua escolha, como mostrado na coluna <strong>Truques</strong> da tabela de Características de Feiticeiro.</p>
+
+                        <p><strong style="color: white;">Espaços de Magia.</strong> A tabela de Características de Feiticeiro mostra quantos espaços de magia você tem para conjurar suas magias de nível 1+. Você recupera todos os espaços gastos ao final de um <strong>Descanso Longo</strong>.</p>
+
+                        <p><strong style="color: white;">Magias Preparadas de Nível 1+.</strong> Você prepara a lista de magias de nível 1+ que estão disponíveis para conjurar com esta característica. Para começar, escolha <strong>duas magias de nível 1 de Feiticeiro</strong>. <strong>Mãos em Chamas</strong> e <strong>Detectar Magia</strong> são recomendados.</p>
+                        <p>O número de magias na sua lista aumenta conforme você ganha níveis de Feiticeiro, como mostrado na coluna <strong>Magias Preparadas</strong> da tabela de Características de Feiticeiro. Sempre que esse número aumenta, escolha magias adicionais de Feiticeiro até que o número de magias na sua lista corresponda ao número na tabela. As magias escolhidas devem ser de um nível para o qual você tenha espaços de magia. Por exemplo, se você é um Feiticeiro de <strong>nível 3</strong>, sua lista de magias preparadas pode incluir <strong>seis magias de Feiticeiro</strong> de nível 1 ou 2 em qualquer combinação.</p>
+                        <p>Se outra característica de Feiticeiro lhe conceder magias que você sempre tem preparadas, essas magias não contam contra o número de magias que você pode preparar com esta característica, mas, de outra forma, contam como magias de Feiticeiro para você.</p>
+
+                        <p><strong style="color: white;">Alterando Suas Magias Preparadas.</strong> Sempre que você ganha um <strong>nível de Feiticeiro</strong>, pode substituir <strong>uma magia</strong> em sua lista por outra magia de Feiticeiro para a qual você tenha espaços de magia.</p>
+
+                        <p><strong style="color: white;">Habilidade de Conjuração.</strong> <strong>Carisma</strong> é sua habilidade de conjuração para suas magias de Feiticeiro.</p>
+
+                        <p><strong style="color: white;">Foco de Conjuração.</strong> Você pode usar um <strong>Foco Arcano</strong> como Foco de Conjuração para suas magias de Feiticeiro.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 1: Feitiçaria Inata -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 1: Feitiçaria Inata</span>
+                        <span class="badge-mini acao-bonus">Ação Bônus</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Um evento em seu passado deixou uma marca indelével em você, infundindo-o com magia latente. Como uma <strong>Ação Bônus</strong>, você pode <strong>liberar essa magia</strong> por <strong>1 minuto</strong>, durante o qual você ganha os seguintes benefícios:</p>
+                        
+                        <p><strong style="color: white;">A CD de resistência de magia</strong> de suas magias de Feiticeiro aumenta em <strong>1</strong>.</p>
+                        <p>Você tem <strong>Vantagem</strong> nas <strong>rolagens de ataque</strong> de magias de Feiticeiro que você conjura.</p>
+                        
+                        <p>Você pode usar esta característica <strong>duas vezes</strong> e recupera todos os usos gastos quando finaliza um <strong>Descanso Longo</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 2: Fonte de Magia -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 2: Fonte de Magia</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você pode acessar a fonte de magia dentro de si mesmo. Esta fonte é representada por <strong>Pontos de Feitiçaria</strong>, que permitem que você crie uma variedade de efeitos mágicos.</p>
+                        
+                        <p>Você tem <strong>2 Pontos de Feitiçaria</strong> e ganha mais ao atingir níveis mais altos, como mostrado na coluna <strong>Pontos de Feitiçaria</strong> da tabela de Características de Feiticeiro. Você <strong>não pode ter mais Pontos de Feitiçaria</strong> do que o número mostrado na tabela para seu nível. Você recupera <strong>todos</strong> os Pontos de Feitiçaria gastos quando finaliza um <strong>Descanso Longo</strong>.</p>
+                        
+                        <p>Você pode usar seus <strong>Pontos de Feitiçaria</strong> para alimentar as opções abaixo, juntamente com outras características, como <strong>Metamagia</strong>, que usam esses pontos.</p>
+
+                        <p><strong style="color: white;">Convertendo Espaços de Magia em Pontos de Feitiçaria.</strong> Você pode gastar um <strong>espaço de magia</strong> para ganhar um número de <strong>Pontos de Feitiçaria</strong> igual ao <strong>nível do espaço</strong> (nenhuma ação necessária).</p>
+
+                        <p><strong style="color: white;">Criando Espaços de Magia.</strong> Como uma <strong>Ação Bônus</strong>, você pode transformar <strong>Pontos de Feitiçaria</strong> não gastos em um <strong>espaço de magia</strong>. A tabela <strong>Criando Espaços de Magia</strong> mostra o <strong>custo</strong> de criar um espaço de magia de um determinado nível e lista o <strong>nível mínimo de Feiticeiro</strong> que você deve ter para criar um espaço. Você pode criar um espaço de magia <strong>não superior ao nível 5</strong>.</p>
+                        <p>Qualquer espaço de magia que você criar com esta característica <strong>desaparece</strong> quando você finaliza um <strong>Descanso Longo</strong>.</p>
+                        
+                        <!-- Tabela Criando Espaços de Magia -->
+                        <p><strong style="color: white;">Criando Espaços de Magia</strong></p>
+                        <div class="overflow-table">
+                            <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                <thead>
+                                    <tr>
+                                        <th>Nível do Espaço de Magia</th>
+                                        <th>Custo em Pontos de Feitiçaria</th>
+                                        <th>Nível Mínimo de Feiticeiro</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td class="esquerda"><strong>1</strong></th><td class="esquerda">2</th><td class="esquerda">2</th></tr>
+                                    <tr><td class="esquerda"><strong>2</strong></th><td class="esquerda">3</th><td class="esquerda">3</th></tr>
+                                    <tr><td class="esquerda"><strong>3</strong></th><td class="esquerda">5</th><td class="esquerda">5</th></tr>
+                                    <tr><td class="esquerda"><strong>4</strong></th><td class="esquerda">6</th><td class="esquerda">7</th></tr>
+                                    <tr><td class="esquerda"><strong>5</strong></th><td class="esquerda">7</th><td class="esquerda">9</th></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nível 2: Metamagia -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 2: Metamagia</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Porque sua magia flui de dentro, você pode alterar suas magias para se adequar às suas necessidades; você ganha <strong>duas opções de Metamagia</strong> de sua escolha da seção "Opções de Metamagia" posteriormente na descrição desta classe. Você usa as opções escolhidas para modificar temporariamente as magias que conjura. Para usar uma opção, você deve gastar o número de <strong>Pontos de Feitiçaria</strong> que ela custa.</p>
+                        <p>Você pode usar apenas <strong>uma opção de Metamagia</strong> em uma magia quando a conjura, a menos que indicado de outra forma em uma dessas opções.</p>
+                        <p>Sempre que você ganha um <strong>nível de Feiticeiro</strong>, pode substituir <strong>uma de suas opções de Metamagia</strong> por uma que você não conhece. Você ganha <strong>mais duas opções</strong> no <strong>nível 10 de Feiticeiro</strong> e <strong>mais duas</strong> no <strong>nível 17 de Feiticeiro</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 3: Subclasse de Feiticeiro -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Subclasse de Feiticeiro</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha uma <strong>subclasse de Feiticeiro</strong> de sua escolha. As subclasses <strong>Feitiçaria Aberrante</strong>, <strong>Feitiçaria Mecânica</strong>, <strong>Feitiçaria Dracônica</strong> e <strong>Feitiçaria da Magia Selvagem</strong> são detalhadas após a descrição desta classe. Uma subclasse é uma especialização que concede características em certos níveis de Feiticeiro. Pelo resto de sua carreira, você ganha cada uma das características de sua subclasse que sejam de seu nível de Feiticeiro ou inferior.</p>
+                        <p>As subclasses de Feiticeiro estarão listadas no final da página.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 4: Aumento no Valor de Habilidade -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 4: Aumento no Valor de Habilidade</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha o talento <strong>Aumento no Valor de Habilidade</strong> ou outro talento de sua escolha para o qual você se qualifica. Você ganha esta característica novamente nos níveis <strong>8, 12 e 16</strong> de Feiticeiro.</p>
+                    
+                    </div>
+                </div>
+
+                <!-- Nível 5: Restauração Feiticeira -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 5: Restauração Feiticeira</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Quando você finaliza um <strong>Descanso Curto</strong>, pode recuperar <strong>Pontos de Feitiçaria</strong> gastos, mas não mais do que um número igual à <strong>metade do seu nível de Feiticeiro</strong> (arredondado para baixo).</p>
+                        <p>Uma vez que você usa esta característica, não pode fazê-lo novamente até finalizar um <strong>Descanso Longo</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 7: Feitiçaria Encarnada -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 7: Feitiçaria Encarnada</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Se você não tiver <strong>nenhum uso de Feitiçaria Inata</strong> restante, pode usá-la se gastar <strong>2 Pontos de Feitiçaria</strong> quando usar a <strong>Ação Bônus</strong> para ativá-la.</p>
+                        <p>Além disso, enquanto sua característica <strong>Feitiçaria Inata</strong> estiver ativa, você pode usar <strong>até duas de suas opções de Metamagia</strong> em cada magia que conjurar.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 19: Benção Épica -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 19: Benção Épica</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha um talento de <strong>Benção Épica</strong> ou outro talento de sua escolha para o qual você se qualifica. <strong>Benção da Viagem Dimensional</strong> é recomendado.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 20: Apoteose Arcano -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 20: Apoteose Arcano</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Enquanto sua característica <strong>Feitiçaria Inata</strong> estiver ativa, você pode usar <strong>uma opção de Metamagia</strong> em cada um de seus turnos <strong>sem gastar Pontos de Feitiçaria</strong> nela.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="recursos-header">
+              <h3>Subclasses</h3>
+            </div>
+            <div class="subclasses-container">
+                
+                <!--ABAS DE NAVEGAÇÃO-->
+                <div class="tabs-header">
+                    <ul class="tabs-list">
+                    <li><button class="tab-btn active" data-tab="0"> Feitiçaria Aberrante</button></li>
+                    <li><button class="tab-btn active" data-tab="1"> Feitiçaria Mecânica</button></li>
+                    <li><button class="tab-btn active" data-tab="2"> Feitiçaria Dracônica</button></li>
+                    <li><button class="tab-btn active" data-tab="3"> Feitiçaria de Fogo Mágico</button></li>
+                    <li><button class="tab-btn active" data-tab="4"> Feitiçaria da Magia Selvagem</button></li>
+                    <li><button class="tab-btn active" data-tab="5"> Feitiçaria Ancestral</button></li>
+                    <li><button class="tab-btn active" data-tab="6"> Feitiçaria Profanada</button></li>
+                    <li><button class="tab-btn active" data-tab="7"> Feitiçaria Demoníaca</button></li>
+                    <li><button class="tab-btn active" data-tab="8"> Feitiçaria das Sombras</button></li>
+                    </ul>
+                </div>
+                
+                <!--SUBCLASSE-->
+                <div class="tabs-content">
+                    <!-- ABA - Feitiçaria Aberrante -->
+                    <div class="tab-pane">
+                        <h3 style="color: var(--gold); margin-bottom: 15px;">Feitiçaria Aberrante</h3>
+                        <p>Uma influência alienígena envolveu seus tentáculos em sua mente, concedendo-lhe poder psíquico. Você agora pode tocar outras mentes com esse poder e alterar o mundo ao seu redor. Este poder brilhará em você como um farol de esperança para outros? Ou você será um terror para aqueles que sentem a pontada de sua mente?</p>
+                        <p>Talvez um vento psíquico do <strong>Plano Astral</strong> tenha carregado energia psíquica para você, ou você foi exposto à influência distorcida do <strong>Reino Distante</strong>. Alternativamente, você foi implantado com um <strong>girino de devorador de mentes</strong>, mas sua transformação em devorador de mentes nunca ocorreu; agora o poder psíquico do girino é seu. No entanto você adquiriu este poder, sua mente está em chamas com ele.</p>
+                        
+                        <!-- Nível 3: Magias Psíquicas -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Magias Psíquicas</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Quando você atinge um nível de Feiticeiro especificado na tabela de <strong>Magias Psíquicas</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                                
+                                <div class="overflow-table">
+                                    <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                        <thead>
+                                            <tr>
+                                                <th>Nível de Feiticeiro</th>
+                                                <th class="esquerda">Magias Preparadas</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><th>3º</th><td class="esquerda"><strong>Braços de Hadar</strong>, <strong>Acalmar Emoções</strong>, <strong>Detectar Pensamentos</strong>, <strong>Sussurros Discordantes</strong>, <strong>Lascamento Mental</strong></td></tr>
+                                            <tr><th>5º</th><td class="esquerda"><strong>Fome de Hadar</strong>, <strong>Envio</strong></td></tr>
+                                            <tr><th>7º</th><td class="esquerda"><strong>Tentáculos Negros de Evard</strong>, <strong>Conjurar Abominação</strong></td></tr>
+                                            <tr><th>9º</th><td class="esquerda"><strong>Vínculo Telepático de Rary</strong>, <strong>Telecinésia</strong></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Fala Telepática -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Fala Telepática</span>
+                                <span class="badge-mini acao-bonus">Ação Bônus</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você pode formar uma <strong>conexão telepática</strong> entre sua mente e a mente de outro. Como uma <strong>Ação Bônus</strong>, escolha <strong>uma criatura</strong> que você pode ver a até <strong>9 metros</strong> de você. Você e a criatura escolhida podem se comunicar telepaticamente entre si enquanto os dois estiverem a uma distância de até <strong>1,5 km</strong> por modificador de Carisma (mínimo de 1,5 km). Para se entenderem, cada um deve usar mentalmente um <strong>idioma</strong> que o outro conheça.</p>
+                                <p>A conexão telepática dura um número de <strong>minutos igual ao seu nível de Feiticeiro</strong>. Ela termina mais cedo se você usar esta habilidade para formar uma conexão com uma criatura diferente.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 6: Feitiçaria Psíquica -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 6: Feitiçaria Psíquica</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Quando você conjura qualquer <strong>magia de nível 1+</strong> de sua característica <strong>Magias Psíquicas</strong>, pode conjurá-la gastando um <strong>espaço de magia</strong> normalmente ou gastando um número de <strong>Pontos de Feitiçaria igual ao nível da magia</strong>. Se você conjurar a magia usando <strong>Pontos de Feitiçaria</strong>, ela não requer <strong>componentes Verbais ou Somáticos</strong> e não requer <strong>componentes Materiais</strong> a menos que sejam consumidos pela magia ou tenham um custo especificado nela.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 6: Defesas Psíquicas -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 6: Defesas Psíquicas</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você tem <strong>Resistência</strong> a dano <strong>Psíquico</strong> e tem <strong>Vantagem</strong> em testes de resistência para <strong>evitar ou encerrar</strong> as condições <strong>Enfeitiçado</strong> ou <strong>Amedrontado</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 14: Revelação em Carne -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 14: Revelação em Carne</span>
+                                <span class="badge-mini acao-bonus">Ação Bônus</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você pode desencadear a verdade aberrante escondida dentro de si. Como uma <strong>Ação Bônus</strong>, pode gastar <strong>1 Ponto de Feitiçaria ou mais</strong> para alterar magicamente seu corpo por <strong>10 minutos</strong>. Para cada <strong>Ponto de Feitiçaria</strong> que você gasta, você ganha <strong>um dos seguintes benefícios</strong> de sua escolha, cujos efeitos duram até o fim da alteração.</p>
+                                
+                                <p><strong style="color: white;">Adaptação Aquática.</strong> Você ganha um <strong>Deslocamento de Natação</strong> igual a <strong>duas vezes seu Deslocamento</strong> e pode <strong>respirar debaixo d'água</strong>. Guelras crescem em seu pescoço ou se abrem atrás de suas orelhas, e seus dedos se tornam palmados ou você desenvolve cílios ondulantes.</p>
+                                
+                                <p><strong style="color: white;">Voo Brilhante.</strong> Você ganha um <strong>Deslocamento de Voo</strong> igual ao seu <strong>Deslocamento</strong> e pode <strong>pairar</strong>. Enquanto voa, sua pele brilha com muco ou luz de outro mundo.</p>
+                                
+                                <p><strong style="color: white;">Ver o Invisível.</strong> Você pode ver qualquer <strong>criatura Invisível</strong> a até <strong>18 metros</strong> de você que não esteja atrás de <strong>Cobertura Total</strong>. Seus olhos também se tornam negros ou se transformam em tentáculos sensoriais contorcidos.</p>
+                                
+                                <p><strong style="color: white;">Movimento Vermiforme.</strong> Seu corpo, juntamente com qualquer equipamento que você esteja vestindo ou carregando, torna-se <strong>viscoso e flexível</strong>. Você pode se mover através de qualquer espaço tão estreito quanto <strong>2,5 centímetros</strong> e pode gastar <strong>1,5 metro de movimento</strong> para escapar de <strong>restrições não mágicas</strong> ou da condição <strong>Agarrar</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 18: Implosão Distorcida -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 18: Implosão Distorcida</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você pode desencadear uma <strong>anomalia de distorção espacial</strong>. Como uma <strong>Ação Mágica</strong>, você <strong>teleporta</strong> para um espaço desocupado que pode ver a até <strong>36 metros</strong> de você. Imediatamente após você desaparecer, cada <strong>criatura</strong> a até <strong>9 metros</strong> do espaço que você deixou deve fazer um teste de resistência de <strong>Força</strong> contra sua CD de resistência de magia. Em uma falha, uma criatura sofre <strong>3d10</strong> de dano de <strong>Força</strong> e é <strong>puxada diretamente</strong> em direção ao espaço que você deixou, terminando em um espaço desocupado o mais próximo possível de seu espaço anterior. Em um sucesso, a criatura sofre apenas <strong>metade do dano</strong>.</p>
+                                <p>Uma vez que você usa esta característica, não pode fazê-lo novamente até finalizar um <strong>Descanso Longo</strong>, a menos que você gaste <strong>5 Pontos de Feitiçaria</strong> (nenhuma ação necessária) para restaurar seu uso.</p>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+
+                    <!-- ABA - Feitiçaria Mecânica -->
+                    <div class="tab-pane">
+                        <h3 style="color: var(--gold); margin-bottom: 15px;">Feitiçaria Mecânica</h3>
+                        <p>A força cósmica da ordem impregnou você com magia. Esse poder surge de <strong>Mecanus</strong> ou de um reino semelhante — um plano de existência moldado inteiramente pela eficiência de relógios. Você ou alguém de sua linhagem pode ter se envolvido nas maquinações dos <strong>modrons</strong>, as seres ordenados que habitam Mecanus. Talvez seu ancestral tenha até participado da <strong>Grande Marcha Modron</strong>. Seja qual for sua origem dentro de você, o poder da ordem pode parecer estranho para outros, mas para você, é parte de um vasto e glorioso sistema.</p>
+                        
+                        <!-- Nível 3: Magias Mecânicas -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Magias Mecânicas</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Quando você atinge um nível de Feiticeiro especificado na tabela de <strong>Magias Mecânicas</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                                
+                                <div class="overflow-table">
+                                    <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                        <thead>
+                                            <tr>
+                                                <th>Nível de Feiticeiro</th>
+                                                <th class="esquerda">Magias Preparadas</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><th>3º</th><td class="esquerda"><strong>Auxílio</strong>, <strong>Alarme</strong>, <strong>Restauração Menor</strong>, <strong>Proteção contra o Bem e o Mal</strong></td></tr>
+                                            <tr><th>5º</th><td class="esquerda"><strong>Dispensar Magia</strong>, <strong>Proteção contra Energia</strong></td></tr>
+                                            <tr><th>7º</th><td class="esquerda"><strong>Liberdade de Movimento</strong>, <strong>Conjurar Constructo</strong></td></tr>
+                                            <tr><th>9º</th><td class="esquerda"><strong>Restauração Maior</strong>, <strong>Muralha de Força</strong></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <p>Além disso, consulte a tabela <strong>Manifestações da Ordem</strong> e escolha ou determine aleatoriamente uma maneira como sua conexão com a ordem se manifesta enquanto você conjura qualquer uma de suas magias de Feiticeiro.</p>
+                                
+                                <div class="overflow-table">
+                                    <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                        <thead>
+                                            <tr><th>1d6</th><th class="esquerda">Manifestação</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td class="esquerda"><strong>1</strong></th><td class="esquerda">Engrenagens espectrais pairam atrás de você.</th></tr>
+                                            <tr><td class="esquerda"><strong>2</strong></th><td class="esquerda">Os ponteiros de um relógio giram em seus olhos.</th></tr>
+                                            <tr><td class="esquerda"><strong>3</strong></th><td class="esquerda">Sua pele brilha com um tom amarelado.</th></tr>
+                                            <tr><td class="esquerda"><strong>4</strong></th><td class="esquerda">Equações flutuantes e objetos geométricos sobrepõem seu corpo.</th></tr>
+                                            <tr><td class="esquerda"><strong>5</strong></th><td class="esquerda">Seu Foco de Conjuração temporariamente assume a forma de um mecanismo de relógio Minúsculo.</th></tr>
+                                            <tr><td class="esquerda"><strong>6</strong></th><td class="esquerda">O tique-taque de engrenagens ou o toque de um relógio pode ser ouvido por você e aqueles afetados por sua magia.</th></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Restaurar Equilíbrio -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Restaurar Equilíbrio</span>
+                                <span class="badge-mini reacao">Reação</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Sua conexão com o plano da ordem absoluta permite que você equalize momentos caóticos. Quando uma <strong>criatura</strong> que você pode ver a até <strong>18 metros</strong> de você está prestes a rolar um d20 com <strong>Vantagem ou Desvantagem</strong>, você pode usar uma <strong>Reação</strong> para <strong>impedir que a rolagem seja afetada por Vantagem e Desvantagem</strong>.</p>
+                                <p>Você pode usar esta característica um número de vezes igual ao seu modificador de <strong>Carisma</strong> (mínimo de uma vez) e recupera todos os usos gastos quando finaliza um <strong>Descanso Longo</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 6: Baluarte da Lei -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 6: Baluarte da Lei</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você pode acessar a grande equação da existência para imbuir uma criatura com um escudo cintilante de ordem. Como uma <strong>Ação Mágica</strong>, pode gastar de <strong>1 a 5 Pontos de Feitiçaria</strong> para criar uma <strong>guarda mágica</strong> ao redor de si mesmo ou de outra criatura que você pode ver a até <strong>9 metros</strong> de você. A guarda é representada por um número de <strong>d8 igual ao número de Pontos de Feitiçaria gastos</strong> para criá-la. Quando a criatura guardada sofre dano, ela pode gastar um número desses dados, rolá-los e <strong>reduzir o dano sofrido</strong> pelo total rolado nesses dados.</p>
+                                <p>A guarda dura até você finalizar um <strong>Descanso Longo</strong> ou até você usar esta característica novamente.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 14: Transe da Ordem -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 14: Transe da Ordem</span>
+                                <span class="badge-mini acao-bonus">Ação Bônus</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você ganha a habilidade de alinhar sua consciência com os cálculos infinitos de Mecanus. Como uma <strong>Ação Bônus</strong>, você pode entrar neste estado por <strong>1 minuto</strong>. Durante a duração, <strong>rolagens de ataque contra você não podem se beneficiar de Vantagem</strong> e, sempre que você faz um <strong>Teste de d20</strong>, pode tratar uma <strong>rolagem de 9 ou menos no d20 como 10</strong>.</p>
+                                <p>Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Longo</strong>, a menos que você gaste <strong>5 Pontos de Feitiçaria</strong> (nenhuma ação necessária) para restaurar seu uso.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 18: Cavalgada Mecânica -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 18: Cavalgada Mecânica</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você momentaneamente invoca espíritos de ordem para expurgar a desordem ao seu redor. Como uma <strong>Ação Mágica</strong>, você invoca os espíritos em um <strong>Cubo de 9 metros</strong> originado de você. Os espíritos parecem <strong>modrons</strong> ou outros <strong>Constructos</strong> de sua escolha. Os espíritos são <strong>intangíveis e invulneráveis</strong> e criam os efeitos abaixo dentro do Cubo antes de desaparecer. Uma vez que você usa esta ação, não pode usá-la novamente até finalizar um <strong>Descanso Longo</strong>, a menos que você gaste <strong>7 Pontos de Feitiçaria</strong> (nenhuma ação necessária) para restaurar seu uso.</p>
+                                
+                                <p><strong style="color: white;">Cura.</strong> Os espíritos restauram até <strong>100 Pontos de Vida</strong>, divididos como você escolher entre qualquer número de criaturas de sua escolha no Cubo.</p>
+                                
+                                <p><strong style="color: white;">Reparo.</strong> Quaisquer <strong>objetos danificados</strong> inteiramente no Cubo são reparados instantaneamente.</p>
+                                
+                                <p><strong style="color: white;">Dissipar.</strong> Toda <strong>magia de nível 6 e inferior</strong> termina em criaturas e objetos de sua escolha no Cubo.</p>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+
+                    <!-- ABA - Feitiçaria Dracônica -->
+                    <div class="tab-pane">
+                        <h3 style="color: var(--gold); margin-bottom: 15px;">Feitiçaria Dracônica</h3>
+                        <p>Sua magia inata vem do dom de um dragão. Talvez um dragão antigo enfrentando a morte tenha legado parte de seu poder mágico a você ou a seu ancestral. Você pode ter absorvido magia de um local infundido com poder de dragões. Ou talvez você tenha manuseado um tesouro retirado de um monturo de dragão que estava impregnado de poder dracônico. Ou você pode ter um dragão como ancestral.</p>
+                        
+                        <!-- Nível 3: Resiliência Dracônica -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Resiliência Dracônica</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>A magia em seu corpo manifesta traços físicos de seu dom dracônico. Seu <strong>máximo de Pontos de Vida</strong> aumenta em <strong>3</strong> e aumenta em <strong>1</strong> sempre que você ganha outro nível de Feiticeiro.</p>
+                                <p>Partes de você também são cobertas por <strong>escamas semelhantes às de dragão</strong>. Enquanto você não estiver usando armadura, sua <strong>Classe de Armadura base</strong> é igual a <strong>10 + seu modificador de Destreza + seu modificador de Carisma</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Magias Dracônicas -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Magias Dracônicas</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Quando você atinge um nível de Feiticeiro especificado na tabela de <strong>Magias Dracônicas</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                                
+                                <div class="overflow-table">
+                                    <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                        <thead>
+                                            <tr>
+                                                <th>Nível de Feiticeiro</th>
+                                                <th class="esquerda">Magias Preparadas</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><th>3º</th><td class="esquerda"><strong>Alterar-se</strong>, <strong>Orbe Cromático</strong>, <strong>Comando</strong>, <strong>Sopro do Dragão</strong></td></tr>
+                                            <tr><th>5º</th><td class="esquerda"><strong>Medo</strong>, <strong>Voar</strong></td></tr>
+                                            <tr><th>7º</th><td class="esquerda"><strong>Olho Arcano</strong>, <strong>Enfeitiçar Monstro</strong></td></tr>
+                                            <tr><th>9º</th><td class="esquerda"><strong>Lenda Viva</strong>, <strong>Conjurar Dragão</strong></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 6: Afinidade Elemental -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 6: Afinidade Elemental</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Sua magia dracônica tem afinidade com um <strong>tipo de dano associado a dragões</strong>. Escolha um desses tipos: <strong>Ácido</strong>, <strong>Frio</strong>, <strong>Fogo</strong>, <strong>Relâmpago</strong> ou <strong>Veneno</strong>.</p>
+                                <p>Você tem <strong>Resistência</strong> àquele tipo de dano e, quando você conjura uma magia que causa dano daquele tipo, pode adicionar seu modificador de <strong>Carisma</strong> a <strong>uma rolagem de dano</strong> daquela magia.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 14: Asas de Dragão -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 14: Asas de Dragão</span>
+                                <span class="badge-mini acao-bonus">Ação Bônus</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Como uma <strong>Ação Bônus</strong>, você pode fazer com que <strong>asas dracônicas</strong> apareçam em suas costas. Asas duram por <strong>1 hora</strong> ou até você as dispensar (nenhuma ação necessária). Durante a duração, você tem um <strong>Deslocamento de Voo</strong> de <strong>18 metros</strong>.</p>
+                                <p>Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Longo</strong>, a menos que você gaste <strong>3 Pontos de Feitiçaria</strong> (nenhuma ação necessária) para restaurar seu uso.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 18: Companheiro Dragão -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 18: Companheiro Dragão</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você pode conjurar <strong>Conjurar Dragão</strong> sem um <strong>componente Material</strong>. Você também pode conjurá-la <strong>uma vez sem um espaço de magia</strong> e recupera a capacidade de conjurá-la desta forma quando finaliza um <strong>Descanso Longo</strong>.</p>
+                                <p>Sempre que você começa a conjurar a magia, pode modificá-la para que <strong>não exija Concentração</strong>. Se você fizer isso, a duração da magia se torna <strong>1 minuto</strong> para aquela conjuração.</p>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+
+                    <!-- ABA - Feitiçaria de Fogo Mágico -->
+                    <div class="tab-pane">
+                        <h3 style="color: var(--gold); margin-bottom: 15px;">Feitiçaria de Fogo Mágico</h3>
+                        <p>Seu poder inato vem da fonte da própria magia: a <strong>Trama</strong>. Esta conexão se manifesta como uma habilidade rara conhecida como <strong>fogo mágico</strong>, e você surge com explosões radiantes desta magia bruta. Seu talento com fogo mágico permite que você cure aliados, queime inimigos e absorva magias poderosas.</p>
+                        <p>Usuários de fogo mágico tendem a ter uma propensão para vagar. Muitos viajam entre assentamentos cosmopolitas, como aqueles ao longo da <strong>Costa da Espada</strong>, e empunham sua magia a serviço do bem comum. Outros percebem seus próprios poderes estranhos vagando por terras igualmente estranhas, dos desertos devastados por magia do deserto de Anauroch às selvas tocadas pelos deuses dos Velhos Impérios. Onde quer que vão nos Reinos, Feiticeiros de fogo mágico são cortejados por facções com interesses nas artes arcanas, como os <strong>Harpeiros</strong>, a <strong>Culto do Dragão</strong> e os <strong>Magos Vermelhos</strong>.</p>
+                        
+                        <!-- Nível 3: Explosão de Fogo Mágico -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Explosão de Fogo Mágico</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Quando você gasta <strong>pelo menos 1 Ponto de Feitiçaria</strong> como parte de uma <strong>Ação Mágica</strong> ou <strong>Ação Bônus</strong> em seu turno, pode desencadear <strong>um dos seguintes efeitos mágicos</strong> de sua escolha. Você pode fazer isso apenas <strong>uma vez por turno</strong>.</p>
+                                
+                                <p><strong style="color: white;">Chamas Reforçadoras.</strong> Você ou uma <strong>criatura</strong> que você pode ver a até <strong>9 metros</strong> de você ganha <strong>Pontos de Vida Temporários</strong> iguais a <strong>1d4 + seu modificador de Carisma</strong>.</p>
+                                
+                                <p><strong style="color: white;">Fogo Radiante.</strong> Uma <strong>criatura</strong> que você pode ver a até <strong>9 metros</strong> de você sofre <strong>1d4</strong> de dano de <strong>Fogo</strong> ou <strong>Radiante</strong> (sua escolha).</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Magias de Fogo Mágico -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Magias de Fogo Mágico</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Quando você atinge um nível de Feiticeiro especificado na tabela de <strong>Magias de Fogo Mágico</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                                
+                                <div class="overflow-table">
+                                    <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                        <thead>
+                                            <tr>
+                                                <th>Nível de Feiticeiro</th>
+                                                <th class="esquerda">Magias Preparadas</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><th>3º</th><td class="esquerda"><strong>Curação</strong>, <strong>Projétil Guiado</strong>, <strong>Restauração Menor</strong>, <strong>Raio Ardente</strong></td></tr>
+                                            <tr><th>5º</th><td class="esquerda"><strong>Aura de Vitalidade</strong>, <strong>Dispensar Magia</strong></td></tr>
+                                            <tr><th>7º</th><td class="esquerda"><strong>Escudo de Fogo</strong>, <strong>Muralha de Fogo</strong></td></tr>
+                                            <tr><th>9º</th><td class="esquerda"><strong>Restauração Maior</strong>, <strong>Golpe Flamejante</strong></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 6: Absorver Magias -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 6: Absorver Magias</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você sempre tem <strong>Contramágica</strong> preparada.</p>
+                                <p>Além disso, sempre que um <strong>alvo falha no teste de resistência</strong> contra uma <strong>Contramágica</strong> que você conjurou, você recupera <strong>1d4 Pontos de Feitiçaria</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 14: Fogo Mágico Aprimorado -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 14: Fogo Mágico Aprimorado</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Sua <strong>Explosão de Fogo Mágico</strong> melhora. Você adiciona seu <strong>nível de Feiticeiro</strong> aos <strong>Pontos de Vida Temporários</strong> ganhos de <strong>Chamas Reforçadoras</strong>, e o dano de seu <strong>Fogo Radiante</strong> aumenta para <strong>1d8</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 18: Coroa de Fogo Mágico -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 18: Coroa de Fogo Mágico</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Quando você usa <strong>Feitiçaria Inata</strong>, pode alterá-la e se infundir com a essência do fogo mágico, ganhando os seguintes benefícios enquanto este uso de <strong>Feitiçaria Inata</strong> estiver ativo. Uma vez que você usa esta característica para alterar Feitiçaria Inata, não pode usá-la novamente até finalizar um <strong>Descanso Longo</strong>, a menos que você gaste <strong>5 Pontos de Feitiçaria</strong> (nenhuma ação necessária) para restaurar seu uso.</p>
+                                
+                                <p><strong style="color: white;">Força Vital Ardente.</strong> <strong>Uma vez por turno</strong> quando você é atingido por uma <strong>rolagem de ataque</strong>, pode gastar um número de <strong>Dados de Vida</strong>, até um máximo igual ao seu modificador de <strong>Carisma</strong> (mínimo de um). Role os dados gastos e <strong>reduza o dano</strong> daquele ataque igual ao total rolado.</p>
+                                
+                                <p><strong style="color: white;">Voo.</strong> Você ganha um <strong>Deslocamento de Voo</strong> de <strong>18 metros</strong> e pode <strong>pairar</strong>.</p>
+                                
+                                <p><strong style="color: white;">Evasão Mágica.</strong> Quando você está sujeito a uma <strong>magia ou efeito mágico</strong> que permite que você faça um teste de resistência para sofrer apenas <strong>metade do dano</strong>, em vez disso, você <strong>não sofre dano</strong> se for bem-sucedido no teste e apenas <strong>metade do dano</strong> se falhar. Você não pode usar este benefício se estiver com a condição <strong>Incapacitado</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+
+                    <!-- ABA - Feitiçaria da Magia Selvagem -->
+                    <div class="tab-pane">
+
+        <h3 style="color: var(--gold); margin-bottom: 15px;">Feitiçaria da Magia Selvagem</h3>
+        <p>Sua magia inata surge das forças do caos que fundamentam a ordem da criação. Você ou um ancestral pode ter suportado exposição à magia bruta, talvez através de um portal planar levando a <strong>Limbo</strong> ou aos <strong>Planos Elementais</strong>. Talvez você tenha sido abençoado por uma criatura feérica ou marcado por um demônio. Ou sua magia pode ser um acaso sem causa aparente. Seja qual for sua fonte, esta magia se agita dentro de você, esperando por qualquer saída.</p>
         
-        <div class="bloco-subclasse-detalhada">
-          <h3>Linhagem Dracônica (Draconic Bloodline)</h3>
-          <p>Seu sangue carrega a herança de antigos dragões imperiais. Concede escamas blindadas, afinidade com elementos destrutivos e asas majestosas.</p>
-          
-          <div class="sub-feature">
-            <h5>Nível 3: Resiliência Dracônica & Magias Ancestrais</h5>
-            <p><strong>Magias de Origem:</strong> *Mãos Flamejantes*, *Orbe Cromático*, *Sopro de Dragão*, *Pele de Árvore* (versão escamas).</p>
-            <p><strong>Resiliência Dracônica:</strong> Partes de sua pele são cobertas por escamas translúcidas. Sua Classe de Armadura (CA) básica quando você não estiver usando armadura passa a ser igual a **13 + seu modificador de Destreza**. Além disso, seu máximo de pontos de vida aumenta em 1 para cada nível nesta classe.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 6: Afinidade Elemental</h5>
-            <p>Escolha um tipo de dano atrelado ao seu ancestral dracônico (Ácido, Fogo, Frio, Elétrico ou Veneno). Você ganha resistência a esse tipo de dano de forma permanente. Além disso, quando conjurar uma magia que cause esse dano, adicione seu modificador de Carisma ao dano total.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 10: Presença Dracônica</h5>
-            <p>Você pode gastar 3 Pontos de Feitiçaria para emanar a aura terrível de um dragão. Criaturas a até 9 metros à sua escolha devem passar em uma salvaguarda de Sabedoria ou ficarão **Amedrontadas** ou **Encantadas** (sua escolha) por você por 1 minuto.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 14: Asas de Dragão</h5>
-            <p>Como uma Ação Bônus, você manifesta um par de asas dracônicas que brotam das suas costas. Você ganha deslocamento de voo igual ao seu deslocamento terrestre atual. Você pode fazer as asas desaparecerem com outra Ação Bônus.</p>
-          </div>
+        <!-- Nível 3: Explosão de Magia Selvagem -->
+        <div class="recurso-card">
+            <div class="recurso-header">
+                <span class="recurso-nome">Nível 3: Explosão de Magia Selvagem</span>
+            </div>
+            <div class="recurso-descricao">
+                <p>Sua conjuração pode desencadear explosões de magia indomável. <strong>Uma vez por turno</strong>, você pode rolar <strong>1d20</strong> imediatamente após conjurar uma <strong>magia de Feiticeiro</strong> com um <strong>espaço de magia</strong>. Se você rolar um <strong>20</strong>, role na <strong>tabela de Explosão de Magia Selvagem</strong> para criar um efeito mágico.</p>
+                <p>Se o efeito mágico for uma <strong>magia</strong>, ela é selvagem demais para ser afetada por sua <strong>Metamagia</strong>.</p>
+            </div>
+        </div>
+        
+        <!-- Nível 3: Marés do Caos -->
+        <div class="recurso-card">
+            <div class="recurso-header">
+                <span class="recurso-nome">Nível 3: Marés do Caos</span>
+            </div>
+            <div class="recurso-descricao">
+                <p>Você pode manipular o próprio caos para conceder a si mesmo <strong>Vantagem</strong> em <strong>um Teste de d20</strong> antes de rolar o d20. Uma vez que você faz isso, deve <strong>conjurar uma magia de Feiticeiro com um espaço de magia</strong> ou finalizar um <strong>Descanso Longo</strong> antes de poder usar esta característica novamente.</p>
+                <p>Se você conjurar uma <strong>magia de Feiticeiro com um espaço de magia</strong> antes de finalizar um <strong>Descanso Longo</strong>, você <strong>automaticamente rola na tabela de Explosão de Magia Selvagem</strong>.</p>
+            </div>
+        </div>
+        
+        <!-- Nível 6: Dobrar a Sorte -->
+        <div class="recurso-card">
+            <div class="recurso-header">
+                <span class="recurso-nome">Nível 6: Dobrar a Sorte</span>
+                <span class="badge-mini reacao">Reação</span>
+            </div>
+            <div class="recurso-descricao">
+                <p>Você tem a habilidade de torcer o destino usando sua magia selvagem. Imediatamente após <strong>outra criatura</strong> que você pode ver rolar o d20 para um <strong>Teste de d20</strong>, você pode usar uma <strong>Reação</strong> e gastar <strong>1 Ponto de Feitiçaria</strong> para rolar <strong>1d4</strong> e aplicar o número rolado como um <strong>bônus ou penalidade</strong> (sua escolha) à rolagem do d20.</p>
+            </div>
+        </div>
+        
+        <!-- Nível 14: Caos Controlado -->
+        <div class="recurso-card">
+            <div class="recurso-header">
+                <span class="recurso-nome">Nível 14: Caos Controlado</span>
+            </div>
+            <div class="recurso-descricao">
+                <p>Você ganha um pouco de controle sobre as explosões de sua magia selvagem. Sempre que você rola na <strong>tabela de Explosão de Magia Selvagem</strong>, pode rolar <strong>duas vezes</strong> e usar <strong>qualquer um dos números</strong>.</p>
+            </div>
+        </div>
+        
+        <!-- Nível 18: Explosão Domada -->
+        <div class="recurso-card">
+            <div class="recurso-header">
+                <span class="recurso-nome">Nível 18: Explosão Domada</span>
+            </div>
+            <div class="recurso-descricao">
+                <p>Imediatamente após você conjurar uma <strong>magia de Feiticeiro</strong> com um <strong>espaço de magia</strong>, pode criar um <strong>efeito de sua escolha</strong> da <strong>tabela de Explosão de Magia Selvagem</strong> em vez de rolar nela. Você pode escolher <strong>qualquer efeito na tabela, exceto a última linha</strong> e, se o efeito escolhido envolver uma rolagem, você deve fazê-la.</p>
+                <p>Uma vez que você usa esta característica, não pode fazê-lo novamente até finalizar um <strong>Descanso Longo</strong>.</p>
+            </div>
         </div>
 
-        <div class="bloco-subclasse-detalhada">
-          <h3>Magia Selvagem (Wild Magic)</h3>
-          <p>Você extrai seu poder diretamente do Caos puro e mutável. Suas magias podem desencadear efeitos imprevisíveis, alterando as probabilidades do destino.</p>
-          
-          <div class="sub-feature">
-            <h5>Nível 3: Ondas de Caos & Surto de Magia Selvagem</h5>
-            <p><strong>Magias de Origem:</strong> *Fogo Fátuo*, *Caos Cromático*, *Alterar-se*, *Borrifo de Cores*.</p>
-            <p><strong>Ondas de Caos (Tides of Chaos):</strong> Você pode manipular a probabilidade para ganhar **Vantagem** em uma jogada de ataque, teste de atributo ou salvaguarda. Você recupera este recurso imediatamente após o mestre forçar uma rolagem na tabela de Surtos.</p>
-            <p><strong>Surto de Magia Selvagem:</strong> Sempre que você conjurar uma magia de 1º círculo ou superior, o mestre pode solicitar a rolagem de **1d20**. Se o resultado for 1, role na tabela oficial de Surtos de Magia Selvagem para desencadear um efeito caótico aleatório.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 6: Dobrar a Sorte</h5>
-            <p>Quando outra criatura que você consiga ver realizar uma jogada de ataque, teste ou salvaguarda, você pode usar sua Reação e gastar 2 Pontos de Feitiçaria para rolar **1d4** e aplicar o valor como um bônus ou penalidade ao resultado do alvo.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 10: Caos Controlado</h5>
-            <p>Você ganha um grau relativo de comando sobre o seu próprio caos. Sempre que você rolar na tabela de Surtos de Magia Selvagem, você realiza a rolagem **duas vezes** e pode escolher qual dos dois efeitos prefere aplicar no grid.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 14: Surto Bombástico</h5>
-            <p>Quando você rolar um efeito na tabela de surtos que cause dano, você pode escolher gastar 3 Pontos de Feitiçaria adicionais para maximizar o dano daquele surto contra todas as criaturas afetadas.</p>
-          </div>
+        <!-- Tabela de Explosão de Magia Selvagem -->
+        <div class="recursos-container">
+            <div class="recursos-header">
+                <h3>Explosão de Magia Selvagem</h3>
+                <span class="recursos-count">1d100</span>
+            </div>
+            <div class="recursos-list">
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">01-04</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Role nesta tabela no <strong>início de cada um de seus turnos</strong> pelo próximo minuto, ignorando este resultado em rolagens subsequentes.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">05-08</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Uma <strong>criatura Amigável</strong> para com você aparece em um <strong>espaço desocupado aleatório</strong> a até <strong>18 metros</strong> de você. A criatura está sob o controle do <strong>Mestre</strong> e desaparece 1 minuto depois. Role <strong>1d4</strong> para determinar a criatura: (1) <strong>Modron Duodrone</strong>, (2) <strong>Flumph</strong>, (3) <strong>Modron Monodrone</strong>, (4) <strong>Unicórnio</strong>.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">09-12</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Pelo próximo minuto, você recupera <strong>5 Pontos de Vida</strong> no <strong>início de cada um de seus turnos</strong>.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">13-16</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Criaturas têm <strong>Desvantagem</strong> em testes de resistência contra a <strong>próxima magia que você conjurar</strong> no próximo minuto que envolva um teste de resistência.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">17-20</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você está sujeito a um <strong>efeito</strong> que dura 1 minuto, a menos que sua descrição diga o contrário. Role <strong>1d8</strong> para determinar o efeito:</p>
+                        <p>(1) cercado por música etérea e fraca que apenas você e criaturas a 1,5m podem ouvir;<br>
+                        (2) seu tamanho aumenta em uma categoria;<br>
+                        (3) você cresce uma longa barba feita de penas que permanece até você espirrar;<br>
+                        (4) você deve gritar quando fala;<br>
+                        (5) borboletas ilusórias esvoaçam no ar a 3m de você;<br>
+                        (6) um olho aparece em sua testa, concedendo Vantagem em testes de Sabedoria (Percepção);<br>
+                        (7) bolhas rosadas flutuam de sua boca sempre que você fala;<br>
+                        (8) sua pele fica azul vibrante por 24 horas ou até o efeito ser encerrado por <strong>Remover Maldição</strong>.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">21-24</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Pelo próximo minuto, todas as suas magias com <strong>tempo de conjuração de uma ação</strong> têm tempo de conjuração de uma <strong>Ação Bônus</strong>.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">25-28</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você é transportado para o <strong>Plano Astral</strong> até o final de seu próximo turno. Você então retorna ao espaço que ocupava anteriormente ou ao espaço desocupado mais próximo.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">29-32</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Na próxima vez que você conjurar uma magia que causa dano no próximo minuto, não role os dados de dano. Em vez disso, use o <strong>número mais alto possível para cada dado</strong>.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">33-36</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você tem <strong>Resistência</strong> a todos os danos pelo próximo minuto.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">37-40</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você se transforma em uma <strong>planta em um vaso</strong> até o início de seu próximo turno. Enquanto for uma planta, você tem a condição <strong>Incapacitado</strong> e <strong>Vulnerabilidade</strong> a todos os danos. Se cair a 0 PV, seu vaso quebra e sua forma reverte.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">41-44</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Pelo próximo minuto, você pode <strong>teleportar até 6 metros</strong> como uma <strong>Ação Bônus</strong> em cada um de seus turnos.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">45-48</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você e até <strong>três criaturas</strong> de sua escolha a até <strong>9 metros</strong> de você têm a condição <strong>Invisível</strong> por 1 minuto. Esta invisibilidade termina em uma criatura imediatamente após ela fazer uma rolagem de ataque, causar dano ou conjurar uma magia.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">49-52</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Um <strong>escudo espectral</strong> paira perto de você pelo próximo minuto, concedendo <strong>+2 de CA</strong> e <strong>imunidade a Míssil Mágico</strong>.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">53-56</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você pode realizar <strong>uma ação extra</strong> neste turno.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">57-60</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você conjura uma <strong>magia aleatória</strong>. Role <strong>1d10</strong> para determinar a magia:</p>
+                        <p>(1) <strong>Confusão</strong>, (2) <strong>Bola de Fogo</strong>, (3) <strong>Névoa</strong>, (4) <strong>Voar</strong> (em criatura aleatória a 18m), (5) <strong>Graxa</strong>, (6) <strong>Levitar</strong> (em si mesmo), (7) <strong>Míssil Mágico</strong> (nível 5), (8) <strong>Imagem Espelhada</strong>, (9) <strong>Metamorfose</strong> (em si mesmo, falha no teste vira <strong>Cabra</strong>), (10) <strong>Ver Invisibilidade</strong>.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">61-64</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Pelo próximo minuto, qualquer <strong>objeto inflamável e não mágico</strong> que você tocar que não esteja sendo vestido ou carregado por outra criatura <strong>explode em chamas</strong>, sofre 1d4 de dano de <strong>Fogo</strong> e está <strong>queimando</strong>.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">65-68</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Se você <strong>morrer</strong> na próxima hora, você <strong>revive imediatamente</strong> como pela magia <strong>Reencarnação</strong>.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">69-72</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você tem a condição <strong>Amedrontado</strong> até o final de seu próximo turno. O <strong>Mestre</strong> determina a fonte do seu medo.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">73-76</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você teleporta até <strong>18 metros</strong> para um espaço desocupado que você pode ver.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">77-80</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Uma <strong>criatura aleatória</strong> a até <strong>18 metros</strong> de você tem a condição <strong>Envenenado</strong> por <strong>1d4 horas</strong>.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">81-84</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você irradia <strong>Luz Brilhante</strong> em um raio de <strong>9 metros</strong> pelo próximo minuto. Qualquer criatura que terminar seu turno a <strong>1,5 metro</strong> de você tem a condição <strong>Cego</strong> até o final de seu próximo turno.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">85-88</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Até <strong>três criaturas</strong> de sua escolha que você pode ver a até <strong>9 metros</strong> de você sofrem <strong>1d10</strong> de dano <strong>Necrótico</strong>. Você recupera PV igual à soma do dano Necrótico causado.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">89-92</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Até <strong>três criaturas</strong> de sua escolha que você pode ver a até <strong>9 metros</strong> de você sofrem <strong>4d10</strong> de dano de <strong>Relâmpago</strong>.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">93-96</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você e todas as criaturas a até <strong>9 metros</strong> de você têm <strong>Vulnerabilidade</strong> a dano de <strong>Perfuração</strong> pelo próximo minuto.</p>
+                    </div>
+                </div>
+                
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">97-00</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Role <strong>1d6</strong>: (1) você recupera <strong>2d10 PV</strong>; (2) um aliado a até <strong>90 metros</strong> recupera <strong>2d10 PV</strong>; (3) você recupera seu <strong>espaço de magia de nível mais baixo</strong> gasto; (4) um aliado a até 90m recupera o <strong>espaço de magia de nível mais baixo</strong> gasto; (5) você recupera <strong>todos os seus Pontos de Feitiçaria</strong> gastos; (6) <strong>todos os efeitos</strong> da linha 17-20 afetam você simultaneamente.</p>
+                    </div>
+                </div>
+                
+            </div>
         </div>
 
-        <div class="bloco-subclasse-detalhada">
-          <h3>Feiticeiro Abissal (Fiendish/Abyssal Soul)</h3>
-          <p>Seu poder tem raízes nos planos inferiores. Sua magia corrompe e consome, canalizando o fogo do inferno e a resiliência das profundezas sombrias.</p>
-          
-          <div class="sub-feature">
-            <h5>Nível 3: Pele Maculada & Magias Malignas</h5>
-            <p><strong>Magias de Origem:</strong> *Mãos Flamejantes*, *Raio de Enfeitiçamento*, *Estilhaço de Gelo*, *Cegueira/Surdez*.</p>
-            <p><strong>Pele Maculada:</strong> As energias do abismo endurecem seu corpo físico. Você ganha resistência a dano Necrótico ou Flamejante (sua escolha ao adquirir a subclasse). Além disso, seus truques de feiticeiro podem causar dano Necrótico em vez do tipo comum.</p>
-          </div>
+                    </div>
 
-          <div class="sub-feature">
-            <h5>Nível 6: Consumo de Essência</h5>
-            <p>Uma vez por turno, quando você causar dano a uma criatura com uma magia de 1º círculo ou superior, você drena parte da energia dela. Você recupera pontos de vida temporários iguais ao dobro do círculo da magia conjurada.</p>
-          </div>
+                    <!-- ABA - Feitiçaria Ancestral -->
+                    <div class="tab-pane">
+                        <h3 style="color: var(--gold); margin-bottom: 15px;">Feitiçaria Ancestral</h3>
+                        <p>Sua magia inata vem de um <strong>ancestral específico</strong> que empunhava um poder mágico tão impressionante que um fragmento de sua personalidade o guia. Este ancestral concede a você orientação e direção enquanto você explora suas habilidades mágicas inatas. Você pode ser o <strong>único descendente sobrevivente</strong> do ancestral, uma <strong>reencarnação</strong> que possui uma semelhança estranha com seu ancestral, ou uma <strong>vítima de uma maldição</strong> adquirida ao manusear os pertences pessoais de seu ancestral.</p>
+                        
+                        <!-- Nível 3: Sabedoria Ancestral -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Sabedoria Ancestral</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você usa sua força de personalidade para canalizar o conhecimento de seu ancestral. Quando você faz um <strong>teste de Inteligência</strong>, ganha um <strong>bônus</strong> no teste igual ao seu modificador de <strong>Carisma</strong> (mínimo de +1).</p>
+                                <p>Você também ganha proficiência em uma destas <strong>perícias</strong> de sua escolha: <strong>Arcana</strong>, <strong>História</strong>, <strong>Investigação</strong>, <strong>Natureza</strong> ou <strong>Religião</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Magias Ancestrais -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Magias Ancestrais</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Quando você atinge o nível de Feiticeiro especificado na tabela de <strong>Magias Ancestrais</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                                
+                                <div class="overflow-table">
+                                    <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                        <thead>
+                                            <tr>
+                                                <th>Nível de Feiticeiro</th>
+                                                <th class="esquerda">Magias Preparadas</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><th>3º</th><td class="esquerda"><strong>Comando</strong>, <strong>Orição</strong>, <strong>Localizar Objeto</strong>, <strong>Proteção contra o Bem e o Mal</strong>, <strong>Resistência</strong>, <strong>Arma Espiritual</strong></td></tr>
+                                            <tr><th>5º</th><td class="esquerda"><strong>Círculo Mágico</strong>, <strong>Guardiões Espirituais</strong></td></tr>
+                                            <tr><th>7º</th><td class="esquerda"><strong>Adivinhação</strong>, <strong>Localizar Criatura</strong></td></tr>
+                                            <tr><th>9º</th><td class="esquerda"><strong>Lenda Viva</strong>, <strong>Presença Régia de Yolande</strong></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Visagem do Ancestral -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Visagem do Ancestral</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Escolha a <strong>forma que seu ancestral assume</strong>, que pode se assemelhar ao ancestral em vida ou a uma <strong>criatura simbólica</strong>. Enquanto sua característica <strong>Feitiçaria Inata</strong> estiver ativa, esta forma aparece em uma <strong>névoa espectral</strong> ao seu redor, e você tem <strong>Vantagem</strong> em qualquer <strong>teste de habilidade</strong> que fizer como parte da ação <strong>Influenciar</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 6: Interrupção de Magia Superior -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 6: Interrupção de Magia Superior</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>O domínio de conjuração de seu ancestral ajuda você a quebrar magias. Você sempre tem <strong>Contramágica</strong> e <strong>Dispensar Magia</strong> preparadas.</p>
+                                <p>Enquanto sua característica <strong>Feitiçaria Inata</strong> estiver ativa, você pode conjurar <strong>cada magia sem gastar um espaço de magia</strong>. Se você conjurar <strong>Contramágica</strong> desta forma, o alvo tem <strong>Desvantagem</strong> em seu teste de resistência de <strong>Constituição</strong>. Se você conjurar <strong>Dispensar Magia</strong> desta forma, você tem <strong>Vantagem</strong> em seus testes de habilidade para encerrar magias em andamento. Uma vez que você conjura qualquer uma dessas magias sem um espaço de magia, deve finalizar um <strong>Descanso Longo</strong> antes de poder conjurar a magia desta forma novamente.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 14: Majestade Ancestral -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 14: Majestade Ancestral</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>A visagem de seu ancestral evoca <strong>admiração ou pavor</strong>. Enquanto sua característica <strong>Feitiçaria Inata</strong> estiver ativa, você está cercado por uma <strong>aura mágica</strong> em uma <strong>Emanação de 1,5 metro</strong>. Sempre que uma <strong>criatura</strong> que você pode ver <strong>entra na Emanação</strong> ou <strong>termina seu turno lá</strong>, você pode forçar aquela criatura a fazer um teste de resistência de <strong>Carisma</strong>. Em uma falha, o alvo tem a condição <strong>Deitado</strong> ou tem a condição <strong>Amedrontado</strong> até o final de seu próximo turno (sua escolha). Uma criatura faz este teste apenas <strong>uma vez por turno</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 14: Conjurador Firme -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 14: Conjurador Firme</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Sua profunda conexão com seu ancestral o estabiliza. <strong>Sofrer dano</strong> não pode quebrar sua <strong>Concentração</strong> em <strong>magias de Feiticeiro</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 18: Proteção Ancestral -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 18: Proteção Ancestral</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>A proteção de seu ancestral redireciona magia prejudicial para longe de você. Enquanto sua característica <strong>Feitiçaria Inata</strong> estiver ativa, você ganha <strong>Vantagem</strong> em testes de resistência contra <strong>magias</strong>. <strong>Uma vez durante seu uso de Feitiçaria Inata</strong>, quando você <strong>falha em um teste de resistência</strong> contra uma magia, pode escolher <strong>ser bem-sucedido</strong> em vez disso.</p>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
 
-          <div class="sub-feature">
-            <h5>Nível 10: Fogo Abissal</h5>
-            <p>Suas magias passam a ignorar resistências a dano Flamejante e Necrótico. Criaturas que possuam imunidade a esses elementos passam a ser tratadas como se possuíssem apenas resistência quando alvos de suas magias.</p>
-          </div>
+                    <!-- ABA - Feitiçaria Profanada -->
+                    <div class="tab-pane">
+                        <h3 style="color: var(--gold); margin-bottom: 15px;">Feitiçaria Profanada</h3>
+                        <p>Seu poder inato suga a essência da vida do mundo ao redor. Ao seu comando, criaturas adoecem e plantas murcham até virarem cascas. Você extrai poder da <strong>corrupção da própria vida</strong>, drenando vitalidade para alimentar magia destrutiva.</p>
+                        
+                        <!-- Nível 3: Profanar e Potencializar -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Profanar e Potencializar</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p><strong>Uma vez por turno</strong> quando você rola dano para uma <strong>magia</strong> que conjura usando um <strong>espaço de magia</strong>, pode <strong>sifonar sua energia vital</strong> para a magia e potencializá-la. Role um número de seus <strong>Dados de Vida não gastos</strong>, até um número igual à <strong>metade do nível do espaço de magia gasto</strong> (arredondado para cima, mínimo de um dado), e <strong>adicione o total rolado a uma rolagem de dano</strong> da magia. Esses Dados de Vida são então <strong>gastos</strong>.</p>
+                                
+                                <p><strong style="color: white;">Roubo de Vida.</strong> Em vez de usar sua própria força vital quando usa esta característica, pode tentar <strong>roubar vida de outra criatura</strong> que você pode ver a até <strong>9 metros</strong> de você. Aquela criatura faz um teste de resistência de <strong>Constituição</strong> contra sua CD de resistência de magia; criaturas que têm <strong>Imunidade</strong> à condição <strong>Exaustão</strong> automaticamente são bem-sucedidas no teste. Em uma falha, em vez de rolar seus Dados de Vida, role um número dos <strong>Dados de Vida não gastos da criatura</strong>, até um número igual à <strong>metade do nível do espaço gasto</strong> (arredondado para baixo, mínimo de um dado); você então adiciona aquele total rolado a <strong>uma rolagem de dano</strong> da magia, e aqueles Dados de Vida são <strong>gastos para a criatura</strong>.</p>
+                                <p>Uma vez que uma criatura falha em seu teste contra <strong>Roubo de Vida</strong>, você não pode usar Roubo de Vida novamente até finalizar um <strong>Descanso Longo</strong>, a menos que você gaste <strong>3 Pontos de Feitiçaria</strong> (nenhuma ação necessária) para restaurar seu uso.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Magias do Profanador -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Magias do Profanador</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Sempre que você atinge um nível de Feiticeiro especificado na tabela de <strong>Magias do Profanador</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                                
+                                <div class="overflow-table">
+                                    <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                        <thead>
+                                            <tr>
+                                                <th>Nível de Feiticeiro</th>
+                                                <th class="esquerda">Magias Preparadas</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><th>3º</th><td class="esquerda"><strong>Cegueira/Surdez</strong>, <strong>Infligir Ferimentos</strong>, <strong>Raio de Debilitação</strong>, <strong>Raio de Enfraquecimento</strong></td></tr>
+                                            <tr><th>5º</th><td class="esquerda"><strong>Impor Maldição</strong>, <strong>Toque Vampírico</strong></td></tr>
+                                            <tr><th>7º</th><td class="esquerda"><strong>Pragano</strong>, <strong>Terrreno Alucinatório</strong></td></tr>
+                                            <tr><th>9º</th><td class="esquerda"><strong>Barreira Anti-Vida</strong>, <strong>Contágio</strong></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 6: Conjurador Corrompido -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 6: Conjurador Corrompido</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você aprende novas maneiras de acessar a magia corruptora dentro de si, concedendo-lhe os seguintes benefícios.</p>
+                                
+                                <p><strong style="color: white;">Guarda do Profanador.</strong> Quando você usa uma <strong>Ação Bônus</strong> para transformar <strong>Pontos de Feitiçaria em um espaço de magia</strong>, pode envolver seu corpo em uma <strong>teia protetora de energia profanadora</strong>. Role um número de <strong>d6 igual ao nível do espaço de magia criado</strong>. Você ganha <strong>Pontos de Vida Temporários</strong> iguais ao total rolado.</p>
+                                <p>Se uma <strong>criatura acertar você</strong> com uma rolagem de <strong>ataque corpo a corpo</strong> enquanto você tiver esses Pontos de Vida Temporários, a criatura sofre dano <strong>Necrótico</strong> ou de <strong>Veneno</strong> (sua escolha) igual ao seu modificador de <strong>Carisma</strong>.</p>
+                                
+                                <p><strong style="color: white;">Podridão Fortalecida.</strong> O dano causado por suas <strong>magias de Feiticeiro</strong> e <strong>características de Feiticeiro</strong> <strong>ignora Resistência</strong> a dano de <strong>Necrótico</strong> e <strong>Veneno</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 14: Aura Definhante -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 14: Aura Definhante</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Quando você usa sua <strong>Feitiçaria Inata</strong>, uma aura de magia profanadora preenche uma <strong>Emanação de 4,5 metros</strong> originada de você enquanto sua Feitiçaria Inata estiver ativa, concedendo-lhe os seguintes benefícios adicionais.</p>
+                                
+                                <p><strong style="color: white;">Manto Profanador.</strong> Quando um <strong>inimigo dentro da aura</strong> acertar você com uma rolagem de ataque, você pode <strong>reduzir o dano total</strong> daquele ataque contra você. A redução é igual ao seu modificador de <strong>Carisma</strong>.</p>
+                                
+                                <p><strong style="color: white;">Sifão de Essência.</strong> Quando um <strong>inimigo morre dentro da aura</strong>, você recupera <strong>1d4 Pontos de Feitiçaria</strong>. Uma vez que você usa este benefício, não pode recuperar Pontos de Feitiçaria desta forma até usar <strong>Feitiçaria Inata</strong> novamente.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 18: Profanador Superior -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 18: Profanador Superior</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você aperfeiçoou sua habilidade de controlar e canalizar magia profanadora, concedendo-lhe os seguintes benefícios.</p>
+                                
+                                <p><strong style="color: white;">Alma Corrompida.</strong> Você tem <strong>Imunidade</strong> às condições <strong>Envenenado</strong> e <strong>Exaustão</strong>.</p>
+                                
+                                <p><strong style="color: white;">Profanação Ampliada.</strong> O tamanho de sua <strong>Aura Definhante</strong> aumenta para uma <strong>Emanação de 9 metros</strong>. Além disso, <strong>inimigos não podem recuperar Pontos de Vida</strong> enquanto estiverem em sua aura.</p>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
 
-          <div class="sub-feature">
-            <h5>Nível 14: Forma Demônica</h5>
-            <p>Você gasta 4 Pontos de Feitiçaria para assumir uma forma apocalíptica por 1 minuto. Enquanto transformado, você ganha deslocamento de voo de 18 metros e qualquer inimigo que iniciar o turno a até 3 metros de você sofre dano necrótico automático igual ao seu modificador de Carisma.</p>
-          </div>
-        </div>
+                    <!-- ABA - Feitiçaria Demoníaca -->
+                    <div class="tab-pane">
+                        <h3 style="color: var(--gold); margin-bottom: 15px;">Feitiçaria Demoníaca</h3>
+                        <p>A magia corruptora de demônios flui através de você, tornando-o um <strong>conduto para as camadas infinitas do Abismo</strong> e seus horrores. Seu dom pode vir de uma <strong>ancestralidade demoníaca distante</strong>, um <strong>encontro fatídico com um demônio</strong> que o amaldiçoou, ou um <strong>contato com a fome sombria do Abismo</strong>.</p>
+                        <p>O <strong>Abismo</strong> é um plano de maldade e desordem, e este caos ecoa em sua magia inata. Energia abissal irrompe de você, distorcendo seu corpo e arredores em conjunto com sua feitiçaria.</p>
+                        <p>Essas erupções abissais se manifestam de maneiras estranhas e horripilantes. Role na tabela de <strong>Manifestações Abissais</strong> ou escolha para inspirar como sua conexão com o Abismo pode se manifestar quando você canaliza seu poder demoníaco.</p>
+                        
+                        <!-- Tabela de Manifestações Abissais -->
+                        <div class="overflow-table">
+                            <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                <thead>
+                                    <tr><th>1d6</th><th class="esquerda">Manifestação</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td class="esquerda"><strong>1</strong></th><td class="esquerda">Fissuras abissais marcam sua carne, revelando janelas para um vasto reino demoníaco.</th></tr>
+                                    <tr><td class="esquerda"><strong>2</strong></th><td class="esquerda">Insetos se contorcem sob sua pele e escapam de sua boca, nariz e ouvidos.</th></tr>
+                                    <tr><td class="esquerda"><strong>3</strong></th><td class="esquerda">Camadas de pele queimada descascam de seu corpo.</th></tr>
+                                    <tr><td class="esquerda"><strong>4</strong></th><td class="esquerda">Sua carne borbulha e ferve como um pântano tóxico.</th></tr>
+                                    <tr><td class="esquerda"><strong>5</strong></th><td class="esquerda">Seus dedos ou outras extremidades descolorem como se fossem queimados pelo frio.</th></tr>
+                                    <tr><td class="esquerda"><strong>6</strong></th><td class="esquerda">Você desenvolve uma segunda cabeça. (Isso não tem impacto em suas estatísticas de jogo.)</th></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Nível 3: Ruptura Abissal -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Ruptura Abissal</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Quando você gasta <strong>pelo menos 1 Ponto de Feitiçaria</strong> como parte de uma <strong>Ação Mágica</strong> ou <strong>Ação Bônus</strong> em seu turno, pode desencadear <strong>um dos seguintes efeitos mágicos</strong> de sua escolha. Você pode fazer isso apenas <strong>uma vez por turno</strong>.</p>
+                                
+                                <p><strong style="color: white;">Chicote Demoníaco.</strong> Uma <strong>criatura</strong> que você pode ver a até <strong>6 metros</strong> de você sofre <strong>1d4</strong> de dano de <strong>Corte</strong> e, se for <strong>Grande ou menor</strong>, você pode puxá-la até <strong>3 metros</strong> mais perto de você.</p>
+                                
+                                <p><strong style="color: white;">Carapaça Demoníaca.</strong> Até o <strong>início de seu próximo turno</strong>, <strong>rolagens de ataque contra você têm Desvantagem</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Magias Demoníacas -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Magias Demoníacas</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Quando você atinge um nível de Feiticeiro especificado na tabela de <strong>Magias Demoníacas</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                                
+                                <div class="overflow-table">
+                                    <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                        <thead>
+                                            <tr>
+                                                <th>Nível de Feiticeiro</th>
+                                                <th class="esquerda">Magias Preparadas</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><th>3º</th><td class="esquerda"><strong>Detectar Magia</strong>, <strong>Emaranhar</strong>, <strong>Passo Nebuloso</strong>, <strong>Escalar Aranhas</strong></th></tr>
+                                            <tr><th>5º</th><td class="esquerda"><strong>Dispensar Magia</strong>, <strong>Forma Gasosa</strong></th></tr>
+                                            <tr><th>7º</th><td class="esquerda"><strong>Confusão</strong>, <strong>Terreno Alucinatório</strong></th></tr>
+                                            <tr><th>9º</th><td class="esquerda"><strong>Contatar Outro Plano</strong>, <strong>Sagrado</strong></th></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 6: Aura Abissal -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 6: Aura Abissal</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Quando você usa <strong>Feitiçaria Inata</strong>, pode infundir o caos do Abismo em seus arredores. Enquanto este uso de <strong>Feitiçaria Inata</strong> estiver ativo, a realidade se distorce em uma <strong>Emanação de 3 metros</strong> originada de você, preenchendo a área com um <strong>efeito demoníaco</strong>. Role na tabela de <strong>Efeitos Abissais</strong> para determinar o efeito. Se um efeito exigir um teste de resistência, a CD é igual à sua <strong>CD de resistência de magia</strong>.</p>
+                                <p>Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Longo</strong>. Você também pode restaurar seu uso gastando <strong>2 Pontos de Feitiçaria</strong> (nenhuma ação necessária).</p>
+                                
+                                <!-- Tabela de Efeitos Abissais -->
+                                <p><strong style="color: white;">Efeitos Abissais</strong></p>
+                                <div class="overflow-table">
+                                    <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                        <thead>
+                                            <tr><th>1d6</th><th class="esquerda">Efeito</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td class="esquerda"><strong>1</strong></th><td class="esquerda"><strong>Teias Pegajosas.</strong> Teias espessas preenchem a Emanação, tornando-a <strong>Terreno Difícil</strong> para seus inimigos. Cada inimigo que começa seu turno na Emanação deve ser bem-sucedido em um teste de resistência de <strong>Força</strong> ou ter a condição <strong>Restringido</strong>.</th></tr>
+                                            <tr><td class="esquerda"><strong>2</strong></th><td class="esquerda"><strong>Gosma Cáustica.</strong> Gosma oleosa escorregadia cobre o chão na Emanação, tornando-a Terreno Difícil para inimigos. Cada inimigo que começa seu turno no chão na Emanação sofre <strong>1d6</strong> de dano de <strong>Ácido</strong> e deve ser bem-sucedido em um teste de resistência de <strong>Destreza</strong> ou ter a condição <strong>Deitado</strong>. O dano aumenta em 1d6 nos níveis 11 (2d6) e 16 (3d6).</th></tr>
+                                            <tr><td class="esquerda"><strong>3</strong></th><td class="esquerda"><strong>Gritos Aterrorizantes.</strong> Cada inimigo que começa seu turno na Emanação sofre <strong>1d6</strong> de dano <strong>Psíquico</strong> e deve ser bem-sucedido em um teste de resistência de <strong>Sabedoria</strong> ou ter a condição <strong>Amedrontado</strong> até o início de seu próximo turno. O dano aumenta em 1d6 nos níveis 11 (2d6) e 16 (3d6).</th></tr>
+                                            <tr><td class="esquerda"><strong>4</strong></th><td class="esquerda"><strong>Esporos Inebriantes.</strong> Esporos intoxicantes preenchem a Emanação, que está <strong>Altamente Obscurecida</strong> para criaturas de sua escolha. No <strong>nível 11</strong>, cada inimigo que começa seu turno na Emanação deve ser bem-sucedido em um teste de resistência de <strong>Sabedoria</strong> ou ter a condição <strong>Enfeitiçado</strong> até o início de seu próximo turno.</th></tr>
+                                            <tr><td class="esquerda"><strong>5</strong></th><td class="esquerda"><strong>Folhagem Venenosa.</strong> A Emanação está <strong>Levemente Obscurecida</strong> por flora demoníaca. Cada inimigo que começa seu turno na Emanação sofre <strong>1d6</strong> de dano de <strong>Veneno</strong> e deve ser bem-sucedido em um teste de resistência de <strong>Constituição</strong> ou ter a condição <strong>Envenenado</strong> até o início de seu próximo turno. O dano aumenta em 1d6 nos níveis 11 (2d6) e 16 (3d6).</th></tr>
+                                            <tr><td class="esquerda"><strong>6</strong></th><td class="esquerda"><strong>Ossos Definhantes.</strong> Membros espectrais irrompem do chão, alcançando para drenar a vida ao redor. Cada inimigo que começa seu turno na Emanação sofre <strong>1d10</strong> de dano <strong>Necrótico</strong> e não pode recuperar PV até o início de seu próximo turno. O dano aumenta em 1d10 nos níveis 11 (2d10) e 16 (3d10).</th></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 14: Conduto Abissal -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 14: Conduto Abissal</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Seus poderes abissais alcançam seu potencial máximo. Você ganha os seguintes benefícios.</p>
+                                
+                                <p><strong style="color: white;">Expansão da Aura.</strong> Sua <strong>Aura Abissal</strong> agora é uma <strong>Emanação de 6 metros</strong>.</p>
+                                
+                                <p><strong style="color: white;">Caos Controlado.</strong> Sempre que você rolaria na <strong>tabela de Efeitos Abissais</strong>, pode rolar <strong>duas vezes</strong> e escolher <strong>qual dos dois efeitos</strong> usar. Se você rolar o <strong>mesmo número</strong> em ambos os dados, pode, em vez disso, escolher <strong>qualquer efeito</strong> na tabela.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 18: Servo Demoníaco -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 18: Servo Demoníaco</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você pode conjurar <strong>Conjurar Demônio</strong> sem um <strong>componente Material</strong>. Você também pode conjurá-la <strong>uma vez sem um espaço de magia</strong> e recupera a capacidade de conjurá-la desta forma quando finaliza um <strong>Descanso Longo</strong>. Quando você a conjura desta forma, deve escolher <strong>Demônio</strong> para o tipo de Demônio invocado.</p>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
 
-        <div class="bloco-subclasse-detalhada">
-          <h3>Mente Aberrante (Aberrant Mind)</h3>
-          <p>Uma influência alienígena ou toque de um Devorador de Mentes despertou seus poderes psíquicos latentes. Focado em telepatia, quebra mental e manipulação do espaço.</p>
-          
-          <div class="sub-feature">
-            <h5>Nível 3: Fala Telepática & Magias Psionísticas</h5>
-            <p><strong>Magias de Origem:</strong> *Braços de Hadar*, *Sussurros Dissonantes*, *Calmante Emocional*, *Detectar Pensamentos*.</p>
-            <p><strong>Fala Telepática:</strong> Como uma Ação Bônus, escolha uma criatura a até 9 metros. Você pode estabelecer uma conexão telepática com ela por uma quantidade de minutos igual ao seu nível nesta classe, permitindo comunicação mútua independente de idiomas.</p>
-          </div>
+                    <!-- ABA - Feitiçaria das Sombras -->
+                    <div class="tab-pane">
+                        <h3 style="color: var(--gold); margin-bottom: 15px;">Feitiçaria das Sombras</h3>
+                        <p>Sua magia inata vem do próprio <strong>Plano das Sombras (Shadowfell)</strong>. Você pode traçar sua linhagem até uma <strong>entidade daquele lugar</strong>, ou talvez você tenha sido exposto à <strong>energia sinistra do Shadowfell</strong> e foi transformado por ela.</p>
+                        <p>Sua magia sombria permite que você comande <strong>escuridão</strong>, <strong>morte-viva</strong> e <strong>desgraça</strong> com facilidade.</p>
+                        
+                        <!-- Nível 3: Olhos da Escuridão -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Olhos da Escuridão</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você tem <strong>Visão no Escuro</strong> com alcance de <strong>36 metros</strong> e <strong>Visão às Cegas</strong> com alcance de <strong>3 metros</strong>.</p>
+                                <p>Além disso, se uma <strong>magia</strong> que você conjurar criar uma <strong>área de Escuridão</strong>, você pode <strong>ver normalmente</strong> através da Escuridão daquela magia.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 3: Magias das Sombras -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 3: Magias das Sombras</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Quando você atinge um nível de Feiticeiro especificado na tabela de <strong>Magias das Sombras</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                                
+                                <div class="overflow-table">
+                                    <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                        <thead>
+                                            <tr>
+                                                <th>Nível de Feiticeiro</th>
+                                                <th class="esquerda">Magias Preparadas</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><th>3º</th><td class="esquerda"><strong>Agonia</strong>, <strong>Escuridão</strong>, <strong>Infligir Ferimentos</strong>, <strong>Passar sem Deixar Rastros</strong></td></tr>
+                                            <tr><th>5º</th><td class="esquerda"><strong>Fome de Hadar</strong>, <strong>Conjurar Morto-Vivo</strong></td></tr>
+                                            <tr><th>7º</th><td class="esquerda"><strong>Invisibilidade Maior</strong>, <strong>Assassino Fantasmagórico</strong></td></tr>
+                                            <tr><th>9º</th><td class="esquerda"><strong>Contágio</strong>, <strong>Criação</strong></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 6: Espíritos de Mau Agouro -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 6: Espíritos de Mau Agouro</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Você pode conjurar <strong>Conjurar Morto-Vivo</strong> sem um <strong>componente Material</strong>. Você também pode conjurá-la <strong>uma vez sem um espaço de magia</strong> e recupera a capacidade de conjurá-la desta forma quando finaliza um <strong>Descanso Longo</strong>.</p>
+                                <p>Sempre que você começa a conjurar a magia, pode modificá-la para que <strong>não exija Concentração</strong>. Se você fizer isso, a duração da magia se torna <strong>1 minuto</strong> para aquela conjuração, e a magia termina mais cedo se você conjurá-la novamente.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 14: Caminhar nas Sombras -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 14: Caminhar nas Sombras</span>
+                                <span class="badge-mini acao-bonus">Ação Bônus</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Enquanto estiver em <strong>Luz Fraca</strong> ou <strong>Escuridão</strong>, você pode usar uma <strong>Ação Bônus</strong> para <strong>teleportar até 36 metros</strong> para um <strong>espaço desocupado</strong> que você pode ver e que também esteja em <strong>Luz Fraca</strong> ou <strong>Escuridão</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Nível 18: Forma Umbral -->
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 18: Forma Umbral</span>
+                                <span class="badge-mini acao-bonus">Ação Bônus</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Como uma <strong>Ação Bônus</strong>, você adota uma <strong>forma sombria</strong>, ganhando os benefícios abaixo por <strong>1 minuto</strong>, até você estar com a condição <strong>Incapacitado</strong> ou até você encerrar a forma (nenhuma ação necessária). Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Longo</strong>, a menos que você gaste <strong>6 Pontos de Feitiçaria</strong> (nenhuma ação necessária) para restaurar seu uso.</p>
+                                
+                                <p><strong style="color: white;">Movimento Incorpóreo.</strong> Você pode se mover através de <strong>espaços ocupados</strong> como se fossem <strong>Terreno Difícil</strong>. Se você terminar seu turno em tal espaço, sofre <strong>1d10</strong> de dano de <strong>Força</strong>.</p>
+                                
+                                <p><strong style="color: white;">Resiliência das Sombras.</strong> Você tem <strong>Resistência</strong> a <strong>todos os danos</strong> exceto dano de <strong>Força</strong> e <strong>Radiante</strong>.</p>
+                                
+                                <p><strong style="color: white;">Força do Túmulo.</strong> Se você <strong>cairia a 0 Pontos de Vida</strong> e não morrer imediatamente, pode fazer um teste de resistência de <strong>Carisma</strong> (CD <strong>5 + metade do dano sofrido</strong>). Se for bem-sucedido, seus Pontos de Vida mudam para um número igual a <strong>três vezes seu nível de Feiticeiro</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
 
-          <div class="sub-feature">
-            <h5>Nível 6: Feitiçaria Psiónica</h5>
-            <p>Quando você conjurar qualquer uma das magias da sua lista de *Magias de Origem*, você pode escolher gastar uma quantidade de Pontos de Feitiçaria igual ao círculo da magia em vez de gastar um espaço de magia tradicional. Se fizer isso, a magia é conjurada sem qualquer componente verbal ou somático.</p>
-          </div>
+            <!-- Metamagias -->
+            <div class="recursos-container">
+                <div class="recursos-header">
+                    <h3>Opções de Metamagia</h3>
+                </div>
+                
+                <div class="recursos-grid">
+                    <!-- Magia Cuidadosa -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Magia Cuidadosa</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você conjura uma <strong>magia</strong> que força outras criaturas a fazer um <strong>teste de resistência</strong>, pode proteger algumas dessas criaturas do efeito total da magia. Para fazer isso, gaste <strong>1 Ponto de Feitiçaria</strong> e escolha um número daquelas criaturas até o seu <strong>modificador de Carisma</strong> (mínimo de uma criatura). Uma criatura escolhida <strong>automaticamente é bem-sucedida</strong> em seu teste de resistência contra a magia e <strong>não sofre dano</strong> se normalmente sofreria metade do dano em um sucesso.</p>
+                        </div>
+                        <div class="recurso-requisito">
+                            Custa 1 Ponto de Feitiçaria
+                        </div>
+                    </div>
 
-          <div class="sub-feature">
-            <h5>Nível 10: Defesa Psíquica</h5>
-            <p>Sua mente se torna uma fortaleza geométrica complexa e alienígena. Você ganha imunidade total contra a condição **Encantado** ou **Amedrontado** (sua escolha ao fim de cada Descanso Longo) e resistência a dano Psíquico.</p>
-          </div>
+                    <!-- Magia Distante -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Magia Distante</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você conjura uma <strong>magia</strong> que tem um alcance de pelo menos <strong>1,5 metro</strong>, pode gastar <strong>1 Ponto de Feitiçaria</strong> para <strong>dobrar o alcance</strong> da magia. Ou quando você conjura uma magia que tem alcance de <strong>Toque</strong>, pode gastar 1 Ponto de Feitiçaria para fazer o alcance da magia ser <strong>9 metros</strong>.</p>
+                        </div>
+                        <div class="recurso-requisito">
+                            Custa 1 Ponto de Feitiçaria
+                        </div>
+                    </div>
 
-          <div class="sub-feature">
-            <h5>Nível 14: Revelação no Espaço</h5>
-            <p>Você pode gastar 5 Pontos de Feitiçaria para distorcer o espaço ao seu redor por 1 minuto. Suas pernas se transformam em tentáculos de éter ou sua silhueta pisca: seu deslocamento aumenta em 3 metros, você pode pairar e pode passar por espaços de até 3 centímetros sem sofrer penalidades.</p>
-          </div>
-        </div>
+                    <!-- Magia Potencializada -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Magia Potencializada</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você rola dano para uma <strong>magia</strong>, pode gastar <strong>1 Ponto de Feitiçaria</strong> para <strong>rerrolar</strong> um número dos dados de dano até o seu <strong>modificador de Carisma</strong> (mínimo de um) e deve usar as novas rolagens.</p>
+                            <p>Você pode usar <strong>Magia Potencializada</strong> mesmo se já tiver usado uma opção de Metamagia diferente durante a conjuração da magia.</p>
+                        </div>
+                        <div class="recurso-requisito">
+                            Custa 1 Ponto de Feitiçaria
+                        </div>
+                    </div>
 
+                    <!-- Magia Estendida -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Magia Estendida</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você conjura uma <strong>magia</strong> que tem uma duração de <strong>1 minuto ou mais</strong>, pode gastar <strong>1 Ponto de Feitiçaria</strong> para <strong>dobrar sua duração</strong> até uma duração máxima de <strong>24 horas</strong>.</p>
+                            <p>Se a magia afetada exigir <strong>Concentração</strong>, você tem <strong>Vantagem</strong> em qualquer teste de resistência que fizer para manter essa Concentração.</p>
+                        </div>
+                        <div class="recurso-requisito">
+                            Custa 1 Ponto de Feitiçaria
+                        </div>
+                    </div>
+
+                    <!-- Magia Elevada -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Magia Elevada</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você conjura uma <strong>magia</strong> que força uma criatura a fazer um <strong>teste de resistência</strong>, pode gastar <strong>2 Pontos de Feitiçaria</strong> para conceder a <strong>um alvo</strong> da magia <strong>Desvantagem</strong> em testes de resistência contra a magia.</p>
+                        </div>
+                        <div class="recurso-requisito">
+                            Custa 2 Pontos de Feitiçaria
+                        </div>
+                    </div>
+
+                    <!-- Magia Acelerada -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Magia Acelerada</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você conjura uma <strong>magia</strong> que tem tempo de conjuração de uma <strong>ação</strong>, pode gastar <strong>2 Pontos de Feitiçaria</strong> para mudar o tempo de conjuração para uma <strong>Ação Bônus</strong> nesta conjuração. Você não pode modificar uma magia desta forma se já tiver conjurado uma <strong>magia de nível 1+</strong> no turno atual, nem pode conjurar uma magia de nível 1+ neste turno depois de modificar uma magia desta forma.</p>
+                        </div>
+                        <div class="recurso-requisito">
+                            Custa 2 Pontos de Feitiçaria
+                        </div>
+                    </div>
+
+                    <!-- Magia Buscadora -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Magia Buscadora</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Se você faz uma <strong>rolagem de ataque</strong> para uma magia e <strong>erra</strong>, pode gastar <strong>1 Ponto de Feitiçaria</strong> para <strong>rerrolar</strong> o d20 e deve usar a nova rolagem.</p>
+                            <p>Você pode usar <strong>Magia Buscadora</strong> mesmo se já tiver usado uma opção de Metamagia diferente durante a conjuração da magia.</p>
+                        </div>
+                        <div class="recurso-requisito">
+                            Custa 1 Ponto de Feitiçaria
+                        </div>
+                    </div>
+
+                    <!-- Magia Sutil -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Magia Sutil</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você conjura uma <strong>magia</strong>, pode gastar <strong>1 Ponto de Feitiçaria</strong> para conjurá-la <strong>sem quaisquer componentes Verbais, Somáticos ou Materiais</strong>, exceto componentes Materiais que são <strong>consumidos pela magia</strong> ou que tenham um <strong>custo especificado</strong> na magia.</p>
+                        </div>
+                        <div class="recurso-requisito">
+                            Custa 1 Ponto de Feitiçaria
+                        </div>
+                    </div>
+
+                    <!-- Magia Transmutada -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Magia Transmutada</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você conjura uma <strong>magia</strong> que causa um tipo de dano da seguinte lista, pode gastar <strong>1 Ponto de Feitiçaria</strong> para <strong>mudar</strong> aquele tipo de dano para um dos outros tipos listados: <strong>Ácido</strong>, <strong>Frio</strong>, <strong>Fogo</strong>, <strong>Relâmpago</strong>, <strong>Veneno</strong>, <strong>Trovão</strong>.</p>
+                        </div>
+                        <div class="recurso-requisito">
+                            Custa 1 Ponto de Feitiçaria
+                        </div>
+                    </div>
+
+                    <!-- Magia Gêmea -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Magia Gêmea</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você conjura uma <strong>magia</strong>, como <strong>Enfeitiçar Pessoa</strong>, que pode ser conjurada com um espaço de magia de nível superior para <strong>ter como alvo uma criatura adicional</strong>, pode gastar <strong>1 Ponto de Feitiçaria</strong> para <strong>aumentar o nível efetivo da magia em 1</strong>.</p>
+                        </div>
+                        <div class="recurso-requisito">
+                            Custa 1 Ponto de Feitiçaria
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
       </div>
-    </div>
+
   </div>
 
 </body>

@@ -5,95 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Patrulheiro — Weirs RPG</title>
   <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
-  <style>
-    .bloco-patrulheiro {
-      background: rgba(39, 174, 96, 0.03);
-      border: 1px solid rgba(39, 174, 96, 0.15);
-      border-left: 4px solid #27ae60;
-      padding: 20px;
-      margin-top: 20px;
-      border-radius: 0 4px 4px 0;
-    }
-    .bloco-patrulheiro h4 {
-      font-family: 'Cinzel', serif;
-      color: #2ecc71;
-      font-size: 1.25rem;
-      margin-bottom: 8px;
-    }
-    .bloco-subclasse-detalhada {
-      background: rgba(25, 25, 27, 0.8);
-      border: 1px solid var(--border-fantasy);
-      padding: 25px;
-      margin-top: 35px;
-      border-radius: 4px;
-    }
-    .bloco-subclasse-detalhada h3 {
-      font-family: 'Cinzel', serif;
-      color: #27ae60;
-      border-bottom: 1px solid rgba(39, 174, 96, 0.3);
-      padding-bottom: 8px;
-      margin-bottom: 20px;
-    }
-    .sub-feature {
-      background: rgba(39, 174, 96, 0.04);
-      border-left: 3px solid #27ae60;
-      padding: 15px;
-      margin-top: 15px;
-      border-radius: 0 4px 4px 0;
-    }
-    .sub-feature h5 {
-      font-family: 'Cinzel', serif;
-      color: #a9dfbf;
-      font-size: 1.05rem;
-      margin-bottom: 5px;
-    }
-    .trait-list {
-      list-style: none;
-      margin-left: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .trait-list li strong {
-      color: var(--gold);
-    }
-    .tabela-rpg {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-      background: rgba(20, 20, 22, 0.6);
-      border: 1px solid var(--border-fantasy);
-      font-size: 0.85rem;
-    }
-    .tabela-rpg th, .tabela-rpg td {
-      border: 1px solid var(--border-fantasy);
-      padding: 10px 12px;
-      text-align: center;
-    }
-    .tabela-rpg th {
-      background: rgba(23, 43, 30, 0.5);
-      color: #27ae60;
-      font-family: 'Cinzel', serif;
-    }
-    .tabela-rpg tr:nth-child(even) {
-      background: rgba(255, 255, 255, 0.02);
-    }
-    .tabela-rpg td.esquerda {
-      text-align: left;
-    }
-  </style>
+  <link rel="stylesheet" href="/WEIRS-RPG/css/class-style.css">
+  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+  <script src="/WEIRS-RPG/javascript/subclass-tab.js"></script>
 </head>
 <body>
-
-  <script src="/WEIRS-RPG/javascript/menu.js"></script>
-
   <div class="container">
     
     <div style="margin-bottom: 30px;">
       <a href="/WEIRS-RPG/pages/classes/classes.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Classes</a>
     </div>
 
-    <h2>Patrulheiro (Ranger)</h2>
+    <h2>Patrulheiro</h2>
     
     <div class="card-rpg">
       <div class="layout-detalhes">
@@ -103,264 +26,944 @@
           <p>Nas bordas do mundo civilizado, onde as estradas dão lugar a florestas impenetráveis, desertos implacáveis e labirintos subterrâneos, os patrulheiros atuam como a primeira e última linha de defesa. Eles não são meros caçadores; são guerreiros letais sintonizados com a pulsação mágica da própria natureza, rastreando ameaças que fariam exércitos inteiros recuarem.</p>
           <p>Combinando a maestria de armas marciais com feitiços primordiais, o patrulheiro estuda seus alvos até transformar a caçada em uma ciência exata. No novo padrão de combate, suas marcas místicas não exigem mais o estresse de sua concentração, permitindo que eles se movam como fantasmas pelo campo de batalha, emboscando presas e desferindo rajadas de aço ou flechas com precisão cirúrgica.</p>
           
-          <h4 style="color: #27ae60; margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
+          <h4 style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
           <ul class="trait-list" style="margin-top: 15px;">
-            <li><strong>Dado de Vida:</strong> 1d10 por nível de Patrulheiro.</li>
-            <li><strong>Atributo Principal:</strong> Destreza e Sabedoria (Ataques, Mobilidade e Conjuração).</li>
-            <li><strong>Proficiências em Armaduras:</strong> Armaduras Leves, Armaduras Médias e Escudos.</li>
-            <li><strong>Proficiências em Armas:</strong> Armas Simples e Armas Marciais.</li>
-            <li><strong>Ferramentas:</strong> Nenhuma.</li>
-            <li><strong>Testes de Resistência:</strong> Força e Destreza.</li>
-            <li><strong>Perícias:</strong> Escolha três entre Adestramento, Atletismo, Furtividade, Intuição, Natureza, Percepção, Investigação e Sobrevivência.</li>
+              <li><strong>Dado de Vida:</strong> 1d10 por nível de Patrulheiro.</li>
+              <li><strong>Atributos Principais:</strong> Destreza e Sabedoria.</li>
+              <li><strong>Proficiências em Armaduras:</strong> Armaduras Leves e Médias e Escudos.</li>
+              <li><strong>Proficiências em Armas:</strong> Armas Simples e Marciais.</li>
+              <li><strong>Testes de Resistência:</strong> Força e Destreza.</li>
+              <li><strong>Perícias:</strong> Escolha três entre Adestrar Animais, Atletismo, Intuição, Investigação, Natureza, Percepção, Furtividade ou Sobrevivência.</li>
+              <li><strong>Equipamento Inicial:</strong> Escolha A ou B: (A) Armadura de Couro Cravejado, Cimitarra, Espada Curta, Arco Longo, 20 Flechas, Coldre, Foco Druídico (ramo de visco), Pacote do Explorador e 7 PO; (B) 150 PO.</li>
           </ul>
         </div>
       </div>
 
       <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px; overflow-x: auto;">
-        <h3 style="font-family: 'Cinzel', serif; color: #27ae60; font-size: 1.6rem; margin-bottom: 15px;">Progressão de Classe</h3>
-        <table class="tabela-rpg">
-          <thead>
-            <tr>
-              <th>Nível</th>
-              <th>Prof.</th>
-              <th class="esquerda">Recursos de Classe</th>
-              <th>Magias Preparadas</th>
-              <th>1º</th>
-              <th>2º</th>
-              <th>3º</th>
-              <th>4º</th>
-              <th>5º</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>1º</td><td>+2</td><td class="esquerda">Inimigo Favorito (Marca do Caçador livre), Poliglota Primal (Deft Explorer)</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>2º</td><td>+2</td><td class="esquerda">Conjuração, Estilo de Combate</td><td>2</td><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>3º</td><td>+2</td><td class="esquerda">Subclasse de Patrulheiro</td><td>3</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>4º</td><td>+2</td><td class="esquerda">Talento de Atributo (Feat)</td><td>3</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>5º</td><td>+3</td><td class="esquerda">Ataque Extra</td><td>4</td><td>4</td><td>2</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>6º</td><td>+3</td><td class="esquerda">Recurso de Subclasse, Mobilidade Errante</td><td>4</td><td>4</td><td>2</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>7º</td><td>+3</td><td class="esquerda">Mente Alerta</td><td>5</td><td>4</td><td>3</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>8º</td><td>+3</td><td class="esquerda">Talento de Atributo (Feat)</td><td>5</td><td>4</td><td>3</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td>9º</td><td>+4</td><td class="esquerda">Passo Avançado (Expertise Corporal)</td><td>6</td><td>4</td><td>3</td><td>2</td><td>—</td><td>—</td></tr>
-            <tr><td>10º</td><td>+4</td><td class="esquerda">Recurso de Subclasse, Camuflagem Natural (Fade Away)</td><td>6</td><td>4</td><td>3</td><td>2</td><td>—</td><td>—</td></tr>
-            <tr><td>11º</td><td>+4</td><td class="esquerda">Marca do Caçador Aprimorada</td><td>7</td><td>4</td><td>3</td><td>3</td><td>—</td><td>—</td></tr>
-            <tr><td>12º</td><td>+4</td><td class="esquerda">Talento de Atributo (Feat)</td><td>7</td><td>4</td><td>3</td><td>3</td><td>—</td><td>—</td></tr>
-            <tr><td>13º</td><td>+5</td><td class="esquerda">Velo Divino</td><td>8</td><td>4</td><td>3</td><td>3</td><td>1</td><td>—</td></tr>
-            <tr><td>14º</td><td>+5</td><td class="esquerda">Recurso de Subclasse, Desvanecer Invisível</td><td>8</td><td>4</td><td>3</td><td>3</td><td>1</td><td>—</td></tr>
-            <tr><td>15º</td><td>+5</td><td class="esquerda">Sentidos Implacáveis</td><td>9</td><td>4</td><td>3</td><td>3</td><td>2</td><td>—</td></tr>
-            <tr><td>16º</td><td>+5</td><td class="esquerda">Talento de Atributo (Feat)</td><td>9</td><td>4</td><td>3</td><td>3</td><td>2</td><td>—</td></tr>
-            <tr><td>17º</td><td>+6</td><td class="esquerda">Percepção Feral</td><td>10</td><td>4</td><td>3</td><td>3</td><td>3</td><td>1</td></tr>
-            <tr><td>18º</td><td>+6</td><td class="esquerda">Caçador Feral</td><td>10</td><td>4</td><td>3</td><td>3</td><td>3</td><td>1</td></tr>
-            <tr><td>19º</td><td>+6</td><td class="esquerda">Talento de Atributo / Dádiva Épica</td><td>11</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td></tr>
-            <tr><td>20º</td><td>+6</td><td class="esquerda">Predador Ápice</td><td>11</td><td>4</td><td>3</td><td>3</td><td>3</td><td>2</td></tr>
-          </tbody>
-        </table>
+          <!-- TABELA BÁSICA DE PROGRESSÃO COM SUPORTE A ROLAGEM HORIZONTAL -->
+          <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.6rem; margin-bottom: 15px;">Características de Classe (Parte A)</h3>
+          <div class="overflow-table">
+              <table class="tabela-rpg">
+                  <thead>
+                      <tr>
+                          <th>Nível</th>
+                          <th>Prof.</th>
+                          <th>Recursos de Classe</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr><th>1º</th><td>+2</th><td class="esquerda">Conjuração, Inimigo Favorito, Maestria em Armas</th></tr>
+                      <tr><th>2º</th><td>+2</th><td class="esquerda">Explorador Ágil, Estilo de Luta</th></tr>
+                      <tr><th>3º</th><td>+2</th><td class="esquerda">Subclasse de Patrulheiro</th></tr>
+                      <tr><th>4º</th><td>+2</th><td class="esquerda">Aumento no Valor de Habilidade</th></tr>
+                      <tr><th>5º</th><td>+3</th><td class="esquerda">Ataque Extra</th></tr>
+                      <tr><th>6º</th><td>+3</th><td class="esquerda">Movimento Ágil</th></tr>
+                      <tr><th>7º</th><td>+3</th><td class="esquerda">Característica de Subclasse</th></tr>
+                      <tr><th>8º</th><td>+3</th><td class="esquerda">Aumento no Valor de Habilidade</th><tr>
+                      <tr><th>9º</th><td>+4</th><td class="esquerda">Expertise</th></tr>
+                      <tr><th>10º</th><td>+4</th><td class="esquerda">Incansável</th></tr>
+                      </tr><th>11º</th><td>+4</th><td class="esquerda">Característica de Subclasse</th></tr>
+                      <tr><th>12º</th><td>+4</th><td class="esquerda">Aumento no Valor de Habilidade</th></tr>
+                      <tr><th>13º</th><td>+5</th><td class="esquerda">Caçador Incansável</th></tr>
+                      <tr><th>14º</th><td>+5</th><td class="esquerda">Véu da Natureza</th></tr>
+                      <tr><th>15º</th><td>+5</th><td class="esquerda">Característica de Subclasse</th></tr>
+                      <tr><th>16º</th><td>+5</th><td class="esquerda">Aumento no Valor de Habilidade</th></tr>
+                      <tr><th>17º</th><td>+6</th><td class="esquerda">Caçador Preciso</th></tr>
+                      <tr><th>18º</th><td>+6</th><td class="esquerda">Sentidos Selvagens</th></tr>
+                      <tr><th>19º</th><td>+6</th><td class="esquerda">Benção Épica</th></tr>
+                      <tr><th>20º</th><td>+6</th><td class="esquerda">Matador de Inimigos</th></tr>
+                  </tbody>
+              </table>
+          </div>
+
+          <!-- TABELA DE INIMIGO FAVORITO, MAGIAS PREPARADAS E ESPAÇOS DE MAGIA -->
+          <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.6rem; margin-bottom: 15px;">Características de Classe (Parte B)</h3>
+          <div class="overflow-table">
+              <table class="tabela-rpg">
+                  <thead>
+                      <tr>
+                          <th>Nível</th>
+                          <th>Inimigo Favorito</th>
+                          <th>Magias Preparadas</th>
+                          <th>1º</th>
+                          <th>2º</th>
+                          <th>3º</th>
+                          <th>4º</th>
+                          <th>5º</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr><th>1º</th><td>2</th><td>2</th><td>2</th><td>-</th><td>-</th><td>-</th><td>-</th></tr>
+                      <tr><th>2º</th><td>2</th><td>3</th><td>2</th><td>-</th><td>-</th><td>-</th><td>-</th></tr>
+                      <tr><th>3º</th><td>2</th><td>4</th><td>3</th><td>-</th><td>-</th><td>-</th><td>-</th></tr>
+                      <tr><th>4º</th><td>2</th><td>5</th><td>3</th><td>-</th><td>-</th><td>-</th><td>-</th></tr>
+                      <tr><th>5º</th><td>3</th><td>6</th><td>4</th><td>2</th><td>-</th><td>-</th><td>-</th></td>
+                      <tr><th>6º</th><td>3</th><td>6</th><td>4</th><td>2</th><td>-</th><td>-</th><td>-</th></td>
+                      <tr><th>7º</th><td>3</th><td>7</th><td>4</th><td>3</th><td>-</th><td>-</th><td>-</th></td>
+                      <tr><th>8º</th><td>3</th><td>7</th><td>4</th><td>3</th><td>-</th><td>-</th><td>-</th></td>
+                      <tr><th>9º</th><td>4</th><td>9</th><td>4</th><td>3</th><td>2</th><td>-</th><td>-</th></td>
+                      <tr><th>10º</th><td>4</th><td>9</th><td>4</th><td>3</th><td>2</th><td>-</th><td>-</th></td>
+                      <tr><th>11º</th><td>4</th><td>10</th><td>4</th><td>3</th><td>3</th><td>-</th><td>-</th></td>
+                      <tr><th>12º</th><td>4</th><td>10</th><td>4</th><td>3</th><td>3</th><td>-</th><td>-</th></td>
+                      <tr><th>13º</th><td>5</th><td>11</th><td>4</th><td>3</th><td>3</th><td>1</th><td>-</th></td>
+                      <tr><th>14º</th><td>5</th><td>11</th><td>4</th><td>3</th><td>3</th><td>1</th><td>-</th></td>
+                      <tr><th>15º</th><td>5</th><td>12</th><td>4</th><td>3</th><td>3</th><td>2</th><td>-</th></td>
+                      <tr><th>16º</th><td>5</th><td>12</th><td>4</th><td>3</th><td>3</th><td>2</th><td>-</th></td>
+                      <tr><th>17º</th><td>6</th><td>14</th><td>4</th><td>3</th><td>3</th><td>3</th><td>1</th></tr>
+                      <tr><th>18º</th><td>6</th><td>14</th><td>4</th><td>3</th><td>3</th><td>3</th><td>1</th></tr>
+                      <tr><th>19º</th><td>6</th><td>15</th><td>4</th><td>3</th><td>3</th><td>3</th><td>2</th></tr>
+                      <tr><th>20º</th><td>6</th><td>15</th><td>4</th><td>3</th><td>3</th><td>3</th><td>2</th></tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      
+      <div class="recurso-container">
+        <div class="recursos-header">
+          <h3>Recursos da Classe</h3>
+        </div>
+        <div class="recursos-list">
+          <!-- Nível 1: Conjuração -->
+          <div class="recurso-card">
+              <div class="recurso-header">
+                  <span class="recurso-nome">Nível 1: Conjuração</span>
+              </div>
+              <div class="recurso-descricao">
+                  <p>Você aprendeu a canalizar a essência mágica da natureza para conjurar magias.</p>
+
+                  <p><strong style="color: white;">Espaços de Magia.</strong> A tabela de Características de Patrulheiro mostra quantos espaços de magia você tem para conjurar suas magias de nível 1+. Você recupera todos os espaços gastos ao final de um <strong>Descanso Longo</strong>.</p>
+
+                  <p><strong style="color: white;">Magias Preparadas de Nível 1+.</strong> Você prepara a lista de magias de nível 1+ que estão disponíveis para conjurar com esta característica. Para começar, escolha <strong>duas magias de nível 1 de Patrulheiro</strong>. <strong>Curação</strong> e <strong>Golpe Aprisionador</strong> são recomendados.</p>
+                  <p>O número de magias na sua lista aumenta conforme você ganha níveis de Patrulheiro, como mostrado na coluna <strong>Magias Preparadas</strong> da tabela de Características de Patrulheiro. Sempre que esse número aumenta, escolha magias adicionais da lista de Patrulheiro até que o número de magias na sua lista corresponda ao número na tabela. As magias escolhidas devem ser de um nível para o qual você tenha espaços de magia. Por exemplo, se você é um Patrulheiro de <strong>nível 5</strong>, sua lista de magias preparadas pode incluir <strong>seis magias de Patrulheiro</strong> de níveis 1 e 2 em qualquer combinação.</p>
+                  <p>Se outra característica de Patrulheiro lhe conceder magias que você sempre tem preparadas, essas magias não contam contra o número de magias que você pode preparar com esta característica, mas, de outra forma, contam como magias de Patrulheiro para você.</p>
+
+                  <p><strong style="color: white;">Alterando Suas Magias Preparadas.</strong> Sempre que você finaliza um <strong>Descanso Longo</strong>, pode substituir <strong>uma magia</strong> em sua lista por outra magia de Patrulheiro para a qual você tenha espaços de magia.</p>
+
+                  <p><strong style="color: white;">Habilidade de Conjuração.</strong> <strong>Sabedoria</strong> é sua habilidade de conjuração para suas magias de Patrulheiro.</p>
+
+                  <p><strong style="color: white;">Foco de Conjuração.</strong> Você pode usar um <strong>Foco Druídico</strong> como Foco de Conjuração para suas magias de Patrulheiro.</p>
+              </div>
+          </div>
+
+          <!-- Nível 1: Inimigo Favorito -->
+          <div class="recurso-card">
+              <div class="recurso-header">
+                  <span class="recurso-nome">Nível 1: Inimigo Favorito</span>
+              </div>
+              <div class="recurso-descricao">
+                  <p>Você sempre tem a magia <strong>Marca do Caçador</strong> preparada.</p>
+                  <p>Você pode conjurá-la <strong>duas vezes</strong> sem gastar um espaço de magia e recupera todos os usos gastos desta habilidade quando finaliza um <strong>Descanso Longo</strong>.</p>
+                  <p>O número de vezes que você pode conjurar a magia sem um espaço de magia aumenta quando você atinge certos níveis de Patrulheiro, como mostrado na coluna <strong>Inimigo Favorito</strong> da tabela de Características de Patrulheiro.</p>
+              </div>
+          </div>
+
+          <!-- Nível 1: Maestria em Armas -->
+          <div class="recurso-card">
+              <div class="recurso-header">
+                  <span class="recurso-nome">Nível 1: Maestria em Armas</span>
+              </div>
+              <div class="recurso-descricao">
+                  <p>Seu treinamento com armas permite que você use as <strong>propriedades de maestria</strong> de <strong>dois tipos</strong> de armas de sua escolha com as quais você tem proficiência, como <strong>Arcos Longos</strong> e <strong>Espadas Curtas</strong>.</p>
+                  <p>Sempre que você finaliza um <strong>Descanso Longo</strong>, pode <strong>mudar os tipos</strong> de armas que escolheu. Por exemplo, você poderia mudar para usar as propriedades de maestria de <strong>Cimitarras</strong> e <strong>Espadas Longas</strong>.</p>
+              </div>
+          </div>
+
+          <!-- Nível 2: Explorador Ágil -->
+          <div class="recurso-card">
+              <div class="recurso-header">
+                  <span class="recurso-nome">Nível 2: Explorador Ágil</span>
+              </div>
+              <div class="recurso-descricao">
+                  <p>Graças às suas viagens, você ganha os seguintes benefícios.</p>
+                  
+                  <p><strong style="color: white;">Expertise.</strong> Escolha <strong>uma de suas proficiências em perícias</strong> nas quais você não possui Expertise. Você ganha <strong>Expertise</strong> nessa perícia.</p>
+                  
+                  <p><strong style="color: white;">Idiomas.</strong> Você conhece <strong>dois idiomas</strong> de sua escolha das tabelas de idiomas do capítulo 2.</p>
+              </div>
+          </div>
+
+          <!-- Nível 2: Estilo de Luta -->
+          <div class="recurso-card">
+              <div class="recurso-header">
+                  <span class="recurso-nome">Nível 2: Estilo de Luta</span>
+              </div>
+              <div class="recurso-descricao">
+                  <p>Você ganha um talento de <strong>Estilo de Luta</strong> de sua escolha (veja o capítulo 5). Em vez de escolher um desses talentos, você pode escolher a opção abaixo.</p>
+                  
+                  <p><strong style="color: white;">Guerreiro Druídico.</strong> Você aprende <strong>dois truques de Druida</strong> de sua escolha. <strong>Orição</strong> e <strong>Fagulha Estelar</strong> são recomendados. Os truques escolhidos contam como magias de Patrulheiro para você, e <strong>Sabedoria</strong> é sua habilidade de conjuração para eles. Sempre que você ganha um <strong>nível de Patrulheiro</strong>, pode substituir <strong>um desses truques</strong> por outro truque de Druida.</p>
+              </div>
+          </div>
+
+          <!-- Nível 3: Subclasse de Patrulheiro -->
+          <div class="recurso-card">
+              <div class="recurso-header">
+                  <span class="recurso-nome">Nível 3: Subclasse de Patrulheiro</span>
+              </div>
+              <div class="recurso-descricao">
+                  <p>Você ganha uma <strong>subclasse de Patrulheiro</strong> de sua escolha. As subclasses <strong>Mestre das Bestas</strong>, <strong>Andarilho Feérico</strong>, <strong>Perseguidor Sombrio</strong> e <strong>Caçador</strong> são detalhadas após a descrição desta classe. Uma subclasse é uma especialização que concede características em certos níveis de Patrulheiro. Pelo resto de sua carreira, você ganha cada uma das características de sua subclasse que sejam de seu nível de Patrulheiro ou inferior.</p>
+                  <p>As subclasses de Patrulheiro estarão listadas no final da página.</p>
+              </div>
+          </div>
+
+          <!-- Nível 4: Aumento no Valor de Habilidade -->
+          <div class="recurso-card">
+              <div class="recurso-header">
+                  <span class="recurso-nome">Nível 4: Aumento no Valor de Habilidade</span>
+              </div>
+              <div class="recurso-descricao">
+                  <p>Você ganha o talento <strong>Aumento no Valor de Habilidade</strong> ou outro talento de sua escolha para o qual você se qualifica. Você ganha esta característica novamente nos níveis <strong>8, 12 e 16</strong> de Patrulheiro.</p>
+              </div>
+          </div>
+
+          <!-- Nível 5: Ataque Extra -->
+          <div class="recurso-card">
+              <div class="recurso-header">
+                  <span class="recurso-nome">Nível 5: Ataque Extra</span>
+              </div>
+              <div class="recurso-descricao">
+                  <p>Você pode atacar <strong>duas vezes</strong> em vez de uma sempre que realizar a ação <strong>Atacar</strong> em seu turno.</p>
+              </div>
+          </div>
+
+          <!-- Nível 6: Movimento Ágil -->
+          <div class="recurso-card">
+              <div class="recurso-header">
+                  <span class="recurso-nome">Nível 6: Movimento Ágil</span>
+              </div>
+              <div class="recurso-descricao">
+                  <p>Seu <strong>Deslocamento</strong> aumenta em <strong>3 metros</strong> enquanto você não estiver usando <strong>Armadura Pesada</strong>. Você também tem um <strong>Deslocamento de Escalada</strong> e um <strong>Deslocamento de Natação</strong> iguais ao seu <strong>Deslocamento</strong>.</p>
+              </div>
+          </div>
+
+          <!-- Nível 9: Expertise -->
+          <div class="recurso-card">
+              <div class="recurso-header">
+                  <span class="recurso-nome">Nível 9: Expertise</span>
+              </div>
+              <div class="recurso-descricao">
+                  <p>Escolha <strong>duas de suas proficiências em perícias</strong> nas quais você não possui Expertise. Você ganha <strong>Expertise</strong> nessas perícias.</p>
+              </div>
+          </div>
+
+          <!-- Nível 10: Incansável -->
+          <div class="recurso-card">
+              <div class="recurso-header">
+                  <span class="recurso-nome">Nível 10: Incansável</span>
+              </div>
+              <div class="recurso-descricao">
+                  <p>Forças primordiais agora ajudam a alimentá-lo em suas jornadas, concedendo-lhe os seguintes benefícios.</p>
+                  
+                  <p><strong style="color: white;">Pontos de Vida Temporários.</strong> Como uma <strong>Ação Mágica</strong>, você pode conceder a si mesmo um número de <strong>Pontos de Vida Temporários</strong> igual a <strong>1d8 + seu modificador de Sabedoria</strong> (mínimo de 1). Você pode usar esta ação um número de vezes igual ao seu modificador de <strong>Sabedoria</strong> (mínimo de uma vez) e recupera todos os usos gastos quando finaliza um <strong>Descanso Longo</strong>.</p>
+                  
+                  <p><strong style="color: white;">Diminuir Exaustão.</strong> Sempre que você finaliza um <strong>Descanso Curto</strong>, seu <strong>nível de Exaustão</strong>, se houver, <strong>diminui em 1</strong>.</p>
+              </div>
+          </div>
+
+          <!-- Nível 13: Caçador Incansável -->
+          <div class="recurso-card">
+              <div class="recurso-header">
+                  <span class="recurso-nome">Nível 13: Caçador Incansável</span>
+              </div>
+              <div class="recurso-descricao">
+                  <p><strong>Sofrer dano</strong> não pode quebrar sua <strong>Concentração</strong> em <strong>Marca do Caçador</strong>.</p>
+              </div>
+          </div>
+
+          <!-- Nível 14: Véu da Natureza -->
+          <div class="recurso-card">
+              <div class="recurso-header">
+                  <span class="recurso-nome">Nível 14: Véu da Natureza</span>
+                  <span class="badge-mini acao-bonus">Ação Bônus</span>
+              </div>
+              <div class="recurso-descricao">
+                  <p>Você invoca espíritos da natureza para se esconder magicamente. Como uma <strong>Ação Bônus</strong>, você pode conceder a si mesmo a condição <strong>Invisível</strong> até o final de seu próximo turno.</p>
+                  <p>Você pode usar esta característica um número de vezes igual ao seu modificador de <strong>Sabedoria</strong> (mínimo de uma vez) e recupera todos os usos gastos quando finaliza um <strong>Descanso Longo</strong>.</p>
+              </div>
+          </div>
+
+          <!-- Nível 17: Caçador Preciso -->
+          <div class="recurso-card">
+              <div class="recurso-header">
+                  <span class="recurso-nome">Nível 17: Caçador Preciso</span>
+              </div>
+              <div class="recurso-descricao">
+                  <p>Você tem <strong>Vantagem</strong> em rolagens de ataque contra a <strong>criatura atualmente marcada por sua Marca do Caçador</strong>.</p>
+              </div>
+          </div>
+
+          <!-- Nível 18: Sentidos Selvagens -->
+          <div class="recurso-card">
+              <div class="recurso-header">
+                  <span class="recurso-nome">Nível 18: Sentidos Selvagens</span>
+              </div>
+              <div class="recurso-descricao">
+                  <p>Sua conexão com as forças da natureza lhe concede <strong>Visão às Cegas</strong> com alcance de <strong>9 metros</strong>.</p>
+              </div>
+          </div>
+
+          <!-- Nível 19: Benção Épica -->
+          <div class="recurso-card">
+              <div class="recurso-header">
+                  <span class="recurso-nome">Nível 19: Benção Épica</span>
+              </div>
+              <div class="recurso-descricao">
+                  <p>Você ganha um talento de <strong>Benção Épica</strong> ou outro talento de sua escolha para o qual você se qualifica. <strong>Benção da Viagem Dimensional</strong> é recomendado.</p>
+              </div>
+          </div>
+
+          <!-- Nível 20: Matador de Inimigos -->
+          <div class="recurso-card">
+              <div class="recurso-header">
+                  <span class="recurso-nome">Nível 20: Matador de Inimigos</span>
+              </div>
+              <div class="recurso-descricao">
+                  <p>O <strong>dado de dano</strong> de sua <strong>Marca do Caçador</strong> é um <strong>d10</strong> em vez de um d6.</p>
+              </div>
+          </div>
+
+        </div>
       </div>
 
-      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
-        <h3 style="font-family: 'Cinzel', serif; color: #27ae60; font-size: 1.6rem; margin-bottom: 20px;">Recursos de Classe Detalhados</h3>
-
-        <div class="bloco-patrulheiro">
-          <h4>Nível 1: Inimigo Favorito & Poliglota Primal</h4>
-          <p><strong>Inimigo Favorito (Favored Enemy):</strong> Você tem a magia *Marca do Caçador (Hunter's Mark)* sempre preparada. Você pode conjurá-la um número de vezes igual ao seu Bônus de Proficiência por Descanso Longo sem gastar espaços de magia. Além disso, de acordo com as regras de 2024, focar e manter esta Marca do Caçador **não exige a sua Concentração**, permitindo combiná-la livremente com outros feitiços.</p>
-          <p><strong>Poliglota Primal (Deft Explorer):</strong> Você escolhe uma perícia na qual possua proficiência para ganhar *Especialização* (dobro do bônus). Você também aprende dois idiomas adicionais à sua escolha.</p>
-        </div>
-
-        <div class="bloco-patrulheiro">
-          <h4>Nível 2: Conjuração & Estilo de Combate</h4>
-          <p><strong>Conjuração:</strong> Você aprende a moldar a magia da natureza e dos ecossistemas. Você prepara magias da lista de Patrulheiro com base na tabela, usando Sabedoria como seu atributo de conjuração. Diferente de versões antigas, você agora pode trocar uma magia preparada ao fim de qualquer Descanso Longo.</p>
-          <p><strong>Estilo de Combate:</strong> Você adquire um Talento de Estilo de Combate à sua escolha:</p>
-          <ul class="trait-list" style="margin-top: 10px;">
-            <li><strong>Arquearia (Archery):</strong> Ganha um bônus de **+2** nas jogadas de ataque realizadas com armas de ataque à distância.</li>
-            <li><strong>Combate com Duas Armas (Two-Weapon Fighting):</strong> Ao atacar com a Ação Bônus usando uma segunda arma leve, você adiciona seu modificador de atributo ao dano desse ataque.</li>
-            <li><strong>Duelismo (Dueling):</strong> Quando empunhar uma arma de ataque corpo a corpo em uma mão e nenhuma outra arma, você ganha **+2** de bônus nas rolagens de dano.</li>
-            <li><strong>Guerreiro Lançador (Thrown Weapon Fighting):</strong> Você pode sacar uma arma com uma propriedade de arremesso como parte do próprio ataque e ganha +2 no dano com ela.</li>
-          </ul>
-        </div>
-
-        <div class="bloco-patrulheiro">
-          <h4>Nível 3: Subclasse de Patrulheiro</h4>
-          <p>Você escolhe sua especialização e tática de fronteira entre as quatro linhagens oficiais: **Caçador**, **Mestre das Feras**, **Caminhante do Horizonte** ou **Gloom Stalker (Perseguidor das Sombras)**. Esta escolha concede recursos imediatos e evoluções nos níveis 6, 10 e 14.</p>
-        </div>
-
-        <div class="bloco-patrulheiro">
-          <h4>Níveis 4, 8, 12, 16 e 19: Talento de Atributo (Feat)</h4>
-          <p>Aumente um atributo em +2, dois atributos em +1, ou escolha um Talento Geral válido para customizar suas capacidades mecânicas.</p>
-        </div>
-
-        <div class="bloco-patrulheiro">
-          <h4>Nível 5: Ataque Extra</h4>
-          <p>Você pode atacar duas vezes, em vez de uma, sempre que realizar a ação de Ataque no seu turno de combate.</p>
-        </div>
-
-        <div class="bloco-patrulheiro">
-          <h4>Nível 6: Mobilidade Errante</h4>
-          <p><strong>Mobilidade Errante (Roving):</strong> Seu deslocamento terrestre aumenta permanentemente em 1,5 metros. Além disso, você ganha deslocamento de escalada e de natação iguais ao seu deslocamento terrestre atual.</p>
-        </div>
-
-        <div class="bloco-patrulheiro">
-          <h4>Nível 7: Mente Alerta</h4>
-          <p><strong>Mente Alerta:</strong> Seus sentidos aguçados protegem sua consciência. Você ganha proficiência em salvaguardas de Inteligência ou Sabedoria (à sua escolha ao atingir este nível).</p>
-        </div>
-
-        <div class="bloco-patrulheiro">
-          <h4>Nível 9: Passo Avançado</h4>
-          <p><strong>Passo Avançado:</strong> Você escolhe outra de suas perícias proficientes para receber *Especialização*. Além disso, atravessar terrenos difíceis de qualquer tipo não mágico não consome mais nenhum movimento adicional do seu turno.</p>
-        </div>
-
-        <div class="bloco-patrulheiro">
-          <h4>Nível 10: Camuflagem Natural</h4>
-          <p><strong>Camuflagem Natural (Fade Away):</strong> Como uma Ação Bônus, você pode se misturar perfeitamente com o ambiente e ficar invisível até o fim do seu próximo turno. Você pode usar esta habilidade uma quantidade de vezes igual ao seu bônus de proficiência por Descanso Longo.</p>
-        </div>
-
-        <div class="bloco-patrulheiro">
-          <h4>Nível 11: Marca do Caçador Aprimorada</h4>
-          <p><strong>Marca Aprimorada:</strong> O estigma místico que você coloca em suas presas rasga defesas profundas. O dano extra causado pela sua magia *Marca do Caçador* aumenta de 1d6 para **1d8** de dano.</p>
-        </div>
-
-        <div class="bloco-patrulheiro">
-          <h4>Nível 13: Velo Divino</h4>
-          <p><strong>Velo Divino:</strong> Quando você estiver sob o efeito de sua própria invisibilidade ou camuflagem, você adquire resistência a danos provenientes de magias e efeitos de área baseados em elementos.</p>
-        </div>
-
-        <div class="bloco-patrulheiro">
-          <h4>Nível 14: Desvanecer Invisível</h4>
-          <p><strong>Desvanecer Invisível:</strong> Você aprende a usar a ação de *Disparada (Dash)* como uma Ação Bônus em seus turnos. Além disso, quando usar o recurso *Camuflagem Natural*, atacar ou conjurar uma magia não quebra mais a sua invisibilidade instantaneamente.</p>
-        </div>
-
-        <div class="bloco-patrulheiro">
-          <h4>Nível 15: Sentidos Implacáveis</h4>
-          <p><strong>Sentidos Implacáveis:</strong> Você desenvolve uma percepção quase pré-cognitiva. Você não sofre desvantagem em ataques realizados contra alvos que estejam invisíveis ou camuflados a até 9 metros de você, desde que você não esteja cego ou surdo.</p>
-        </div>
-
-        <div class="bloco-patrulheiro">
-          <h4>Nível 17: Percepção Feral</h4>
-          <p><strong>Percepção Feral:</strong> Você adquire *Visão Cega* a um alcance de 9 metros de distância, detectando a localização exata de qualquer criatura oculta, enterrada ou misticamente escondida.</p>
-        </div>
-
-        <div class="bloco-patrulheiro">
-          <h4>Nível 18: Caçador Feral</h4>
-          <p><strong>Caçador Feral:</strong> Sua conexão com a Marca do Caçador atinge o nível biológico. Quando você ataca uma criatura afetada por sua *Marca do Caçador*, você tem **Vantagem** em todas as jogadas de ataque contra ela.</p>
-        </div>
-
-        <div class="bloco-patrulheiro">
-          <h4>Nível 20: Predador Ápice</h4>
-          <p><strong>Predador Ápice (Foe Slayer):</strong> O dano da sua *Marca do Caçador* escala para o seu limite destrutivo máximo, aumentando de 1d8 para **1d10**. Além disso, uma vez por turno, você pode adicionar seu Modificador de Sabedoria na jogada de ataque ou na rolagem de dano contra o alvo marcado.</p>
-        </div>
+      <div class="recursos-header">
+          <h3>Subclasses</h3>
       </div>
-
-      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
-        <h3 style="font-family: 'Cinzel', serif; color: #27ae60; font-size: 1.6rem; margin-bottom: 10px;">Linhagens de Fronteira (Subclasses)</h3>
-        
-        <div class="bloco-subclasse-detalhada">
-          <h3>1. Caçador (Hunter)</h3>
-          <p>Especialistas em anatomia monstruosa e combate tático adaptável. Aprendem a resistir a hordas e a derrubar colossos com precisão cirúrgica.</p>
+      <div class="subclasses-container" id="subclasses-artifice">
+          <!--ABAS DE NAVEGAÇÃO-->
+          <div class="tabs-header">
+              <ul class="tabs-list">
+              <li><button class="tab-btn active" data-tab="0"> Mestre das Bestas</button></li>
+              <li><button class="tab-btn active" data-tab="1"> Andarilho Feérico</button></li>
+              <li><button class="tab-btn active" data-tab="2"> Perseguidor Sombrio</button></li>
+              <li><button class="tab-btn active" data-tab="3"> Caçador</button></li>
+              <li><button class="tab-btn active" data-tab="4"> Andarilho do Inverno</button></li>
+              <li><button class="tab-btn active" data-tab="5"> Guarda do Vazio</button></li>
+              </ul>
+          </div>
           
-          <div class="sub-feature">
-            <h5>Nível 3: Presa do Caçador</h5>
-            <p>Você escolhe uma especialização de ataque contra alvos específicos:</p>
-            <ul class="trait-list" style="margin-top: 5px;">
-              <li><strong>Matador de Colossos (Colossus Slayer):</strong> Uma vez por turno, quando você atingir uma criatura com um ataque de arma e ela estiver abaixo do seu máximo de pontos de vida, o ataque causa **1d8** de dano extra.</li>
-              <li><strong>Rompedor de Hordas (Horde Breaker):</strong> Uma vez em cada um de seus turnos, quando realizar um ataque de arma, você pode fazer um ataque adicional com a mesma arma contra uma criatura diferente que esteja a até 1,5 metros do alvo original.</li>
-            </ul>
-          </div>
+          <!--SUBCLASSE-->
+          <div class="tabs-content">
+            <!-- ABA - Mestre das Bestas -->
+            <div class="tab-pane">
+                <h3 style="color: var(--gold); margin-bottom: 15px;">Mestre das Bestas</h3>
+                <p>Um Mestre das Bestas forma um <strong>vínculo místico</strong> com um animal especial, utilizando magia primordial e uma profunda conexão com o mundo natural.</p>
+                
+                <!-- Nível 3: Companheiro Primitivo -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Companheiro Primitivo</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você invoca magicamente uma <strong>besta primitiva</strong>, que extrai força de seu vínculo com a natureza. Escolha seu bloco de estatísticas: <strong>Besta da Terra</strong>, <strong>Besta do Mar</strong> ou <strong>Besta do Céu</strong>. Você também determina o tipo de animal que é, escolhendo um tipo apropriado para o bloco de estatísticas. Seja qual for a besta que você escolher, ela possui <strong>marcações primitivas</strong> que indicam sua origem sobrenatural.</p>
+                        <p>A besta é <strong>Amigável</strong> para com você e seus aliados e obedece aos seus comandos. Ela desaparece se você morrer.</p>
+                        
+                        <p><strong style="color: white;">A Besta em Combate.</strong> Em combate, a besta age durante seu turno. Ela pode se mover e usar sua <strong>Reação</strong> por conta própria, mas a única ação que ela realiza é a ação <strong>Esquivar</strong>, a menos que você use uma <strong>Ação Bônus</strong> para comandá-la a realizar uma ação em seu bloco de estatísticas ou alguma outra ação. Você também pode <strong>sacrificar um de seus ataques</strong> quando realiza a ação <strong>Atacar</strong> para comandar a besta a realizar a ação <strong>Golpe da Besta</strong>. Se você estiver com a condição <strong>Incapacitado</strong>, a besta age por conta própria e não está limitada à ação Esquivar.</p>
+                        
+                        <p><strong style="color: white;">Restaurando ou Substituindo a Besta.</strong> Se a besta <strong>morreu na última hora</strong>, você pode usar uma <strong>Ação Mágica</strong> para tocá-la e gastar um <strong>espaço de magia</strong>. A besta retorna à vida após <strong>1 minuto</strong> com todos os seus Pontos de Vida restaurados.</p>
+                        <p>Sempre que você finaliza um <strong>Descanso Longo</strong>, pode invocar uma <strong>besta primitiva diferente</strong>, que aparece em um espaço desocupado a até <strong>1,5 metro</strong> de você. Você escolhe seu bloco de estatísticas e aparência. Se você já tem uma besta desta característica, a antiga desaparece quando a nova aparece.</p>
+                    </div>
+                    <!-- Bloco de Estatísticas: Besta da Terra -->
+                    <div class="recurso-card" style="border-left: 1px solid var(--border-fantasy);">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Besta da Terra</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p><em>Besta Média, Neutro</em></p>
+                            
+                            <table class="tabela-rpg" style="margin: 10px 0;">
+                                <tbody>
+                                    <tr><td style="text-align: left;"><strong>Classe de Armadura</strong></td><td>13 + seu modificador de Sabedoria</th></tr>
+                                    <tr><td style="text-align: left;"><strong>Pontos de Vida</strong></th><td>5 + (5 × seu nível de Patrulheiro) (a besta tem um número de Dados de Vida [d8] igual ao seu nível de Patrulheiro)</th></tr>
+                                    <tr><td style="text-align: left;"><strong>Deslocamento</strong></th><td>12 m, Escalada 12 m</th></tr>
+                                </tbody>
+                            </table>
+                            
+                            <table class="tabela-rpg" style="margin: 10px 0;">
+                                <thead>
+                                    <tr><th>FOR</th><th>DES</th><th>CON</th><th>INT</th><th>SAB</th><th>CAR</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td class="esquerda">14 (+2)</th><td class="esquerda">14 (+2)</th><td class="esquerda">15 (+2)</th><td class="esquerda">8 (-1)</th><td class="esquerda">14 (+2)</th><td class="esquerda">11 (+0)</th></tr>
+                                </tbody>
+                            </table>
+                            
+                            <p><strong style="color: white;">Sentidos.</strong> Visão no Escuro 18 m, Percepção Passiva 12</p>
+                            <p><strong style="color: white;">Idiomas.</strong> Entende os idiomas que você conhece</p>
+                            
+                            <p><strong style="color: white;">Traços</strong></p>
+                            <p><strong style="color: white;">Vínculo Primitivo.</strong> Adicione seu <strong>Bônus de Proficiência</strong> a qualquer <strong>teste de habilidade</strong> ou <strong>teste de resistência</strong> que a besta fizer.</p>
+                            
+                            <p><strong style="color: white;">Ações</strong></p>
+                            <p><strong style="color: white;">Golpe da Besta.</strong> <strong>Rolagem de Ataque Corpo a Corpo:</strong> Bônus igual ao seu <strong>modificador de ataque de magia</strong>, alcance 1,5 m. <strong>Acerto:</strong> <strong>1d8 + 2 + seu modificador de Sabedoria</strong> de dano de <strong>Impacto</strong>, <strong>Perfuração</strong> ou <strong>Corte</strong> (sua escolha ao invocar a besta). Se a besta se moveu pelo menos <strong>6 metros</strong> em linha reta em direção ao alvo antes do acerto, o alvo sofre <strong>1d6</strong> extra do mesmo tipo de dano, e o alvo tem a condição <strong>Deitado</strong> se for uma criatura <strong>Grande ou menor</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Bloco de Estatísticas: Besta do Céu -->
+                    <div class="recurso-card" style="border-left: 1px solid var(--border-fantasy);">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Besta do Céu</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p><em>Besta Pequena, Neutro</em></p>
+                            
+                            <table class="tabela-rpg" style="margin: 10px 0;">
+                                <tbody>
+                                    <tr><td style="text-align: left;"><strong>Classe de Armadura</strong></td><td>13 + seu modificador de Sabedoria</th></tr>
+                                    <tr><td style="text-align: left;"><strong>Pontos de Vida</strong></th><td>4 + (4 × seu nível de Patrulheiro) (a besta tem um número de Dados de Vida [d6] igual ao seu nível de Patrulheiro)</th></tr>
+                                    <tr><td style="text-align: left;"><strong>Deslocamento</strong></th><td>3 m, Voo 18 m</th></tr>
+                                </tbody>
+                            </table>
+                            
+                            <table class="tabela-rpg" style="margin: 10px 0;">
+                                <thead>
+                                    <tr><th>FOR</th><th>DES</th><th>CON</th><th>INT</th><th>SAB</th><th>CAR</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td class="esquerda">6 (-2)</th><td class="esquerda">16 (+3)</th><td class="esquerda">13 (+1)</th><td class="esquerda">8 (-1)</th><td class="esquerda">14 (+2)</th><td class="esquerda">11 (+0)</th></tr>
+                                </tbody>
+                            </table>
+                            
+                            <p><strong style="color: white;">Sentidos.</strong> Visão no Escuro 18 m, Percepção Passiva 12</p>
+                            <p><strong style="color: white;">Idiomas.</strong> Entende os idiomas que você conhece</p>
+                            
+                            <p><strong style="color: white;">Traços</strong></p>
+                            <p><strong style="color: white;">Voo Rápido.</strong> A besta <strong>não provoca Ataques de Oportunidade</strong> quando voa para fora do alcance de um inimigo.</p>
+                            <p><strong style="color: white;">Vínculo Primitivo.</strong> Adicione seu <strong>Bônus de Proficiência</strong> a qualquer <strong>teste de habilidade</strong> ou <strong>teste de resistência</strong> que a besta fizer.</p>
+                            
+                            <p><strong style="color: white;">Ações</strong></p>
+                            <p><strong style="color: white;">Golpe da Besta.</strong> <strong>Rolagem de Ataque Corpo a Corpo:</strong> Bônus igual ao seu <strong>modificador de ataque de magia</strong>, alcance 1,5 m. <strong>Acerto:</strong> <strong>1d4 + 3 + seu modificador de Sabedoria</strong> de dano de <strong>Corte</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Bloco de Estatísticas: Besta do Mar -->
+                    <div class="recurso-card" style="border-left: 1px solid var(--border-fantasy);">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Besta do Mar</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p><em>Besta Média, Neutro</em></p>
+                            
+                            <table class="tabela-rpg" style="margin: 10px 0;">
+                                <tbody>
+                                    <tr><td style="text-align: left;"><strong>Classe de Armadura</strong></td><td>13 + seu modificador de Sabedoria</th></tr>
+                                    <tr><td style="text-align: left;"><strong>Pontos de Vida</strong></th><td>5 + (5 × seu nível de Patrulheiro) (a besta tem um número de Dados de Vida [d8] igual ao seu nível de Patrulheiro)</th></tr>
+                                    <tr><td style="text-align: left;"><strong>Deslocamento</strong></th><td>1,5 m, Natação 18 m</th></tr>
+                                </tbody>
+                            </table>
+                            
+                            <table class="tabela-rpg" style="margin: 10px 0;">
+                                <thead>
+                                    <tr><th>FOR</th><th>DES</th><th>CON</th><th>INT</th><th>SAB</th><th>CAR</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td class="esquerda">14 (+2)</th><td class="esquerda">14 (+2)</th><td class="esquerda">15 (+2)</th><td class="esquerda">8 (-1)</th><td class="esquerda">14 (+2)</th><td class="esquerda">11 (+0)</th></tr>
+                                </tbody>
+                            </table>
+                            
+                            <p><strong style="color: white;">Sentidos.</strong> Visão no Escuro 27 m, Percepção Passiva 12</p>
+                            <p><strong style="color: white;">Idiomas.</strong> Entende os idiomas que você conhece</p>
+                            
+                            <p><strong style="color: white;">Traços</strong></p>
+                            <p><strong style="color: white;">Anfíbio.</strong> A besta pode respirar <strong>ar e água</strong>.</p>
+                            <p><strong style="color: white;">Vínculo Primitivo.</strong> Adicione seu <strong>Bônus de Proficiência</strong> a qualquer <strong>teste de habilidade</strong> ou <strong>teste de resistência</strong> que a besta fizer.</p>
+                            
+                            <p><strong style="color: white;">Ações</strong></p>
+                            <p><strong style="color: white;">Golpe da Besta.</strong> <strong>Rolagem de Ataque Corpo a Corpo:</strong> Bônus igual ao seu <strong>modificador de ataque de magia</strong>, alcance 1,5 m. <strong>Acerto:</strong> <strong>1d6 + 2 + seu modificador de Sabedoria</strong> de dano de <strong>Impacto</strong> ou <strong>Perfuração</strong> (sua escolha ao invocar a besta), e o alvo tem a condição <strong>Agarrar</strong> (CD de fuga igual à sua CD de resistência de magia).</p>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <!-- Nível 7: Treinamento Excepcional -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 7: Treinamento Excepcional</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Quando você usa uma <strong>Ação Bônus</strong> para comandar sua besta <strong>Companheiro Primitivo</strong> a realizar uma ação, você também pode comandá-la a realizar a ação <strong>Correr</strong>, <strong>Desengajar</strong>, <strong>Esquivar</strong> ou <strong>Ajudar</strong> usando sua <strong>Ação Bônus</strong>.</p>
+                        <p>Além disso, sempre que ela acerta com uma <strong>rolagem de ataque</strong> e causa dano, ela pode causar <strong>dano de Força</strong> ou seu tipo de dano normal (sua escolha).</p>
+                    </div>
+                </div>
+                
+                <!-- Nível 11: Fúria Bestial -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 11: Fúria Bestial</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Quando você comanda sua besta <strong>Companheiro Primitivo</strong> a realizar a ação <strong>Golpe da Besta</strong>, a besta pode usá-la <strong>duas vezes</strong>.</p>
+                        <p>Além disso, na <strong>primeira vez</strong> que ela acerta uma criatura sob o efeito de sua magia <strong>Marca do Caçador</strong> em cada turno, a besta causa dano de <strong>Força</strong> extra igual ao <strong>dano bônus daquela magia</strong>.</p>
+                    </div>
+                </div>
+                
+                <!-- Nível 15: Compartilhar Magias -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 15: Compartilhar Magias</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Quando você conjura uma <strong>magia</strong> tendo a si mesmo como alvo, também pode afetar sua besta <strong>Companheiro Primitivo</strong> com a magia se a besta estiver a até <strong>9 metros</strong> de você.</p>
+                    </div>
+                </div>
+            </div>
 
-          <div class="sub-feature">
-            <h5>Nível 6: Táticas Defensivas</h5>
-            <p>Você escolhe uma das seguintes manobras de sobrevivência em combate:</p>
-            <ul class="trait-list" style="margin-top: 5px;">
-              <li><strong>Defesa de Fugitivo (Escape the Horde):</strong> Ataques de oportunidade realizados contra você possuem **Desvantagem**.</li>
-              <li><strong>Defesa Multi-Ataque:</strong> Quando uma criatura atingir você com um ataque, você ganha **+4** de bônus na sua CA contra todos os ataques subsequentes desferidos por aquela mesma criatura até o fim do turno atual.</li>
-            </ul>
-          </div>
+            <!-- ABA - Andarilho Feérico -->
+            <div class="tab-pane">
+                <h3 style="color: var(--gold); margin-bottom: 15px;">Andarilho Feérico</h3>
+                <p>Uma <strong>mística feérica</strong> envolve você, graças à bênção de um <strong>arquifeérico</strong> ou de um local no <strong>Plano Feérico</strong> que o transformou. Seja como for que você ganhou magia feérica, agora você é um <strong>Andarilho Feérico</strong>. Sua risada alegre ilumina os corações dos oprimidos, e sua proeza marcial causa terror em seus inimigos, pois grande é a alegria dos feéricos e terrível é sua fúria.</p>
+                
+                <!-- Nível 3: Golpes Amedrontadores -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Golpes Amedrontadores</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você pode aumentar seus golpes de arma com <strong>magia que marca a mente</strong>, extraída das cavidades sombrias do <strong>Plano Feérico</strong>. Quando você acerta uma criatura com uma <strong>arma</strong>, pode causar <strong>1d4</strong> de dano <strong>Psíquico</strong> extra ao alvo, que pode sofrer este dano extra apenas <strong>uma vez por turno</strong>. O dano extra aumenta para <strong>1d6</strong> quando você atinge o <strong>nível 11 de Patrulheiro</strong>.</p>
+                    </div>
+                </div>
+                
+                <!-- Nível 3: Magias do Andarilho Feérico -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Magias do Andarilho Feérico</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Quando você atinge um nível de Patrulheiro especificado na tabela de <strong>Magias do Andarilho Feérico</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                        
+                        <div class="overflow-table">
+                            <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                <thead>
+                                    <tr>
+                                        <th>Nível de Patrulheiro</th>
+                                        <th class="esquerda">Magia</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><th>3º</th><td class="esquerda"><strong>Enfeitiçar Pessoa</strong></th></tr>
+                                    <tr><th>5º</th><td class="esquerda"><strong>Passo Nebuloso</strong></th></tr>
+                                    <tr><th>9º</th><td class="esquerda"><strong>Conjurar Fada</strong></th></tr>
+                                    <tr><th>13º</th><td class="esquerda"><strong>Porta Dimensional</strong></th></tr>
+                                    </tr><th>17º</th><td class="esquerda"><strong>Desorientar</strong></th></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <p>Você também possui uma <strong>bênção feérica</strong>. Escolha-a na tabela de <strong>Presentes do Plano Feérico</strong> ou determine-a aleatoriamente.</p>
+                        
+                        <div class="overflow-table">
+                            <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                <thead>
+                                    <tr><th>1d6</th><th class="esquerda">Presente</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td class="esquerda"><strong>1</strong></th><td class="esquerda">Borboletas ilusórias esvoaçam ao seu redor enquanto você faz um Descanso Curto ou Descanso Longo.</th></tr>
+                                    <tr><td class="esquerda"><strong>2</strong></th><td class="esquerda">Flores desabrocham de seu cabelo cada amanhecer.</th></tr>
+                                    <tr><td class="esquerda"><strong>3</strong></th><td class="esquerda">Você tem um leve cheiro de canela, lavanda, noz-moscada ou outra erva ou especiaria reconfortante.</th></tr>
+                                    <tr><td class="esquerda"><strong>4</strong></th><td class="esquerda">Sua sombra dança quando ninguém está olhando diretamente para ela.</th></tr>
+                                    <tr><td class="esquerda"><strong>5</strong></th><td class="esquerda">Chifres ou galhos brotam de sua cabeça.</th></tr>
+                                    <tr><td class="esquerda"><strong>6</strong></th><td class="esquerda">Sua pele e cabelo mudam de cor cada amanhecer.</th></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Nível 3: Glamour de Outro Mundo -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Glamour de Outro Mundo</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Sempre que você faz um <strong>teste de Carisma</strong>, você ganha um <strong>bônus</strong> no teste igual ao seu modificador de <strong>Sabedoria</strong> (mínimo de +1).</p>
+                        <p>Você também ganha proficiência em uma destas <strong>perícias</strong> de sua escolha: <strong>Enganação</strong>, <strong>Atuação</strong> ou <strong>Persuasão</strong>.</p>
+                    </div>
+                </div>
+                
+                <!-- Nível 7: Torção Sedutora -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 7: Torção Sedutora</span>
+                        <span class="badge-mini reacao">Reação</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>A magia do <strong>Plano Feérico</strong> protege sua mente. Você tem <strong>Vantagem</strong> em testes de resistência para <strong>evitar ou encerrar</strong> as condições <strong>Enfeitiçado</strong> ou <strong>Amedrontado</strong>.</p>
+                        <p>Além disso, sempre que <strong>você ou uma criatura</strong> que você pode ver a até <strong>36 metros</strong> de você <strong>obtém sucesso</strong> em um teste de resistência para evitar ou encerrar as condições <strong>Enfeitiçado</strong> ou <strong>Amedrontado</strong>, você pode usar uma <strong>Reação</strong> para forçar uma <strong>criatura diferente</strong> que você pode ver a até 36 metros de você a fazer um teste de resistência de <strong>Sabedoria</strong> contra sua CD de resistência de magia. Em uma falha, o alvo fica <strong>Enfeitiçado</strong> ou <strong>Amedrontado</strong> (sua escolha) por <strong>1 minuto</strong>. O alvo <strong>repete o teste</strong> no final de cada um de seus turnos, encerrando o efeito em si mesmo em um sucesso.</p>
+                    </div>
+                </div>
+                
+                <!-- Nível 11: Reforços Feéricos -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 11: Reforços Feéricos</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você pode conjurar <strong>Conjurar Fada</strong> sem um <strong>componente Material</strong>. Você também pode conjurá-la <strong>uma vez sem um espaço de magia</strong> e recupera a capacidade de conjurá-la desta forma quando finaliza um <strong>Descanso Longo</strong>.</p>
+                        <p>Sempre que você começa a conjurar a magia, pode modificá-la para que <strong>não exija Concentração</strong>. Se você fizer isso, a duração da magia se torna <strong>1 minuto</strong> para aquela conjuração.</p>
+                    </div>
+                </div>
+                
+                <!-- Nível 15: Andarilho Nebuloso -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 15: Andarilho Nebuloso</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você pode conjurar <strong>Passo Nebuloso</strong> <strong>sem gastar um espaço de magia</strong>. Você pode fazer isso um número de vezes igual ao seu modificador de <strong>Sabedoria</strong> (mínimo de uma vez) e recupera todos os usos gastos quando finaliza um <strong>Descanso Longo</strong>.</p>
+                        <p>Além disso, sempre que você conjura <strong>Passo Nebuloso</strong>, pode levar junto <strong>uma criatura disposta</strong> que você pode ver a até <strong>1,5 metro</strong> de você. Aquela criatura teleporta para um <strong>espaço desocupado</strong> de sua escolha a até <strong>1,5 metro</strong> do seu espaço de destino.</p>
+                    </div>
+                </div>
+            </div>
 
-          <div class="sub-feature">
-            <h5>Nível 10: Ataque de Retaliação</h5>
-            <p>Quando uma criatura errar um ataque corpo a corpo contra você, você pode usar sua Reação para realizar um ataque de arma imediato contra aquela criatura.</p>
-          </div>
+            <!-- ABA - Perseguidor Sombrio -->
+            <div class="tab-pane">
+                <h3 style="color: var(--gold); margin-bottom: 15px;">Perseguidor Sombrio</h3>
+                <p>Acaçadores Sombrios estão em casa nos <strong>lugares mais escuros</strong>, empunhando magia extraída do <strong>Plano das Sombras (Shadowfell)</strong> para combater inimigos que se escondem na escuridão.</p>
+                
+                <!-- Nível 3: Emboscador Amedrontador -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Emboscador Amedrontador</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você dominou a arte de criar <strong>emboscadas temíveis</strong>, concedendo-lhe os seguintes benefícios.</p>
+                        
+                        <p><strong style="color: white;">Salto do Emboscador.</strong> No <strong>início de seu primeiro turno de cada combate</strong>, seu <strong>Deslocamento</strong> aumenta em <strong>3 metros</strong> até o final daquele turno.</p>
+                        
+                        <p><strong style="color: white;">Golpe Amedrontador.</strong> Quando você ataca uma criatura e acerta com uma <strong>arma</strong>, pode causar <strong>2d6</strong> de dano <strong>Psíquico</strong> extra. Você pode usar este benefício apenas <strong>uma vez por turno</strong>, pode usá-lo um número de vezes igual ao seu modificador de <strong>Sabedoria</strong> (mínimo de uma vez) e recupera todos os usos gastos quando finaliza um <strong>Descanso Longo</strong>.</p>
+                        
+                        <p><strong style="color: white;">Bônus de Iniciativa.</strong> Quando você rola <strong>Iniciativa</strong>, pode adicionar seu modificador de <strong>Sabedoria</strong> à rolagem.</p>
+                    </div>
+                </div>
+                
+                <!-- Nível 3: Magias do Perseguidor Sombrio -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Magias do Perseguidor Sombrio</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Quando você atinge um nível de Patrulheiro especificado na tabela de <strong>Magias do Perseguidor Sombrio</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                        
+                        <div class="overflow-table">
+                            <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                <thead>
+                                    <tr>
+                                        <th>Nível de Patrulheiro</th>
+                                        <th class="esquerda">Magia</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><th>3º</th><td class="esquerda"><strong>Disfarçar-se</strong></th></tr>
+                                    <tr><th>5º</th><td class="esquerda"><strong>Truque da Corda</strong></th></tr>
+                                    <tr><th>9º</th><td class="esquerda"><strong>Medo</strong></th></tr>
+                                    <tr><th>13º</th><td class="esquerda"><strong>Invisibilidade Maior</strong></th></tr>
+                                    <tr><th>17º</th><td class="esquerda"><strong>Aparência</strong></th></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Nível 3: Visão Umbral -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Visão Umbral</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha <strong>Visão no Escuro</strong> com alcance de <strong>18 metros</strong>. Se você já tem Visão no Escuro quando ganha esta característica, seu alcance aumenta em <strong>18 metros</strong>.</p>
+                        <p>Você também é adepto a <strong>evitar criaturas que dependem de Visão no Escuro</strong>. Enquanto estiver completamente em <strong>Escuridão</strong>, você tem a condição <strong>Invisível</strong> para qualquer criatura que dependa de Visão no Escuro para vê-lo naquela Escuridão.</p>
+                    </div>
+                </div>
+                
+                <!-- Nível 7: Mente de Ferro -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 7: Mente de Ferro</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você aprimorou sua habilidade de resistir a poderes que alteram a mente. Você ganha <strong>proficiência</strong> em testes de resistência de <strong>Sabedoria</strong>. Se você já tem esta proficiência, em vez disso, ganha proficiência em testes de resistência de <strong>Inteligência</strong> ou <strong>Carisma</strong> (sua escolha).</p>
+                    </div>
+                </div>
+                
+                <!-- Nível 11: Rajada do Acaçador -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 11: Rajada do Acaçador</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>O dano <strong>Psíquico</strong> de seu <strong>Golpe Amedrontador</strong> se torna <strong>2d8</strong>. Além disso, quando você usa o efeito <strong>Golpe Amedrontador</strong> de sua característica <strong>Emboscador Amedrontador</strong>, pode usar <strong>um dos seguintes efeitos adicionais</strong>.</p>
+                        
+                        <p><strong style="color: white;">Golpe Repentino.</strong> Você pode fazer <strong>outro ataque</strong> com a mesma arma contra uma <strong>criatura diferente</strong> que esteja a até <strong>1,5 metro</strong> do alvo original e que esteja dentro do <strong>alcance da arma</strong>.</p>
+                        
+                        <p><strong style="color: white;">Medo em Massa.</strong> O alvo e cada <strong>criatura</strong> a até <strong>3 metros</strong> dele devem fazer um teste de resistência de <strong>Sabedoria</strong> contra sua CD de resistência de magia. Em uma falha, uma criatura tem a condição <strong>Amedrontado</strong> até o início de seu próximo turno.</p>
+                    </div>
+                </div>
+                
+                <!-- Nível 15: Esquiva Sombria -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 15: Esquiva Sombria</span>
+                        <span class="badge-mini reacao">Reação</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Quando uma <strong>criatura</strong> faz uma <strong>rolagem de ataque</strong> contra você, pode usar uma <strong>Reação</strong> para impor <strong>Desvantagem</strong> naquela rolagem. Se o ataque acertar ou errar, você pode <strong>teleportar até 9 metros</strong> para um <strong>espaço desocupado</strong> que você pode ver.</p>
+                    </div>
+                </div>
+            </div>
 
-          <div class="sub-feature">
-            <h5>Nível 14: Defesa Feral Retaliatória</h5>
-            <p>Você ganha a habilidade de *Evasão*. Quando for alvo de um efeito que exija uma salvaguarda de Destreza para sofrer apenas metade do dano, você não sofre nenhum dano se passar, e apenas metade se falhar.</p>
-          </div>
-        </div>
+            <!-- ABA - Caçador -->
+            <div class="tab-pane">
+                <h3 style="color: var(--gold); margin-bottom: 15px;">Caçador</h3>
+                <p>Você persegue presas nas selvas e em outros lugares, usando suas habilidades como Caçador para proteger a natureza e as pessoas em todos os lugares das forças que as destruiriam.</p>
+                
+                <!-- Nível 3: Sabedoria do Caçador -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Sabedoria do Caçador</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você pode invocar as forças da natureza para revelar certos pontos fortes e fracos de sua presa. Enquanto uma <strong>criatura</strong> estiver marcada por sua <strong>Marca do Caçador</strong>, você sabe se a criatura tem quaisquer <strong>Imunidades</strong>, <strong>Resistências</strong> ou <strong>Vulnerabilidades</strong> e, se a criatura tiver, você sabe quais são.</p>
+                    </div>
+                </div>
+                
+                <!-- Nível 3: Presa do Caçador -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Presa do Caçador</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha <strong>uma das seguintes opções</strong> de característica de sua escolha. Sempre que você finaliza um <strong>Descanso Curto</strong> ou <strong>Descanso Longo</strong>, pode <strong>substituir a opção escolhida pela outra</strong>.</p>
+                        
+                        <p><strong style="color: white;">Esmaga-Colosso.</strong> Sua tenacidade pode desgastar até mesmo os inimigos mais resilientes. Quando você acerta uma criatura com uma <strong>arma</strong>, a arma causa <strong>1d8</strong> de dano extra ao alvo se ele estiver <strong>faltando qualquer um de seus Pontos de Vida</strong>. Você pode causar este dano extra apenas <strong>uma vez por turno</strong>.</p>
+                        
+                        <p><strong style="color: white;">Quebrador de Horda.</strong> <strong>Uma vez em cada um de seus turnos</strong> quando você faz um ataque com uma <strong>arma</strong>, pode fazer <strong>outro ataque</strong> com a mesma arma contra uma <strong>criatura diferente</strong> que esteja a até <strong>1,5 metro</strong> do alvo original, que esteja dentro do <strong>alcance da arma</strong> e que você <strong>não atacou neste turno</strong>.</p>
+                    </div>
+                </div>
+                
+                <!-- Nível 7: Táticas Defensivas -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 7: Táticas Defensivas</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha <strong>uma das seguintes opções</strong> de característica de sua escolha. Sempre que você finaliza um <strong>Descanso Curto</strong> ou <strong>Descanso Longo</strong>, pode <strong>substituir a opção escolhida pela outra</strong>.</p>
+                        
+                        <p><strong style="color: white;">Escapar da Horda.</strong> <strong>Ataques de Oportunidade</strong> têm <strong>Desvantagem</strong> contra você.</p>
+                        
+                        <p><strong style="color: white;">Defesa contra Multiataque.</strong> Quando uma <strong>criatura acerta você</strong> com uma rolagem de ataque, aquela criatura tem <strong>Desvantagem</strong> em <strong>todas as outras rolagens de ataque</strong> contra você neste turno.</p>
+                    </div>
+                </div>
+                
+                <!-- Nível 11: Presa do Caçador Superior -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 11: Presa do Caçador Superior</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p><strong>Uma vez por turno</strong> quando você causa dano a uma <strong>criatura</strong> marcada por sua <strong>Marca do Caçador</strong>, você também pode causar o <strong>dano extra daquela magia</strong> a uma <strong>criatura diferente</strong> que você pode ver a até <strong>9 metros</strong> da primeira criatura.</p>
+                    </div>
+                </div>
+                
+                <!-- Nível 15: Defesa do Caçador Superior -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 15: Defesa do Caçador Superior</span>
+                        <span class="badge-mini reacao">Reação</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Quando você <strong>sofre dano</strong>, pode usar uma <strong>Reação</strong> para conceder a si mesmo <strong>Resistência</strong> àquele dano e a <strong>qualquer outro dano do mesmo tipo</strong> até o final do turno atual.</p>
+                    </div>
+                </div>
+            </div>
 
-        <div class="bloco-subclasse-detalhada">
-          <h3>2. Mestre das Feras (Beast Master)</h3>
-          <p>Forma um elo místico inquebrável com um espírito da natureza que assume o aspecto de uma fera de combate leal e letal.</p>
+            <!-- ABA - Andarilho do Inverno -->
+            <div class="tab-pane">
+                <h3 style="color: var(--gold); margin-bottom: 15px;">Andarilho do Inverno</h3>
+                <p>Andarilhos do Inverno aprimoram sua arte nas selvas geladas e desoladas de lugares como o <strong>Vale de Gelo</strong>. Estes Patrulheiros impiedosos e cobertos de gelo caçam monstros que assombram as terras árticas, eventualmente tornando-se eles próprios terrores gélidos. Andarilhos do Inverno são bem versados nos fenômenos do Vale de Gelo, incluindo a magia latente das cidades Netherese caídas, monstros endêmicos como yetis e gatos das rochas, e a ameaça crescente de invasores do Submundo. Devido ao seu pragmatismo frio, magia aterrorizante e domínio da região, Andarilhos do Inverno são vistos com igual respeito e medo. Os cidadãos das <strong>Dez-Cidades</strong> dizem que a exposição frequente dos Andarilhos do Inverno a entidades malignas lhes concede seus poderes temíveis. Muitos nômades <strong>Reghed</strong>, por outro lado, acreditam que espíritos da natureza concedem aos Andarilhos do Inverno uma maldição única.</p>
+                
+                <!-- Nível 3: Explorador Glacial -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Explorador Glacial</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha os seguintes benefícios.</p>
+                        
+                        <p><strong style="color: white;">Frio Cortante.</strong> O dano de seus <strong>ataques com arma</strong>, <strong>magias de Patrulheiro</strong> e <strong>características de Patrulheiro</strong> <strong>ignora Resistência</strong> a dano de <strong>Frio</strong>.</p>
+                        
+                        <p><strong style="color: white;">Resistência ao Frio.</strong> Você tem <strong>Resistência</strong> a dano de <strong>Frio</strong>.</p>
+                        
+                        <p><strong style="color: white;">Golpes Polares.</strong> Quando você acerta uma criatura com uma rolagem de ataque usando uma <strong>arma</strong>, pode causar <strong>1d4</strong> de dano de <strong>Frio</strong> extra ao alvo, que pode sofrer este dano extra apenas <strong>uma vez por turno</strong>. Quando você atinge o <strong>nível 11 de Patrulheiro</strong>, este dano extra aumenta para <strong>1d6</strong>.</p>
+                    </div>
+                </div>
+                
+                <!-- Nível 3: Geada do Caçador -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Geada do Caçador</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>O gelo envolve você e sua presa, protegendo-o e atrapalhando-os. Quando você conjura <strong>Marca do Caçador</strong>, você ganha <strong>Pontos de Vida Temporários</strong> iguais a <strong>1d10 + seu nível de Patrulheiro</strong>.</p>
+                        <p>Além disso, enquanto uma <strong>criatura</strong> estiver marcada por sua <strong>Marca do Caçador</strong>, ela <strong>não pode usar a ação Desengajar</strong>.</p>
+                    </div>
+                </div>
+                
+                <!-- Nível 3: Magias do Andarilho do Inverno -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Magias do Andarilho do Inverno</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Quando você atinge um nível de Patrulheiro especificado na tabela de <strong>Magias do Andarilho do Inverno</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                        
+                        <div class="overflow-table">
+                            <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                <thead>
+                                    <tr>
+                                        <th>Nível de Patrulheiro</th>
+                                        <th class="esquerda">Magia</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><th>3º</th><td class="esquerda"><strong>Faca de Gelo</strong></th></tr>
+                                    <tr><th>5º</th><td class="esquerda"><strong>Segurar Pessoa</strong></th></tr>
+                                    <tr><th>9º</th><td class="esquerda"><strong>Remover Maldição</strong></th></tr>
+                                    <tr><th>13º</th><td class="esquerda"><strong>Tempestade de Gelo</strong></th></tr>
+                                    <tr><th>17º</th><td class="esquerda"><strong>Cone de Frio</strong></th></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Nível 7: Alma Fortalecida -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 7: Alma Fortalecida</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Sua experiência sobrevivendo a ambientes desoladores permite que você fortaleça seus aliados além de si mesmo. Como uma <strong>Ação Mágica</strong>, escolha um número de <strong>criaturas</strong> que você pode ver igual ao seu modificador de <strong>Sabedoria</strong> (mínimo de uma). Cada criatura escolhida recupera <strong>Pontos de Vida</strong> iguais a <strong>1d10 + seu nível de Patrulheiro</strong> e tem <strong>Vantagem</strong> em testes de resistência para <strong>evitar ou encerrar</strong> a condição <strong>Amedrontado</strong> por <strong>1 hora</strong>.</p>
+                        <p>Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Longo</strong>.</p>
+                    </div>
+                </div>
+                
+                <!-- Nível 11: Retribuição Glacial -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 11: Retribuição Glacial</span>
+                        <span class="badge-mini reacao">Reação</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Quando uma <strong>criatura acerta você</strong> com uma <strong>rolagem de ataque</strong>, você pode usar uma <strong>Reação</strong> para forçar a criatura a fazer um teste de resistência de <strong>Sabedoria</strong> contra sua CD de resistência de magia. Em uma falha, o alvo tem a condição <strong>Atordoado</strong> até o final de seu próximo turno. Enquanto o alvo estiver Atordoado, seu <strong>Deslocamento</strong> é reduzido a <strong>0 metros</strong>.</p>
+                        <p>Você pode usar esta característica um número de vezes igual ao seu modificador de <strong>Sabedoria</strong> (mínimo de uma vez) e recupera todos os usos gastos quando finaliza um <strong>Descanso Longo</strong>.</p>
+                    </div>
+                </div>
+                
+                <!-- Nível 15: Assombração Gelada -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 15: Assombração Gelada</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Quando você conjura <strong>Marca do Caçador</strong>, pode adotar uma <strong>forma fantasmagórica e nevada</strong>. Esta forma dura até a magia terminar e, enquanto estiver nesta forma, você ganha os seguintes benefícios. Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Longo</strong>, a menos que você gaste um <strong>espaço de magia de nível 4+</strong> (nenhuma ação necessária).</p>
+                        
+                        <p><strong style="color: white;">Alma Congelada.</strong> Você tem <strong>Imunidade</strong> a dano de <strong>Frio</strong>. Quando você adota esta forma pela primeira vez e no <strong>início de cada um de seus turnos subsequentes</strong>, cada <strong>criatura de sua escolha</strong> em uma <strong>Emanação de 4,5 metros</strong> originada de você sofre <strong>2d4</strong> de dano de <strong>Frio</strong>.</p>
+                        
+                        <p><strong style="color: white;">Parcialmente Incorpóreo.</strong> Você tem <strong>Imunidade</strong> às condições <strong>Agarrar</strong>, <strong>Deitado</strong> e <strong>Restringido</strong>. Você pode se mover através de <strong>criaturas e objetos</strong> como se fossem <strong>Terreno Difícil</strong>, mas sofre <strong>1d10</strong> de dano de <strong>Força</strong> se terminar seu turno dentro de uma criatura ou objeto. Se a forma terminar enquanto você estiver dentro de uma criatura ou objeto, você é <strong>deslocado</strong> para o <strong>espaço desocupado mais próximo</strong>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ABA - Guarda do Vazio -->
+            <div class="tab-pane">
+                <h3 style="color: var(--gold); margin-bottom: 15px;">Guarda do Vazio</h3>
+                <p>Lendas contam que os terrores mais antigos e temíveis espreitam nas profundezas dos lugares antigos da terra — entidades insondáveis e sanguinárias de solo estéril e garras afiadas.</p>
+                <p>Guardas do Vazio veneram e extraem poder de tais seres, transformando-se em guardiões impiedosos e monstruosos que percorrem costas irregulares, contra penhascos íngremes de montanhas e através de outros lugares escuros e selvagens.</p>
+                
+                <!-- Nível 3: Magias do Guarda do Vazio -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Magias do Guarda do Vazio</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Quando você atinge um nível de Patrulheiro especificado na tabela de <strong>Magias do Guarda do Vazio</strong>, você sempre tem as magias listadas preparadas a partir de então.</p>
+                        
+                        <div class="overflow-table">
+                            <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                <thead>
+                                    <tr>
+                                        <th>Nível de Patrulheiro</th>
+                                        <th class="esquerda">Magia</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><th>3º</th><td class="esquerda"><strong>Golpe Irado</strong></th></tr>
+                                    <tr><th>5º</th><td class="esquerda"><strong>Crescimento de Espinhos</strong></th></tr>
+                                    <tr><th>9º</th><td class="esquerda"><strong>Montaria Fantasma</strong></th></tr>
+                                    <tr><th>13º</th><td class="esquerda"><strong>Terreno Alucinatório</strong></th></tr>
+                                    <tr><th>17º</th><td class="esquerda"><strong>Despertar</strong></th></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Nível 3: Fúria do Ermo -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Fúria do Ermo</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você usa os horrores estranhos e antigos da terra para obter poder. Quando você conjura <strong>Marca do Caçador</strong>, você se transforma durante a duração da magia, ganhando os seguintes benefícios:</p>
+                        
+                        <p><strong style="color: white;">Armadura Antiga.</strong> Você ganha um <strong>bônus na sua CA</strong> igual ao seu modificador de <strong>Sabedoria</strong> (mínimo de +1). Seu corpo fica envolto em <strong>casca podre</strong> ou <strong>cerdas bestiais</strong>.</p>
+                        
+                        <p><strong style="color: white;">Aura Inquietante.</strong> Quando um <strong>inimigo</strong> começa seu turno dentro de uma <strong>Emanação de 3 metros</strong> originada de você, ele deve fazer um teste de resistência de <strong>Sabedoria</strong> contra sua CD de resistência de magia. Em uma falha, a criatura pode realizar <strong>apenas uma Ação ou uma Ação Bônus</strong>, não ambas, naquele turno. Sua sombra se alonga e se torce, ou crescimentos não naturais como <strong>chifres sangrentos</strong> ou <strong>presas pútridas</strong> brotam de seu corpo.</p>
+                    </div>
+                </div>
+                
+                <!-- Nível 7: Fome Devoradora -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 7: Fome Devoradora</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você se torna mais difícil de matar e mais predatório:</p>
+                        
+                        <p><strong style="color: white;">Você ganha um <strong>bônus</strong> em testes de resistência de <strong>Constituição</strong> igual ao seu modificador de <strong>Sabedoria</strong> (mínimo de +1).</strong></p>
+                        
+                        <p>Além disso, <strong>uma vez por turno</strong>, quando você acerta uma criatura com uma <strong>rolagem de ataque</strong> enquanto está transformado por <strong>Fúria do Ermo</strong>, e você está <strong>Encurralado</strong> (a metade ou menos de seus PV), você recupera <strong>1d10 + seu modificador de Sabedoria</strong> <strong>Pontos de Vida</strong>.</p>
+                    </div>
+                </div>
+                
+                <!-- Nível 11: Podridão e Violência -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 11: Podridão e Violência</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Sua dedicação aos seres feéricos da floresta o altera ainda mais. Enquanto estiver transformado usando <strong>Fúria do Ermo</strong>, você ganha estes efeitos adicionais:</p>
+                        
+                        <p><strong style="color: white;">Aura Sinistra.</strong> Quando uma <strong>criatura falha</strong> em seu teste de resistência contra sua <strong>Aura Inquietante</strong>, ela também sofre dano <strong>Necrótico</strong>, de <strong>Veneno</strong> ou <strong>Psíquico</strong> (sua escolha) igual ao seu <strong>nível de Patrulheiro</strong>. Este dano <strong>ignora Resistência</strong>.</p>
+                        
+                        <p><strong style="color: white;">Raízes Estranguladoras.</strong> Quando você acerta uma criatura com um <strong>ataque com arma</strong>, pode ativar a propriedade de maestria <strong>Debilitar</strong> ou <strong>Lento</strong> em adição a qualquer outra propriedade de maestria que você esteja usando com aquela arma.</p>
+                    </div>
+                </div>
+                
+                <!-- Nível 15: Resistência Antiga -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 15: Resistência Antiga</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você se torna completamente infundido com o poder antigo da floresta, ganhando os seguintes benefícios:</p>
+                        
+                        <p><strong style="color: white;">Perseguição Persistente.</strong> Se você <strong>cair a 0 Pontos de Vida</strong> enquanto estiver transformado por <strong>Fúria do Ermo</strong> e não morrer imediatamente, pode gastar um <strong>espaço de magia de nível 4 ou superior</strong> (nenhuma ação necessária). Seus Pontos de Vida tornam-se iguais a <strong>5 vezes o nível do espaço de magia gasto</strong>.</p>
+                        
+                        <p><strong style="color: white;">Atemporal.</strong> Você ganha <strong>Imunidade</strong> à condição <strong>Exaustão</strong>.</p>
+                    </div>
+                </div>
+            </div>
+          </div>
           
-          <div class="sub-feature">
-            <h5>Nível 3: Companheiro Primal (Primal Companion)</h5>
-            <p>Você evoca magicamente uma fera de combate que se manifesta sob três aspectos (Terra, Mar ou Céu). Ela possui seu próprio bloco de estatísticas que escala com o seu nível e o seu Bônus de Proficiência. Em combate, a fera age logo após o seu turno. Você pode gastar uma Ação Bônus para ordenar que ela execute a ação de Ataque, Disparada, Desengajar ou Esquivar. Se você não emitir ordens, ela executa a ação de Esquivar automaticamente.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 6: Treinamento Excepcional</h5>
-            <p>Os ataques realizados pelo seu companheiro animal passam a contar como ataques mágicos para superar resistências. Além disso, quando ordenar que ela ataque, ela pode desferir um ataque extra se você possuir o recurso *Ataque Extra*.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 10: Fúria Bestial</h5>
-            <p>Quando você conjurar ou mover a sua *Marca do Caçador* para um inimigo, o seu Companheiro Primal também recebe os benefícios do feitiço, causando **1d6** de dano extra quando atingir aquele alvo específico.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 14: Compartilhar Feitiços</h5>
-            <p>Quando você conjurar uma magia cujo alvo seja você mesmo, você pode escolher fazer com que a magia afete também o seu Companheiro Primal, desde que ele esteja a até 9 metros de você.</p>
-          </div>
-        </div>
-
-        <div class="bloco-subclasse-detalhada">
-          <h3>3. Caminhante do Horizonte (Horizon Walker)</h3>
-          <p>Guardiões planares que patrulham as fronteiras entre realidades, utilizando pequenos teletransportes e energia dimensional pura para rasgar inimigos.</p>
-          
-          <div class="sub-feature">
-            <h5>Nível 3: Magias Planares & Ameaça Dimensional</h5>
-            <p><strong>Magias de Subclasse:</strong> *Proteção contra o Bem e Mal*, *Passo Nebuloso*, *Haste*.</p>
-            <p><strong>Força Planar:</strong> Com uma Ação Bônus, escolha uma criatura a até 9 metros. O próximo ataque que você desferir contra ela neste turno converte todo o dano da arma em **Dano Força** e causa **1d8** de dano extra.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 6: Passo Etéreo</h5>
-            <p>Você adquire a capacidade de transitar momentaneamente pelo Plano Etéreo. Como uma Ação Bônus, você pode conjurar a magia *Deslocamento Etéreo*, mas o efeito se encerra ao final do seu turno atual. Uso livre por Descanso Longo equivalente ao seu modificador de Sabedoria.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 10: Ataque Distante</h5>
-            <p>Você aprende a piscar através do espaço entre seus golpes. Quando realizar a ação de Ataque, você pode se teletransportar por até 3 metros imediatamente antes de cada ataque que desferir. Se você atacar duas criaturas diferentes com os dois primeiros golpes, ganha um **terceiro ataque bônus** contra um terceiro alvo.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 14: Retaliação Espectral</h5>
-            <p>Quando você sofrer um ataque de uma criatura, você pode usar sua Reação para ganhar **Resistência** a todos os danos daquele ataque específico, piscando para fora da realidade no momento do impacto.</p>
-          </div>
-        </div>
-
-        <div class="bloco-subclasse-detalhada">
-          <h3>4. Perseguidor das Sombras (Gloom Stalker)</h3>
-          <p>Mestres do Subterrâneo e das trevas absolutas. Emboscam suas presas movendo-se de forma invisível no escuro e desferindo rajadas de ataques apavorantes.</p>
-          
-          <div class="sub-feature">
-            <h5>Nível 3: Emboscar Pavoroso & Visão Umbral</h5>
-            <p><strong>Visão Umbral:</strong> Você ganha visão no escuro a um alcance de 27 metros. Se já possuir por sua raça, o alcance aumenta em 9 metros. Além disso, enquanto estiver na escuridão, você se torna **totalmente invisível** para qualquer criatura que dependa de visão no escuro para enxergar você.</p>
-            <p><strong>Emboscar Pavoroso (Dread Ambusher):</strong> No início do seu primeiro turno em qualquer combate, seu deslocamento aumenta em 3 metros e você realiza um ataque de arma adicional que causa **1d8** de dano extra se atingir.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 6: Mente de Ferro</h5>
-            <p>Sua determinação contra os perigos subterrâneos blinda sua mente. Você ganha proficiência em salvaguardas de Sabedoria. Se já possuir essa proficiência, ganha proficiência em salvaguardas de Inteligência ou Carisma (à sua escolha).</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 10: Flurrei do Perseguidor</h5>
-            <p>Uma vez em cada um de seus turnos, quando você errar um ataque de arma, você pode realizar outro ataque de arma adicional como parte da mesma ação, garantindo que a presa não escape.</p>
-          </div>
-
-          <div class="sub-feature">
-            <h5>Nível 14: Esquiva Sombria</h5>
-            <p>Você aprende a evadir golpes usando as próprias sombras. Quando uma criatura realizar uma jogada de ataque contra você e não tiver vantagem, você pode usar sua Reação para impor **Desvantagem** na jogada daquele ataque inimigo.</p>
-          </div>
-        </div>
 
       </div>
     </div>

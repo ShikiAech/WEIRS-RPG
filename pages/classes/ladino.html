@@ -5,95 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ladino — Weirs RPG</title>
   <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
-  <style>
-    .bloco-ladino {
-      background: rgba(142, 68, 173, 0.03);
-      border: 1px solid rgba(142, 68, 173, 0.15);
-      border-left: 4px solid #8e44ad;
-      padding: 20px;
-      margin-top: 20px;
-      border-radius: 0 4px 4px 0;
-    }
-    .bloco-ladino h4 {
-      font-family: 'Cinzel', serif;
-      color: #9b59b6;
-      font-size: 1.25rem;
-      margin-bottom: 8px;
-    }
-    .bloco-subclasse-detalhada {
-      background: rgba(25, 25, 27, 0.8);
-      border: 1px solid var(--border-fantasy);
-      padding: 25px;
-      margin-top: 35px;
-      border-radius: 4px;
-    }
-    .bloco-subclasse-detalhada h3 {
-      font-family: 'Cinzel', serif;
-      color: #8e44ad;
-      border-bottom: 1px solid rgba(142, 68, 173, 0.3);
-      padding-bottom: 8px;
-      margin-bottom: 20px;
-    }
-    .sub-feature {
-      background: rgba(142, 68, 173, 0.04);
-      border-left: 3px solid #8e44ad;
-      padding: 15px;
-      margin-top: 15px;
-      border-radius: 0 4px 4px 0;
-    }
-    .sub-feature h5 {
-      font-family: 'Cinzel', serif;
-      color: #bb8fce;
-      font-size: 1.05rem;
-      margin-bottom: 5px;
-    }
-    .trait-list {
-      list-style: none;
-      margin-left: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .trait-list li strong {
-      color: var(--gold);
-    }
-    .tabela-rpg {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-      background: rgba(20, 20, 22, 0.6);
-      border: 1px solid var(--border-fantasy);
-      font-size: 0.85rem;
-    }
-    .tabela-rpg th, .tabela-rpg td {
-      border: 1px solid var(--border-fantasy);
-      padding: 10px 12px;
-      text-align: center;
-    }
-    .tabela-rpg th {
-      background: rgba(33, 23, 43, 0.5);
-      color: #8e44ad;
-      font-family: 'Cinzel', serif;
-    }
-    .tabela-rpg tr:nth-child(even) {
-      background: rgba(255, 255, 255, 0.02);
-    }
-    .tabela-rpg td.esquerda {
-      text-align: left;
-    }
-  </style>
+  <link rel="stylesheet" href="/WEIRS-RPG/css/class-style.css">
+  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+  <script src="/WEIRS-RPG/javascript/subclass-tab.js"></script>
+
 </head>
 <body>
-
-  <script src="/WEIRS-RPG/javascript/menu.js"></script>
-
   <div class="container">
     
     <div style="margin-bottom: 30px;">
       <a href="/WEIRS-RPG/pages/classes/classes.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Classes</a>
     </div>
 
-    <h2>Ladino (Rogue)</h2>
+    <h2>Ladino</h2>
     
     <div class="card-rpg">
       <div class="layout-detalhes">
@@ -103,240 +27,910 @@
           <p>Para muitos, resolver um problema exige o estrépito de armaduras pesadas ou o brilho cegante de feitiços arcanos. Para o ladino, exige precisão, oportunidade e o silêncio absoluto. Seja um mestre gatuno espreitando em becos úmidos, um aristocrata perspicaz manipulando a corte, ou um assassino focado em anatomia letal, eles transformam a sutileza em sua arma mais poderosa.</p>
           <p>Nas regras atualizadas de 2024, o Ladino expande drasticamente seu papel no campo de batalha com o recurso de <strong>Cunho Cansativo (Cunning Strike)</strong>. Ele não é mais apenas o causador de dano explosivo do grupo; agora, ele pode abdicar de parcelas de seu Ataque Furtivo para debilitar inimigos, desarmá-los, derrubá-los ou até mesmo deixá-los inconscientes com golpes cirúrgicos, mantendo-se como o mestre indiscutível das perícias e da furtividade.</p>
           
-          <h4 style="color: #8e44ad; margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
+          <h4 style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Características Iniciais</h4>
           <ul class="trait-list" style="margin-top: 15px;">
             <li><strong>Dado de Vida:</strong> 1d8 por nível de Ladino.</li>
-            <li><strong>Atributo Principal:</strong> Destreza (Ataques, CA e Iniciativa).</li>
+            <li><strong>Atributo Principal:</strong> Destreza.</li>
             <li><strong>Proficiências em Armaduras:</strong> Armaduras Leves.</li>
-            <li><strong>Proficiências em Armas:</strong> Armas Simples e Armas Marciais com a propriedade <i>Leve</i> ou <i>Acuidade</i>.</li>
-            <li><strong>Ferramentas:</strong> Ferramentas de Ladrão (Thieves' Tools).</li>
+            <li><strong>Proficiências em Armas:</strong> Armas Simples e armas Marciais com as propriedades Acuidade ou Leve.</li>
+            <li><strong>Proficiência em Ferramentas:</strong> Ferramentas de Ladrão.</li>
             <li><strong>Testes de Resistência:</strong> Destreza e Inteligência.</li>
-            <li><strong>Perícias:</strong> Escolha quatro entre Acrobacia, Atletismo, Atuação, Enganação, Furtividade, Intimidação, Intuição, Investigação, Percepção, Persuasão, Prestidigitação e Medicina.</li>
+            <li><strong>Perícias:</strong> Escolha quatro entre Acrobacia, Atletismo, Enganação, Intuição, Intimidação, Investigação, Percepção, Persuasão, Prestidigitação ou Furtividade.</li>
+            <li><strong>Equipamento Inicial:</strong> Escolha A ou B: (A) Armadura de Couro, 2 Adagas, Espada Curta, Arco Curto, 20 Flechas, Coldre, Ferramentas de Ladrão, Pacote do Ladrão e 8 PO; (B) 100 PO.</li>
           </ul>
         </div>
       </div>
 
       <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px; overflow-x: auto;">
-        <h3 style="font-family: 'Cinzel', serif; color: #8e44ad; font-size: 1.6rem; margin-bottom: 15px;">Progressão de Classe</h3>
-        <table class="tabela-rpg">
-          <thead>
-            <tr>
-              <th>Nível</th>
-              <th>Prof.</th>
-              <th class="esquerda">Recursos de Classe</th>
-              <th>Ataque Furtivo</th>
-              <th>Maestria em Armas</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>1º</td><td>+2</td><td class="esquerda">Ataque Furtivo, Especialização (Expertise), Gíria de Ladrão, Maestria em Armas</td><td>1d6</td><td>2</td></tr>
-            <tr><td>2º</td><td>+2</td><td class="esquerda">Ação Astuta (Cunning Action)</td><td>1d6</td><td>2</td></tr>
-            <tr><td>3º</td><td>+2</td><td class="esquerda">Arquétipo de Ladino (Subclasse), Mira Firme (Steady Aim)</td><td>2d6</td><td>2</td></tr>
-            <tr><td>4º</td><td>+2</td><td class="esquerda">Talento de Atributo (Feat)</td><td>2d6</td><td>2</td></tr>
-            <tr><td>5º</td><td>+3</td><td class="esquerda">Esquiva Sobrenatural (Uncanny Dodge), Cunho Cansativo (Cunning Strike)</td><td>3d6</td><td>2</td></tr>
-            <tr><td>6º</td><td>+3</td><td class="esquerda">Especialização Adicional (Expertise)</td><td>3d6</td><td>2</td></tr>
-            <tr><td>7º</td><td>+3</td><td class="esquerda">Evasão (Evasion)</td><td>4d6</td><td>3</td></tr>
-            <tr><td>8º</td><td>+3</td><td class="esquerda">Talento de Atributo (Feat)</td><td>4d6</td><td>3</td></tr>
-            <tr><td>9º</td><td>+4</td><td class="esquerda">Recurso de Subclasse</td><td>5d6</td><td>3</td></tr>
-            <tr><td>10º</td><td>+4</td><td class="esquerda">Talento de Atributo Extra (Feat)</td><td>5d6</td><td>3</td></tr>
-            <tr><td>11º</td><td>+4</td><td class="esquerda">Talento Confiável (Reliable Talent)</td><td>6d6</td><td>3</td></tr>
-            <tr><td>12º</td><td>+4</td><td class="esquerda">Talento de Atributo (Feat)</td><td>6d6</td><td>3</td></tr>
-            <tr><td>13º</td><td>+5</td><td class="esquerda">Recurso de Subclasse</td><td>7d6</td><td>3</td></tr>
-            <tr><td>14º</td><td>+5</td><td class="esquerda">Cunho Cansativo Aprimorado (Improved Cunning Strike)</td><td>7d6</td><td>3</td></tr>
-            <tr><td>15º</td><td>+5</td><td class="esquerda">Sentido de Lesma (Slippery Mind)</td><td>8d6</td><td>4</td></tr>
-            <tr><td>16º</td><td>+5</td><td class="esquerda">Talento de Atributo (Feat)</td><td>8d6</td><td>4</td></tr>
-            <tr><td>17º</td><td>+6</td><td class="esquerda">Recurso de Subclasse</td><td>9d6</td><td>4</td></tr>
-            <tr><td>18º</td><td>+6</td><td class="esquerda">Elusivo (Elusive)</td><td>9d6</td><td>4</td></tr>
-            <tr><td>19º</td><td>+6</td><td class="esquerda">Talento de Atributo / Dádiva Épica</td><td>10d6</td><td>4</td></tr>
-            <tr><td>20º</td><td>+6</td><td class="esquerda">Golpe de Sorte (Stroke of Luck)</td><td>10d6</td><td>4</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
-        <h3 style="font-family: 'Cinzel', serif; color: #8e44ad; font-size: 1.6rem; margin-bottom: 20px;">Recursos de Classe Detalhados</h3>
-
-        <div class="bloco-ladino">
-          <h4>Nível 1: Ataque Furtivo, Especialização, Gíria de Ladrão & Maestria em Armas</h4>
-          <p><strong>Ataque Furtivo (Sneak Attack):</strong> Uma vez por turno, você pode causar um dano extra de 1d6 (escala conforme a tabela) a uma criatura que atingir com um ataque se tiver <b>Vantagem</b> na jogada. O ataque deve utilizar uma arma com a propriedade <i>Acuidade (Finesse)</i> ou <i>À Distância</i>. Você não precisa de vantagem se outro inimigo do alvo estiver a até 1,5 metros dele, se esse inimigo não estiver incapacitado e você não tiver desvantagem na jogada.</p>
-          <p><strong>Especialização (Expertise):</strong> Escolha duas de suas perícias proficientes ou uma perícia e suas ferramentas de ladrão. Seu bônus de proficiência é **dobrado** para qualquer teste de atributo que use as escolhas selecionadas.</p>
-          <p><strong>Gíria de Ladrão (Thieves' Cant):</strong> Você conhece o código secreto que permite ocultar mensagens em conversas normais. Em 2024, você também aprende um idioma padrão adicional de forma gratuita.</p>
-          <p><strong>Maestria em Armas (Weapon Mastery):</strong> Você desbloqueia as propriedades de maestria tática de dois tipos de armas específicos que possuam a propriedade <i>Acuidade</i> ou <i>Leve</i> (ex: <i>Vex</i> em adagas para dar vantagem automática ou <i>Nick</i> em adagas/espadas curtas para atacar sem gastar ação bônus).</p>
-        </div>
-
-        <div class="bloco-ladino">
-          <h4>Nível 2: Ação Astuta</h4>
-          <p><strong>Ação Astuta (Cunning Action):</strong> Seu pensamento rápido e agilidade corporal permitem que você se mova e se esconda em um piscar de olhos. Você pode realizar uma <b>Ação Bônus</b> em cada um dos seus turnos em combate para executar uma das seguintes ações: <b>Disparada (Dash)</b>, <b>Desengajar (Disengage)</b> ou <b>Esconder-se (Hide)</b>.</p>
-        </div>
-
-        <div class="bloco-ladino">
-          <h4>Nível 3: Arquétipo de Ladino & Mira Firme</h4>
-          <p><strong>Arquétipo de Ladino:</strong> Você escolhe sua especialidade criminosa ou profissional entre as quatro vias oficiais: **Assassino**, **Ladrão**, **Trapaceiro Arcano** ou **Inquisitivo**. Concede recursos imediatos e evoluções nos níveis 3, 9, 13 e 17.</p>
-          <p><strong>Mira Firme (Steady Aim):</strong> Como uma Ação Bônus, você ganha <b>Vantagem</b> na sua próxima jogada de ataque neste turno. Para usar este recurso, seu deslocamento atual deve ser de 0 metros, e ele é reduzido a 0 até o fim do turno atual.</p>
-        </div>
-
-        <div class="bloco-ladino">
-          <h4>Níveis 4, 8, 10, 12, 16 e 19: Talentos de Atributo (Feats)</h4>
-          <p>Aumente um atributo em +2, dois em +1, ou selecione um Talento Geral válido. O Ladino recebe um Talento de Atributo adicional no **Nível 10**, reforçando sua flexibilidade de construção.</p>
-        </div>
-
-        <div class="bloco-ladino">
-          <h4>Nível 5: Esquiva Sobrenatural & Cunho Cansativo</h4>
-          <p><strong>Esquiva Sobrenatural (Uncanny Dodge):</strong> Quando um atacante que você consiga ver atingir você com um ataque, você pode usar sua <b>Reação</b> para reduzir o dano sofrido por aquele ataque pela **metade**.</p>
-          <p><strong>Cunho Cansativo (Cunning Strike):</strong> A grande inovação mecânica de 2024. Ao desferir um Ataque Furtivo, você pode optar por sacrificar dados de dano do seu bônus de furtividade para aplicar efeitos táticos. Você pode aplicar apenas uma opção por ataque:</p>
-          <ul class="trait-list" style="margin-top: 10px;">
-            <li><strong>Desarmar (Disarm - Custo: 1d6):</strong> O alvo deve passar em uma salvaguarda de Destreza ou derrubará um objeto/arma que esteja segurando (sua escolha).</li>
-            <li><strong>Derrubar (Trip - Custo: 1d6):</strong> Se o alvo for de tamanho Grande ou menor, ele deve passar em uma salvaguarda de Destreza ou ficará <b>Caído (Prone)</b>.</li>
-            <li><strong>Retirar (Withdraw - Custo: 1d6):</strong> Você ganha os efeitos da ação Desengajar livremente para se mover imediatamente após o golpe sem provocar ataques de oportunidade daquele alvo.</li>
-            <li><strong>Envenenar (Poison - Custo: 2d6):</strong> O alvo deve passar em uma salvaguarda de Constituição ou sofrerá a condição <b>Envenenado (Poisoned)</b> por 1 minuto. Ele pode repetir o teste ao fim de cada turno.</li>
-          </ul>
-        </div>
-
-        <div class="bloco-ladino">
-          <h4>Nível 6: Especialização Adicional</h4>
-          <p>Você escolhe mais duas de suas perícias proficientes (ou uma perícia e suas ferramentas de ladrão) para receber os benefícios de seu bônus de proficiência **dobrado**.</p>
-        </div>
-
-        <div class="bloco-ladino">
-          <h4>Nível 7: Evasão</h4>
-          <p><strong>Evasão (Evasion):</strong> Você pode esquivar-se agilmente de efeitos de área destrutivos (como o sopro flamejante de um dragão ou uma magia de <i>Bola de Fogo</i>). Quando for alvo de um efeito que exija uma salvaguarda de Destreza para sofrer apenas metade do dano, você não sofre **nenhum dano** se passar na salvaguarda, e apenas **metade do dano** se falhar.</p>
-        </div>
-
-        <div class="bloco-ladino">
-          <h4>Nível 11: Talento Confiável</h4>
-          <p><strong>Talento Confiável (Reliable Talent):</strong> Seu refinamento de perícias atinge o nível perfeito. Sempre que realizar um teste de atributo de qualquer perícia ou ferramenta na qual você possua **proficiência**, qualquer resultado de **9 ou menor** na rolagem do d20 é tratado automaticamente como se você tivesse tirado um **10** bruto.</p>
-        </div>
-
-        <div class="bloco-ladino">
-          <h4>Nível 14: Cunho Cansativo Aprimorado</h4>
-          <p><strong>Cunho Aprimorado (Improved Cunning Strike):</strong> Sua mente cirúrgica permite encadear debilitações. Você passa a poder aplicar até **duas opções de Cunho Cansativo simultaneamente** em um único Ataque Furtivo, pagando o custo de dados combinado (ex: gasta 2d6 totais para Derrubar e Desarmar ao mesmo tempo).</p>
-        </div>
-
-        <div class="bloco-ladino">
-          <h4>Nível 15: Sentido de Lesma</h4>
-          <p><strong>Sentido de Lesma (Slippery Mind):</strong> Seus reflexos mentais tornam sua consciência blindada contra invasões e ilusões. Você ganha proficiência em testes de resistência de **Sabedoria** e de **Carisma**.</p>
-        </div>
-
-        <div class="bloco-ladino">
-          <h4>Nível 18: Elusivo</h4>
-          <p><strong>Elusivo (Elusive):</strong> Você se move de forma tão fluida e imprevisível que os inimigos raramente encontram uma brecha nas suas defesas. Nenhuma jogada de ataque de qualquer criatura contra você pode possuir <b>Vantagem</b>, desde que você não esteja incapacitado.</p>
-        </div>
-
-        <div class="bloco-ladino">
-          <h4>Nível 20: Golpe de Sorte</h4>
-          <p><strong>Golpe de Sorte (Stroke of Luck):</strong> Você possui uma capacidade quase sobrenatural de obter o sucesso quando mais precisa. Se um ataque seu errar o alvo ao alcance, você pode transformar o erro em um **acerto automático**. Alternativamente, se falhar em qualquer teste de atributo, pode tratar o resultado do d20 como um **20 natural**. Você recupera o uso deste recurso após finalizar um Descanso Curto ou Longo.</p>
+        <!-- TABELA BÁSICA DE PROGRESSÃO COM SUPORTE A ROLAGEM HORIZONTAL -->
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.6rem; margin-bottom: 15px;">Características de Classe</h3>
+        <div class="overflow-table">
+            <table class="tabela-rpg">
+                <thead>
+                    <tr>
+                        <th>Nível</th>
+                        <th>Prof.</th>
+                        <th class="esquerda">Recursos de Classe</th>
+                        <th>Ataque Furtivo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><th>1º</th><td>+2</th><td class="esquerda">Expertise, Ataque Furtivo, Gíria dos Ladrões, Maestria em Armas</td><td>1d6</td></tr>
+                    <tr><th>2º</th><td>+2</th><td class="esquerda">Ação Astuta</td><td>1d6</td></tr>
+                    <tr><th>3º</th><td>+2</th><td class="esquerda">Subclasse de Ladino, Mira Constante</td><td>2d6</td></tr>
+                    <tr><th>4º</th><td>+2</th><td class="esquerda">Aumento no Valor de Habilidade</td><td>2d6</td></tr>
+                    <tr><th>5º</th><td>+3</th><td class="esquerda">Golpe Astuto, Esquiva Sagaz</td><td>3d6</td></tr>
+                    <tr><th>6º</th><td>+3</th><td class="esquerda">Expertise</td><td>3d6</td></tr>
+                    <tr><th>7º</th><td>+3</th><td class="esquerda">EvASÃO, Talento Confiável</td><td>4d6</td></td>
+                    <tr><th>8º</th><td>+3</th><td class="esquerda">Aumento no Valor de Habilidade</td><td>4d6</td></tr>
+                    <tr><th>9º</th><td>+4</th><td class="esquerda">Característica de Subclasse</td><td>5d6</td></tr>
+                    <tr><th>10º</th><td>+4</th><td class="esquerda">Aumento no Valor de Habilidade</td><td>5d6</td></tr>
+                    <tr><th>11º</th><td>+4</th><td class="esquerda">Golpe Astuto Aprimorado</td><td>6d6</td></tr>
+                    <tr><th>12º</th><td>+4</th><td class="esquerda">Aumento no Valor de Habilidade</td><td>6d6</td></tr>
+                    <tr><th>13º</th><td>+5</th><td class="esquerda">Característica de Subclasse</td><td>7d6</td></tr>
+                    <tr><th>14º</th><td>+5</th><td class="esquerda">Golpes Ardilosos</td><td>7d6</td></tr>
+                    <tr><th>15º</th><td>+5</th><td class="esquerda">Mente Evasiva</td><td>8d6</td></tr>
+                    <tr><th>16º</th><td>+5</th><td class="esquerda">Aumento no Valor de Habilidade</td><td>8d6</td></tr>
+                    <tr><th>17º</th><td>+6</th><td class="esquerda">Característica de Subclasse</td><td>9d6</td></tr>
+                    <tr><th>18º</th><td>+6</th><td class="esquerda">Esquivo</td><td>9d6</td></tr>
+                    <tr><th>19º</th><td>+6</th><td class="esquerda">Benção Épica</td><td>10d6</td></tr>
+                    <tr><th>20º</th><td>+6</th><td class="esquerda">Golpe de Sorte</td><td>10d6</td></tr>
+                </tbody>
+            </table>
         </div>
       </div>
 
-      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
-        <h3 style="font-family: 'Cinzel', serif; color: #8e44ad; font-size: 1.6rem; margin-bottom: 10px;">Arquétipos de Ladino (Subclasses)</h3>
-        
-        <div class="bloco-subclasse-detalhada">
-          <h3>1. Assassino (Assassin)</h3>
-          <p>Mestres da infiltração fria e emboscadas brutais. Projetados para liquidar alvos antes mesmo de a iniciativa se estabilizar no grid.</p>
-          
-          <div class="sub-feature">
-            <h5>Nível 3: Ferramentas de Assassino & Emboscar Letais</h5>
-            <p><strong>Proficiências:</strong> Você ganha proficiência com o Kit de Disfarce e o Kit de Envenenador.</p>
-            <p><strong>Emboscar Letal (Assassinate):</strong> Você tem vantagem em jogadas de ataque contra qualquer criatura que ainda não tenha agido no turno de combate atual (Iniciativa). Além disso, quando atingir uma criatura com um ataque no seu **primeiro turno de combate**, o dano do seu Ataque Furtivo causa um dano extra igual ao **seu nível de ladino**.</p>
+      <!-- RECURSOS DE CLASSE DETALHADOS -->
+      <div >
+      
+          <!-- EXEMPLO DE RECURSOS DE CLASSE -->
+          <div class="recursos-container">
+              <div class="recursos-header">
+                  <h3>Recursos da Classe</h3>
+              </div>
+              
+              <div class="recursos-list">
+                <!-- Nível 1: Expertise -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 1: Expertise</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha <strong>Expertise</strong> em <strong>duas</strong> de suas proficiências em perícias de sua escolha. <strong>Prestidigitação</strong> e <strong>Furtividade</strong> são recomendadas se você tiver proficiência nelas.</p>
+                        <p>No <strong>nível 6 de Ladino</strong>, você ganha Expertise em <strong>mais duas</strong> de suas proficiências em perícias de sua escolha.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 1: Ataque Furtivo -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 1: Ataque Furtivo</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você sabe como atacar sutilmente e explorar a distração de um inimigo. <strong>Uma vez por turno</strong>, você pode causar <strong>1d6 de dano extra</strong> a uma criatura que acertar com uma rolagem de ataque se você tiver <strong>Vantagem</strong> na rolagem e o ataque usar uma arma <strong>Acuidade</strong> ou <strong>à Distância</strong>. O tipo do dano extra é o mesmo tipo da arma.</p>
+                        <p>Você <strong>não precisa de Vantagem</strong> na rolagem de ataque se pelo menos <strong>um de seus aliados</strong> estiver a até <strong>1,5 metro</strong> do alvo, o aliado não estiver com a condição <strong>Incapacitado</strong> e você não tiver <strong>Desvantagem</strong> na rolagem de ataque.</p>
+                        <p>O dano extra aumenta conforme você ganha níveis de Ladino, como mostrado na coluna <strong>Ataque Furtivo</strong> da tabela de Características de Ladino.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 1: Gíria dos Ladrões -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 1: Gíria dos Ladrões</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você aprendeu várias línguas nas comunidades onde exerceu seus talentos de ladino. Você conhece <strong>Gíria dos Ladrões</strong> e <strong>um outro idioma</strong> de sua escolha, escolhido nas tabelas de idiomas do Capítulo 2.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 1: Maestria em Armas -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 1: Maestria em Armas</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Seu treinamento com armas permite que você use as <strong>propriedades de maestria</strong> de <strong>dois tipos</strong> de armas de sua escolha com as quais você tem proficiência, como <strong>Adagas</strong> e <strong>Arcos Curtos</strong>.</p>
+                        <p>Sempre que você finaliza um <strong>Descanso Longo</strong>, pode <strong>mudar os tipos</strong> de armas que escolheu. Por exemplo, você poderia mudar para usar as propriedades de maestria de <strong>Cimitarras</strong> e <strong>Espadas Curtas</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 2: Ação Astuta -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 2: Ação Astuta</span>
+                        <span class="badge-mini acao-bonus">Ação Bônus</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Seu raciocínio rápido e agilidade permitem que você se mova e aja rapidamente. Em seu turno, você pode realizar uma das seguintes ações como uma <strong>Ação Bônus</strong>: <strong>Correr</strong>, <strong>Desengajar</strong> ou <strong>Esconder</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 3: Subclasse de Ladino -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Subclasse de Ladino</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha uma <strong>subclasse de Ladino</strong> de sua escolha. As subclasses <strong>Trapaceiro Arcano</strong>, <strong>Assassino</strong>, <strong>Lâmina da Alma</strong> e <strong>Ladrão</strong> são detalhadas após a descrição desta classe. Uma subclasse é uma especialização que concede características em certos níveis de Ladino. Pelo resto de sua carreira, você ganha cada uma das características de sua subclasse que sejam de seu nível de Ladino ou inferior.</p>
+                        
+                    </div>
+                </div>
+
+                <!-- Nível 3: Mira Constante -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 3: Mira Constante</span>
+                        <span class="badge-mini acao-bonus">Ação Bônus</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Como uma <strong>Ação Bônus</strong>, você concede a si mesmo <strong>Vantagem</strong> em sua próxima rolagem de ataque em seu turno atual. Você pode usar esta característica apenas se <strong>não tiver se movido</strong> durante este turno e, depois de usá-la, seu <strong>Deslocamento se torna 0</strong> até o final do turno atual.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 4: Aumento no Valor de Habilidade -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 4: Aumento no Valor de Habilidade</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha o talento <strong>Aumento no Valor de Habilidade</strong> ou outro talento de sua escolha para o qual você se qualifica. Você ganha esta característica novamente nos níveis <strong>8, 10, 12 e 16</strong> de Ladino.</p>
+                        <p>As subclasses de Ladino estarão listadas no final da página.</p>
+                      </div>
+                    
+                </div>
+
+                <!-- Nível 5: Golpe Astuto -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 5: Golpe Astuto</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você desenvolveu maneiras astutas de usar seu <strong>Ataque Furtivo</strong>. Quando você causa dano de <strong>Ataque Furtivo</strong>, pode adicionar um dos seguintes efeitos de <strong>Golpe Astuto</strong>. Cada efeito tem um <strong>custo em dados</strong>, que é o número de dados de Ataque Furtivo que você deve <strong>abrir mão</strong> para adicionar o efeito. Você remove o dado antes de rolar, e o efeito ocorre imediatamente após o dano do ataque ser aplicado. Por exemplo, se você adicionar o efeito <strong>Veneno</strong>, remova 1d6 do dano do Ataque Furtivo antes de rolar.</p>
+                        <p>Se um Golpe Astuto exigir um <strong>teste de resistência</strong>, a CD é igual a <strong>8 + seu modificador de Destreza + Bônus de Proficiência</strong>.</p>
+                        
+                        <p><strong style="color: white;">Veneno (Custo: 1d6).</strong> Você adiciona uma toxina ao seu golpe, forçando o alvo a fazer um teste de resistência de <strong>Constituição</strong>. Em uma falha, o alvo tem a condição <strong>Envenenado</strong> por 1 minuto. No final de cada um de seus turnos, o alvo envenenado repete o teste, encerrando o efeito em um sucesso.</p>
+                        <p>Para usar este efeito, você deve ter um <strong>Kit de Venenos</strong> em sua pessoa.</p>
+                        
+                        <p><strong style="color: white;">Derrubar (Custo: 1d6).</strong> Se o alvo for <strong>Grande ou menor</strong>, ele deve ser bem-sucedido em um teste de resistência de <strong>Destreza</strong> ou ter a condição <strong>Deitado</strong>.</p>
+                        
+                        <p><strong style="color: white;">Recuar (Custo: 1d6).</strong> Imediatamente após o ataque, você se move até <strong>metade do seu Deslocamento</strong> sem provocar <strong>Ataques de Oportunidade</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 5: Esquiva Sagaz -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 5: Esquiva Sagaz</span>
+                        <span class="badge-mini reacao">Reação</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Quando um <strong>atacante</strong> que você pode ver <strong>acerta você</strong> com uma rolagem de ataque, você pode usar uma <strong>Reação</strong> para <strong>reduzir o dano</strong> do ataque contra você pela <strong>metade</strong> (arredondado para baixo).</p>
+                    </div>
+                </div>
+
+                <!-- Nível 7: Evasão -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 7: EvASÃO</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você pode se esquivar rapidamente de certos perigos. Quando você está sujeito a um <strong>efeito</strong> que permite que você faça um teste de resistência de <strong>Destreza</strong> para sofrer apenas <strong>metade do dano</strong>, em vez disso, você <strong>não sofre dano</strong> se for bem-sucedido no teste de resistência e apenas <strong>metade do dano</strong> se falhar. Você não pode usar esta característica se estiver com a condição <strong>Incapacitado</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 7: Talento Confiável -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 7: Talento Confiável</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Sempre que você faz um <strong>teste de habilidade</strong> que usa uma de suas proficiências em <strong>perícias</strong> ou <strong>ferramentas</strong>, pode tratar uma rolagem de d20 de <strong>9 ou menos como 10</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 11: Golpe Astuto Aprimorado -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 11: Golpe Astuto Aprimorado</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você pode usar <strong>até dois efeitos de Golpe Astuto</strong> quando causa dano de <strong>Ataque Furtivo</strong>, pagando o <strong>custo em dados</strong> para cada efeito.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 14: Golpes Ardilosos -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 14: Golpes Ardilosos</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você praticou novas maneiras de usar seu <strong>Ataque Furtivo</strong> de forma ardilosa. Os seguintes efeitos agora estão entre suas opções de <strong>Golpe Astuto</strong>.</p>
+                        
+                        <p><strong style="color: white;">Atordoar (Custo: 2d6).</strong> O alvo deve ser bem-sucedido em um teste de resistência de <strong>Constituição</strong> ou, em seu próximo turno, ele pode fazer apenas <strong>uma</strong> das seguintes opções: <strong>mover</strong>, <strong>realizar uma ação</strong> ou <strong>realizar uma Ação Bônus</strong>.</p>
+                        
+                        <p><strong style="color: white;">Nocaute (Custo: 6d6).</strong> O alvo deve ser bem-sucedido em um teste de resistência de <strong>Constituição</strong> ou ter a condição <strong>Inconsciente</strong> por 1 minuto ou até sofrer qualquer dano. O alvo Inconsciente repete o teste no final de seus turnos, encerrando o efeito em si mesmo em um sucesso.</p>
+                        
+                        <p><strong style="color: white;">Ofuscar (Custo: 3d6).</strong> O alvo deve ser bem-sucedido em um teste de resistência de <strong>Destreza</strong> ou ter a condição <strong>Cego</strong> até o final de seu próximo turno.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 15: Mente Evasiva -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 15: Mente Evasiva</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Sua mente é excepcionalmente difícil de controlar. Você ganha proficiência em testes de resistência de <strong>Sabedoria</strong> e <strong>Carisma</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 18: Esquivo -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 18: Esquivo</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você é tão evasivo que atacantes raramente ganham vantagem contra você. <strong>Nenhuma rolagem de ataque</strong> pode ter <strong>Vantagem</strong> contra você, a menos que você esteja com a condição <strong>Incapacitado</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 19: Benção Épica -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 19: Benção Épica</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você ganha um talento de <strong>Benção Épica</strong> ou outro talento de sua escolha para o qual você se qualifica. <strong>Benção do Espírito Noturno</strong> é recomendado.</p>
+                    </div>
+                </div>
+
+                <!-- Nível 20: Golpe de Sorte -->
+                <div class="recurso-card">
+                    <div class="recurso-header">
+                        <span class="recurso-nome">Nível 20: Golpe de Sorte</span>
+                    </div>
+                    <div class="recurso-descricao">
+                        <p>Você tem um talento maravilhoso para ter sucesso quando precisa. Se você <strong>falhar em um Teste de d20</strong>, pode <strong>transformar a rolagem em um 20</strong>.</p>
+                        <p>Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Curto</strong> ou <strong>Descanso Longo</strong>.</p>
+                    </div>
+                </div>
+              </div>
           </div>
 
-          <div class="sub-feature">
-            <h5>Nível 9: Infiltração Perfeita</h5>
-            <p>Você pode criar identidades falsas impecáveis para si mesmo. Ao passar 1 hora e gastar 25 peças de ouro, você estabelece um disfarce civil ou militar que impede que criaturas comuns desconfiem de você, a menos que você cometa um ato flagrante ou hostil.</p>
-          </div>
+          <div class="recursos-header">
+                  <h3>Subclasses</h3>
+              </div>
+          <div class="subclasses-container" id="subclasses-artifice">
+              
+              <!--ABAS DE NAVEGAÇÃO-->
+              <div class="tabs-header">
+                  <ul class="tabs-list">
+                  <li><button class="tab-btn active" data-tab="0"> Trapaceiro Arcano</button></li>
+                  <li><button class="tab-btn active" data-tab="1"> Assassino</button></li>
+                  <li><button class="tab-btn active" data-tab="2"> Descendente dos Três</button></li>
+                  <li><button class="tab-btn active" data-tab="3"> Lâmina da Alma</button></li>
+                  <li><button class="tab-btn active" data-tab="4"> Ladrão</button></li>
+                  <li><button class="tab-btn active" data-tab="5"> Coletor de Magias</button></li>
+                  <li><button class="tab-btn active" data-tab="6"> Fantasma</button></li>
+                  </ul>
+              </div>
+              
+              <!--SUBCLASSE-->
+              <div class="tabs-content">
+                <!-- ABA - Trapaceiro Arcano -->
+                <div class="tab-pane">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">Trapaceiro Arcano</h3>
+                    <p>Alguns Ladinos aprimoram suas habilidades bem afinadas de furtividade e agilidade com magias, aprendendo truques mágicos para ajudá-los em seu ofício. Alguns Trapaceiros Arcanos usam seus talentos como batedores de carteira e ladrões, enquanto outros são brincalhões.</p>
+                    
+                    <!-- Nível 3: Conjuração -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Conjuração</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você aprendeu a conjurar magias.</p>
 
-          <div class="sub-feature">
-            <h5>Nível 13: Cunho Cansativo do Assassino (Golpe Tóxico)</h5>
-            <p>Ao usar seu recurso Cunho Cansativo (Nível 5), você libera a opção <b>Golpe Tóxico (Toxin Strike - Custo: 3d6)</b>. Se o alvo falhar na salvaguarda de Constituição, ele sofre dano Venenoso extra igual a **2d10** e fica Envenenado com desvantagem em seus testes.</p>
-          </div>
+                            <p><strong style="color: white;">Truques.</strong> Você conhece <strong>três truques</strong>: <strong>Mão Mágica</strong> e <strong>dois outros truques</strong> de sua escolha da lista de magias de <strong>Mago</strong>. <strong>Lascamento Mental</strong> e <strong>Ilusão Menor</strong> são recomendados.</p>
+                            <p>Sempre que você ganha um <strong>nível de Ladino</strong>, pode substituir <strong>um de seus truques</strong>, exceto <strong>Mão Mágica</strong>, por outro truque de Mago de sua escolha.</p>
+                            <p>Quando você atinge o <strong>nível 10 de Ladino</strong>, aprende <strong>outro truque de Mago</strong> de sua escolha.</p>
 
-          <div class="sub-feature">
-            <h5>Nível 17: Carrasco (Death Strike)</h5>
-            <p>Quando você atingir uma criatura no primeiro turno de combate e ela estiver surpresa ou você tiver vantagem, você pode forçá-la a realizar uma salvaguarda de Constituição (CD baseada em Destreza). Se falhar, o dano do seu ataque contra ela é **dobrado**.</p>
-          </div>
-        </div>
+                            <p><strong style="color: white;">Espaços de Magia.</strong> A tabela de <strong>Conjuração do Trapaceiro Arcano</strong> mostra quantos espaços de magia você tem para conjurar suas magias de nível 1+. Você recupera todos os espaços de magia gastos ao final de um <strong>Descanso Longo</strong>.</p>
 
-        <div class="bloco-subclasse-detalhada">
-          <h3>2. Ladrão (Thief)</h3>
-          <p>O gatuno clássico das lendas. Focado em escaladas absurdas, velocidade de mãos inacreditável e uso versátil de itens mágicos em combate.</p>
-          
-          <div class="sub-feature">
-            <h5>Nível 3: Mãos Rápidas & Agilidade de Telhado</h5>
-            <p><strong>Mãos Rápidas (Fast Hands):</strong> Você pode usar a Ação Bônus da sua <i>Ação Astuta</i> para realizar um teste de Destreza (Prestidigitação), usar suas Ferramentas de Ladrão para abrir uma fechadura/desarmar armadilha, ou realizar a ação de <b>Usar um Objeto</b> (como arremessar ácido, óleo ou ativar itens).</p>
-            <p><strong>Agilidade de Telhado (Second-Story Work):</strong> Escalar superfícies não consome movimento adicional. Além disso, a distância que você pode cobrir em um salto aumenta em uma quantidade de metros igual ao seu modificador de Destreza.</p>
-          </div>
+                            <p><strong style="color: white;">Magias Preparadas de Nível 1+.</strong> Você prepara uma lista das magias de nível 1+ que estão disponíveis para conjurar com esta característica. Para começar, escolha <strong>três magias de nível 1 de Mago</strong>. <strong>Enfeitiçar Pessoa</strong>, <strong>Disfarçar-se</strong> e <strong>Névoa</strong> são recomendados.</p>
+                            <p>O número de magias na sua lista aumenta conforme você ganha níveis de Ladino, como mostrado na coluna <strong>Magias Preparadas</strong> da tabela de Conjuração do Trapaceiro Arcano. Sempre que esse número aumenta, escolha magias adicionais de Mago até que o número de magias na sua lista corresponda ao número na tabela. As magias escolhidas devem ser de um nível para o qual você tenha espaços de magia. Por exemplo, se você é um Ladino de <strong>nível 7</strong>, sua lista de magias preparadas pode incluir <strong>cinco magias de Mago</strong> de nível 1 ou 2 em qualquer combinação.</p>
 
-          <div class="sub-feature">
-            <h5>Nível 9: Furtividade Suprema</h5>
-            <p>Você ganha <b>Vantagem</b> em qualquer teste de Destreza (Furtividade) desde que não se mova mais do que a metade do seu deslocamento total no respectiva rodada.</p>
-          </div>
+                            <p><strong style="color: white;">Alterando Suas Magias Preparadas.</strong> Sempre que você ganha um <strong>nível de Ladino</strong>, pode substituir <strong>uma magia</strong> em sua lista por outra magia de Mago para a qual você tenha espaços de magia.</p>
 
-          <div class="sub-feature">
-            <h5>Nível 13: Usar Item Mágico Displicente</h5>
-            <p>Sua malícia permite ignorar barreiras místicas. Você ignora todos os requisitos de classe, raça e nível para a sintonização ou uso de qualquer item mágico. Além disso, você ganha um **quarto slot de sintonização** de itens mágicos.</p>
-          </div>
+                            <p><strong style="color: white;">Habilidade de Conjuração.</strong> <strong>Inteligência</strong> é sua habilidade de conjuração para suas magias de Mago.</p>
 
-          <div class="sub-feature">
-            <h5>Nível 17: Reflexos de Ladrão</h5>
-            <p>Você se move tão rápido que parece agir duas vezes. No primeiro ciclo de qualquer combate, você realiza **dois turnos inteiros**. Você joga sua iniciativa normalmente para o primeiro turno, e realiza o segundo turno com sua Iniciativa calculada em **-10**.</p>
-          </div>
-        </div>
+                            <p><strong style="color: white;">Foco de Conjuração.</strong> Você pode usar um <strong>Foco Arcano</strong> como Foco de Conjuração para suas magias de Mago.</p>
 
-        <div class="bloco-subclasse-detalhada">
-          <h3>3. Trapaceiro Arcano (Eldritch Trickster)</h3>
-          <p>Combina a malícia das sombras com truques e magias de Ilusão e Encantamento da lista do Mago, focando em Inteligência e no uso avançado de mãos invisíveis.</p>
-          
-          <div class="sub-feature">
-            <h5>Nível 3: Mãos Mágicas Trapaceiras & Conjuração</h5>
-            <p><strong>Conjuração:</strong> Você aprende truques e magias da lista de Mago (com base em Inteligência) de acordo com a progressão de terço de conjurador. *(Em 2024, as restrições rígidas de escolas foram suavizadas, abrindo mais espaço para utilitários)*.</p>
-            <p><strong>Mãos Mágicas Trapaceiras (Mage Hand Legerdemain):</strong> Quando conjura o truque <i>Mãos Mágicas</i>, a mão invisível se manifesta. Você pode usar sua <i>Ação Astuta</i> para controlar a mão mística para roubar itens de alvos, guardar objetos ou sabotar armadilhas à distância.</p>
-          </div>
+                            <!-- Tabela de Conjuração do Trapaceiro Arcano -->
+                            <p><strong style="color: white;">Conjuração do Trapaceiro Arcano</strong></p>
+                            <div class="overflow-table">
+                                <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                    <thead>
+                                        <tr>
+                                            <th>Nível de Ladino</th>
+                                            <th>Magias Preparadas</th>
+                                            <th>1º</th>
+                                            <th>2º</th>
+                                            <th>3º</th>
+                                            <th>4º</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><th>3º</th><td>3</th><td class="esquerda">2</td><td class="esquerda">-</td><td class="esquerda">-</td><td class="esquerda">-</td></tr>
+                                        <tr><th>4º</th><td>4</th><td class="esquerda">3</td><td class="esquerda">-</td><td class="esquerda">-</td><td class="esquerda">-</td></tr>
+                                        <tr><th>5º</th><td>4</th><td class="esquerda">3</td><td class="esquerda">-</td><td class="esquerda">-</td><td class="esquerda">-</td></tr>
+                                        <tr><th>6º</th><td>4</th><td class="esquerda">3</td><td class="esquerda">-</td><td class="esquerda">-</td><td class="esquerda">-</td></tr>
+                                        <tr><th>7º</th><td>5</th><td class="esquerda">4</td><td class="esquerda">2</td><td class="esquerda">-</td><td class="esquerda">-</td></tr>
+                                        <tr><th>8º</th><td>6</th><td class="esquerda">4</td><td class="esquerda">2</td><td class="esquerda">-</td><td class="esquerda">-</td></tr>
+                                        <tr><th>9º</th><td>6</th><td class="esquerda">4</td><td class="esquerda">2</td><td class="esquerda">-</td><td class="esquerda">-</td></tr>
+                                        <tr><th>10º</th><td>7</th><td class="esquerda">4</td><td class="esquerda">3</td><td class="esquerda">-</td><td class="esquerda">-</td></tr>
+                                        <tr><th>11º</th><td>8</th><td class="esquerda">4</td><td class="esquerda">3</td><td class="esquerda">-</td><td class="esquerda">-</td></tr>
+                                        <tr><th>12º</th><td>8</th><td class="esquerda">4</td><td class="esquerda">3</td><td class="esquerda">-</td><td class="esquerda">-</td></tr>
+                                        <tr><th>13º</th><td>9</th><td class="esquerda">4</td><td class="esquerda">3</td><td class="esquerda">2</td><td class="esquerda">-</td></tr>
+                                        <tr><th>14º</th><td>10</th><td class="esquerda">4</td><td class="esquerda">3</td><td class="esquerda">2</td><td class="esquerda">-</td></tr>
+                                        <tr><th>15º</th><td>10</th><td class="esquerda">4</td><td class="esquerda">3</td><td class="esquerda">2</td><td class="esquerda">-</td></tr>
+                                        <tr><th>16º</th><td>11</th><td class="esquerda">4</td><td class="esquerda">3</td><td class="esquerda">3</td><td class="esquerda">-</td><tr>
+                                        <tr><th>17º</th><td>11</th><td class="esquerda">4</td><td class="esquerda">3</td><td class="esquerda">3</td><td class="esquerda">-</td><tr>
+                                        <tr><th>18º</th><td>11</th><td class="esquerda">4</td><td class="esquerda">3</td><td class="esquerda">3</td><td class="esquerda">-</td></tr>
+                                        <tr><th>19º</th><td>12</th><td class="esquerda">4</td><td class="esquerda">3</td><td class="esquerda">3</td><td class="esquerda">1</td></tr>
+                                        <tr><th>20º</th><td>13</th><td class="esquerda">4</td><td class="esquerda">3</td><td class="esquerda">3</td><td class="esquerda">1</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Prestidigitação da Mão Mágica -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Prestidigitação da Mão Mágica</span>
+                            <span class="badge-mini acao-bonus">Ação Bônus</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você conjura <strong>Mão Mágica</strong>, pode conjurá-la como uma <strong>Ação Bônus</strong> e pode tornar a mão espectral <strong>Invisível</strong>. Você pode controlar a mão como uma <strong>Ação Bônus</strong> e, através dela, pode fazer testes de <strong>Destreza (Prestidigitação)</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 9: Emboscada Mágica -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 9: Emboscada Mágica</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Se você estiver com a condição <strong>Invisível</strong> quando conjurar uma magia em uma criatura, ela tem <strong>Desvantagem</strong> em qualquer teste de resistência que fizer contra a magia no <strong>mesmo turno</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 13: Trapaceiro Versátil -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 13: Trapaceiro Versátil</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você ganha a habilidade de distrair alvos com sua <strong>Mão Mágica</strong>. Quando você usa a opção <strong>Derrubar</strong> de seu <strong>Golpe Astuto</strong> em uma criatura, pode também usar aquela opção em <strong>outra criatura</strong> a até <strong>1,5 metro</strong> da mão espectral.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 17: Ladrão de Magias -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 17: Ladrão de Magias</span>
+                            <span class="badge-mini reacao">Reação</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você ganha a habilidade de <strong>roubar magicamente</strong> o conhecimento de como conjurar uma magia de outro conjurador.</p>
+                            <p>Imediatamente após uma <strong>criatura conjurar uma magia</strong> que tenha você como alvo ou inclua você em sua área de efeito, você pode usar uma <strong>Reação</strong> para forçar a criatura a fazer um teste de resistência de <strong>Inteligência</strong>. A CD é igual à sua <strong>CD de resistência de magia</strong>. Em uma falha, você <strong>anula o efeito da magia contra você</strong> e <strong>rouba o conhecimento da magia</strong> se ela for de pelo menos <strong>nível 1</strong> e de um nível que você possa conjurar (não precisa ser uma magia de Mago). Pelas próximas <strong>8 horas</strong>, você tem a magia <strong>preparada</strong>. A criatura <strong>não pode conjurá-la</strong> até que 8 horas tenham passado.</p>
+                            <p>Uma vez que você <strong>rouba uma magia</strong> com esta característica, não pode usar esta característica novamente até finalizar um <strong>Descanso Longo</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+                              
+                <!-- ABA - Assassino -->
+                <div class="tab-pane">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">Assassino</h3>
+                    <p>O treinamento de um Assassino foca em usar furtividade, veneno e disfarce para eliminar inimigos com eficiência mortal. Enquanto alguns Ladinos que seguem este caminho são assassinos de aluguel, espiões ou caçadores de recompensas, as capacidades desta subclasse são igualmente úteis para aventureiros enfrentando uma variedade de inimigos monstruosos.</p>
+                    
+                    <!-- Nível 3: Assassinar -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Assassinar</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você é adepto a emboscar um alvo, concedendo-lhe os seguintes benefícios.</p>
+                            
+                            <p><strong style="color: white;">Iniciativa.</strong> Você tem <strong>Vantagem</strong> em rolagens de <strong>Iniciativa</strong>.</p>
+                            
+                            <p><strong style="color: white;">Golpes Surpreendentes.</strong> Durante o <strong>primeiro round de cada combate</strong>, você tem <strong>Vantagem</strong> em rolagens de ataque contra qualquer criatura que <strong>não tenha realizado um turno</strong>. Se seu <strong>Ataque Furtivo</strong> acertar qualquer alvo durante esse round, o alvo sofre <strong>dano extra</strong> do tipo da arma igual ao seu <strong>nível de Ladino</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Ferramentas do Assassino -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Ferramentas do Assassino</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você ganha um <strong>Kit de Disfarce</strong> e um <strong>Kit de Venenos</strong> e tem <strong>proficiência</strong> com eles.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 9: Expertise em Infiltração -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 9: Expertise em Infiltração</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você é um especialista nas seguintes técnicas que auxiliam suas infiltrações.</p>
+                            
+                            <p><strong style="color: white;">Mimetismo Magistral.</strong> Você pode <strong>imitar perfeitamente</strong> a fala, caligrafia ou ambas de outra pessoa se tiver passado pelo menos <strong>1 hora</strong> estudando-a.</p>
+                            
+                            <p><strong style="color: white;">Mira Ambulante.</strong> Seu <strong>Deslocamento não é reduzido a 0</strong> ao usar <strong>Mira Constante</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 13: Envenenar Armas -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 13: Envenenar Armas</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você usa a opção <strong>Veneno</strong> de seu <strong>Golpe Astuto</strong>, o alvo também sofre <strong>2d6 de dano de Veneno</strong> sempre que <strong>falha no teste de resistência</strong>. Este dano <strong>ignora Resistência</strong> a dano de Veneno.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 17: Golpe Mortal -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 17: Golpe Mortal</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você <strong>acerta com seu Ataque Furtivo</strong> no <strong>primeiro round de um combate</strong>, o alvo deve ser bem-sucedido em um teste de resistência de <strong>Constituição</strong> (CD <strong>8 + seu modificador de Destreza + Bônus de Proficiência</strong>) ou o <strong>dano do ataque é dobrado</strong> contra o alvo.</p>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
 
-          <div class="sub-feature">
-            <h5>Nível 9: Emboscada Mágica</h5>
-            <p>Se você estiver totalmente escondido (camuflado) de uma criatura no momento em que conjurar uma magia que exija dela uma salvaguarda, o alvo recebe **Desvantagem** no teste de resistência contra o seu feitiço.</p>
-          </div>
+                <!-- ABA - Descendente dos Três -->
+                <div class="tab-pane">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">Descendente dos Três</h3>
+                    <p>Um Descendente dos Três extrai poder de um grupo de deuses malévolos conhecidos em Baldur's Gate como os Três Mortos: Bane, um deus da tirania; Bhaal, um deus da violência e assassinato; e Myrkul, um deus da morte. Enquanto alguns Ladinos desta subclasse se dedicam ardentemente àqueles três deuses macabros, outros são empurrados para este caminho por uma maldição. De qualquer forma, o poder de um descendente se manifesta como vários dons ocultos, bem como um talento extraordinário para golpear e aterrorizar inimigos.</p>
+                    <p>Descendentes dos Três são mais comuns em <strong>Baldur's Gate</strong>, onde os Três Mortos viveram como mortais antes de ascender à divindade. Cultos subterrâneos a Bane, Bhaal e Myrkul frequentemente contam com Descendentes dos Três entre seus agentes mais úteis. Fora de Baldur's Gate, guildas de ladrões seculares como os <strong>Ladrões das Sombras de Amn</strong> ou a <strong>Guilda Xanathar de Waterdeep</strong> podem convocar um Descendente dos Três para realizar um contrato especialmente violento.</p>
 
-          <div class="sub-feature">
-            <h5>Nível 13: Distração Versátil</h5>
-            <p>Você pode usar sua Ação Bônus para apontar sua <i>Mão Mágica</i> para uma criatura a até 9 metros. Ao fazer isso, você distrai o alvo e ganha **Vantagem** em todas as suas jogadas de ataque realizadas contra ele até o fim do seu turno atual.</p>
-          </div>
+                    <!-- Nível 3: Sede de Sangue -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Sede de Sangue</span>
+                            <span class="badge-mini reacao">Reação</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando um <strong>inimigo</strong> que você pode ver a até <strong>9 metros</strong> de você sofre dano e fica <strong>Encurralado</strong> após sofrer aquele dano, mas não é morto imediatamente, você pode usar uma <strong>Reação</strong> e <strong>teleportar</strong> para um espaço desocupado que você pode ver a até <strong>1,5 metro</strong> daquele inimigo. Você então pode fazer <strong>um ataque corpo a corpo</strong>.</p>
+                            <p>Você pode usar esta característica um número de vezes igual ao seu modificador de <strong>Inteligência</strong> (mínimo de uma vez) e recupera todos os usos gastos quando finaliza um <strong>Descanso Longo</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Lealdade Amedrontadora -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Lealdade Amedrontadora</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Escolha <strong>um dos Três Mortos</strong>: <strong>Bane</strong>, <strong>Bhaal</strong> ou <strong>Myrkul</strong>. Você ganha <strong>Resistência</strong> a um tipo de dano e a habilidade de conjurar um <strong>truque</strong>, conforme detalhado na tabela abaixo; <strong>Inteligência</strong> é sua habilidade de conjuração para este truque. Quando você finaliza um <strong>Descanso Longo</strong>, pode <strong>mudar sua escolha</strong>.</p>
+                            
+                            <div class="overflow-table">
+                                <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                    <thead>
+                                        <tr><th>Divindade</th><th>Resistência a Dano</th><th>Truque</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td class="esquerda"><strong>Bane</strong></th><td class="esquerda">Psíquico</th><td class="esquerda">Ilusão Menor</th></tr>
+                                        <tr><td class="esquerda"><strong>Bhaal</strong></th><td class="esquerda">Veneno</th><td class="esquerda">Proteção da Lâmina</th></tr>
+                                        <tr><td class="esquerda"><strong>Myrkul</strong></th><td class="esquerda">Necrótico</th><td class="esquerda">Toque Gelado</th></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 9: Causar Medo -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 9: Causar Medo</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você ganha a seguinte opção de <strong>Golpe Astuto</strong>.</p>
+                            
+                            <p><strong style="color: white;">Aterrorizar (Custo: 1d6).</strong> O alvo deve ser bem-sucedido em um teste de resistência de <strong>Sabedoria</strong> ou ter a condição <strong>Amedrontado</strong> por <strong>1 minuto</strong>. Enquanto o alvo estiver Amedrontado desta forma, você tem <strong>Vantagem</strong> em rolagens de ataque contra ele.</p>
+                            <p>O alvo Amedrontado <strong>repete o teste</strong> no final de cada um de seus turnos, encerrando o efeito em si mesmo em um sucesso.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 13: Aura de Malevolência -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 13: Aura de Malevolência</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você irradia poder maligno associado a um dos <strong>Três Mortos</strong>. Quando você usa <strong>Sede de Sangue</strong> e teleporta, cada <strong>criatura de sua escolha</strong> a até <strong>3 metros</strong> do espaço que você deixou <strong>ou</strong> do seu espaço de destino (sua escolha) sofre dano igual ao seu modificador de <strong>Inteligência</strong>; o tipo de dano é o mesmo da <strong>Resistência a dano</strong> concedida por sua escolha na característica <strong>Lealdade Amedrontadora</strong>. O dano causado por esta característica <strong>ignora Resistência</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 17: Maldade Encarnada -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 17: Maldade Encarnada</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você ganha os seguintes benefícios.</p>
+                            
+                            <p><strong style="color: white;">Corta-Gargantas.</strong> Você recupera <strong>um uso gasto de Sede de Sangue</strong> quando finaliza um <strong>Descanso Curto</strong>.</p>
+                            
+                            <p><strong style="color: white;">Intenção Assassina.</strong> Quando você rola seu <strong>Ataque Furtivo</strong>, pode tratar uma rolagem de <strong>1 ou 2 no dado como 3</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
 
-          <div class="sub-feature">
-            <h5>Nível 17: Ladrão de Magia (Spell Thief)</h5>
-            <p>Quando uma criatura conjurar uma magia que tenha você como alvo ou inclua você na área, você pode usar sua Reação para forçá-la a realizar uma salvaguarda com seu atributo de conjuração. Se falhar, você nega o efeito da magia em você e, se ela for de até 4º círculo, você **rouba o conhecimento da magia** por 8 horas, podendo conjurá-la usando seus próprios espaços.</p>
-          </div>
-        </div>
+                <!-- ABA - Lâmina da Alma -->
+                <div class="tab-pane">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">Lâmina da Alma</h3>
+                    <p>Uma Lâmina da Alma ataca com a mente, cortando barreiras tanto físicas quanto psíquicas. Estes Ladinos descobrem poder psíquico dentro de si e o canalizam para fazer seu trabalho de ladino. Como uma Lâmina da Alma, suas habilidades psíquicas podem ter assombrado você desde a infância, revelando seu potencial total apenas quando você experimentou o estresse da aventura. Ou você pode ter procurado uma ordem de adeptos psíquicos e passado anos aprendendo como manifestar seu poder.</p>
+                    
+                    <!-- Nível 3: Poder Psíquico -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Poder Psíquico</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você abriga uma fonte de <strong>energia psíquica</strong> dentro de si. Ela é representada por seus <strong>Dados de Energia Psíquica</strong>, que alimentam certos poderes que você tem desta subclasse. A tabela <strong>Dados de Energia da Lâmina da Alma</strong> mostra o <strong>número</strong> desses dados que você tem ao atingir certos níveis de Ladino, e a tabela mostra o <strong>tamanho do dado</strong>.</p>
+                            
+                            <div class="overflow-table">
+                                <table class="tabela-rpg" style="font-size: 0.8rem;">
+                                    <thead>
+                                        <tr>
+                                            <th>Nível de Ladino</th>
+                                            <th>Tamanho do Dado</th>
+                                            <th>Número</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><th>3º</th><td><strong>d6</strong></th><td class="esquerda">4</th></tr>
+                                        <tr><th>5º</th><td><strong>d8</strong></th><td class="esquerda">6</th></tr>
+                                        <tr><th>9º</th><td><strong>d8</strong></th><td class="esquerda">8</th></tr>
+                                        <tr><th>11º</th><td><strong>d10</strong></th><td class="esquerda">8</th></tr>
+                                        <tr><th>13º</th><td><strong>d10</strong></th><td class="esquerda">10</th></tr>
+                                        <tr><th>17º</th><td><strong>d12</strong></th><td class="esquerda">12</th></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <p>Quaisquer características nesta subclasse que usam um <strong>Dado de Energia Psíquica</strong> usam apenas os dados desta subclasse. Alguns de seus poderes <strong>gastam</strong> um Dado de Energia Psíquica, conforme especificado na descrição do poder, e você não pode usar o poder se ele exigir o uso de um dado quando todos os seus Dados de Energia Psíquica estiverem gastos.</p>
+                            <p>Você recupera <strong>um</strong> de seus Dados de Energia Psíquica gastos quando finaliza um <strong>Descanso Curto</strong> e recupera <strong>todos</strong> eles quando finaliza um <strong>Descanso Longo</strong>.</p>
 
-        <div class="bloco-subclasse-detalhada">
-          <h3>4. Inquisitivo (Inquisitive)</h3>
-          <p>O detetive do submundo. Especialista em ler as intenções de oponentes através da percepção cirúrgica, abrindo brechas para Ataques Furtivos sem depender de fatores externos.</p>
-          
-          <div class="sub-feature">
-            <h5>Nível 3: Olhar Pericial & Combate Perspicaz</h5>
-            <p><strong>Olhar Pericial (Ear for Deceit):</strong> Sempre que fizer um teste de Sabedoria (Intuição) para detectar mentiras, qualquer rolagem menor que 7 no d20 torna-se automaticamente um **8**.</p>
-            <p><strong>Combate Perspicaz (Insightful Fighting):</strong> Como uma Ação Bônus, faça um teste de Sabedoria (Intuição) contra um teste de Carisma (Enganação) de um alvo visível a até 9 metros. Se vencer, você decifra o padrão tático do inimigo e pode aplicar seu <b>Ataque Furtivo</b> contra ele em todos os turnos pelos próximos 1 minuto, independente de ter vantagem ou aliados próximos.</p>
-          </div>
+                            <p><strong style="color: white;">Talento Reforçado Psiquicamente.</strong> Se você <strong>falhar</strong> em um teste de habilidade usando uma <strong>perícia</strong> ou <strong>ferramenta</strong> com a qual tem proficiência, pode rolar <strong>um Dado de Energia Psíquica</strong> e <strong>adicionar</strong> o número rolado ao teste, potencialmente transformando a falha em sucesso. O dado é <strong>gasto apenas</strong> se a rolagem então for bem-sucedida.</p>
 
-          <div class="sub-feature">
-            <h5>Nível 9: Olho para o Detalhe</h5>
-            <p>Você pode usar sua Ação Bônus para realizar testes de Sabedoria (Percepção) para encontrar criaturas escondidas ou Inteligência (Investigação) para decifrar pistas ambientais no calor da batalha.</p>
-          </div>
+                            <p><strong style="color: white;">Sussurros Psíquicos.</strong> Você pode estabelecer <strong>comunicação telepática</strong> entre você e outros. Como uma <strong>Ação Mágica</strong>, escolha <strong>uma ou mais criaturas</strong> que você pode ver, até um número de criaturas igual ao seu <strong>Bônus de Proficiência</strong>, e então role <strong>um Dado de Energia Psíquica</strong>. Por um número de horas igual ao número rolado, as criaturas escolhidas podem falar telepaticamente com você, e você pode falar telepaticamente com elas. Para enviar ou receber uma mensagem (nenhuma ação necessária), você e a outra criatura devem estar a até <strong>1,5 km</strong> uma da outra. Uma criatura pode <strong>encerrar a conexão telepática</strong> a qualquer momento (nenhuma ação necessária).</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Lâminas Psíquicas -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Lâminas Psíquicas</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você pode manifestar lâminas cintilantes de <strong>energia psíquica</strong>. Sempre que você realiza a ação <strong>Atacar</strong> ou faz um <strong>Ataque de Oportunidade</strong>, pode manifestar uma <strong>Lâmina Psíquica</strong> em sua mão livre e fazer o ataque com aquela lâmina. A lâmina mágica tem as seguintes características:</p>
+                            
+                            <p><strong style="color: white;">Categoria de Arma:</strong> Corpo a corpo Simples<br>
+                            <strong style="color: white;">Dano em um Acerto:</strong> 1d6 Psíquico + o modificador de habilidade usado para a rolagem de ataque<br>
+                            <strong style="color: white;">Propriedades:</strong> Acuidade, Arremesso (alcance 18/36 metros)<br>
+                            <strong style="color: white;">Maestria:</strong> Aborrecer (você pode usar esta propriedade, e ela não conta contra o número de propriedades que você pode usar com Maestria em Armas)</p>
+                            
+                            <p>A lâmina <strong>desaparece imediatamente</strong> após acertar ou errar seu alvo e <strong>não deixa marca</strong> se causar dano.</p>
+                            <p>Após atacar com a lâmina em seu turno, você pode fazer um <strong>ataque corpo a corpo ou à distância</strong> com uma <strong>segunda lâmina psíquica</strong> como uma <strong>Ação Bônus</strong> no mesmo turno se sua outra mão estiver livre para criá-la. O dado de dano deste ataque bônus é <strong>1d4</strong> em vez de 1d6.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 9: Lâminas da Alma -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 9: Lâminas da Alma</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você pode agora usar os seguintes poderes com suas <strong>Lâminas Psíquicas</strong>.</p>
+                            
+                            <p><strong style="color: white;">Golpes Rastreadores.</strong> Se você faz uma <strong>rolagem de ataque</strong> com sua <strong>Lâmina Psíquica</strong> e <strong>erra</strong> o alvo, pode rolar <strong>um Dado de Energia Psíquica</strong> e adicionar o número rolado à rolagem de ataque. Se isso fizer com que o ataque acerte, o dado é <strong>gasto</strong>.</p>
+                            
+                            <p><strong style="color: white;">Teleporte Psíquico.</strong> Como uma <strong>Ação Bônus</strong>, você manifesta uma <strong>Lâmina Psíquica</strong>, gasta <strong>um Dado de Energia Psíquica</strong> e o rola, e arremessa a lâmina em um <strong>espaço desocupado</strong> que você pode ver a até um número de <strong>metros igual a 3 vezes o número rolado</strong>. Você então <strong>teleporta</strong> para aquele espaço, e a lâmina desaparece.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 13: Véu Psíquico -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 13: Véu Psíquico</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você pode tecer um véu de estática psíquica para se mascarar. Como uma <strong>Ação Mágica</strong>, você ganha a condição <strong>Invisível</strong> por <strong>1 hora</strong> ou até você dispensar o efeito (nenhuma ação necessária). Esta invisibilidade termina mais cedo <strong>imediatamente após você causar dano a uma criatura</strong> ou <strong>forçar uma criatura a fazer um teste de resistência</strong>.</p>
+                            <p>Uma vez que você usa esta característica, não pode fazê-lo novamente até finalizar um <strong>Descanso Longo</strong>, a menos que você gaste <strong>um Dado de Energia Psíquica</strong> (nenhuma ação necessária) para restaurar seu uso.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 17: Dilacerar Mente -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 17: Dilacerar Mente</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você pode varrer suas <strong>Lâminas Psíquicas</strong> através da mente de uma criatura. Quando você usa suas <strong>Lâminas Psíquicas</strong> para causar <strong>dano de Ataque Furtivo</strong> a uma criatura, pode forçar aquele alvo a fazer um teste de resistência de <strong>Sabedoria</strong> (CD <strong>8 + seu modificador de Destreza + Bônus de Proficiência</strong>). Se o teste falhar, o alvo tem a condição <strong>Atordoado</strong> por <strong>1 minuto</strong>. O alvo Atordoado <strong>repete o teste</strong> no final de cada um de seus turnos, encerrando o efeito em si mesmo em um sucesso.</p>
+                            <p>Uma vez que você usa esta característica, não pode fazê-lo novamente até finalizar um <strong>Descanso Longo</strong>, a menos que você gaste <strong>três Dados de Energia Psíquica</strong> (nenhuma ação necessária) para restaurar seu uso.</p>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
 
-          <div class="sub-feature">
-            <h5>Nível 13: Olhar Firme (Unerring Eye)</h5>
-            <p>Seus sentidos são perfeitos. Como uma ação, você pode detectar a presença de ilusões mágicas, metamorfos ou criaturas invisíveis a até 9 metros de você por uma rodada. Você pode usar este recurso uma quantidade de vezes igual ao seu modificador de Sabedoria por Descanso Longo.</p>
-          </div>
+                <!-- ABA - Ladrão -->
+                <div class="tab-pane">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">Ladrão</h3>
+                    <p>Uma mistura de ladrão, caçador de tesouros e explorador, você é o epítome de um aventureiro. Além de melhorar sua agilidade e furtividade, você ganha habilidades úteis para explorar ruínas e obter o máximo benefício dos itens mágicos que encontra lá.</p>
+                    
+                    <!-- Nível 3: Mãos Rápidas -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Mãos Rápidas</span>
+                            <span class="badge-mini acao-bonus">Ação Bônus</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Como uma <strong>Ação Bônus</strong>, você pode fazer uma das seguintes ações.</p>
+                            
+                            <p><strong style="color: white;">Prestidigitação.</strong> Faça um teste de <strong>Destreza (Prestidigitação)</strong> para <strong>abrir uma fechadura</strong> ou <strong>desarmar uma armadilha</strong> com <strong>Ferramentas de Ladrão</strong> ou para <strong>bater uma carteira</strong>.</p>
+                            
+                            <p><strong style="color: white;">Usar um Objeto.</strong> Realize a ação <strong>Utilizar</strong> ou realize a ação <strong>Mágica</strong> para usar um <strong>item mágico</strong> que exija aquela ação.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Trabalho de Segundo Andar -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Trabalho de Segundo Andar</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você treinou para entrar em lugares especialmente difíceis de alcançar, concedendo-lhe estes benefícios.</p>
+                            
+                            <p><strong style="color: white;">Escalador.</strong> Você ganha um <strong>Deslocamento de Escalada</strong> igual ao seu <strong>Deslocamento</strong>.</p>
+                            
+                            <p><strong style="color: white;">Saltador.</strong> Você pode determinar sua <strong>distância de salto</strong> usando sua <strong>Destreza</strong> em vez de sua Força.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 9: Furtividade Suprema -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 9: Furtividade Suprema</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você ganha a seguinte opção de <strong>Golpe Astuto</strong>.</p>
+                            
+                            <p><strong style="color: white;">Ataque Furtivo (Custo: 1d6).</strong> Se você tem a condição <strong>Invisível</strong> da ação <strong>Esconder</strong>, este ataque <strong>não encerra essa condição</strong> em você se você terminar o turno atrás de <strong>Cobertura Três Quartos</strong> ou <strong>Cobertura Total</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 13: Usar Item Mágico -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 13: Usar Item Mágico</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você aprendeu como maximizar o uso de itens mágicos, concedendo-lhe os seguintes benefícios.</p>
+                            
+                            <p><strong style="color: white;">Sintonização.</strong> Você pode <strong>sintonizar até quatro itens mágicos</strong> de uma só vez.</p>
+                            
+                            <p><strong style="color: white;">Cargas.</strong> Sempre que você usa uma <strong>propriedade de item mágico</strong> que gasta <strong>cargas</strong>, role <strong>1d6</strong>. Em uma rolagem de <strong>6</strong>, você usa a propriedade <strong>sem gastar as cargas</strong>.</p>
+                            
+                            <p><strong style="color: white;">Pergaminhos.</strong> Você pode usar <strong>qualquer Pergaminho de Magia</strong>, usando <strong>Inteligência</strong> como sua habilidade de conjuração para a magia. Se a magia for um <strong>truque</strong> ou uma <strong>magia de nível 1</strong>, você pode conjurá-la com segurança. Se o pergaminho contém uma <strong>magia de nível superior</strong>, você deve primeiro ser bem-sucedido em um teste de <strong>Inteligência (Arcana)</strong> (CD <strong>10 + nível da magia</strong>). Em um teste bem-sucedido, você conjura a magia do pergaminho. Em um teste falho, o pergaminho <strong>se desintegra</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 17: Reflexos do Ladrão -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 17: Reflexos do Ladrão</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você é adepto a armar emboscadas e escapar rapidamente do perigo. Você pode realizar <strong>dois turnos</strong> durante o <strong>primeiro round de qualquer combate</strong>. Você realiza seu <strong>primeiro turno</strong> na sua <strong>Iniciativa normal</strong> e seu <strong>segundo turno</strong> na sua <strong>Iniciativa menos 10</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
 
-          <div class="sub-feature">
-            <h5>Nível 17: Derrubada Cirúrgica</h5>
-            <p>Sua leitura analítica dos inimigos sob o efeito do seu *Combate Perspicaz* atinge a maestria anatômica. O dano do seu Ataque Furtivo contra o alvo analisado aumenta permanentemente em adicionais **3d6** de dano.</p>
-          </div>
-        </div>
+                <!-- ABA - Ladrão de Magia -->
+                <div class="tab-pane">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">Ladrão de Magia</h3>
+                    <p>Enquanto ladrões comuns estão cortando bolsas e invadindo casas, um Ladrão de Magia está atrás de um prêmio muito mais valioso: magia. O Ladrão de Magia preda conjuradores, reaproveitando sua magia e iludindo magias de adivinhação para tomar poder mágico na ponta de uma faca.</p>
 
-      </div>
-    </div>
+                    <!-- Nível 3: Ataque Furtivo Potencializado -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Ataque Furtivo Potencializado</span>
+                            <span class="badge-mini reacao">Reação</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Imediatamente após uma <strong>criatura</strong> que você pode ver a até <strong>9 metros</strong> de você conjurar uma <strong>magia de nível 1+</strong>, você pode usar uma <strong>Reação</strong> para <strong>absorver energia mágica</strong> da magia. Quando você faz isso, até o final de seu próximo turno, na próxima vez que você acertar com seu <strong>Ataque Furtivo</strong>, você causa <strong>dano de Força</strong> extra. Para determinar o dano extra, role um número de <strong>d6 igual ao nível da magia</strong> e some-os.</p>
+                            <p>Você pode usar esta Reação um número de vezes igual ao seu modificador de <strong>Inteligência</strong> (mínimo de uma vez) e recupera todos os usos gastos quando finaliza um <strong>Descanso Longo</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Drenar Magia -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Drenar Magia</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você pode drenar poder de magias em andamento para recarregar a magia de seus aliados. Como uma <strong>Ação Mágica</strong>, você pode tocar uma <strong>criatura disposta</strong> e <strong>encerrar uma magia em andamento de nível 1 ou 2</strong> nela; a criatura imediatamente <strong>recupera um espaço de magia gasto de nível 2 ou inferior</strong> (escolha do alvo).</p>
+                            <p>Uma vez que você usa esta característica, não pode fazê-lo novamente até finalizar um <strong>Descanso Curto</strong> ou <strong>Descanso Longo</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 9: Sabotagem Mágica -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 9: Sabotagem Mágica</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você ganha as seguintes opções de <strong>Golpe Astuto</strong>.</p>
+                            
+                            <p><strong style="color: white;">Suscetibilidade a Magias (Custo: 2d6).</strong> O alvo tem <strong>Desvantagem</strong> no próximo teste de resistência que fizer contra uma magia até o <strong>início de seu próximo turno</strong>.</p>
+                            
+                            <p><strong style="color: white;">Interromper Magia (Custo: 3d6).</strong> A acuidade mágica do alvo é interrompida até o <strong>início de seu próximo turno</strong>. Sempre que o alvo conjurar uma magia durante esse período, ele deve ser bem-sucedido em um teste de resistência de <strong>Inteligência</strong> ou a magia <strong>se dissipa sem efeito</strong>, e a ação, Ação Bônus ou Reação usada para conjurá-la é <strong>gasta</strong>. Se aquela magia foi conjurada com um <strong>espaço de magia</strong>, o espaço <strong>não é gasto</strong>.</p>
+                            
+                            <p><strong style="color: white;">Roubar Resistência (Custo: 2d6).</strong> Escolha <strong>um tipo de dano</strong>. Se o alvo tem <strong>Resistência</strong> àquele tipo de dano, até o início de seu próximo turno, o alvo <strong>perde aquela Resistência</strong> e você <strong>ganha Resistência</strong> àquele tipo de dano.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 13: Manto Oculto -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 13: Manto Oculto</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Sempre que você finaliza um <strong>Descanso Longo</strong>, pode conjurar a magia <strong>Não Detecção</strong>, usando <strong>Inteligência</strong> como sua habilidade de conjuração. Quando você faz isso, pode ter como alvo apenas <strong>você mesmo</strong>, e a duração aumenta para <strong>24 horas</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 13: Drenar Magia Aprimorado -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 13: Drenar Magia Aprimorado</span>
+                            <span class="badge-mini acao-bonus">Ação Bônus</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você pode agora usar <strong>Drenar Magia</strong> como uma <strong>Ação Bônus</strong>. Além disso, quando você usa <strong>Drenar Magia</strong>, pode encerrar <strong>uma magia em andamento de nível 1, 2 ou 3</strong> no alvo, e o alvo recupera <strong>um espaço de magia gasto de nível 3 ou inferior</strong> (escolha do alvo).</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 17: Implosão Arcano -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 17: Implosão Arcano</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você usa <strong>Ataque Furtivo Potencializado</strong>, pode forçar o alvo a fazer um teste de resistência de <strong>Constituição</strong> (CD <strong>8 + seu modificador de Destreza + Bônus de Proficiência</strong>). Em uma falha, a magia <strong>se dissipa sem efeito</strong> e o alvo tem a condição <strong>Atordoado</strong> até o início de seu próximo turno.</p>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+
+                <!-- ABA - Fantasma -->
+                <div class="tab-pane">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">Fantasma</h3>
+                    <p>Alguns Ladinos caminham ao longo do véu entre a vida e a morte, conduzindo oponentes ao túmulo e deslizando pelo mundo tão indetectáveis quanto um espírito.</p>
+                    <p>Nestas buscas, um Ladino pode descobrir uma conexão mística com a própria morte. Tal indivíduo se torna imerso em energia negativa, infundindo seus golpes com energia mortal e roubando conhecimento de almas que partiram.</p>
+                    <p>Guildas de ladrões valorizam Ladinos desta persuasão como coletores de informações e espiões altamente eficazes.</p>
+                    
+                    <!-- Nível 3: Lamentos da Sepultura -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Lamentos da Sepultura</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Imediatamente após causar dano de <strong>Ataque Furtivo</strong> a uma criatura em seu turno, você pode ter como alvo <strong>uma segunda criatura</strong> que você pode ver a até <strong>9 metros</strong> da primeira criatura. Role <strong>metade do número de dados de Ataque Furtivo</strong> para seu nível (arredondado para cima), e a segunda criatura sofre dano <strong>Necrótico</strong> igual ao total da rolagem enquanto lamentos dos mortos soam momentaneamente ao seu redor.</p>
+                            <p>Você pode usar esta característica um número de vezes igual ao seu modificador de <strong>Destreza</strong> (mínimo de uma vez) e recupera todos os usos gastos quando finaliza um <strong>Descanso Longo</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 3: Sussurros dos Mortos -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Sussurros dos Mortos</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Sempre que você finaliza um <strong>Descanso Curto</strong> ou <strong>Descanso Longo</strong>, pode escolher <strong>uma proficiência em perícia ou ferramenta</strong> que você não possui e adquiri-la, enquanto uma presença fantasmagórica compartilha seu conhecimento com você. Você <strong>perde esta proficiência</strong> quando usa este benefício novamente para escolher uma proficiência diferente.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 9: Símbolos dos Partidos -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 9: Símbolos dos Partidos</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Os espíritos dos mortos são atraídos a você, e ecos de suas vidas passadas se manifestam magicamente como curiosidades estranhas com poder ressonante.</p>
+                            <p>Sempre que você finaliza um <strong>Descanso Longo</strong>, você ganha <strong>dois amuletos de alma</strong>; cada amuleto de alma é um objeto <strong>Minúsculo</strong>. Estes amuletos duram até você finalizar outro <strong>Descanso Longo</strong>, momento em que se desintegram.</p>
+                            <p>Se você se mover mais de <strong>9 metros</strong> de um amuleto, o amuleto imediatamente <strong>teleporta para você</strong>, aparecendo em algum lugar em sua pessoa.</p>
+                            <p>O número de amuletos de alma que você ganha quando finaliza um <strong>Descanso Longo</strong> aumenta quando você atinge os níveis <strong>13</strong> (três amuletos) e <strong>17</strong> (quatro amuletos) de Ladino.</p>
+                            
+                            <p><strong style="color: white;">Uso de Amuletos de Alma:</strong></p>
+                            
+                            <p><strong style="color: white;">Crepúsculo da Morte.</strong> Quando você causa dano de <strong>Ataque Furtivo</strong> em seu turno, pode gastar <strong>um amuleto de alma</strong> e imediatamente usar <strong>Lamentos da Sepultura</strong> sem gastar um uso daquela característica. O amuleto gasto é <strong>destruído</strong>.</p>
+                            
+                            <p><strong style="color: white;">Essência da Vida.</strong> Enquanto você tiver <strong>pelo menos um amuleto de alma</strong>, você tem <strong>Vantagem</strong> em <strong>Testes de Resistência contra a Morte</strong> e testes de resistência de <strong>Constituição</strong>.</p>
+                            
+                            <p><strong style="color: white;">Consulta Espiritual.</strong> Você pode usar uma <strong>Ação Mágica</strong> para gastar <strong>um amuleto de alma</strong> e imediatamente conjurar a magia <strong>Augúrio</strong>, sem exigir componentes de magia e usando <strong>Destreza</strong> como o modificador de conjuração. O amuleto gasto é <strong>destruído</strong>.</p>
+                            
+                            <p><strong style="color: white;">Recuperando Amuletos de Alma.</strong> Quando uma <strong>criatura</strong> que você pode ver a até <strong>9 metros</strong> de você <strong>morre</strong>, você pode usar uma <strong>Reação</strong> para <strong>recuperar um amuleto de alma gasto</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 9: Voz da Morte -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 9: Voz da Morte</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você pode conjurar <strong>Falar com os Mortos</strong> uma vez <strong>sem um espaço de magia</strong>, sem exigir componentes de magia e usando <strong>Destreza</strong> como o modificador de conjuração. Você recupera a capacidade de conjurá-la desta forma quando finaliza um <strong>Descanso Curto</strong> ou <strong>Descanso Longo</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 13: Caminhada Fantasmagórica -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 13: Caminhada Fantasmagórica</span>
+                            <span class="badge-mini acao-bonus">Ação Bônus</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Como uma <strong>Ação Bônus</strong>, você assume uma <strong>forma espectral</strong>, ganhando os benefícios abaixo por <strong>10 minutos</strong> ou até você encerrá-los (nenhuma ação necessária).</p>
+                            <p>Uma vez que você usa esta característica, não pode usá-la novamente até finalizar um <strong>Descanso Longo</strong>, a menos que você <strong>gaste e destrua um de seus amuletos de alma</strong> de <strong>Símbolos dos Partidos</strong> (nenhuma ação necessária) para restaurar seu uso.</p>
+                            
+                            <p><strong style="color: white;">Voo.</strong> Você ganha um <strong>Deslocamento de Voo</strong> de <strong>3 metros</strong> e pode <strong>pairar</strong>.</p>
+                            
+                            <p><strong style="color: white;">Forma Nebulosa.</strong> <strong>Rolagens de ataque</strong> têm <strong>Desvantagem</strong> contra você.</p>
+                            
+                            <p><strong style="color: white;">Movimento Incorpóreo.</strong> Você pode se mover através de <strong>espaços ocupados</strong> como se fossem <strong>Terreno Difícil</strong>. Se você terminar seu turno em tal espaço, sofre <strong>1d10</strong> de dano de <strong>Força</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível 17: Amigo da Morte -->
+                    <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 17: Amigo da Morte</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Sua associação com a morte se tornou tão próxima que você ganha os seguintes benefícios:</p>
+                            
+                            <p><strong style="color: white;">Lamento da Morte.</strong> Quando você usa sua característica <strong>Lamentos da Sepultura</strong>, pode causar o dano <strong>Necrótico</strong> tanto para a <strong>primeira quanto para a segunda criatura</strong>.</p>
+                            
+                            <p><strong style="color: white;">Chamado da Morte.</strong> Quando você rola <strong>Iniciativa</strong>, você recupera <strong>um amuleto de alma</strong> para seus <strong>Símbolos dos Partidos</strong> se você <strong>não tiver nenhum restante</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+              </div>
+            
+          </div>
+      </div><!--FIM DA DIV recursos-detalhados--> 
+
+
   </div>
 
 </body>

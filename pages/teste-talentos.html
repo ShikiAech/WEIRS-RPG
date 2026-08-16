@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Talentos (Feats) — Weirs RPG</title>
+  <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+  <link rel="stylesheet" href="/WEIRS-RPG/css/talents.css">
+  <link rel="stylesheet" href="/WEIRS-RPG/css/class-style.css">
+  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+  <script src="/WEIRS-RPG/javascript/talent-filter.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <h2>Talentos</h2>
+    <p>Talentos representam especializações, características herdadas, treinamentos intensos ou bênçãos extraordinárias que moldam as capacidades únicas de um personagem.</p>
+
+    <div class="container-filtros">
+      <div class="filtros-topo">
+        <input type="text" id="busca-nome-talento" placeholder="Buscar talento pelo nome...">
+      </div>
+      <div class="filtros-botoes">
+        <button class="btn-filtro ativo" data-tipo="todos">Todos os Talentos</button>
+        <button class="btn-filtro" data-tipo="origem">Talentos de Origem</button>
+        <button class="btn-filtro" data-tipo="geral">Talentos Gerais</button>
+        <button class="btn-filtro" data-tipo="luta">Estilos de Luta</button>
+        <button class="btn-filtro" data-tipo="epico">Dádivas Épicas</button>
+      </div>
+    </div>
+      
+    <div class="grid-talentos" style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+      
+      <div class="card-talento" data-tipo="origem" data-nome="alerta">
+        <div class="card-talento-header">
+          <h4>Alerta <span class="badge-tipo badge-origem">Origem</span></h4>
+          <p class="requisito">Pré-requisito: Nenhum</p>
+        </div>
+        <p class="resumo-talento">Adiciona seu Bônus de Proficiência à Iniciativa e permite trocar sua ordem de combate com um aliado disposto.</p>
+        
+        <div class="talento-detalhes-oculto" style="display: none;">
+          <p>Você ganha os seguintes benefícios:</p>
+          <p><strong>Proficiência em Iniciativa.</strong> Quando você rola Iniciativa, pode adicionar seu Bônus de Proficiência à rolagem.</p>
+          <p><strong>Troca de Iniciativa.</strong> Imediatamente após rolar Iniciativa, você pode trocar sua Iniciativa com a Iniciativa de um aliado disposto no mesmo combate. Você não pode fazer essa troca se você ou o aliado estiver com a condição Incapacitado.</p>
+        </div>
+      </div>
+
+      <div class="card-talento" data-tipo="origem" data-nome="artesao">
+        <div class="card-talento-header">
+          <h4>Artesão <span class="badge-tipo badge-origem">Origem</span></h4>
+          <p class="requisito">Pré-requisito: Nenhum</p>
+        </div>
+        <p class="resumo-talento">Ganha proficiência com ferramentas de artesão, recebe descontos em itens não mágicos e pode fabricar equipamentos rápidos após descansos.</p>
+        
+        <div class="talento-detalhes-oculto" style="display: none;">
+          <p>Você ganha os seguintes benefícios:</p>
+          <p><strong>Proficiência em Ferramentas.</strong> Você ganha proficiência com 3 Ferramentas de Artesão diferentes de sua escolha.</p>
+          <p><strong>Desconto.</strong> Sempre que você compra um item não mágico, você recebe um desconto de 20%.</p>
+          <p><strong>Fabricação Rápida.</strong> Quando finaliza um Descanso Longo, pode fabricar um item da tabela abaixo que dura até seu próximo Descanso Longo.</p>
+          <div class="overflow-table">
+            <table class="tabela-rpg" style="width:100%; border-collapse:collapse; margin-top:15px;">
+              <thead>
+                <tr>
+                  <th>Ferramentas</th>
+                  <th>Itens Fabricados</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>Carpinteiro</strong></td><td>Escada, Tocha</td></tr>
+                <tr><td><strong>Ferreiro</strong></td><td>Esferas, Balde, Gancho de Agarrar</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="modal-talento" class="modal-talento-overlay">
+    <div class="modal-talento-content">
+      <span class="close-modal-talento">&times;</span>
+      <div id="modal-talento-body">
+        </div>
+    </div>
+  </div>
+</body>
+</html>
