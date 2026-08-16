@@ -5,6 +5,11 @@
 Um aplicativo web para recordação de campanhas, guia de criação básico e conteúdo traduzido de D&D 2024.
 
 ## 📋 Changelog
+### Versão 1.15.0
+- **Data:** 15/08/2026
+- **Melhorias:**
+  - Adição das raças tenebrianas (Archais, Baphoritas, Ímpios, Lilins e Zebulins)
+
 ### Versão 1.14.11
 - **Data:** 04/08/2026
 - **Melhorias:**
