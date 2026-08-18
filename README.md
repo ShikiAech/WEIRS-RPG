@@ -5,6 +5,11 @@
 Um aplicativo web para recordação de campanhas, guia de criação básico e conteúdo traduzido de D&D 2024.
 
 ## 📋 Changelog
+### Versão 1.15.1
+- **Data:** 17/08/2026
+- **Melhorias:**
+  - Adição da pagina Mundo (Império Unificado e Xintai)
+
 ### Versão 1.15.0
 - **Data:** 15/08/2026
 - **Melhorias:**

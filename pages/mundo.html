@@ -59,6 +59,17 @@
       border: 1px solid var(--border-fantasy);
       border-radius: 4px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      .mapa-img {
+      width: 100%;
+      max-width: 1000px;
+      height: auto;
+      border-radius: 2px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+      transition: transform 0.3s ease;
+    }
+    .bandeira-img:hover {
+      transform: scale(1.01);
+    }
     }
     .ficha-rapida-grid {
       display: grid;
@@ -91,14 +102,26 @@
       background: #111;
       border-radius: 4px;
     }
-    .mapa-regional-img {
-  width: 100%;
-  max-height: 550px;
-  object-fit: contain;
-  border: 1px solid var(--gold);
-  border-radius: 4px;
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
-}
+      .mapa-container {
+      text-align: center;
+      margin: 40px 0;
+      border: 1px solid var(--border-fantasy);
+      padding: 15px;
+      background: rgba(20, 20, 22, 0.6);
+      border-radius: 4px;
+    }
+    .mapa-img {
+      width: 100%;
+      max-width: 1000px;
+      height: auto;
+      border-radius: 2px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+      transition: transform 0.3s ease;
+    }
+    .mapa-img:hover {
+      transform: scale(1.01);
+    }
+
     .grid-lore-secoes {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -194,10 +217,12 @@
       </div>
 
       <!-- Mapa da Região / Província -->
-      <div class="mapa-regional-container">
-        <img src="/WEIRS-RPG/img/mapas/imperiounificadomapa.jpg" alt="Mapa Regional" class="mapa-regional-img" onerror="this.src='https://via.placeholder.com/900x400/111/444?text=Mapa+da+Regiao'">
-        <span style="display:block; font-size: 0.75rem; color: #777; margin-top: 5px;">Cartografia oficial da província.</span>
-      </div>
+      <div class="mapa-container">
+      <h3 style="font-family: 'Cinzel', serif; color: var(--gold); margin-bottom: 10px;">Território do Império Unificado</h3>
+      <a href="/WEIRS-RPG/img/mapas/imperiounificadomapa.jpg" target="_blank" title="Clique para abrir o mapa em alta resolução">
+        <img src="/WEIRS-RPG/img/mapas/imperiounificadomapa.jpg" alt="Mapa Mundi - Terra Weirs" class="mapa-img">
+      </a>
+    </div>
 
       <!-- Blocos de Conteúdo Detalhado -->
       <div class="grid-lore-secoes">
@@ -268,10 +293,12 @@
       </div>
 
        <!-- Mapa da Região / Província -->
-      <div class="mapa-regional-container">
-        <img src="/WEIRS-RPG/img/mapas/xintaimapa.jpg" alt="Mapa Regional" class="mapa-regional-img" onerror="this.src='https://via.placeholder.com/900x400/111/444?text=Mapa+da+Regiao'">
-        <span style="display:block; font-size: 0.75rem; color: #777; margin-top: 5px;">Cartografia oficial da província.</span>
-      </div>
+      <div class="mapa-container">
+      <h3 style="font-family: 'Cinzel', serif; color: var(--gold); margin-bottom: 10px;">Território de Xintai</h3>
+      <a href="/WEIRS-RPG/img/mapas/xintaimapa.jpg" target="_blank" title="Clique para abrir o mapa em alta resolução">
+        <img src="/WEIRS-RPG/img/mapas/xintaimapa.jpg" alt="Mapa Mundi - Terra Weirs" class="mapa-img">
+      </a>
+    </div>
 
       <div class="grid-lore-secoes">
         <div class="bloco-lore-card">
@@ -294,7 +321,7 @@
     <!-- FIM DO REINO 2 -->
 
     <!-- =================================================== -->
-    <!-- MODELO DO REINO 2 (OCULTO POR PADRÃO) -->
+    <!-- MODELO -->
     <!-- =================================================== -->
     <!-- <div id="reino-2" class="painel-reino">
       <div class="reino-cabecalho">
@@ -340,7 +367,7 @@
         </div>
       </div>
     </div> -->
-    <!-- FIM DO REINO 2 -->
+    <!-- FIM DO MODELO -->
 
   </div>
 
