@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const linksMenu = [
         { texto: "Início", url: "/WEIRS-RPG/index.html" },
         { texto: "Campanhas", url: "/WEIRS-RPG/pages/campaigns/campanhas.html" },
+        { texto: "Mundo", url: "/WEIRS-RPG/pages/mundo.html" },
         { texto: "Raças", url: "/WEIRS-RPG/pages/races/racas.html" },
         { texto: "Classes", url: "/WEIRS-RPG/pages/classes/classes.html" },
         { texto: "Talentos", url: "/WEIRS-RPG/pages/talentos.html" },

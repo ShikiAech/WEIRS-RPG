@@ -89,6 +89,62 @@
       color: #f1c40f;
       font-weight: bold;
     }
+
+    /* Modal Simulador */
+    .modal-rpg {
+      display: none; position: fixed; z-index: 99999; 
+      left: 0; top: 0; width: 100%; height: 100%; overflow: auto; 
+      background-color: rgba(0,0,0,0.85); backdrop-filter: blur(4px);
+    }
+    .modal-conteudo {
+      background-color: #161618; margin: 3% auto; padding: 25px 30px;
+      border: 1px solid var(--border-fantasy); box-shadow: 0 0 30px rgba(212,175,55,0.25);
+      width: 90%; max-width: 680px; border-radius: 4px; position: relative; color: #fff;
+    }
+    .fechar-modal {
+      color: #888; position: absolute; right: 20px; top: 15px;
+      font-size: 28px; font-weight: bold; cursor: pointer; transition: color 0.2s;
+    }
+    .fechar-modal:hover { color: var(--gold); }
+    
+    .valores-rolados-container {
+      background: rgba(0,0,0,0.5); padding: 12px; border-radius: 4px;
+      border: 1px dashed rgba(212,175,55,0.2); text-align: center;
+    }
+    .pool-dados {
+      font-size: 1.5rem; font-family: 'Cinzel', serif; color: #fff; margin-top: 5px; letter-spacing: 4px;
+    }
+    .grid-simulador { display: grid; grid-template-columns: 1.2fr 1fr; gap: 30px; }
+    @media(max-width: 600px) { .grid-simulador { grid-template-columns: 1fr; gap: 20px; } }
+    
+    .select-simulador-full {
+      width: 100%; padding: 8px; background: #101012; border: 1px solid var(--border-fantasy); color: white; border-radius: 4px;
+    }
+
+    .linha-input-atributo {
+      display: flex; align-items: center; margin-bottom: 8px;
+      background: rgba(255,255,255,0.01); padding: 6px 10px; border-radius: 4px; min-height: 40px;
+    }
+    .linha-input-atributo label { font-family: 'Cinzel', serif; width: 45px; font-weight: bold; color: #ccc; }
+    
+    .select-attr-dado {
+      width: 85px; padding: 5px; background: #0d0d0f; border: 1px solid var(--border-fantasy);
+      color: #fff; text-align: center; border-radius: 4px; font-size: 0.95rem;
+      appearance: none; -webkit-appearance: none; -moz-appearance: none; cursor: pointer;
+    }
+    
+    .botoes-ajuste { display: flex; gap: 4px; flex-grow: 1; justify-content: center; padding: 0 5px; }
+    
+    .btn-bonus-ajuste {
+      border: none; color: white; padding: 3px 6px; font-size: 0.65rem;
+      border-radius: 3px; cursor: pointer; font-weight: bold; min-width: 32px; text-align: center;
+    }
+    .btn-ant { background: #2980b9; }
+    .btn-ant:hover { background: #3498db; }
+    .btn-asi { background: #27ae60; }
+    .btn-asi:hover { background: #2ecc71; }
+    
+    .mod-preview { width: 75px; font-weight: bold; text-align: right; font-size: 0.9rem; font-family: monospace; }
   </style>
 </head>
 
@@ -96,648 +152,220 @@
   <script src="/WEIRS-RPG/javascript/menu.js"></script>
   
   <div class="container">
-    
-   <div class="logo-container">
-  <a href="index.html">
-    <img src="/WEIRS-RPG/img/weirs2.logo.png" alt="Weirs RPG" class="logo-home">
-  </a>
-</div>
+    <div class="logo-container">
+      <a href="index.html">
+        <img src="/WEIRS-RPG/img/weirs2.logo.png" alt="Weirs RPG" class="logo-home">
+      </a>
+    </div>
 
     <div class="card-rpg" style="margin-top: 20px; padding: 30px; text-align: center;">
-  <div style="max-width: 700px; margin: 0 auto;">
-    <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 15px;">
-      Forje o Seu Destino
-    </h3>
-    <p style="font-size: 1.05rem; line-height: 1.6; color: #ddd; margin-bottom: 15px;">
-      Bem-vindo ao compêndio de regras. Antes de entrar no grid de batalha e explorar os mistérios do mundo, você precisa moldar as capacidades brutas e a vitalidade do seu herói.
-    </p>
-    <p style="font-size: 0.95rem; color: #af7ac5; font-style: italic; margin-bottom: 25px;">
-      Clique no botão abaixo para abrir o canalizador místico, rolar seus atributos iniciais e descobrir seus pontos de vida. Depois, é só transcrever os resultados diretamente na sua ficha do <strong>Roll20</strong>!
-    </p>
-    
-    <button id="btn-abrir-simulador" class="btn-principal" style="font-size: 1.1rem; padding: 12px 30px; background: #9b59b6; cursor: pointer;">
-      🎲 Simular Minha Ficha
-    </button>
-  </div>
-</div>
-
-<div id="modal-simulador" class="modal-rpg">
-  <div class="modal-conteudo">
-    <span class="fechar-modal">&times;</span>
-    <h3 style="font-family: 'Cinzel', serif; color: var(--gold); text-align: center; margin-bottom: 5px;">Gerador de Atributos & Vida</h3>
-    <p style="color: #aaa; font-size: 0.85rem; text-align: center; margin-bottom: 15px;">Fórmula oficial: 4d6k3 (Mantém os 3 maiores de cada rolagem)</p>
-    
-    <div style="text-align: center; margin-bottom: 10px;">
-      <span id="contador-tentativas" style="font-size: 0.85rem; color: #ebc063; background: rgba(212,175,55,0.1); padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(212,175,55,0.2);">
-        Tentativas de rolagem restantes: <strong>2</strong>
-      </span>
-    </div>
-
-    <div style="margin-bottom: 20px; text-align: center;">
-      <button id="btn-rolar-atributos" class="btn-principal" style="background: #27ae60; padding: 10px 25px;">Rolar Dados Iniciais</button>
-    </div>
-
-    <div class="valores-rolados-container">
-      <span style="color: var(--gold); font-family: 'Cinzel'; font-size: 0.85rem; text-transform: uppercase;">Resultados para Alocar:</span>
-      <div id="pool-dados" class="pool-dados">—</div>
-    </div>
-
-    <hr style="border-color: rgba(212,175,55,0.1); margin: 20px 0;">
-
-    <div class="grid-simulador">
-      <div class="col-atributos">
-        <h4 style="font-family: 'Cinzel'; color: var(--gold); margin-bottom: 15px; border-bottom: 1px solid rgba(212,175,55,0.1); padding-bottom: 5px;">Configuração</h4>
+      <div style="max-width: 700px; margin: 0 auto;">
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 15px;">
+          Forje o Seu Destino
+        </h3>
+        <p style="font-size: 1.05rem; line-height: 1.6; color: #ddd; margin-bottom: 15px;">
+          Bem-vindo ao compêndio de regras. Antes de entrar no grid de batalha e explorar os mistérios do mundo, você precisa moldar as capacidades brutas e a vitalidade do seu herói.
+        </p>
+        <p style="font-size: 0.95rem; color: #af7ac5; font-style: italic; margin-bottom: 25px;">
+          Clique no botão abaixo para abrir o canalizador místico, rolar seus atributos iniciais e descobrir seus pontos de vida. Depois, é só transcrever os resultados diretamente na sua ficha do <strong>Roll20</strong>!
+        </p>
         
-        <div style="margin-bottom: 12px;">
-          <label for="select-nivel" style="display:block; margin-bottom:4px; font-size:0.8rem; color:#ccc;">Nível do Personagem:</label>
-          <select id="select-nivel" class="select-simulador-full">
-            <option value="1">Nível 1</option>
-            <option value="2">Nível 2</option>
-            <option value="3">Nível 3</option>
-            <option value="4">Nível 4 (Aumento de Atributo)</option>
-            <option value="5">Nível 5</option>
-            <option value="6">Nível 6</option>
-            <option value="7">Nível 7</option>
-            <option value="8">Nível 8 (Aumento de Atributo)</option>
-            <option value="9">Nível 9</option>
-            <option value="10">Nível 10</option>
-            <option value="11">Nível 11</option>
-            <option value="12">Nível 12 (Aumento de Atributo)</option>
-            <option value="13">Nível 13</option>
-            <option value="14">Nível 14</option>
-            <option value="15">Nível 15</option>
-            <option value="16">Nível 16 (Aumento de Atributo)</option>
-            <option value="17">Nível 17</option>
-            <option value="18">Nível 18</option>
-            <option value="19">Nível 19</option>
-            <option value="20">Nível 20</option>
-          </select>
-        </div>
-
-        <div style="margin-bottom: 15px;">
-          <label for="select-antecedente" style="display:block; margin-bottom:4px; font-size:0.8rem; color:#ccc;">Antecedente (Livro 2024):</label>
-          <select id="select-antecedente" class="select-simulador-full">
-            <option value="" selected disabled>Escolha um Antecedente...</option>
-            <option value="acólito" data-attrs="int,sab,car">Acólito (INT, SAB, CAR)</option>
-            <option value="artesão" data-attrs="for,des,int">Artesão Guilda (FOR, DES, INT)</option>
-            <option value="artista" data-attrs="des,con,car">Artista (DES, CON, CAR)</option>
-            <option value="charlatão" data-attrs="des,int,car">Charlatão (DES, INT, CAR)</option>
-            <option value="criminoso" data-attrs="des,int,car">Criminoso (DES, INT, CAR)</option>
-            <option value="erudito" data-attrs="con,int,sab">Erudito (CON, INT, SAB)</option>
-            <option value="eremita" data-attrs="con,sab,car">Eremita (CON, SAB, CAR)</option>
-            <option value="fazendeiro" data-attrs="for,con,sab">Fazendeiro (FOR, CON, SAB)</option>
-            <option value="guarda" data-attrs="for,des,sab">Guarda (FOR, DES, SAB)</option>
-            <option value="marujo" data-attrs="for,des,con">Marujo (FOR, DES, CON)</option>
-            <option value="nobre" data-attrs="for,int,car">Nobre (FOR, INT, CAR)</option>
-            <option value="órfão" data-attrs="des,con,sab">Órfão de Rua (DES, CON, SAB)</option>
-            <option value="sábio" data-attrs="con,int,sab">Sábio (CON, INT, SAB)</option>
-            <option value="soldado" data-attrs="for,des,con">Soldado (FOR, DES, CON)</option>
-            <option value="viajante" data-attrs="des,con,sab">Viajante (DES, CON, SAB)</option>
-          </select>
-        </div>
-
-        <div id="painel-asi" style="display:none; background: rgba(39, 174, 96, 0.1); border: 1px solid rgba(39, 174, 96, 0.3); padding: 8px; border-radius: 4px; margin-bottom: 10px; font-size:0.8rem; color:#58d68d; text-align: center;">
-          ASI por Nível Disponível: <span id="asi-disponiveis">0</span>
-          <div style="font-size:0.65rem; color:#aaa; margin-top:2px;">⚠️ Nota: Adicione estes pontos apenas caso opte por bônus puro de atributos em vez de escolher um Talento nestes níveis.</div>
-        </div>
-
-        <div id="painel-bonus-antecedente" style="display:none; background: rgba(41, 128, 185, 0.1); border: 1px solid rgba(41, 128, 185, 0.3); padding: 8px; border-radius: 4px; margin-bottom: 15px; font-size:0.8rem; color:#5dade2; text-align: center;">
-          Bônus do Antecedente Disponível: <span id="ant-disponiveis">+2 e +1 (ou três +1)</span>
-        </div>
-
-        <div class="linha-input-atributo">
-          <label>FOR:</label>
-          <select id="input-for" class="select-attr-dado" data-attr="for"><option value="">—</option></select>
-          <div class="botoes-ajuste">
-            <button class="btn-bonus-ajuste btn-ant" data-attr="for" style="display:none;">Ant</button>
-            <button class="btn-bonus-ajuste btn-asi" data-attr="for" style="display:none;">Nív</button>
-          </div>
-          <span id="mod-for" class="mod-preview">(—)</span>
-        </div>
-        <div class="linha-input-atributo">
-          <label>DES:</label>
-          <select id="input-des" class="select-attr-dado" data-attr="des"><option value="">—</option></select>
-          <div class="botoes-ajuste">
-            <button class="btn-bonus-ajuste btn-ant" data-attr="des" style="display:none;">Ant</button>
-            <button class="btn-bonus-ajuste btn-asi" data-attr="des" style="display:none;">Nív</button>
-          </div>
-          <span id="mod-des" class="mod-preview">(—)</span>
-        </div>
-        <div class="linha-input-atributo">
-          <label>CON:</label>
-          <select id="input-con" class="select-attr-dado" data-attr="con"><option value="">—</option></select>
-          <div class="botoes-ajuste">
-            <button class="btn-bonus-ajuste btn-ant" data-attr="con" style="display:none;">Ant</button>
-            <button class="btn-bonus-ajuste btn-asi" data-attr="con" style="display:none;">Nív</button>
-          </div>
-          <span id="mod-con" class="mod-preview">(—)</span>
-        </div>
-        <div class="linha-input-atributo">
-          <label>INT:</label>
-          <select id="input-int" class="select-attr-dado" data-attr="int"><option value="">—</option></select>
-          <div class="botoes-ajuste">
-            <button class="btn-bonus-ajuste btn-ant" data-attr="int" style="display:none;">Ant</button>
-            <button class="btn-bonus-ajuste btn-asi" data-attr="int" style="display:none;">Nív</button>
-          </div>
-          <span id="mod-int" class="mod-preview">(—)</span>
-        </div>
-        <div class="linha-input-atributo">
-          <label>SAB:</label>
-          <select id="input-sab" class="select-attr-dado" data-attr="sab"><option value="">—</option></select>
-          <div class="botoes-ajuste">
-            <button class="btn-bonus-ajuste btn-ant" data-attr="sab" style="display:none;">Ant</button>
-            <button class="btn-bonus-ajuste btn-asi" data-attr="sab" style="display:none;">Nív</button>
-          </div>
-          <span id="mod-sab" class="mod-preview">(—)</span>
-        </div>
-        <div class="linha-input-atributo">
-          <label>CAR:</label>
-          <select id="input-car" class="select-attr-dado" data-attr="car"><option value="">—</option></select>
-          <div class="botoes-ajuste">
-            <button class="btn-bonus-ajuste btn-ant" data-attr="car" style="display:none;">Ant</button>
-            <button class="btn-bonus-ajuste btn-asi" data-attr="car" style="display:none;">Nív</button>
-          </div>
-          <span id="mod-car" class="mod-preview">(—)</span>
-        </div>
+        <button id="btn-abrir-simulador" class="btn-principal" style="font-size: 1.1rem; padding: 12px 30px; background: #9b59b6; cursor: pointer;">
+          🎲 Simular Minha Ficha
+        </button>
       </div>
+    </div>
 
-      <div class="col-classe-vida">
-        <h4 style="font-family: 'Cinzel'; color: var(--gold); margin-bottom: 15px; border-bottom: 1px solid rgba(212,175,55,0.1); padding-bottom: 5px;">Classe & PV</h4>
+    <div id="modal-simulador" class="modal-rpg">
+      <div class="modal-conteudo">
+        <span class="fechar-modal">&times;</span>
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); text-align: center; margin-bottom: 5px;">Gerador de Atributos & Vida</h3>
+        <p style="color: #aaa; font-size: 0.85rem; text-align: center; margin-bottom: 15px;">Fórmula oficial: 4d6k3 (Mantém os 3 maiores de cada rolagem)</p>
         
-        <label for="select-classe" style="display:block; margin-bottom:4px; font-size:0.8rem; color: #ccc;">Sua Classe:</label>
-        <select id="select-classe" class="select-simulador-full" style="margin-bottom:10px;">
-          <option value="" disabled selected>Escolha uma classe...</option>
-          <option value="8" data-rec="Inteligência e Constituição">Artífice (d8)</option>
-          <option value="12" data-rec="Força e Constituição">Bárbaro (d12)</option>
-          <option value="8" data-rec="Carisma e Destreza">Bardo (d8)</option>
-          <option value="8" data-rec="Carisma e Constituição">Bruxo (d8)</option>
-          <option value="8" data-rec="Sabedoria e Constituição">Clérigo (d8)</option>
-          <option value="10" data-rec="Força ou Destreza, e Constituição">Guerreiro (d10)</option>
-          <option value="8" data-rec="Destreza e Inteligência/Carisma">Ladino (d8)</option>
-          <option value="10" data-rec="Força e Carisma">Paladino (d10)</option>
-          <option value="10" data-rec="Destreza e Sabedoria">Patrulheiro (d10)</option>
-          <option value="6" data-rec="Inteligência e Destreza">Mago (d6)</option>
-          <option value="6" data-rec="Carisma e Constituição">Feiticeiro (d6)</option>
-          <option value="8" data-rec="Sabedoria e Destreza">Druida (d8)</option>
-          <option value="8" data-rec="Destreza e Sabedoria">Monge (d8)</option>
-          <option value="10" data-rec="Destreza e Inteligência">Caçador Sanguinário (d10)</option>
-          <option value="8" data-rec="Destreza">Pistoleiro (d8)</option>
-          <option value="6" data-rec="Inteligência">Psionista (d6)</option>
-        </select>
-
-        <div id="caixa-recomendacao" style="background: rgba(212,175,55,0.05); border: 1px solid rgba(212,175,55,0.15); padding: 10px; border-radius: 4px; font-size: 0.8rem; color: #ebc063; margin-bottom: 15px; display:none;">
-          💡 <strong>Foco Recomendado:</strong> <span id="texto-recomendacao">—</span>
+        <div style="text-align: center; margin-bottom: 10px;">
+          <span id="contador-tentativas" style="font-size: 0.85rem; color: #ebc063; background: rgba(212,175,55,0.1); padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(212,175,55,0.2);">
+            Tentativas de rolagem restantes: <strong>2</strong>
+          </span>
         </div>
 
-        <div class="painel-vida" style="background: rgba(155, 89, 182, 0.08); border: 1px solid rgba(155, 89, 182, 0.25); padding: 15px; border-radius: 4px; text-align: center;">
-          <h5 style="font-family: 'Cinzel', serif; color: #bb8fce; margin: 0 0 5px 0; font-size: 0.95rem;">Vida Máxima Estimada</h5>
-          <div id="resultado-vida" class="vida-grande" style="font-size: 3.2rem; font-family: 'Cinzel', serif; color: #ff4757; text-shadow: 0 0 10px rgba(255, 71, 87, 0.3);">—</div>
-          <p id="detalhe-calculo-vida" style="font-size: 0.7rem; color: #888; margin-top: 5px; line-height: 1.3;">Selecione a classe e o nível para calcular.</p>
+        <div style="margin-bottom: 20px; text-align: center;">
+          <button id="btn-rolar-atributos" class="btn-principal" style="background: #27ae60; padding: 10px 25px;">Rolar Dados Iniciais</button>
+        </div>
+
+        <div class="valores-rolados-container">
+          <span style="color: var(--gold); font-family: 'Cinzel'; font-size: 0.85rem; text-transform: uppercase;">Resultados para Alocar:</span>
+          <div id="pool-dados" class="pool-dados">—</div>
+        </div>
+
+        <hr style="border-color: rgba(212,175,55,0.1); margin: 20px 0;">
+
+        <div class="grid-simulador">
+          <div class="col-atributos">
+            <h4 style="font-family: 'Cinzel'; color: var(--gold); margin-bottom: 15px; border-bottom: 1px solid rgba(212,175,55,0.1); padding-bottom: 5px;">Configuração</h4>
+            
+            <div style="margin-bottom: 12px;">
+              <label for="select-nivel" style="display:block; margin-bottom:4px; font-size:0.8rem; color:#ccc;">Nível do Personagem:</label>
+              <select id="select-nivel" class="select-simulador-full">
+                <option value="1">Nível 1</option>
+                <option value="2">Nível 2</option>
+                <option value="3">Nível 3</option>
+                <option value="4">Nível 4 (Aumento de Atributo)</option>
+                <option value="5">Nível 5</option>
+                <option value="6">Nível 6</option>
+                <option value="7">Nível 7</option>
+                <option value="8">Nível 8 (Aumento de Atributo)</option>
+                <option value="9">Nível 9</option>
+                <option value="10">Nível 10</option>
+                <option value="11">Nível 11</option>
+                <option value="12">Nível 12 (Aumento de Atributo)</option>
+                <option value="13">Nível 13</option>
+                <option value="14">Nível 14</option>
+                <option value="15">Nível 15</option>
+                <option value="16">Nível 16 (Aumento de Atributo)</option>
+                <option value="17">Nível 17</option>
+                <option value="18">Nível 18</option>
+                <option value="19">Nível 19</option>
+                <option value="20">Nível 20</option>
+              </select>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+              <label for="select-antecedente" style="display:block; margin-bottom:4px; font-size:0.8rem; color:#ccc;">Antecedente (Livro 2024):</label>
+              <select id="select-antecedente" class="select-simulador-full">
+                <option value="" selected disabled>Escolha um Antecedente...</option>
+                <option value="acólito" data-attrs="int,sab,car">Acólito (INT, SAB, CAR)</option>
+                <option value="artesão" data-attrs="for,des,int">Artesão Guilda (FOR, DES, INT)</option>
+                <option value="artista" data-attrs="des,con,car">Artista (DES, CON, CAR)</option>
+                <option value="charlatão" data-attrs="des,int,car">Charlatão (DES, INT, CAR)</option>
+                <option value="criminoso" data-attrs="des,int,car">Criminoso (DES, INT, CAR)</option>
+                <option value="erudito" data-attrs="con,int,sab">Erudito (CON, INT, SAB)</option>
+                <option value="eremita" data-attrs="con,sab,car">Eremita (CON, SAB, CAR)</option>
+                <option value="fazendeiro" data-attrs="for,con,sab">Fazendeiro (FOR, CON, SAB)</option>
+                <option value="guarda" data-attrs="for,des,sab">Guarda (FOR, DES, SAB)</option>
+                <option value="marujo" data-attrs="for,des,con">Marujo (FOR, DES, CON)</option>
+                <option value="nobre" data-attrs="for,int,car">Nobre (FOR, INT, CAR)</option>
+                <option value="órfão" data-attrs="des,con,sab">Órfão de Rua (DES, CON, SAB)</option>
+                <option value="sábio" data-attrs="con,int,sab">Sábio (CON, INT, SAB)</option>
+                <option value="soldado" data-attrs="for,des,con">Soldado (FOR, DES, CON)</option>
+                <option value="viajante" data-attrs="des,con,sab">Viajante (DES, CON, SAB)</option>
+              </select>
+            </div>
+
+            <div id="painel-asi" style="display:none; background: rgba(39, 174, 96, 0.1); border: 1px solid rgba(39, 174, 96, 0.3); padding: 8px; border-radius: 4px; margin-bottom: 10px; font-size:0.8rem; color:#58d68d; text-align: center;">
+              ASI por Nível Disponível: <span id="asi-disponiveis">0</span>
+              <div style="font-size:0.65rem; color:#aaa; margin-top:2px;">⚠️ Nota: Adicione estes pontos apenas caso opte por bônus puro de atributos em vez de escolher um Talento nestes níveis.</div>
+            </div>
+
+            <div id="painel-bonus-antecedente" style="display:none; background: rgba(41, 128, 185, 0.1); border: 1px solid rgba(41, 128, 185, 0.3); padding: 8px; border-radius: 4px; margin-bottom: 15px; font-size:0.8rem; color:#5dade2; text-align: center;">
+              Bônus do Antecedente Disponível: <span id="ant-disponiveis">+2 e +1 (ou três +1)</span>
+            </div>
+
+            <div class="linha-input-atributo">
+              <label>FOR:</label>
+              <select id="input-for" class="select-attr-dado" data-attr="for"><option value="">—</option></select>
+              <div class="botoes-ajuste">
+                <button class="btn-bonus-ajuste btn-ant" data-attr="for" style="display:none;">Ant</button>
+                <button class="btn-bonus-ajuste btn-asi" data-attr="for" style="display:none;">Nív</button>
+              </div>
+              <span id="mod-for" class="mod-preview">(—)</span>
+            </div>
+            <div class="linha-input-atributo">
+              <label>DES:</label>
+              <select id="input-des" class="select-attr-dado" data-attr="des"><option value="">—</option></select>
+              <div class="botoes-ajuste">
+                <button class="btn-bonus-ajuste btn-ant" data-attr="des" style="display:none;">Ant</button>
+                <button class="btn-bonus-ajuste btn-asi" data-attr="des" style="display:none;">Nív</button>
+              </div>
+              <span id="mod-des" class="mod-preview">(—)</span>
+            </div>
+            <div class="linha-input-atributo">
+              <label>CON:</label>
+              <select id="input-con" class="select-attr-dado" data-attr="con"><option value="">—</option></select>
+              <div class="botoes-ajuste">
+                <button class="btn-bonus-ajuste btn-ant" data-attr="con" style="display:none;">Ant</button>
+                <button class="btn-bonus-ajuste btn-asi" data-attr="con" style="display:none;">Nív</button>
+              </div>
+              <span id="mod-con" class="mod-preview">(—)</span>
+            </div>
+            <div class="linha-input-atributo">
+              <label>INT:</label>
+              <select id="input-int" class="select-attr-dado" data-attr="int"><option value="">—</option></select>
+              <div class="botoes-ajuste">
+                <button class="btn-bonus-ajuste btn-ant" data-attr="int" style="display:none;">Ant</button>
+                <button class="btn-bonus-ajuste btn-asi" data-attr="int" style="display:none;">Nív</button>
+              </div>
+              <span id="mod-int" class="mod-preview">(—)</span>
+            </div>
+            <div class="linha-input-atributo">
+              <label>SAB:</label>
+              <select id="input-sab" class="select-attr-dado" data-attr="sab"><option value="">—</option></select>
+              <div class="botoes-ajuste">
+                <button class="btn-bonus-ajuste btn-ant" data-attr="sab" style="display:none;">Ant</button>
+                <button class="btn-bonus-ajuste btn-asi" data-attr="sab" style="display:none;">Nív</button>
+              </div>
+              <span id="mod-sab" class="mod-preview">(—)</span>
+            </div>
+            <div class="linha-input-atributo">
+              <label>CAR:</label>
+              <select id="input-car" class="select-attr-dado" data-attr="car"><option value="">—</option></select>
+              <div class="botoes-ajuste">
+                <button class="btn-bonus-ajuste btn-ant" data-attr="car" style="display:none;">Ant</button>
+                <button class="btn-bonus-ajuste btn-asi" data-attr="car" style="display:none;">Nív</button>
+              </div>
+              <span id="mod-car" class="mod-preview">(—)</span>
+            </div>
+          </div>
+
+          <div class="col-classe-vida">
+            <h4 style="font-family: 'Cinzel'; color: var(--gold); margin-bottom: 15px; border-bottom: 1px solid rgba(212,175,55,0.1); padding-bottom: 5px;">Classe & PV</h4>
+            
+            <label for="select-classe" style="display:block; margin-bottom:4px; font-size:0.8rem; color: #ccc;">Sua Classe:</label>
+            <select id="select-classe" class="select-simulador-full" style="margin-bottom:10px;">
+              <option value="" disabled selected>Escolha uma classe...</option>
+              <option value="8" data-rec="Inteligência e Constituição">Artífice (d8)</option>
+              <option value="12" data-rec="Força e Constituição">Bárbaro (d12)</option>
+              <option value="8" data-rec="Carisma e Destreza">Bardo (d8)</option>
+              <option value="8" data-rec="Carisma e Constituição">Bruxo (d8)</option>
+              <option value="8" data-rec="Sabedoria e Constituição">Clérigo (d8)</option>
+              <option value="10" data-rec="Força ou Destreza, e Constituição">Guerreiro (d10)</option>
+              <option value="8" data-rec="Destreza e Inteligência/Carisma">Ladino (d8)</option>
+              <option value="10" data-rec="Força e Carisma">Paladino (d10)</option>
+              <option value="10" data-rec="Destreza e Sabedoria">Patrulheiro (d10)</option>
+              <option value="6" data-rec="Inteligência e Destreza">Mago (d6)</option>
+              <option value="6" data-rec="Carisma e Constituição">Feiticeiro (d6)</option>
+              <option value="8" data-rec="Sabedoria e Destreza">Druida (d8)</option>
+              <option value="8" data-rec="Destreza e Sabedoria">Monge (d8)</option>
+              <option value="10" data-rec="Destreza e Inteligência">Caçador Sanguinário (d10)</option>
+              <option value="8" data-rec="Destreza">Pistoleiro (d8)</option>
+              <option value="6" data-rec="Inteligência">Psionista (d6)</option>
+            </select>
+
+            <div id="caixa-recomendacao" style="background: rgba(212,175,55,0.05); border: 1px solid rgba(212,175,55,0.15); padding: 10px; border-radius: 4px; font-size: 0.8rem; color: #ebc063; margin-bottom: 15px; display:none;">
+              💡 <strong>Foco Recomendado:</strong> <span id="texto-recomendacao">—</span>
+            </div>
+
+            <div class="painel-vida" style="background: rgba(155, 89, 182, 0.08); border: 1px solid rgba(155, 89, 182, 0.25); padding: 15px; border-radius: 4px; text-align: center;">
+              <h5 style="font-family: 'Cinzel', serif; color: #bb8fce; margin: 0 0 10px 0; font-size: 0.95rem;">Vida Máxima Estimada</h5>
+              
+              <!-- NOVO CONTROLE DE MODO E BOTÃO DE ROLAR VIDA -->
+              <div style="display: flex; gap: 8px; justify-content: center; align-items: center; margin-bottom: 12px;">
+                <select id="select-modo-vida" class="select-simulador-full" style="width: auto; padding: 4px 8px; font-size: 0.8rem;">
+                  <option value="media">Média (Padrão)</option>
+                  <option value="rolagem">Rolar Dados</option>
+                </select>
+                <button id="btn-rolar-vida" style="display: none; padding: 4px 10px; background: #9b59b6; color: #fff; font-size: 0.75rem; font-weight: bold; border: none; border-radius: 4px; cursor: pointer;">
+                  🎲 Rolar PV
+                </button>
+              </div>
+
+              <div id="resultado-vida" class="vida-grande" style="font-size: 3.2rem; font-family: 'Cinzel', serif; color: #ff4757; text-shadow: 0 0 10px rgba(255, 71, 87, 0.3);">—</div>
+              <p id="detalhe-calculo-vida" style="font-size: 0.7rem; color: #888; margin-top: 5px; line-height: 1.3;">Selecione a classe e o nível para calcular.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
-
-<style>
-  .modal-rpg {
-    display: none; position: fixed; z-index: 99999; 
-    left: 0; top: 0; width: 100%; height: 100%; overflow: auto; 
-    background-color: rgba(0,0,0,0.85); backdrop-filter: blur(4px);
-  }
-  .modal-conteudo {
-    background-color: #161618; margin: 3% auto; padding: 25px 30px;
-    border: 1px solid var(--border-fantasy); box-shadow: 0 0 30px rgba(212,175,55,0.25);
-    width: 90%; max-width: 680px; border-radius: 4px; position: relative; color: #fff;
-  }
-  .fechar-modal {
-    color: #888; position: absolute; right: 20px; top: 15px;
-    font-size: 28px; font-weight: bold; cursor: pointer; transition: color 0.2s;
-  }
-  .fechar-modal:hover { color: var(--gold); }
-  
-  .valores-rolados-container {
-    background: rgba(0,0,0,0.5); padding: 12px; border-radius: 4px;
-    border: 1px dashed rgba(212,175,55,0.2); text-align: center;
-  }
-  .pool-dados {
-    font-size: 1.5rem; font-family: 'Cinzel', serif; color: #fff; margin-top: 5px; letter-spacing: 4px;
-  }
-  .grid-simulador { display: grid; grid-template-columns: 1.2fr 1fr; gap: 30px; }
-  @media(max-width: 600px) { .grid-simulador { grid-template-columns: 1fr; gap: 20px; } }
-  
-  .select-simulador-full {
-    width: 100%; padding: 8px; background: #101012; border: 1px solid var(--border-fantasy); color: white; border-radius: 4px;
-  }
-
-  .linha-input-atributo {
-    display: flex; align-items: center; margin-bottom: 8px;
-    background: rgba(255,255,255,0.01); padding: 6px 10px; border-radius: 4px; min-height: 40px;
-  }
-  .linha-input-atributo label { font-family: 'Cinzel', serif; width: 45px; font-weight: bold; color: #ccc; }
-  
-  .select-attr-dado {
-    width: 85px; padding: 5px; background: #0d0d0f; border: 1px solid var(--border-fantasy);
-    color: #fff; text-align: center; border-radius: 4px; font-size: 0.95rem;
-    appearance: none; -webkit-appearance: none; -moz-appearance: none; cursor: pointer;
-  }
-  
-  .botoes-ajuste { display: flex; gap: 4px; flex-grow: 1; justify-content: center; padding: 0 5px; }
-  
-  .btn-bonus-ajuste {
-    border: none; color: white; padding: 3px 6px; font-size: 0.65rem;
-    border-radius: 3px; cursor: pointer; font-weight: bold; min-width: 32px; text-align: center;
-  }
-  .btn-ant { background: #2980b9; }
-  .btn-ant:hover { background: #3498db; }
-  .btn-asi { background: #27ae60; }
-  .btn-asi:hover { background: #2ecc71; }
-  
-  .mod-preview { width: 75px; font-weight: bold; text-align: right; font-size: 0.9rem; font-family: monospace; }
-</style>
-
-<script>
-  const modal = document.getElementById("modal-simulador");
-  const btnAbrir = document.getElementById("btn-abrir-simulador");
-  const btnFechar = document.querySelector(".fechar-modal");
-  
-  const btnRolar = document.getElementById("btn-rolar-atributos");
-  const txtTentativas = document.getElementById("contador-tentativas");
-  const poolDados = document.getElementById("pool-dados");
-  const selectClasse = document.getElementById("select-classe");
-  const selectNivel = document.getElementById("select-nivel");
-  const selectAnt = document.getElementById("select-antecedente");
-  const resultadoVida = document.getElementById("resultado-vida");
-  const detalheCalculoVida = document.getElementById("detalhe-calculo-vida");
-  const caixaRec = document.getElementById("caixa-recomendacao");
-  const textoRec = document.getElementById("texto-recomendacao");
-  
-  const painelAsi = document.getElementById("painel-asi");
-  const txtAsiDisponiveis = document.getElementById("asi-disponiveis");
-  const painelAnt = document.getElementById("painel-bonus-antecedente");
-
-  let dadosRolados = [];
-  let tentativasRestantes = 2;
-  
-  let pontosAsiGasto = { for: 0, des: 0, con: 0, int: 0, sab: 0, car: 0 };
-  let pontosAntGasto = { for: 0, des: 0, con: 0, int: 0, sab: 0, car: 0 };
-  let totalAsiDisponivel = 0;
-
-  // Histórico para armazenar os conjuntos de dados das duas tentativas
-  let historicoRolagens = { r1: null, r2: null };
-  let rolagemSelecionada = null;
-
-  const selectsAtributos = {
-    for: document.getElementById("input-for"),
-    des: document.getElementById("input-des"),
-    con: document.getElementById("input-con"),
-    int: document.getElementById("input-int"),
-    sab: document.getElementById("input-sab"),
-    car: document.getElementById("input-car")
-  };
-
-  const mods = {
-    for: document.getElementById("mod-for"),
-    des: document.getElementById("mod-des"),
-    con: document.getElementById("mod-con"),
-    int: document.getElementById("mod-int"),
-    sab: document.getElementById("mod-sab"),
-    car: document.getElementById("mod-car")
-  };
-
-  btnAbrir.onclick = () => modal.style.display = "block";
-  btnFechar.onclick = () => modal.style.display = "none";
-  window.onclick = (e) => { if (e.target == modal) modal.style.display = "none"; };
-
-  function rolar4d6k3() {
-    let dados = [];
-    for(let i=0; i<4; i++) dados.push(Math.floor(Math.random() * 6) + 1);
-    dados.sort((a, b) => b - a);
-    return dados[0] + dados[1] + dados[2];
-  }
-
-  // Ativador da animação visual de rolagem
-  btnRolar.onclick = function() {
-    if (tentativasRestantes <= 0) return;
-    
-    btnRolar.disabled = true;
-    tentativasRestantes--;
-    txtTentativas.innerHTML = `Tentativas de rolagem restantes: <strong>${tentativasRestantes}</strong>`;
-    
-    if (tentativasRestantes === 0) {
-      txtTentativas.style.color = "#ff4757";
-      txtTentativas.style.background = "rgba(255,71,87,0.1)";
-      txtTentativas.style.borderColor = "rgba(255,71,87,0.3)";
-    }
-
-    let frames = 0;
-    const intervalo = setInterval(() => {
-      let fakes = [];
-      for(let i=0; i<6; i++) fakes.push(Math.floor(Math.random() * 16) + 3);
-      poolDados.innerText = fakes.join("   |   ");
-      frames++;
-      
-      if(frames > 12) {
-        clearInterval(intervalo);
-        finalizarRolagem();
-      }
-    }, 70);
-  };
-
-  function finalizarRolagem() {
-    let novosDados = [];
-    for(let i=0; i<6; i++) novosDados.push(rolar4d6k3());
-    novosDados.sort((a,b) => b - a);
-
-    // Salva o resultado na tentativa correspondente
-    if (!historicoRolagens.r1) {
-      historicoRolagens.r1 = novosDados;
-      escolherConjuntoDados("r1"); // Seleciona automaticamente a primeira por padrão
-    } else if (!historicoRolagens.r2) {
-      historicoRolagens.r2 = novosDados;
-      escolherConjuntoDados("r2"); // Seleciona automaticamente a segunda ao rolar
-    }
-
-    renderizarPainelRolagens();
-
-    if (tentativasRestantes > 0) {
-      btnRolar.disabled = false;
-    } else {
-      btnRolar.innerText = "Escolha sua Rolagem";
-      btnRolar.style.background = "#333";
-      btnRolar.style.cursor = "default";
-    }
-  }
-
-  // Função para renderizar os cards de escolha das rolagens
-  function renderizarPainelRolagens() {
-    poolDados.innerHTML = "";
-    poolDados.style.display = "flex";
-    poolDados.style.flexDirection = "column";
-    poolDados.style.gap = "12px";
-    poolDados.style.marginTop = "10px";
-
-    if (historicoRolagens.r1) {
-      criarCardRolagem("r1", "1ª Rolagem", historicoRolagens.r1);
-    }
-    if (historicoRolagens.r2) {
-      criarCardRolagem("r2", "2ª Rolagem", historicoRolagens.r2);
-    }
-  }
-
-  function criarCardRolagem(chave, label, conjunto) {
-    const card = document.createElement("div");
-    const estaSelecionado = rolagemSelecionada === chave;
-    
-    card.style.background = estaSelecionado ? "rgba(214,175,55,0.15)" : "#1a1a1d";
-    card.style.border = estaSelecionado ? "2px solid #d4af37" : "1px solid #3a3a3e";
-    card.style.padding = "12px 16px";
-    card.style.borderRadius = "6px";
-    card.style.cursor = "pointer";
-    card.style.display = "flex";
-    card.style.alignItems = "center";
-    card.style.justifyContent = "space-between";
-    card.style.transition = "all 0.2s";
-
-    card.innerHTML = `
-      <div style="display: flex; alignItems: center; gap: 10px;">
-        <input type="radio" name="opcao-rolagem" ${estaSelecionado ? "checked" : ""} style="cursor: pointer; accent-color: #d4af37;">
-        <span style="font-family: 'Cinzel', serif; color: #bfa36b; font-size: 0.9rem;">${label}:</span>
-      </div>
-      <span style="font-weight: bold; letter-spacing: 1px; color: ${estaSelecionado ? '#fff' : '#aaa'}">${conjunto.join("   |   ")}</span>
-    `;
-
-    card.onclick = () => escolherConjuntoDados(chave);
-    poolDados.appendChild(card);
-  }
-
-  function escolherConjuntoDados(chave) {
-    rolagemSelecionada = chave;
-    dadosRolados = [...historicoRolagens[chave]];
-
-    // Resetar alocações anteriores ao alternar ou gerar conjunto de dados
-    pontosAsiGasto = { for: 0, des: 0, con: 0, int: 0, sab: 0, car: 0 };
-    pontosAntGasto = { for: 0, des: 0, con: 0, int: 0, sab: 0, car: 0 };
-
-    // Limpa a escolha atual dos selects para evitar que fiquem com índices inválidos do outro dado
-    Object.keys(selectsAtributos).forEach(attr => {
-      selectsAtributos[attr].value = "";
-    });
-
-    // Reconstrói as listas drop-down com os novos valores correspondentes
-    Object.keys(selectsAtributos).forEach(attr => {
-      reconstruirSelectOptions(selectsAtributos[attr]);
-    });
-
-    renderizarPainelRolagens();
-    atualizarCalculos();
-  }
-
-  // Preenche a lista drop-down com IDs únicos vinculando o valor ao índice do dado
-  function reconstruirSelectOptions(selectElement) {
-    selectElement.innerHTML = '<option value="">—</option>';
-    dadosRolados.forEach((valor, index) => {
-      selectElement.innerHTML += `<option value="${index}_${valor}">Dado ${index+1} (${valor})</option>`;
-    });
-  }
-
-  // TRAVA MECÂNICA: Garante que um dado usado suma das outras listas em tempo real
-  function recalcularDicionarioDeOpcoes() {
-    // Descobrir quais índices de dados já foram escolhidos e por quem
-    let indicesOcupados = {};
-    Object.keys(selectsAtributos).forEach(attr => {
-      const stringValue = selectsAtributos[attr].value;
-      if (stringValue) {
-        const idx = stringValue.split("_")[0];
-        indicesOcupados[idx] = attr; // Salva quem está usando esse índice
-      }
-    });
-
-    // Atualizar dinamicamente o estado desabilitado de cada opção em todos os menus
-    Object.keys(selectsAtributos).forEach(attr => {
-      const select = selectsAtributos[attr];
-
-      Array.from(select.options).forEach(option => {
-        if (!option.value) return; // ignora a opção nula "—"
-        const idxOpcao = option.value.split("_")[0];
-
-        // Se o dado estiver ocupado por OUTRO atributo, esconde/desabilita ele
-        if (indicesOcupados[idxOpcao] && indicesOcupados[idxOpcao] !== attr) {
-          option.disabled = true;
-          option.text = `❌ [Em uso]`;
-        } else {
-          option.disabled = false;
-          const valorOriginal = option.value.split("_")[1];
-          option.text = `Dado ${parseInt(idxOpcao)+1} (${valorOriginal})`;
-        }
-      });
-    });
-  }
-
-  function calcularModificador(valor) {
-    if (!valor || valor < 3) return 0;
-    return Math.floor((valor - 10) / 2);
-  }
-
-  // Gerenciador de bônus de Antecedentes (2024)
-  function atualizarBotoesAntecedente() {
-    const antecedenteSelecionado = selectAnt.value;
-    if (!antecedenteSelecionado) {
-      painelAnt.style.display = "none";
-      document.querySelectorAll(".btn-ant").forEach(btn => btn.style.display = "none");
-      return;
-    }
-
-    painelAnt.style.display = "block";
-    const attrsPermitidos = selectAnt.options[selectAnt.selectedIndex].getAttribute("data-attrs").split(",");
-
-    Object.keys(selectsAtributos).forEach(attr => {
-      const btn = document.querySelector(`.btn-ant[data-attr="${attr}"]`);
-      if (attrsPermitidos.includes(attr) && selectsAtributos[attr].value !== "") {
-        btn.style.display = "inline-block";
-        let atual = pontosAntGasto[attr];
-        btn.innerText = atual > 0 ? `A:+${atual}` : `Ant`;
-      } else {
-        btn.style.display = "none";
-        pontosAntGasto[attr] = 0;
-      }
-    });
-  }
-
-  document.querySelectorAll(".btn-ant").forEach(button => {
-    button.onclick = function(e) {
-      e.preventDefault();
-      const attr = this.getAttribute("data-attr");
-      let totalGastosAnt = Object.values(pontosAntGasto).reduce((a, b) => a + b, 0);
-      let atual = pontosAntGasto[attr];
-
-      if (atual === 0) {
-        if (totalGastosAnt < 3) { pontosAntGasto[attr] = 1; }
-      } else if (atual === 1) {
-        let possuiDois = Object.values(pontosAntGasto).includes(2);
-        if (!possuiDois && totalGastosAnt < 3) { pontosAntGasto[attr] = 2; } 
-        else { pontosAntGasto[attr] = 0; }
-      } else {
-        pontosAntGasto[attr] = 0;
-      }
-      atualizarCalculos();
-    };
-  });
-
-  // Gerenciador de pontos por progressão de Nível (ASI)
-  function calcularAsiDisponiveis() {
-    const nivel = parseInt(selectNivel.value);
-    let totalAsi = 0;
-    if (nivel >= 4) totalAsi += 2;
-    if (nivel >= 8) totalAsi += 2;
-    if (nivel >= 12) totalAsi += 2;
-    if (nivel >= 16) totalAsi += 2;
-
-    totalAsiDisponivel = totalAsi;
-    let gastos = Object.values(pontosAsiGasto).reduce((a, b) => a + b, 0);
-    let restantes = totalAsiDisponivel - gastos;
-
-    if (totalAsiDisponivel > 0) {
-      painelAsi.style.display = "block";
-      txtAsiDisponiveis.innerText = restantes;
-      Object.keys(selectsAtributos).forEach(attr => {
-        const btn = document.querySelector(`.btn-asi[data-attr="${attr}"]`);
-        if(selectsAtributos[attr].value !== "") {
-          btn.style.display = "inline-block";
-          btn.innerText = pontosAsiGasto[attr] > 0 ? `N:+${pontosAsiGasto[attr]}` : `Nív`;
-        } else {
-          btn.style.display = "none";
-        }
-      });
-    } else {
-      painelAsi.style.display = "none";
-      document.querySelectorAll(".btn-asi").forEach(btn => btn.style.display = "none");
-      pontosAsiGasto = { for: 0, des: 0, con: 0, int: 0, sab: 0, car: 0 };
-    }
-  }
-
-  document.querySelectorAll(".btn-asi").forEach(button => {
-    button.onclick = function(e) {
-      e.preventDefault();
-      const attr = this.getAttribute("data-attr");
-      let restantes = totalAsiDisponivel - Object.values(pontosAsiGasto).reduce((a, b) => a + b, 0);
-      
-      if (restantes > 0) {
-        pontosAsiGasto[attr]++;
-      } else {
-        pontosAsiGasto[attr] = 0;
-      }
-      atualizarCalculos();
-    };
-  });
-
-  function atualizarCalculos() {
-    // Executa a trava de alocação única antes de computar matemática
-    recalcularDicionarioDeOpcoes();
-    atualizarBotoesAntecedente();
-    calcularAsiDisponiveis();
-
-    Object.keys(selectsAtributos).forEach(attr => {
-      const stringValue = selectsAtributos[attr].value;
-      let valorDado = 0;
-      if(stringValue) {
-        valorDado = parseInt(stringValue.split("_")[1]);
-      }
-      
-      const bAnt = pontosAntGasto[attr];
-      const bAsi = pontosAsiGasto[attr];
-      const valorTotal = valorDado > 0 ? (valorDado + bAnt + bAsi) : 0;
-      
-      const mod = calcularModificador(valorTotal);
-
-      if (valorTotal === 0) {
-        mods[attr].innerText = "(—)";
-        mods[attr].style.color = "#888";
-      } else {
-        let txtMod = mod >= 0 ? `+${mod}` : `${mod}`;
-        mods[attr].innerText = `${valorTotal} [${txtMod}]`;
-        mods[attr].style.color = mod >= 0 ? "#27ae60" : "#e74c3c";
-      }
-    });
-
-    const opcaoSelecionada = selectClasse.options[selectClasse.selectedIndex];
-    if (opcaoSelecionada && opcaoSelecionada.value) {
-      caixaRec.style.display = "block";
-      textoRec.innerText = opcaoSelecionada.getAttribute("data-rec");
-    }
-
-    // Processamento matemático de vida escalonada
-    const dadoVida = parseInt(selectClasse.value);
-    const nivel = parseInt(selectNivel.value);
-    
-    const stringCon = selectsAtributos.con.value;
-    let valorConDado = stringCon ? parseInt(stringCon.split("_")[1]) : 0;
-    
-    const conTotal = valorConDado > 0 ? (valorConDado + pontosAntGasto.con + pontosAsiGasto.con) : 0;
-    const modCon = calcularModificador(conTotal);
-
-    if (dadoVida && valorConDado > 0) {
-      const vidaNivel1 = dadoVida + modCon;
-      const mediaDado = Math.ceil((dadoVida + 1) / 2);
-      const vidaNiveisSeguintes = (nivel - 1) * (mediaDado + modCon);
-      const vidaFinal = vidaNivel1 + vidaNiveisSeguintes;
-      
-      resultadoVida.innerText = vidaFinal > 0 ? vidaFinal : nivel;
-      detalheCalculoVida.innerText = `Nível 1: ${dadoVida} + Níveis 2-${nivel}: ${(nivel-1)}x${mediaDado} | Modificador de CON total: ${modCon >= 0 ? '+'+modCon : modCon}`;
-    } else {
-      resultadoVida.innerText = "—";
-      if(valorConDado === 0 && dadoVida) detalheCalculoVida.innerText = "Defina o atributo de CON para calcular a vida.";
-    }
-  }
-
-  // Escutadores reativos
-  Object.values(selectsAtributos).forEach(select => select.onchange = atualizarCalculos);
-  selectClasse.onchange = atualizarCalculos;
-  selectNivel.onchange = atualizarCalculos;
-  selectAnt.onchange = atualizarCalculos;
-</script>
-
-    <div class="mapa-container">
+   <div class="mapa-container">
       <h3 style="font-family: 'Cinzel', serif; color: var(--gold); margin-bottom: 10px;">O Cartógrafo de Weirs</h3>
       <p style="margin-bottom: 20px; font-size: 0.9rem; color: #ccc;">Explore as extensões territoriais do Plano Material e as fronteiras do Império Unificado.</p>
       <a href="https://weirs-rpg.weebly.com/uploads/1/0/6/8/10689847/terra-weirs-dessa-vez-real-e-oficial-jpg_orig.jpeg" target="_blank" title="Clique para abrir o mapa em alta resolução">
@@ -792,19 +420,8 @@
         <p>A história do mundo agora lida com os reflexos dessa centralização geopolítica e os mistérios latentes das reencarnações elementares, exatamente no <span class="destaque-era">ano 500 depois de Shen</span>.</p>
       </div>
 
-    </div>
-
   </div>
-  <script>
-    function copiarFormula() {
-      var textoFormula = document.getElementById("formula-roll20").innerText;
-      navigator.clipboard.writeText(textoFormula).then(function() {
-        alert("Fórmula copiada com sucesso! Só colar no Roll20.");
-      }, function(err) {
-        console.error('Erro ao copiar texto: ', err);
-      });
-    }
-  </script>
 
+  <script src="/WEIRS-RPG/javascript/simulador.js"></script>
 </body>
 </html>

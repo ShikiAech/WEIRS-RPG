@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weirs RPG — Mundo</title>
+  <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+  <style>
+    /* Estilos para o Atlas / Reinos */
+    .seletor-reinos {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 25px 0;
+    }
+    .btn-reino {
+      background: #161618;
+      border: 1px solid var(--border-fantasy);
+      color: #ccc;
+      padding: 10px 20px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+    .btn-reino:hover, .btn-reino.ativo {
+      background: rgba(212, 175, 55, 0.15);
+      border-color: var(--gold);
+      color: var(--gold);
+      box-shadow: 0 0 10px rgba(212,175,55,0.2);
+    }
+    .painel-reino {
+      display: none;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+    .painel-reino.ativo {
+      display: block;
+    }
+    .reino-cabecalho {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 25px;
+      background: rgba(20, 20, 22, 0.7);
+      border: 1px solid var(--border-fantasy);
+      border-radius: 6px;
+      padding: 20px;
+      margin-bottom: 25px;
+      align-items: center;
+    }
+    .bandeira-box {
+      text-align: center;
+    }
+    .bandeira-img {
+      width: 100%;
+      max-height: 220px;
+      object-fit: contain;
+      border: 1px solid var(--border-fantasy);
+      border-radius: 4px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      .mapa-img {
+      width: 100%;
+      max-width: 1000px;
+      height: auto;
+      border-radius: 2px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+      transition: transform 0.3s ease;
+    }
+    .bandeira-img:hover {
+      transform: scale(1.01);
+    }
+    }
+    .ficha-rapida-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 15px;
+    }
+    .item-ficha {
+      background: #101012;
+      padding: 8px 12px;
+      border-left: 2px solid var(--gold);
+      border-radius: 2px;
+    }
+    .item-ficha strong {
+      display: block;
+      color: var(--gold);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .item-ficha span {
+      color: #ddd;
+      font-size: 0.9rem;
+    }
+    .mapa-regional-container {
+      text-align: center;
+      margin: 25px 0;
+      border: 1px solid var(--border-fantasy);
+      padding: 10px;
+      background: #111;
+      border-radius: 4px;
+    }
+      .mapa-container {
+      text-align: center;
+      margin: 40px 0;
+      border: 1px solid var(--border-fantasy);
+      padding: 15px;
+      background: rgba(20, 20, 22, 0.6);
+      border-radius: 4px;
+    }
+    .mapa-img {
+      width: 100%;
+      max-width: 1000px;
+      height: auto;
+      border-radius: 2px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+      transition: transform 0.3s ease;
+    }
+    .mapa-img:hover {
+      transform: scale(1.01);
+    }
+
+    .grid-lore-secoes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 25px;
+    }
+    @media(max-width: 768px) {
+      .reino-cabecalho, .grid-lore-secoes {
+        grid-template-columns: 1fr;
+      }
+    }
+    .bloco-lore-card {
+      background: rgba(22, 22, 24, 0.8);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 4px;
+      padding: 20px;
+    }
+    .bloco-lore-card h4 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold);
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid rgba(212,175,55,0.15);
+      padding-bottom: 6px;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+
+ <div class="container">
+
+    <h2 style="font-family: 'Cinzel', serif; color: var(--gold); text-align: center; margin-top: 10px;">
+      MUNDO
+    </h2>
+    <p class="desc-intro">
+      Navegue pelos territórios conhecidos para desvendar suas tradições, fés registradas e a geografia de cada domínio.
+    </p>
+
+    <!-- SELETOR DINÂMICO DE REINOS/REGIÕES -->
+    <div class="seletor-reinos">
+      <button class="btn-reino ativo" onclick="selecionarReino('reino-1')">Império Unificado</button>
+      <button class="btn-reino" onclick="selecionarReino('reino-2')">Xintai</button>
+     <!-- <button class="btn-reino" onclick="selecionarReino('reino-2')">Reino B</button> --> 
+      <!-- Basta duplicar os botões conforme criar novos reinos -->
+    </div>
+
+    <!-- =================================================== -->
+    <!-- IMPERIO UNIFICADO -->
+    <!-- =================================================== -->
+    <div id="reino-1" class="painel-reino ativo">
+      
+      <!-- Cabeçalho com Bandeira e Dados Rápidos -->
+      <div class="reino-cabecalho">
+        <div class="bandeira-box">
+          <img src="/WEIRS-RPG/img/bandeiras/imperiounificado.png" alt="Bandeira do Reino" class="bandeira-img" onerror="this.src='https://via.placeholder.com/200x250/111/d4af37?text=Bandeira'">
+        </div>
+        <div>
+          <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 5px;">
+            IMPÉRIO UNIFICADO
+          </h3>
+          <p style="font-style: italic; color: #888; font-size: 0.9rem; margin-bottom: 15px;">
+            "Sob a vontade de Aurus, uma só terra, um só destino."
+          </p>
+          
+          <div class="ficha-rapida-grid">
+            <div class="item-ficha">
+              <strong>Capital</strong>
+              <span>Falkora</span>
+            </div>
+            <div class="item-ficha">
+              <strong>Governo</strong>
+              <span>Império Autocrático Expansionista (Teocracia Militar)</span>
+            </div>
+            <div class="item-ficha">
+              <strong>Religião Predominante</strong>
+              <span>Culto a Aurus, Comandante dos Céus</span>
+            </div>
+            <div class="item-ficha">
+              <strong>Demografia Principal</strong>
+              <span>Humanos, Elfos, Draconianos e Fadas.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mapa da Região / Província -->
+      <div class="mapa-container">
+      <h3 style="font-family: 'Cinzel', serif; color: var(--gold); margin-bottom: 10px;">Território do Império Unificado</h3>
+      <a href="/WEIRS-RPG/img/mapas/imperiounificadomapa.jpg" target="_blank" title="Clique para abrir o mapa em alta resolução">
+        <img src="/WEIRS-RPG/img/mapas/imperiounificadomapa.jpg" alt="Mapa Mundi - Terra Weirs" class="mapa-img">
+      </a>
+    </div>
+
+      <!-- Blocos de Conteúdo Detalhado -->
+      <div class="grid-lore-secoes">
+        
+        <div class="bloco-lore-card">
+          <h4>História & Geografia</h4>
+          <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6; text-align: justify;">
+           Nascido no ano 350, o Império Unificado consolida o domínio sobre o noroeste de Weirs, unindo as planícies e minérios de Therpya (Lazular, Zaphir, Cintris, Rubivis, Emerala, Amétis, Diamonis), as terras frias e tecno-mágicas de Gorvhan (Bastalis, Spadira, Lanceron, Marthun, Halmor e a capital Falkora), e o ponto naval da Ilha de Salaner. O divisor de águas ocorreu por volta do ano 320, quando Hestia, a Dragma do Fogo, interveio para derrubar um elfo traidor; na sequência, as forças de Hades forçaram a abertura de um portal ao sul de Falkora. Hestia sacrificou-se para derrotar Hades, mas a Fenda de Tenebris continua aberta sob forte vigília, abrigando imigrantes demônios empurrados para a marginalização. O trauma dessa invasão moldou a doutrina imperial: o povo apoia a expansão militar e a assimilação de territórios pelo medo de um novo ataque, determinados a manter a humanidade forte sem depender do divino para ser salva.</p>
+        </div>
+
+        <div class="bloco-lore-card">
+          <h4>Cultura & Sociedade</h4>
+          <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6; text-align: justify;">
+            A cultura do Império Unificado é profundamente pragmática, militarizada e marcada pelo trauma da Fenda de Tenebris, estruturando-se em uma hierarquia social rígida onde o valor do indivíduo é medido por sua utilidade ao estado. Os humanos ocupam o topo da pirâmide como a classe governante, nobreza e alta cúpula militar. Por conveniência utilitária, Elfos e Fadas foram integrados à sociedade para liderar pesquisas arcanas e o avanço tecno-mágico, embora ainda sofram com um racismo estrutural e velado nos bastidores da elite. Já os Draconianos são submetidos ao trabalho pesado nas indústrias e grandes forjas bélicas, recebendo apenas o básico para a subsistência sob um forte controle ideológico que mascara a exploração como o preço justo pela proteção imperial. Na base dessa estrutura, os demônios vindos da Fenda vivem sob rigorosa vigilância e marginalização, enquanto todas as outras raças não humanas enfrentam um preconceito explícito, sendo tratadas como vassalagem ou utilizadas como mão de obra descartável e bucha de canhão nas linhas de frente expansionistas.
+          </p>
+        </div>
+
+        <div class="bloco-lore-card">
+          <h4>Governo & Leis</h4>
+          <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6; text-align: justify;">
+            A autoridade no Império Unificado opera sob um modelo de eleição restrita que combina controle elitista e burocracia militar, no qual a cada 10 anos, ou em caso de falecimento do soberano, ocorrem eleições para definir o governante supremo, disputadas sempre entre dois candidatos (um representante de Therpya e outro de Gorvhan), sendo o direito de voto limitado a homens alfabetizados das raças humana, élfica ou fada, enquanto a elegibilidade ao trono é um privilégio restrito a homens humanos, sistema pelo qual foi eleito o atual Imperador Avraham Colyn. O controle social e místico é assegurado por leis severas aplicadas pelo governo imperial, regulando a prática das artes arcanas através da EPM (Escola de Princípios Místicos), com sede em Bastalis, onde apenas humanos diplomados pela instituição recebem autorização para praticar magia de forma independente sob supervisão do estado, ao passo que para os não humanos a legislação proíbe o uso autônomo da feitiçaria, exigindo que qualquer praticante místico esteja obrigatoriamente vinculado às forças militares do Império ou a guildas privadas devidamente regularizadas e fiscalizadas.</p>
+        </div>
+
+        <div class="bloco-lore-card">
+          <h4>Religião & Divindades</h4>
+          <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6; text-align: justify;">
+            A fé no Império Unificado é dominada pelo culto estatal a Aurus, o Comandante dos Céus, uma religião expansiva que assimilou as antigas crenças locais e sufocou gradualmente os cultos tradicionais das terras conquistadas. Historicamente, a antiga Therpya devotava sua fé a Shen e à veneração dos Dragmas, vistos como salvadores renascidos a cada século, enquanto a população humana de Gorvhan adorava Sol, uma divindade ancestral da luz e da vida cujo culto acabou sendo totalmente substituído pela doutrina de Aurus. As tradições pagãs das raças subordinadas, como a adoração élfica a Luna, a Deusa da Magia, e a devoção dos draconianos de Salaner a Shiva, a Dragão da Forja e do Caos, foram forçadamente apagadas e criminalizadas pela hegemonia imperial. Atualmente, a teocracia valida a linhagem imperial ao reinivindicar a tutela dos Dragmas: o auge do fervor religioso gira em torno do novo Dragma de dois anos (nascido no ano 500), um contraste sombrio com o mistério do Dragma Elétrico nascido no ano 400, cuja existência e rastro foram completamente apagados da história pelo Império, alimentando teorias de que a própria cúpula governamental o teria executado em segredo.</p>
+        </div>
+
+      </div>
+    </div>
+    <!-- FIM DO IMPÉRIO UNIFICADO -->
+
+    <!-- =================================================== -->
+    <!-- XINTAI -->
+    <!-- =================================================== -->
+    <div id="reino-2" class="painel-reino">
+      <div class="reino-cabecalho">
+        <div class="bandeira-box">
+          <img src="/WEIRS-RPG/img/bandeiras/xintai.png" alt="Bandeira do Reino" class="bandeira-img" onerror="this.src='https://via.placeholder.com/200x250/111/d4af37?text=Bandeira+2'">
+        </div>
+        <div>
+          <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 5px;">
+            XINTAI
+          </h3>
+          <p style="font-style: italic; color: #888; font-size: 0.9rem; margin-bottom: 15px;">
+            "A mente molda a arte; o éter forja a resistência."
+          </p>
+          <div class="ficha-rapida-grid">
+            <div class="item-ficha">
+              <strong>Capital</strong>
+              <span>Baoshan</span>
+            </div>
+            <div class="item-ficha">
+              <strong>Governo</strong>
+              <span>Conselho Teocrático Monástico</span>
+            </div>
+            <div class="item-ficha">
+              <strong>Religião Predominante</strong>
+              <span>Culto a Hozen, o Deus Macaco das Artes e do Espírito</span>
+            </div>
+            <div class="item-ficha">
+              <strong>Demografia Principal</strong>
+              <span>Simyaris e Humanos</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+       <!-- Mapa da Região / Província -->
+      <div class="mapa-container">
+      <h3 style="font-family: 'Cinzel', serif; color: var(--gold); margin-bottom: 10px;">Território de Xintai</h3>
+      <a href="/WEIRS-RPG/img/mapas/xintaimapa.jpg" target="_blank" title="Clique para abrir o mapa em alta resolução">
+        <img src="/WEIRS-RPG/img/mapas/xintaimapa.jpg" alt="Mapa Mundi - Terra Weirs" class="mapa-img">
+      </a>
+    </div>
+
+      <div class="grid-lore-secoes">
+        <div class="bloco-lore-card">
+          <h4>História & Geografia</h4>
+          <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6;text-align: justify;">Xintai é o lar ancestral dos Simyaris, raça de primatas dotada de grande agilidade e inteligência, que viveu séculos em harmonia, celebrando as artes e as bênçãos do deus Hozen ao lado dos humanos acolhidos em suas terras. Marcada por montanhas imponentes envoltas em névoa, florestas de bambu, rios majestosos e vales férteis, a geografia de Xintai divide o território entre a região montanhosa do interior, onde se ergue a imponente montanha de Baoshan, a região norte de Yulin, a costa leste de Hanzou com suas pequenas ilhas e a metrópole de Longyen. Quando a cobiça de vizinhos como Kaeshin, Phandor e o Império Unificado trouxe guerras ao seu povo, os Xintainenses uniram o uso espiritual do éter à engenharia mecânica para criar a Éterforja. No ano atual de 502, Xintai enfrenta a maior invasão de sua história contra o Império Unificado, que já tomou quase a totalidade de Longyen, enquanto as demais regiões resistem ferozmente utilizando a topografia acidentada e seu arsenal tecno-místico para defender o território sob a liderança do monastério central de Baoshan.</p>
+        </div>
+        <div class="bloco-lore-card">
+          <h4>Cultura & Sociedade</h4>
+          <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6;text-align: justify;">A sociedade de Xintai é moldada pela união harmoniosa entre Simyaris e humanos, fundamentada em uma profunda conexão espiritual, na expressão artística e no senso comunitário. O cotidiano da população gira em torno da devoção a Hozen, com comemorações constantes que marcam desde os ciclos lunares e estações até a época de colheitas, onde a música, a escultura e a dança se misturam às artes marciais ensinadas nos grandes monastérios como caminhos para o refinamento do éter interior. Embora a histórica hospitalidade xintainense tenha dado lugar a um estado de alerta e cautela devido às invasões do Império Unificado, o povo se mantém firme no ideal de cooperação, onde a busca do conhecimento, o domínio da Éterforja e o respeito aos anciãos sustentam a resistência e a identidade cultural de Xintai.</p>
+        </div>
+        <div class="bloco-lore-card">
+          <h4>Governo & Leis</h4>
+          <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6;text-align: justify;">A governança de Xintai opera sob um modelo teocrático, monástico e comunitário, centralizado na figura do respeitado ancião Simyari Mao Sing-Tse no Monastério da Montanha de Baoshan, que lidera o país com o apoio dos conselhos de anciãos dos monastérios regionais de cada cidade. A estrutura política prioriza a harmonia territorial e a subsistência coletiva, onde cada província produz e compartilha suas especialidades de forma cooperativa, sem espaço para a exploração predatória. A legislação de Xintai é severa quanto à proteção do conhecimento ancestral e à segurança nacional, restringindo rigorosamente o acesso de estrangeiros à tecnologia da Éterforja, ao mesmo tempo em que enquadra o uso das artes marciais e da manipulação do éter como deveres cívicos e espirituais voltados à preservação da paz e à defesa contra a invasão imperial.</p>
+        </div>
+        <div class="bloco-lore-card">
+          <h4>Religião & Divindades</h4>
+          <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6;text-align: justify;">A espiritualidade em Xintai é intrinsecamente ligada à lenda de origem dos Simyaris e ao culto a Hozen, o Deus Macaco, uma divindade rebelde e despreocupada com tradições que deixou o Ordo para viver isolado no plano terreno. Segundo o mito ancestral, Hozen desenhou o povo Simyari com as próprias mãos, utilizando a música para soprar-lhes a vida e a dança para despertar sua consciência, selando de forma definitiva a união entre a arte, o corpo, a mente e o espírito. Essa perspectiva divina faz com que a fé xintainense não seja vivida através de dogmas rígidos, mas sim pela celebração da existência, pelo aprimoramento espiritual através das artes marciais e pelo cultivo constante da harmonia com o éter, vendo na criatividade e no movimento a expressão máxima de devoção ao seu criador.</p>
+      </div>
+    </div>
+    <!-- FIM DO REINO 2 -->
+
+    <!-- =================================================== -->
+    <!-- MODELO -->
+    <!-- =================================================== -->
+    <!-- <div id="reino-2" class="painel-reino">
+      <div class="reino-cabecalho">
+        <div class="bandeira-box">
+          <img src="/WEIRS-RPG/img/bandeiras/reino2.png" alt="Bandeira do Reino" class="bandeira-img" onerror="this.src='https://via.placeholder.com/200x250/111/d4af37?text=Bandeira+2'">
+        </div>
+        <div>
+          <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 5px;">
+            [Segundo Reino]
+          </h3>
+          <p style="font-style: italic; color: #888; font-size: 0.9rem; margin-bottom: 15px;">
+            "[Frase marcante]"
+          </p>
+          <div class="ficha-rapida-grid">
+            <div class="item-ficha">
+              <strong>Capital</strong>
+              <span>[Capital 2]</span>
+            </div>
+            <div class="item-ficha">
+              <strong>Governo</strong>
+              <span>[Tipo]</span>
+            </div>
+            <div class="item-ficha">
+              <strong>Religião Predominante</strong>
+              <span>[Divindade]</span>
+            </div>
+            <div class="item-ficha">
+              <strong>Demografia Principal</strong>
+              <span>[Raças]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-lore-secoes">
+        <div class="bloco-lore-card">
+          <h4>📜 História & Geografia</h4>
+          <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6;">TEXTO...</p>
+        </div>
+        <div class="bloco-lore-card">
+          <h4>🎨 Cultura & Sociedade</h4>
+          <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6;">[Texto...]</p>
+        </div>
+      </div>
+    </div> -->
+    <!-- FIM DO MODELO -->
+
+  </div>
+
+  <script>
+    function selecionarReino(idReino) {
+      // Oculta todos os painéis
+      document.querySelectorAll('.painel-reino').forEach(p => p.classList.remove('ativo'));
+      // Remove o destaque dos botões
+      document.querySelectorAll('.btn-reino').forEach(b => b.classList.remove('ativo'));
+
+      // Exibe o reino clicado
+      const painelAlvo = document.getElementById(idReino);
+      if (painelAlvo) painelAlvo.classList.add('ativo');
+
+      // Destaca o botão clicado
+      event.currentTarget.classList.add('ativo');
+    }
+  </script>
+</body>
+</html>
