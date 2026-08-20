@@ -5,6 +5,16 @@
 Um aplicativo web para recordação de campanhas, guia de criação básico e conteúdo traduzido de D&D 2024.
 
 ## 📋 Changelog
+### Versão 1.15.3
+- **Data:** 20/08/2026
+- **Melhorias:**
+  - Adição do Joseph Loro na página Othans.
+
+### Versão 1.15.2
+- **Data:** 20/08/2026
+- **Melhorias:**
+  - Correção da descrição do True Strike e da Blade Ward.
+
 ### Versão 1.15.1
 - **Data:** 17/08/2026
 - **Melhorias:**
