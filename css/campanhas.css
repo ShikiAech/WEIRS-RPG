@@ -147,3 +147,37 @@
       color: #fff;
       box-shadow: 0 0 10px rgba(230, 126, 34, 0.4);
     }
+ .campanha-logo {
+    display: block;
+    text-align: center;
+    padding-top: 25px;
+    padding-bottom: 18px;
+    cursor: pointer;
+}
+
+.campanha-logo img {
+    width: 220px;
+    max-width: 75%;
+    height: auto;
+    display: inline-block;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.campanha-logo:hover img {
+    transform: scale(1.05);
+    filter: brightness(1.15);
+}
+.campanha-logo {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.campanha-logo img {
+    max-width: 75%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
