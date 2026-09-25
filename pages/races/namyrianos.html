@@ -106,15 +106,20 @@
         <ul class="trait-list">
           <li><strong>Reflexos Felinos:</strong> Você tem vantagem em testes de resistência de Destreza, e sempre poderá substituir seu modificador de Força na perícia <em>Atletismo</em> pelo seu modificador de Destreza.</li>
           <li><strong>Capacidade Felina:</strong> Você possui proficiência nas perícias <em>Furtividade</em> e <em>Sobrevivência</em>.</li>
-          <li><strong>Armas Naturais:</strong> As presas e garras de namyrianos são consideradas armas naturais, e causam 1d6 de dano perfurante.</li>
+          <li><strong>Armas Naturais:</strong> As garras dos namyrianos são consideradas armas naturais e causam 1d8 + seu modificador de Destreza ou Força (definido na tabela Afinidade Elemental) de dano perfurante.
+                                              <br><br>
+                                              Quando você consome o metal do seu respectivo clã ou Filzha, durante 1 hora suas garras são imbuidas com o poder elemental do clã, causando dano adicional que aumenta conforme você evolui.
+                                              O dano inicial é 1d4 e aumenta para 1d6 a partir do 5° nível, 1d8 a partir do 11° nivel e 1d10 a partir do 17° nível. Se você estiver portando uma arma feita de Filzha, ela também recebe esses benefícios.</li>
           <li><strong>Agilidade Felina:</strong> Seus reflexos e agilidade lhe permitem mover-se com uma explosão de velocidade. Quando você se move em seu turno de combate, você pode dobrar sua velocidade até o final do turno. Uma vez que você usa esse traço, você não pode usá-lo novamente até que você se mova 0 metros em um de seus turnos.</li>
         </ul>
       </div>
 
       <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
         <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 15px;">Afinidade Elemental</h3>
-        <p>Namyr, o berço dos namyrianos, foi abençoada pelos dragões com um solo rico em vários tipos de metais de onde os habitantes tiram seu sustento. Estes minérios também servem para alimentar o poder mágico dos namyrianos, que eles chamam de afinidade elemental. Cada um dos clãs de Namyr possui uma afinidade diferente e, com isso, um metal diferente.</p>
-        <p>Ao consumir o metal referente ao seu clã, você ganha <strong>cargas elementais</strong> (você tem um número de cargas igual ao seu bônus de proficiência) e pode utilizar essas cargas para ativar as suas habilidades da afinidade elemental. Namyrianos podem consumir metal uma vez por descanso curto e, ao consumir, os efeitos têm duração de 1 hora.</p>
+        <p>Namyr, o berço dos namyrianos, foi abençoada pelos dragões com um solo rico em vários tipos de metais, de onde os habitantes tiram seu sustento. Estes minérios também servem para alimentar o poder mágico dos namyrianos, que eles chamam de afinidade elemental. Cada um dos clãs de Namyr possui uma afinidade diferente e, com isso, um metal diferente.<br><br></p>
+        <p>Ao consumir o metal referente ao seu clã, você ganha um número de Cargas Elementais igual ao seu bônus de proficiência, e pode utilizar essas cargas para ativar as suas habilidades da afinidade elemental.
+        <br><br>
+        Namyrianos podem consumir metal uma vez por descanso curto e, ao consumir, os efeitos têm duração de 1 hora.</p>
 
         <table class="tabela-rpg">
           <thead>
@@ -122,8 +127,8 @@
               <th>Clã</th>
               <th>Metal</th>
               <th>Resistência a Dano</th>
-              <th>Ataque Desarmado</th>
-              <th>Habilidade 2 (Custo 2)</th>
+              <th>Mod. Armas Naturais</th>
+              <th>Habilidade</th>
             </tr>
           </thead>
           <tbody>
@@ -131,28 +136,28 @@
               <strong><td>Montanha</td></strong>
               <td>Ferro</td>
               <td>Contundente</td>
-              <td>+5 de Dano</td>
-              <td>+5 CA / Turno (Reação)</td>
+              <td>FOR</td>
+              <td>Pele de Aço</td>
             </tr>
             <tr>
               <strong><td>Trovão</td></strong>
               <td>Cobre</td>
               <td>Elétrico</td>
-              <td>+5 de Dano</td>
+              <td>DEX</td>
               <td>Choque do Trovão</td>
             </tr>
             <tr>
               <strong><td>Chamas</td></strong>
               <td>Ouro</td>
               <td>Ígneo</td>
-              <td>+5 de Dano</td>
+              <td>DEX</td>
               <td>Repreensão Ígnea</td>
             </tr>
             <tr>
               <strong><td>Gélido</td></strong>
               <td>Prata</td>
               <td>Frio</td>
-              <td>+5 de Dano</td>
+              <td>FOR</td>
               <td>Raio de Gelo (Proteção Gélida)</td>
             </tr>
           </tbody>
@@ -160,24 +165,52 @@
 
         <div class="bloco-alerta">
           <h4>O Perigo de Filzha</h4>
-          <p>As terras de Namyr ainda possuem uma outra riqueza, algo exclusivo em toda a Terra: o metal que chamam de <strong>Filzha</strong>. Este metal é um excelente condutor mágico e não pertence a nenhum clã específico. Segundo as lendas, um namyriano comum que consumir filzha morreria por não suportar tamanha carga mágica; talvez somente os mais poderosos aguentariam.</p>
-          <p><strong>Mecânica:</strong> Caso você possua uma quantidade equivalente a três moedas de Filzha e queira consumi-la, deverá realizar uma <strong>salvaguarda de Constituição CD 16</strong>. Ao obter sucesso, você tem suas cargas elementais triplicadas. Caso falhe, seu corpo entra em colapso: você cai e fica desacordado por um período igual a 1d4 horas.</p>
+          <p>As terras de Namyr ainda possuem uma outra riqueza, algo exclusivo em toda a Terra: o metal que chamam de Filzha. Este metal é um excelente condutor mágico e não pertence a nenhum clã específico. Segundo as lendas, um namyriano comum que consumir Filzha morreria por não suportar tamanha carga mágica; talvez somente os mais poderosos aguentariam.</p>
+          <p><strong style="color: var(--gold)">Consumir Filzha.</strong> Caso você possua uma moeda de Filzha e queira consumi-la, deverá realizar uma salvaguarda de Constituição CD 14.
+          <br>Sucesso: você recebe o triplo das Cargas Elementais que receberia normalmente e ganha efeitos aprimorados para suas habilidades.
+          <br>Falha: seu corpo entra em colapso — você recebe 1d4 de dano por turno durante 1 hora.</p>
+          <p><strong style="color: var(--gold)">Saturação de Filzha.</strong>A partir da segunda vez que você consumir Filzha em um dia, você ganha um nível do efeito Saturação de Filzha, até o nível 2.
+          A cada nível de Saturação de Filzha:
+          <ul style="margin-left: 1rem;">
+          <li>A CD da salvaguarda aumenta em +2.</li>
+          <li>O dano recebido em caso de falha aumenta em +1d4.</li></p>
+          </ul>
         </div>
       </div>
 
       <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
         <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 20px;">Descrição das Habilidades (Custo: 2 Cargas)</h3>
 
-        <div class="bloco-habilidade" style="border-left-color: #5dade2;">
+        <div class="bloco-habilidade" style="border-left-color: #ffffffa2;">
+          <h4>Pele de Aço (Clã Montanha)</h4>
+          <p>Você pode usar sua Reação para aumentar seu CA em +5 até o fim desse turno.<br><br></p>
+          <p><strong style="color: var(--gold)">Sobrecarga de Filzha.</strong> Caso use essa habilidade após o consumo de Filzha, seu corpo é coberto de estruturas espinhosas. Enquanto a Pele de Aço durar, quando uma criatura tenta te atacar com um golpe corpo-a-corpo e falha, ela recebe 1d6 de dano perfurante.</p>
+        </div>
+
+        <div class="bloco-habilidade" style="border-left-color: var(--gold);">
           <h4>Choque do Trovão (Clã Trovão)</h4>
-          <p>Você solta uma onda de energia estática ao seu redor. Inimigos em um cubo de 4,5 metros (15ft) devem realizar um teste de resistência de Constituição CD 15. Se falharem, sofrem <strong>2d8</strong> de dano elétrico, e caso obtenham sucesso levam apenas metade desse dano.</p>
+          <p>Você solta uma onda de energia estática ao seu redor. Inimigos em um cubo de 15 pés devem realizar um teste de resistência de Constituição CD 15.
+          <br>
+          Falha: sofrem 2d8 de dano elétrico.
+          <br>
+          Sucesso: sofrem metade desse dano.<br><br></p>
+          <p><strong style="color: var(--gold)">Sobrecarga de Filzha.</strong> Caso use essa habilidade após o consumo de Filzha, criaturas que falharem no teste terão seu deslocamento reduzido pela metade e não poderão usar suas Reações até o fim deste turno.</p>
         </div>
 
         <div class="bloco-habilidade" style="border-left-color: var(--blood-red);">
           <h4>Repreensão Ígnea (Clã Chamas)</h4>
-          <p>Ao sofrer dano, você pode usar sua Reação para lançar uma rajada de chamas no inimigo que lhe atingiu. O alvo deve ser bem-sucedido em um teste de resistência de Destreza CD 15. Caso falhe, sofre <strong>2d10</strong> de dano de fogo, e caso obtenha sucesso leva metade do dano. Ao gastar mais cargas elementais, você aumenta o impacto em +1d10 para cada carga adicional investida.</p>
+          <p>Ao sofrer dano, você pode usar sua Reação para lançar uma rajada de chamas no inimigo que lhe atingiu. O alvo deve ser bem-sucedido em um teste de resistência de Destreza CD 15.
+          <br>
+          Falha: sofre 2d10 de dano de fogo.
+          <br>
+          Sucesso: sofre metade do dano.
+          <br>
+          Ao gastar mais Cargas Elementais, você aumenta o impacto em +1d10 para cada carga adicional investida.<br><br></p>
+          <p><strong style="color: var(--gold)">Sobrecarga de Filzha.</strong> Caso use essa habilidade após o consumo de Filzha, criaturas adjacentes ao alvo também deverão realizar a salvaguarda, recebendo 1d6 de dano de fogo em caso de falha e metade do dano em um sucesso. O dano também aumenta em +1d6 por Carga Elemental adicional.</p>
         </div>
 
-        <div class="bloco-habilidade" style="border-left-color: #ffffff;">
+        <div class="bloco-habilidade" style="border-left-color: #aee3ec;">
           <h4>Proteção Gélida / Raio de Gelo (Clã Gélido)</h4>
-          <p>Ao utilizar essa habilidade, você condensa a umidade do ar e adquire <strong>5 pontos de vida temporários
+          <p>Você adquire o truque Raio de Gelo. O atributo de conjuração é Inteligência, Sabedoria ou Carisma (escolha ao selecionar esse clã). Ao utilizar essa habilidade, você condensa a umidade do ar e adquire 5 pontos de vida temporários.<br><br></p>
+          <p><strong style="color: var(--gold)">Sobrecarga de Filzha.</strong> Caso use essa habilidade após o consumo de Filzha, você soma seu modificador de atributo de conjuração no dano do Raio de Gelo. Além disso, os pontos de vida temporários se tornam 5 + seu nível de jogador.</p>
+        </div>
