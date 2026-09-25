@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Namyrianos — Weirs RPG</title>
   <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+  <link rel="stylesheet" href="/WEIRS-RPG/css/class-style.css">
   <style>
     /* Estilos customizados para mecânicas de Namyrianos */
     .bloco-habilidade {
@@ -44,29 +45,7 @@
     .trait-list li strong {
       color: var(--gold);
     }
-    /* Estilização da tabela de Afinidade Elemental */
-    .tabela-rpg {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-      background: rgba(20, 20, 22, 0.6);
-      border: 1px solid var(--border-fantasy);
-      font-size: 0.9rem;
-    }
-    .tabela-rpg th, .tabela-rpg td {
-      border: 1px solid var(--border-fantasy);
-      padding: 12px 15px;
-      text-align: left;
-    }
-    .tabela-rpg th {
-      background: rgba(58, 50, 36, 0.4);
-      color: var(--gold);
-      font-family: 'Cinzel', serif;
-      font-size: 0.95rem;
-    }
-    .tabela-rpg tr:nth-child(even) {
-      background: rgba(255, 255, 255, 0.02);
-    }
+   
   </style>
 </head>
 <body>
@@ -120,49 +99,51 @@
         <p>Ao consumir o metal referente ao seu clã, você ganha um número de Cargas Elementais igual ao seu bônus de proficiência, e pode utilizar essas cargas para ativar as suas habilidades da afinidade elemental.
         <br><br>
         Namyrianos podem consumir metal uma vez por descanso curto e, ao consumir, os efeitos têm duração de 1 hora.</p>
-
-        <table class="tabela-rpg">
-          <thead>
-            <tr>
-              <th>Clã</th>
-              <th>Metal</th>
-              <th>Resistência a Dano</th>
-              <th>Mod. Armas Naturais</th>
-              <th>Habilidade</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <strong><td>Montanha</td></strong>
-              <td>Ferro</td>
-              <td>Contundente</td>
-              <td>FOR</td>
-              <td>Pele de Aço</td>
-            </tr>
-            <tr>
-              <strong><td>Trovão</td></strong>
-              <td>Cobre</td>
-              <td>Elétrico</td>
-              <td>DEX</td>
-              <td>Choque do Trovão</td>
-            </tr>
-            <tr>
-              <strong><td>Chamas</td></strong>
-              <td>Ouro</td>
-              <td>Ígneo</td>
-              <td>DEX</td>
-              <td>Repreensão Ígnea</td>
-            </tr>
-            <tr>
-              <strong><td>Gélido</td></strong>
-              <td>Prata</td>
-              <td>Frio</td>
-              <td>FOR</td>
-              <td>Raio de Gelo (Proteção Gélida)</td>
-            </tr>
-          </tbody>
-        </table>
-
+        
+        <div class="overflow-table">
+          <table class="tabela-rpg">
+            <thead>
+              <tr>
+                <th>Clã</th>
+                <th>Metal</th>
+                <th>Resistência a Dano</th>
+                <th>Mod. Armas Naturais</th>
+                <th>Habilidade</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <strong><td>Montanha</td></strong>
+                <td>Ferro</td>
+                <td>Contundente</td>
+                <td>FOR</td>
+                <td>Pele de Aço</td>
+              </tr>
+              <tr>
+                <strong><td>Trovão</td></strong>
+                <td>Cobre</td>
+                <td>Elétrico</td>
+                <td>DEX</td>
+                <td>Choque do Trovão</td>
+              </tr>
+              <tr>
+                <strong><td>Chamas</td></strong>
+                <td>Ouro</td>
+                <td>Ígneo</td>
+                <td>DEX</td>
+                <td>Repreensão Ígnea</td>
+              </tr>
+              <tr>
+                <strong><td>Gélido</td></strong>
+                <td>Prata</td>
+                <td>Frio</td>
+                <td>FOR</td>
+                <td>Raio de Gelo (Proteção Gélida)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
         <div class="bloco-alerta">
           <h4>O Perigo de Filzha</h4>
           <p>As terras de Namyr ainda possuem uma outra riqueza, algo exclusivo em toda a Terra: o metal que chamam de Filzha. Este metal é um excelente condutor mágico e não pertence a nenhum clã específico. Segundo as lendas, um namyriano comum que consumir Filzha morreria por não suportar tamanha carga mágica; talvez somente os mais poderosos aguentariam.</p>

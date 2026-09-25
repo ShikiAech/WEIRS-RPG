@@ -89,26 +89,37 @@
   color: var(--gold);
 }
 
-.tabela-rpg {
+.overflow-table {
   width: 100%;
-  border-collapse: collapse;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
   margin: 20px 0;
+  min-width: 0;
+}
+
+.tabela-rpg {
+  min-width: 600px;      /* força a rolagem */
+  width: auto;           /* não tenta caber no pai */
+  border-collapse: collapse;
   background: rgba(20, 20, 22, 0.6);
   border: 1px solid var(--border-fantasy);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
 }
 
 .tabela-rpg th,
 .tabela-rpg td {
   border: 1px solid var(--border-fantasy);
-  padding: 10px 12px;
-  text-align: center;
+  padding: 12px 15px;
+  text-align: left;
 }
 
 .tabela-rpg th {
   background: rgba(58, 50, 36, 0.4);
   color: var(--gold);
   font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
 }
 
 .tabela-rpg tr:nth-child(even) {
@@ -122,25 +133,25 @@
 /* Responsividade para tabelas em telas pequenas */
 @media (max-width: 768px) {
   .tabela-rpg {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
   }
   
   .tabela-rpg th,
   .tabela-rpg td {
-    padding: 6px 8px;
-  }
-  
-  .overflow-table {
-    overflow-x: auto;
-    margin: 20px 0;
+    padding: 8px 10px;
   }
   
   .overflow-table .tabela-rpg {
-    margin: 0;
-    min-width: 600px;
+    min-width: 560px; /* largura mínima para 5 colunas */
   }
 }
 
+@media (max-width: 480px) {
+  .tabela-rpg {
+    font-size: 0.7rem;
+    min-width: 480px;
+  }
+}
 /* ============================================
    RECURSOS (Invocações, Disciplinas, Manobras)
    ============================================ */
