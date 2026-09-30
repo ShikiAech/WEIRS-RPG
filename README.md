@@ -5,6 +5,10 @@
 Um aplicativo web para recordação de campanhas, guia de criação básico e conteúdo traduzido de D&D 2024.
 
 ## 📋 Changelog
+### Versão 1.16.0
+- **Data:** 30/09/2026
+- **Melhorias:**
+  - Adição da classe Pugilista.
 
 ### Versão 1.15.5
 - **Data:** 30/09/2026

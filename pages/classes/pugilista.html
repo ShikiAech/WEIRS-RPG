@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pugilista — Weirs RPG</title>
+    <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+    <link rel="stylesheet" href="/WEIRS-RPG/css/class-style.css">
+    <script src="/WEIRS-RPG/javascript/menu.js"></script>
+    <script src="/WEIRS-RPG/javascript/subclass-tab.js"></script>
+</head>
+
+<body>
+    <div class="container">
+
+        <!--BOTÃO DE RETORNO-->
+        <div style="margin-bottom: 30px;">
+            <a href="/WEIRS-RPG/pages/classes/classes.html" class="btn-principal"
+                style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Classes</a>
+        </div>
+
+        <!--TÍTULO-->
+        <h2>Pugilista</h2>
+
+        <div class="card-rpg">
+
+            <!--DETALHES DE CLASSE-->
+            <div class="layout-detalhes">
+                <img src="https://imagenslucas.weebly.com/uploads/1/0/6/8/10689847/frostpunk-units_orig.jpg"
+                    alt="Artífice">
+                <div class="texto-lore">
+                    <h3>Um lutador de rua com confiança de sobra</h3>
+                    <p>
+                    Pugilistas vivem uma vida difícil e turbulenta que os deixa cheios de determinação e imprudência, seja por excesso de confiança ou desespero. Em uma luta, eles canalizam essa força de caráter para cavar fundo e arrancar a vitória das garras da derrota, mesmo quando em desvantagem numérica e de armamento. Mesmo quando finalmente falham, os pugilistas caem lutando.
+                    <br><br>
+                    Os pugilistas acessam sua força interior na forma de coragem. Esta não é uma energia esotérica ou mística que flui pelo multiverso, mas o resultado da autoconfiança e determinação forjadas ao longo de uma vida de dificuldades com uma atitude de nunca desistir. Qualquer um pode aprender a lutar com os punhos, mas acessar a força e a resiliência do pugilista não. O segredo para dominar a coragem não vem de estudo disciplinado ou treinamento rigoroso, vem de anos de desejo e necessidade
+                    <br><br>
+                    Em becos escuros, clubes de luta clandestinos e bairros pobres, os pugilistas não têm tempo para considerar os elevados ideais da filosofia ou ponderar sobre os mistérios do universo. Eles passam os dias correndo atrás da próxima refeição ou, se tiverem a sorte de tê-la, da próxima bebida, do próximo parceiro de cama ou do próximo albergue. Para os pugilistas, tornar-se um aventureiro pode ser a única saída de qualquer situação miserável em que estejam presos desde a infância. Para outros, se perder pelo mundo é uma fuga da teia emaranhada de dívidas ou inimigos que acumularam. Mas alguns pugilistas ficam felizes apenas com a promessa de amplas oportunidades para ensanguentar os nós dos dedos
+                    </p>
+
+                    <!--CARACTERÍSTICAS BASICAS-->
+                    <h4
+                        style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">
+                        Características Iniciais</h4>
+                    <ul class="trait-list" style="margin-top: 15px;">
+                        <li><strong>Dado de Vida:</strong> 1d10 por nível de Pugilista.</li>
+
+                        <li><strong>Atributos Principais:</strong> Força.</li>
+
+                        <li><strong>Proficiências em Armaduras:</strong> Armaduras Leves.</li>
+
+                        <li><strong>Proficiências em Armas: Armas Simples e Improvisadas.</strong> </li>
+
+                        <li><strong>Ferramentas:</strong> Escolha um tipo de kit de jogos.</li>
+
+                        <li><strong>Testes de Resistência:</strong> Força e Constituição.</li>
+
+                        <li><strong>Perícias:</strong> Escolha duas entre Acrobacia, Atletismo, Enganação, Intimidação, Percepção, Prestidigitação ou Furtividade.</li>
+
+                        <li><strong>Equipamento Inicial:</strong> Escolha A ou B: (A) Porrete, Machadinha, Conjunto de Jogo (escolhido a partir da proficiência acima), Pacote de explorador e 31 PO; ou (B) 50 PO.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+            
+                <!--TABELA BÁSICA DE PROGRESSÃO COM SUPORTE A ROLAGEM HORIZONTAL-->
+                <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.6rem; margin-bottom: 15px;">Características de Classe (Parte A)</h3>
+                <div class="overflow-table">
+                    <table class="tabela-rpg">
+                        <thead>
+                            <tr>
+                                <th>Nível</th>
+                                <th>Prof.</th>
+                                <th class="esquerda">Recursos de Classe</th>
+                                <th>Briga</th>
+                                <th>Pontos de Coragem</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1º</td><td>+2</td><td class="esquerda">Briga, Queixo de Ferro</td><td>1d8</td><td>-</td></tr>
+                            <tr><td>2º</td><td>+2</td><td class="esquerda">Coragem, Sangrando mas Inabalável, Tendência de Arrogância</td><td>1d8</td><td>2</td></tr>
+                            <tr><td>3º</td><td>+2</td><td class="esquerda">Golpeador Pesado, Subclasse de Pugilista</td><td>1d8</td><td>2</td></tr>
+                            <tr><td>4º</td><td>+2</td><td class="esquerda">Aumento no Valor de Habilidade, Cavar Fundo</td><td>1d8</td><td>3</td></tr>
+                            <tr><td>5º</td><td>+3</td><td class="esquerda">Ataque Extra, Golpe Poderoso</td><td>1d10</td><td>3</td></tr>
+                            <tr><td>6º</td><td>+3</td><td class="esquerda">Punhos Impulsionados Pela Coragem, Característica de Subclasse</td><td>1d10</td><td>4</td></tr>
+                            <tr><td>7º</td><td>+3</td><td class="esquerda">Caído Mas Não Derrotado</td><td>1d10</td><td>4</td></tr>
+                            <tr><td>8º</td><td>+3</td><td class="esquerda">Aumento no Valor de Habilidade</td><td>1d10</td><td>5</td></tr>
+                            <tr><td>9º</td><td>+4</td><td class="esquerda">Escola da Vida</td><td>1d10</td><td>5</td></tr>
+                            <tr><td>10º</td><td>+4</td><td class="esquerda">Hercúleo, Sacuda a Cabeça</td><td>1d10</td><td>6</td></tr>
+                            <tr><td>11º</td><td>+4</td><td class="esquerda">Característica de Subclasse</td><td>1d12</td><td>6</td></tr>
+                            <tr><td>12º</td><td>+4</td><td class="esquerda">Aumento no Valor de Habilidade</td><td>1d12</td><td>7</td></tr>
+                            <tr><td>13º</td><td>+5</td><td class="esquerda">Cavar Fundo</td><td>1d12</td><td>7</td></tr>
+                            <tr><td>14º</td><td>+5</td><td class="esquerda">Inquebrável</td><td>1d12</td><td>8</td></tr>
+                            <tr><td>15º</td><td>+5</td><td class="esquerda">Pugnaz</td><td>1d12</td><td>8</td></tr>
+                            <tr><td>16º</td><td>+5</td><td class="esquerda">Aumento no Valor de Habilidade</td><td>1d12</td><td>9</td></tr>
+                            <tr><td>17º</td><td>+6</td><td class="esquerda">Característica de Subclasse</td><td>2d6</td><td>9</td></tr>
+                            <tr><td>18º</td><td>+6</td><td class="esquerda">Espírito de Luta</td><td>2d6</td><td>10</td></tr>
+                            <tr><td>19º</td><td>+6</td><td class="esquerda">Dádiva Épica</td><td>2d6</td><td>11</td></tr>
+                            <tr><td>20º</td><td>+6</td><td class="esquerda">Condição Física Máxima</td><td>2d6</td><td>12</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- RECURSOS DE CLASSE DETALHADOS -->
+            <div >
+            
+                <!-- EXEMPLO DE RECURSOS DE CLASSE -->
+                <div class="recursos-container">
+                    <div class="recursos-header">
+                        <h3>Recursos da Classe</h3>
+                    </div>
+                    
+                    <div class="recursos-list">
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 1: Briga</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Seus anos de lutas em becos e tavernas lhe deram domínio sobre estilos de combate que usam Golpes Desarmados e armas de Pugilista, que são os seguintes:
+                                <br>• Armas de Combate Corpo a Corpo Simples
+                                <br>• Armas Improvisadas
+                                <br><br>
+                                Você ganha os seguintes benefícios enquanto estiver desarmado ou empunhando apenas armas de Pugilista, usando armadura leve ou nenhuma armadura e não estiver empunhando um escudo.</p>
+                                <p><strong>Ataque Desarmado Bônus. </strong>Você pode realizar um <strong style="color: white">Ataque Desarmado</strong> como <strong style="color: white">ação bônus</strong>.</p>
+                                <p><strong>Dados de Briga. </strong>Você pode rolar <strong style="color: white">1d8</strong> em vez do dano normal do seu <strong style="color: white">Ataque Desarmado</strong> ou <strong style="color: white">armas de Pugilista</strong>. Este dado muda conforme você ganha níveis de Pugilista, como mostrado na coluna Briga da tabela de Características de Pugilista.</p>
+                                <p><strong>Improvisação Aprimorada. </strong>Seu talento para transformar tudo em uma arma permite que você use as propriedades de maestria de armas improvisadas. Todas as armas improvisadas contam como tendo a propriedade de maestria <strong style="color: white">Sap</strong> para você</p>
+                            </div>
+                        </div>
+
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 1: Queixo de Ferro</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Enquanto você estiver vestindo Armadura Leve ou nenhuma armadura e não estiver carregando um Escudo, sua Classe de Armadura base é igual a <strong style="color: white">12 + seu Modificador de Constituição.</strong></p>
+                            </div>
+                        </div>
+
+
+                        <div class="recurso-card">
+                            <div class="recurso-header">
+                                <span class="recurso-nome">Nível 2: Coragem</span>
+                            </div>
+                            <div class="recurso-descricao">
+                                <p>Suas experiências de superar as adversidades lhe deram uma coragem que você pode canalizar em meio à batalha. Essa arrogância é representada por um número de Pontos de Coragem. Seu nível de Pugilista determina o número máximo de pontos que você possui, conforme mostrado na coluna Pontos de Coragem da tabela de Características de Pugilista.
+                                <br><br>
+                                Você pode gastar esses pontos para aprimorar ou potencializar certas características de Pugilista. Você começa conhecendo três dessas características: Preparar-se, Golpe Duplo e Esquivar e Atacar, cada uma detalhada abaixo.
+                                <br><br>
+                                Quando você gasta um Ponto de Coragem, ele fica indisponível até que você termine um Descanso Curto ou Longo, ao final do qual você recupera todos os seus pontos gastos.</p>
+                                <p><strong>Preparar-se. </strong>Você pode usar uma Ação Bônus e gastar 1 Ponto de Coragem para se preparar para ataques. Ao fazer isso, role seu dado de Briga e ganhe um número de Pontos de Vida Temporários igual ao número rolado mais seu nível de Pugilista e seu modificador de Constituição. Esses Pontos de Vida Temporários desaparecem se algum permanecer após 10 minutos.</p>
+                                <p><strong>Golpe Duplo. </strong>Você pode gastar 1 Ponto de Coragem para fazer dois Ataques Desarmados como uma Ação Bônus.</p>
+                                <p><strong>Esquiva e Movimento. </strong>Você pode usar uma Ação Bônus e gastar 1 Ponto de Coragem para fazer um Ataque Desarmado e realizar a ação de Disparada ou Desengajar</p>
+                            </div>
+                        </div>
+
+                        <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 2: Sangrando mas Inabalável</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você sofre dano, pode usar uma <strong style="color: white">Reação</strong> para recuperar todos os seus <strong style="color: white">Pontos de Audácia</strong> gastos. Se estiver <strong style="color: white">Sangrando</strong> ao usar esta Reação, você também ganha <strong style="color: white">Pontos de Vida Temporários</strong> iguais a quatro vezes o seu nível de Pugilista. Esses Pontos de Vida Temporários desaparecem, se houver algum restante, ao terminar um <strong style="color: white">Descanso Curto</strong>.</p>
+                            <p>Depois de usar este recurso, você não poderá usá-lo novamente até terminar um <strong style="color: white">Descanso Curto</strong> ou <strong style="color: white">Longo</strong>.</p>
+                        </div>
+                        </div>
+
+                        <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 2: Tendência de Arrogância</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você falha em um teste de Força, Destreza, Constituição ou Carisma, pode gastar um <strong style="color: white">Ponto de Audácia</strong> para tentar se gabar até o sucesso. Role seu <strong style="color: white">dado de Briga</strong> e adicione o número rolado ao teste de habilidade, potencialmente transformando-o em um sucesso. Se o teste de habilidade ainda falhar, você recupera o Ponto de Audácia gasto e não poderá usar este recurso novamente até terminar um <strong style="color: white">Descanso Curto</strong> ou <strong style="color: white">Longo</strong>.</p>
+                        </div>
+                        </div>
+
+                        <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Golpeador Pesado</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você acerta uma criatura com um <strong style="color: white">Ataque Desarmado</strong>, você pode usar tanto o <strong style="color: white">Dano</strong> quanto a opção de <strong style="color: white">Agarrar</strong> ou <strong style="color: white">Empurrar</strong>, à sua escolha.</p>
+                        </div>
+                        </div>
+
+                        <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 3: Subclasse Pugilista</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você ganha uma <strong style="color: white">subclasse Pugilista</strong> à sua escolha. Uma subclasse é uma especialização que lhe concede características em certos níveis de Pugilista. Pelo resto da sua carreira, você ganha todas as características da sua subclasse que sejam do seu nível de Pugilista ou inferior.</p>
+                        </div>
+                        </div>
+
+                        <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 4: Aprimoramento de Atributo</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você recebe o talento <strong style="color: white">Aprimoramento de Atributo</strong> ou outro talento de sua escolha para o qual você se qualifique. Você recebe este recurso novamente nos níveis <strong style="color: white">8, 12 e 16</strong> de Pugilista.</p>
+                        </div>
+                        </div>
+
+                        <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 4: Cavar Fundo</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você pode usar uma <strong style="color: white">Ação Bônus</strong> para cavar fundo. Por <strong style="color: white">10 minutos</strong>, você tem <strong style="color: white">Resistência</strong> a dano de <strong style="color: white">Concussão</strong>, <strong style="color: white">Perfuração</strong> e <strong style="color: white">Corte</strong> e ignora os efeitos de níveis de <strong style="color: white">Exaustão</strong> menores que 6.</p>
+                            <p>Depois de usar este recurso, você não poderá usá-lo novamente até terminar um <strong style="color: white">Descanso Longo</strong>, a menos que ganhe <strong style="color: white">1 nível de Exaustão</strong> (nenhuma ação necessária da sua parte) para restaurar seu uso.</p>
+                        </div>
+                        </div>
+
+                        <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 5: Ataque Extra</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você pode atacar <strong style="color: white">duas vezes</strong> em vez de uma sempre que usar a ação <strong style="color: white">Atacar</strong> no seu turno.</p>
+                        </div>
+                        </div>
+
+                        <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 5: Golpe Poderoso</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você faz um ataque com um <strong style="color: white">Golpe Desarmado</strong> ou <strong style="color: white">arma de Pugilista</strong>, você pode gastar <strong style="color: white">1 Ponto de Audácia</strong> para atacar com abandono selvagem. Se acertar, recupere o Ponto de Audácia gasto e cause o <strong style="color: white">dano máximo</strong> com esse ataque.</p>
+                        </div>
+                        </div>
+
+                        <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 6: Punhos Impulsionados pela Coragem</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Sempre que você causar dano com seu <strong style="color: white">Ataque Desarmado</strong> ou um ataque com uma <strong style="color: white">arma improvisada</strong>, ele pode causar dano de <strong style="color: white">Força</strong> à sua escolha ou seu tipo de dano normal.</p>
+                        </div>
+                        </div>
+
+                        <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 7: Caído Mas Não Derrotado</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você usa sua habilidade <strong style="color: white">Sangrando, mas Inabalável</strong> enquanto estiver <strong style="color: white">Sangrando</strong>, você pode adicionar um bônus ao dano de seus <strong style="color: white">Ataques Desarmados</strong> e ataques com <strong style="color: white">armas de Pugilista</strong> pelo próximo minuto. Este bônus é igual ao seu <strong style="color: white">modificador de Constituição</strong> mais o número de <strong style="color: white">níveis de Exaustão</strong> que você possui.</p>
+                            <p>Depois de usar esta habilidade, você não poderá usá-la novamente até terminar um <strong style="color: white">Descanso Longo</strong>.</p>
+                        </div>
+                        </div>
+
+                        <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 9: Escola da Vida</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p><strong style="color: white">Uma vez por turno</strong>, você pode causar <strong style="color: white">1d12</strong> de dano extra ao acertar um <strong style="color: white">Golpe Desarmado</strong> ou atacar com uma <strong style="color: white">arma de Pugilista</strong>. Este dano é do mesmo tipo causado pela arma ou pelo Golpe Desarmado. Você pode abrir mão deste dano extra para aplicar um dos seguintes efeitos:</p>
+                            <p><strong>Colocar em Perigo. </strong>Na próxima vez que a criatura for atingida por um ataque, o ataque causa o <strong style="color: white">resultado máximo dos dados de dano</strong> do ataque, em vez de rolar.</p>
+                            <p><strong>Provocar. </strong>A criatura tem <strong style="color: white">Desvantagem</strong> em jogadas de ataque contra criaturas que não sejam você até o final do seu próximo turno.</p>
+                        </div>
+                        </div>
+
+                        <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 10: Hercúleo</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você ganha os seguintes benefícios:</p>
+                            <p><strong>Levantador de Peso. </strong>Seu valor de <strong style="color: white">Força</strong> é dobrado ao determinar sua capacidade de carga.</p>
+                            <p><strong>Quebrador de Pilares. </strong>Quando você acerta um objeto com um <strong style="color: white">Golpe Desarmado</strong>, o acerto é um <strong style="color: white">Acerto Crítico</strong>.</p>
+                            <p><strong>Atleta Inigualável. </strong>Sua distância de salto é <strong style="color: white">dobrada</strong>.</p>
+                        </div>
+                        </div>
+
+                        <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 10: Sacuda a Cabeça</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>No início de cada um dos seus turnos (sem necessidade de ação), você pode remover um nível de <strong style="color: white">Exaustão</strong> de si mesmo ou encerrar uma das seguintes condições: <strong style="color: white">Cego</strong>, <strong style="color: white">Enfeitiçado</strong>, <strong style="color: white">Surdo</strong>, <strong style="color: white">Amedrontado</strong>, <strong style="color: white">Paralisado</strong>, <strong style="color: white">Envenenado</strong>, <strong style="color: white">Imobilizado</strong> ou <strong style="color: white">Atordoado</strong>.</p>
+                            <p>Depois de usar este recurso, você não poderá usá-lo novamente até terminar um <strong style="color: white">Descanso Longo</strong>, a menos que sofra um nível de <strong style="color: white">Exaustão</strong> (sem necessidade de ação) para restaurar seu uso.</p>
+                        </div>
+                        </div>
+
+                        <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 13: Cavar Fundo</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você pode usar uma <strong style="color: white">Ação Bônus</strong> para cavar fundo. Por <strong style="color: white">1 minuto</strong>, você tem todos os benefícios de <strong style="color: white">Cavar Fundo</strong> e pode usar sua <strong style="color: white">Escola da Vida</strong> duas vezes por turno em vez de uma.</p>
+                            <p>Depois de usar este recurso, você não poderá usá-lo novamente até terminar um <strong style="color: white">Descanso Longo</strong>. A partir do nível 20, você pode usá-lo <strong style="color: white">duas vezes</strong> antes de um Descanso Longo.</p>
+                        </div>
+                        </div>
+
+                        <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 14: Inquebrável</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você tem <strong style="color: white">Vantagem</strong> em testes de resistência de <strong style="color: white">Força</strong>, <strong style="color: white">Destreza</strong> e <strong style="color: white">Constituição</strong>.</p>
+                            <p>Além disso, sempre que você fizer um teste de resistência e falhar, você pode gastar <strong style="color: white">1 Ponto de Audácia</strong> para rolar novamente e deve usar o novo resultado.</p>
+                        </div>
+                        </div>
+
+                        <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 15: Pugnaz</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando você rolar <strong style="color: white">Iniciativa</strong>, você pode remover um nível de <strong style="color: white">Exaustão</strong> de si mesmo e recuperar seus usos de <strong style="color: white">Caído Mas Não Derrotado</strong>, <strong style="color: white">Cavar Fundo</strong> e <strong style="color: white">Sacudir a Poeira</strong>.</p>
+                            <p>Depois de usar este recurso, você não poderá usá-lo novamente até terminar um <strong style="color: white">Descanso Longo</strong>.</p>
+                        </div>
+                        </div>
+
+                        <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 18: Espírito de Luta</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Quando seus <strong style="color: white">Pontos de Vida</strong> forem reduzidos a 0, mas você não for morto imediatamente, você pode cair para <strong style="color: white">1 Ponto de Vida</strong>. Quando isso acontecer, você ganha <strong style="color: white">Pontos de Vida Temporários</strong> iguais à metade dos seus Pontos de Vida máximos, recupera todos os seus <strong style="color: white">Pontos de Coragem</strong> gastos e tem <strong style="color: white">Resistência</strong> a todos os danos, exceto <strong style="color: white">Força</strong>, pelo próximo minuto.</p>
+                            <p>Depois de usar este recurso, você não poderá usá-lo novamente até terminar um <strong style="color: white">Descanso Longo</strong>.</p>
+                        </div>
+                        </div>
+
+                        <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 19: Dádiva Épica</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Você ganha uma <strong style="color: white">Dádiva Épica</strong> ou outro talento de sua escolha para o qual você se qualifique. A <strong style="color: white">Dádiva da Proeza em Combate</strong> é recomendada.</p>
+                        </div>
+                        </div>
+
+                        <div class="recurso-card">
+                        <div class="recurso-header">
+                            <span class="recurso-nome">Nível 20: Condição Física Máxima</span>
+                        </div>
+                        <div class="recurso-descricao">
+                            <p>Sua força e resistência são lendárias. Você ganha os seguintes benefícios:</p>
+                            <p><strong>Robusto e Saudável. </strong>Seus valores de <strong style="color: white">Força</strong> e <strong style="color: white">Constituição</strong> aumentam em <strong style="color: white">2</strong>, até um máximo de 23.</p>
+                            <p><strong>Durma Bem. </strong>Quando você termina um <strong style="color: white">Descanso Longo</strong> e está com a condição de <strong style="color: white">Exaustão</strong>, você perde todos os níveis de Exaustão.</p>
+                            <p><strong>Vigor e Energia. </strong>Quando você termina um <strong style="color: white">Descanso Curto</strong>, você recupera <strong style="color: white">Pontos de Vida</strong> iguais ao dobro do seu nível de Pugilista.</p>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUBCLASSES -->
+                <div class="recursos-header">
+                    <h3>Subclasses</h3>
+                </div>
+                <div class="subclasses-container" id="subclasses-artifice">
+                    
+                    <!--ABAS DE NAVEGAÇÃO-->
+                    <div class="tabs-header">
+                        <ul class="tabs-list">
+                        <li><button class="tab-btn active" data-tab="0"> Cão e Cão de Caça</button></li>
+                        <li><button class="tab-btn active" data-tab="0"> Mão do Terror</button></li>
+                        </ul>
+                    </div>
+                    
+                    <!--SUBCLASSE-->
+                    <div class="tabs-content">
+                        <!-- ABA - Cão e Cão de Caça -->
+                        <div class="tab-pane active">
+                            <h3 style="color: var(--gold); margin-bottom: 15px;">Cão e Cão de Caça</h3>
+                            <p>Pugilistas sabem o que é ser o azarão, então não é surpresa que alguns formem um laço forjado em batalha com um companheiro canino. Eles estão acostumados a se decepcionar com amigos que andam sobre duas patas, mas um amigo de quatro é leal como nenhum outro. Quando uma luta começa, a mordida dessa dupla é ainda pior do que o latido.</p>
+                            
+                            <div class="recurso-card">
+                                <div class="recurso-header">
+                                    <span class="recurso-nome">Nível 3: Melhor Amigo do Brigão</span>
+                                </div>
+                                <div class="recurso-descricao">
+                                    <p>Você invoca e forma um laço com um <strong style="color: white">cão selvagem ou vira-lata</strong>, que extrai força de sua fonte inesgotável de resiliência usando o bloco de estatísticas do <strong style="color: white">Cão de Caça</strong>.</p>
+                                    <p>O cão de caça é amigável com você e seus aliados e obedece aos seus comandos. Ele foge se você morrer.</p>
+                                    
+                                    <p><strong style="color: white;">O Cão em Combate. </strong>Em combate, o cão age durante o seu turno. Ele pode se mover e usar sua Reação por conta própria, mas a única ação que realiza é a ação <strong style="color: white">Esquivar</strong>, a menos que você use uma <strong style="color: white">Ação Bônus</strong> para comandá-lo a realizar uma ação em seu bloco de estatísticas ou alguma outra ação. Você também pode <strong style="color: white">sacrificar um de seus ataques</strong> ao usar a ação <strong style="color: white">Atacar</strong> para comandar o cão a realizar a ação <strong style="color: white">Morder</strong>. Se você estiver na condição <strong style="color: white">Incapacitado</strong>, o cão age por conta própria e não está limitado à ação Esquivar.</p>
+                                    
+                                    <p><strong style="color: white;">Restaurando ou Substituindo o Cão. </strong>Se o cão morreu na última hora, você pode usar uma <strong style="color: white">Ação Mágica</strong> para tocá-lo e gastar <strong style="color: white">2 Pontos de Coragem</strong>. O cão retorna à vida após <strong style="color: white">1 minuto</strong> com todos os seus Pontos de Vida restaurados.</p>
+                                    <p>Sempre que você terminar um <strong style="color: white">Descanso Longo</strong>, você pode invocar e criar um vínculo com um novo cão, que aparece em um espaço desocupado a até <strong style="color: white">1,5 metro</strong> de você. Se você já tiver um cão desta habilidade, o antigo desaparece quando o novo aparece.</p>
+                                    
+                                    <!-- FICHA DE CRIATURA: CÃO DE CAÇA -->
+                                    <div class="recurso-card" style="border-left: 1px solid var(--border-fantasy);">
+                                        <div class="recurso-header">
+                                            <span class="recurso-nome">Cão de Caça</span>
+                                        </div>
+                                        <div class="recurso-descricao">
+                                            
+                                            <p><em>Besta Média, Neutra</em></p>
+                                            
+                                            <table class="tabela-rpg" style="margin: 10px 0;">
+                                            <tbody>
+                                                <tr><td style="text-align: left;"><strong>Classe de Armadura</strong></td><td>12 + seu modificador de Constituição</td></tr>
+                                                <tr><td style="text-align: left;"><strong>Pontos de Vida</strong></td><td>5 + cinco vezes seu nível de Pugilista (o cão de caça tem um número de Dados de Vida [d8] igual ao seu nível de Pugilista)</td></tr>
+                                                <tr><td style="text-align: left;"><strong>Deslocamento</strong></td><td>12 m</td></tr>
+                                            </tbody>
+                                            </table>
+                                            
+                                            <table class="tabela-rpg" style="margin: 10px 0;">
+                                            <thead>
+                                                <tr><th>FOR</th><th>DES</th><th>CON</th><th>INT</th><th>SAB</th><th>CAR</th></tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr><td>14 (+2/+2)</td><td>14 (+2/+2)</td><td>15 (+3/+3)</td><td>3 (−4/−4)</td><td>12 (+1/+1)</td><td>13 (+1/+1)</td></tr>
+                                            </tbody>
+                                            </table>
+                                            
+                                            <p><strong style="color: white;">Sentidos.</strong> Visão no Escuro 18 m; Percepção Passiva 11</p>
+                                            <p><strong style="color: white;">Idiomas.</strong> Compreende os idiomas que você conhece</p>
+                                            <p><strong style="color: white;">Nível de Desafio.</strong> Nenhum (XP 0; Bônus de Proficiência igual ao seu Bônus de Proficiência)</p>
+                                            
+                                            <h4 style="margin: 15px 0 5px; color: var(--gold);">Características</h4>
+                                            <p><strong style="color: white;">Vínculo de Matilha.</strong> Adicione seu <strong style="color: white">Bônus de Proficiência</strong> a qualquer teste de habilidade ou teste de resistência que a fera fizer.</p>
+                                            
+                                            <h4 style="margin: 15px 0 5px; color: var(--gold);">Ações</h4>
+                                            <p><strong style="color: white;">Mordida.</strong> <strong>Rolagem de Ataque Corpo a Corpo:</strong> Bônus igual ao seu modificador de Constituição mais seu Bônus de Proficiência, alcance 1,5 m. <strong>Acerto:</strong> 2d4 + 2 mais seu modificador de Constituição. Dano perfurante. Se o alvo for uma criatura <strong style="color: white">Grande ou menor</strong>, ele deve ser bem-sucedido em um teste de resistência de <strong style="color: white">Força</strong> (CD igual a 8 mais seu modificador de Constituição e Bônus de Proficiência) ou um dos seguintes efeitos à sua escolha ocorrerá: o alvo fica <strong style="color: white">Agarrado</strong>, fica <strong style="color: white">Caído</strong> ou é empurrado <strong style="color: white">1,5 m</strong> para longe do cão.</p>
+                                            
+                                        </div>
+                                    </div>
+                                
+                                </div>
+                            </div>
+
+                            
+
+                            <div class="recurso-card">
+                                <div class="recurso-header">
+                                    <span class="recurso-nome">Nível 3: Cão com Coragem</span>
+                                </div>
+                                <div class="recurso-descricao">
+                                    <p>Você compartilha tudo com seu fiel cão: comida, abrigo e até mesmo coragem. Quando você usa habilidades concedidas pela sua característica <strong style="color: white">Coragem</strong>, seu cão também recebe um benefício.</p>
+                                    <p><strong>Preparar-se. </strong>Quando você ganha <strong style="color: white">Pontos de Vida Temporários</strong> com sua habilidade Preparar-se, seu cão ganha o mesmo número de Pontos de Vida Temporários.</p>
+                                    <p><strong>Golpe Duplo. </strong>Quando você usa sua habilidade <strong style="color: white">Golpe Duplo</strong>, seu cão pode fazer um ou ambos os ataques em seu lugar.</p>
+                                    <p><strong>Atacar e Mover. </strong>Quando você usa sua habilidade <strong style="color: white">Atacar e Mover</strong>, seu cão pode escolher entre as ações <strong style="color: white">Disparada</strong>, <strong style="color: white">Desengajar</strong> ou <strong style="color: white">Ajudar</strong>.</p>
+                                </div>
+                            </div>
+
+                            <div class="recurso-card">
+                                <div class="recurso-header">
+                                    <span class="recurso-nome">Nível 6: Ataque Coordenado</span>
+                                </div>
+                                <div class="recurso-descricao">
+                                    <p>Quando você faz um ataque contra uma criatura e seu cão está a <strong style="color: white">1,5 metro</strong> dela, seu cão pode usar uma <strong style="color: white">Reação</strong> para dar <strong style="color: white">Vantagem</strong> ao seu ataque. Se acertar, você causa <strong style="color: white">3d4</strong> de dano extra.</p>
+                                    <p>Além disso, sempre que seu cão acerta uma jogada de ataque e causa dano, ele pode causar dano de <strong style="color: white">Força</strong> ou seu tipo de dano normal, à sua escolha.</p>
+                                </div>
+                            </div>
+
+                            <div class="recurso-card">
+                                <div class="recurso-header">
+                                    <span class="recurso-nome">Nível 11: O Melhor Amigo do Cão</span>
+                                </div>
+                                <div class="recurso-descricao">
+                                    <p>Quando uma criatura causa dano ao seu cão com um ataque, você pode usar uma <strong style="color: white">Reação</strong> para se mover até <strong style="color: white">metade do seu Deslocamento</strong> e fazer um ataque corpo a corpo com uma <strong style="color: white">arma de Pugilista</strong> ou um <strong style="color: white">Ataque Desarmado</strong> contra essa criatura.</p>
+                                </div>
+                            </div>
+
+                            <div class="recurso-card">
+                                <div class="recurso-header">
+                                    <span class="recurso-nome">Nível 17: Solto</span>
+                                </div>
+                                <div class="recurso-descricao">
+                                    <p>Quando seu cão sofre dano que o deixa <strong style="color: white">Sangrando</strong> ou sofre dano enquanto está Sangrando, você pode usar uma <strong style="color: white">Reação</strong> para soltá-lo. Ao fazer isso, o cão ganha <strong style="color: white">Pontos de Vida Temporários</strong> iguais a cinco vezes o seu nível de Pugilista e, pelo próximo minuto, seu <strong style="color: white">Deslocamento</strong> aumenta em <strong style="color: white">4,5 metros</strong> e você pode comandá-lo a usar sua <strong style="color: white">Mordida</strong> sem precisar usar uma Ação Bônus.</p>
+                                    <p>Depois de usar esta habilidade, você não poderá usá-la novamente até terminar um <strong style="color: white">Descanso Longo</strong>. Você também pode restaurar o uso dela gastando <strong style="color: white">3 Pontos de Coragem</strong> (nenhuma ação necessária).</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    
+                        <!-- ABA - Mão do Terror -->
+                        <div class="tab-pane active">
+                            <h3 style="color: var(--gold); margin-bottom: 15px;">Mão do Terror</h3>
+                            <p>Em sua hora mais sombria, você implorou por força para tomar o que queria do mundo e um poder temível percebeu. No início, você pode ter apreciado a sensação catártica que vinha com a canalização de seu poder arcano para reivindicar o que sentia que merecia, mas esse pacto tinha condições. Em momentos de angústia, você ouve a entidade sussurrando no fundo de sua mente, incitando-o a ceder aos seus impulsos mais básicos.</p>
+                            
+                            <div class="recurso-card">
+                                <div class="recurso-header">
+                                    <span class="recurso-nome">Nível 3: Magia Negra</span>
+                                </div>
+                                <div class="recurso-descricao">
+                                    <p>Como resultado de seu relacionamento com seu poder temível, você ganha os seguintes benefícios:</p>
+                                    <p><strong>Dois Truques. </strong>Você aprende <strong style="color: white">dois truques</strong> de sua escolha da lista de magias de <strong style="color: white">Bruxo</strong>. <strong style="color: white">Constituição</strong> é sua habilidade de conjuração para suas magias de Magia Negra.</p>
+                                    <p><strong>Magia de Nível 1. </strong>Escolha uma <strong style="color: white">magia de nível 1</strong> da lista de magias de Bruxo. Você sempre tem essa magia <strong style="color: white">preparada</strong>. Você pode conjurá-la <strong style="color: white">uma vez sem um espaço de magia</strong> e recupera a capacidade de conjurá-la dessa forma ao terminar um <strong style="color: white">Descanso Longo</strong>. Você também pode conjurar a magia usando quaisquer <strong style="color: white">espaços de magia</strong> que você tenha.</p>
+                                    <p><strong>Troca de Magia. </strong>Sempre que você ganha um novo nível, você pode substituir uma das magias que escolheu com este recurso por uma magia diferente do mesmo nível da lista de magias de Bruxo.</p>
+                                </div>
+                            </div>
+
+                            <div class="recurso-card">
+                                <div class="recurso-header">
+                                    <span class="recurso-nome">Nível 3: Mão Temível</span>
+                                </div>
+                                <div class="recurso-descricao">
+                                    <p>Quando você realiza a ação <strong style="color: white">Atacar</strong> em seu turno, você pode manifestar a evidência de seu pacto vil com poderes sobrenaturais. Ao fazer isso, um de seus membros se transmuta em uma aparência monstruosa que lembra seu poder temível e você ganha os benefícios abaixo por <strong style="color: white">1 minuto</strong>. Depois de usar este recurso, você não poderá usá-lo novamente até terminar um <strong style="color: white">Descanso Curto</strong> ou <strong style="color: white">Longo</strong>.</p>
+                                    <p><strong>Golpe Vingador. </strong>Quando você for atingido por um <strong style="color: white">ataque corpo a corpo</strong>, você pode usar uma <strong style="color: white">Reação</strong> para realizar um <strong style="color: white">Ataque Desarmado</strong> contra a criatura que o atacou, se ela estiver ao seu alcance.</p>
+                                    <p><strong>Sede de Sangue Insaciável. </strong>Quando você acerta um alvo com um <strong style="color: white">Ataque Desarmado</strong>, você pode rolar os dados de dano do ataque <strong style="color: white">duas vezes</strong> e usar qualquer um dos resultados contra o alvo.</p>
+                                    <p><strong>Turbilhão de Violência. </strong>Na primeira vez que você <strong style="color: white">errar</strong> um Ataque Desarmado em cada turno, você pode rolar o ataque novamente e deve usar o novo resultado.</p>
+                                </div>
+                            </div>
+
+                            
+
+                            <div class="recurso-card">
+                                <div class="recurso-header">
+                                    <span class="recurso-nome">Nível 6: Pacto com o Diabo</span>
+                                </div>
+                                <div class="recurso-descricao">
+                                    <p>Você ganha uma das seguintes opções à sua escolha. Sempre que terminar um <strong style="color: white">Descanso Longo</strong>, você pode mudar sua escolha.</p>
+                                    <p><strong>Manto das Sombras. </strong>Você pode conjurar <strong style="color: white">Invisibilidade</strong> uma vez sem gastar um espaço de magia e recupera a capacidade de conjurá-la dessa forma ao terminar um <strong style="color: white">Descanso Curto</strong> ou <strong style="color: white">Longo</strong>.</p>
+                                    <p><strong>Máscara de Muitas Faces. </strong>Você pode conjurar <strong style="color: white">Disfarce-se</strong> sem gastar um espaço de magia.</p>
+                                    <p><strong>Caminhada de Outro Mundo. </strong>Você pode conjurar <strong style="color: white">Passo Nebuloso</strong> uma vez sem gastar um espaço de magia e recupera a capacidade de conjurá-lo dessa forma ao terminar um <strong style="color: white">Descanso Curto</strong> ou <strong style="color: white">Longo</strong>.</p>
+                                </div>
+                            </div>
+
+                            <div class="recurso-card">
+                                <div class="recurso-header">
+                                    <span class="recurso-nome">Nível 11: Crescimento Grotesco</span>
+                                </div>
+                                <div class="recurso-descricao">
+                                    <p>Quando você usa sua habilidade <strong style="color: white">Mão Temível</strong>, você ganha os benefícios do efeito <strong style="color: white">Ampliar</strong> da magia <strong style="color: white">Ampliar/Reduzir</strong> e tem um alcance de <strong style="color: white">3 metros</strong>.</p>
+                                    <p>Depois de usar esta habilidade, você não poderá usá-la novamente até terminar um <strong style="color: white">Descanso Longo</strong>, a menos que sofra um nível de <strong style="color: white">Exaustão</strong> (nenhuma ação necessária da sua parte) para restaurar seu uso.</p>
+                                </div>
+                            </div>
+
+                            <div class="recurso-card">
+                                <div class="recurso-header">
+                                    <span class="recurso-nome">Nível 17: Fonte das Vísceras</span>
+                                </div>
+                                <div class="recurso-descricao">
+                                    <p>Você pode usar uma <strong style="color: white">Ação Mágica</strong> e gastar <strong style="color: white">6 Pontos de Audácia</strong> para tentar executar uma criatura de sua escolha ao seu alcance, enterrando magicamente sua mão em seu corpo e extraindo suas entranhas. A criatura deve fazer um teste de resistência de <strong style="color: white">Destreza</strong> (CD 8 mais seu modificador de Força e Bônus de Proficiência). Em caso de falha, a criatura sofre <strong style="color: white">100 de dano Perfurante</strong>. Em caso de sucesso, a criatura sofre <strong style="color: white">50 de dano Perfurante</strong>.</p>
+                                    <p>Se esse dano reduzir o alvo a 0 Pontos de Vida, ele morre imediatamente enquanto você rasga um buraco nele, criando uma fonte nauseante de vísceras. Quando isso acontece, cada criatura de sua escolha dentro de uma <strong style="color: white">Emanação de 9 metros</strong> originada de você deve ser bem-sucedida em um teste de resistência de <strong style="color: white">Sabedoria</strong> (CD 8 mais seu modificador de Força e Bônus de Proficiência) ou ficará <strong style="color: white">Amedrontada</strong> por 1 minuto. Uma criatura que falhar no teste de resistência pode repetir o teste de resistência de Sabedoria novamente no final de cada um de seus turnos, encerrando a condição Amedrontada em si mesma em caso de sucesso.</p>
+                                    <p>Depois de usar este recurso, você precisa concluir um <strong style="color: white">Descanso Longo</strong> antes de poder usá-lo novamente.</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    
+
+                </div>
+            </div><!--FIM DA DIV recursos-detalhados-->
+        </div> <!--FIM DA DIV card-rpg-->
+    </div> <!--FIM DA DIV container-->
+</body>
+</html>
