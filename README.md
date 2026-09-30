@@ -5,6 +5,13 @@
 Um aplicativo web para recordação de campanhas, guia de criação básico e conteúdo traduzido de D&D 2024.
 
 ## 📋 Changelog
+### Versão 1.15.4
+- **Data:** 30/09/2026
+- **Melhorias:**
+  - Adição dos personagens da Oneshot EPM.
+  - Adição da sessão da Oneshot 1 da EPM.
+  - Adição do capítulo 14 de Othans.
+
 ### Versão 1.15.3
 - **Data:** 20/08/2026
 - **Melhorias:**
