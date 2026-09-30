@@ -5,6 +5,12 @@
 Um aplicativo web para recordação de campanhas, guia de criação básico e conteúdo traduzido de D&D 2024.
 
 ## 📋 Changelog
+
+### Versão 1.15.5
+- **Data:** 30/09/2026
+- **Melhorias:**
+  - Atualização da subclasse Guarda do Vazio de Patrulheiro.
+
 ### Versão 1.15.4
 - **Data:** 30/09/2026
 - **Melhorias:**
