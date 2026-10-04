@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talpas — Weirs RPG</title>
+    <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+    <link rel="stylesheet" href="/WEIRS-RPG/css/class-style.css">
+    <script src="/WEIRS-RPG/javascript/menu.js"></script>
+    <script src="/WEIRS-RPG/javascript/subclass-tab.js"></script>
+    <style>
+    /* Estilos específicos para a listagem detalhada de subraças */
+    .subraca-container {
+      margin-top: 40px;
+      border-top: 1px solid var(--border-fantasy);
+      padding-top: 30px;
+    }
+    .subraca-card {
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 3px solid var(--gold);
+      padding: 20px;
+      margin-bottom: 25px;
+      border-radius: 0 4px 4px 0;
+    }
+    .subraca-card h4 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-bright);
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+    .subraca-card p {
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+  </style>
+</head>
+  
+<body>
+    <div class="container">
+
+        <!--BOTÃO DE RETORNO-->
+        <div style="margin-bottom: 30px;">
+            <a href="/WEIRS-RPG/pages/races/racas.html" class="btn-principal"
+                style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Raças</a>
+        </div>
+
+        <!--TÍTULO-->
+        <h2>Talpas</h2>
+
+        <div class="card-rpg">
+
+            <!--DETALHES DE CLASSE-->
+            <div class="layout-detalhes">
+                <img src="/WEIRS-RPG/img/talpa.png.jpg"
+                    alt="A definir">
+                <div class="texto-lore">
+                    <h3>Subtítulo</h3>
+                    <p>Os Talpas são pequenos humanoides subterrâneos conhecidos por sua pele amarelada, quatro braços e enormes garras adaptadas à escavação. Naturalmente cegos, percebem o ambiente através de uma combinação extremamente desenvolvida de audição, olfato e sensibilidade às vibrações.
+                    <br><br>
+                    Sua sociedade possui uma forte tradição artesanal. Desde jovens, os Talpas são direcionados para diferentes Castas, que representam sua principal especialização: Ferreiros, Armeiros ou Ferramenteiros.</p>
+
+                    <!--CARACTERÍSTICAS BASICAS-->
+                    <h4
+                        style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">
+                        Características Iniciais</h4>
+                    <ul class="trait-list" style="margin-top: 15px;">
+                        <li><strong>Tipo de Criatura:</strong> Humanóide.</li>
+                        <li><strong>Tamanho:</strong> Pequeno.</li>
+                        <li><strong>Deslocamento:</strong> 20 pés.</li>
+                        <li><strong>Idade:</strong> Os Talpas atingem a maioridade por volta dos 50 anos e normalmente vivem até aproximadamente 120 anos. </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- HABILIDADES RACIAIS -->
+            <div style="margin-top: 40px; margin-bottom: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+                <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Habilidades Raciais</h3>
+                
+                <ul class="trait-list">
+                    <li><strong>Sentidos Talpa:</strong> Talpas são naturalmente cegos e não possuem visão convencional.
+                        <br>Seus sentidos extremamente desenvolvidos de audição, olfato e percepção de vibrações concedem Visão às Cegas de 60 pés (18 m).</li>
+                    <li><strong>Escavador:</strong> Você possui Deslocamento de Escavação de 15 pés (4,5 m).
+                        <br>Você pode utilizar esse deslocamento através de terra, areia, argila e materiais semelhantes, mas não pode escavar através de pedra sólida ou metal.</li>
+                    <li><strong>Garras de Toupeira:</strong> Suas enormes garras são armas naturais.
+                        <br>Quando você realiza um Ataque Desarmado utilizando suas garras, causa 1d6 de dano Cortante em vez do dano normal de um Ataque Desarmado. </li>
+                    <li><strong>Quatro Braços:</strong> Você possui dois braços adicionais.
+                        <br>Seus braços adicionais podem manipular objetos, Utilizar objetos, utilizar ferramentas e auxiliar você durante escaladas e escavações.
+                        <br>Eles não podem ser utilizados para empunhar armas ou escudos durante combate.</li>
+                    <li><strong>Castas Talpa:</strong> Ao criar seu personagem, escolha uma das seguintes Castas:
+                        <br>• <strong>Talpa Ferreiro</strong>
+                        <br>• <strong>Talpa Armeiro</strong>
+                        <br>• <strong>Talpa Ferramenteiro</strong>
+                        <br>Sua Casta representa o treinamento artesanal que recebeu dentro da sociedade Talpa.</li>
+                </ul>
+            </div>
+
+            <div class="subraca-card" style="border-left-color: var(--gold);">
+                <h4>Talpa Ferreiro</h4>
+                <p>Os Ferreiros são especialistas na fabricação, adaptação e reforço de armaduras.</p>
+                <ul class="trait-list">
+                    <li><strong>Treinamento de Ferreiro:</strong> Você ganha proficiência com Ferramentas de Ferreiro.</li>
+                    <li><strong>Reforjar Armadura:</strong> Utilizando suas Ferramentas de Ferreiro, você pode modificar a construção de uma armadura para alterar sua categoria.
+                        <br>Você pode alterar uma armadura em um estágio:
+                        <br>Leve ↔ Média ↔ Pesada
+                        <br>Uma armadura Leve, portanto, precisa primeiro ser transformada em Média antes que possa posteriormente ser transformada em Pesada.
+                        <br>A armadura passa a utilizar as regras da nova categoria, incluindo requisitos de proficiência, utilização de Destreza e demais limitações aplicáveis.
+                        <br>Entretanto, ela mantém quaisquer propriedades mágicas ou características especiais que já possuía.
+                        <br>A aparência da armadura também muda de acordo com a modificação realizada pelo Ferreiro.</li>
+                </ul>
+            </div>
+
+            
+
+            </div><!--FIM DA DIV recursos-detalhados-->
+        </div> <!--FIM DA DIV card-rpg-->
+    </div> <!--FIM DA DIV container-->
+</body>
+</html>
