@@ -36,21 +36,134 @@ O banco verifica a estrutura principal do JSON, versão e tamanho máximo de 256
 
 ## 3. Configurar Google OAuth
 
-Siga o [guia oficial do Supabase para Google](https://supabase.com/docs/guides/auth/social-login/auth-google). Crie um cliente OAuth do tipo aplicativo web no Google Auth Platform e configure sua audiência para os participantes autorizados. Se usar modo de teste, adicione as oito contas como usuários de teste.
+Faça primeiro o teste local em Chrome ou Edge. As instruções abaixo usam o aplicativo no seu computador e um projeto **hospedado** no Supabase.
 
-- Origem JavaScript local: `http://127.0.0.1:5173`.
-- Origem do site atual: `https://shikiaech.github.io`.
-- URI autorizada de redirecionamento no **Google**: a URL exibida no provedor Google do Supabase, normalmente `https://SEU-PROJETO.supabase.co/auth/v1/callback`.
-- Client ID e Client Secret ficam no painel **Supabase → Authentication → Providers → Google**. Nunca coloque o Client Secret em variáveis `VITE_`.
+O login percorre este caminho:
 
-Em **Supabase → Authentication → URL Configuration**, use a URL final como Site URL e adicione explicitamente estes Redirect URLs:
+```text
+WEIRS → Supabase → Google → Supabase → WEIRS
+```
+
+Por isso existem dois endereços de retorno. O Google entrega sua resposta ao Supabase; depois o Supabase devolve você ao aplicativo. Cada endereço é cadastrado em um painel diferente.
+
+| Campo | Onde preencher | Valor para o teste local |
+| --- | --- | --- |
+| Authorized JavaScript origins / Origens JavaScript autorizadas | Cliente OAuth no Google | `http://127.0.0.1:5173` |
+| Authorized redirect URIs / URIs de redirecionamento autorizados | Cliente OAuth no Google | URL copiada do provedor Google no Supabase, terminando em `/auth/v1/callback` |
+| Site URL | Supabase → Authentication → URL Configuration | `http://127.0.0.1:5173/WEIRS-RPG/app.html` |
+| Redirect URLs | Supabase → Authentication → URL Configuration | `http://127.0.0.1:5173/WEIRS-RPG/app.html` |
+
+### 3.1. Copiar o endereço de retorno do Supabase
+
+1. Abra o [painel do Supabase](https://supabase.com/dashboard) e selecione o projeto da mesa.
+2. Entre em **Authentication → Sign In / Providers**. Em algumas versões do painel, o menu aparece como **Providers**.
+3. Abra **Google**.
+4. Copie o campo **Callback URL** ou **OAuth Redirect URL**. Ele se parece com `https://abcdefgh.supabase.co/auth/v1/callback`, mas use o endereço real mostrado no seu painel.
+5. Mantenha essa aba aberta. Você voltará a ela depois de criar as credenciais no Google.
+
+O campo de redirecionamento no Google receberá essa URL completa. A integração está descrita no [guia oficial do provedor Google do Supabase](https://supabase.com/docs/guides/auth/social-login/auth-google).
+
+### 3.2. Criar o projeto e a tela de consentimento no Google
+
+1. Abra o [Google Cloud Console](https://console.cloud.google.com/) com sua conta Google.
+2. Clique no seletor de projeto na barra superior e escolha **Novo projeto / New project**. Use o nome `WEIRS RPG`. Se já criou um projeto para esse login, selecione-o.
+3. Após a criação, confira se ele está selecionado na barra superior.
+4. Procure **Google Auth Platform** pela busca do console. Abra **Visão geral / Overview** e clique em **Começar / Get started**, se aparecer.
+5. Em **App information**, use `WEIRS RPG` como nome e seu email em **User support email**.
+6. Em **Audience / Público-alvo**, selecione **External / Externo**, adequado para participantes com contas Google pessoais.
+7. Em **Contact information**, informe seu email. Conclua os campos e termos apresentados e clique em **Create / Criar**.
+
+Se a configuração inicial já existir, seus campos ficam em **Branding**, **Audience** e **Data Access**. Os nomes em inglês estão incluídos para facilitar a localização quando o console não estiver traduzido. Veja a [orientação do Google Auth Platform](https://support.google.com/cloud/answer/15544987).
+
+### 3.3. Configurar público e permissões de perfil
+
+Em **Audience / Público-alvo**, mantenha **Testing / Em teste** durante esta configuração. Em **Test users / Usuários de teste → Add users / Adicionar usuários**, você pode cadastrar seu email e os demais participantes.
+
+O Google possui uma exceção para login que solicita apenas nome, email e perfil: nesse caso, a lista de teste não limita necessariamente quem consegue autenticar. **O acesso às fichas é controlado pelos membros da campanha no nosso banco**, configurados na seção 5. Essa distinção consta na [documentação de público do Google](https://support.google.com/cloud/answer/15549945).
+
+Em **Data Access / Acesso a dados → Add or remove scopes / Adicionar ou remover escopos**, selecione os três escopos abaixo. Caso algum não apareça, utilize **Manually add scopes / Adicionar escopos manualmente**:
+
+```text
+openid
+https://www.googleapis.com/auth/userinfo.email
+https://www.googleapis.com/auth/userinfo.profile
+```
+
+Clique em **Update / Atualizar** e em **Save / Salvar**, se solicitado. Esses escopos identificam o jogador. O WEIRS atual usa apenas esse login de perfil; deixe permissões de Gmail, Drive e outros serviços para futuras integrações que realmente precisem delas. Consulte o [guia de escopos do Google](https://support.google.com/cloud/answer/15549135).
+
+### 3.4. Criar o cliente OAuth e copiar as credenciais
+
+1. No Google Auth Platform, entre em **Clients / Clientes → Create client / Criar cliente**.
+2. Em **Application type / Tipo de aplicativo**, escolha **Web application / Aplicativo da Web**.
+3. Em **Name / Nome**, use `WEIRS — teste local`.
+4. Em **Authorized JavaScript origins**, clique em **Add URI** e insira `http://127.0.0.1:5173`. Uma origem contém protocolo, endereço e porta; o caminho `/WEIRS-RPG/app.html` entra no campo do Supabase indicado na tabela inicial.
+5. Em **Authorized redirect URIs**, clique em **Add URI** e cole a URL completa copiada na etapa 3.1: `https://SEU-PROJETO.supabase.co/auth/v1/callback`. Substitua o exemplo pelo valor real do seu projeto.
+6. Clique em **Create / Criar**. Copie o **Client ID** e o **Client Secret** imediatamente para os campos do provedor Google no Supabase, na etapa seguinte.
+
+O Google exibe o segredo completo na criação; se você o perdeu, a página do cliente permite gerar outro com **Add Secret / Adicionar segredo**. Veja as [instruções atuais para clientes OAuth](https://support.google.com/cloud/answer/15549257). Mantenha qualquer cópia do segredo fora da pasta do projeto.
+
+### 3.5. Habilitar o Google no Supabase
+
+Volte à aba **Supabase → Authentication → Sign In / Providers → Google**. Ative **Enable Sign in with Google**, preencha **Client IDs** com o Client ID criado no Google e **Client Secret** com o segredo correspondente. Salve e conserve as demais opções padrão.
+
+Essas credenciais ficam no Supabase. O arquivo `.env.local` do WEIRS receberá a URL e a chave publicável do **Supabase**, descritas na seção 4.
+
+### 3.6. Cadastrar o retorno ao aplicativo
+
+No Supabase, entre em **Authentication → URL Configuration**. Para testar localmente agora, preencha **Site URL** com:
 
 ```text
 http://127.0.0.1:5173/WEIRS-RPG/app.html
-https://shikiaech.github.io/WEIRS-RPG/app.html
 ```
 
-Se a hospedagem ou porta mudar, atualize esses endereços. O callback da aplicação é `app.html`; o callback do provedor Google é `/auth/v1/callback` do Supabase. A aplicação usa PKCE, troca o código uma vez e remove os parâmetros de autenticação da URL. Nenhum parâmetro `next` escolhe um domínio externo.
+Em **Redirect URLs**, clique em **Add URL**, cadastre esse mesmo endereço completo e salve. Aqui o endereço aponta para o aplicativo; o retorno para `/auth/v1/callback` já foi cadastrado no Google.
+
+O código do WEIRS informa um `redirectTo` explícito e ele precisa estar permitido nessa lista. Use o endereço exato, incluindo porta e caminho, conforme o [guia de redirecionamentos do Supabase](https://supabase.com/docs/guides/auth/redirect-urls). A aplicação acrescenta `#/fichas` após concluir o login; cadastre o retorno terminando em `app.html`.
+
+### 3.7. Fazer o primeiro login
+
+1. Preencha `.env.local` conforme a seção 4.
+2. Se houver um dev server aberto, pare-o com `Ctrl+C`. Na raiz do projeto, execute:
+
+```powershell
+npm run dev -- --port 5173 --strictPort
+```
+
+3. Abra `http://127.0.0.1:5173/WEIRS-RPG/app.html` no Chrome ou Edge.
+4. Clique em **Entrar com Google**, escolha sua conta e conclua o login no mesmo navegador.
+5. Ao retornar ao WEIRS, o botão deve mudar para **Sair**.
+6. Em **Supabase → Authentication → Users**, confirme que seu email foi cadastrado. Depois vincule a conta à campanha pela seção 5.
+
+Use `127.0.0.1` ao longo de todo o teste. Se preferir `localhost`, cadastre também essa origem e seu retorno completo nos respectivos painéis. O código usa a origem aberta no navegador e guarda a verificação do login naquele navegador.
+
+Se você estiver usando o preview na porta **4174**, cadastre `http://127.0.0.1:4174` nas origens do Google e `http://127.0.0.1:4174/WEIRS-RPG/app.html` nos Redirect URLs do Supabase. Ao alterar `.env.local`, rode `npm run build` novamente antes de iniciar o preview: suas configurações são incorporadas durante o build.
+
+### 3.8. Acrescentar a URL publicada, quando o novo aplicativo estiver online
+
+Quando `app.html` estiver publicado no endereço atual do GitHub Pages, configure:
+
+| Campo | Valor publicado |
+| --- | --- |
+| Origem JavaScript no cliente Google destinado à produção | `https://shikiaech.github.io` |
+| Redirect URI no cliente Google | O callback do projeto Supabase usado em produção, terminando em `/auth/v1/callback` |
+| Site URL no Supabase | `https://shikiaech.github.io/WEIRS-RPG/app.html` |
+| Redirect URL adicional no Supabase | `https://shikiaech.github.io/WEIRS-RPG/app.html` |
+
+A configuração local permite validar o login enquanto a publicação ainda está pendente. Para separar desenvolvimento e produção, configure o cliente Google e o projeto Supabase correspondentes ao ambiente publicado. Se o endereço de hospedagem mudar, use o novo domínio e caminho em todos os campos desse ambiente.
+
+### 3.9. Identificar erros comuns
+
+| O que apareceu | O que conferir |
+| --- | --- |
+| `redirect_uri_mismatch` na tela do Google | Abra **Google Auth Platform → Clients → seu cliente** e confira se a URI corresponde exatamente ao callback do provedor Google do Supabase, incluindo `/auth/v1/callback`. |
+| Google conclui o login, mas você volta ao endereço errado | Confira **Supabase → Authentication → URL Configuration** e o endereço realmente aberto no navegador, incluindo a porta. |
+| `invalid_client` | Confira se Client ID e Client Secret no Supabase pertencem ao mesmo cliente Google e se o segredo continua habilitado. |
+| `disallowed_useragent` | Abra o aplicativo em Chrome ou Edge diretamente. O Google pode rejeitar login dentro de navegadores incorporados a outros aplicativos. |
+| Botão **Entrar com Google** desabilitado | Preencha a URL e a chave publicável em `.env.local` e reinicie o dev server; para preview, refaça o build. |
+| Botão virou **Sair**, mas nenhuma campanha aparece | O login funcionou. Adicione sua conta aos membros da campanha, conforme a seção 5. |
+| Não foi possível concluir o login após trocar de navegador/endereço | Reinicie o login na página original e conclua no mesmo navegador e origem. |
+
+Os erros de redirecionamento e navegador são descritos na [documentação OAuth do Google](https://developers.google.com/identity/protocols/oauth2/web-server#errors). As mensagens e campos do WEIRS são verificados no código desta entrega.
 
 ## 4. Configuração pública do frontend
 
