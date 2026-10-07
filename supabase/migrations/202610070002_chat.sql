@@ -29,6 +29,9 @@ CREATE TABLE private.comandos_chat (
   mensagem_id uuid NOT NULL REFERENCES public.mensagens_chat(id) ON DELETE CASCADE,
   PRIMARY KEY(usuario_id,pedido_id)
 );
+-- Sem políticas para clientes: o acesso normal é negado por padrão.
+-- A RPC SECURITY DEFINER acessa os recibos como proprietária da tabela.
+ALTER TABLE private.comandos_chat ENABLE ROW LEVEL SECURITY;
 REVOKE ALL ON private.comandos_chat FROM PUBLIC,anon,authenticated;
 
 CREATE FUNCTION private.inteiro_chat(valor jsonb, minimo int, maximo int)

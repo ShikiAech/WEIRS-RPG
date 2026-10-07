@@ -49,6 +49,19 @@ test('chat calcula dados no banco, protege campanhas e repete comandos sem rerro
         'utf8',
       ),
     );
+    assert.equal(
+      (
+        await db.query<{ relrowsecurity: boolean }>(
+          "SELECT relrowsecurity FROM pg_class WHERE oid='private.comandos_chat'::regclass",
+        )
+      ).rows[0].relrowsecurity,
+      true,
+      'A tabela de recibos também deve habilitar RLS.',
+    );
+    const receiptMigration = await readFile(
+      new URL('../supabase/migrations/202610070003_chat_receipts_rls.sql', import.meta.url),
+      'utf8',
+    );
     for (const id of [a, b, gm, spectator])
       await db.query('INSERT INTO auth.users(id,raw_user_meta_data) VALUES($1,$2)', [
         id,
@@ -79,6 +92,42 @@ test('chat calcula dados no banco, protege campanhas e repete comandos sem rerro
     assert.equal(rolled.resultado.total, terms[0].subtotal + terms[1].dados[0] - 2);
     for (const term of terms.filter((x: any) => x.dados))
       assert.ok(term.dados.every((value: number) => value >= 1 && value <= term.faces));
+    assert.deepEqual(await send(a, command, request), rolled);
+    // A correção de uma instalação anterior preserva o recibo e o resultado existentes.
+    await db.exec('ALTER TABLE private.comandos_chat DISABLE ROW LEVEL SECURITY;');
+    await db.exec(receiptMigration);
+    await db.exec(receiptMigration);
+    assert.deepEqual(await send(a, command, request), rolled);
+    // Mesmo se um grant for ampliado por engano, recibos permanecem fechados por RLS.
+    await rejected(asUser(a, 'SELECT * FROM private.comandos_chat'), '42501');
+    await db.exec(
+      'GRANT USAGE ON SCHEMA private TO anon; GRANT SELECT,INSERT,UPDATE,DELETE ON private.comandos_chat TO anon,authenticated;',
+    );
+    assert.equal((await asUser(a, 'SELECT * FROM private.comandos_chat')).rows.length, 0);
+    await rejected(
+      asUser(a, 'INSERT INTO private.comandos_chat VALUES($1,$2,$3,$4,$5)', [
+        a,
+        crypto.randomUUID(),
+        c,
+        command,
+        rolled.id,
+      ]),
+      '42501',
+    );
+    assert.equal(
+      (await asUser(a, "UPDATE private.comandos_chat SET comando='{}' RETURNING *")).rows.length,
+      0,
+    );
+    assert.equal((await asUser(a, 'DELETE FROM private.comandos_chat RETURNING *')).rows.length, 0);
+    await db.exec('BEGIN; SET LOCAL ROLE anon;');
+    try {
+      assert.equal((await db.query('SELECT * FROM private.comandos_chat')).rows.length, 0);
+    } finally {
+      await db.exec('ROLLBACK');
+    }
+    await db.exec(
+      'REVOKE ALL ON private.comandos_chat FROM anon,authenticated; REVOKE USAGE ON SCHEMA private FROM anon;',
+    );
     assert.deepEqual(await send(a, command, request), rolled);
     await rejected(send(a, { ...command, expressao: '1d20' }, request), 'WC004');
     await rejected(send(a, command, request, other), 'WC002');

@@ -13,6 +13,14 @@ O login Google e as fichas já estão funcionando. Esta etapa usa **o mesmo proj
 
 Execute esta migração **uma vez**. Ela cria o histórico, a função de envio/rolagem, as permissões e habilita a tabela no Realtime quando a publicação padrão está disponível. Suas campanhas e fichas existentes são preservadas. Você não precisa executar novamente a migração de fundação ou o seed.
 
+### Aviso sobre RLS em `private.comandos_chat`
+
+**Habilite RLS.** O arquivo atualizado já inclui `ALTER TABLE private.comandos_chat ENABLE ROW LEVEL SECURITY;`. Se você ainda não executou a consulta, copie novamente o conteúdo do arquivo atualizado para o SQL Editor.
+
+Se já executou a versão anterior, execute **somente** `supabase/migrations/202610070003_chat_receipts_rls.sql`; ela habilita RLS na tabela existente e preserva os recibos e mensagens. Não repita a migração completa de criação nesse caso.
+
+Essa tabela guarda os identificadores que evitam duplicação de rolagens. Ela permanece sem políticas de acesso para clientes, além dos privilégios já revogados. A função de envio acessa os recibos como proprietária da tabela, depois de verificar o usuário e a campanha. Com RLS habilitada e sem políticas, o PostgreSQL nega o acesso normal por padrão; o proprietário continua podendo operar a tabela. [Documentação do PostgreSQL](https://www.postgresql.org/docs/current/ddl-rowsecurity.html).
+
 Se aparecer que `mensagens_chat` já existe, a migração pode já ter sido instalada. Confira a tabela e a função antes de repetir comandos; não apague o histórico para tentar novamente.
 
 ## 2. Conferir o Realtime
