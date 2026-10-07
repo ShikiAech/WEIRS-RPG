@@ -25,6 +25,7 @@ export async function renderDice(
   signal: AbortSignal,
   done: () => void,
   failed: () => void,
+  animate = true,
 ) {
   const deadline = AbortSignal.any([signal, AbortSignal.timeout(8000)]);
   const [models, image] = await Promise.all([
@@ -125,6 +126,24 @@ export async function renderDice(
       throw error;
     }
   })();
+  const spin = new Quaternion();
+  const euler = new Euler();
+  function updatePose(progress: number) {
+    for (const die of dice) {
+      const remaining = 1 - progress;
+      const eased = 1 - remaining ** 3;
+      const angle = remaining ** 2 * Math.PI * (5 + (die.index % 3));
+      spin.setFromEuler(euler.set(angle, angle * 0.6, angle * 0.8));
+      die.mesh.quaternion.copy(die.final).multiply(spin);
+      die.mesh.position.set(
+        die.x - remaining ** 2 * (3 + (die.index % 2)),
+        die.height + Math.abs(Math.sin(progress * Math.PI * 3.5)) * remaining * 3,
+        die.z + (1 - eased) * Math.sin(die.index + 1) * 2,
+      );
+    }
+  }
+  // O primeiro quadro já é o lançamento, evitando um flash da pose final.
+  if (animate) updatePose(0);
   observer = new ResizeObserver(resize);
   function resize() {
     if (closed) return;
@@ -182,22 +201,11 @@ export async function renderDice(
   observer.observe(host);
   resize();
   const start = performance.now();
-  const spin = new Quaternion();
+  if (!animate || closed) return dispose;
   function tick(now: number) {
     if (closed) return;
     const progress = Math.min(1, (now - start) / 2100);
-    for (const die of dice) {
-      const remaining = 1 - progress;
-      const eased = 1 - remaining ** 3;
-      const angle = remaining ** 2 * Math.PI * (5 + (die.index % 3));
-      spin.setFromEuler(new Euler(angle, angle * 0.6, angle * 0.8));
-      die.mesh.quaternion.copy(die.final).multiply(spin);
-      die.mesh.position.set(
-        die.x - remaining ** 2 * (3 + (die.index % 2)),
-        die.height + Math.abs(Math.sin(progress * Math.PI * 3.5)) * remaining * 3,
-        die.z + (1 - eased) * Math.sin(die.index + 1) * 2,
-      );
-    }
+    updatePose(progress);
     try {
       renderer.render(scene, camera);
     } catch {

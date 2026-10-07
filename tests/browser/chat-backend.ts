@@ -96,7 +96,7 @@ export async function chatBackend(page: Page, shared?: ReturnType<typeof chatSta
       );
       state.rows.push(result);
       state.receipts.set(p_pedido, result);
-      state.publish(result);
+      if (state.publishOnSend) state.publish(result);
     }
     if (state.failAcknowledgement) {
       state.failAcknowledgement = false;
@@ -136,6 +136,7 @@ function chatState() {
     rollResult: null as Record<string, unknown> | null,
     receipts: new Map<string, any>(),
     failAcknowledgement: false,
+    publishOnSend: true,
     acknowledgementGate: null as Promise<void> | null,
     rejectCode: null as string | null,
     historyUnavailable: false,

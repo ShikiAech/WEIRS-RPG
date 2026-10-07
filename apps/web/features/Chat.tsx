@@ -12,7 +12,7 @@ import { createRepository } from '../lib/repository';
 import { createChatRepository, chatError } from '../lib/chat';
 import { catchUp, commandFromText, mergeMessages } from '../lib/chat-state';
 import { Message } from './chat/Message';
-import { DiceSettings, useDice3D } from './dice/Dice3D';
+import { DicePanel, useDice3D } from './dice/Dice3D';
 
 export function Chat({
   user,
@@ -117,6 +117,7 @@ export function Chat({
           key={user.id + campaign.id}
           campaign={campaign}
           repository={repository}
+          userId={user.id}
           canSend={role !== 'espectador'}
         />
       ) : (
@@ -134,10 +135,12 @@ function Room({
   campaign,
   repository,
   canSend,
+  userId,
 }: {
   campaign: CampaignRecord;
   repository: ChatRepository;
   canSend: boolean;
+  userId: string;
 }) {
   const dice = useDice3D();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -154,6 +157,8 @@ function Room({
   const [attempt, setAttempt] = useState<{ id: string; command: ChatCommand } | null>(null);
   const [newBelow, setNewBelow] = useState(false);
   const busy = useRef(false);
+  const pendingSend = useRef(false);
+  const presentBeforeSend = useRef(new Set<string>());
   const forbidden = useRef(false);
   const generation = useRef(0);
   const stopChannel = useRef<() => void>(() => {});
@@ -168,6 +173,12 @@ function Room({
   );
   function add(rows: ChatMessage[], prepend = false) {
     if (!rows.length || forbidden.current) return;
+    // Realtime e consultas podem confirmar o envio antes da resposta da RPC.
+    // Ocultar antes de inserir impede uma renderização com o total ainda visível.
+    if (pendingSend.current) {
+      for (const row of rows)
+        if (row.autor_id === userId && !presentBeforeSend.current.has(row.id)) dice.show(row);
+    }
     const node = log.current;
     if (node) {
       scroll.current.bottom = node.scrollHeight - node.scrollTop - node.clientHeight < 80;
@@ -180,6 +191,7 @@ function Room({
     const failure = chatError(error);
     if (['ACESSO', 'SESSAO', 'WC002'].includes(failure.code)) {
       forbidden.current = true;
+      pendingSend.current = false;
       dice.clear();
       setMessages([]);
       setAccessLost(true);
@@ -199,7 +211,7 @@ function Room({
       node.scrollTop = node.scrollHeight;
       setNewBelow(false);
     } else setNewBelow(true);
-  }, [messages]);
+  }, [messages, dice.hidden]);
   useEffect(() => {
     let active = true,
       ready = false,
@@ -318,6 +330,8 @@ function Room({
       return;
     }
     setAttempt(next);
+    pendingSend.current = true;
+    presentBeforeSend.current = new Set(messages.map((message) => message.id));
     busy.current = true;
     setSending(true);
     setSendError('');
@@ -326,6 +340,7 @@ function Room({
       if (mounted.current && !forbidden.current) {
         add([row]);
         dice.show(row);
+        pendingSend.current = false;
         setAttempt(null);
         setText('');
         setSendError('');
@@ -334,7 +349,10 @@ function Room({
       if (mounted.current) {
         const failure = chatError(error);
         setSendError(failure.message);
-        if (['WC002', 'WC003', 'WC004', 'WC005', 'SESSAO'].includes(failure.code)) setAttempt(null);
+        if (['WC002', 'WC003', 'WC004', 'WC005', 'SESSAO'].includes(failure.code)) {
+          pendingSend.current = false;
+          setAttempt(null);
+        }
       }
     } finally {
       busy.current = false;
@@ -356,7 +374,7 @@ function Room({
                 : 'Reconectando · sincronização periódica'}
         </span>
       </div>
-      <DiceSettings />
+      <DicePanel />
       {syncError && (
         <div className="notice error" role="alert">
           {syncError}
@@ -481,6 +499,7 @@ function Room({
               className="text-button"
               onClick={() => {
                 setAttempt(null);
+                pendingSend.current = false;
                 setSendError('');
               }}
             >

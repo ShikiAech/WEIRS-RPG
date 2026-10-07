@@ -10,7 +10,10 @@ test('rolagem confirmada anima modelos 3D e mostra os valores do servidor', asyn
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('app.html#/chat');
   await expect(page.getByLabel('Animar meus dados em 3D')).toBeChecked();
-  await expect(page.getByRole('region', { name: 'Dados 3D' })).toHaveCount(0);
+  await expect(page.getByRole('region', { name: 'Dados 3D' })).toHaveAttribute(
+    'data-phase',
+    'ociosa',
+  );
   await page.getByLabel('Mensagem ou comando de dados').fill('/r 2d6+3');
   await page.getByRole('button', { name: 'Enviar', exact: true }).click();
   const tray = page.getByRole('region', { name: 'Dados 3D' });
@@ -21,12 +24,12 @@ test('rolagem confirmada anima modelos 3D e mostra os valores do servidor', asyn
   await expect(tray).toContainText('d6: 4, 4');
   await page.screenshot({ path: `artifacts/dice-${test.info().project.name}.png`, fullPage: true });
   expect(errors).toEqual([]);
-  await page.getByRole('button', { name: 'Fechar dados 3D' }).click();
-  await expect(tray).toHaveCount(0);
+  await page.getByRole('button', { name: 'Mesa de dados 3D' }).click();
+  await expect(tray).toBeHidden();
   await expect(page.getByRole('log')).toContainText('2d6+3');
 });
 
-test('histórico e Realtime não disparam animação; retry só anima a confirmação e sair limpa o palco', async ({
+test('histórico e eventos fora do envio não animam; confirmação Realtime e retry não duplicam a animação', async ({
   page,
 }) => {
   await backend(page);
@@ -43,19 +46,26 @@ test('histórico e Realtime não disparam animação; retry só anima a confirma
   await page.goto('app.html#/chat');
   await expect(page.getByRole('log')).toContainText('Rolagem antiga');
   const tray = page.getByRole('region', { name: 'Dados 3D' });
-  await expect(tray).toHaveCount(0);
-  chat.publish(
-    chat.row(3, { tipo: 'rolagem', texto: '', rotulo: 'Outro jogador', resultado: result }),
-  );
+  await expect(tray).toHaveAttribute('data-phase', 'ociosa');
+  const external = chat.row(3, {
+    tipo: 'rolagem',
+    texto: '',
+    rotulo: 'Outro jogador',
+    resultado: result,
+  });
+  chat.rows.push(external);
+  chat.publish(external);
   await expect(page.getByRole('log')).toContainText('Outro jogador');
-  await expect(tray).toHaveCount(0);
+  await expect(tray).toHaveAttribute('data-phase', 'ociosa');
   chat.failAcknowledgement = true;
   await page.getByLabel('Mensagem ou comando de dados').fill('/r 2d6+3');
   await page.getByRole('button', { name: 'Enviar', exact: true }).click();
   await expect(page.getByRole('alert')).toContainText('confirmar', { timeout: 20000 });
-  await expect(tray).toHaveCount(0);
-  await page.getByRole('button', { name: 'Reenviar mesma tentativa' }).click();
   await expect(tray.locator('canvas')).toBeVisible();
+  await expect(tray).toHaveAttribute('data-phase', 'concluida');
+  await page.getByRole('button', { name: 'Reenviar mesma tentativa' }).click();
+  await expect(page.getByLabel('Mensagem ou comando de dados')).toHaveValue('');
+  await expect(tray).toHaveAttribute('data-phase', 'concluida');
   await expect(page.getByRole('log').getByText('2d6+3', { exact: true })).toHaveCount(1);
   await page.getByRole('button', { name: 'Sair', exact: true }).click();
   await expect(tray).toHaveCount(0);
@@ -83,7 +93,7 @@ test('ações da ficha também animam o resultado confirmado e context loss mant
   await expect(tray).toContainText('Visualização 3D indisponível');
   await expect(page.getByText('Ação enviada ao chat.')).toBeVisible();
   await page.getByRole('link', { name: 'Ver no chat' }).click();
-  await expect(tray).toHaveCount(0);
+  await expect(tray).toHaveAttribute('data-phase', 'ociosa');
   await expect(page.getByRole('log')).toContainText('Zephira · Espada longa');
 });
 
@@ -136,7 +146,7 @@ test('preferência desliga 3D, persiste e evita carregar o renderizador', async 
   await page.getByLabel('Mensagem ou comando de dados').fill('/r 2d6+3');
   await page.getByRole('button', { name: 'Enviar', exact: true }).click();
   await expect(page.getByRole('log')).toContainText('2d6+3');
-  await expect(page.getByRole('region', { name: 'Dados 3D' })).toHaveCount(0);
+  await expect(page.getByRole('region', { name: 'Dados 3D' }).locator('canvas')).toHaveCount(0);
   expect(models).toEqual([]);
 });
 
@@ -148,7 +158,7 @@ test('movimento reduzido e falha dos modelos preservam a rolagem no chat', async
   await page.getByLabel('Mensagem ou comando de dados').fill('/r 2d6+3');
   await page.getByRole('button', { name: 'Enviar', exact: true }).click();
   await expect(page.getByRole('log')).toContainText('2d6+3');
-  await expect(page.getByRole('region', { name: 'Dados 3D' })).toHaveCount(0);
+  await expect(page.getByRole('region', { name: 'Dados 3D' }).locator('canvas')).toHaveCount(0);
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.route('**/dice/models.json', (route) => route.abort());
   await page.getByLabel('Mensagem ou comando de dados').fill('/r 2d6+3');
@@ -204,5 +214,8 @@ test('desligar 3D durante envio pendente não reapresenta o resultado ao religar
   release();
   await expect(page.getByLabel('Mensagem ou comando de dados')).toHaveValue('');
   await page.getByLabel('Animar meus dados em 3D').check();
-  await expect(page.getByRole('region', { name: 'Dados 3D' })).toHaveCount(0);
+  await expect(page.getByRole('region', { name: 'Dados 3D' })).not.toHaveAttribute(
+    'data-phase',
+    'rolando',
+  );
 });

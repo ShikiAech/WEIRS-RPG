@@ -14,7 +14,7 @@
 .chat-room {
   border: 1px solid var(--border-fantasy);
   border-radius: 14px;
-  overflow: hidden;
+  overflow: clip;
   background: var(--bg-panel);
 }
 .chat-room-heading {
@@ -1371,43 +1371,88 @@ dialog::backdrop {
   display: block;
   margin-top: 6px;
 }
-.sheet-chat-feedback .dice-settings {
-  padding: 0 0 10px;
+.dice-accordion {
+  border-bottom: 1px solid var(--border-fantasy);
+  background: #151319;
+}
+.chat-room > .dice-accordion {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+}
+.sheet-chat-feedback .dice-accordion {
+  margin-bottom: 16px;
+  border: 1px solid var(--border-fantasy);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.dice-accordion-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  padding: 14px 24px;
+  border: 0;
+  background: #131114;
+  color: var(--gold-bright);
+  cursor: pointer;
+  text-align: left;
+  font-family: Cinzel, serif;
+  font-size: 13px;
+}
+.dice-accordion-toggle > span:last-child {
+  font-family: Inter, sans-serif;
+  font-size: 11px;
+  color: var(--text-soft);
+}
+.dice-accordion-symbol {
+  color: var(--gold);
+  margin-right: 8px;
+}
+.dice-accordion-toggle:hover {
+  background: #1c1814;
+}
+.dice-accordion-toggle:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -3px;
 }
 .dice-tray {
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  width: min(540px, calc(100vw - 40px));
-  z-index: 30;
-  pointer-events: none;
-  border: 1px solid var(--gold-dark);
-  border-radius: 12px;
   overflow: hidden;
   background: #151319;
-  box-shadow:
-    0 20px 70px #000a,
-    0 0 30px #d4af3712;
 }
-.dice-tray-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 16px;
-  border-bottom: 1px solid var(--border-fantasy);
+.dice-presentation {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
 }
-.dice-tray-heading .eyebrow {
-  margin: 0;
-  font-size: 10px;
+.dice-idle {
+  min-height: 150px;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 4px;
+  padding: 16px;
+  color: var(--text-soft);
+  background: radial-gradient(ellipse at center, #d4af370a, transparent 65%);
 }
-.dice-tray-heading button {
-  pointer-events: auto;
-  padding: 6px;
+.dice-idle > span {
+  font-size: 32px;
+  color: var(--gold-dark);
+}
+.dice-idle p {
+  margin: 4px 0;
+  font-family: Cinzel, serif;
+}
+.dice-idle small {
+  font-size: 12px;
+}
+.dice-rolling {
   color: var(--gold-bright);
+  font-family: Cinzel, serif;
+  font-size: 13px;
 }
 .dice-scene {
-  height: 245px;
+  height: 220px;
   width: 100%;
 }
 .dice-scene canvas {
@@ -1417,7 +1462,9 @@ dialog::backdrop {
   display: grid;
   gap: 5px;
   padding: 12px 18px 16px;
-  border-top: 1px solid var(--border-fantasy);
+  align-content: center;
+  border-left: 1px solid var(--border-fantasy);
+  min-height: 150px;
 }
 .dice-confirmation strong {
   color: var(--gold-bright);
@@ -1435,19 +1482,31 @@ dialog::backdrop {
 }
 .dice-values {
   margin: 2px 0 0;
-  max-height: 54px;
+  max-height: 84px;
   overflow: auto;
 }
-@media (max-width: 600px) {
-  .dice-tray {
-    right: 10px;
-    bottom: 10px;
-    width: calc(100vw - 20px);
+@media (max-width: 760px) {
+  .dice-presentation {
+    grid-template-columns: 1fr;
+  }
+  .dice-accordion-toggle {
+    padding: 14px 16px;
+    font-size: 12px;
+  }
+  .dice-confirmation {
+    border-left: 0;
+    border-top: 1px solid var(--border-fantasy);
+    min-height: 80px;
+    padding: 10px 14px;
+    gap: 3px;
   }
   .dice-scene {
-    height: 190px;
+    height: min(145px, 18vh);
   }
   .dice-confirmation strong {
     font-size: 15px;
+  }
+  .dice-values {
+    max-height: 45px;
   }
 }

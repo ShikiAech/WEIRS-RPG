@@ -4,7 +4,7 @@ import type { SheetRecord } from '../../../../packages/contracts/sheets';
 import type { ChatCommand, RollMode, SheetAction } from '../../../../packages/contracts/chat';
 import { supabase } from '../../lib/supabase';
 import { createChatRepository, chatError } from '../../lib/chat';
-import { DiceSettings, useDice3D } from '../dice/Dice3D';
+import { DicePanel, useDice3D } from '../dice/Dice3D';
 
 type ActionRequest = { entrada: string; acao: SheetAction; modo: RollMode };
 const context = createContext<{
@@ -115,7 +115,7 @@ export function SheetChat({
     >
       {record && repository && (
         <div className="sheet-chat-feedback">
-          <DiceSettings />
+          <DicePanel />
           <p className="muted">
             {disabled
               ? 'Salve as alterações antes de usar os dados da ficha.'

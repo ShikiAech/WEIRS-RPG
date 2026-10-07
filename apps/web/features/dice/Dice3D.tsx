@@ -1,7 +1,11 @@
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
+  useId,
+  useMemo,
+  useReducer,
   useRef,
   useState,
   useSyncExternalStore,
@@ -9,14 +13,21 @@ import {
 import type { ReactNode } from 'react';
 import type { ChatMessage } from '../../../../packages/contracts/chat';
 import { dicePlan } from './roll-plan';
-import type { DicePlan } from './roll-plan';
+import { concealedResults, initialRevealState, revealReducer } from './reveal-state';
+import type { Presentation } from './reveal-state';
 
 const preferenceKey = 'weirs:dice3d';
+const openKey = 'weirs:dice3d:open';
 const context = createContext({
   enabled: true,
   reduced: false,
+  open: true,
+  current: null as Presentation | null,
+  hidden: new Set<string>() as ReadonlySet<string>,
   toggle: (_value: boolean) => {},
+  expand: (_value: boolean) => {},
   show: (_message: ChatMessage) => {},
+  finish: (_id: string) => {},
   clear: () => {},
 });
 const motion = () => window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -25,19 +36,29 @@ const subscribeMotion = (notify: () => void) => {
   query.addEventListener('change', notify);
   return () => query.removeEventListener('change', notify);
 };
+function readPreference(key: string) {
+  try {
+    return localStorage.getItem(key) !== 'off';
+  } catch {
+    return true;
+  }
+}
+function storePreference(key: string, value: boolean) {
+  try {
+    localStorage.setItem(key, value ? 'on' : 'off');
+  } catch {
+    /* navegador privado */
+  }
+}
 
 export function DiceProvider({ children }: { children: ReactNode }) {
-  const [enabled, setEnabled] = useState(() => {
-    try {
-      return localStorage.getItem(preferenceKey) !== 'off';
-    } catch {
-      return true;
-    }
-  });
+  const [enabled, setEnabled] = useState(() => readPreference(preferenceKey));
+  const [open, setOpen] = useState(() => readPreference(openKey));
   const reduced = useSyncExternalStore(subscribeMotion, () => motion().matches);
-  const enabledNow = useRef(enabled);
-  enabledNow.current = enabled;
-  const [active, setActive] = useState<{ message: ChatMessage; plan: DicePlan } | null>(null);
+  const options = useRef({ enabled, open });
+  options.current = { enabled, open };
+  const [state, dispatch] = useReducer(revealReducer, initialRevealState);
+  const hidden = useMemo(() => concealedResults(state), [state]);
   const seen = useRef(new Set<string>());
   const mounted = useRef(true);
   useEffect(
@@ -47,33 +68,48 @@ export function DiceProvider({ children }: { children: ReactNode }) {
     [],
   );
   useEffect(() => {
-    if (!enabled || reduced) setActive(null);
-  }, [enabled, reduced]);
-  function show(message: ChatMessage) {
+    if (reduced) dispatch({ type: 'release' });
+  }, [reduced]);
+  const show = useCallback((message: ChatMessage) => {
     if (!mounted.current || seen.current.has(message.id)) return;
     seen.current.add(message.id);
     if (seen.current.size > 500) seen.current.delete(seen.current.values().next().value!);
-    // A confirmação pode chegar depois de o usuário mudar a preferência.
-    if (!enabledNow.current || motion().matches || !message.resultado) return;
+    if (!options.current.enabled || !options.current.open || motion().matches || !message.resultado)
+      return;
     const plan = dicePlan(message.resultado);
-    if (!plan.groups.length) return; // Texto, constantes e anúncio de CD não têm dados para animar.
-    setActive({ message, plan });
-  }
+    if (!plan.dice.length) return; // Constantes, CD e faces sem modelo são reveladas imediatamente.
+    dispatch({ type: 'show', presentation: { message, plan, finished: false } });
+  }, []);
+  const finish = useCallback((id: string) => dispatch({ type: 'finish', id }), []);
+  const clear = useCallback(() => dispatch({ type: 'clear' }), []);
   function toggle(value: boolean) {
+    options.current.enabled = value;
     setEnabled(value);
-    // Somente a preferência visual é persistida; mensagens/resultados ficam em memória.
-    try {
-      localStorage.setItem(preferenceKey, value ? 'on' : 'off');
-    } catch {
-      /* navegador privado */
-    }
+    storePreference(preferenceKey, value);
+    if (!value) dispatch({ type: 'release' });
+  }
+  function expand(value: boolean) {
+    options.current.open = value;
+    setOpen(value);
+    storePreference(openKey, value);
+    if (!value) dispatch({ type: 'release' });
   }
   return (
-    <context.Provider value={{ enabled, reduced, toggle, show, clear: () => setActive(null) }}>
+    <context.Provider
+      value={{
+        enabled,
+        reduced,
+        open,
+        current: state.current,
+        hidden,
+        toggle,
+        expand,
+        show,
+        finish,
+        clear,
+      }}
+    >
       {children}
-      {active && enabled && !reduced && (
-        <DiceTray key={active.message.id} {...active} close={() => setActive(null)} />
-      )}
     </context.Provider>
   );
 }
@@ -95,74 +131,126 @@ export function DiceSettings() {
   );
 }
 
-function DiceTray({
-  message,
-  plan,
-  close,
+export function DicePanel() {
+  const dice = useDice3D();
+  const id = useId();
+  return (
+    <section className="dice-accordion">
+      <button
+        type="button"
+        className="dice-accordion-toggle"
+        aria-expanded={dice.open}
+        aria-controls={id}
+        aria-label="Mesa de dados 3D"
+        onClick={() => dice.expand(!dice.open)}
+      >
+        <span>
+          <span className="dice-accordion-symbol" aria-hidden="true">
+            ✦
+          </span>{' '}
+          Mesa de dados 3D
+        </span>
+        <span aria-hidden="true">{dice.open ? 'Recolher −' : 'Expandir +'}</span>
+      </button>
+      <div
+        id={id}
+        role="region"
+        aria-label="Dados 3D"
+        hidden={!dice.open}
+        className="dice-tray"
+        data-phase={!dice.current ? 'ociosa' : dice.current.finished ? 'concluida' : 'rolando'}
+      >
+        {dice.open && (
+          <>
+            <DiceSettings />
+            {dice.current ? (
+              <DiceScene
+                key={dice.current.message.id}
+                presentation={dice.current}
+                animate={dice.enabled && !dice.reduced}
+                finish={dice.finish}
+              />
+            ) : (
+              <div className="dice-idle">
+                <span aria-hidden="true">✧</span>
+                <p>A mesa está pronta.</p>
+                <small>Envie uma rolagem para lançar os dados aqui.</small>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function DiceScene({
+  presentation,
+  animate,
+  finish,
 }: {
-  message: ChatMessage;
-  plan: DicePlan;
-  close: () => void;
+  presentation: Presentation;
+  animate: boolean;
+  finish: (id: string) => void;
 }) {
+  const { message, plan, finished } = presentation;
   const host = useRef<HTMLDivElement>(null);
-  const [phase, setPhase] = useState('carregando');
   const [error, setError] = useState('');
-  const closeRef = useRef(close);
-  closeRef.current = close;
   useEffect(() => {
+    if (!animate || error) return;
     const controller = new AbortController();
     let cleanup: (() => void) | undefined;
-    let timer: ReturnType<typeof setTimeout>;
-    function finish() {
+    let timeout: ReturnType<typeof setTimeout>;
+    function done() {
       if (controller.signal.aborted) return;
-      setPhase('concluida');
-      clearTimeout(timer);
-      timer = setTimeout(() => closeRef.current(), 4500);
+      clearTimeout(timeout);
+      finish(message.id);
     }
     function failure() {
       if (controller.signal.aborted) return;
-      cleanup?.();
       setError('Visualização 3D indisponível. O resultado está confirmado no chat.');
-      finish();
+      done();
+      controller.abort();
+      cleanup?.();
     }
-    if (!plan.dice.length) finish();
-    else {
-      import('./renderer')
-        .then(async ({ renderDice }) => {
-          if (controller.signal.aborted) return;
-          setPhase('rolando');
-          cleanup = await renderDice(host.current!, plan, controller.signal, finish, failure);
-          if (controller.signal.aborted) cleanup?.();
-        })
-        .catch(failure);
-    }
-    const escape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeRef.current();
-    };
-    window.addEventListener('keydown', escape);
+    // Falhas de download/renderização e abas em segundo plano nunca retêm o resultado.
+    timeout = setTimeout(failure, 12000);
+    import('./renderer')
+      .then(async ({ renderDice }) => {
+        if (controller.signal.aborted) return;
+        cleanup = await renderDice(
+          host.current!,
+          plan,
+          controller.signal,
+          done,
+          failure,
+          !finished,
+        );
+        if (controller.signal.aborted) cleanup?.();
+        if (finished) clearTimeout(timeout);
+      })
+      .catch(failure);
     return () => {
       controller.abort();
       cleanup?.();
-      clearTimeout(timer);
-      window.removeEventListener('keydown', escape);
+      clearTimeout(timeout);
     };
-  }, [plan]);
+    // Concluir mantém os modelos parados; reabrir monta uma pose estática.
+  }, [message.id, plan, animate, finish]);
   return (
-    <section className="dice-tray" role="region" aria-label="Dados 3D" data-phase={phase}>
-      <div className="dice-tray-heading">
-        <span className="eyebrow">
-          {phase === 'concluida' ? 'Destino revelado' : 'Dados em movimento'}
-        </span>
-        <button className="text-button" aria-label="Fechar dados 3D" onClick={close}>
-          Fechar ×
-        </button>
-      </div>
-      {!!plan.dice.length && !error && <div className="dice-scene" ref={host} aria-hidden="true" />}
+    <div className="dice-presentation">
+      {animate && !error && <div className="dice-scene" ref={host} aria-hidden="true" />}
       <div className="dice-confirmation" aria-live="polite">
-        <strong>Resultado confirmado: {message.resultado?.total}</strong>
+        <span className="eyebrow">{finished ? 'Destino revelado' : 'Dados em movimento'}</span>
         <span>{message.rotulo || message.resultado?.expressao}</span>
-        {phase === 'carregando' && <small>Preparando os dados…</small>}
-        {phase === 'concluida' && <p className="dice-values">{plan.groups.join(' · ')}</p>}
+        {finished ? (
+          <>
+            <strong>Resultado confirmado: {message.resultado?.total}</strong>
+            <p className="dice-values">{plan.groups.join(' · ')}</p>
+          </>
+        ) : (
+          <p className="dice-rolling">Rolando dados…</p>
+        )}
         {plan.omitted > 0 && (
           <small>Limite de 20 modelos por animação. Todos os dados estão no chat.</small>
         )}
@@ -173,6 +261,6 @@ function DiceTray({
         )}
         {error && <small>{error}</small>}
       </div>
-    </section>
+    </div>
   );
 }

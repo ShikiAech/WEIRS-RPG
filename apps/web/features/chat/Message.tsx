@@ -1,4 +1,5 @@
 import type { ChatMessage } from '../../../../packages/contracts/chat';
+import { useDice3D } from '../dice/Dice3D';
 
 const actionNames = {
   ataque: 'Ataque',
@@ -8,6 +9,7 @@ const actionNames = {
 };
 export function Message({ message }: { message: ChatMessage }) {
   const result = message.resultado;
+  const concealed = useDice3D().hidden.has(message.id);
   return (
     <article className={'chat-message ' + (result ? 'chat-roll' : '')}>
       <header>
@@ -33,7 +35,7 @@ export function Message({ message }: { message: ChatMessage }) {
               </span>
               <h3>{message.rotulo || 'Dados'}</h3>
             </div>
-            {result?.total !== undefined && (
+            {!concealed && result?.total !== undefined && (
               <div className="roll-total">
                 <small>Total</small>
                 <strong>{result.total}</strong>
@@ -41,12 +43,13 @@ export function Message({ message }: { message: ChatMessage }) {
             )}
           </div>
           {result?.expressao && <code className="roll-expression">{result.expressao}</code>}
-          {result?.cd !== undefined && (
+          {concealed && <p className="dice-rolling">Rolando dados…</p>}
+          {!concealed && result?.cd !== undefined && (
             <p>
               CD de resistência: <strong>{result.cd}</strong>
             </p>
           )}
-          {result?.termos && (
+          {!concealed && result?.termos && (
             <div className="dice-breakdown" aria-label="Detalhamento dos dados">
               {result.termos.map((term, i) => (
                 <div className="dice-term" key={i}>
