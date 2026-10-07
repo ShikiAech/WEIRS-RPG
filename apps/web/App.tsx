@@ -5,6 +5,7 @@ import { supabase, configurationError, completeOAuth, signIn } from './lib/supab
 import { Compendium } from './features/Compendium';
 import { Campaigns } from './features/Campaigns';
 import { Sheets } from './features/Sheets';
+import { Chat } from './features/Chat';
 
 export function App() {
   const [route, setRoute] = useState(window.location.hash.slice(1) || '/campanhas');
@@ -70,9 +71,11 @@ export function App() {
   }
   const section = route.startsWith('/fichas')
     ? 'fichas'
-    : route.startsWith('/compendio')
-      ? 'compendio'
-      : 'campanhas';
+    : route.startsWith('/chat')
+      ? 'chat'
+      : route.startsWith('/compendio')
+        ? 'compendio'
+        : 'campanhas';
   return (
     <div className="app-shell">
       <a
@@ -94,6 +97,7 @@ export function App() {
           {[
             ['campanhas', 'Campanhas'],
             ['fichas', 'Fichas'],
+            ['chat', 'Chat'],
             ['compendio', 'Compêndio'],
           ].map(([key, label]) => (
             <a key={key} href={`#/${key}`} aria-current={section === key ? 'page' : undefined}>
@@ -121,6 +125,9 @@ export function App() {
         {section === 'compendio' && <Compendium />}
         {section === 'fichas' && (
           <Sheets key={user?.id || 'visitante'} route={route} user={user} authReady={authReady} />
+        )}
+        {section === 'chat' && (
+          <Chat key={user?.id || 'visitante'} user={user} authReady={authReady} route={route} />
         )}
       </main>
       <footer className="app-footer">

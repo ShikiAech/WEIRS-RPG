@@ -17,6 +17,7 @@ import { asset } from '../lib/paths';
 import { SheetForm } from './sheets/SheetForm';
 import { readSheetFile } from '../lib/sheet-file';
 import { fieldLabel } from './sheets/fields';
+import { SheetChat } from './sheets/SheetChat';
 
 type Draft = { name: string; content: SheetContent; campaignId: string };
 const drafts = new Map<string, Draft & { base?: SheetRecord; requestId?: string }>();
@@ -553,13 +554,15 @@ function SheetEditor({
             )}
           </div>
         </section>
-        <SheetForm
-          content={draft.content}
-          onChange={(content) => edit({ ...draft, content })}
-          catalog={catalog}
-          readOnly={!canEdit}
-          errors={error?.fields || []}
-        />
+        <SheetChat record={record} disabled={dirty || saving || !canEdit || Boolean(error)}>
+          <SheetForm
+            content={draft.content}
+            onChange={(content) => edit({ ...draft, content })}
+            catalog={catalog}
+            readOnly={!canEdit}
+            errors={error?.fields || []}
+          />
+        </SheetChat>
       </div>
       {record?.proprietario_id === user?.id && canEdit && (
         <button className="text-button danger delete-sheet" disabled={saving} onClick={remove}>

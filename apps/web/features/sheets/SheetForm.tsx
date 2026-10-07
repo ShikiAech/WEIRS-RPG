@@ -10,6 +10,7 @@ import type { SheetContent } from '../../../../packages/contracts/sheets';
 import type { ContentSummary } from '../../../../packages/contracts/content';
 import { identity, combat, story, training, lists, number, attributeOptions } from './fields';
 import type { FieldSpec, ListSpec } from './fields';
+import { SheetActionButtons } from './SheetChat';
 
 type Tree = Record<string, unknown>;
 function get(content: SheetContent, path: string): unknown {
@@ -178,6 +179,7 @@ export function SheetForm({
             <div className="field-grid">
               {spec.fields.map((item) => field(item, `${spec.path}.${i}.${item.key}`))}
             </div>
+            <SheetActionButtons path={spec.path} entry={row} />
             {spec.path === 'conjuracao.perfis' && (
               <p className="calculation">
                 CD {calc.perfis[String(row.id)]?.cd} · Ataque{' '}

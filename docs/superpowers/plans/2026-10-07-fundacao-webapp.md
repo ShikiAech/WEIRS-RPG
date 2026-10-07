@@ -80,7 +80,7 @@ IDs de variantes com nomes repetidos não trocam quando cartões são reordenado
 
 ### Próximos marcos
 
-1. Configurar o Supabase e validar Google/CRUD com as contas da mesa.
-2. Chat persistente e rolagens calculadas por uma função de backend, com autorização por campanha e comandos a partir das fichas.
+1. Supabase/Google configurados e funcionamento confirmado pelo usuário em 07/10/2026.
+2. Chat persistente e rolagens: implementação em `2026-10-07-chat-dados.md`, ativação pelo guia `docs/configuracao-chat.md`.
 3. Uploads privados com limites por arquivo/campanha, validação e cópias dos objetos.
 4. Mapas, tokens vinculados aos personagens e sincronização entre mapa, ficha e chat.

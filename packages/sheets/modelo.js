@@ -123,7 +123,7 @@ export function criarConteudo() {
       vulnerabilidades: '',
       sentidos: '',
     },
-    ataques: [],
+    ataques: /** @type {Array<typeof ENTRADAS.ataques & {id: string}>} */ ([]),
     caracteristicas: [],
     tracos: [],
     talentos: [],
@@ -137,11 +137,11 @@ export function criarConteudo() {
       ferramentas: '',
     },
     conjuracao: {
-      perfis: [],
+      perfis: /** @type {Array<typeof ENTRADAS['conjuracao.perfis'] & {id: string}>} */ ([]),
       espacos: Array.from({ length: 9 }, (_, i) => ({ circulo: i + 1, total: 0, gastos: 0 })),
       pacto: { circulo: 1, total: 0, gastos: 0 },
     },
-    magias: [],
+    magias: /** @type {Array<typeof ENTRADAS.magias & {id: string}>} */ ([]),
     inventario: {
       itens: [],
       moedas: { pc: 0, pp: 0, pe: 0, po: 0, pl: 0 },
