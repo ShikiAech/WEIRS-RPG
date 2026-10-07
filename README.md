@@ -4,6 +4,21 @@
 
 Um aplicativo web para recordação de campanhas, guia de criação básico e conteúdo traduzido de D&D 2024.
 
+## Webapp em desenvolvimento
+
+A nova área em `app.html` reúne campanhas, compêndio pesquisável e fichas completas com homebrew. As páginas e imagens originais continuam disponíveis. A persistência das fichas usa PostgreSQL/Supabase, com acesso por campanha e login Google; sem configuração, é possível experimentar uma ficha temporária e importar/exportar JSON.
+
+```powershell
+npm ci
+npm run dev
+```
+
+Abra `http://127.0.0.1:5173/WEIRS-RPG/app.html`. Consulte o [guia de configuração da mesa](docs/configuracao-supabase.md) para instalar o banco, configurar o Google e adicionar participantes.
+
+Verificações: `npm test`, `npm run build` e `npm run test:browser` (instale Chromium com `npx playwright install chromium`). O build gera `dist/` e verifica que todas as fontes legadas foram preservadas. O compêndio é reimportado a partir do HTML durante o build; o JSON gerado não entra no Git.
+
+Esta primeira etapa entrega a fundação e as fichas. Chat com rolagens, uploads e mapas com tokens seguem no plano de evolução. Não houve publicação ou provisionamento de serviços externos nesta etapa.
+
 ## 📋 Changelog
 
 ### Versão 1.16.2
