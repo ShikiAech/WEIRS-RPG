@@ -12,6 +12,7 @@ import { createRepository } from '../lib/repository';
 import { createChatRepository, chatError } from '../lib/chat';
 import { catchUp, commandFromText, mergeMessages } from '../lib/chat-state';
 import { Message } from './chat/Message';
+import { DiceSettings, useDice3D } from './dice/Dice3D';
 
 export function Chat({
   user,
@@ -138,6 +139,7 @@ function Room({
   repository: ChatRepository;
   canSend: boolean;
 }) {
+  const dice = useDice3D();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [status, setStatus] = useState<ChatStatus>('conectando');
   const [loading, setLoading] = useState(true);
@@ -178,6 +180,7 @@ function Room({
     const failure = chatError(error);
     if (['ACESSO', 'SESSAO', 'WC002'].includes(failure.code)) {
       forbidden.current = true;
+      dice.clear();
       setMessages([]);
       setAccessLost(true);
       setHasOlder(false);
@@ -320,8 +323,9 @@ function Room({
     setSendError('');
     try {
       const row = await repository.send(campaign.id, next.id, next.command);
-      if (mounted.current) {
+      if (mounted.current && !forbidden.current) {
         add([row]);
+        dice.show(row);
         setAttempt(null);
         setText('');
         setSendError('');
@@ -352,6 +356,7 @@ function Room({
                 : 'Reconectando · sincronização periódica'}
         </span>
       </div>
+      <DiceSettings />
       {syncError && (
         <div className="notice error" role="alert">
           {syncError}

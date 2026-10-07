@@ -15,7 +15,8 @@
   "dependencies": {
     "@supabase/supabase-js": "2.117.3",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "three": "0.186.1"
   },
   "devDependencies": {
     "@electric-sql/pglite": "0.5.8",
@@ -24,6 +25,7 @@
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "@types/sanitize-html": "2.16.2",
+    "@types/three": "0.186.0",
     "@vitejs/plugin-react": "6.1.2",
     "cheerio": "1.2.0",
     "prettier": "3.9.9",

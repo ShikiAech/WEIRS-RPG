@@ -103,6 +103,22 @@ Se aparecer **Reenviar mesma tentativa** ou **Reenviar mesma ação**, use esse 
 
 O chat recupera mensagens depois de reconectar e oferece **Carregar mensagens anteriores**. Quando o WebSocket estiver indisponível, há sincronização periódica enquanto a página está visível. O indicador mostra esse estado. Se a leitura falhar, use **Atualizar histórico**; o retorno da conexão também tenta recuperar a conversa.
 
+## 7. Dados em 3D
+
+**Animar meus dados em 3D** fica ligado por padrão no chat e nas fichas. Ao enviar `/r` ou `/roll`, ou usar um botão de ataque/dano que realmente lança dados, a bandeja aparece depois da confirmação do servidor. Experimente `/r 2d20kh1+5` ou `/r 2d6+1d4+3`.
+
+A animação termina nos valores já gravados no chat. Dados descartados usam números cinza; o resumo identifica os descartes e conserva o total com os modificadores. Um d100 aparece como dois dados: dezenas e unidades. Nas unidades, a face `10` representa zero; `00` + `10` representa 100. Texto, anúncio de CD e expressões somente com constantes não abrem a bandeja.
+
+Você pode fechar a bandeja com **Fechar ×** ou Escape. Ela também desaparece automaticamente, ao mudar de página/campanha ou ao sair da conta. A animação não bloqueia o envio seguinte; uma nova rolagem confirmada substitui a anterior. Só os seus envios confirmados acionam o 3D: histórico, reconexão e eventos de outros participantes continuam no chat sem repetir animações.
+
+Para economizar GPU ou evitar movimento, desmarque a opção. Essa preferência fica salva neste navegador. A preferência de **movimento reduzido** do dispositivo pausa as animações automaticamente. Falha dos modelos ou ausência/perda de WebGL não impede a rolagem nem muda seu resultado.
+
+Os modelos cobrem d4, d6, d8, d10, d12, d20 e o par percentual. A cena exibe até **20 modelos**, preservando pares percentuais inteiros. Faces homebrew fora desse conjunto e dados excedentes permanecem no resultado completo do chat.
+
+Não há nova migração ou configuração no Supabase. Os modelos e texturas são arquivos do próprio app, copiados automaticamente de `public/dice` para `dist/dice` pelo build. O módulo Three.js é carregado sob demanda. Publique o `dist` completo, incluindo a pasta `dice` e os chunks em `assets`.
+
+Modelos gratuitos: [Dice Themes, de Frank Ali / 3D Dice](https://github.com/3d-dice/dice-themes), sob [licença MIT](https://github.com/3d-dice/dice-themes/blob/main/LICENSE). Renderização: [Three.js](https://github.com/mrdoob/three.js), também MIT. Origem, revisão, hashes e textos das licenças estão em `public/dice/SOURCES.md`, `LICENSE` e `THREE-LICENSE`. A animação usa trajetórias e rotações visuais; a aleatoriedade da partida continua exclusivamente no servidor.
+
 ## Problemas comuns
 
 | Sintoma                                            | O que conferir                                                                                                |
@@ -117,5 +133,7 @@ O chat recupera mensagens depois de reconectar e oferece **Carregar mensagens an
 | Fórmula de dano rejeitada                          | Use somente dados, constantes, soma/subtração e kh/kl, dentro dos limites acima.                              |
 
 ## Evidências locais
+
+Dados 3D: 21 testes de lógica/banco e 50 testes de navegador passaram, incluindo desktop e Pixel 7. Os testes carregam os modelos locais e o renderizador WebGL real; cobrem todas as orientações do catálogo, percentuais, descartes, preferência visual, confirmação atrasada, histórico sem animação, ações da ficha e ausência/perda de WebGL. Capturas em desktop e celular foram inspecionadas. O build preservou os 86 arquivos originais e separou o renderizador em um chunk carregado sob demanda. O Vite ainda avisa sobre chunks maiores que 500 kB; o chunk 3D tem aproximadamente 132 kB comprimidos e não é baixado antes de uma animação.
 
 Os testes de banco usam PostgreSQL/PGlite real para permissões, dados, limites, versões e reenvio. Os testes de navegador usam o SDK Supabase real com HTTP/WebSocket simulados, incluindo entrega entre duas janelas e reconexão. A instalação da migração e o teste com duas contas no seu Supabase hospedado são os passos de ativação desta entrega; não foram executados automaticamente nesta sessão.

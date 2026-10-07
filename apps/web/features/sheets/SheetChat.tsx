@@ -4,6 +4,7 @@ import type { SheetRecord } from '../../../../packages/contracts/sheets';
 import type { ChatCommand, RollMode, SheetAction } from '../../../../packages/contracts/chat';
 import { supabase } from '../../lib/supabase';
 import { createChatRepository, chatError } from '../../lib/chat';
+import { DiceSettings, useDice3D } from '../dice/Dice3D';
 
 type ActionRequest = { entrada: string; acao: SheetAction; modo: RollMode };
 const context = createContext<{
@@ -21,6 +22,7 @@ export function SheetChat({
   disabled: boolean;
   children: ReactNode;
 }) {
+  const dice = useDice3D();
   const repository = useMemo(() => (supabase ? createChatRepository(supabase) : null), []);
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState('');
@@ -80,8 +82,9 @@ export function SheetChat({
     setMessage('');
     setError('');
     try {
-      await repository.send(record.campanha_id, next.id, next.command);
+      const row = await repository.send(record.campanha_id, next.id, next.command);
       if (mounted.current) {
+        dice.show(row);
         setAttempt(null);
         setMessage('Ação enviada ao chat.');
       }
@@ -112,6 +115,7 @@ export function SheetChat({
     >
       {record && repository && (
         <div className="sheet-chat-feedback">
+          <DiceSettings />
           <p className="muted">
             {disabled
               ? 'Salve as alterações antes de usar os dados da ficha.'
