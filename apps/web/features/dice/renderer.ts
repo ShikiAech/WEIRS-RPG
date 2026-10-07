@@ -81,7 +81,7 @@ export async function renderDice(
   floor.rotation.x = -Math.PI / 2;
   floor.receiveShadow = true;
   scene.add(floor);
-  const columns = Math.min(5, Math.ceil(Math.sqrt(plan.dice.length * 1.7)));
+  const columns = Math.min(5, Math.ceil(Math.sqrt(plan.dice.length)));
   const rows = Math.ceil(plan.dice.length / columns);
   const spacing = 2.6;
   const dice = (() => {

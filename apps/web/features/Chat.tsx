@@ -202,6 +202,7 @@ function Room({
     setSyncError(failure.message);
   }
   useLayoutEffect(() => {
+    // O histórico entra no DOM ao terminar o carregamento, mesmo sem mudar messages.
     const node = log.current;
     if (!node) return;
     if (scroll.current.prependHeight) {
@@ -211,7 +212,7 @@ function Room({
       node.scrollTop = node.scrollHeight;
       setNewBelow(false);
     } else setNewBelow(true);
-  }, [messages, dice.hidden]);
+  }, [messages, dice.hidden, loading]);
   useEffect(() => {
     let active = true,
       ready = false,
@@ -374,7 +375,6 @@ function Room({
                 : 'Reconectando · sincronização periódica'}
         </span>
       </div>
-      <DicePanel />
       {syncError && (
         <div className="notice error" role="alert">
           {syncError}
@@ -410,7 +410,11 @@ function Room({
             <p>Envie uma mensagem ou role os primeiros dados da sessão.</p>
           </div>
         ) : (
-          messages.map((m) => <Message key={m.id} message={m} />)
+          <div className="chat-messages">
+            {messages.map((m) => (
+              <Message key={m.id} message={m} />
+            ))}
+          </div>
         )}
       </div>
       {newBelow && (
@@ -425,102 +429,105 @@ function Room({
           Ir para mensagens recentes ↓
         </button>
       )}
-      <div className="chat-composer">
-        <div className="quick-dice" aria-label="Dados rápidos">
-          {[4, 6, 8, 10, 12, 20, 100].map((faces) => (
+      <div className="chat-controls">
+        <DicePanel />
+        <div className="chat-composer">
+          <div className="quick-dice" aria-label="Dados rápidos">
+            {[4, 6, 8, 10, 12, 20, 100].map((faces) => (
+              <button
+                key={faces}
+                type="button"
+                disabled={disabled || sending || !!attempt}
+                onClick={() => setText('/r 1d' + faces)}
+              >
+                d{faces}
+              </button>
+            ))}
             <button
-              key={faces}
               type="button"
               disabled={disabled || sending || !!attempt}
-              onClick={() => setText('/r 1d' + faces)}
+              onClick={() => setText('/r 2d20kh1')}
             >
-              d{faces}
-            </button>
-          ))}
-          <button
-            type="button"
-            disabled={disabled || sending || !!attempt}
-            onClick={() => setText('/r 2d20kh1')}
-          >
-            Vantagem
-          </button>
-          <button
-            type="button"
-            disabled={disabled || sending || !!attempt}
-            onClick={() => setText('/r 2d20kl1')}
-          >
-            Desvantagem
-          </button>
-        </div>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            void send();
-          }}
-        >
-          <label htmlFor="chat-message-input">Mensagem ou comando de dados</label>
-          <textarea
-            id="chat-message-input"
-            rows={2}
-            maxLength={2000}
-            placeholder="Conte sua ação… ou /r 1d20+5"
-            value={text}
-            disabled={disabled || sending || !!attempt}
-            onChange={(e) => setText(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
-                e.preventDefault();
-                void send();
-              }
-            }}
-          />
-          <div className="composer-footer">
-            <small>
-              {!canSend
-                ? 'Você acompanha esta campanha como espectador.'
-                : 'Enter envia · Shift+Enter quebra a linha'}
-            </small>
-            <button className="button" disabled={disabled || sending || !!attempt}>
-              {sending ? 'Enviando…' : 'Enviar'}
-            </button>
-          </div>
-        </form>
-        {sendError && (
-          <div className="notice error" role="alert">
-            {sendError}
-          </div>
-        )}
-        {attempt && !sending && (
-          <div className="retry-command">
-            <button className="button secondary" disabled={disabled} onClick={() => void send()}>
-              Reenviar mesma tentativa
+              Vantagem
             </button>
             <button
-              className="text-button"
-              onClick={() => {
-                setAttempt(null);
-                pendingSend.current = false;
-                setSendError('');
-              }}
+              type="button"
+              disabled={disabled || sending || !!attempt}
+              onClick={() => setText('/r 2d20kl1')}
             >
-              Liberar nova mensagem
+              Desvantagem
             </button>
-            <small>
-              Uma resposta perdida pode já estar no histórico. Reenvie para recuperar o mesmo
-              resultado.
-            </small>
           </div>
-        )}
-        <details className="dice-help">
-          <summary>Como rolar dados</summary>
-          <p>
-            Use <code>/r 1d20+5</code>, <code>/roll 2d6+1d4-2</code> ou <code>/r 4d6kh3</code>.{' '}
-            <code>kh</code> mantém os maiores; <code>kl</code>, os menores. Até 100 dados por
-            rolagem e faces de 2 a 1000. Resultados são calculados no servidor e compartilhados com
-            a campanha.
-          </p>
-          <p>Ataques e magias também podem ser enviados pelos botões das fichas salvas.</p>
-        </details>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              void send();
+            }}
+          >
+            <label htmlFor="chat-message-input">Mensagem ou comando de dados</label>
+            <textarea
+              id="chat-message-input"
+              rows={2}
+              maxLength={2000}
+              placeholder="Conte sua ação… ou /r 1d20+5"
+              value={text}
+              disabled={disabled || sending || !!attempt}
+              onChange={(e) => setText(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
+                  e.preventDefault();
+                  void send();
+                }
+              }}
+            />
+            <div className="composer-footer">
+              <small>
+                {!canSend
+                  ? 'Você acompanha esta campanha como espectador.'
+                  : 'Enter envia · Shift+Enter quebra a linha'}
+              </small>
+              <button className="button" disabled={disabled || sending || !!attempt}>
+                {sending ? 'Enviando…' : 'Enviar'}
+              </button>
+            </div>
+          </form>
+          {sendError && (
+            <div className="notice error" role="alert">
+              {sendError}
+            </div>
+          )}
+          {attempt && !sending && (
+            <div className="retry-command">
+              <button className="button secondary" disabled={disabled} onClick={() => void send()}>
+                Reenviar mesma tentativa
+              </button>
+              <button
+                className="text-button"
+                onClick={() => {
+                  setAttempt(null);
+                  pendingSend.current = false;
+                  setSendError('');
+                }}
+              >
+                Liberar nova mensagem
+              </button>
+              <small>
+                Uma resposta perdida pode já estar no histórico. Reenvie para recuperar o mesmo
+                resultado.
+              </small>
+            </div>
+          )}
+          <details className="dice-help">
+            <summary>Como rolar dados</summary>
+            <p>
+              Use <code>/r 1d20+5</code>, <code>/roll 2d6+1d4-2</code> ou <code>/r 4d6kh3</code>.{' '}
+              <code>kh</code> mantém os maiores; <code>kl</code>, os menores. Até 100 dados por
+              rolagem e faces de 2 a 1000. Resultados são calculados no servidor e compartilhados
+              com a campanha.
+            </p>
+            <p>Ataques e magias também podem ser enviados pelos botões das fichas salvas.</p>
+          </details>
+        </div>
       </div>
     </section>
   );

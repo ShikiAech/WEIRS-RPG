@@ -39,12 +39,18 @@
   color: #a5c997;
 }
 .chat-log {
+  display: flex;
+  flex-direction: column;
   height: min(55vh, 600px);
   min-height: 260px;
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: 20px 24px;
   scrollbar-color: var(--gold) var(--bg);
+}
+.chat-messages {
+  flex: 0 0 auto;
+  margin-top: auto;
 }
 .chat-empty {
   text-align: center;
@@ -159,9 +165,17 @@
   font-size: 11px;
   margin-bottom: 0;
 }
-.chat-composer {
+.chat-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+  align-items: start;
+  gap: 24px;
   padding: 18px 24px;
   border-top: 1px solid var(--border-fantasy);
+  background: #0e0d10;
+}
+.chat-composer {
+  min-width: 0;
 }
 .quick-dice {
   display: flex;
@@ -254,8 +268,12 @@
     height: 48vh;
   }
   .chat-room-heading,
-  .chat-composer {
+  .chat-controls {
     padding: 14px;
+  }
+  .chat-controls {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
   }
   .chat-roll {
     padding: 12px;
@@ -1352,7 +1370,7 @@ dialog::backdrop {
 }
 
 .dice-settings {
-  padding: 10px 18px;
+  padding: 10px 14px;
   color: var(--text-soft);
   font-size: 12px;
 }
@@ -1360,11 +1378,16 @@ dialog::backdrop {
   display: flex;
   align-items: center;
   gap: 8px;
+  min-height: 24px;
   cursor: pointer;
 }
 .dice-settings input {
   width: 16px;
   height: 16px;
+  min-height: 16px;
+  margin: 0;
+  padding: 0;
+  flex: none;
   accent-color: var(--gold);
 }
 .dice-settings small {
@@ -1372,13 +1395,15 @@ dialog::backdrop {
   margin-top: 6px;
 }
 .dice-accordion {
-  border-bottom: 1px solid var(--border-fantasy);
+  width: 100%;
+  max-width: 360px;
+  border: 1px solid var(--border-fantasy);
+  border-radius: 10px;
+  overflow: hidden;
   background: #151319;
 }
-.chat-room > .dice-accordion {
-  position: sticky;
-  top: 0;
-  z-index: 3;
+.chat-controls > .dice-accordion {
+  justify-self: center;
 }
 .sheet-chat-feedback .dice-accordion {
   margin-bottom: 16px;
@@ -1392,7 +1417,8 @@ dialog::backdrop {
   justify-content: space-between;
   gap: 14px;
   width: 100%;
-  padding: 14px 24px;
+  padding: 12px 14px;
+  min-height: 44px;
   border: 0;
   background: #131114;
   color: var(--gold-bright);
@@ -1419,14 +1445,15 @@ dialog::backdrop {
 }
 .dice-tray {
   overflow: hidden;
+  border-top: 1px solid var(--border-fantasy);
   background: #151319;
 }
 .dice-presentation {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 280px;
+  grid-template-columns: minmax(0, 1fr);
 }
 .dice-idle {
-  min-height: 150px;
+  min-height: 88px;
   display: grid;
   align-content: center;
   justify-items: center;
@@ -1436,7 +1463,7 @@ dialog::backdrop {
   background: radial-gradient(ellipse at center, #d4af370a, transparent 65%);
 }
 .dice-idle > span {
-  font-size: 32px;
+  font-size: 24px;
   color: var(--gold-dark);
 }
 .dice-idle p {
@@ -1452,7 +1479,7 @@ dialog::backdrop {
   font-size: 13px;
 }
 .dice-scene {
-  height: 220px;
+  height: 176px;
   width: 100%;
 }
 .dice-scene canvas {
@@ -1461,15 +1488,16 @@ dialog::backdrop {
 .dice-confirmation {
   display: grid;
   gap: 5px;
-  padding: 12px 18px 16px;
+  padding: 10px 14px;
   align-content: center;
-  border-left: 1px solid var(--border-fantasy);
-  min-height: 150px;
+  border-top: 1px solid var(--border-fantasy);
+  min-height: 88px;
+  overflow-wrap: anywhere;
 }
 .dice-confirmation strong {
   color: var(--gold-bright);
   font-family: Cinzel, serif;
-  font-size: 17px;
+  font-size: 15px;
 }
 .dice-confirmation span,
 .dice-values {
@@ -1480,31 +1508,25 @@ dialog::backdrop {
   color: var(--text-soft);
   font-size: 11px;
 }
+.dice-confirmation .eyebrow {
+  margin: 0;
+  font-size: 10px;
+}
 .dice-values {
   margin: 2px 0 0;
-  max-height: 84px;
+  max-height: 48px;
   overflow: auto;
 }
 @media (max-width: 760px) {
-  .dice-presentation {
-    grid-template-columns: 1fr;
-  }
   .dice-accordion-toggle {
-    padding: 14px 16px;
     font-size: 12px;
   }
   .dice-confirmation {
-    border-left: 0;
-    border-top: 1px solid var(--border-fantasy);
     min-height: 80px;
-    padding: 10px 14px;
     gap: 3px;
   }
   .dice-scene {
-    height: min(145px, 18vh);
-  }
-  .dice-confirmation strong {
-    font-size: 15px;
+    height: min(164px, 20vh);
   }
   .dice-values {
     max-height: 45px;
