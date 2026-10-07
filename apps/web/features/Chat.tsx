@@ -13,6 +13,7 @@ import { createChatRepository, chatError } from '../lib/chat';
 import { catchUp, commandFromText, mergeMessages } from '../lib/chat-state';
 import { Message } from './chat/Message';
 import { DicePanel, useDice3D } from './dice/Dice3D';
+import { SessionPanel } from './session/SessionPanel';
 
 export function Chat({
   user,
@@ -119,6 +120,7 @@ export function Chat({
           repository={repository}
           userId={user.id}
           canSend={role !== 'espectador'}
+          role={role}
         />
       ) : (
         <p className="notice">
@@ -136,13 +138,17 @@ function Room({
   repository,
   canSend,
   userId,
+  role,
 }: {
   campaign: CampaignRecord;
   repository: ChatRepository;
   canSend: boolean;
   userId: string;
+  role: string;
 }) {
   const dice = useDice3D();
+  const [panel, setPanel] = useState('');
+  const [sessionBusy, setSessionBusy] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [status, setStatus] = useState<ChatStatus>('conectando');
   const [loading, setLoading] = useState(true);
@@ -322,7 +328,7 @@ function Room({
     }
   }
   async function send(command?: ChatCommand) {
-    if (busy.current || !canSend || forbidden.current) return;
+    if (busy.current || sessionBusy || !canSend || forbidden.current) return;
     let next = attempt;
     try {
       if (!next) next = { id: crypto.randomUUID(), command: command || commandFromText(text) };
@@ -343,7 +349,7 @@ function Room({
         dice.show(row);
         pendingSend.current = false;
         setAttempt(null);
-        setText('');
+        if (next.command.tipo !== 'acao') setText('');
         setSendError('');
       }
     } catch (error) {
@@ -360,175 +366,212 @@ function Room({
       if (mounted.current) setSending(false);
     }
   }
-  const disabled = !canSend || accessLost || loading;
+  const disabled = !canSend || accessLost || loading || sessionBusy;
   return (
-    <section className="chat-room" aria-label={'Conversa de ' + campaign.nome}>
-      <div className="chat-room-heading">
-        <strong>{campaign.nome}</strong>
-        <span className={'connection ' + (status === 'ao_vivo' ? 'connected' : '')} role="status">
-          {accessLost
-            ? 'Acesso encerrado'
-            : status === 'ao_vivo'
-              ? 'Ao vivo'
-              : status === 'conectando'
-                ? 'Conectando…'
-                : 'Reconectando · sincronização periódica'}
-        </span>
-      </div>
-      {syncError && (
-        <div className="notice error" role="alert">
-          {syncError}
-          <button className="text-button" onClick={() => setRetry(retry + 1)}>
-            Atualizar histórico
+    <>
+      <div className="session-toolbar" aria-label="Ferramentas da sessão">
+        {['ficha', 'combate', 'loja'].map((kind) => (
+          <button
+            key={kind}
+            className="button secondary"
+            aria-pressed={panel === kind}
+            disabled={sessionBusy || sending || !!attempt || accessLost}
+            onClick={() => setPanel(kind)}
+          >
+            {kind === 'ficha' ? 'Minha ficha' : kind === 'combate' ? 'Combate' : 'Loja'}
           </button>
-        </div>
-      )}
-      {hasOlder && (
-        <button className="text-button older-messages" disabled={older} onClick={previous}>
-          {older ? 'Carregando…' : 'Carregar mensagens anteriores'}
-        </button>
-      )}
-      <div
-        className="chat-log"
-        ref={log}
-        role="log"
-        aria-label="Mensagens da campanha"
-        aria-live="polite"
-        aria-relevant="additions"
-        onScroll={() => {
-          const n = log.current!;
-          scroll.current.bottom = n.scrollHeight - n.scrollTop - n.clientHeight < 80;
-          if (scroll.current.bottom) setNewBelow(false);
-        }}
-      >
-        {loading ? (
-          <p>Carregando conversa…</p>
-        ) : !messages.length && !accessLost ? (
-          <div className="chat-empty">
-            <span>✦</span>
-            <h2>A aventura começa aqui.</h2>
-            <p>Envie uma mensagem ou role os primeiros dados da sessão.</p>
-          </div>
-        ) : (
-          <div className="chat-messages">
-            {messages.map((m) => (
-              <Message key={m.id} message={m} />
-            ))}
-          </div>
-        )}
+        ))}
       </div>
-      {newBelow && (
-        <button
-          className="text-button"
-          onClick={() => {
-            log.current!.scrollTop = log.current!.scrollHeight;
-            scroll.current.bottom = true;
-            setNewBelow(false);
-          }}
-        >
-          Ir para mensagens recentes ↓
-        </button>
-      )}
-      <div className="chat-controls">
-        <DicePanel />
-        <div className="chat-composer">
-          <div className="quick-dice" aria-label="Dados rápidos">
-            {[4, 6, 8, 10, 12, 20, 100].map((faces) => (
-              <button
-                key={faces}
-                type="button"
-                disabled={disabled || sending || !!attempt}
-                onClick={() => setText('/r 1d' + faces)}
-              >
-                d{faces}
-              </button>
-            ))}
-            <button
-              type="button"
-              disabled={disabled || sending || !!attempt}
-              onClick={() => setText('/r 2d20kh1')}
+      <div className={'session-layout ' + (panel && panel !== 'loja' ? 'with-panel' : '')}>
+        {panel && !accessLost && (
+          <SessionPanel
+            campaign={campaign.id}
+            userId={userId}
+            role={role}
+            kind={panel}
+            chatDisabled={loading || accessLost || sessionBusy || sending || !!attempt}
+            onClose={() => setPanel('')}
+            onRoll={(command) => void send(command)}
+            onMessage={(message) => add([message])}
+            onBusy={setSessionBusy}
+          />
+        )}
+        <section className="chat-room" aria-label={'Conversa de ' + campaign.nome}>
+          <div className="chat-room-heading">
+            <strong>{campaign.nome}</strong>
+            <span
+              className={'connection ' + (status === 'ao_vivo' ? 'connected' : '')}
+              role="status"
             >
-              Vantagem
-            </button>
-            <button
-              type="button"
-              disabled={disabled || sending || !!attempt}
-              onClick={() => setText('/r 2d20kl1')}
-            >
-              Desvantagem
-            </button>
+              {accessLost
+                ? 'Acesso encerrado'
+                : status === 'ao_vivo'
+                  ? 'Ao vivo'
+                  : status === 'conectando'
+                    ? 'Conectando…'
+                    : 'Reconectando · sincronização periódica'}
+            </span>
           </div>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              void send();
+          {syncError && (
+            <div className="notice error" role="alert">
+              {syncError}
+              <button className="text-button" onClick={() => setRetry(retry + 1)}>
+                Atualizar histórico
+              </button>
+            </div>
+          )}
+          {hasOlder && (
+            <button className="text-button older-messages" disabled={older} onClick={previous}>
+              {older ? 'Carregando…' : 'Carregar mensagens anteriores'}
+            </button>
+          )}
+          <div
+            className="chat-log"
+            ref={log}
+            role="log"
+            aria-label="Mensagens da campanha"
+            aria-live="polite"
+            aria-relevant="additions"
+            onScroll={() => {
+              const n = log.current!;
+              scroll.current.bottom = n.scrollHeight - n.scrollTop - n.clientHeight < 80;
+              if (scroll.current.bottom) setNewBelow(false);
             }}
           >
-            <label htmlFor="chat-message-input">Mensagem ou comando de dados</label>
-            <textarea
-              id="chat-message-input"
-              rows={2}
-              maxLength={2000}
-              placeholder="Conte sua ação… ou /r 1d20+5"
-              value={text}
-              disabled={disabled || sending || !!attempt}
-              onChange={(e) => setText(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
+            {loading ? (
+              <p>Carregando conversa…</p>
+            ) : !messages.length && !accessLost ? (
+              <div className="chat-empty">
+                <span>✦</span>
+                <h2>A aventura começa aqui.</h2>
+                <p>Envie uma mensagem ou role os primeiros dados da sessão.</p>
+              </div>
+            ) : (
+              <div className="chat-messages">
+                {messages.map((m) => (
+                  <Message key={m.id} message={m} />
+                ))}
+              </div>
+            )}
+          </div>
+          {newBelow && (
+            <button
+              className="text-button"
+              onClick={() => {
+                log.current!.scrollTop = log.current!.scrollHeight;
+                scroll.current.bottom = true;
+                setNewBelow(false);
+              }}
+            >
+              Ir para mensagens recentes ↓
+            </button>
+          )}
+          <div className="chat-controls">
+            <DicePanel />
+            <div className="chat-composer">
+              <div className="quick-dice" aria-label="Dados rápidos">
+                {[4, 6, 8, 10, 12, 20, 100].map((faces) => (
+                  <button
+                    key={faces}
+                    type="button"
+                    disabled={disabled || sending || !!attempt}
+                    onClick={() => setText('/r 1d' + faces)}
+                  >
+                    d{faces}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  disabled={disabled || sending || !!attempt}
+                  onClick={() => setText('/r 2d20kh1')}
+                >
+                  Vantagem
+                </button>
+                <button
+                  type="button"
+                  disabled={disabled || sending || !!attempt}
+                  onClick={() => setText('/r 2d20kl1')}
+                >
+                  Desvantagem
+                </button>
+              </div>
+              <form
+                onSubmit={(e) => {
                   e.preventDefault();
                   void send();
-                }
-              }}
-            />
-            <div className="composer-footer">
-              <small>
-                {!canSend
-                  ? 'Você acompanha esta campanha como espectador.'
-                  : 'Enter envia · Shift+Enter quebra a linha'}
-              </small>
-              <button className="button" disabled={disabled || sending || !!attempt}>
-                {sending ? 'Enviando…' : 'Enviar'}
-              </button>
-            </div>
-          </form>
-          {sendError && (
-            <div className="notice error" role="alert">
-              {sendError}
-            </div>
-          )}
-          {attempt && !sending && (
-            <div className="retry-command">
-              <button className="button secondary" disabled={disabled} onClick={() => void send()}>
-                Reenviar mesma tentativa
-              </button>
-              <button
-                className="text-button"
-                onClick={() => {
-                  setAttempt(null);
-                  pendingSend.current = false;
-                  setSendError('');
                 }}
               >
-                Liberar nova mensagem
-              </button>
-              <small>
-                Uma resposta perdida pode já estar no histórico. Reenvie para recuperar o mesmo
-                resultado.
-              </small>
+                <label htmlFor="chat-message-input">Mensagem ou comando de dados</label>
+                <textarea
+                  id="chat-message-input"
+                  rows={2}
+                  maxLength={2000}
+                  placeholder="Conte sua ação… ou /r 1d20+5"
+                  value={text}
+                  disabled={disabled || sending || !!attempt}
+                  onChange={(e) => setText(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
+                      e.preventDefault();
+                      void send();
+                    }
+                  }}
+                />
+                <div className="composer-footer">
+                  <small>
+                    {!canSend
+                      ? 'Você acompanha esta campanha como espectador.'
+                      : 'Enter envia · Shift+Enter quebra a linha'}
+                  </small>
+                  <button className="button" disabled={disabled || sending || !!attempt}>
+                    {sending ? 'Enviando…' : 'Enviar'}
+                  </button>
+                </div>
+              </form>
+              {sendError && (
+                <div className="notice error" role="alert">
+                  {sendError}
+                </div>
+              )}
+              {attempt && !sending && (
+                <div className="retry-command">
+                  <button
+                    className="button secondary"
+                    disabled={disabled}
+                    onClick={() => void send()}
+                  >
+                    Reenviar mesma tentativa
+                  </button>
+                  <button
+                    className="text-button"
+                    onClick={() => {
+                      setAttempt(null);
+                      pendingSend.current = false;
+                      setSendError('');
+                    }}
+                  >
+                    Liberar nova mensagem
+                  </button>
+                  <small>
+                    Uma resposta perdida pode já estar no histórico. Reenvie para recuperar o mesmo
+                    resultado.
+                  </small>
+                </div>
+              )}
+              <details className="dice-help">
+                <summary>Como rolar dados</summary>
+                <p>
+                  Use <code>/r 1d20+5</code>, <code>/roll 2d6+1d4-2</code> ou <code>/r 4d6kh3</code>
+                  . <code>kh</code> mantém os maiores; <code>kl</code>, os menores. Até 100 dados
+                  por rolagem e faces de 2 a 1000. Resultados são calculados no servidor e
+                  compartilhados com a campanha.
+                </p>
+                <p>Ataques e magias também podem ser enviados pelos botões das fichas salvas.</p>
+              </details>
             </div>
-          )}
-          <details className="dice-help">
-            <summary>Como rolar dados</summary>
-            <p>
-              Use <code>/r 1d20+5</code>, <code>/roll 2d6+1d4-2</code> ou <code>/r 4d6kh3</code>.{' '}
-              <code>kh</code> mantém os maiores; <code>kl</code>, os menores. Até 100 dados por
-              rolagem e faces de 2 a 1000. Resultados são calculados no servidor e compartilhados
-              com a campanha.
-            </p>
-            <p>Ataques e magias também podem ser enviados pelos botões das fichas salvas.</p>
-          </details>
-        </div>
+          </div>
+        </section>
       </div>
-    </section>
+    </>
   );
 }

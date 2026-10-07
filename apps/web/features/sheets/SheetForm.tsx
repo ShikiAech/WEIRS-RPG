@@ -105,14 +105,14 @@ export function SheetForm({
                 {...accessibility}
                 rows={4}
                 maxLength={10000}
-                value={String(value)}
+                value={String(value ?? '')}
                 onChange={(e) => update(path, e.target.value)}
               />
             ) : spec.type === 'select' ? (
               <select
                 {...accessibility}
                 id={id}
-                value={String(value)}
+                value={String(value ?? '')}
                 onChange={(e) => update(path, e.target.value)}
               >
                 {options(spec).map(([v, l]) => (
@@ -131,7 +131,7 @@ export function SheetForm({
                 step={spec.step || '1'}
                 maxLength={spec.type === 'number' ? undefined : 120}
                 list={spec.suggestions ? id + '-suggestions' : undefined}
-                value={String(value)}
+                value={String(value ?? '')}
                 onChange={(e) =>
                   update(path, spec.type === 'number' ? Number(e.target.value) : e.target.value)
                 }

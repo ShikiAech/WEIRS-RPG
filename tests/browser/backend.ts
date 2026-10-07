@@ -16,7 +16,10 @@ const user = {
 };
 
 // Somente os testes interceptam HTTP. O aplicativo usa o SDK real e não contém login de teste.
-export async function backend(page: Page, options: { empty?: boolean; readonly?: boolean } = {}) {
+export async function backend(
+  page: Page,
+  options: { empty?: boolean; readonly?: boolean; master?: boolean } = {},
+) {
   const state = {
     rows: options.empty
       ? []
@@ -87,7 +90,7 @@ export async function backend(page: Page, options: { empty?: boolean; readonly?:
         {
           campanha_id: campaignId,
           usuario_id: ownerId,
-          papel: options.readonly ? 'espectador' : 'jogador',
+          papel: options.readonly ? 'espectador' : options.master ? 'mestre' : 'jogador',
         },
       ]);
     if (url.pathname === '/rest/v1/fichas') {

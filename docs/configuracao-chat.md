@@ -93,7 +93,7 @@ Na aba **Magias**, vincule a magia a um **perfil de conjuração**, configure o 
 
 Os cálculos incluem nível total da multiclasse, proficiência, atributo e ajustes homebrew. O servidor confere campanha, proprietário/papel e versão da ficha; o navegador não escolhe o resultado dos dados. Mestres podem usar as fichas da campanha que administram; jogadores usam suas próprias fichas.
 
-Esta etapa registra ações e rolagens. Espaços de magia, recursos, PV e aplicação de dano continuam sob controle manual da mesa. Dano de magia pode ser rolado por comando; o aplicativo não tenta extrair fórmulas de descrições livres.
+Para acessar a ficha dentro do chat, registrar iniciativa/turnos, alterar PV e recursos e comprar/vender itens, instale a migração adicional seguindo o [guia da sessão jogável](configuracao-mesa.md). Ele também permite configurar dano de magia em um campo próprio; o aplicativo não extrai fórmulas de descrições livres.
 
 ## 6. Falhas de conexão e reenvio
 

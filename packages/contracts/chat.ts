@@ -1,5 +1,16 @@
 export type RollMode = 'normal' | 'vantagem' | 'desvantagem';
-export type SheetAction = 'ataque' | 'dano' | 'magia' | 'magia_ataque';
+export type SheetAction =
+  | 'ataque'
+  | 'dano'
+  | 'magia'
+  | 'magia_ataque'
+  | 'atributo'
+  | 'resistencia'
+  | 'pericia'
+  | 'iniciativa'
+  | 'morte'
+  | 'magia_dano'
+  | 'dado_vida';
 export type ChatCommand =
   | { tipo: 'texto'; texto: string }
   | { tipo: 'rolagem'; expressao: string; rotulo?: string }

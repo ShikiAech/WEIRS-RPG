@@ -6,6 +6,13 @@ const actionNames = {
   dano: 'Dano',
   magia: 'Conjuração',
   magia_ataque: 'Ataque de magia',
+  atributo: 'Teste de atributo',
+  resistencia: 'Resistência',
+  pericia: 'Perícia',
+  iniciativa: 'Iniciativa',
+  morte: 'Teste de morte',
+  magia_dano: 'Dano de magia',
+  dado_vida: 'Dado de vida',
 };
 export function Message({ message }: { message: ChatMessage }) {
   const result = message.resultado;

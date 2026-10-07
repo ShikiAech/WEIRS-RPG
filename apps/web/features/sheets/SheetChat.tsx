@@ -201,6 +201,8 @@ export function SheetActionButtons({
         <>
           {button('magia', 'Conjurar no chat', 'Conjurar magia')}
           {hasRoll && button('magia_ataque', 'Rolar ataque', 'Rolar ataque de magia', mode)}
+          {Boolean(String(entry.dano || '').trim()) &&
+            button('magia_dano', 'Rolar dano', 'Rolar dano de magia')}
         </>
       ) : (
         <>
