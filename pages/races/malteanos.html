@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Malteanos — Weirs RPG</title>
+  <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+  <link rel="stylesheet" href="/WEIRS-RPG/css/class-style.css">
+  <style>
+    /* Estilos customizados para mecânicas de Namyrianos */
+    .bloco-habilidade {
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 3px solid var(--gold);
+      padding: 20px;
+      margin-top: 25px;
+      border-radius: 0 4px 4px 0;
+    }
+    .bloco-habilidade h4 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-bright);
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+    .bloco-alerta {
+      background: rgba(139, 0, 0, 0.15);
+      border: 1px solid #8b0000;
+      border-left: 4px solid #ff4d4d;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .bloco-alerta h4 {
+      font-family: 'Cinzel', serif;
+      color: #ff4d4d;
+      margin-bottom: 8px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+   
+  </style>
+</head>
+<body>
+
+  <script src="/WEIRS-RPG/javascript/menu.js"></script>
+
+  <div class="container">
+    
+    <div style="margin-bottom: 30px;">
+      <a href="/WEIRS-RPG/pages/races/racas.html" class="btn-principal" style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Raças</a>
+    </div>
+
+    <h2>Malteanos</h2>
+    
+    <div class="card-rpg">
+      <div class="layout-detalhes">
+        <img src="/WEIRS-RPG/img/malteanos.jpg" alt="Malteano">
+        
+        <div class="texto-lore">
+          <h3>O Povo Fermentado de Malte</h3>
+          <p>Os Malteanos são uma espécie humanóide conhecida por sua peculiar fisiologia. Possuem pele amarelada, olhos completamente brancos marcados por vasos avermelhados, mãos e pés desproporcionalmente grandes, ausência de orelhas e pelos faciais presentes em ambos os sexos.Seus corpos possuem uma plasticidade extraordinária, permitindo que redistribuam músculos, gordura, fluidos e outros tecidos para alterar suas proporções, densidade e até mesmo sua massa aparente. A fermentação possui enorme importância para sua sociedade. O organismo Malteano é extremamente eficiente em metabolizar álcool, fazendo com que bebidas fermentadas sejam parte de sua alimentação, celebrações e tradições sociais.</p>
+          
+          <h4 style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">Traços de Namyrianos</h4>
+          <ul class="trait-list" style="margin-top: 15px;">
+            <li><strong>Tipo de Criatura:</strong> Humanoide.</li>
+            <li><strong>Tamanho:</strong> Médio.</li>
+            <li><strong>Deslocamento:</strong> 30 pés.</li>
+            <li><strong>Idade:</strong> Atingem a maioridade aos 15 anos e pode viver até os 80 anos. </li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Habilidades Raciais</h3>
+        
+        <ul class="trait-list">
+          <li><strong>Metabolismo Fermentado:</strong> Seu organismo consegue processar substâncias que seriam nocivas para a maioria das espécies. Você possui Resistência a dano de Veneno e Vantagem nas Salvaguardas realizadas para evitar ou encerrar a condição Envenenado. </li>
+          <li><strong>Capacidade Felina:</strong> Suas mãos enormes e poderosas são particularmente eficientes em prender outras criaturas. Você possui Vantagem em testes realizados para iniciar ou manter um Agarrão. </li>
+          <li><strong>Fisiologia Variável:</strong> Altura, peso e proporções corporais não são características constantes entre os Malteanos. Um indivíduo pode alterar consideravelmente sua aparência ao redistribuir a própria massa. Essas alterações não permitem que você assuma a aparência de outra criatura, mude seu Tamanho ou obtenha características de outra espécie. Você continua sendo reconhecível como o mesmo Malteano. </li>
+        </ul>
+      </div>
+
+      <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 15px;">Corpo Maleável</h3>
+        <p>Seu corpo não possui proporções completamente fixas. Como uma Ação Bônus, você pode redistribuir sua massa corporal e assumir uma das formas abaixo. Você permanece nessa forma até assumir outra forma ou decidir retornar à sua forma natural como uma Ação Bônus. Você pode manter apenas uma forma por vez. </p>
+        
+        <div class="overflow-table">
+          <table class="tabela-rpg">
+            <thead>
+              <tr>
+                <th>Forma Densa</th>
+                <th>Forma Alongada</th>
+                <th>Forma Leve</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Você conta como uma categoria de tamanho maior para determinar sua capacidade de carga e o peso que pode empurrar, arrastar ou levantar.</td>
+                <td>Seu alcance aumenta para 10 pés.</td>
+                <td>Seu Deslocamento aumenta em 5 pés.</td>
+              </tr>
+              <tr>
+                <td>Você possui Vantagem em testes de atributo e Salvaguardas realizados para resistir a ser empurrado ou derrubado.</td>
+                <td>Você pode manipular objetos e realizar interações simples com objetos a até 3 metros de distância.</td>
+                <td>A distância dos seus saltos é duplicada.</td>
+              </tr>
+              <tr>
+                <td>Seus Ataques Desarmados podem causar 1d6 + seu modificador de força como dano Contundente em vez do dano normal.</td>
+                <td>Você possui Vantagem em testes de Força (Atletismo) relacionados a escalar.</td>
+                <td>Quando você sofre dano devido a uma queda, pode usar sua Reação para reduzir esse dano em uma quantidade igual a cinco vezes seu Bônus de Proficiência.</td>
+              </tr>
+  
+            </tbody>
+          </table>
+        </div>
+        
+        
+        </div>
