@@ -2299,11 +2299,90 @@
     <!-- Weirs -->
     <div class="grid-talentos" data-tipo="weirs" style="margin-top: 20px; border-top: 1px solid var(--border-fantasy); padding-top: 30px; overflow-x: auto;">
 
-      <div class="card-talento" data-tipo="weirs" data-nome="nome-do-talento">
-        <h4>Título <span class="badge-tipo badge-geral">Weirs</span></h4>
-        <p class="requisito">Pré-requisito: Nível 4+</p>
-        <p></p>
-        <p><strong>Subtítulo.</strong> Descrição <strong style="color: white;">destaque</strong>.</p>
+      <!-- Espírito Manchado -->
+      <div class="card-talento" data-tipo="origem" data-nome="espírito manchado">
+        <h4>Espírito Manchado <span class="badge-tipo badge-origem">Origem</span></h4>
+        <p class="requisito">Pré requisito: Humano Manchado</p>
+        <p>Sua essência espiritual foi distorcida pelo contato com o Etéris, uma reação normalmente fatal.
+        <br>Mas você sobreviveu, e por isso foi recompensado com uma mutação única.
+        <br><br>Você ganha os seguintes benefícios:</p>
+        <p><strong>Aumento de Potencial.</strong> Você se torna especialista em uma perícia com a qual já é proficiente.</p>
+        <p><strong>Mancha.</strong> Sua Mancha lhe confere uma habilidade única. Selecione uma das opções listadas abaixo (escolha quando selecionar esse talento):
+        <ul>
+          <li><strong style="color: var(--gold);">Manifestação Energética.</strong> Você aprende um truque de sua escolha de qualquer lista de magias. Inteligência, Sabedoria, Carisma ou Constituição é sua habilidade de conjuração para esse truque (escolha quando selecionar esse talento). Você pode usar uma Ação Bônus para conjurar este truque, mas para isso não pode conjurá-lo como ação nesse turno.</li>
+          <li><strong style="color: var(--gold);">Deslocamento Aumentado.</strong> Escolha entre Caminhada ou Voo (Pairar). Seu deslocamento com a forma escolhida passa a ser 40 pés, caso já não seja maior. Uma vez por turno, quando você usar a ação Disparar, pode fazê-lo como uma Ação Bônus, em vez de uma Ação Padrão. Esse deslocamento extra deve ser realizado utilizando exclusivamente o deslocamento escolhido por este talento. Você pode disparar desta forma uma quantidade de vezes igual ao seu bônus de proficiência.</li>
+          <li><strong style="color: var(--gold);">Corpo Potente.</strong> Sua capacidade de carga é dobrada. Você adiciona 1d8 em testes de Força (Atletismo) contra alvos de tamanho Grande ou menor. Uma vez por descanso curto, quando uma criatura te ataca com um golpe que causaria dano perfurante, contundente ou cortante, você pode usar sua Reação para enrigecer o corpo ou aprimorar seus reflexos, aumentando sua CA em +2 pontos e potencialmente defletindo um ataque.</li>
+        </ul></p>
+      </div>
+
+      <div class="card-talento" data-tipo="geral" data-nome="Mancha Superior da Manifestação Energética">
+        <h4>Mancha Superior da Manifestação Energética<span class="badge-tipo badge-geral">Geral</span></h4>
+        <p class="requisito">Pré requisito: Nível 4+, Talento Espírito Manchado (Manifestação Energética)</p>
+        <p>A habilidade conferida por sua mancha está sujeita à evolução conforme você a usa em suas aventuras.
+        <br><br>Você ganha os seguintes benefícios:</p>
+        <p><strong>Aumento no Valor de Habilidade. </strong>Aumente o valor de um Atributo de sua escolha em 1, até um máximo de 20.</p>
+        <p><strong>Evolução. </strong>Os benefícios da sua mancha são aprimorados, ganhando um dos efeitos extras listados abaixo para o truque selecionado no Talento Espírito Manchado:
+        <ul>
+          <li><strong style="color: var(--gold);">Super Efetivo.</strong> Você soma seu modificador de habilidade de conjuração no dado do truque. </li>
+          <li><strong style="color: var(--gold);">Técnica Irresistível.</strong> O CD do teste de resistência relacionado a esse truque aumenta em 1 ponto. No 11° nível, aumenta em mais 1 ponto.</li>
+          <li><strong style="color: var(--gold);">Especialidade Inata.</strong> Quando você usa seu truque como Ação Bônus, pode usá-lo uma vez adicional no turno como parte da mesma Ação Bônus. </li>
+          <li><strong style="color: var(--gold);">Olhos de Falcão.</strong> O truque ganha um alcance adicional de 30 pés.</li>
+        </ul>
+        </p>
+        <p><strong>Repetível. </strong>Você pode escolher este talento mais de uma vez, mas deve escolher uma Evolução diferente cada vez.</p>
+      </div>
+
+      <div class="card-talento" data-tipo="geral" data-nome="Mancha Superior do Deslocamento Aumentado">
+        <h4>Mancha Superior do Deslocamento Aumentado<span class="badge-tipo badge-geral">Geral</span></h4>
+        <p class="requisito">Pré requisito: Nível 4+, Talento Espírito Manchado (Deslocamento Aumentado)</p>
+        <p>A habilidade conferida por sua mancha está sujeita à evolução conforme você a usa em suas aventuras.
+        <br><br>Você ganha os seguintes benefícios:</p>
+        <p><strong>Aumento no Valor de Habilidade. </strong>Aumente o valor de um Atributo de sua escolha em 1, até um máximo de 20.</p>
+        <p><strong>Evolução. </strong>Os benefícios da sua mancha são aprimorados, ganhando um dos efeitos extras listados abaixo para o truque selecionado no Talento Espírito Manchado:
+        <ul>
+          <li><strong style="color: var(--gold);">Movimento Etéreo.</strong> Você pode se mover através de criaturas e espaços ocupados por obstáculos não-mágicos (como frestas, grades ou arbustos) sem considerar como terreno difícil, contanto que você se mova usando apenas o deslocamento escolhido. Além disso, você não sofre dano de queda se estiver usando seu deslocamento de Voo. </li>
+          <li><strong style="color: var(--gold);">Passos Acelerados.</strong> Quando você usa a ação Disparar como uma Ação Bônus e se move usando apenas o deslocamento escolhido, pode Atacar como parte da Ação Bônus, mas você não soma seus modificadores de dano ao ataque.</li>
+          <li><strong style="color: var(--gold);">Pós-Imagem.</strong> Imediatamente após ser atingido por um ataque, você pode usar sua Reação para  se mover até 20 pés sem provocar ataques de oportunidade, usando apenas o deslocamento escolhido. Você pode fazer isso um número de vezes igual ao seu modificador de Destreza (mínimo 1). </li>
+          <li><strong style="color: var(--gold);">Impacto Meteórico.</strong> Quando você se move em linha reta em direção a uma criatura e realiza um ataque corpo a corpo contra ela, você adiciona +1d4 de dano do mesmo tipo da arma para cada 20 pés percorridos (arredondando para baixo). Você não pode se beneficiar deste efeito mais de uma vez por turno. </li>
+        </ul>
+        </p>
+        <p><strong>Repetível. </strong>Você pode escolher este talento mais de uma vez, mas deve escolher uma Evolução diferente cada vez.</p>
+      </div>
+
+      <div class="card-talento" data-tipo="geral" data-nome="Mancha Superior do Corpo Potente">
+        <h4>Mancha Superior do Corpo Potente<span class="badge-tipo badge-geral">Geral</span></h4>
+        <p class="requisito">Pré requisito: Nível 4+, Talento Espírito Manchado (Corpo Potente)</p>
+        <p>A habilidade conferida por sua mancha está sujeita à evolução conforme você a usa em suas aventuras.
+        <br><br>Você ganha os seguintes benefícios:</p>
+        <p><strong>Aumento no Valor de Habilidade. </strong>Aumente o valor de um Atributo de sua escolha em 1, até um máximo de 20.</p>
+        <p><strong>Evolução. </strong>Os benefícios da sua mancha são aprimorados, ganhando um dos efeitos extras listados abaixo para o truque selecionado no Talento Espírito Manchado:
+        <ul>
+          <li><strong style="color: var(--gold);">Foco Total.</strong> Quando você usa sua Reação para aumentar sua CA, o bônus passa a ser +4. Além disso, se o ataque errar, você pode realizar um ataque corpo a corpo contra o agressor como parte da reação, se estiver ao seu alcance.</li>
+          <li><strong style="color: var(--gold);">Impacto Poderoso.</strong> Uma vez por descanso curto, como parte da ação Atacar, você pode desferir um golpe poderoso. Se acertar, você causa +1d8 de dano do mesmo tipo da arma e a criatura deve ser bem-sucedida em um teste de Força (CD = 8 + seu bônus de proficiência + seu modificador de Força) ou será derrubada e empurrada 10 pés para longe de você. </li>
+          <li><strong style="color: var(--gold);">Resistência Fantasma.</strong> Como uma Ação Bônus, você pode canalizar a energia do Etéris para fortalecer sua carne. Você ganha pontos de vida temporários iguais a 1d8 + seu modificador de Constituição. Você pode usar esta habilidade um número de vezes igual ao seu bônus de proficiência por descanso longo. </li>
+          <li><strong style="color: var(--gold);">Força Descomunal.</strong> Quando você realiza a ação Agarrar ou Empurrar, você tem vantagem no teste de Força (Atletismo). Criaturas que você esteja agarrando subtraem 1d6 dos testes realizados para se soltarem. Além disso, você pode usar seu deslocamento total enquanto estiver agarrando uma criatura. </li>
+        </ul>
+        </p>
+        <p><strong>Repetível. </strong>Você pode escolher este talento mais de uma vez, mas deve escolher uma Evolução diferente cada vez.</p>
+      </div>
+
+      <div class="card-talento" data-tipo="geral" data-nome="Mancha Suprema">
+        <h4>Mancha Suprema<span class="badge-tipo badge-geral">Geral</span></h4>
+        <p class="requisito">Pré requisito: Nível 12+, Talento Mancha Superior repetido pelo menos uma vez</p>
+        <p>Você aprendeu a extrair o máximo de sua relação com o Etéris. Sua mancha alcança magnitudes improváveis.
+        <br><br>Você ganha os seguintes benefícios:</p>
+        <p><strong>Aumento no Valor de Habilidade. </strong>Aumente o valor de um Atributo de sua escolha em 1, até um máximo de 20.</p>
+        <p><strong>Evolução. </strong>Você aprende uma das evoluções abaixo, baseado em sua escolha no Talento Espírito Manchado:
+        <ul>
+          <li><strong style="color: var(--gold);">Fluxo Máximo (Manifestação Energética).</strong> Quando você conjura seu truque da Mancha, você pode realizá-lo mesmo se estiver sob efeitos que impediriam a conjuração (como estar agarrado, amordaçado ou com as mãos ocupadas), contanto que você possa falar ou fazer gestos com uma das mãos.
+          <br>Uma vez por descanso curto, você pode entrar em um estado de Fluxo Máximo que dura 1 minuto. No turno em que ativou esta habilidade, você pode usar o resultado máximo dos dados do seu truque da Mancha (não role os dados, use o valor máximo possível). Nos turnos seguintes, enquanto esta habilidade estiver ativa, no início de cada um dos seus turnos você rola 1d6. Em um resultado 5 ou 6, você pode usar o resultado máximo do truque novamente naquele turno.
+          <br>Caso o efeito não se aplique ao truque escolhido, discuta com o mestre um efeito específico para o truque ao selecionar esse Talento.</li>
+          <li><strong style="color: var(--gold);">Imagem Residual (Deslocamento Augmentado).</strong> Você eleva sua velocidade ao máximo. Seu deslocamento com a forma escolhida aumenta em mais 10 pés. Além disso, uma vez por descanso curto, quando você usa a ação Disparar e se move pelo menos 40 pés sem provocar ataques de oportunidade, você cria uma imagem ilusória de si mesmo no ponto onde iniciou o movimento. A imagem dura até o início do seu próximo turno.
+          <br>Criaturas que estejam a até 30 pés da imagem e que possam vê-la devem fazer um teste de Inteligência (CD = 8 + seu bônus de proficiência + seu modificador de Destreza). Em uma falha, elas acreditam que você ainda está na posição da imagem e não percebem sua movimentação real. Elas têm desvantagem em ataques contra você até o início do seu próximo turno. Em um sucesso, elas percebem a ilusão e não são afetadas.</li>
+          <li><strong style="color: var(--gold);">Último de Pé (Corpo Potente).</strong> No início de cada um dos seus turnos, se você estiver com menos da metade dos seus pontos de vida máximos, você recupera pontos de vida iguais ao seu modificador de Constituição (mínimo 1). Esta regeneração não funciona se você estiver com 0 pontos de vida.
+          <br>Além disso, uma vez por descanso longo, se seus pontos de vida forem reduzidos a 0, você pode realizar um teste de resistência de Constituição (CD 15). Se passar, seus pontos de vida são reduzidos para 1 em vez de 0.</li>
+        </ul>
+        </p>
       </div>
 
     </div>
