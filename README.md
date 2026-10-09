@@ -6,6 +6,11 @@ Um aplicativo web para recordação de campanhas, guia de criação básico e co
 
 ## 📋 Changelog
 
+### Versão 1.16.3
+- **Data:** 07/10/2026
+- **Melhorias:**
+  - Adição de Nemeios, Fenrirs, Yokais, Nanuks, Malteanos e Zoldyanos na página de raças.
+
 ### Versão 1.16.2
 - **Data:** 03/10/2026
 - **Melhorias:**

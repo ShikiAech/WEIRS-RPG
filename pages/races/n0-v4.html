@@ -1,0 +1,206 @@
+Aqui está o código ajustado. Adicionei uma estrutura flexbox (`grid-opcoes`) diretamente nos blocos onde o jogador precisa escolher entre opções (Sistema de Mobilidade, Módulo Especializado e Blindagem Adaptativa), deixando as opções exibidas lado a lado em cards estilizados conforme a temática RPG do seu site:
+
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N0-V4 — Weirs RPG</title>
+    <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+    <link rel="stylesheet" href="/WEIRS-RPG/css/class-style.css">
+    <script src="/WEIRS-RPG/javascript/menu.js"></script>
+    <script src="/WEIRS-RPG/javascript/subclass-tab.js"></script>
+    <style>
+        /* Estilos para os cards de seleção lado a lado */
+        .grid-opcoes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card-opcao {
+            flex: 1 1 calc(50% - 15px);
+            min-width: 220px;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-fantasy, #4a3b2c);
+            border-radius: 6px;
+            padding: 15px;
+            box-sizing: border-box;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card-opcao:hover {
+            border-color: var(--gold, #d4af37);
+            transform: translateY(-2px);
+        }
+
+        .card-opcao strong {
+            color: var(--gold, #d4af37);
+            display: block;
+            margin-bottom: 6px;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .card-opcao {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <!--BOTÃO DE RETORNO-->
+        <div style="margin-bottom: 30px;">
+            <a href="/WEIRS-RPG/pages/races/racas.html" class="btn-principal"
+                style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Raças</a>
+        </div>
+
+        <!--TÍTULO-->
+        <h2>N0-V4</h2>
+
+        <div class="card-rpg">
+
+            <!--DETALHES DE CLASSE-->
+            <div class="layout-detalhes">
+                <img src="/WEIRS-RPG/img/n0-v4.png" alt="N0-V4">
+                <div class="texto-lore">
+                    <h3>Organismos Amorfos e Mecanizados</h3>
+                    <p>Os N0-V4 são uma espécie de organismos amorfos e sencientes. Em seu estado natural, seus corpos são constituídos por uma massa gelatinosa capaz de se deformar livremente, mas incapaz de produzir fala ou interagir de maneira eficiente com ferramentas e armas. Para superar essas limitações, sua sociedade desenvolveu exotrajes mecânicos controlados diretamente pelo organismo. Cada N0-V4 possui seu próprio exotraje, adaptado às necessidades e funções de seu usuário.</p>
+
+                    <!--CARACTERÍSTICAS BASICAS-->
+                    <h4 style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">
+                        Características Iniciais</h4>
+                    <ul class="trait-list" style="margin-top: 15px;">
+                        <li><strong>Tipo de Criatura:</strong> Limo.</li>
+                        <li><strong>Tamanho:</strong> Pequeno (Forma Natural) / Médio (dentro do Exotraje).</li>
+                        <li><strong>Deslocamento:</strong> 20 pés (Forma Natural) / 30 pés (dentro do Exotraje).</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- HABILIDADES RACIAIS -->
+            <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+                <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Habilidades Raciais</h3>
+                
+                <ul class="trait-list">
+                    <li><strong>Forma Natural:</strong> Enquanto estiver fora do Exotraje, você assume sua verdadeira forma gelatinosa. Nesta forma, você possui as seguintes características:
+                        <ul style="margin-left: 20px; margin-top: 5px; list-style-type: circle;">
+                            <li>Sua CA é 10.</li>
+                            <li>Sua vitalidade máxima é a metade do total conferido por sua classe (arredondado para cima).</li>
+                            <li>Você pode se deformar para atravessar qualquer abertura com pelo menos 2,5 cm de largura, desde que não esteja carregando objetos grandes demais para atravessá-la.</li>
+                            <li>Você pode entrar e permanecer dentro de recipientes ou espaços capazes de comportar sua massa.</li>
+                            <li>Você não pode falar, realizar ataques, utilizar armas ou manusear ferramentas/objetos que exijam mãos ou estruturas semelhantes.</li>
+                            <li>Você possui Resistência a dano Contundente, Cortante e Perfurante causado por armas não mágicas.</li>
+                            <li>Você possui Deslocamento de Escalada de 20 pés.</li>
+                        </ul>
+                    </li>
+
+                    <li style="margin-top: 15px;"><strong>Exotraje N0-V4:</strong> Você possui um Exotraje desenvolvido especificamente para acomodar e interagir com seu corpo.
+                        <p style="margin-top: 5px;">Se estiver em sua Forma Natural, você pode vestir seu Exotraje usando uma ação, desde que ele esteja disponível em até 5 pés de você. Um Exotraje só pode ser usado pelo N0-V4 para o qual foi construído ou adaptado.</p>
+                        <p style="margin-top: 5px;">Enquanto estiver dentro dele, você pode falar através do sistema de comunicação do traje, manipular objetos, utilizar armas, ferramentas e equipamentos normalmente, mas não pode vestir armaduras. Sua CA se torna 16, e você pode receber os benefícios de um escudo (interpretado como um escudo acoplado ao traje). Você recebe um total de Vida Falsa igual ao dobro dos seus pontos de vida totais, representando a durabilidade do Exotraje. Seu deslocamento base se torna 30 pés, e seu tamanho se torna Médio.</p>
+                        <p style="margin-top: 5px;">Para efeitos que exijam um alvo Humanóide (como <i>Imobilizar Pessoa</i>), você conta como Construto enquanto está dentro do traje. Você não recebe imunidades de Construto. O Exotraje é uma máquina utilizada pelo N0-V4 e não faz parte de seu organismo.</p>
+                        <p style="margin-top: 5px;">Se o traje for destruído, inutilizado ou precisar ser abandonado, o N0-V4 continua vivo em sua Forma Natural, mas perde todas as características fornecidas pelo Exotraje até conseguir repará-lo ou obter outro traje compatível. A Forma Natural do N0-V4 pode abandonar um Exotraje inutilizado normalmente.</p>
+                    </li>
+
+                    <!-- ESCOLHA: SISTEMA DE MOBILIDADE -->
+                    <li style="margin-top: 20px;"><strong>Sistema de Mobilidade:</strong> Escolha uma das seguintes opções ao criar seu personagem:
+                        <div class="grid-opcoes">
+                            <div class="card-opcao">
+                                <strong>Terrestre Aprimorado</strong>
+                                Seu Deslocamento terrestre aumenta para 40 pés.
+                            </div>
+                            <div class="card-opcao">
+                                <strong>Escalador</strong>
+                                Você recebe Deslocamento de Escalada de 30 pés.
+                            </div>
+                            <div class="card-opcao">
+                                <strong>Aquático</strong>
+                                Você recebe Deslocamento de Natação de 40 pés, e seu Exotraje pode funcionar normalmente enquanto estiver completamente submerso.
+                            </div>
+                            <div class="card-opcao">
+                                <strong>Propulsor</strong>
+                                Você recebe Deslocamento de Voo de 30 pés.
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- ESCOLHA: MÓDULO ESPECIALIZADO -->
+                    <li><strong>Módulo Especializado:</strong> Escolha um dos seguintes módulos para o seu Exotraje:
+                        <div class="grid-opcoes">
+                            <div class="card-opcao">
+                                <strong>Módulo Defensivo</strong>
+                                Sistemas adicionais de proteção reforçam seu Exotraje. Enquanto estiver utilizando o traje, você recebe +1 de bônus na CA.
+                            </div>
+                            <div class="card-opcao">
+                                <strong>Módulo de Armamento</strong>
+                                Uma arma de energia é integrada ao seu Exotraje (Arma marcial à distância, Dano: 1d8 Energia, Alcance: 12/36m, Munição ilimitada). Utiliza Destreza para jogadas de ataque e dano.
+                            </div>
+                            <div class="card-opcao" style="flex: 1 1 100%;">
+                                <strong>Módulo Utilitário</strong>
+                                Escolha uma ferramenta. Essa ferramenta é integrada ao seu Exotraje e pode ser estendida ou recolhida. Você ganha +1 em testes com essa ferramenta e proficiência nela enquanto usa o traje.
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- ESCOLHA: BLINDAGEM ADAPTATIVA -->
+                    <li><strong>Blindagem Adaptativa:</strong> Escolha um dos seguintes tipos de dano para receber Resistência enquanto estiver utilizando seu Exotraje:
+                        <div class="grid-opcoes">
+                            <div class="card-opcao" style="flex: 1 1 calc(20% - 15px); text-align: center;">
+                                <strong>Ácido</strong>
+                            </div>
+                            <div class="card-opcao" style="flex: 1 1 calc(20% - 15px); text-align: center;">
+                                <strong>Elétrico</strong>
+                            </div>
+                            <div class="card-opcao" style="flex: 1 1 calc(20% - 15px); text-align: center;">
+                                <strong>Fogo</strong>
+                            </div>
+                            <div class="card-opcao" style="flex: 1 1 calc(20% - 15px); text-align: center;">
+                                <strong>Frio</strong>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li style="margin-top: 15px;"><strong>Modo de Emergência:</strong> Quando sua Vida Falsa é reduzida a 0, o Exotraje não desliga imediatamente. Ele entra em Modo de Emergência por 1 minuto, durante o qual:
+                        <ul style="margin-left: 20px; margin-top: 5px; list-style-type: circle;">
+                            <li>Sua CA cai para 12.</li>
+                            <li>Seu Deslocamento cai para 20 pés.</li>
+                            <li>Você não pode usar seu Módulo Especializado nem sua Blindagem Adaptativa.</li>
+                            <li>Você ainda pode falar, mover-se e manipular objetos.</li>
+                            <li>Você não pode recuperar Vida Falsa por nenhum meio durante o Modo de Emergência.</li>
+                        </ul>
+                        <p style="margin-top: 5px;">Ao final do Modo de Emergência, o Exotraje desliga completamente, e você é forçado a sair para sua Forma Natural. Se você sair voluntariamente antes disso, o Modo de Emergência termina imediatamente.</p>
+                    </li>
+
+                    <li style="margin-top: 15px;"><strong>Auto-Reparo:</strong> Quando o traje está danificado, você pode permanecer dentro dele para executar um auto-reparo durante seus descansos:
+                        <ul style="margin-left: 20px; margin-top: 5px; list-style-type: circle;">
+                            <li><strong>Descanso Curto:</strong> O Exotraje recupera Vida Falsa igual ao seu nível de jogador × 5.</li>
+                            <li><strong>Descanso Longo:</strong> O Exotraje recupera toda a Vida Falsa.</li>
+                        </ul>
+                        <p style="margin-top: 5px;">Quando você é alvo de um efeito de magia curativa enquanto está vestindo o traje e possui menos que o máximo de Vida Falsa, a cura restaura Vida Falsa primeiro. Qualquer excedente cura seus PV reais.</p>
+                    </li>
+
+                    <li style="margin-top: 15px;"><strong>Substituição do Exotraje:</strong> Um Exotraje substituto pode ser encomendado a um artesão N0-V4 ou construído por alguém com proficiência em Ferramentas de Funileiro e acesso a materiais raros.
+                        <ul style="margin-left: 20px; margin-top: 5px; list-style-type: circle;">
+                            <li><strong>Tempo:</strong> 1d4 + 2 dias de trabalho.</li>
+                            <li><strong>Custo:</strong> 200 PO em materiais.</li>
+                            <li><strong>Adaptação:</strong> Um Exotraje construído para outro N0-V4 exige 1 dia de adaptação antes de poder ser usado.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            </div><!--FIM DA DIV recursos-detalhados-->
+        </div> <!--FIM DA DIV card-rpg-->
+    </div> <!--FIM DA DIV container-->
+</body>
+
+</html>
+
+```
