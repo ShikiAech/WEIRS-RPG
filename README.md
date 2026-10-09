@@ -5,6 +5,12 @@
 Um aplicativo web para recordação de campanhas, guia de criação básico e conteúdo traduzido de D&D 2024.
 
 ## 📋 Changelog
+### Versão 1.17.0
+- **Data:** 03/10/2026
+- **Melhorias:**
+  - Adição das raças Espaciais.
+  - Atualização dos Cranoris e Humanos Manchados.
+  - Adição dos talentos exclusivos de Humanos Manchados.
 
 ### Versão 1.16.3
 - **Data:** 07/10/2026
