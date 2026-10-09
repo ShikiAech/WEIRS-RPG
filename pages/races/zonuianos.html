@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zonuianos — Weirs RPG</title>
+    <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+    <link rel="stylesheet" href="/WEIRS-RPG/css/class-style.css">
+    <script src="/WEIRS-RPG/javascript/menu.js"></script>
+    <script src="/WEIRS-RPG/javascript/subclass-tab.js"></script>
+    <style>
+        /* Estilos para os cards de seleção lado a lado */
+        .grid-opcoes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card-opcao {
+            flex: 1 1 calc(25% - 15px);
+            min-width: 160px;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-fantasy, #4a3b2c);
+            border-radius: 6px;
+            padding: 15px;
+            box-sizing: border-box;
+            text-align: center;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card-opcao:hover {
+            border-color: var(--gold, #d4af37);
+            transform: translateY(-2px);
+        }
+
+        .card-opcao strong {
+            color: var(--gold, #d4af37);
+            display: block;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .card-opcao {
+                flex: 1 1 calc(50% - 15px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <!--BOTÃO DE RETORNO-->
+        <div style="margin-bottom: 30px;">
+            <a href="/WEIRS-RPG/pages/races/racas.html" class="btn-principal"
+                style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Raças</a>
+        </div>
+
+        <!--TÍTULO-->
+        <h2>Zonuianos</h2>
+
+        <div class="card-rpg">
+
+            <!--DETALHES DE CLASSE-->
+            <div class="layout-detalhes">
+                <img src="/WEIRS-RPG/img/zonuiano.png" alt="Zonuianos">
+                <div class="texto-lore">
+                    <h3>Civilização Moldada pelo Aether</h3>
+                    <p>Os Zonuianos são uma espécie em transição, passando pelo estágio tribal e desenvolvendo as primeiras grandes civilizações. O planeta hostil onde vivem os obrigou a se adaptarem, tornando-os habilidosos e destemidos. Eventualmente, eles aprenderam a usufruir do Aether presente em abundância no planeta. Os Zonuianos e o Aether establishedaram uma relação praticamente simbiótica, permitindo que o potencial da espécie disparasse em diversas áreas. A tecnologia que passou a existir desde então não é alimentada por metal e eletricidade. De medicina até construção de armas, o Aether é a fonte fundamental que alimenta a sociedade zonuiana.</p>
+
+                    <!--CARACTERÍSTICAS BÁSICAS-->
+                    <h4 style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">
+                        Características Iniciais</h4>
+                    <ul class="trait-list" style="margin-top: 15px;">
+                        <li><strong>Tipo de Criatura:</strong> Humanóide.</li>
+                        <li><strong>Tamanho:</strong> Médio.</li>
+                        <li><strong>Deslocamento:</strong> 30 pés (9 metros).</li>
+                        <li><strong>Idade:</strong> Atingem a maioridade aos 20 anos e vivem cerca de 100 anos. O uso de Aether permite o prolongamento do tempo de vida por décadas.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- HABILIDADES RACIAIS -->
+            <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+                <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Habilidades Raciais</h3>
+                
+                <ul class="trait-list">
+                    <li><strong>Transe No Xeol:</strong> Você não precisa dormir. Em vez disso, entra em um estado de meditação profunda para se conectar à fonte de Aether que flui por toda a vida. Você permanece consciente do ambiente durante o transe. Na conclusão de um Descanso Longo, você recebe os benefícios normais e Pontos de Vida temporários iguais ao seu Nível + modificador de Constituição. Esses PV temporários duram até serem perdidos ou até o fim do seu próximo Descanso Longo.</li>
+
+                    <!-- ESCOLHA: CONHECIMENTO NOMÁDICO -->
+                    <li style="margin-top: 15px;"><strong>Conhecimento Nomádico:</strong> Escolha uma das seguintes perícias para se tornar proficiente. Ao atingir o 5º nível, você adiciona o dobro do seu bônus de proficiência em testes para a perícia escolhida:
+                        <div class="grid-opcoes">
+                            <div class="card-opcao">
+                                <strong>Acrobacia</strong>
+                            </div>
+                            <div class="card-opcao">
+                                <strong>Atletismo</strong>
+                            </div>
+                            <div class="card-opcao">
+                                <strong>Natureza</strong>
+                            </div>
+                            <div class="card-opcao">
+                                <strong>Sobrevivência</strong>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li style="margin-top: 15px;"><strong>Infusão Espiritual:</strong> Escolha uma arma com a qual você seja proficiente. Você pode infundir sua energia etérea por 1 minuto na arma como uma Ação Bônus, ganhando o seguinte benefício:
+                        <p style="margin-top: 5px;">Enquanto infundida, ela causa <strong>+1d4 de dano</strong> do tipo Radiante ou Necrótico (à sua escolha).</p>
+                        <p style="margin-top: 5px;">Caso a arma esteja conectada a um Cristal de Aether, você também soma seu modificador de Constituição ao dano.</p>
+                        <p style="margin-top: 5px;">Você pode usar essa característica um número de vezes igual ao seu bônus de proficiência por Descanso Longo.</p>
+                    </li>
+
+                    <li style="margin-top: 15px;"><strong>Leitura Vital:</strong> Como uma Ação, você toca uma criatura viva e descobre uma informação sobre ela: se está envenenada, doente, amaldiçoada, enfeitiçada, com PV atuais abaixo do máximo, ou se é um morto-vivo. Você pode usar essa característica uma vez a cada Descanso Curto ou Longo.</li>
+
+                    <li style="margin-top: 15px;"><strong>Sintonia Aetheria:</strong> Você pode gastar 1 minuto meditando para sentir a presença de criaturas vivas (ou de Aether concentrado) em um raio de 30 pés (9 metros). Você consegue identificar a direção da presença, mas não a localização exata. Você pode usar essa característica um número de vezes igual ao seu bônus de proficiência por Descanso Longo.</li>
+                </ul>
+            </div>
+
+            </div><!--FIM DA DIV recursos-detalhados-->
+        </div> <!--FIM DA DIV card-rpg-->
+    </div> <!--FIM DA DIV container-->
+</body>
+
+</html>

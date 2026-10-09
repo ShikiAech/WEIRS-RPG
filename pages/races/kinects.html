@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kinect — Weirs RPG</title>
+    <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+    <link rel="stylesheet" href="/WEIRS-RPG/css/class-style.css">
+    <script src="/WEIRS-RPG/javascript/menu.js"></script>
+    <script src="/WEIRS-RPG/javascript/subclass-tab.js"></script>
+    <style>
+        /* Estilos para os cards de seleção lado a lado */
+        .grid-opcoes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card-opcao {
+            flex: 1 1 calc(20% - 15px);
+            min-width: 140px;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-fantasy, #4a3b2c);
+            border-radius: 6px;
+            padding: 15px;
+            box-sizing: border-box;
+            text-align: center;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card-opcao:hover {
+            border-color: var(--gold, #d4af37);
+            transform: translateY(-2px);
+        }
+
+        .card-opcao strong {
+            color: var(--gold, #d4af37);
+            display: block;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .card-opcao {
+                flex: 1 1 calc(50% - 15px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <!--BOTÃO DE RETORNO-->
+        <div style="margin-bottom: 30px;">
+            <a href="/WEIRS-RPG/pages/races/racas.html" class="btn-principal"
+                style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Raças</a>
+        </div>
+
+        <!--TÍTULO-->
+        <h2>Kinect</h2>
+
+        <div class="card-rpg">
+
+            <!--DETALHES DE CLASSE-->
+            <div class="layout-detalhes">
+                <img src="/WEIRS-RPG/img/kinect.jpg" alt="Kinect">
+                <div class="texto-lore">
+                    <h3>Construtos Aquáticos Elementais</h3>
+                    <p>Os Kinects são uma espécie de seres mecânicos desenvolvidos para habitar ambientes aquáticos. Seus corpos artificiais são formados por placas brancas articuladas, padrões vermelhos e diferentes estruturas hidrodinâmicas, incluindo barbatanas, estabilizadores e sistemas internos de propulsão. No lugar de um rosto orgânico, cada Kinect possui um display capaz de representar olhos, expressões e informações visuais. Sua voz é produzida artificialmente pelo próprio corpo. Cada Kinect também possui um sistema elemental integrado, responsável tanto por alimentar uma arma acoplada quanto por proteger seu corpo contra o mesmo tipo de energia. Os nomes Kinects são códigos formados por símbolos químicos e sequências numéricas, como H2O/00098.</p>
+
+                    <!--CARACTERÍSTICAS BÁSICAS-->
+                    <h4 style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">
+                        Características Iniciais</h4>
+                    <ul class="trait-list" style="margin-top: 15px;">
+                        <li><strong>Tipo de Criatura:</strong> Construto.</li>
+                        <li><strong>Tamanho:</strong> Médio.</li>
+                        <li><strong>Deslocamento:</strong> 30 pés.</li>
+                        <li><strong>Idade:</strong> Atingem a maioridade aos 2 anos e vivem cerca de 200 anos.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- HABILIDADES RACIAIS -->
+            <div style="margin-top: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+                <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Habilidades Raciais</h3>
+                
+                <ul class="trait-list">
+                    <li><strong>Natureza Mecânica:</strong> Seu corpo é uma máquina consciente e não depende das mesmas funções biológicas de criaturas orgânicas. Você não precisa respirar. Você possui Resistência a dano de Veneno e possui Vantagem em Salvaguardas realizadas para evitar ou encerrar a condição Envenenado.</li>
+
+                    <li style="margin-top: 15px;"><strong>Unidade Aquática:</strong> Seu corpo foi desenvolvido especificamente para funcionar em ambientes aquáticos. Você possui Deslocamento de Natação de 40 pés e pode utilizar normalmente suas características, armas e equipamentos enquanto estiver completamente submerso. Seu corpo também é construído para suportar grandes variações de pressão aquática e não sofre os efeitos ambientais normais provocados pela pressão de grandes profundidades.</li>
+
+                    <li style="margin-top: 15px;"><strong>Propulsor Integrado:</strong> Turbinas e sistemas de propulsão fazem parte do seu corpo. Como uma Ação Bônus, você pode ativar seus propulsores e realizar imediatamente a ação Disparada. Quando utiliza esta característica enquanto estiver submerso, seu movimento também não provoca Ataques de Oportunidade até o final do turno. Você pode utilizar esta característica um número de vezes igual ao seu Bônus de Proficiência e recupera todos os usos após terminar um Descanso Longo.</li>
+
+                    <li style="margin-top: 15px;"><strong>Estabilizadores Hidrodinâmicos:</strong> As barbatanas presentes em sua cabeça, costas e outras partes do corpo funcionam como estabilizadores e sensores de movimento. Enquanto estiver submerso, você possui Vantagem em testes de Força (Atletismo) relacionados a nadar ou resistir a correntes e movimentos forçados. Além disso, enquanto estiver nadando, você possui Vantagem em qualquer teste de atributo ou Salvaguarda realizado para resistir a ser movido contra sua vontade.</li>
+
+                    <!-- ESCOLHA: NÚCLEO ELEMENTAL -->
+                    <li style="margin-top: 15px;"><strong>Núcleo Elemental:</strong> Durante sua criação, escolha um dos seguintes tipos de dano para representar a energia que alimenta seu corpo. Você possui Resistência ao tipo de dano escolhido:
+                        <div class="grid-opcoes">
+                            <div class="card-opcao">
+                                <strong>Ácido</strong>
+                            </div>
+                            <div class="card-opcao">
+                                <strong>Elétrico</strong>
+                            </div>
+                            <div class="card-opcao">
+                                <strong>Fogo</strong>
+                            </div>
+                            <div class="card-opcao">
+                                <strong>Frio</strong>
+                            </div>
+                            <div class="card-opcao">
+                                <strong>Trovão</strong>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li style="margin-top: 15px;"><strong>Canhão Elemental:</strong> Seu corpo possui uma arma integrada alimentada diretamente pelo seu Núcleo Elemental. Como uma Ação, você dispara sua arma em uma linha de 9 metros de comprimento por 1,5 metro de largura. Cada criatura na linha deve realizar uma Salvaguarda de Destreza.
+                        <p style="margin-top: 5px;"><strong>CD da Salvaguarda:</strong> 8 + seu Bônus de Proficiência + seu modificador de Constituição.</p>
+                        <p style="margin-top: 5px;">Em uma falha, a criatura sofre 1d10 de dano do tipo escolhido para seu Núcleo Elemental. Em um sucesso, sofre metade desse dano. O dano aumenta para 2d10 no 5º Nível, 3d10 no 11º Nível e 4d10 no 17º Nível.</p>
+                        <p style="margin-top: 5px;">Você pode utilizar seu Canhão Elemental um número de vezes igual ao seu Bônus de Proficiência e recupera todos os usos após terminar um Descanso Longo.</p>
+                    </li>
+
+                    <li style="margin-top: 15px;"><strong>Display Facial:</strong> Você não possui características faciais orgânicas. No lugar delas existe um display integrado capaz de reproduzir olhos, símbolos, cores e expressões. Essa característica não concede benefícios mecânicos, mas permite que um Kinect demonstre emoções e se comunique visualmente mesmo sem utilizar sua voz sintetizada.</li>
+                </ul>
+            </div>
+
+            </div><!--FIM DA DIV recursos-detalhados-->
+        </div> <!--FIM DA DIV card-rpg-->
+    </div> <!--FIM DA DIV container-->
+</body>
+
+</html>
