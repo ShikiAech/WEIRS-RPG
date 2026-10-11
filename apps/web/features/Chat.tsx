@@ -157,6 +157,8 @@ function Room({
   const [secret, setSecret] = useState(false);
   const [revealing, setRevealing] = useState('');
   const [sessionBusy, setSessionBusy] = useState(false);
+  const [contextBusy, setContextBusy] = useState(false);
+  const tableBusy = sessionBusy || contextBusy;
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [status, setStatus] = useState<ChatStatus>('conectando');
   const [loading, setLoading] = useState(true);
@@ -359,7 +361,7 @@ function Room({
     }
   }
   async function send(command?: ChatCommand) {
-    if (busy.current || sessionBusy || !canSend || liveRole === 'espectador' || forbidden.current)
+    if (busy.current || tableBusy || !canSend || liveRole === 'espectador' || forbidden.current)
       return;
     let next = attempt;
     try {
@@ -411,7 +413,7 @@ function Room({
     }
   }
   async function reveal(id: string) {
-    if (revealing || accessLost || liveRole !== 'mestre') return;
+    if (revealing || accessLost || tableBusy || sending || attempt || liveRole !== 'mestre') return;
     setRevealing(id);
     setSendError('');
     try {
@@ -426,7 +428,7 @@ function Room({
       if (mounted.current) setRevealing('');
     }
   }
-  const disabled = !canSend || liveRole === 'espectador' || accessLost || loading || sessionBusy;
+  const disabled = !canSend || liveRole === 'espectador' || accessLost || loading || tableBusy;
   return (
     <>
       <div className="session-toolbar" aria-label="Ferramentas da sessão">
@@ -451,7 +453,7 @@ function Room({
             key={kind}
             className="button secondary"
             aria-pressed={panel === kind}
-            disabled={sessionBusy || sending || !!attempt || accessLost}
+            disabled={tableBusy || sending || !!attempt || accessLost}
             onClick={() => setPanel(kind)}
           >
             {kind === 'ficha' ? 'Minha ficha' : kind === 'combate' ? 'Combate' : 'Loja'}
@@ -465,8 +467,12 @@ function Room({
               campaignId={campaign.id}
               userId={userId}
               role={liveRole}
+              onRoll={(command) => void send(command)}
+              onMessage={(message) => add([message])}
+              onBusy={setContextBusy}
+              chatDisabled={loading || accessLost || sessionBusy || sending || !!attempt}
               onOpenSheet={(id) => {
-                if (!sessionBusy && !sending && !attempt) {
+                if (!tableBusy && !sending && !attempt) {
                   setSheetId(id);
                   setPanel('ficha');
                 }
@@ -483,7 +489,7 @@ function Room({
               userId={userId}
               role={liveRole}
               kind={panel}
-              chatDisabled={loading || accessLost || sessionBusy || sending || !!attempt}
+              chatDisabled={loading || accessLost || tableBusy || sending || !!attempt}
               onClose={() => setPanel('')}
               onRoll={(command) => void send(command)}
               onMessage={(message) => add([message])}
@@ -502,7 +508,7 @@ function Room({
                 role={liveRole}
                 kind={panel}
                 selectedSheetId={sheetId}
-                chatDisabled={loading || accessLost || sessionBusy || sending || !!attempt}
+                chatDisabled={loading || accessLost || tableBusy || sending || !!attempt}
                 onClose={() => {
                   setPanel('');
                   setSheetId('');
@@ -621,7 +627,7 @@ function Room({
                   Visibilidade da rolagem
                   <select
                     value={secret ? 'secreta' : 'publica'}
-                    disabled={sending || !!attempt || accessLost}
+                    disabled={tableBusy || sending || !!attempt || accessLost}
                     onChange={(e) => setSecret(e.target.value === 'secreta')}
                   >
                     <option value="publica">Pública</option>
@@ -678,6 +684,7 @@ function Room({
                   </button>
                   <button
                     className="text-button"
+                    disabled={tableBusy}
                     onClick={() => {
                       setAttempt(null);
                       pendingSend.current = false;

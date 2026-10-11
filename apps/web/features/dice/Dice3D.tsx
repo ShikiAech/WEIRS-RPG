@@ -4,6 +4,7 @@ import {
   useContext,
   useEffect,
   useId,
+  useLayoutEffect,
   useMemo,
   useReducer,
   useRef,
@@ -34,6 +35,12 @@ const context = createContext({
 const motion = () => window.matchMedia('(prefers-reduced-motion: reduce)');
 const subscribeMotion = (notify: () => void) => {
   const query = motion();
+  query.addEventListener('change', notify);
+  return () => query.removeEventListener('change', notify);
+};
+const compactLayout = () => window.matchMedia('(max-width: 760px)');
+const subscribeCompactLayout = (notify: () => void) => {
+  const query = compactLayout();
   query.addEventListener('change', notify);
   return () => query.removeEventListener('change', notify);
 };
@@ -135,13 +142,33 @@ export function DiceSettings() {
 export function DicePanel({ sessionWindow = '' }: { sessionWindow?: string } = {}) {
   const dice = useDice3D();
   const id = useId();
+  const compact = useSyncExternalStore(subscribeCompactLayout, () => compactLayout().matches);
+  const [automaticallyCollapsed, setAutomaticallyCollapsed] = useState(false);
+  const current = useRef(dice.current);
+  current.current = dice.current;
+  useLayoutEffect(() => {
+    // Abrir um painel dá prioridade à ficha/combate. Uma animação em andamento continua.
+    // Esta preferência é temporária: não desliga as próximas animações no navegador.
+    const activePanel = document.querySelector('.session-floating:not(.is-collapsed)');
+    setAutomaticallyCollapsed(
+      Boolean(compact && sessionWindow && activePanel && current.current?.finished),
+    );
+  }, [sessionWindow, compact]);
+  useLayoutEffect(() => {
+    // Uma nova rolagem traz a janela de volta, mesmo com a ficha ainda aberta.
+    setAutomaticallyCollapsed(false);
+  }, [dice.current?.message.id]);
+  const collapsed = !dice.open || automaticallyCollapsed;
   return (
     <FloatingWindow
       id="dados"
       title="Mesa de dados 3D"
       className="dice-accordion dice-floating"
-      collapsed={!dice.open}
-      onCollapse={(collapsed) => dice.expand(!collapsed)}
+      collapsed={collapsed}
+      onCollapse={(next) => {
+        setAutomaticallyCollapsed(false);
+        dice.expand(!next);
+      }}
       toggleLabel="Mesa de dados 3D"
       avoidKey={sessionWindow + ':' + (dice.current?.message.id || '')}
       initial={{
@@ -156,11 +183,11 @@ export function DicePanel({ sessionWindow = '' }: { sessionWindow?: string } = {
         id={id}
         role="region"
         aria-label="Dados 3D"
-        hidden={!dice.open}
+        hidden={collapsed}
         className="dice-tray"
         data-phase={!dice.current ? 'ociosa' : dice.current.finished ? 'concluida' : 'rolando'}
       >
-        {dice.open && (
+        {!collapsed && (
           <>
             <DiceSettings />
             {dice.current ? (

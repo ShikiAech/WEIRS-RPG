@@ -6,7 +6,7 @@ Um aplicativo web para recordação de campanhas, guia de criação básico e co
 
 ## Webapp em desenvolvimento
 
-A nova área em `app.html` reúne campanhas, compêndio pesquisável, fichas completas com homebrew e chat com dados. As páginas e imagens originais continuam disponíveis. PostgreSQL/Supabase mantém fichas e conversas com acesso por campanha e login Google; sem configuração, é possível experimentar uma ficha temporária e importar/exportar JSON.
+A nova área em `app.html` reúne campanhas, compêndio pesquisável, fichas completas com homebrew e mesa virtual com mapa central e chat lateral. As páginas e imagens originais continuam disponíveis. PostgreSQL/Supabase mantém fichas, conversas e mapas com acesso por campanha e login Google; sem configuração, é possível experimentar uma ficha temporária e importar/exportar JSON.
 
 ```powershell
 npm ci
@@ -17,9 +17,11 @@ Abra `http://127.0.0.1:5173/WEIRS-RPG/app.html`. Consulte o [guia de configuraç
 
 Verificações: `npm test`, `npm run build` e `npm run test:browser` (instale Chromium com `npx playwright install chromium`). O build gera `dist/` e verifica que todas as fontes legadas foram preservadas. O compêndio é reimportado a partir do HTML durante o build; o JSON gerado não entra no Git.
 
-O chat inclui histórico, Realtime, `/r` e `/roll`, vantagem/desvantagem e ações das fichas. Rolagens são calculadas e gravadas no banco, com proteção contra duplicação. Dados 3D gratuitos animam os seus envios confirmados em um accordion persistente; total e faces são revelados quando a animação termina. Há opção de recolher, desligar e suporte a movimento reduzido. Para ativar o chat no projeto existente, execute a segunda migração seguindo o [guia do chat](docs/configuracao-chat.md).
+O chat inclui histórico, Realtime, `/r` e `/roll`, vantagem/desvantagem e ações das fichas. Mestres podem esconder resultados com `/gmroll` e revelá-los depois. Rolagens são calculadas e gravadas no banco, com proteção contra duplicação. Dados 3D gratuitos animam os seus envios confirmados em uma janela móvel e recolhível; total e faces são revelados quando a animação termina. Há opção de desligar e suporte a movimento reduzido. Para ativar o chat no projeto existente, siga o [guia do chat](docs/configuracao-chat.md).
 
-**Minha ficha**, **Combate** e **Loja** permitem jogar pelo chat: testes, ataques, magias/danos configurados, PV/condições/concentração, dados de vida/morte, espaços, recursos e descansos; iniciativa, NPCs, turnos e rodadas; compra/venda com moedas e estoque transacionais. Para ativar esses controles, instale `202610070004_mesa.sql` seguindo o [guia de sessão jogável](docs/configuracao-mesa.md). O combate funciona por teatro da mente, com decisões e exceções homebrew do mestre. Uploads, mapas com tokens e automação completa de regras seguem no plano de evolução; a publicação e a migração remota não foram executadas nesta entrega local.
+**Minha ficha**, **Combate** e **Loja** permitem jogar pela mesa: testes, ataques, magias/danos configurados, PV/condições/concentração, dados de vida/morte, espaços, recursos e descansos; iniciativa, NPCs, turnos e rodadas; compra/venda com moedas e estoque transacionais. Para ativar esses controles, instale `202610070004_mesa.sql` seguindo o [guia de sessão jogável](docs/configuracao-mesa.md).
+
+Mapas incluem cenas públicas/privadas, uploads, tokens ligados à ficha/combate, controle por jogador, PV e condições contextuais, favoritos, áreas de magia, auras, seleção e movimento de grupos, cópias e desfazer/refazer. O [guia da mesa virtual](docs/configuracao-mesa-virtual.md) detalha o uso e a instalação das migrações `005 → 006 → 007`; quem já instalou `005` e `006` executa apenas `202610110007_agilidade.sql`. Não há servidor ou assinatura adicional. Iluminação dinâmica e automação completa de regras permanecem pendentes; decisões e exceções homebrew ficam com o mestre. A publicação e a migração remota não foram executadas nesta entrega local.
 
 ## 📋 Changelog
 

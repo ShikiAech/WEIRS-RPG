@@ -2,7 +2,9 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 import type {
   AssetRecord,
   MapCommand,
+  MapResponse,
   SceneRecord,
+  ScenePatch,
   TokenRecord,
 } from '../../../../packages/contracts/tabletop';
 import type { SheetRecord } from '../../../../packages/contracts/sheets';
@@ -10,7 +12,7 @@ import type { Combatant } from '../../../../packages/contracts/session';
 
 type Common = {
   disabled: boolean;
-  operate: (command: MapCommand) => Promise<boolean>;
+  operate: (command: MapCommand) => Promise<boolean | MapResponse>;
   onClose: () => void;
   assets: AssetRecord[];
 };
@@ -28,6 +30,9 @@ export function SceneEditor({
     [grid, setGrid] = useState(scene?.grade ?? true),
     [published, setPublished] = useState(scene?.publicada ?? true),
     [background, setBackground] = useState(scene?.fundo_id || '');
+  const [offsetX, setOffsetX] = useState(scene?.fundo_x ?? 0),
+    [offsetY, setOffsetY] = useState(scene?.fundo_y ?? 0),
+    [scale, setScale] = useState((scene?.fundo_escala ?? 1) * 100);
   return (
     <form
       className="map-editor"
@@ -41,11 +46,23 @@ export function SceneEditor({
           grade: grid,
           publicada: published,
           fundo_id: background || null,
+          ...(scene ? { fundo_x: offsetX, fundo_y: offsetY, fundo_escala: scale / 100 } : {}),
         };
+        const changed = scene
+          ? (Object.fromEntries(
+              Object.entries(patch).filter(
+                ([key, value]) => value !== scene[key as keyof SceneRecord],
+              ),
+            ) as ScenePatch)
+          : patch;
+        if (scene && !Object.keys(changed).length) {
+          onClose();
+          return;
+        }
         if (
           await operate(
             scene
-              ? { tipo: 'cena_atualizar', id: scene.id, versao: scene.versao, patch }
+              ? { tipo: 'cena_atualizar', id: scene.id, versao: scene.versao, patch: changed }
               : { tipo: 'cena_criar', ...patch },
           )
         )
@@ -99,8 +116,9 @@ export function SceneEditor({
           <input
             required
             type="number"
-            min="1"
-            max="100"
+            min="0.01"
+            max="1000"
+            step="any"
             value={unit}
             onChange={(event) => setUnit(Number(event.target.value))}
           />
@@ -123,6 +141,64 @@ export function SceneEditor({
               ))}
           </select>
         </label>
+        {scene && background && (
+          <details className="map-advanced-fields">
+            <summary>Alinhar imagem à grade</summary>
+            <div className="map-field-pair">
+              <label>
+                Deslocamento horizontal do fundo (células)
+                <input
+                  required
+                  type="number"
+                  min="-100"
+                  max="100"
+                  step="any"
+                  value={offsetX}
+                  onChange={(event) => setOffsetX(Number(event.target.value))}
+                />
+              </label>
+              <label>
+                Deslocamento vertical do fundo (células)
+                <input
+                  required
+                  type="number"
+                  min="-100"
+                  max="100"
+                  step="any"
+                  value={offsetY}
+                  onChange={(event) => setOffsetY(Number(event.target.value))}
+                />
+              </label>
+            </div>
+            <label>
+              Escala do fundo (%)
+              <input
+                required
+                type="number"
+                min="10"
+                max="1000"
+                step="any"
+                value={scale}
+                onChange={(event) => setScale(Number(event.target.value))}
+              />
+            </label>
+            <button
+              type="button"
+              className="text-button"
+              onClick={() => {
+                setOffsetX(0);
+                setOffsetY(0);
+                setScale(100);
+              }}
+            >
+              Restaurar alinhamento
+            </button>
+            <p className="map-help">
+              100% ocupa a cena inteira. Valores positivos movem o fundo para a direita e para
+              baixo. Salve para conferir o alinhamento no mapa.
+            </p>
+          </details>
+        )}
         <label className="map-check">
           <input
             type="checkbox"
@@ -151,7 +227,10 @@ export function SceneEditor({
         </button>
       </fieldset>
       <p className="map-help">
-        O fundo ocupa toda a cena. Ajuste o número de células para alinhar a grade da imagem.
+        Cada célula usa a distância informada em pés.{' '}
+        {scene
+          ? 'Ajuste o fundo para alinhar a grade da imagem.'
+          : 'Depois de criar a cena, edite-a para ajustar o alinhamento da imagem.'}
       </p>
     </form>
   );
@@ -186,6 +265,9 @@ export function TokenEditor({
   const [hidden, setHidden] = useState(token?.oculto || false),
     [locked, setLocked] = useState(token?.bloqueado || false),
     [rotation, setRotation] = useState(token?.rotacao || 0);
+  const [auraEnabled, setAuraEnabled] = useState(Boolean(token?.aura)),
+    [auraFeet, setAuraFeet] = useState((token?.aura?.raio ?? 2) * scene.unidade),
+    [auraColor, setAuraColor] = useState(token?.aura?.cor ?? '#d5b873');
   return (
     <form
       className="map-editor"
@@ -202,6 +284,7 @@ export function TokenEditor({
           oculto: hidden,
           bloqueado: locked,
           rotacao: rotation,
+          aura: auraEnabled ? { raio: auraFeet / scene.unidade, cor: auraColor } : null,
           ...(token
             ? {
                 x: Math.min(token.x, scene.largura - size),
@@ -331,6 +414,47 @@ export function TokenEditor({
           />
           <small>{rotation}°</small>
         </label>
+        <details className="map-advanced-fields" open={auraEnabled || undefined}>
+          <summary>Aura do token</summary>
+          <label className="map-check">
+            <input
+              type="checkbox"
+              checked={auraEnabled}
+              onChange={(event) => setAuraEnabled(event.target.checked)}
+            />
+            Mostrar aura
+          </label>
+          {auraEnabled && (
+            <>
+              <div className="map-field-pair">
+                <label>
+                  Raio da aura (pés)
+                  <input
+                    required
+                    type="number"
+                    min={scene.unidade * 0.25}
+                    max={scene.unidade * 20}
+                    step="any"
+                    value={auraFeet}
+                    onChange={(event) => setAuraFeet(Number(event.target.value))}
+                  />
+                </label>
+                <label>
+                  Cor da aura
+                  <input
+                    type="color"
+                    value={auraColor}
+                    onChange={(event) => setAuraColor(event.target.value)}
+                  />
+                </label>
+              </div>
+              <p className="map-help">
+                Raio medido a partir do centro do token. Aura visual; efeitos e condições continuam
+                sob controle da mesa.
+              </p>
+            </>
+          )}
+        </details>
         <label className="map-check">
           <input
             type="checkbox"

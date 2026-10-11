@@ -79,7 +79,7 @@ export async function chatBackend(
   // A mesa vazia é o estado inicial para os testes que exercitam apenas chat/ficha.
   // tabletopBackend registra respostas específicas por cima destas rotas.
   await page.route(
-    /https:\/\/weirs-test\.supabase\.co\/rest\/v1\/(cenas_mapa|tokens_mapa|arquivos_mapa|marcadores_mapa)(\?|$)/,
+    /https:\/\/weirs-test\.supabase\.co\/rest\/v1\/(cenas_mapa|tokens_mapa|areas_mapa|arquivos_mapa|marcadores_mapa)(\?|$)/,
     (route) => route.fulfill({ contentType: 'application/json', body: '[]' }),
   );
   await page.route('https://weirs-test.supabase.co/rest/v1/perfis**', (route) =>

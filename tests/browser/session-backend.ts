@@ -117,6 +117,22 @@ export async function sessionBackend(
           b.turno = b.participantes[0].id;
         }
         if (c.acao === 'avancar') b.rodada++;
+        if (c.acao === 'ajustar') {
+          const participant = b.participantes.find((row) => row.id === c.id);
+          if (!participant) return respond({ code: 'WM003' }, 400);
+          for (const key of ['pvAtuais', 'pvMaximos', 'ca', 'iniciativa', 'nome']) {
+            if (Object.hasOwn(c, key)) participant[key] = c[key];
+          }
+        }
+        if (c.acao === 'remover') {
+          b.participantes = b.participantes.filter((row) => row.id !== c.id);
+          if (!b.participantes.some((row) => row.id === b.turno))
+            b.turno = b.participantes[0]?.id || '';
+        }
+        if (c.acao === 'encerrar') {
+          b.ativo = false;
+          b.turno = '';
+        }
       }
       if (f) f.versao++;
       state.mesa.versao++;

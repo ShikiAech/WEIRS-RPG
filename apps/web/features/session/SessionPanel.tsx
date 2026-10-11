@@ -32,7 +32,13 @@ export function SessionPanel({
     if (selectedSheetId && session.records.some((r) => r.id === selectedSheetId))
       session.setSelected(selectedSheetId);
   }, [selectedSheetId, session.records]);
-  const { record, mesa } = session;
+  const { mesa } = session;
+  const authorizedRecords = session.records.filter(
+    (r) =>
+      role === 'mestre' ||
+      ((role === 'jogador' || role === 'espectador') && r.proprietario_id === userId),
+  );
+  const record = authorizedRecords.find((r) => r.id === session.selected);
   const master = role === 'mestre',
     readonly = role === 'espectador';
   const disabled =
@@ -86,7 +92,7 @@ export function SessionPanel({
             <option value="" disabled>
               Selecione uma ficha
             </option>
-            {session.records.map((r) => (
+            {authorizedRecords.map((r) => (
               <option key={r.id} value={r.id}>
                 {r.nome}
               </option>
@@ -135,6 +141,7 @@ export function SessionPanel({
         <SheetPlay
           key={record.id}
           record={record}
+          userId={userId}
           disabled={disabled || !editable}
           onRoll={onRoll}
           operate={(c) => session.operate(c)}

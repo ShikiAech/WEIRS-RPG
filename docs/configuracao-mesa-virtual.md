@@ -1,16 +1,17 @@
 # Ativar e usar a mesa virtual
 
-A tela **Chat** agora é a mesa virtual: mapa ao centro, conversa à direita e janelas móveis de ficha, combate e dados. No celular, **Mapa** e **Chat** alternam a área principal. O login, as campanhas, as fichas e o conteúdo original continuam no mesmo projeto.
+A tela **Chat** é a mesa virtual: mapa ao centro, conversa à direita e janelas móveis de ficha, combate e dados. No celular, **Mapa** e **Chat** alternam a área principal. Controles de PV, condições e ações favoritas aparecem ao selecionar um token. O diário, bestiário, login, campanhas, fichas e conteúdo original continuam no mesmo projeto.
 
 ## Instalar no Supabase existente
 
-Esta etapa depende das migrações `001` a `004` já instaladas. Não repita essas migrações, o seed ou a configuração de OAuth.
+Esta etapa depende das migrações `001` a `004` já instaladas. **Se você já instalou `005` e `006`, execute apenas `007` no passo 4.** Não repita migrações concluídas, o seed ou a configuração de OAuth.
 
 1. No [Supabase](https://supabase.com/dashboard), abra seu projeto e **SQL Editor → New query**.
 2. Copie todo o arquivo [`202610110005_rolagens_secretas.sql`](../supabase/migrations/202610110005_rolagens_secretas.sql), incluindo `BEGIN;` e `COMMIT;`, e execute **Run** com a conexão administrativa padrão `postgres`.
 3. Aguarde o sucesso. Em **outra consulta**, execute todo o arquivo [`202610110006_mesa_virtual.sql`](../supabase/migrations/202610110006_mesa_virtual.sql).
-4. Execute cada arquivo **uma vez**, nessa ordem. Ambos preservam campanhas, fichas e mensagens. Se houver erro, a transação é revertida; guarde o erro antes de tentar novamente.
-5. Se o aplicativo disser que a função não existe, atualize o cache da API:
+4. Depois de `006`, em **outra consulta**, execute todo o arquivo [`202610110007_agilidade.sql`](../supabase/migrations/202610110007_agilidade.sql). Ele adiciona áreas de magia, auras, alinhamento de fundo e operações de vários tokens.
+5. Execute cada arquivo **uma vez**, nessa ordem: `005 → 006 → 007`. Eles preservam campanhas, fichas e mensagens. Se houver erro, a transação é revertida; guarde o erro antes de tentar novamente.
+6. Atualize o cache da API e recarregue o aplicativo:
 
 ```sql
 NOTIFY pgrst, 'reload schema';
@@ -24,17 +25,22 @@ FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace
 WHERE (n.nspname,c.relname) IN (
  ('private','rolagens_secretas'), ('private','operacoes_mapa'),
  ('public','cenas_mapa'), ('public','tokens_mapa'),
- ('public','arquivos_mapa'), ('public','marcadores_mapa'));
+ ('public','arquivos_mapa'), ('public','marcadores_mapa'),
+ ('public','areas_mapa'));
 
 SELECT id, public, file_size_limit, allowed_mime_types
 FROM storage.buckets WHERE id='weirs-mesa';
 
 SELECT schemaname, tablename FROM pg_publication_tables
 WHERE pubname='supabase_realtime' AND schemaname='public'
- AND tablename IN ('mensagens_chat','cenas_mapa','tokens_mapa','arquivos_mapa','marcadores_mapa');
+ AND tablename IN ('mensagens_chat','cenas_mapa','tokens_mapa','arquivos_mapa','marcadores_mapa','areas_mapa');
 ```
 
-As seis tabelas devem indicar `rls=true`, o bucket deve ter `public=false`, e a publicação deve conter as cinco tabelas. A migração configura essa publicação quando a publicação padrão do Supabase existe. A interface também recupera alterações periodicamente enquanto está visível. Não crie um bucket público nem adicione chaves administrativas ao navegador.
+As sete tabelas devem indicar `rls=true`, o bucket deve ter `public=false`, e a publicação deve conter as seis tabelas. A migração configura essa publicação quando a publicação padrão do Supabase existe. A interface também recupera alterações periodicamente enquanto está visível. Não crie um bucket público nem adicione chaves administrativas ao navegador.
+
+`areas_mapa` já recebe RLS na migração: membros leem apenas áreas autorizadas, e todas as alterações passam pelo RPC `operar_mapa`, que confere papel, campanha, controle do token e versão. Os recibos de operações continuam em `private.operacoes_mapa`, com RLS e sem acesso direto dos clientes. Reenviar uma operação confere as permissões atuais antes de devolver o resultado salvo; perder o papel de mestre impede recuperar snapshots privados de operações antigas.
+
+Esta etapa usa o Supabase e a hospedagem existentes. Não adiciona servidor, assinatura ou dependência de produto; continua consumindo as quotas de banco, Storage e tráfego do projeto atual.
 
 O bucket aceita PNG, JPEG, WebP e PDF de até **5 MiB**, com reserva de até **100 MiB por campanha**, incluindo uploads pendentes. Imagens grandes são reduzidas para até 4096 pixels antes do envio; o original local não é alterado. PDFs não são convertidos. O arquivo enviado deve ter até 20 MiB para essa redução local. Downloads usam a sessão autenticada e URLs locais temporárias; arquivos privados não recebem URLs públicas. Consulte os [buckets privados do Supabase](https://supabase.com/docs/guides/storage/buckets/fundamentals).
 
@@ -64,6 +70,51 @@ A opção também vale para testes, ataques e magias enviados pela ficha durante
 
 Tokens vinculados exibem PV e sinais de condições/concentração quando esses dados estão autorizados ou disponíveis no combate. O combatente atual recebe um aro de destaque. **Ficha do token** ou duplo clique abre a ficha autorizada. Remover um NPC do encontro preserva o token e desfaz seu vínculo com aquele combatente.
 
+### Alinhar fundo e mostrar aura
+
+- Depois de criar uma cena com imagem, abra **Editar cena → Alinhar imagem à grade**. Deslocamentos horizontal/vertical usam células; valores positivos movem para a direita/baixo. **Escala do fundo (%)** começa em 100% e aceita 10% a 1000%. Salve para conferir; **Restaurar alinhamento** volta os campos para 0/0/100% antes de salvar.
+- Em **Editar token → Aura do token**, marque **Mostrar aura**, defina raio em pés e cor. O raio parte do centro do token, com limite de 0,25 a 20 células convertido para a distância da cena. A aura é visual; não aplica condições, alcance ou efeitos automaticamente.
+
+## PV e ações sem abrir a ficha completa
+
+1. Selecione um token no mapa. Se estiver pequeno pelo zoom, abra **Selecionar tokens** na barra lateral e escolha o personagem na lista. O foco retorna ao token; **Mover token** no cartão de ações oferece botões de direção para mover sem arrastar, inclusive no celular.
+2. Abra **PV e condições**, informe a quantidade e escolha **Aplicar dano no token**, **Curar token** ou **PV temporários do token**. Na ficha, o dano absorve PV temporários primeiro; cura respeita o máximo. PV temporários usam o maior valor, sem somar.
+3. **Condição do token** aceita condições sugeridas ou texto homebrew. Use **Aplicar condição no token**; clique na condição com **×** para removê-la. Se houver concentração, **Encerrar concentração no token** limpa o efeito.
+4. O proprietário da ficha e o mestre podem operar esses controles. Controlar o movimento de um token não concede permissão de editar a ficha alheia. Espectadores acompanham sem alterar.
+
+NPCs sem ficha, vinculados ao combate, têm **dano/cura pelo mestre**. Condições, concentração e PV temporários nesses controles usam uma ficha; não há editor universal desses estados para NPCs nesta etapa. Tokens sem ficha ou vínculo de combate precisam de um desses vínculos antes de controlar PV.
+
+As alterações de estado aparecem no chat. **Tokens ocultos bloqueiam essas ações rápidas**, para que o contexto não anuncie nomes ou PV privados. Revele o token antes de usá-las; a opção de rolagem secreta não torna alterações de combate privadas.
+
+### Favoritar e rolar rapidamente
+
+1. Abra **Minha ficha** ou **Ficha do token**. Clique na **☆** ao lado de um teste, resistência, ataque, magia ou dano. A estrela vira **★**. Cada ficha aceita até **12 favoritos** neste navegador, separados por usuário e campanha.
+2. Os favoritos aparecem no bloco recolhível **Ações favoritas** da ficha e em **Ações rápidas** do token. Escolha **Modo dos testes** na ficha ou **Modo das ações rápidas** no token: normal, vantagem ou desvantagem.
+3. Clique na ação favorita para enviar ao chat. Ela usa a ficha salva e a versão atual, incluindo modificadores e nomes alterados. Dano, anúncio de CD, conjuração, teste de morte e dado de vida usam modo normal quando a ação exige isso.
+4. A visibilidade segue **Visibilidade da rolagem** do chat. O mestre pode usar **Só mestres**; iniciativa, morte e dado de vida continuam exigindo rolagem pública.
+5. Use **★** para retirar um favorito. Uma entrada removida da ficha deixa o atalho indisponível; remova-o dos favoritos para liberar espaço.
+
+Favoritos guardam somente referências de ação/entrada em preferências locais. Não guardam resultados, fórmulas calculadas, nomes privados ou cópias da ficha, e não sincronizam automaticamente entre dispositivos. Dados de vida esgotados e testes de morte indisponíveis ficam bloqueados.
+
+## Áreas de magia
+
+1. Abra **Áreas de magia** na barra do mapa. Defina nome, forma, tamanho em pés e cor.
+2. **Círculo:** tamanho é o **raio**. **Cone:** tamanho é o **comprimento**. **Quadrado:** tamanho é o **lado**, com posição no centro. **Linha:** tamanho é o **comprimento**, com largura em campo separado.
+3. Use **Posicionar no mapa**. Clique para definir a origem ou arraste da origem na direção desejada. A área aparece como prévia; ainda não foi compartilhada. Use **Criar área** para gravar.
+4. Se preferir precisão, preencha X/Y em células e direção em graus. Tamanho aceita 0,25 a 100 células; a largura da linha aceita 0,1 a 20 células, convertidas para pés pela unidade da cena.
+5. Na lista **Áreas nesta cena**, use **Ajustar** para editar ou **Remover** para excluir. O mestre pode administrar todas; jogadores administram as suas áreas ou áreas ligadas a tokens que controlam. Espectadores apenas veem.
+
+As áreas persistem e chegam às sessões autorizadas da mesma cena, com limite de **100 por cena**. **Vincular ao token** define vínculo e controle da área; uma área ligada a token oculto permanece privada para mestres. Excluir o token remove suas áreas vinculadas. Áreas são marcações visuais: não rolam dano nem escolhem alvos automaticamente.
+
+## Selecionar grupos, duplicar e desfazer
+
+- **Mestre:** use **Shift + clique** para adicionar/remover tokens da seleção ou **Shift + arrastar** no fundo para selecionar com um retângulo. **Selecionar tokens** oferece caixas de seleção para usar também no celular.
+- Arraste um token selecionado ou use as setas/botões de movimento para mover o grupo. As distâncias entre tokens são preservadas e o grupo para nos limites da cena. Cada operação aceita até **40 tokens**, com gravação atômica: um conflito impede o lote inteiro.
+- **Duplicar seleção** cria novas identidades perto dos originais e seleciona as cópias. O vínculo com NPC de combate é removido. Copiar um token não cria outra ficha: cópias ligadas à mesma ficha continuam compartilhando seus PV e estado.
+- **Desfazer alteração / Refazer alteração**, ou **Ctrl+Z / Ctrl+Shift+Z** com foco no mapa, percorrem até **20 alterações confirmadas** desta sessão e cena: movimentos/edições de tokens, duplicação, alinhamento de fundo e desenhos/neblina reversíveis.
+
+Esse histórico fica na memória da aba, sem afetar dados, compras, PV ou operações de outros participantes. Trocar cena, papel ou usuário, recarregar a página, excluir definitivamente um token/cena, ativar/publicar/redimensionar uma cena ou liberar uma tentativa desconhecida limpa o histórico. Áreas de magia não têm desfazer nesta etapa. Se outra sessão alterar o mesmo objeto, desfazer/refazer recusa o conflito em vez de sobrescrever a edição; confira a versão atual antes de continuar. Uma nova alteração após uma edição externa também inicia um histórico novo.
+
 ## Explorar e jogar
 
 - **Mover mapa**, arrastar o fundo ou botão central/direito: deslocar a câmera. Roda do mouse e botões **+/−**: zoom. **Enquadrar mapa**: retornar ao enquadramento completo.
@@ -72,7 +123,8 @@ Tokens vinculados exibem PV e sinais de condições/concentração quando esses 
 - **Cobrir áreas não reveladas** e **Revelar área**: o mestre abre retângulos no mapa. **Cobrir novamente** restaura a cobertura. Essa é uma máscara visual: o fundo completo é baixado pelo participante autorizado; use tokens ocultos e arquivos privados para segredos que precisam de proteção real.
 - **Desenhar no mapa**: o mestre cria traços compartilhados. **Limpar desenhos** remove-os. Formas e áreas reveladas persistem com a cena.
 - **Minha ficha**, **Combate** e **Loja** continuam disponíveis na barra da sessão. Arraste o cabeçalho das janelas para mover ou use as setas ao focar o puxador. **−/+** recolhem e expandem sem perder o estado da ficha. A posição fica salva neste navegador.
-- A janela de dados conserva a última rolagem. Durante a animação, o total aguarda no chat. Recolher/desligar o 3D libera resultados pendentes. Janelas ociosas cedem espaço às ferramentas de mapa abertas.
+- As abas e o modo da ficha ficam acessíveis durante a rolagem da janela. A ficha pode ser recolhida para consultar o mapa e reaberta sem perder seu estado.
+- A janela de dados conserva a última rolagem. Durante a animação, o total aguarda no chat. Recolher/desligar o 3D libera resultados pendentes. No celular, abrir ficha/combate recolhe temporariamente dados já concluídos; a próxima rolagem reabre a janela. Abrir um painel durante a animação não a interrompe. A preferência manual de animação/recolhimento continua valendo.
 
 Se uma confirmação se perder, use **Reenviar alteração** para recuperar a mesma operação. Se houver conflito de versão, a posição atual é recarregada; confira antes de tentar de novo. Uma tentativa ainda desconhecida bloqueia a troca de cena e a saída da conta até confirmar ou liberar explicitamente. A biblioteca permite remover uploads interrompidos; arquivos vinculados a cenas/tokens precisam ser desvinculados antes de excluir.
 
@@ -80,16 +132,18 @@ Se uma confirmação se perder, use **Reenviar alteração** para recuperar a me
 
 A organização segue a referência de [mapa, ferramentas e sidebar do Roll20](https://help.roll20.net/hc/en-us/articles/360039734913-Tabletop-Overview), conservando a identidade visual e o acervo WEIRS.
 
-| Fluxo de campanha      | Disponível nesta entrega                                                                                                          |
-| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| Narração e testes      | Chat persistente, dados 3D, vantagem/desvantagem, rolagens secretas e revelação.                                                  |
-| Personagens e homebrew | Ficha completa existente, ajustes e fórmulas livres, botões de testes/ataques/magias/dano, recursos, inventário, descanso e PV.   |
-| Combate                | Iniciativa/turnos/rodadas, NPCs, PV/condições/concentração, tokens vinculados e destaque do turno.                                |
-| Exploração             | Cenas compartilhadas/privadas, mapas enviados, tokens controlados, grade, câmera, régua, marcadores, desenhos e cobertura manual. |
-| Comércio e materiais   | Loja transacional existente, compra/venda, moedas/estoque e biblioteca de imagens/PDFs compartilhados ou privados.                |
+| Fluxo de campanha      | Disponível nesta entrega                                                                                                  |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Narração e testes      | Chat persistente, dados 3D, vantagem/desvantagem, rolagens secretas e revelação.                                          |
+| Personagens e homebrew | Ficha completa, favoritos, testes/ataques/magias/dano, recursos, inventário, descanso e PV.                               |
+| Combate                | Iniciativa/turnos/rodadas, NPCs, PV contextual, condições/concentração da ficha, tokens vinculados e áreas de magia.      |
+| Exploração             | Cenas, fundo alinhável, tokens controlados, grupos/cópias, auras, câmera, régua, marcadores, desenhos e cobertura manual. |
+| Comércio e materiais   | Loja transacional existente, compra/venda, moedas/estoque e biblioteca de imagens/PDFs compartilhados ou privados.        |
 
-Iluminação dinâmica com paredes/linha de visão, áudio/vídeo, medição de áreas de magia e automação completa de regras D&D continuam fora desta versão. Ataques/dano são rolados pela ficha; o mestre decide acerto e aplica dano pelos controles existentes. Os campos homebrew não impõem regras oficiais automaticamente. Nenhuma dependência de produto ou assinatura paga foi adicionada.
+Iluminação dinâmica com paredes/linha de visão, áudio/vídeo e automação completa de regras D&D continuam fora desta versão. O mestre decide acerto, resistências e dano aplicado. Os campos homebrew e áreas visuais não impõem regras oficiais automaticamente. Diário e bestiário continuam atendidos pelo site existente.
 
 ## Verificar com duas contas
 
-Depois de instalar as migrações, use um perfil como mestre e outro como jogador: role em segredo e revele, publique uma cena, envie fundo/retrato, atribua um token, mova pelas duas sessões, altere PV pela ficha e avance o turno. Confira a recusa de movimento no token alheio, ausência de tokens/arquivos privados, marcador compartilhado e recuperação após recarregar. Os testes automatizados usam PostgreSQL/PGlite e o SDK real com HTTP/WebSocket simulados; essa checagem confirma também suas configurações externas de Auth, Realtime e Storage.
+Depois de instalar as migrações, use um perfil como mestre e outro como jogador: role em segredo e revele, publique uma cena, envie fundo/retrato, atribua um token, mova pelas duas sessões, altere PV pelo contexto e avance o turno. Favorite uma ação na ficha, feche a ficha e role pelo token. Crie uma área e confira sua chegada na outra conta; teste recusa de edição de área/token alheio, grupo com duplicação/desfazer e conflito após edição pela outra sessão. Confira ausência de tokens/arquivos/áreas privados, marcador compartilhado e recuperação após recarregar.
+
+Os testes automatizados usam PostgreSQL/PGlite e o SDK real com HTTP/WebSocket simulados; essa checagem confirma também suas configurações externas de Auth, Realtime e Storage. Nenhuma instalação remota ou publicação foi executada por estes testes.

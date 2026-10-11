@@ -5,6 +5,7 @@ import { createSessionRepository } from '../../lib/session';
 import { createTabletopRepository } from '../../lib/tabletop';
 import type {
   AssetRecord,
+  AreaRecord,
   MapCommand,
   MapPing,
   SceneRecord,
@@ -23,6 +24,7 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
   const [records, setRecords] = useState<SheetRecord[]>([]),
     [mesa, setMesa] = useState<SessionState | null>(null);
   const [pings, setPings] = useState<MapPing[]>([]);
+  const [areas, setAreas] = useState<AreaRecord[]>([]);
   const [members, setMembers] = useState<{ id: string; nome: string }[]>([]);
   const [sceneId, setSceneId] = useState(''),
     [loading, setLoading] = useState(true),
@@ -36,6 +38,7 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     busy = useRef(false),
     unresolved = useRef(false);
   const generation = useRef(0),
+    refreshWaiters = useRef<(() => void)[]>([]),
     context = useRef(''),
     latestRefresh = useRef<() => Promise<void>>(async () => {});
   const contextKey = campaign + ':' + master + ':' + userId;
@@ -44,7 +47,7 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     if (!alive.current || context.current !== contextKey) return;
     if (running.current) {
       again.current = true;
-      return;
+      return new Promise<void>((resolve) => refreshWaiters.current.push(resolve));
     }
     running.current = true;
     const requestGeneration = generation.current;
@@ -60,15 +63,17 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
       setSceneId(selected.current);
       if (!chosen) {
         setTokens([]);
+        setAreas([]);
         setPings([]);
       }
-      const [tokenResult, assetResult, sheetResult, stateResult, pingResult] =
+      const [tokenResult, assetResult, sheetResult, stateResult, pingResult, areaResult] =
         await Promise.allSettled([
           chosen ? repository.tokens(campaign, chosen.id) : Promise.resolve([]),
           repository.assets(campaign),
           sheets.list(),
           session.read(campaign),
           chosen ? repository.pings(campaign, chosen.id) : Promise.resolve([]),
+          chosen ? repository.areas(campaign, chosen.id) : Promise.resolve([]),
         ]);
       if (
         !alive.current ||
@@ -78,6 +83,11 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
         return;
       if (tokenResult.status === 'fulfilled') setTokens(tokenResult.value);
       else throw tokenResult.reason;
+      if (areaResult.status === 'fulfilled') setAreas(areaResult.value);
+      else {
+        setAreas([]);
+        throw areaResult.reason;
+      }
       if (assetResult.status === 'fulfilled') setAssets(assetResult.value);
       else setAssets([]);
       if (sheetResult.status === 'fulfilled')
@@ -94,6 +104,7 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
       if (['WV002', 'ACESSO', 'SESSAO', 'PGRST301'].includes(code || '')) {
         setScenes([]);
         setTokens([]);
+        setAreas([]);
         setAssets([]);
         setRecords([]);
         setMesa(null);
@@ -104,11 +115,15 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
       setError(e instanceof Error ? e.message : 'Não foi possível atualizar o mapa.');
     } finally {
       running.current = false;
+      const waiters = refreshWaiters.current.splice(0);
+      const resolveWaiters = () => waiters.forEach((resolve) => resolve());
       if (alive.current && generation.current === requestGeneration) setLoading(false);
       if (again.current) {
         again.current = false;
-        void latestRefresh.current();
-      }
+        // Join the first read that started after this queued refresh, without waiting for
+        // every later Realtime event to become quiet.
+        void latestRefresh.current().then(resolveWaiters, resolveWaiters);
+      } else resolveWaiters();
     }
   }, [campaign, master, repository, session, sheets, contextKey]);
   latestRefresh.current = refresh;
@@ -130,6 +145,7 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     setAttempt(null);
     unresolved.current = false;
     if (!master) {
+      setAreas([]);
       setScenes((rows) => rows.filter((row) => row.publicada));
       setTokens((rows) => rows.filter((row) => !row.oculto));
       setAssets((rows) => rows.filter((row) => row.visibilidade === 'campanha'));
@@ -211,12 +227,12 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     setError('');
     const requestGeneration = generation.current;
     try {
-      await repository.operate(campaign, current.command, current.id);
+      const result = await repository.operate(campaign, current.command, current.id);
       if (!alive.current || generation.current !== requestGeneration) return false;
       setAttempt(null);
       unresolved.current = false;
       await refresh();
-      return true;
+      return result;
     } catch (e) {
       if (!alive.current || generation.current !== requestGeneration) return false;
       const code = (e as { code?: string }).code;
@@ -242,6 +258,7 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     generation.current++;
     setSceneId(id);
     setTokens([]);
+    setAreas([]);
     setPings([]);
     void refresh();
   }
@@ -267,12 +284,24 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
   const visibleScenes = scenes.filter(
     (row) => row.campanha_id === campaign && (master || row.publicada),
   );
+  const visibleScene = visibleScenes.find((row) => row.id === sceneId);
   return {
     repository,
     scenes: visibleScenes,
-    tokens: tokens.filter(
-      (row) => row.campanha_id === campaign && row.cena_id === sceneId && (master || !row.oculto),
-    ),
+    areas: visibleScene
+      ? areas.filter(
+          (row) =>
+            row.campanha_id === campaign &&
+            row.cena_id === sceneId &&
+            (master || !row.token_id || tokens.some((t) => t.id === row.token_id && !t.oculto)),
+        )
+      : [],
+    tokens: visibleScene
+      ? tokens.filter(
+          (row) =>
+            row.campanha_id === campaign && row.cena_id === sceneId && (master || !row.oculto),
+        )
+      : [],
     assets: assets.filter(
       (row) => row.campanha_id === campaign && (master || row.visibilidade === 'campanha'),
     ),
@@ -281,9 +310,9 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     ),
     members,
     mesa,
-    pings: pings.filter((marker) => marker.cena_id === sceneId),
+    pings: visibleScene ? pings.filter((marker) => marker.cena_id === sceneId) : [],
     ping,
-    scene: visibleScenes.find((row) => row.id === sceneId),
+    scene: visibleScene,
     loading,
     error,
     setError,

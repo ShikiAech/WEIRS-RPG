@@ -1,5 +1,23 @@
 export type MapRect = { x: number; y: number; w: number; h: number };
 export type MapDrawing = { id: string; cor: string; pontos: { x: number; y: number }[] };
+export type MapAura = { raio: number; cor: string };
+export type AreaShape = 'circulo' | 'cone' | 'quadrado' | 'linha';
+export type AreaRecord = {
+  id: string;
+  campanha_id: string;
+  cena_id: string;
+  versao: number;
+  usuario_id: string;
+  token_id: string | null;
+  nome: string;
+  forma: AreaShape;
+  x: number;
+  y: number;
+  tamanho: number;
+  largura: number;
+  angulo: number;
+  cor: string;
+};
 export type MapPing = {
   id: string;
   campanha_id: string;
@@ -22,6 +40,9 @@ export type SceneRecord = {
   publicada: boolean;
   ativa: boolean;
   fundo_id: string | null;
+  fundo_x: number;
+  fundo_y: number;
+  fundo_escala: number;
   nevoa: boolean;
   revelacoes: MapRect[];
   desenhos: MapDrawing[];
@@ -43,6 +64,7 @@ export type TokenRecord = {
   controlador_id: string | null;
   imagem_id: string | null;
   combate_id: string | null;
+  aura: MapAura | null;
 };
 export type AssetRecord = {
   id: string;
@@ -64,6 +86,9 @@ export type ScenePatch = Partial<
     | 'grade'
     | 'publicada'
     | 'fundo_id'
+    | 'fundo_x'
+    | 'fundo_y'
+    | 'fundo_escala'
     | 'nevoa'
     | 'revelacoes'
     | 'desenhos'
@@ -84,8 +109,18 @@ export type TokenPatch = Partial<
     | 'controlador_id'
     | 'imagem_id'
     | 'combate_id'
+    | 'aura'
   >
 >;
+export type AreaPatch = Partial<
+  Pick<
+    AreaRecord,
+    'nome' | 'forma' | 'x' | 'y' | 'tamanho' | 'largura' | 'angulo' | 'cor' | 'token_id'
+  >
+>;
+export type TokenBatchItem =
+  | { tipo: 'token_atualizar'; id: string; versao: number; patch: TokenPatch }
+  | { tipo: 'token_excluir'; id: string; versao: number };
 export type MapCommand =
   | ({ tipo: 'cena_criar'; nome: string; largura: number; altura: number } & Partial<
       Pick<SceneRecord, 'unidade' | 'grade' | 'publicada' | 'fundo_id'>
@@ -103,6 +138,26 @@ export type MapCommand =
     } & Partial<Omit<TokenPatch, 'nome' | 'x' | 'y' | 'tamanho' | 'cor'>>)
   | { tipo: 'token_atualizar'; id: string; versao: number; patch: TokenPatch }
   | { tipo: 'token_excluir'; id: string; versao: number }
+  | { tipo: 'tokens_lote'; cena_id: string; itens: TokenBatchItem[] }
+  | {
+      tipo: 'tokens_duplicar';
+      cena_id: string;
+      tokens: { id: string; versao: number }[];
+      dx: number;
+      dy: number;
+    }
+  | ({
+      tipo: 'area_criar';
+      cena_id: string;
+      nome: string;
+      forma: AreaShape;
+      x: number;
+      y: number;
+      tamanho: number;
+      cor: string;
+    } & Partial<Pick<AreaRecord, 'largura' | 'angulo' | 'token_id'>>)
+  | { tipo: 'area_atualizar'; id: string; versao: number; patch: AreaPatch }
+  | { tipo: 'area_excluir'; id: string; versao: number }
   | {
       tipo: 'arquivo_registrar';
       id: string;
@@ -115,6 +170,9 @@ export type MapCommand =
 export type MapResponse = {
   cena?: SceneRecord;
   token?: TokenRecord;
+  tokens?: TokenRecord[];
+  area?: AreaRecord;
   asset?: AssetRecord;
   excluido?: string;
+  excluidos?: string[];
 };

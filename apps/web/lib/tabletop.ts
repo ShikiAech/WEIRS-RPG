@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type {
   AssetRecord,
+  AreaRecord,
   MapCommand,
   MapPing,
   MapResponse,
@@ -16,8 +17,10 @@ const messages: Record<string, string> = {
     'Confira os valores, os vínculos e os limites do mapa. Arquivos usados em cenas precisam estar disponíveis aos jogadores.',
   WV004: 'Esta tentativa já foi usada para outra alteração.',
   WV006: 'Muitas alterações em poucos segundos. Aguarde e reenvie a mesma tentativa.',
-  PGRST202: 'A mesa virtual precisa da migração 202610110006_mesa_virtual.sql no Supabase.',
-  PGRST205: 'A mesa virtual precisa da migração 202610110006_mesa_virtual.sql no Supabase.',
+  PGRST202:
+    'A mesa virtual precisa das migrações 006 e 007 no Supabase. Consulte o guia de configuração.',
+  PGRST205:
+    'A mesa virtual precisa das migrações 006 e 007 no Supabase. Consulte o guia de configuração.',
   ARQUIVO: 'Envie uma imagem PNG, JPEG ou WebP, ou um PDF, de até 5 MB após a redução.',
   LIMITE:
     'A campanha atingiu o limite de arquivos. Remova arquivos sem vínculos antes de enviar mais.',
@@ -121,6 +124,15 @@ export function createTabletopRepository(client: SupabaseClient) {
           .eq('campanha_id', campaign)
           .order('criado_em', { ascending: false }),
       ),
+    areas: (campaign: string, scene: string) =>
+      request<AreaRecord[]>(
+        client
+          .from('areas_mapa')
+          .select('*')
+          .eq('campanha_id', campaign)
+          .eq('cena_id', scene)
+          .order('nome'),
+      ),
     pings: (campaign: string, scene: string) =>
       request<MapPing[]>(
         client
@@ -192,7 +204,13 @@ export function createTabletopRepository(client: SupabaseClient) {
     },
     subscribe(campaign: string, refresh: () => void) {
       const channel = client.channel('mapa:' + campaign + ':' + crypto.randomUUID());
-      for (const table of ['cenas_mapa', 'tokens_mapa', 'arquivos_mapa', 'marcadores_mapa'])
+      for (const table of [
+        'cenas_mapa',
+        'tokens_mapa',
+        'areas_mapa',
+        'arquivos_mapa',
+        'marcadores_mapa',
+      ])
         channel.on(
           'postgres_changes',
           { event: '*', schema: 'public', table, filter: 'campanha_id=eq.' + campaign },

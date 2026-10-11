@@ -4,6 +4,9 @@ import type { ChatCommand, RollMode, SheetAction } from '../../../../packages/co
 import type { SessionCommand } from '../../../../packages/contracts/session';
 import { ATRIBUTOS, PERICIAS } from '../../../../packages/sheets/modelo.js';
 import { calcularFicha } from '../../../../packages/sheets/calculos.js';
+import { FavoriteActions } from './FavoriteActions';
+import { useActionFavorites } from './useActionFavorites';
+import { FAVORITE_LIMIT } from './action-favorites';
 
 type Entry = {
   id: string;
@@ -23,11 +26,13 @@ const entries = (value: unknown) => value as Entry[];
 const sign = (n: number) => (n >= 0 ? '+' + n : String(n));
 export function SheetPlay({
   record,
+  userId,
   disabled,
   onRoll,
   operate,
 }: {
   record: SheetRecord;
+  userId: string;
   disabled: boolean;
   onRoll: (c: ChatCommand) => void;
   operate: (c: SessionCommand) => void;
@@ -40,29 +45,89 @@ export function SheetPlay({
     [concentration, setConcentration] = useState('');
   const c = record.conteudo,
     calc = calcularFicha(c);
+  const favorites = useActionFavorites(userId, record.campanha_id, record.id);
   const change = (command: Record<string, unknown> & { tipo: string }) =>
     operate({ ...command, ficha_id: record.id, versao: record.versao });
   const roll = (acao: SheetAction, id: string, label: string, normal = false, blocked = false) => (
-    <button
-      type="button"
-      className="play-roll"
-      disabled={disabled || blocked}
-      onClick={() =>
-        onRoll({
-          tipo: 'acao',
-          ficha_id: record.id,
-          versao: record.versao,
-          entrada_id: id,
-          acao,
-          modo: normal ? 'normal' : mode,
-        })
-      }
-    >
-      {label}
-    </button>
+    <span className="sheet-roll-action">
+      <button
+        type="button"
+        className="play-roll"
+        disabled={disabled || blocked}
+        onClick={() =>
+          onRoll({
+            tipo: 'acao',
+            ficha_id: record.id,
+            versao: record.versao,
+            entrada_id: id,
+            acao,
+            modo: normal ? 'normal' : mode,
+          })
+        }
+      >
+        {label}
+      </button>
+      <button
+        type="button"
+        className="favorite-star"
+        aria-pressed={favorites.has({ acao, entrada_id: id })}
+        aria-label={
+          (favorites.has({ acao, entrada_id: id }) ? 'Remover favorito ' : 'Favoritar ') + label
+        }
+        title={
+          favorites.references.length >= FAVORITE_LIMIT && !favorites.has({ acao, entrada_id: id })
+            ? 'Limite de 12 favoritos. Remova um para adicionar outro.'
+            : 'Favorito para ações rápidas'
+        }
+        disabled={
+          !favorites.has({ acao, entrada_id: id }) && favorites.references.length >= FAVORITE_LIMIT
+        }
+        onClick={() => favorites.toggle({ acao, entrada_id: id })}
+      >
+        {favorites.has({ acao, entrada_id: id }) ? '★' : '☆'}
+      </button>
+    </span>
   );
   return (
     <>
+      <div className="play-controls">
+        <div className="play-tabs" aria-label="Seções da ficha">
+          {['Testes', 'Ações', 'Recursos', 'Inventário'].map((t) => (
+            <button type="button" key={t} aria-pressed={tab === t} onClick={() => setTab(t)}>
+              {t}
+            </button>
+          ))}
+        </div>
+        <label className="play-mode">
+          Modo dos testes
+          <select
+            value={mode}
+            disabled={disabled}
+            onChange={(e) => setMode(e.target.value as RollMode)}
+          >
+            <option value="normal">Normal</option>
+            <option value="vantagem">Vantagem</option>
+            <option value="desvantagem">Desvantagem</option>
+          </select>
+        </label>
+      </div>
+      {favorites.references.length > 0 ? (
+        <details className="sheet-favorites" open>
+          <summary>Ações favoritas ({favorites.references.length})</summary>
+          <FavoriteActions
+            record={record}
+            userId={userId}
+            disabled={disabled}
+            mode={mode}
+            onRoll={onRoll}
+            compact
+          />
+        </details>
+      ) : (
+        <p className="action-help sheet-favorites-help">
+          Marque ☆ ao lado das ações para criar seus favoritos.
+        </p>
+      )}
       <div className="play-vitals">
         <strong>
           PV {c.combate.pvAtuais}/{c.combate.pvMaximos}
@@ -99,25 +164,6 @@ export function SheetPlay({
           Dano absorve PV temporários primeiro. Ajuste o valor por resistências e regras da mesa.
         </small>
       </fieldset>
-      <div className="play-tabs" aria-label="Seções da ficha">
-        {['Testes', 'Ações', 'Recursos', 'Inventário'].map((t) => (
-          <button type="button" key={t} aria-pressed={tab === t} onClick={() => setTab(t)}>
-            {t}
-          </button>
-        ))}
-      </div>
-      <label>
-        Modo dos testes
-        <select
-          value={mode}
-          disabled={disabled}
-          onChange={(e) => setMode(e.target.value as RollMode)}
-        >
-          <option value="normal">Normal</option>
-          <option value="vantagem">Vantagem</option>
-          <option value="desvantagem">Desvantagem</option>
-        </select>
-      </label>
       {tab === 'Testes' && (
         <div className="play-tests">
           {roll(

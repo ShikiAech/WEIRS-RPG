@@ -6,7 +6,14 @@ import {
   useState,
   type PointerEvent as ReactPointerEvent,
 } from 'react';
-import type { SceneRecord, TokenRecord } from '../../../../packages/contracts/tabletop';
+import type { AreaRecord, SceneRecord, TokenRecord } from '../../../../packages/contracts/tabletop';
+import type { ChatCommand, ChatMessage } from '../../../../packages/contracts/chat';
+import { useSession } from '../session/useSession';
+import { TokenActions } from './TokenActions';
+import { AreaTools } from './AreaTools';
+import { SpellAreas } from './SpellAreas';
+import { groupDelta, selectionBounds } from './agility-geometry';
+import { useMapHistory } from './useMapHistory';
 import { AssetLibrary, SceneEditor, TokenEditor } from './MapEditors';
 import { useAssetUrls, useTabletop } from './useTabletop';
 import {
@@ -21,13 +28,14 @@ import {
   type Point,
 } from './geometry';
 
-type Tool = 'select' | 'pan' | 'ruler' | 'fog' | 'draw' | 'ping';
+type Tool = 'select' | 'pan' | 'ruler' | 'fog' | 'draw' | 'ping' | 'area' | 'box';
 type Drag = {
   pointer: number;
   start: Point;
   kind: Tool;
   camera: Camera;
   token?: TokenRecord;
+  tokens?: TokenRecord[];
   offset?: Point;
   points?: Point[];
 };
@@ -36,18 +44,37 @@ export function Tabletop({
   userId,
   role,
   onOpenSheet,
+  onRoll = () => {},
+  onMessage = () => {},
+  onBusy = () => {},
+  chatDisabled = false,
 }: {
   campaignId: string;
   userId: string;
   role: string;
   onOpenSheet?: (id: string) => void;
+  onRoll?: (command: ChatCommand) => void;
+  onMessage?: (message: ChatMessage) => void;
+  onBusy?: (busy: boolean) => void;
+  chatDisabled?: boolean;
 }) {
   const master = role === 'mestre',
     spectator = role === 'espectador';
   const map = useTabletop(campaignId, master, userId),
     { scene, tokens, records, mesa } = map;
+  const session = useSession(campaignId, onMessage, onBusy);
+  useEffect(() => {
+    onBusy(session.pending || !!session.attempt);
+  }, [session.pending, session.attempt, onBusy]);
+  const history = useMapHistory(
+    `${campaignId}:${userId}:${role}:${scene?.id || ''}`,
+    tokens,
+    scene,
+    map.operate,
+  );
+  const operate = history.operate;
   const [tool, setTool] = useState<Tool>('select'),
-    [drawer, setDrawer] = useState<'scenes' | 'assets' | 'token' | ''>('');
+    [drawer, setDrawer] = useState<'scenes' | 'assets' | 'token' | 'areas' | 'selection' | ''>('');
   const requestedImages = [
     scene?.fundo_id,
     ...tokens.map((token) => token.imagem_id),
@@ -60,6 +87,7 @@ export function Tabletop({
   const [camera, setCamera] = useState<Camera>({ x: 0, y: 0, zoom: 1 }),
     [size, setSize] = useState({ width: 900, height: 600 });
   const [selected, setSelected] = useState(''),
+    [selection, setSelection] = useState<string[]>([]),
     [preview, setPreview] = useState<Point | null>(null),
     [ruler, setRuler] = useState<{ a: Point; b: Point } | null>(null);
   const [fogPreview, setFogPreview] = useState<{
@@ -71,6 +99,27 @@ export function Tabletop({
     [drawPreview, setDrawPreview] = useState<Point[]>([]),
     [deleteConfirm, setDeleteConfirm] = useState(false);
   const [fileBusy, setFileBusy] = useState(false);
+  const [boxPreview, setBoxPreview] = useState<ReturnType<typeof selectionBounds> | null>(null);
+  const [areaDraft, setAreaDraft] = useState<AreaRecord | null>(null);
+  const [groupPreview, setGroupPreview] = useState<Point | null>(null);
+  const [multiSelecting, setMultiSelecting] = useState(false);
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === 'Shift') setMultiSelecting(true);
+    };
+    const up = (e: KeyboardEvent) => {
+      if (e.key === 'Shift') setMultiSelecting(false);
+    };
+    const blur = () => setMultiSelecting(false);
+    window.addEventListener('keydown', down);
+    window.addEventListener('keyup', up);
+    window.addEventListener('blur', blur);
+    return () => {
+      window.removeEventListener('keydown', down);
+      window.removeEventListener('keyup', up);
+      window.removeEventListener('blur', blur);
+    };
+  }, []);
   const svg = useRef<SVGSVGElement>(null),
     stage = useRef<HTMLDivElement>(null),
     drag = useRef<Drag | null>(null),
@@ -78,6 +127,7 @@ export function Tabletop({
   cameraRef.current = camera;
   const unique = useId().replace(/:/g, ''),
     selectedToken = tokens.find((token) => token.id === selected);
+  const selectedTokens = tokens.filter((t) => selection.includes(t.id));
   const canMove = (token: TokenRecord) =>
     !spectator &&
     (master ||
@@ -132,6 +182,8 @@ export function Tabletop({
     setSceneEditor(null);
     setTokenEditor(null);
     setSelected('');
+    setSelection([]);
+    setAreaDraft(null);
     setTool('select');
     setPreview(null);
     setRuler(null);
@@ -150,6 +202,10 @@ export function Tabletop({
   }, []);
   useEffect(() => {
     setSelected('');
+    setSelection([]);
+    setAreaDraft(null);
+    setGroupPreview(null);
+    setBoxPreview(null);
     setPreview(null);
     setRuler(null);
     setFogPreview(null);
@@ -158,11 +214,27 @@ export function Tabletop({
     if (scene) setCamera(fitCamera(size.width, size.height, scene.largura, scene.altura));
   }, [scene?.id, scene?.largura, scene?.altura, size.width, size.height]);
   useEffect(() => {
+    setSelection((ids) => {
+      const available = ids.filter((id) => tokens.some((t) => t.id === id));
+      return available.length === ids.length ? ids : available;
+    });
     if (selected && !tokens.some((token) => token.id === selected)) {
       setSelected('');
+      setSelection((ids) => ids.filter((id) => tokens.some((t) => t.id === id)));
       setDeleteConfirm(false);
     }
   }, [tokens, selected]);
+  useEffect(() => {
+    if (!areaDraft || map.loading) return;
+    if (
+      (areaDraft.id !== 'preview' && !map.areas.some((a) => a.id === areaDraft.id)) ||
+      (areaDraft.token_id && !tokens.some((t) => t.id === areaDraft.token_id))
+    ) {
+      setAreaDraft(null);
+      setDrawer('');
+      setTool('select');
+    }
+  }, [areaDraft, map.areas, tokens, map.loading]);
   useEffect(() => {
     const target = svg.current;
     if (!target) return;
@@ -185,7 +257,8 @@ export function Tabletop({
     if (!scene || (event.button !== 0 && event.button !== 1 && event.button !== 2)) return;
     event.preventDefault();
     const p = world(event),
-      kind = event.button !== 0 ? 'pan' : tool;
+      kind =
+        event.button !== 0 ? 'pan' : tool === 'select' && event.shiftKey && master ? 'box' : tool;
     if (kind === 'ping') {
       if (!spectator)
         void map.ping({
@@ -194,8 +267,12 @@ export function Tabletop({
         });
       return;
     }
-    if (kind === 'select') setSelected('');
+    if (kind === 'select') {
+      setSelected('');
+      setSelection([]);
+    }
     if ((kind === 'fog' || kind === 'draw') && (!master || map.locked)) return;
+    if (kind === 'area' && (spectator || map.locked || !areaDraft)) return;
     svg.current!.setPointerCapture(event.pointerId);
     drag.current = {
       pointer: event.pointerId,
@@ -207,14 +284,37 @@ export function Tabletop({
     if (kind === 'ruler') setRuler({ a: p, b: p });
     if (kind === 'fog') setFogPreview(revealRectangle(p, p, scene.largura, scene.altura));
     if (kind === 'draw') setDrawPreview([p]);
+    if (kind === 'box') {
+      setSelection([]);
+      setSelected('');
+      setBoxPreview(selectionBounds(p, p));
+    }
+    if (kind === 'area')
+      setAreaDraft(
+        (d) =>
+          d && {
+            ...d,
+            x: Math.max(0, Math.min(scene.largura, p.x)),
+            y: Math.max(0, Math.min(scene.altura, p.y)),
+          },
+      );
   }
   function beginToken(event: ReactPointerEvent<SVGGElement>, token: TokenRecord) {
     if (tool !== 'select' || event.button !== 0) return;
     event.stopPropagation();
     event.preventDefault();
-    setSelected(token.id);
+    const ids =
+      master && event.shiftKey
+        ? selection.includes(token.id)
+          ? selection.filter((id) => id !== token.id)
+          : [...selection, token.id].slice(-40)
+        : selection.includes(token.id)
+          ? selection
+          : [token.id];
+    setSelection(ids);
+    setSelected(ids.includes(token.id) ? token.id : ids.at(-1) || '');
     setDeleteConfirm(false);
-    if (map.locked || !canMove(token)) return;
+    if (event.shiftKey || map.locked || !canMove(token)) return;
     svg.current!.setPointerCapture(event.pointerId);
     const p = world(event);
     drag.current = {
@@ -223,15 +323,29 @@ export function Tabletop({
       kind: 'select',
       camera: cameraRef.current,
       token,
+      tokens: tokens.filter((t) => ids.includes(t.id)),
       offset: { x: p.x - token.x, y: p.y - token.y },
     };
     setPreview({ x: token.x, y: token.y });
+    setGroupPreview({ x: 0, y: 0 });
   }
   function move(event: ReactPointerEvent<SVGSVGElement>) {
     const action = drag.current;
     if (!action || action.pointer !== event.pointerId || !scene) return;
     const p = world(event);
     if (action.token) {
+      if (master && action.tokens!.length > 1) {
+        setGroupPreview(
+          groupDelta(
+            action.tokens!,
+            { x: p.x - action.start.x, y: p.y - action.start.y },
+            scene.largura,
+            scene.altura,
+            scene.grade && !event.altKey,
+          ),
+        );
+        return;
+      }
       setPreview(
         snapToken(
           { x: p.x - action.offset!.x, y: p.y - action.offset!.y },
@@ -241,7 +355,18 @@ export function Tabletop({
           scene.grade && !event.altKey,
         ),
       );
-    } else if (action.kind === 'pan' || action.kind === 'select') {
+    } else if (action.kind === 'box') setBoxPreview(selectionBounds(action.start, p));
+    else if (action.kind === 'area')
+      setAreaDraft(
+        (d) =>
+          d && {
+            ...d,
+            angulo: Math.round(
+              (Math.atan2(p.y - action.start.y, p.x - action.start.x) * 180) / Math.PI,
+            ),
+          },
+      );
+    else if (action.kind === 'pan' || action.kind === 'select') {
       const screen = point(event);
       setCamera({
         ...action.camera,
@@ -274,31 +399,69 @@ export function Tabletop({
       svg.current!.releasePointerCapture(event.pointerId);
     if (!cancel) {
       if (action.token) {
-        const p = world(event),
-          position = snapToken(
-            { x: p.x - action.offset!.x, y: p.y - action.offset!.y },
-            action.token.tamanho,
+        if (master && action.tokens!.length > 1) {
+          const delta = groupDelta(
+            action.tokens!,
+            { x: world(event).x - action.start.x, y: world(event).y - action.start.y },
             scene.largura,
             scene.altura,
             scene.grade && !event.altKey,
           );
-        if (position.x !== action.token.x || position.y !== action.token.y)
-          void map.operate({
-            tipo: 'token_atualizar',
-            id: action.token.id,
-            versao: action.token.versao,
-            patch: position,
-          });
+          if (delta.x || delta.y)
+            void operate({
+              tipo: 'tokens_lote',
+              cena_id: scene.id,
+              itens: action.tokens!.map((t) => ({
+                tipo: 'token_atualizar',
+                id: t.id,
+                versao: t.versao,
+                patch: { x: t.x + delta.x, y: t.y + delta.y },
+              })),
+            });
+        } else {
+          const p = world(event),
+            position = snapToken(
+              { x: p.x - action.offset!.x, y: p.y - action.offset!.y },
+              action.token.tamanho,
+              scene.largura,
+              scene.altura,
+              scene.grade && !event.altKey,
+            );
+          if (position.x !== action.token.x || position.y !== action.token.y)
+            void operate({
+              tipo: 'token_atualizar',
+              id: action.token.id,
+              versao: action.token.versao,
+              patch: position,
+            });
+        }
+      } else if (action.kind === 'box') {
+        const rectangle = selectionBounds(action.start, world(event));
+        const ids = tokens
+          .filter(
+            (t) =>
+              t.x + t.tamanho >= rectangle.x &&
+              t.x <= rectangle.x + rectangle.w &&
+              t.y + t.tamanho >= rectangle.y &&
+              t.y <= rectangle.y + rectangle.h,
+          )
+          .slice(0, 40)
+          .map((t) => t.id);
+        setSelection(ids);
+        setSelected(ids[0] || '');
+      } else if (action.kind === 'area') {
+        setTool('select');
+        setDrawer('areas');
       } else if (action.kind === 'fog') {
         const rectangle = revealRectangle(action.start, world(event), scene.largura, scene.altura);
-        void map.operate({
+        void operate({
           tipo: 'cena_atualizar',
           id: scene.id,
           versao: scene.versao,
           patch: { revelacoes: [...scene.revelacoes, rectangle] },
         });
       } else if (action.kind === 'draw' && action.points!.length > 1) {
-        void map.operate({
+        void operate({
           tipo: 'cena_atualizar',
           id: scene.id,
           versao: scene.versao,
@@ -312,6 +475,8 @@ export function Tabletop({
       }
     }
     setPreview(null);
+    setGroupPreview(null);
+    setBoxPreview(null);
     setFogPreview(null);
     setDrawPreview([]);
   }
@@ -324,12 +489,119 @@ export function Tabletop({
         scene.altura,
       )
     : { x: 1, y: 1 };
-  const toggleDrawer = (next: 'scenes' | 'assets' | 'token') => {
+  const toggleDrawer = (next: 'scenes' | 'assets' | 'token' | 'areas' | 'selection') => {
     if (map.locked || fileBusy) return;
     setDrawer((previous) => (previous === next ? '' : next));
     setSceneEditor(null);
     setTokenEditor(null);
   };
+  function newArea(): AreaRecord {
+    return {
+      id: 'preview',
+      campanha_id: campaignId,
+      cena_id: scene!.id,
+      versao: 0,
+      usuario_id: userId,
+      token_id: null,
+      nome: 'Área de magia',
+      forma: 'circulo',
+      x: tokenOrigin.x,
+      y: tokenOrigin.y,
+      tamanho: 3,
+      largura: 1,
+      angulo: 0,
+      cor: '#b493e5',
+    };
+  }
+  async function duplicate() {
+    if (!master || map.locked || !scene || !selectedTokens.length) return;
+    const delta = groupDelta(selectedTokens, { x: 1, y: 1 }, scene.largura, scene.altura);
+    const result = await operate({
+      tipo: 'tokens_duplicar',
+      cena_id: scene.id,
+      tokens: selectedTokens.map((t) => ({ id: t.id, versao: t.versao })),
+      dx: delta.x,
+      dy: delta.y,
+    });
+    if (result && result.tokens) {
+      setSelection(result.tokens.map((t) => t.id));
+      setSelected(result.tokens[0]?.id || '');
+    }
+  }
+  function moveSelection(delta: Point) {
+    if (!scene || map.locked || !selectedTokens.length || !selectedTokens.every(canMove)) return;
+    const bounded = groupDelta(selectedTokens, delta, scene.largura, scene.altura, scene.grade);
+    if (!bounded.x && !bounded.y) return;
+    if (selectedTokens.length === 1)
+      void operate({
+        tipo: 'token_atualizar',
+        id: selectedTokens[0].id,
+        versao: selectedTokens[0].versao,
+        patch: { x: selectedTokens[0].x + bounded.x, y: selectedTokens[0].y + bounded.y },
+      });
+    else if (master)
+      void operate({
+        tipo: 'tokens_lote',
+        cena_id: scene.id,
+        itens: selectedTokens.map((t) => ({
+          tipo: 'token_atualizar',
+          id: t.id,
+          versao: t.versao,
+          patch: { x: t.x + bounded.x, y: t.y + bounded.y },
+        })),
+      });
+  }
+  const movementButtons = (
+    <div className="token-movement" aria-label="Movimentar seleção">
+      {[
+        { name: 'esquerda', symbol: '←', x: -1, y: 0 },
+        { name: 'cima', symbol: '↑', x: 0, y: -1 },
+        { name: 'baixo', symbol: '↓', x: 0, y: 1 },
+        { name: 'direita', symbol: '→', x: 1, y: 0 },
+      ].map((d) => (
+        <button
+          key={d.name}
+          type="button"
+          aria-label={'Mover seleção para ' + d.name}
+          disabled={map.locked}
+          onClick={() => moveSelection({ x: d.x, y: d.y })}
+        >
+          {d.symbol}
+        </button>
+      ))}
+    </div>
+  );
+  async function saveArea() {
+    if (!areaDraft || !scene) return;
+    const { nome, forma, x, y, tamanho, largura, angulo, cor, token_id } = areaDraft;
+    const result = await operate(
+      areaDraft.id === 'preview'
+        ? {
+            tipo: 'area_criar',
+            cena_id: scene.id,
+            nome,
+            forma,
+            x,
+            y,
+            tamanho,
+            largura,
+            angulo,
+            cor,
+            token_id,
+          }
+        : {
+            tipo: 'area_atualizar',
+            id: areaDraft.id,
+            versao: areaDraft.versao,
+            patch: { nome, forma, x, y, tamanho, largura, angulo, cor, token_id },
+          },
+    );
+    if (result) {
+      setAreaDraft(null);
+      setDrawer('');
+      setTool('select');
+    }
+  }
 
   return (
     <section className="tabletop-map" aria-label="Mesa virtual">
@@ -352,9 +624,24 @@ export function Tabletop({
             onKeyDown={(event) => {
               if (event.key === 'Escape') {
                 setSelected('');
+                setSelection([]);
+                setAreaDraft(null);
+                setTool('select');
                 setRuler(null);
                 setDrawer('');
                 return;
+              }
+              if (master && (event.ctrlKey || event.metaKey)) {
+                if (event.key.toLowerCase() === 'z') {
+                  event.preventDefault();
+                  if (!map.locked) void (event.shiftKey ? history.redo() : history.undo());
+                  return;
+                }
+                if (event.key.toLowerCase() === 'd') {
+                  event.preventDefault();
+                  void duplicate();
+                  return;
+                }
               }
               if (!selectedToken || map.locked || !canMove(selectedToken)) return;
               const directions: Record<string, Point> = {
@@ -366,6 +653,21 @@ export function Tabletop({
               const delta = directions[event.key];
               if (!delta) return;
               event.preventDefault();
+              if (master && selectedTokens.length > 1) {
+                const bounded = groupDelta(selectedTokens, delta, scene.largura, scene.altura);
+                if (bounded.x || bounded.y)
+                  void operate({
+                    tipo: 'tokens_lote',
+                    cena_id: scene.id,
+                    itens: selectedTokens.map((t) => ({
+                      tipo: 'token_atualizar',
+                      id: t.id,
+                      versao: t.versao,
+                      patch: { x: t.x + bounded.x, y: t.y + bounded.y },
+                    })),
+                  });
+                return;
+              }
               const position = snapToken(
                 { x: selectedToken.x + delta.x, y: selectedToken.y + delta.y },
                 selectedToken.tamanho,
@@ -374,7 +676,7 @@ export function Tabletop({
                 scene.grade,
               );
               if (position.x !== selectedToken.x || position.y !== selectedToken.y)
-                void map.operate({
+                void operate({
                   tipo: 'token_atualizar',
                   id: selectedToken.id,
                   versao: selectedToken.versao,
@@ -423,6 +725,9 @@ export function Tabletop({
                   />
                 ))}
               </mask>
+              <clipPath id={'scene' + unique}>
+                <rect width={scene.largura * CELL} height={scene.altura * CELL} />
+              </clipPath>
               {tokens
                 .filter((token) => token.imagem_id)
                 .map((token) => (
@@ -446,8 +751,11 @@ export function Tabletop({
               {scene.fundo_id && urls[scene.fundo_id] && (
                 <image
                   href={urls[scene.fundo_id]}
-                  width={scene.largura * CELL}
-                  height={scene.altura * CELL}
+                  x={(scene.fundo_x || 0) * CELL}
+                  y={(scene.fundo_y || 0) * CELL}
+                  width={scene.largura * CELL * (scene.fundo_escala || 1)}
+                  height={scene.altura * CELL * (scene.fundo_escala || 1)}
+                  clipPath={`url(#scene${unique})`}
                   preserveAspectRatio="none"
                 />
               )}
@@ -471,8 +779,52 @@ export function Tabletop({
                   pointerEvents="none"
                 />
               ))}
+              <g clipPath={`url(#scene${unique})`}>
+                <SpellAreas
+                  areas={map.areas}
+                  preview={
+                    areaDraft &&
+                    (master ||
+                      !areaDraft.token_id ||
+                      tokens.some((t) => t.id === areaDraft.token_id && !t.oculto))
+                      ? areaDraft
+                      : null
+                  }
+                  zoom={camera.zoom}
+                />
+              </g>
+              <g clipPath={`url(#scene${unique})`} pointerEvents="none">
+                {tokens
+                  .filter((t) => t.aura)
+                  .map((t) => {
+                    const p =
+                      selectedTokens.length > 1 && selection.includes(t.id) && groupPreview
+                        ? { x: t.x + groupPreview.x, y: t.y + groupPreview.y }
+                        : selected === t.id && preview
+                          ? preview
+                          : t;
+                    return (
+                      <circle
+                        key={t.id}
+                        cx={(p.x + t.tamanho / 2) * CELL}
+                        cy={(p.y + t.tamanho / 2) * CELL}
+                        r={t.aura!.raio * CELL}
+                        fill={t.aura!.cor}
+                        fillOpacity={0.1}
+                        stroke={t.aura!.cor}
+                        strokeOpacity={0.5}
+                        strokeWidth={1 / camera.zoom}
+                      />
+                    );
+                  })}
+              </g>
               {tokens.map((token) => {
-                const position = selected === token.id && preview ? preview : token,
+                const position =
+                    selectedTokens.length > 1 && selection.includes(token.id) && groupPreview
+                      ? { x: token.x + groupPreview.x, y: token.y + groupPreview.y }
+                      : selected === token.id && preview
+                        ? preview
+                        : token,
                   dimension = token.tamanho * CELL,
                   center = dimension / 2,
                   radius = dimension * 0.43,
@@ -487,24 +839,21 @@ export function Tabletop({
                     role="button"
                     tabIndex={0}
                     aria-label={'Token ' + token.nome}
-                    aria-pressed={selected === token.id}
+                    aria-pressed={selection.includes(token.id)}
                     data-token-id={token.id}
                     className={
                       'map-token' +
                       (token.oculto ? ' hidden-token' : '') +
-                      (selected === token.id ? ' selected-token' : '')
+                      (selection.includes(token.id) ? ' selected-token' : '')
                     }
                     onPointerDown={(event) => beginToken(event, token)}
                     onFocus={() => {
                       setSelected(token.id);
+                      setSelection((ids) => (ids.includes(token.id) ? ids : [token.id]));
                       setDeleteConfirm(false);
                     }}
                     onClick={(event) => {
                       event.stopPropagation();
-                      if (tool === 'select') {
-                        setSelected(token.id);
-                        setDeleteConfirm(false);
-                      }
                     }}
                     onDoubleClick={() => {
                       if (canOpen(token)) onOpenSheet?.(token.ficha_id!);
@@ -513,6 +862,13 @@ export function Tabletop({
                       if (event.key === 'Enter' || event.key === ' ') {
                         event.preventDefault();
                         setSelected(token.id);
+                        setSelection((ids) =>
+                          event.shiftKey && master
+                            ? ids.includes(token.id)
+                              ? ids.filter((id) => id !== token.id)
+                              : [...ids, token.id].slice(-40)
+                            : [token.id],
+                        );
                       }
                     }}
                   >
@@ -522,7 +878,7 @@ export function Tabletop({
                       {token.bloqueado ? ' · Movimento bloqueado' : ''}
                       {vitals ? ` · PV ${vitals.current}/${vitals.max}` : ''}
                     </title>
-                    {(selected === token.id || active) && (
+                    {(selection.includes(token.id) || active) && (
                       <circle
                         cx={center}
                         cy={center}
@@ -744,6 +1100,18 @@ export function Tabletop({
                   </text>
                 </g>
               ))}
+              {boxPreview && (
+                <rect
+                  x={boxPreview.x * CELL}
+                  y={boxPreview.y * CELL}
+                  width={boxPreview.w * CELL}
+                  height={boxPreview.h * CELL}
+                  fill="#d5b87322"
+                  stroke="#d5b873"
+                  strokeWidth={2 / camera.zoom}
+                  pointerEvents="none"
+                />
+              )}
             </g>
           </svg>
         ) : (
@@ -836,7 +1204,60 @@ export function Tabletop({
             ⊕
           </button>
         )}
+        {!spectator && (
+          <button
+            type="button"
+            title="Áreas de magia"
+            aria-label="Áreas de magia"
+            aria-pressed={drawer === 'areas'}
+            disabled={!scene || map.locked}
+            onClick={() => {
+              if (drawer === 'areas') {
+                setDrawer('');
+                setAreaDraft(null);
+              } else {
+                setAreaDraft(newArea());
+                setDrawer('areas');
+                setTool('select');
+              }
+            }}
+          >
+            ◌
+          </button>
+        )}
+        <button
+          type="button"
+          title="Selecionar tokens"
+          aria-label="Selecionar tokens"
+          aria-pressed={drawer === 'selection'}
+          disabled={!scene || map.locked}
+          onClick={() => toggleDrawer('selection')}
+        >
+          ☷
+        </button>
       </nav>
+      {master && scene && (
+        <nav className="map-history" aria-label="Histórico do mapa">
+          <button
+            type="button"
+            aria-label="Desfazer alteração"
+            title="Desfazer (Ctrl+Z)"
+            disabled={map.locked || !history.canUndo}
+            onClick={() => void history.undo()}
+          >
+            ↶
+          </button>
+          <button
+            type="button"
+            aria-label="Refazer alteração"
+            title="Refazer (Ctrl+Shift+Z)"
+            disabled={map.locked || !history.canRedo}
+            onClick={() => void history.redo()}
+          >
+            ↷
+          </button>
+        </nav>
+      )}
 
       {scene && (
         <div className="map-scene-caption">
@@ -887,47 +1308,122 @@ export function Tabletop({
                   ? 'Arraste um retângulo para revelar a área'
                   : tool === 'draw'
                     ? 'Arraste para desenhar no mapa'
-                    : selectedToken
-                      ? `${selectedToken.nome}${selectedVitals ? ` · PV ${selectedVitals.current}/${selectedVitals.max}` : ''}${canMove(selectedToken) ? ' · Arraste ou use as setas' : ''}`
-                      : `${scene.unidade} pés por célula · Arraste para mover · Scroll para zoom`}
+                    : tool === 'area'
+                      ? 'Clique para posicionar · Arraste para orientar · Esc cancela'
+                      : selection.length > 1
+                        ? `${selection.length} tokens · Arraste ou use as setas · Shift para selecionar`
+                        : selectedToken
+                          ? `${selectedToken.nome}${selectedVitals ? ` · PV ${selectedVitals.current}/${selectedVitals.max}` : ''}${canMove(selectedToken) ? ' · Arraste ou use as setas' : ''}`
+                          : `${scene.unidade} pés por célula · Arraste para mover · Scroll para zoom`}
         </div>
       )}
 
-      {selectedToken && tool === 'select' && !drawer && (
-        <div className="map-selection" aria-label="Token selecionado">
-          <strong>{selectedToken.nome}</strong>
-          {selectedToken.oculto && <span>Somente mestres</span>}
-          {selectedVitals && (
-            <span>
-              PV {selectedVitals.current}/{selectedVitals.max}
-            </span>
+      {selectedToken &&
+        tool === 'select' &&
+        !drawer &&
+        selectedTokens.length <= 1 &&
+        !multiSelecting && (
+          <div className="map-selection" aria-label="Token selecionado">
+            <strong>{selectedToken.nome}</strong>
+            {selectedToken.oculto && <span>Somente mestres</span>}
+            {selectedVitals && (
+              <span>
+                PV {selectedVitals.current}/{selectedVitals.max}
+              </span>
+            )}
+            <TokenActions
+              key={selectedToken.id}
+              token={selectedToken}
+              record={session.records.find((r) => r.id === selectedToken.ficha_id)}
+              participant={session.mesa?.estado.combate.participantes.find(
+                (p) =>
+                  (selectedToken.ficha_id && p.ficha_id === selectedToken.ficha_id) ||
+                  (selectedToken.combate_id && p.id === selectedToken.combate_id),
+              )}
+              mesa={session.mesa}
+              userId={userId}
+              role={role}
+              disabled={
+                chatDisabled ||
+                session.pending ||
+                !!session.attempt ||
+                session.loading ||
+                session.denied ||
+                map.locked
+              }
+              onOpenSheet={onOpenSheet}
+              onRoll={onRoll}
+              operate={async (command) => {
+                const result = await session.operate(command);
+                if (result) await map.refresh();
+                return result;
+              }}
+            />
+            {canMove(selectedToken) && (
+              <details className="token-position">
+                <summary>Mover token</summary>
+                {movementButtons}
+                <p className="map-help">
+                  Cada clique move uma célula ({scene?.unidade} pés). Também use arraste ou as setas
+                  do teclado.
+                </p>
+              </details>
+            )}
+            {master && (
+              <button
+                type="button"
+                className="text-button"
+                disabled={map.locked}
+                onClick={() => {
+                  setTokenEditor(selectedToken);
+                  setDrawer('token');
+                }}
+              >
+                Editar token
+              </button>
+            )}
+            {master && (
+              <button
+                type="button"
+                className="text-button"
+                disabled={map.locked}
+                onClick={() => void duplicate()}
+              >
+                Duplicar seleção
+              </button>
+            )}
+          </div>
+        )}
+      {master && selectedTokens.length > 1 && tool === 'select' && !drawer && (
+        <div className="map-bulk-actions" aria-label="Seleção do mapa">
+          {selectedTokens.length > 1 && (
+            <strong>{selectedTokens.length} tokens selecionados</strong>
           )}
-          {canOpen(selectedToken) && (
+          <button
+            type="button"
+            className="text-button"
+            disabled={map.locked}
+            onClick={() => void duplicate()}
+          >
+            Duplicar seleção
+          </button>
+          {selectedTokens.length > 1 && (
             <button
               type="button"
               className="text-button"
-              onClick={() => onOpenSheet?.(selectedToken.ficha_id!)}
-            >
-              Ficha do token
-            </button>
-          )}
-          {master && (
-            <button
-              type="button"
-              className="text-button"
-              disabled={map.locked}
               onClick={() => {
-                setTokenEditor(selectedToken);
-                setDrawer('token');
+                setSelection([]);
+                setSelected('');
               }}
             >
-              Editar token
+              Limpar seleção
             </button>
           )}
+          {movementButtons}
         </div>
       )}
 
-      {drawer && (
+      {drawer && (drawer === 'assets' || drawer === 'scenes' || scene) && (
         <aside
           className="map-drawer"
           aria-label={
@@ -935,12 +1431,24 @@ export function Tabletop({
               ? 'Cenas da campanha'
               : drawer === 'assets'
                 ? 'Arquivos da campanha'
-                : 'Configurar token'
+                : drawer === 'areas'
+                  ? 'Configurar áreas de magia'
+                  : drawer === 'selection'
+                    ? 'Tokens da cena'
+                    : 'Configurar token'
           }
         >
           <div className="map-drawer-heading">
             <h2>
-              {drawer === 'scenes' ? 'Cenas e mapas' : drawer === 'assets' ? 'Arquivos' : 'Token'}
+              {drawer === 'scenes'
+                ? 'Cenas e mapas'
+                : drawer === 'assets'
+                  ? 'Arquivos'
+                  : drawer === 'areas'
+                    ? 'Áreas de magia'
+                    : drawer === 'selection'
+                      ? 'Tokens da cena'
+                      : 'Token'}
             </h2>
             <button
               type="button"
@@ -951,11 +1459,101 @@ export function Tabletop({
                 setDrawer('');
                 setSceneEditor(null);
                 setTokenEditor(null);
+                setAreaDraft(null);
+                setTool('select');
               }}
             >
               ×
             </button>
           </div>
+          {drawer === 'areas' && scene && areaDraft && (
+            <AreaTools
+              scene={scene}
+              areas={map.areas}
+              tokens={tokens.filter((t) => canMove(t))}
+              draft={areaDraft}
+              userId={userId}
+              master={master}
+              disabled={map.locked}
+              onDraft={setAreaDraft}
+              onPosition={() => {
+                setDrawer('');
+                setTool('area');
+              }}
+              onSave={() => void saveArea()}
+              onDelete={async (area) => {
+                const result = await operate({
+                  tipo: 'area_excluir',
+                  id: area.id,
+                  versao: area.versao,
+                });
+                if (result) {
+                  setAreaDraft(newArea());
+                }
+              }}
+            />
+          )}
+          {drawer === 'selection' && (
+            <>
+              <p className="map-help">
+                {master
+                  ? 'Use Selecionar para acessar ações. Marque vários tokens para movimentar ou duplicar.'
+                  : 'Selecione um token para acessar suas ações.'}
+              </p>
+              <ul className="map-token-list">
+                {tokens.map((t) => (
+                  <li key={t.id}>
+                    {master && (
+                      <input
+                        type="checkbox"
+                        aria-label={'Incluir ' + t.nome + ' na seleção'}
+                        checked={selection.includes(t.id)}
+                        onChange={(e) => {
+                          const ids = e.target.checked
+                            ? [...selection, t.id].slice(-40)
+                            : selection.filter((id) => id !== t.id);
+                          setSelection(ids);
+                          setSelected(ids.at(-1) || '');
+                        }}
+                      />
+                    )}
+                    <button
+                      type="button"
+                      className="text-button"
+                      aria-label={'Selecionar token ' + t.nome}
+                      onClick={() => {
+                        setSelection([t.id]);
+                        setSelected(t.id);
+                        setDrawer('');
+                        setTool('select');
+                        requestAnimationFrame(() =>
+                          svg.current
+                            ?.querySelector<SVGGElement>(`[data-token-id="${t.id}"]`)
+                            ?.focus(),
+                        );
+                      }}
+                    >
+                      {t.nome}
+                      {t.oculto ? ' · Só mestres' : ''}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              {master && selection.length > 1 && (
+                <button
+                  type="button"
+                  className="button secondary"
+                  onClick={() => {
+                    setDrawer('');
+                    setTool('select');
+                    svg.current?.focus();
+                  }}
+                >
+                  Usar seleção de {selection.length} tokens
+                </button>
+              )}
+            </>
+          )}
           {drawer === 'scenes' && (
             <>
               {sceneEditor && master ? (
@@ -964,7 +1562,7 @@ export function Tabletop({
                   scene={sceneEditor === 'new' ? undefined : sceneEditor}
                   assets={map.assets}
                   disabled={map.locked}
-                  operate={map.operate}
+                  operate={operate}
                   onClose={() => setSceneEditor(null)}
                 />
               ) : (
@@ -1022,7 +1620,7 @@ export function Tabletop({
                                   !window.confirm('Excluir a cena ' + row.nome + ' e seus tokens?')
                                 )
                                   return;
-                                await map.operate({
+                                await operate({
                                   tipo: 'cena_excluir',
                                   id: row.id,
                                   versao: row.versao,
@@ -1037,7 +1635,7 @@ export function Tabletop({
                               disabled={map.locked || row.ativa}
                               aria-label={'Exibir cena ' + row.nome}
                               onClick={() =>
-                                void map.operate({
+                                void operate({
                                   tipo: 'cena_ativar',
                                   id: row.id,
                                   versao: row.versao,
@@ -1060,7 +1658,7 @@ export function Tabletop({
                           checked={scene.nevoa}
                           disabled={map.locked}
                           onChange={(event) =>
-                            void map.operate({
+                            void operate({
                               tipo: 'cena_atualizar',
                               id: scene.id,
                               versao: scene.versao,
@@ -1076,7 +1674,7 @@ export function Tabletop({
                           className="text-button"
                           disabled={map.locked || !scene.revelacoes.length}
                           onClick={() =>
-                            void map.operate({
+                            void operate({
                               tipo: 'cena_atualizar',
                               id: scene.id,
                               versao: scene.versao,
@@ -1091,7 +1689,7 @@ export function Tabletop({
                           className="text-button"
                           disabled={map.locked || !scene.desenhos?.length}
                           onClick={() =>
-                            void map.operate({
+                            void operate({
                               tipo: 'cena_atualizar',
                               id: scene.id,
                               versao: scene.versao,
@@ -1137,7 +1735,7 @@ export function Tabletop({
                 origin={tokenOrigin}
                 assets={map.assets}
                 disabled={map.locked}
-                operate={map.operate}
+                operate={operate}
                 onClose={() => {
                   setDrawer('');
                   setTokenEditor(null);
@@ -1154,7 +1752,7 @@ export function Tabletop({
                         disabled={map.locked}
                         onClick={async () => {
                           if (
-                            await map.operate({
+                            await operate({
                               tipo: 'token_excluir',
                               id: tokenEditor.id,
                               versao: tokenEditor.versao,
@@ -1203,6 +1801,39 @@ export function Tabletop({
           </button>
         </div>
       )}
+      {session.error && (
+        <div className="map-notice context-notice" role="alert">
+          <p>{session.error}</p>
+          {session.attempt && !session.pending ? (
+            <div>
+              <button
+                type="button"
+                className="button secondary"
+                disabled={session.denied}
+                onClick={async () => {
+                  if (await session.operate()) await map.refresh();
+                }}
+              >
+                Reenviar ação do token
+              </button>
+              <button type="button" className="text-button" onClick={session.release}>
+                Liberar ação do token
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              className="text-button"
+              onClick={() => {
+                session.clearError();
+                void session.refresh();
+              }}
+            >
+              Atualizar ações do token
+            </button>
+          )}
+        </div>
+      )}
       {map.error && (
         <div className="map-notice" role="alert">
           <p>{map.error}</p>
@@ -1212,7 +1843,7 @@ export function Tabletop({
                 type="button"
                 className="button secondary"
                 disabled={map.pending}
-                onClick={() => void map.operate()}
+                onClick={() => void operate()}
               >
                 Reenviar alteração
               </button>
@@ -1220,7 +1851,10 @@ export function Tabletop({
                 type="button"
                 className="text-button"
                 disabled={map.pending}
-                onClick={map.release}
+                onClick={() => {
+                  history.clear();
+                  map.release();
+                }}
               >
                 Liberar nova alteração
               </button>

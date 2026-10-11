@@ -4,4 +4,7 @@ import './theme.css';
 import './styles.css';
 import './styles/tabletop.css';
 import './styles/tabletop-map.css';
+import './styles/agility-actions.css';
+import './styles/agility-map.css';
+import './styles/agility-workspace.css';
 createRoot(document.getElementById('root')!).render(<App />);
