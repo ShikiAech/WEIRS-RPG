@@ -193,10 +193,33 @@ test('paginação detecta acesso revogado e remove também mensagens já carrega
   );
   await page.goto('app.html#/chat');
   await expect(page.getByRole('log')).toContainText('Mensagem 65');
-  await page.route('https://weirs-test.supabase.co/rest/v1/membros_campanha**', (route) =>
-    route.fulfill({ contentType: 'application/json', body: '[]' }),
-  );
-  await page.getByRole('button', { name: 'Carregar mensagens anteriores' }).click();
+  const olderRequests: string[] = [];
+  page.on('request', (request) => {
+    const url = new URL(request.url());
+    if (
+      url.pathname === '/rest/v1/mensagens_chat' &&
+      url.searchParams.get('sequencia')?.startsWith('lt.')
+    )
+      olderRequests.push(request.url());
+  });
+  let revokeAccess!: () => void;
+  const revocation = new Promise<void>((resolve) => {
+    revokeAccess = resolve;
+  });
+  // A sincronização inicial também verifica acesso. Segure a resposta revogada
+  // até a paginação começar, para que ela não remova o botão antes do clique.
+  await page.route('https://weirs-test.supabase.co/rest/v1/membros_campanha**', async (route) => {
+    await revocation;
+    await route.fulfill({ contentType: 'application/json', body: '[]' });
+  });
+  try {
+    await page.getByRole('button', { name: 'Carregar mensagens anteriores' }).click();
+    await expect(page.getByRole('button', { name: 'Carregando…', exact: true })).toBeDisabled();
+  } finally {
+    revokeAccess();
+  }
   await expect(page.getByRole('alert')).toContainText('não participa');
   await expect(page.getByRole('log').getByText('Mensagem 65', { exact: true })).toHaveCount(0);
+  await expect(page.getByLabel('Mensagem ou comando de dados')).toBeDisabled();
+  expect(olderRequests).toHaveLength(0);
 });
