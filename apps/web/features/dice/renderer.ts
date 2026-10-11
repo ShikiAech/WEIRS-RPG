@@ -201,21 +201,30 @@ export async function renderDice(
     camera.updateProjectionMatrix();
   }
   function updatePose(progress: number) {
+    let travelX = 0;
+    let travelZ = 0;
     for (const die of dice) {
       const remaining = 1 - progress;
       const eased = 1 - remaining ** 3;
       const angle = remaining ** 2 * Math.PI * (5 + (die.index % 3));
       spin.setFromEuler(euler.set(angle, angle * 0.6, angle * 0.8));
       die.mesh.quaternion.copy(die.final).multiply(spin);
+      const x = -(remaining ** 2) * (3.2 + (die.index % 2) * 0.2);
+      const z = (1 - eased) * Math.sin(die.index + 1) * 0.4;
       die.mesh.position.set(
-        die.x - remaining ** 2 * (0.65 + (die.index % 2) * 0.2),
+        die.x + x,
         die.height + Math.sin(progress * Math.PI) * remaining * 0.8,
-        die.z + (1 - eased) * Math.sin(die.index + 1) * 0.4,
+        die.z + z,
       );
+      travelX += x;
+      travelZ += z;
     }
+    // Follow travel across the floor while keeping the angle and zoom steady.
+    camera.position.set(travelX / dice.length, 15, 5 + travelZ / dice.length);
+    camera.updateMatrixWorld();
   }
   if (animate) {
-    // Fit the whole launch once. A camera following each rotating AABB pumps the zoom.
+    // Fit every pose relative to the moving camera once; the zoom stays fixed.
     for (let step = 0; step <= 64; step++) {
       updatePose(step / 64);
       for (const die of dice)

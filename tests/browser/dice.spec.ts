@@ -8,7 +8,12 @@ test('rolagem confirmada anima modelos 3D e mostra os valores do servidor', asyn
   await chatBackend(page);
   // Observe the camera sent to WebGL, rather than a second React render or an asset fetch.
   await page.addInitScript(() => {
-    const probe = { projections: [] as number[][], heights: [] as number[], canvases: 0 };
+    const probe = {
+      projections: [] as number[][],
+      cameraTravel: [] as number[],
+      heights: [] as number[],
+      canvases: 0,
+    };
     (window as any).diceMotionProbe = probe;
     const names = new WeakMap<WebGLUniformLocation, string>();
     const originalLocation = WebGL2RenderingContext.prototype.getUniformLocation;
@@ -28,8 +33,13 @@ test('rolagem confirmada anima modelos 3D e mostra os valores do servidor', asyn
       }
       if (location && names.get(location) === 'modelMatrix') {
         const matrix = Array.from(value);
-        // The left die in this two-dice roll; exclude the floor and the right die.
-        if (matrix[12] < -0.5 && matrix[13] > 0.1) probe.heights.push(matrix[13]);
+        // Both dice share the vertical arc; exclude the floor.
+        if (matrix[13] > 0.1) probe.heights.push(matrix[13]);
+      }
+      if (location && names.get(location) === 'viewMatrix') {
+        const matrix = Array.from(value);
+        // The tray camera preserves its X axis; the angled shadow camera does not.
+        if (Math.abs(matrix[0] - 1) < 0.000001) probe.cameraTravel.push(matrix[12]);
       }
       originalMatrix.call(this, location, transpose, value);
     };
@@ -63,6 +73,10 @@ test('rolagem confirmada anima modelos 3D e mostra os valores do servidor', asyn
   expect(probe.canvases).toBe(1);
   expect(probe.projections.length).toBeGreaterThan(0);
   expect(new Set(probe.projections.map((matrix: number[]) => matrix.join(','))).size).toBe(1);
+  expect(probe.cameraTravel.length).toBeGreaterThan(1);
+  expect(Math.max(...probe.cameraTravel) - Math.min(...probe.cameraTravel)).toBeGreaterThan(1);
+  for (let i = 1; i < probe.cameraTravel.length; i++)
+    expect(probe.cameraTravel[i] - probe.cameraTravel[i - 1]).toBeLessThanOrEqual(0.001);
   expect(probe.heights.length).toBeGreaterThan(0);
   let descending = false;
   let secondLaunch = false;
