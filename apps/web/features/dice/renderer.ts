@@ -5,6 +5,8 @@ import {
   Mesh,
   MeshStandardMaterial,
   Texture,
+  CanvasTexture,
+  RepeatWrapping,
   SRGBColorSpace,
   HemisphereLight,
   DirectionalLight,
@@ -19,6 +21,41 @@ import { geometryFromModel, resultOrientation } from './models';
 import { diceFrustum } from './framing';
 import type { DiceModels } from './models';
 import type { DicePlan } from './roll-plan';
+
+function feltTexture() {
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = 256;
+  const context = canvas.getContext('2d');
+  if (!context) return;
+  const grain = context.createImageData(256, 256);
+  for (let pixel = 0; pixel < 256 * 256; pixel++) {
+    const hash = Math.imul(pixel + 1, 1664525) ^ Math.imul(pixel + 17, 1013904223);
+    const shade = ((hash >>> 16) & 15) - 7;
+    grain.data[pixel * 4] = 23 + shade;
+    grain.data[pixel * 4 + 1] = 28 + shade;
+    grain.data[pixel * 4 + 2] = 24 + shade;
+    grain.data[pixel * 4 + 3] = 255;
+  }
+  context.putImageData(grain, 0, 0);
+  context.lineWidth = 1;
+  for (let strand = 0; strand < 256; strand += 8) {
+    context.strokeStyle = 'rgba(176, 161, 112, 0.09)';
+    context.beginPath();
+    context.moveTo(0, strand + 0.5);
+    context.lineTo(256, strand + 0.5);
+    context.stroke();
+    context.strokeStyle = 'rgba(0, 0, 0, 0.18)';
+    context.beginPath();
+    context.moveTo(strand + 0.5, 0);
+    context.lineTo(strand + 0.5, 256);
+    context.stroke();
+  }
+  const texture = new CanvasTexture(canvas);
+  texture.colorSpace = SRGBColorSpace;
+  texture.wrapS = texture.wrapT = RepeatWrapping;
+  texture.repeat.set(16, 16);
+  return texture;
+}
 
 export async function renderDice(
   host: HTMLDivElement,
@@ -78,9 +115,14 @@ export async function renderDice(
   light.shadow.camera.left = light.shadow.camera.bottom = -12;
   light.shadow.camera.right = light.shadow.camera.top = 12;
   scene.add(light);
+  const surface = feltTexture();
   const floor = new Mesh(
     new PlaneGeometry(40, 40),
-    new MeshStandardMaterial({ color: 0x151319, roughness: 1 }),
+    new MeshStandardMaterial({
+      color: surface ? 0xffffff : 0x151319,
+      map: surface,
+      roughness: 1,
+    }),
   );
   floor.rotation.x = -Math.PI / 2;
   floor.receiveShadow = true;
@@ -211,6 +253,7 @@ export async function renderDice(
       }
     });
     texture.dispose();
+    surface?.dispose();
     bitmap.close();
     renderer.dispose();
     if (!renderer.getContext().isContextLost()) renderer.forceContextLoss();
