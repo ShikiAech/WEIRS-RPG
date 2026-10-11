@@ -225,7 +225,7 @@ npm run preview
 
 `npm test` verifica conteúdo, modelo/cálculos, configuração, arquivos de ficha e SQL em PostgreSQL local via PGlite. Playwright usa o SDK real com respostas HTTP interceptadas **somente nos testes** para verificar falhas de rede, salvamento e isolamento visual da sessão. Esses testes não afirmam que um projeto hospedado ou um login real do Google foi configurado.
 
-O build verifica os hashes de todas as fontes legadas e gera `dist/`, incluindo `index.html`, páginas, imagens e o novo `app.html`. Publique o conteúdo de `dist/` quando a configuração estiver pronta. A nova workflow `check.yml` executa verificações; ela não publica automaticamente.
+O build verifica os hashes de todas as fontes legadas e gera `dist/`, incluindo `index.html`, páginas, imagens e o novo `app.html`. A workflow `check.yml` executa verificações; `pages.yml` publica o build da `main`. Configure as variáveis públicas e selecione **GitHub Actions** como fonte do Pages seguindo o [guia de publicação](publicacao-github-pages.md).
 
 Para GitHub Pages, mantenha `VITE_BASE_PATH=/WEIRS-RPG/`. O legado usa URLs absolutas nesse caminho. Hospedagem em outro prefixo exigirá também ajustar os caminhos das páginas legadas, embora os links da nova aplicação respeitem a base configurada.
 
