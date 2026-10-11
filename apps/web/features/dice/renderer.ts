@@ -29,25 +29,29 @@ function feltTexture() {
   if (!context) return;
   const grain = context.createImageData(256, 256);
   for (let pixel = 0; pixel < 256 * 256; pixel++) {
-    const hash = Math.imul(pixel + 1, 1664525) ^ Math.imul(pixel + 17, 1013904223);
-    const shade = ((hash >>> 16) & 15) - 7;
+    // Larger grain survives downsampling in the compact tray.
+    const patch = Math.floor((pixel % 256) / 4) + Math.floor(pixel / 1024) * 64;
+    const hash = Math.imul(patch + 1, 1664525) ^ Math.imul(patch + 17, 1013904223);
+    const shade = ((hash >>> 16) & 31) - 15;
     grain.data[pixel * 4] = 23 + shade;
     grain.data[pixel * 4 + 1] = 28 + shade;
     grain.data[pixel * 4 + 2] = 24 + shade;
     grain.data[pixel * 4 + 3] = 255;
   }
   context.putImageData(grain, 0, 0);
-  context.lineWidth = 1;
-  for (let strand = 0; strand < 256; strand += 8) {
-    context.strokeStyle = 'rgba(176, 161, 112, 0.09)';
+  // Broad diagonal bands provide fixed landmarks, including at smaller zoom levels.
+  for (let stripe = -256; stripe <= 256; stripe += 64) {
+    context.lineWidth = 12;
+    context.strokeStyle = 'rgba(129, 116, 79, 0.42)';
     context.beginPath();
-    context.moveTo(0, strand + 0.5);
-    context.lineTo(256, strand + 0.5);
+    context.moveTo(stripe, 0);
+    context.lineTo(stripe + 256, 256);
     context.stroke();
-    context.strokeStyle = 'rgba(0, 0, 0, 0.18)';
+    context.lineWidth = 3;
+    context.strokeStyle = 'rgba(0, 0, 0, 0.45)';
     context.beginPath();
-    context.moveTo(strand + 0.5, 0);
-    context.lineTo(strand + 0.5, 256);
+    context.moveTo(stripe + 14, 0);
+    context.lineTo(stripe + 270, 256);
     context.stroke();
   }
   const texture = new CanvasTexture(canvas);
