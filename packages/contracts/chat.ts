@@ -13,7 +13,7 @@ export type SheetAction =
   | 'dado_vida';
 export type ChatCommand =
   | { tipo: 'texto'; texto: string }
-  | { tipo: 'rolagem'; expressao: string; rotulo?: string }
+  | { tipo: 'rolagem'; expressao: string; rotulo?: string; secreta?: boolean }
   | {
       tipo: 'acao';
       ficha_id: string;
@@ -21,6 +21,7 @@ export type ChatCommand =
       entrada_id: string;
       acao: SheetAction;
       modo: RollMode;
+      secreta?: boolean;
     };
 export type RollTerm = {
   sinal: number;
@@ -56,12 +57,16 @@ export type ChatMessage = {
   rotulo: string;
   resultado: RollResult | null;
   criado_em: string;
+  secreta?: boolean;
+  revelada_id?: string | null;
 };
 export type ChatStatus = 'conectando' | 'ao_vivo' | 'reconectando';
 export type ChatRepository = {
   history(campaign: string, before?: number): Promise<ChatMessage[]>;
   since(campaign: string, after: number): Promise<ChatMessage[]>;
   send(campaign: string, request: string, command: ChatCommand): Promise<ChatMessage>;
+  reveal(campaign: string, message: string): Promise<ChatMessage>;
+  onRole?: (role: string, campaign: string) => void;
   subscribe(
     campaign: string,
     onMessage: (message: ChatMessage) => void,

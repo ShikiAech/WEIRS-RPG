@@ -14,7 +14,15 @@ const actionNames = {
   magia_dano: 'Dano de magia',
   dado_vida: 'Dado de vida',
 };
-export function Message({ message }: { message: ChatMessage }) {
+export function Message({
+  message,
+  onReveal,
+  revealing,
+}: {
+  message: ChatMessage;
+  onReveal?: () => void;
+  revealing?: boolean;
+}) {
   const result = message.resultado;
   const concealed = useDice3D().hidden.has(message.id);
   return (
@@ -31,10 +39,17 @@ export function Message({ message }: { message: ChatMessage }) {
           })}
         </time>
       </header>
-      {message.tipo === 'texto' ? (
+      {message.secreta && !result ? (
+        <p className="secret-roll-notice">
+          <span aria-hidden="true">◈</span> <strong>Rolagem secreta</strong>
+          <br />
+          <small>O mestre realizou uma rolagem.</small>
+        </p>
+      ) : message.tipo === 'texto' ? (
         <p className="chat-text">{message.texto}</p>
       ) : (
         <>
+          {message.secreta && <span className="secret-badge">Somente mestres</span>}
           <div className="roll-heading">
             <div>
               <span className="eyebrow">
@@ -86,6 +101,24 @@ export function Message({ message }: { message: ChatMessage }) {
           {result?.origem?.acao === 'magia' && (
             <p className="muted">Espaços e recursos permanecem sob controle da mesa.</p>
           )}
+          {message.texto === 'Resultado revelado pelo mestre.' && (
+            <small className="muted">Revelado pelo mestre</small>
+          )}
+          {message.secreta &&
+            !concealed &&
+            onReveal &&
+            (message.revelada_id ? (
+              <small className="muted">Resultado já revelado</small>
+            ) : (
+              <button
+                type="button"
+                className="text-button reveal-roll"
+                disabled={revealing}
+                onClick={onReveal}
+              >
+                {revealing ? 'Revelando…' : 'Revelar resultado'}
+              </button>
+            ))}
         </>
       )}
     </article>

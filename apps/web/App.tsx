@@ -79,7 +79,7 @@ export function App() {
         : 'campanhas';
   return (
     <DiceProvider key={(user?.id || 'visitante') + ':' + route}>
-      <div className="app-shell">
+      <div className={'app-shell ' + (section === 'chat' && user ? 'tabletop-shell' : '')}>
         <a
           className="skip-link"
           href="#main-content"

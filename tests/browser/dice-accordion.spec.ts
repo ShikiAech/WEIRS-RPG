@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { backend } from './backend';
 import { chatBackend } from './chat-backend';
 
-test('accordion pertence ao chat e só revela os números ao terminar, mesmo com Realtime antes da RPC', async ({
+test('janela de dados só revela os números ao terminar, mesmo com Realtime antes da RPC', async ({
   page,
 }) => {
   await backend(page);
@@ -23,7 +23,9 @@ test('accordion pertence ao chat e só revela os números ao terminar, mesmo com
   const accordion = page.getByRole('button', { name: 'Mesa de dados 3D', exact: true });
   await expect(accordion).toHaveAttribute('aria-expanded', 'true');
   const panel = page.getByRole('region', { name: 'Dados 3D' });
-  await expect(page.locator('.chat-room').getByRole('region', { name: 'Dados 3D' })).toBeVisible();
+  await expect(
+    page.locator('.dice-floating').getByRole('region', { name: 'Dados 3D' }),
+  ).toBeVisible();
   await page.getByLabel('Mensagem ou comando de dados').fill('/r 2d6+3');
   await page.getByRole('button', { name: 'Enviar', exact: true }).click();
   await expect(page.getByRole('log')).toContainText('Rolando dados…');
@@ -41,7 +43,7 @@ test('accordion pertence ao chat e só revela os números ao terminar, mesmo com
   await expect(panel).toContainText('Resultado confirmado: 11');
   await expect(page.getByRole('log').locator('.roll-total')).toHaveText('Total11');
   await expect(page.getByRole('log').locator('.die')).toHaveCount(2);
-  // O painel concluído permanece e não fica sobreposto à página.
+  // O resultado concluído permanece na janela até ser recolhido.
   const before = await panel.boundingBox();
   await expect(panel).toHaveCSS('position', 'static');
   await page.waitForTimeout(4700);
@@ -138,7 +140,7 @@ test('duas rolagens consecutivas esperam cada animação; recolher libera toda a
   load();
   await expect(page.getByRole('log').locator('.roll-total')).toHaveCount(1, { timeout: 15000 });
   await expect(page.getByRole('log').getByText('Rolando dados…', { exact: true })).toHaveCount(1);
-  await page.getByRole('button', { name: 'Mesa de dados 3D' }).click();
+  await page.getByRole('button', { name: 'Mesa de dados 3D', exact: true }).click();
   await expect(page.getByRole('log').locator('.roll-total')).toHaveCount(2);
   await expect(page.getByRole('log')).not.toContainText('Rolando dados…');
 });

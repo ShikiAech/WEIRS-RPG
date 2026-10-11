@@ -53,7 +53,7 @@ Fichas antigas continuam válidas; o campo opcional de dano não exige importar 
 
 ## Ficha durante a sessão
 
-Clique em **Minha ficha** no chat. No desktop, a ficha abre ao lado da conversa; no celular, abre acima dela, com rolagem interna e cabeçalho fixo.
+Clique em **Minha ficha** no chat. A ficha abre em uma janela móvel, com rolagem interna. Arraste o cabeçalho ou use as setas no puxador para movê-la; **−/+** recolhem/expandem sem perder seu estado. Veja também o [guia de mapas, tokens e rolagens secretas](configuracao-mesa-virtual.md).
 
 | Seção      | Operações                                                                                                                               |
 | ---------- | --------------------------------------------------------------------------------------------------------------------------------------- |

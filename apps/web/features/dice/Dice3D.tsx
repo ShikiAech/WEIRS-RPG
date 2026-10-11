@@ -15,6 +15,7 @@ import type { ChatMessage } from '../../../../packages/contracts/chat';
 import { dicePlan } from './roll-plan';
 import { concealedResults, initialRevealState, revealReducer } from './reveal-state';
 import type { Presentation } from './reveal-state';
+import { FloatingWindow } from '../tabletop/FloatingWindow';
 
 const preferenceKey = 'weirs:dice3d';
 const openKey = 'weirs:dice3d:open';
@@ -131,27 +132,26 @@ export function DiceSettings() {
   );
 }
 
-export function DicePanel() {
+export function DicePanel({ sessionWindow = '' }: { sessionWindow?: string } = {}) {
   const dice = useDice3D();
   const id = useId();
   return (
-    <section className="dice-accordion">
-      <button
-        type="button"
-        className="dice-accordion-toggle"
-        aria-expanded={dice.open}
-        aria-controls={id}
-        aria-label="Mesa de dados 3D"
-        onClick={() => dice.expand(!dice.open)}
-      >
-        <span>
-          <span className="dice-accordion-symbol" aria-hidden="true">
-            ✦
-          </span>{' '}
-          Mesa de dados 3D
-        </span>
-        <span aria-hidden="true">{dice.open ? 'Recolher −' : 'Expandir +'}</span>
-      </button>
+    <FloatingWindow
+      id="dados"
+      title="Mesa de dados 3D"
+      className="dice-accordion dice-floating"
+      collapsed={!dice.open}
+      onCollapse={(collapsed) => dice.expand(!collapsed)}
+      toggleLabel="Mesa de dados 3D"
+      avoidKey={sessionWindow + ':' + (dice.current?.message.id || '')}
+      initial={{
+        x:
+          window.innerWidth <= 760
+            ? window.innerWidth - 253
+            : Math.max(80, window.innerWidth - 660),
+        y: window.innerWidth <= 760 ? 125 : Math.max(110, window.innerHeight - 340),
+      }}
+    >
       <div
         id={id}
         role="region"
@@ -180,7 +180,7 @@ export function DicePanel() {
           </>
         )}
       </div>
-    </section>
+    </FloatingWindow>
   );
 }
 

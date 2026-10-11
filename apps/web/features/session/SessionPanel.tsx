@@ -3,6 +3,7 @@ import { SheetPlay } from './SheetPlay';
 import { CombatPanel } from './CombatPanel';
 import { ShopDialog } from './ShopDialog';
 import { useSession } from './useSession';
+import { useEffect } from 'react';
 export function SessionPanel({
   campaign,
   userId,
@@ -13,6 +14,7 @@ export function SessionPanel({
   onRoll,
   onMessage,
   onBusy,
+  selectedSheetId,
 }: {
   campaign: string;
   userId: string;
@@ -23,8 +25,13 @@ export function SessionPanel({
   onRoll: (c: ChatCommand) => void;
   onMessage: (m: ChatMessage) => void;
   onBusy: (b: boolean) => void;
+  selectedSheetId?: string;
 }) {
   const session = useSession(campaign, onMessage, onBusy);
+  useEffect(() => {
+    if (selectedSheetId && session.records.some((r) => r.id === selectedSheetId))
+      session.setSelected(selectedSheetId);
+  }, [selectedSheetId, session.records]);
   const { record, mesa } = session;
   const master = role === 'mestre',
     readonly = role === 'espectador';

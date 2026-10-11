@@ -44,17 +44,43 @@ export function createChatRepository(client: SupabaseClient): ChatRepository {
     validId(campaign);
     const { data, error } = await client.auth.getUser();
     if (error || !data.user) throw new ChatError('SESSAO');
-    const rows = await request<{ usuario_id: string; campanha_id: string }[]>(
+    const rows = await request<{ usuario_id: string; campanha_id: string; papel: string }[]>(
       client
         .from('membros_campanha')
-        .select('usuario_id,campanha_id')
+        .select('usuario_id,campanha_id,papel')
         .eq('usuario_id', data.user.id)
         .eq('campanha_id', campaign),
     );
     if (!rows.some((m) => m.usuario_id === data.user!.id && m.campanha_id === campaign))
       throw new ChatError('ACESSO');
+    repository.onRole?.(
+      rows.find((m) => m.usuario_id === data.user!.id && m.campanha_id === campaign)!.papel,
+      campaign,
+    );
   }
-  return {
+  async function hydrate(campaign: string, rows: ChatMessage[]) {
+    const ids = rows.filter((row) => row.secreta).map((row) => row.id);
+    if (!ids.length) return rows;
+    const secrets = await request<
+      Pick<ChatMessage, 'id' | 'rotulo' | 'resultado' | 'revelada_id'>[]
+    >(client.rpc('ler_segredos_chat', { p_campanha: campaign, p_ids: ids }));
+    const lookup = new Map(secrets.map((row) => [row.id, row]));
+    return rows.map((row) => (lookup.has(row.id) ? { ...row, ...lookup.get(row.id)! } : row));
+  }
+  function message(data: ChatMessage | ChatMessage[], campaign: string) {
+    const row = Array.isArray(data) && data.length === 1 ? data[0] : data;
+    if (
+      !row ||
+      Array.isArray(row) ||
+      !UUID.test(row.id) ||
+      row.campanha_id !== campaign ||
+      !Number.isSafeInteger(row.sequencia) ||
+      row.sequencia < 1
+    )
+      throw new ChatError('RESPOSTA');
+    return row;
+  }
+  const repository: ChatRepository = {
     async history(campaign, before) {
       await access(campaign);
       let query = client
@@ -64,18 +90,21 @@ export function createChatRepository(client: SupabaseClient): ChatRepository {
         .order('sequencia', { ascending: false })
         .limit(50);
       if (before !== undefined) query = query.lt('sequencia', before);
-      return (await request<ChatMessage[]>(query)).reverse();
+      return hydrate(campaign, (await request<ChatMessage[]>(query)).reverse());
     },
     async since(campaign, after) {
       await access(campaign);
-      return request<ChatMessage[]>(
-        client
-          .from('mensagens_chat')
-          .select('*')
-          .eq('campanha_id', campaign)
-          .gt('sequencia', after)
-          .order('sequencia')
-          .limit(50),
+      return hydrate(
+        campaign,
+        await request<ChatMessage[]>(
+          client
+            .from('mensagens_chat')
+            .select('*')
+            .eq('campanha_id', campaign)
+            .gt('sequencia', after)
+            .order('sequencia')
+            .limit(50),
+        ),
       );
     },
     async send(campaign, pedido, command) {
@@ -84,18 +113,17 @@ export function createChatRepository(client: SupabaseClient): ChatRepository {
       const data = await request<ChatMessage | ChatMessage[]>(
         client.rpc('enviar_chat', { p_campanha: campaign, p_pedido: pedido, p_comando: command }),
       );
-      // O retorno de um tipo de tabela pode ser serializado como uma lista de uma linha.
-      const row = Array.isArray(data) && data.length === 1 ? data[0] : data;
-      if (
-        !row ||
-        Array.isArray(row) ||
-        !UUID.test(row.id) ||
-        row.campanha_id !== campaign ||
-        !Number.isSafeInteger(row.sequencia) ||
-        row.sequencia < 1
-      )
-        throw new ChatError('RESPOSTA');
-      return row;
+      return message(data, campaign);
+    },
+    async reveal(campaign, id) {
+      validId(campaign);
+      validId(id);
+      return message(
+        await request<ChatMessage | ChatMessage[]>(
+          client.rpc('revelar_rolagem', { p_campanha: campaign, p_mensagem: id }),
+        ),
+        campaign,
+      );
     },
     subscribe(campaign, onMessage, onStatus) {
       validId(campaign);
@@ -113,7 +141,17 @@ export function createChatRepository(client: SupabaseClient): ChatRepository {
           },
           (payload) => {
             const row = payload.new as ChatMessage;
-            if (active && row.campanha_id === campaign) onMessage(row);
+            if (active && row.campanha_id === campaign) {
+              if (!row.secreta) onMessage(row);
+              else
+                void hydrate(campaign, [row])
+                  .then((rows) => {
+                    if (active) onMessage(rows[0]);
+                  })
+                  .catch(() => {
+                    if (active) onStatus('reconectando');
+                  });
+            }
           },
         )
         .subscribe((status) => {
@@ -125,4 +163,5 @@ export function createChatRepository(client: SupabaseClient): ChatRepository {
       };
     },
   };
+  return repository;
 }

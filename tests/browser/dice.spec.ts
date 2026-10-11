@@ -24,7 +24,7 @@ test('rolagem confirmada anima modelos 3D e mostra os valores do servidor', asyn
   await expect(tray).toContainText('d6: 4, 4');
   await page.screenshot({ path: `artifacts/dice-${test.info().project.name}.png`, fullPage: true });
   expect(errors).toEqual([]);
-  await page.getByRole('button', { name: 'Mesa de dados 3D' }).click();
+  await page.getByRole('button', { name: 'Mesa de dados 3D', exact: true }).click();
   await expect(tray).toBeHidden();
   await expect(page.getByRole('log')).toContainText('2d6+3');
 });

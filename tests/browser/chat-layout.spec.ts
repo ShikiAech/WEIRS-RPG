@@ -1,12 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { backend } from './backend';
 import { chatBackend } from './chat-backend';
+import { tabletopBackend } from './tabletop-backend';
 
-test('mesa compacta acompanha o fim da conversa sem cobrir mensagens ou envio', async ({
-  page,
-}) => {
-  await backend(page);
+test('mapa e chat ocupam a mesa; dados ficam em janela móvel e recolhível', async ({ page }) => {
+  const sheets = await backend(page);
   const chat = await chatBackend(page);
+  await tabletopBackend(page, sheets, chat);
   chat.rollResult = {
     regras: 1,
     expressao: '6d6',
@@ -35,25 +35,41 @@ test('mesa compacta acompanha o fim da conversa sem cobrir mensagens ou envio', 
     };
     return {
       log: box('.chat-log'),
-      last: box('.chat-message:last-child'),
+      map: box('.tabletop-center'),
+      chat: box('.chat-room'),
       dice: box('.dice-accordion'),
       composer: box('.chat-composer'),
       viewport: innerWidth,
+      height: innerHeight,
       page: document.documentElement.scrollWidth,
     };
   });
-  // A última mensagem fica junto à mesa, mesmo quando o histórico é curto.
-  expect(bounds.dice.top).toBeGreaterThanOrEqual(bounds.log.bottom);
-  expect(bounds.dice.top - bounds.last.bottom).toBeLessThan(60);
+  // Dados não tomam altura do histórico; o envio continua dentro do dock.
+  expect(bounds.composer.bottom).toBeLessThanOrEqual(bounds.height + 1);
+  expect(bounds.dice.left).toBeGreaterThanOrEqual(0);
+  expect(bounds.dice.right).toBeLessThanOrEqual(bounds.viewport);
+  expect(bounds.dice.bottom).toBeLessThanOrEqual(bounds.height + 1);
   expect(bounds.dice.width).toBeLessThanOrEqual(380);
   expect(bounds.page).toBeLessThanOrEqual(bounds.viewport);
   if (test.info().project.name === 'desktop') {
-    expect(bounds.composer.left).toBeGreaterThanOrEqual(bounds.dice.right);
-    expect(Math.abs(bounds.composer.top - bounds.dice.top)).toBeLessThan(2);
+    expect(bounds.map.right).toBeLessThanOrEqual(bounds.chat.left + 1);
+    expect(bounds.map.width).toBeGreaterThan(bounds.chat.width);
+    expect(bounds.composer.left).toBeGreaterThanOrEqual(bounds.chat.left);
+    expect(bounds.dice.right).toBeLessThanOrEqual(bounds.chat.left);
   } else {
-    expect(bounds.composer.top).toBeGreaterThanOrEqual(bounds.dice.bottom);
+    await page.getByRole('button', { name: 'Mapa', exact: true }).click();
+    await expect(page.getByRole('application', { name: 'Mapa da campanha' })).toBeVisible();
+    await expect(page.getByRole('log')).toBeHidden();
+    await page.getByRole('button', { name: 'Chat', exact: true }).click();
+    await expect(page.getByRole('log')).toBeVisible();
   }
   await expect(tray.locator('canvas')).toBeInViewport();
+  const mover = page.getByRole('button', { name: 'Mover Mesa de dados 3D', exact: true });
+  const beforeMove = await panel.boundingBox();
+  await mover.focus();
+  await mover.press('ArrowRight');
+  const afterMove = await panel.boundingBox();
+  expect(afterMove!.x).toBeGreaterThan(beforeMove!.x);
   await panel.scrollIntoViewIfNeeded();
   await page.screenshot({
     path: `artifacts/chat-layout-audit/after-${test.info().project.name}.png`,
@@ -79,8 +95,9 @@ test('mesa compacta acompanha o fim da conversa sem cobrir mensagens ou envio', 
 test('ler histórico conserva a mesa e novas mensagens não interrompem a leitura', async ({
   page,
 }) => {
-  await backend(page);
+  const sheets = await backend(page);
   const chat = await chatBackend(page);
+  await tabletopBackend(page, sheets, chat);
   chat.rows = Array.from({ length: 65 }, (_, i) =>
     chat.row(i + 1, { texto: 'Mensagem ' + (i + 1) }),
   );

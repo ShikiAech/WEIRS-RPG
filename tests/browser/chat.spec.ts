@@ -24,8 +24,11 @@ test('chat carrega histórico, envia texto e dados sem executar HTML; retry mant
   await expect(page.getByText('Total', { exact: true })).toBeVisible();
   await expect(page.getByRole('log').getByText('2d6+3', { exact: true })).toHaveCount(1);
   expect(chat.rows).toHaveLength(3);
-  await expect(page.locator('.chat-room')).toHaveCSS('border-top-width', '1px');
-  await expect(page.locator('.chat-room')).toHaveCSS('background-color', 'rgba(18, 18, 19, 0.85)');
+  await expect(page.locator('.chat-room')).toHaveCSS(
+    'border-left-width',
+    page.viewportSize()!.width > 760 ? '1px' : '0px',
+  );
+  await expect(page.locator('.chat-room')).toHaveCSS('background-color', 'rgb(20, 18, 22)');
   await page.screenshot({ path: `artifacts/chat-${test.info().project.name}.png`, fullPage: true });
   await page.getByRole('button', { name: 'Sair', exact: true }).click();
   await expect(page.getByText('Mensagem anterior')).toHaveCount(0);

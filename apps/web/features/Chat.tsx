@@ -14,6 +14,8 @@ import { catchUp, commandFromText, mergeMessages } from '../lib/chat-state';
 import { Message } from './chat/Message';
 import { DicePanel, useDice3D } from './dice/Dice3D';
 import { SessionPanel } from './session/SessionPanel';
+import { FloatingWindow } from './tabletop/FloatingWindow';
+import { Tabletop } from './tabletop/Tabletop';
 
 export function Chat({
   user,
@@ -148,6 +150,12 @@ function Room({
 }) {
   const dice = useDice3D();
   const [panel, setPanel] = useState('');
+  const [sheetId, setSheetId] = useState('');
+  const [view, setView] = useState('chat');
+  const [liveRole, setLiveRole] = useState(role);
+  const currentRole = useRef(role);
+  const [secret, setSecret] = useState(false);
+  const [revealing, setRevealing] = useState('');
   const [sessionBusy, setSessionBusy] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [status, setStatus] = useState<ChatStatus>('conectando');
@@ -171,6 +179,25 @@ function Room({
   const mounted = useRef(true);
   const log = useRef<HTMLDivElement>(null);
   const scroll = useRef({ bottom: true, prependHeight: 0 });
+  useEffect(() => {
+    repository.onRole = (next, id) => {
+      if (!mounted.current || !next || id !== campaign.id) return;
+      if (currentRole.current === 'mestre' && next !== 'mestre') {
+        dice.clear();
+        setSecret(false);
+        setMessages((rows) =>
+          rows.map((row) =>
+            row.secreta ? { ...row, resultado: null, rotulo: 'Rolagem secreta' } : row,
+          ),
+        );
+      }
+      currentRole.current = next;
+      setLiveRole(next);
+    };
+    return () => {
+      repository.onRole = undefined;
+    };
+  }, [repository, campaign.id]);
   useEffect(
     () => () => {
       mounted.current = false;
@@ -179,6 +206,10 @@ function Room({
   );
   function add(rows: ChatMessage[], prepend = false) {
     if (!rows.length || forbidden.current) return;
+    if (currentRole.current !== 'mestre')
+      rows = rows.map((row) =>
+        row.secreta ? { ...row, resultado: null, rotulo: 'Rolagem secreta' } : row,
+      );
     // Realtime e consultas podem confirmar o envio antes da resposta da RPC.
     // Ocultar antes de inserir impede uma renderização com o total ainda visível.
     if (pendingSend.current) {
@@ -328,10 +359,23 @@ function Room({
     }
   }
   async function send(command?: ChatCommand) {
-    if (busy.current || sessionBusy || !canSend || forbidden.current) return;
+    if (busy.current || sessionBusy || !canSend || liveRole === 'espectador' || forbidden.current)
+      return;
     let next = attempt;
     try {
-      if (!next) next = { id: crypto.randomUUID(), command: command || commandFromText(text) };
+      if (!next) {
+        let parsed = command || commandFromText(text);
+        if (parsed.tipo !== 'texto' && (secret || parsed.secreta)) {
+          if (liveRole !== 'mestre')
+            throw new Error('Somente o mestre pode realizar rolagens secretas.');
+          if (parsed.tipo === 'acao' && ['iniciativa', 'morte', 'dado_vida'].includes(parsed.acao))
+            throw new Error(
+              'Iniciativa, testes de morte e dados de vida alteram a mesa. Selecione rolagem pública para usar esta ação.',
+            );
+          parsed = { ...parsed, secreta: true };
+        }
+        next = { id: crypto.randomUUID(), command: parsed };
+      }
     } catch (error) {
       setSendError((error as Error).message);
       return;
@@ -346,7 +390,7 @@ function Room({
       const row = await repository.send(campaign.id, next.id, next.command);
       if (mounted.current && !forbidden.current) {
         add([row]);
-        dice.show(row);
+        if (!row.secreta || currentRole.current === 'mestre') dice.show(row);
         pendingSend.current = false;
         setAttempt(null);
         if (next.command.tipo !== 'acao') setText('');
@@ -366,10 +410,42 @@ function Room({
       if (mounted.current) setSending(false);
     }
   }
-  const disabled = !canSend || accessLost || loading || sessionBusy;
+  async function reveal(id: string) {
+    if (revealing || accessLost || liveRole !== 'mestre') return;
+    setRevealing(id);
+    setSendError('');
+    try {
+      const row = await repository.reveal(campaign.id, id);
+      if (mounted.current && !forbidden.current) {
+        add([row]);
+        setMessages((rows) => rows.map((m) => (m.id === id ? { ...m, revelada_id: row.id } : m)));
+      }
+    } catch (e) {
+      if (mounted.current) setSendError(chatError(e).message);
+    } finally {
+      if (mounted.current) setRevealing('');
+    }
+  }
+  const disabled = !canSend || liveRole === 'espectador' || accessLost || loading || sessionBusy;
   return (
     <>
       <div className="session-toolbar" aria-label="Ferramentas da sessão">
+        <div className="mobile-tabletop-tabs" aria-label="Visualização da mesa">
+          <button
+            className="text-button"
+            aria-pressed={view === 'mapa'}
+            onClick={() => setView('mapa')}
+          >
+            Mapa
+          </button>
+          <button
+            className="text-button"
+            aria-pressed={view === 'chat'}
+            onClick={() => setView('chat')}
+          >
+            Chat
+          </button>
+        </div>
         {['ficha', 'combate', 'loja'].map((kind) => (
           <button
             key={kind}
@@ -382,20 +458,61 @@ function Room({
           </button>
         ))}
       </div>
-      <div className={'session-layout ' + (panel && panel !== 'loja' ? 'with-panel' : '')}>
-        {panel && !accessLost && (
-          <SessionPanel
-            campaign={campaign.id}
-            userId={userId}
-            role={role}
-            kind={panel}
-            chatDisabled={loading || accessLost || sessionBusy || sending || !!attempt}
-            onClose={() => setPanel('')}
-            onRoll={(command) => void send(command)}
-            onMessage={(message) => add([message])}
-            onBusy={setSessionBusy}
-          />
-        )}
+      <div className={'tabletop-workspace view-' + view}>
+        <section className="tabletop-center" aria-label="Mapa da campanha">
+          {!accessLost && (
+            <Tabletop
+              campaignId={campaign.id}
+              userId={userId}
+              role={liveRole}
+              onOpenSheet={(id) => {
+                if (!sessionBusy && !sending && !attempt) {
+                  setSheetId(id);
+                  setPanel('ficha');
+                }
+              }}
+            />
+          )}
+          {accessLost && <p className="notice">Acesso à mesa encerrado.</p>}
+        </section>
+        {panel &&
+          !accessLost &&
+          (panel === 'loja' ? (
+            <SessionPanel
+              campaign={campaign.id}
+              userId={userId}
+              role={liveRole}
+              kind={panel}
+              chatDisabled={loading || accessLost || sessionBusy || sending || !!attempt}
+              onClose={() => setPanel('')}
+              onRoll={(command) => void send(command)}
+              onMessage={(message) => add([message])}
+              onBusy={setSessionBusy}
+            />
+          ) : (
+            <FloatingWindow
+              id={campaign.id + ':' + panel}
+              title={panel === 'ficha' ? 'Ficha do personagem' : 'Combate'}
+              className="session-floating"
+              initial={{ x: 22, y: 128 }}
+            >
+              <SessionPanel
+                campaign={campaign.id}
+                userId={userId}
+                role={liveRole}
+                kind={panel}
+                selectedSheetId={sheetId}
+                chatDisabled={loading || accessLost || sessionBusy || sending || !!attempt}
+                onClose={() => {
+                  setPanel('');
+                  setSheetId('');
+                }}
+                onRoll={(command) => void send(command)}
+                onMessage={(message) => add([message])}
+                onBusy={setSessionBusy}
+              />
+            </FloatingWindow>
+          ))}
         <section className="chat-room" aria-label={'Conversa de ' + campaign.nome}>
           <div className="chat-room-heading">
             <strong>{campaign.nome}</strong>
@@ -449,7 +566,12 @@ function Room({
             ) : (
               <div className="chat-messages">
                 {messages.map((m) => (
-                  <Message key={m.id} message={m} />
+                  <Message
+                    key={m.id}
+                    message={m}
+                    onReveal={liveRole === 'mestre' ? () => void reveal(m.id) : undefined}
+                    revealing={revealing === m.id}
+                  />
                 ))}
               </div>
             )}
@@ -467,7 +589,6 @@ function Room({
             </button>
           )}
           <div className="chat-controls">
-            <DicePanel />
             <div className="chat-composer">
               <div className="quick-dice" aria-label="Dados rápidos">
                 {[4, 6, 8, 10, 12, 20, 100].map((faces) => (
@@ -495,6 +616,19 @@ function Room({
                   Desvantagem
                 </button>
               </div>
+              {liveRole === 'mestre' && (
+                <label className="roll-visibility">
+                  Visibilidade da rolagem
+                  <select
+                    value={secret ? 'secreta' : 'publica'}
+                    disabled={sending || !!attempt || accessLost}
+                    onChange={(e) => setSecret(e.target.value === 'secreta')}
+                  >
+                    <option value="publica">Pública</option>
+                    <option value="secreta">Só mestres</option>
+                  </select>
+                </label>
+              )}
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -564,7 +698,8 @@ function Room({
                   Use <code>/r 1d20+5</code>, <code>/roll 2d6+1d4-2</code> ou <code>/r 4d6kh3</code>
                   . <code>kh</code> mantém os maiores; <code>kl</code>, os menores. Até 100 dados
                   por rolagem e faces de 2 a 1000. Resultados são calculados no servidor e
-                  compartilhados com a campanha.
+                  compartilhados com a campanha. O mestre pode usar <code>/gmroll 1d20+5</code> para
+                  esconder o resultado.
                 </p>
                 <p>Ataques e magias também podem ser enviados pelos botões das fichas salvas.</p>
               </details>
@@ -572,6 +707,7 @@ function Room({
           </div>
         </section>
       </div>
+      {!accessLost && <DicePanel sessionWindow={panel} />}
     </>
   );
 }

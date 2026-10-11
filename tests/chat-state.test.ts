@@ -19,6 +19,16 @@ const message = (sequence: number): ChatMessage => ({
 test('comandos de dados são explícitos e texto comum permanece texto', () => {
   assert.deepEqual(commandFromText('  /r 2d6+3 '), { tipo: 'rolagem', expressao: '2d6+3' });
   assert.deepEqual(commandFromText('/roll 4d6kh3'), { tipo: 'rolagem', expressao: '4d6kh3' });
+  assert.deepEqual(commandFromText('/gmroll 2d20kh1+5'), {
+    tipo: 'rolagem',
+    expressao: '2d20kh1+5',
+    secreta: true,
+  });
+  assert.deepEqual(commandFromText('/GR 1d6'), {
+    tipo: 'rolagem',
+    expressao: '1d6',
+    secreta: true,
+  });
   assert.deepEqual(commandFromText('Olá\nMesa'), { tipo: 'texto', texto: 'Olá\nMesa' });
   assert.throws(() => commandFromText('/r'), /expressão/i);
   assert.throws(() => commandFromText('   '), /mensagem/i);

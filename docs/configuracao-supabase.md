@@ -9,7 +9,7 @@ Esta entrega usa React/TypeScript e o backend gerenciado do Supabase. O banco ap
 - Criação, leitura, edição e exclusão via Supabase; conflitos por versão; importação/exportação JSON. O mestre edita fichas da sua campanha. Só o proprietário com acesso de escrita pode excluir.
 - Sem configuração, o compêndio e a ficha temporária funcionam. A ficha temporária é mantida apenas na página; baixe uma cópia para recuperá-la posteriormente.
 
-Chat/dados autoritativos, armazenamento de uploads e mapas com tokens são os próximos marcos. A migração atual ainda não cria tabelas ou buckets dessas funcionalidades.
+Chat/dados autoritativos, combate/loja e mapas com tokens já possuem migrações próprias. Após instalar a fundação deste guia, siga os guias de [chat](configuracao-chat.md), [sessão](configuracao-mesa.md) e [mesa virtual](configuracao-mesa-virtual.md), nessa ordem, para habilitá-los.
 
 ## 1. Executar localmente
 
@@ -46,12 +46,12 @@ WEIRS → Supabase → Google → Supabase → WEIRS
 
 Por isso existem dois endereços de retorno. O Google entrega sua resposta ao Supabase; depois o Supabase devolve você ao aplicativo. Cada endereço é cadastrado em um painel diferente.
 
-| Campo | Onde preencher | Valor para o teste local |
-| --- | --- | --- |
-| Authorized JavaScript origins / Origens JavaScript autorizadas | Cliente OAuth no Google | `http://127.0.0.1:5173` |
-| Authorized redirect URIs / URIs de redirecionamento autorizados | Cliente OAuth no Google | URL copiada do provedor Google no Supabase, terminando em `/auth/v1/callback` |
-| Site URL | Supabase → Authentication → URL Configuration | `http://127.0.0.1:5173/WEIRS-RPG/app.html` |
-| Redirect URLs | Supabase → Authentication → URL Configuration | `http://127.0.0.1:5173/WEIRS-RPG/app.html` |
+| Campo                                                           | Onde preencher                                | Valor para o teste local                                                      |
+| --------------------------------------------------------------- | --------------------------------------------- | ----------------------------------------------------------------------------- |
+| Authorized JavaScript origins / Origens JavaScript autorizadas  | Cliente OAuth no Google                       | `http://127.0.0.1:5173`                                                       |
+| Authorized redirect URIs / URIs de redirecionamento autorizados | Cliente OAuth no Google                       | URL copiada do provedor Google no Supabase, terminando em `/auth/v1/callback` |
+| Site URL                                                        | Supabase → Authentication → URL Configuration | `http://127.0.0.1:5173/WEIRS-RPG/app.html`                                    |
+| Redirect URLs                                                   | Supabase → Authentication → URL Configuration | `http://127.0.0.1:5173/WEIRS-RPG/app.html`                                    |
 
 ### 3.1. Copiar o endereço de retorno do Supabase
 
@@ -142,26 +142,26 @@ Se você estiver usando o preview na porta **4174**, cadastre `http://127.0.0.1:
 
 Quando `app.html` estiver publicado no endereço atual do GitHub Pages, configure:
 
-| Campo | Valor publicado |
-| --- | --- |
-| Origem JavaScript no cliente Google destinado à produção | `https://shikiaech.github.io` |
-| Redirect URI no cliente Google | O callback do projeto Supabase usado em produção, terminando em `/auth/v1/callback` |
-| Site URL no Supabase | `https://shikiaech.github.io/WEIRS-RPG/app.html` |
-| Redirect URL adicional no Supabase | `https://shikiaech.github.io/WEIRS-RPG/app.html` |
+| Campo                                                    | Valor publicado                                                                     |
+| -------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Origem JavaScript no cliente Google destinado à produção | `https://shikiaech.github.io`                                                       |
+| Redirect URI no cliente Google                           | O callback do projeto Supabase usado em produção, terminando em `/auth/v1/callback` |
+| Site URL no Supabase                                     | `https://shikiaech.github.io/WEIRS-RPG/app.html`                                    |
+| Redirect URL adicional no Supabase                       | `https://shikiaech.github.io/WEIRS-RPG/app.html`                                    |
 
 A configuração local permite validar o login enquanto a publicação ainda está pendente. Para separar desenvolvimento e produção, configure o cliente Google e o projeto Supabase correspondentes ao ambiente publicado. Se o endereço de hospedagem mudar, use o novo domínio e caminho em todos os campos desse ambiente.
 
 ### 3.9. Identificar erros comuns
 
-| O que apareceu | O que conferir |
-| --- | --- |
-| `redirect_uri_mismatch` na tela do Google | Abra **Google Auth Platform → Clients → seu cliente** e confira se a URI corresponde exatamente ao callback do provedor Google do Supabase, incluindo `/auth/v1/callback`. |
-| Google conclui o login, mas você volta ao endereço errado | Confira **Supabase → Authentication → URL Configuration** e o endereço realmente aberto no navegador, incluindo a porta. |
-| `invalid_client` | Confira se Client ID e Client Secret no Supabase pertencem ao mesmo cliente Google e se o segredo continua habilitado. |
-| `disallowed_useragent` | Abra o aplicativo em Chrome ou Edge diretamente. O Google pode rejeitar login dentro de navegadores incorporados a outros aplicativos. |
-| Botão **Entrar com Google** desabilitado | Preencha a URL e a chave publicável em `.env.local` e reinicie o dev server; para preview, refaça o build. |
-| Botão virou **Sair**, mas nenhuma campanha aparece | O login funcionou. Adicione sua conta aos membros da campanha, conforme a seção 5. |
-| Não foi possível concluir o login após trocar de navegador/endereço | Reinicie o login na página original e conclua no mesmo navegador e origem. |
+| O que apareceu                                                      | O que conferir                                                                                                                                                             |
+| ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `redirect_uri_mismatch` na tela do Google                           | Abra **Google Auth Platform → Clients → seu cliente** e confira se a URI corresponde exatamente ao callback do provedor Google do Supabase, incluindo `/auth/v1/callback`. |
+| Google conclui o login, mas você volta ao endereço errado           | Confira **Supabase → Authentication → URL Configuration** e o endereço realmente aberto no navegador, incluindo a porta.                                                   |
+| `invalid_client`                                                    | Confira se Client ID e Client Secret no Supabase pertencem ao mesmo cliente Google e se o segredo continua habilitado.                                                     |
+| `disallowed_useragent`                                              | Abra o aplicativo em Chrome ou Edge diretamente. O Google pode rejeitar login dentro de navegadores incorporados a outros aplicativos.                                     |
+| Botão **Entrar com Google** desabilitado                            | Preencha a URL e a chave publicável em `.env.local` e reinicie o dev server; para preview, refaça o build.                                                                 |
+| Botão virou **Sair**, mas nenhuma campanha aparece                  | O login funcionou. Adicione sua conta aos membros da campanha, conforme a seção 5.                                                                                         |
+| Não foi possível concluir o login após trocar de navegador/endereço | Reinicie o login na página original e conclua no mesmo navegador e origem.                                                                                                 |
 
 Os erros de redirecionamento e navegador são descritos na [documentação OAuth do Google](https://developers.google.com/identity/protocols/oauth2/web-server#errors). As mensagens e campos do WEIRS são verificados no código desta entrega.
 
@@ -193,10 +193,10 @@ ON CONFLICT (campanha_id,usuario_id) DO UPDATE SET papel=EXCLUDED.papel;
 
 Use `mestre` para quem conduz a campanha. Confirme que o comando afetou uma linha; email ainda não cadastrado não recebe convite por esse SQL.
 
-| Campanha | ID |
-| --- | --- |
-| Crônicas de Othans | `508cdfdb-e6c0-8aac-ab86-dd036a4234d3` |
-| EPM | `6400a630-0781-8129-ad1a-424ae39fc615` |
+| Campanha               | ID                                     |
+| ---------------------- | -------------------------------------- |
+| Crônicas de Othans     | `508cdfdb-e6c0-8aac-ab86-dd036a4234d3` |
+| EPM                    | `6400a630-0781-8129-ad1a-424ae39fc615` |
 | Taverna de Jungle Jack | `17931442-e319-8d9e-aac6-e15c953d7341` |
 
 Para retirar acesso, remova o membro dessa campanha no painel/SQL. A conta perde acesso às fichas daquela campanha, inclusive às próprias. Isso não apaga suas fichas. Nenhuma tela pública administra papéis nesta etapa.
