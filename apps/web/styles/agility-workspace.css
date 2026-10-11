@@ -1,0 +1,39 @@
+.tabletop-shell .dice-floating:has(.dice-tray[data-phase='ociosa']) .dice-idle {
+  display: none;
+}
+@media (min-width: 761px) {
+  .tabletop-shell .chat-page:has(> .tabletop-workspace) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+  .tabletop-shell .chat-page:has(> .tabletop-workspace) > .page-heading {
+    grid-column: 1;
+    grid-row: 1;
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+  .tabletop-shell .chat-page:has(> .tabletop-workspace) > .session-toolbar {
+    grid-column: 2;
+    grid-row: 1;
+    flex-wrap: nowrap;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-bottom-color: #2c2824;
+    background: #161418;
+  }
+  .tabletop-shell .tabletop-workspace {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}
+@media (max-width: 760px) {
+  .tabletop-shell .session-floating,
+  .tabletop-shell .session-floating:focus-within {
+    z-index: 26;
+  }
+  .tabletop-shell .dice-floating:focus-within,
+  .tabletop-shell .dice-floating:has(.dice-tray[data-phase='rolando']) {
+    z-index: 28;
+  }
+}

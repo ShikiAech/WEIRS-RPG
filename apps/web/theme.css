@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+:root {
+  --bg: #0b0b0c;
+  --bg-panel: rgba(18, 18, 19, 0.85);
+  --gold: #d4af37;
+  --gold-bright: #f3e5ab;
+  --gold-dark: #aa7c11;
+  --text: #e2dddf;
+  --text-soft: #a59e9a;
+  --border-fantasy: #3a3224;
+  --blood-red: #8b0000;
+  --blood-glow: rgba(139, 0, 0, 0.4);
+}

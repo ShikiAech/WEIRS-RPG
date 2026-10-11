@@ -1,0 +1,37 @@
+{
+  "name": "weirs-rpg",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "predev": "npm run import:content",
+    "dev": "vite --host 127.0.0.1",
+    "import:content": "tsx tools/content-import/cli.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test tests/*.test.js tests/*.test.ts",
+    "test:browser": "playwright test",
+    "build": "npm run import:content && npm run typecheck && vite build && node tools/build/copy-legacy.mjs && node tools/build/verify-legacy.mjs",
+    "preview": "vite preview --host 127.0.0.1"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.117.3",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "three": "0.186.1"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.8",
+    "@playwright/test": "1.63.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@types/sanitize-html": "2.16.2",
+    "@types/three": "0.186.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "cheerio": "1.2.0",
+    "prettier": "3.9.9",
+    "sanitize-html": "2.18.0",
+    "tsx": "4.23.15",
+    "typescript": "7.0.2",
+    "vite": "8.3.3"
+  }
+}
