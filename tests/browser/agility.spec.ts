@@ -36,6 +36,17 @@ test('auditoria de agilidade: mapa, ficha, rolagem, combate e loja', async ({ pa
   await expect(sheet).toContainText('PV 20/20');
   await capture(page, '03-sheet');
   await sheet.getByRole('button', { name: 'Força +0', exact: true }).click();
+  const diceCanvas = page.getByRole('region', { name: 'Dados 3D' }).locator('canvas');
+  await expect(diceCanvas).toBeVisible();
+  expect(
+    await diceCanvas.evaluate((canvas) => {
+      const r = canvas.getBoundingClientRect();
+      return [0.05, 0.95].every(
+        (y) => document.elementFromPoint(r.left + r.width / 2, r.top + r.height * y) === canvas,
+      );
+    }),
+  ).toBe(true);
+  await capture(page, '04-launch');
   await expect(page.getByRole('region', { name: 'Dados 3D' })).toHaveAttribute(
     'data-phase',
     'concluida',

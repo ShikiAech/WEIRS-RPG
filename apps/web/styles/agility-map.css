@@ -17,8 +17,8 @@
   background: #19191bea;
 }
 .map-history button {
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   padding: 0;
   font-size: 22px;
   background: transparent;
@@ -58,17 +58,17 @@
   border-radius: 6px;
   background: #1b1b1eef;
   box-shadow: 0 4px 14px #0004;
-  font-size: 12px;
+  font-size: 14px;
 }
 .map-bulk-actions.single-selection {
   top: auto;
   bottom: 65px;
   padding: 7px 11px;
-  font-size: 11px;
+  font-size: 14px;
 }
 .map-bulk-actions .text-button {
-  min-height: 32px;
-  font-size: 11px;
+  min-height: 36px;
+  font-size: 14px;
 }
 .map-area-form fieldset {
   border: 0;
@@ -107,7 +107,7 @@
   border-left: 3px solid;
   padding-left: 7px;
   flex: 1 1 100%;
-  font-size: 12px;
+  font-size: 16px;
 }
 .map-token-list li {
   display: flex;
@@ -140,7 +140,7 @@
 }
 .token-position summary {
   padding: 8px 0;
-  font-size: 12px;
+  font-size: 14px;
   color: #dfc78e;
   cursor: pointer;
 }
@@ -156,6 +156,7 @@
   background: #29231b;
   color: #e6cd91;
   cursor: pointer;
+  font-size: 18px;
 }
 .token-position summary:focus-visible,
 .token-movement button:focus-visible {
@@ -168,11 +169,8 @@
     top: 10px;
   }
   .map-history button {
-    width: 36px;
-    height: 40px;
-  }
-  .map-tools button {
-    min-height: 40px;
+    width: 40px;
+    height: 44px;
   }
   .map-selection:has(.token-actions) {
     width: min(310px, calc(100% - 92px));
@@ -190,7 +188,7 @@
     bottom: 62px;
   }
   .map-bulk-actions .text-button {
-    min-height: 40px;
+    min-height: 44px;
   }
   .map-drawer .button,
   .map-area-list .text-button {

@@ -1,4 +1,5 @@
 .tabletop-shell {
+  font-size: 16px;
   height: 100dvh;
   min-height: 0;
   display: flex;
@@ -25,7 +26,7 @@
   gap: 20px;
 }
 .tabletop-shell .app-header nav a {
-  font-size: 12px;
+  font-size: 14px;
   padding: 8px 0;
 }
 .tabletop-shell .app-header nav a[aria-current]:after {
@@ -33,7 +34,8 @@
 }
 .tabletop-shell .account .button {
   padding: 6px 12px;
-  font-size: 11px;
+  font-size: 14px;
+  min-height: 36px;
 }
 .tabletop-shell > main {
   flex: 1;
@@ -63,7 +65,7 @@
   background: #161418;
 }
 .tabletop-shell .page-heading h1 {
-  font-size: 13px;
+  font-size: 16px;
   letter-spacing: 0.3px;
   margin: 0;
   color: var(--text-soft);
@@ -82,9 +84,9 @@
 }
 .tabletop-shell .page-heading select {
   width: min(260px, 45vw);
-  min-height: 30px;
-  padding: 4px 10px;
-  font-size: 12px;
+  min-height: 38px;
+  padding: 6px 10px;
+  font-size: 16px;
   border: 0;
   background: #1b181d;
 }
@@ -98,9 +100,9 @@
   background: #121114;
 }
 .tabletop-shell .session-toolbar .button {
-  min-height: 30px;
+  min-height: 38px;
   padding: 5px 12px;
-  font-size: 11px;
+  font-size: 14px;
   border-color: transparent;
   background: transparent;
 }
@@ -117,7 +119,7 @@
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 340px;
+  grid-template-columns: minmax(0, 1fr) 380px;
 }
 .tabletop-center {
   min-width: 0;
@@ -141,11 +143,11 @@
   padding: 12px 16px;
   min-height: 44px;
   gap: 8px;
-  font-size: 12px;
+  font-size: 16px;
   background: #19161b;
 }
 .tabletop-workspace .connection {
-  font-size: 10px;
+  font-size: 14px;
 }
 .tabletop-workspace .chat-log {
   flex: 1;
@@ -160,10 +162,10 @@
   font-size: 18px;
 }
 .tabletop-workspace .chat-empty p {
-  font-size: 12px;
+  font-size: 16px;
 }
 .tabletop-workspace .chat-message {
-  font-size: 13px;
+  font-size: 16px;
   padding: 10px 0;
 }
 .tabletop-workspace .chat-roll {
@@ -171,7 +173,7 @@
   margin: 8px 0;
 }
 .tabletop-workspace .roll-heading h3 {
-  font-size: 14px;
+  font-size: 18px;
 }
 .tabletop-workspace .roll-total strong {
   font-size: 26px;
@@ -186,38 +188,39 @@
   margin: 0 0 8px;
 }
 .tabletop-workspace .quick-dice button {
-  min-height: 26px;
-  padding: 3px 6px;
-  font-size: 10px;
+  min-width: 42px;
+  min-height: 36px;
+  padding: 5px 7px;
+  font-size: 14px;
 }
 .tabletop-workspace .chat-composer label {
-  font-size: 11px;
+  font-size: 14px;
 }
 .tabletop-workspace .chat-composer textarea {
-  min-height: 65px;
+  min-height: 76px;
   padding: 9px;
-  font-size: 12px;
+  font-size: 16px;
 }
 .tabletop-workspace .composer-footer {
   gap: 8px;
   margin-top: 7px;
 }
 .tabletop-workspace .composer-footer small {
-  font-size: 9px;
+  font-size: 14px;
 }
 .tabletop-workspace .composer-footer .button {
   padding: 7px 14px;
-  min-height: 30px;
-  font-size: 11px;
+  min-height: 38px;
+  font-size: 14px;
 }
 .tabletop-workspace .dice-help {
   margin-top: 7px;
-  font-size: 10px;
+  font-size: 14px;
 }
 .tabletop-workspace .notice {
   margin: 5px;
   padding: 10px;
-  font-size: 12px;
+  font-size: 16px;
   max-height: 140px;
   overflow: auto;
 }
@@ -231,12 +234,12 @@
 }
 .roll-visibility select {
   width: auto;
-  min-height: 28px;
-  padding: 3px 8px;
-  font-size: 11px;
+  min-height: 38px;
+  padding: 5px 8px;
+  font-size: 16px;
 }
 .secret-roll-notice {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--text-soft);
   border-left: 2px solid #6e5b3a;
   padding-left: 10px;
@@ -245,7 +248,7 @@
   display: inline-block;
   color: var(--gold-bright);
   background: #393023;
-  font-size: 9px;
+  font-size: 14px;
   padding: 3px 6px;
   border-radius: 3px;
   margin-top: 8px;
@@ -253,7 +256,7 @@
 .reveal-roll {
   display: block;
   margin-top: 8px;
-  font-size: 11px;
+  font-size: 14px;
 }
 .floating-window {
   position: fixed;
@@ -273,12 +276,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 38px;
+  height: 42px;
   padding: 0 7px 0 12px;
   background: linear-gradient(110deg, #2b241c, #1d191e);
   border-bottom: 1px solid #4a3b2a;
   color: var(--gold-bright);
-  font-size: 12px;
+  font-size: 14px;
   cursor: move;
   user-select: none;
   touch-action: none;
@@ -298,9 +301,9 @@
   outline: 2px solid var(--gold);
 }
 .window-collapse {
-  width: 30px;
-  height: 30px;
-  min-height: 30px;
+  width: 36px;
+  height: 36px;
+  min-height: 36px;
   border: 0;
   background: transparent;
   color: var(--gold-bright);
@@ -356,7 +359,7 @@
 }
 .dice-floating .dice-settings {
   padding: 7px 12px;
-  font-size: 10px;
+  font-size: 14px;
 }
 .dice-floating .dice-idle {
   min-height: 48px;
@@ -367,7 +370,7 @@
   display: none;
 }
 .dice-floating .dice-idle p {
-  font-size: 11px;
+  font-size: 14px;
 }
 .dice-floating .dice-scene {
   height: 150px;
@@ -377,14 +380,14 @@
   padding: 7px 12px;
 }
 .dice-floating .dice-confirmation strong {
-  font-size: 13px;
+  font-size: 16px;
 }
 .dice-floating .dice-confirmation .eyebrow {
-  font-size: 8px;
+  font-size: 14px;
 }
 .dice-floating .dice-confirmation span,
 .dice-floating .dice-values {
-  font-size: 10px;
+  font-size: 14px;
 }
 .tabletop-shell:has(.map-drawer) .dice-floating:not(:has(.dice-tray[data-phase='rolando'])) {
   visibility: hidden;
@@ -398,15 +401,22 @@
   }
   .tabletop-shell .app-header nav {
     gap: 10px;
-    overflow: hidden;
+    overflow-x: auto;
+    scrollbar-width: thin;
     order: 0;
     width: auto;
     flex: 1;
+    min-width: 0;
     border: 0;
     padding: 0;
   }
   .tabletop-shell .app-header nav a {
-    font-size: 10px;
+    font-size: 14px;
+    flex: none;
+    white-space: nowrap;
+  }
+  .tabletop-shell .app-header nav a[aria-current]:after {
+    bottom: 0;
   }
   .tabletop-shell .brand span {
     font-size: 16px;
@@ -419,7 +429,7 @@
     gap: 10px;
   }
   .tabletop-shell .page-heading h1 {
-    font-size: 11px;
+    font-size: 16px;
   }
   .tabletop-shell .session-toolbar {
     padding: 4px 8px;
@@ -427,7 +437,8 @@
   }
   .tabletop-shell .session-toolbar .button {
     padding: 5px 8px;
-    font-size: 10px;
+    font-size: 14px;
+    min-height: 44px;
   }
   .mobile-tabletop-tabs {
     display: flex;
@@ -438,7 +449,8 @@
   }
   .mobile-tabletop-tabs button {
     padding: 6px 8px;
-    font-size: 11px;
+    font-size: 14px;
+    min-height: 44px;
   }
   .mobile-tabletop-tabs button[aria-pressed='true'] {
     color: var(--gold-bright);
@@ -461,6 +473,15 @@
   }
   .tabletop-workspace .chat-controls {
     padding: 8px 12px;
+  }
+  .tabletop-workspace .quick-dice button,
+  .tabletop-workspace .composer-footer .button,
+  .tabletop-workspace .roll-visibility select,
+  .session-panel .button,
+  .session-panel .text-button,
+  .shop-dialog .button,
+  .shop-dialog .text-button {
+    min-height: 44px;
   }
   .floating-window {
     max-width: calc(100vw - 16px);

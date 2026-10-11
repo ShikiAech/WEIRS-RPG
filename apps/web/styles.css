@@ -40,6 +40,7 @@
   background: #121214;
   padding: 18px;
   scrollbar-color: var(--gold) var(--bg);
+  font-size: 16px;
 }
 .session-panel-heading {
   position: sticky;
@@ -59,15 +60,33 @@
 }
 .session-panel h3,
 .shop-dialog h3 {
-  font-size: 16px;
+  font-size: 18px;
   margin: 16px 0 10px;
 }
 .session-panel label,
 .shop-dialog label {
   display: block;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text-soft);
   margin-bottom: 10px;
+}
+.session-panel input,
+.session-panel select,
+.shop-dialog input,
+.shop-dialog select {
+  font-size: 16px;
+}
+.session-panel .button,
+.session-panel .text-button,
+.shop-dialog .button,
+.shop-dialog .text-button,
+.tabletop-shell .button,
+.tabletop-shell .text-button {
+  font-size: 14px;
+  min-height: 36px;
+}
+.session-panel .back-link {
+  font-size: 14px;
 }
 .play-vitals {
   display: flex;
@@ -91,7 +110,7 @@
 .shop-dialog small {
   display: block;
   color: var(--text-soft);
-  font-size: 11px;
+  font-size: 14px;
 }
 .play-actions,
 .play-tabs {
@@ -108,8 +127,8 @@
   border-radius: 5px;
   background: #16141a;
   color: var(--text);
-  font-size: 12px;
-  min-height: 36px;
+  font-size: 14px;
+  min-height: 40px;
   cursor: pointer;
 }
 .play-roll:hover:enabled {
@@ -126,7 +145,7 @@
 }
 .play-entry p {
   margin: 6px 0;
-  font-size: 12px;
+  font-size: 16px;
 }
 .play-entry > .play-roll {
   display: block;
@@ -141,6 +160,7 @@
   width: min(900px, calc(100vw - 28px));
   max-height: 90dvh;
   border-radius: 12px;
+  font-size: 16px;
 }
 .shop-offers {
   display: grid;
@@ -187,7 +207,7 @@
   flex-wrap: wrap;
 }
 .connection {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text-soft);
 }
 .connection::before {
@@ -225,6 +245,7 @@
   padding: 14px 0;
   border-bottom: 1px solid var(--border-fantasy);
   overflow-wrap: anywhere;
+  font-size: 16px;
 }
 .chat-message:last-child {
   border-bottom: 0;
@@ -233,7 +254,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 12px;
+  font-size: 14px;
 }
 .chat-message header strong {
   color: var(--gold-bright);
@@ -264,7 +285,7 @@
   font-size: 18px;
 }
 .roll-heading .eyebrow {
-  font-size: 10px;
+  font-size: 14px;
 }
 .roll-total {
   display: grid;
@@ -274,7 +295,7 @@
 }
 .roll-total small {
   color: var(--text-soft);
-  font-size: 10px;
+  font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -285,7 +306,7 @@
   line-height: 1.25;
 }
 .roll-expression {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--text);
 }
 .dice-breakdown {
@@ -301,7 +322,7 @@
   gap: 5px;
 }
 .dice-term > span:first-child {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text-soft);
   margin-right: 4px;
 }
@@ -322,7 +343,7 @@
   border-color: var(--border-fantasy);
 }
 .roll-source {
-  font-size: 11px;
+  font-size: 14px;
   margin-bottom: 0;
 }
 .chat-controls {
@@ -358,13 +379,14 @@
 .chat-composer label {
   display: block;
   color: var(--text-soft);
-  font-size: 12px;
+  font-size: 14px;
   margin-bottom: 6px;
 }
 .chat-composer textarea {
   width: 100%;
   resize: vertical;
   min-height: 72px;
+  font-size: 16px;
 }
 .composer-footer {
   display: flex;
@@ -376,7 +398,7 @@
 .composer-footer small,
 .retry-command small {
   color: var(--text-soft);
-  font-size: 11px;
+  font-size: 14px;
 }
 .retry-command {
   display: flex;
@@ -390,7 +412,7 @@
 }
 .dice-help {
   color: var(--text-soft);
-  font-size: 12px;
+  font-size: 14px;
   margin-top: 12px;
 }
 .dice-help summary {
@@ -411,7 +433,7 @@
   margin: 14px 0;
 }
 .sheet-roll-actions label {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text-soft);
 }
 .sheet-roll-actions select {
@@ -1532,7 +1554,7 @@ dialog::backdrop {
 .dice-settings {
   padding: 10px 14px;
   color: var(--text-soft);
-  font-size: 12px;
+  font-size: 14px;
 }
 .dice-settings label {
   display: flex;
@@ -1585,11 +1607,11 @@ dialog::backdrop {
   cursor: pointer;
   text-align: left;
   font-family: Cinzel, serif;
-  font-size: 13px;
+  font-size: 14px;
 }
 .dice-accordion-toggle > span:last-child {
   font-family: Inter, sans-serif;
-  font-size: 11px;
+  font-size: 14px;
   color: var(--text-soft);
 }
 .dice-accordion-symbol {
@@ -1631,12 +1653,12 @@ dialog::backdrop {
   font-family: Cinzel, serif;
 }
 .dice-idle small {
-  font-size: 12px;
+  font-size: 14px;
 }
 .dice-rolling {
   color: var(--gold-bright);
   font-family: Cinzel, serif;
-  font-size: 13px;
+  font-size: 14px;
 }
 .dice-scene {
   height: 176px;
@@ -1657,20 +1679,20 @@ dialog::backdrop {
 .dice-confirmation strong {
   color: var(--gold-bright);
   font-family: Cinzel, serif;
-  font-size: 15px;
+  font-size: 16px;
 }
 .dice-confirmation span,
 .dice-values {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text-soft);
 }
 .dice-confirmation small {
   color: var(--text-soft);
-  font-size: 11px;
+  font-size: 14px;
 }
 .dice-confirmation .eyebrow {
   margin: 0;
-  font-size: 10px;
+  font-size: 14px;
 }
 .dice-values {
   margin: 2px 0 0;
@@ -1679,7 +1701,7 @@ dialog::backdrop {
 }
 @media (max-width: 760px) {
   .dice-accordion-toggle {
-    font-size: 12px;
+    font-size: 14px;
   }
   .dice-confirmation {
     min-height: 80px;

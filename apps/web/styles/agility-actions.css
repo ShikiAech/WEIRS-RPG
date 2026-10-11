@@ -18,9 +18,9 @@
   justify-content: center;
   align-items: center;
   align-self: stretch;
-  flex: 0 0 32px;
-  min-width: 32px;
-  min-height: 36px;
+  flex: 0 0 36px;
+  min-width: 36px;
+  min-height: 40px;
   border: 1px solid var(--border-fantasy);
   border-left: 0;
   border-radius: 0 5px 5px 0;
@@ -53,7 +53,7 @@
 .favorite-heading {
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--gold-bright);
   margin-bottom: 8px;
 }
@@ -67,7 +67,7 @@
 }
 .action-help {
   color: #bbb2a3;
-  font-size: 11px;
+  font-size: 14px;
   line-height: 1.6;
   margin: 8px 0;
 }
@@ -77,7 +77,7 @@
 }
 .sheet-favorites > summary {
   color: #d7c38d;
-  font-size: 12px;
+  font-size: 14px;
   cursor: pointer;
   padding: 4px 0;
   margin-bottom: 6px;
@@ -108,7 +108,7 @@
 .play-controls .play-mode select {
   width: auto;
   max-width: 160px;
-  min-height: 32px;
+  min-height: 42px;
   margin: 0;
   padding: 5px 8px;
 }
@@ -139,7 +139,7 @@
 }
 .token-actions summary {
   color: #dfc78e;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   padding: 6px 0;
   cursor: pointer;
@@ -147,15 +147,15 @@
 .token-actions label {
   display: block;
   color: #c9c1b3;
-  font-size: 11px;
+  font-size: 14px;
   margin: 6px 0;
 }
 .token-actions input,
 .token-actions select {
-  min-height: 36px;
-  padding: 6px 8px;
+  min-height: 42px;
+  padding: 7px 8px;
   margin-top: 4px;
-  font-size: 12px;
+  font-size: 16px;
 }
 .token-actions fieldset {
   border: 0;
@@ -181,7 +181,8 @@
 .token-hp-buttons .play-roll {
   flex: 1 1 110px;
   padding: 7px 8px;
-  font-size: 11px;
+  font-size: 14px;
+  min-height: 40px;
 }
 .token-hp-buttons .token-damage {
   color: #efb3a1;
@@ -224,7 +225,7 @@
 .map-advanced-fields > summary {
   padding: 5px 0;
   color: #dfc78e;
-  font-size: 12px;
+  font-size: 14px;
   cursor: pointer;
 }
 .map-advanced-fields[open] > summary {
@@ -236,7 +237,7 @@
 }
 @media (max-width: 700px) {
   .favorite-star {
-    flex-basis: 36px;
+    flex-basis: 40px;
     min-height: 44px;
   }
   .sheet-roll-action > .play-roll,
@@ -270,7 +271,7 @@
   .play-controls .play-tabs button {
     flex: 1;
     padding: 7px 4px;
-    font-size: 11px;
+    font-size: 14px;
   }
   .play-controls .play-mode select,
   .map-advanced-fields > summary {

@@ -61,3 +61,19 @@ Os fluxos verificam teclado, foco da lista/loja, versões, conflitos, acesso per
 Áreas de magia, aura e alinhamento são visuais; não calculam alvos ou efeitos automaticamente. O histórico é local e protege versões; exclusões definitivas e alterações irreversíveis de cena limpam o histórico. Diário/bestiário existentes ficaram fora desta etapa.
 
 Os resultados finais de verificação estão registrados no [plano de execução](superpowers/plans/2026-10-11-agilidade.md).
+
+## Revisão de legibilidade e dados 3D
+
+Após o feedback sobre fontes pequenas, os textos principais de chat, ficha e formulários passaram a 16 px; controles, rótulos e informações secundárias usam 14 px. Esses tamanhos são escolhas do produto, não um mínimo atribuído à WCAG. O chat desktop ocupa 380 px e o painel de configuração do mapa, 340 px. No celular, a navegação superior permite rolagem horizontal dentro da própria barra. A [orientação W3C sobre redimensionamento de texto](https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html) permanece uma referência; esta etapa não certifica todos os fluxos com zoom de 200%.
+
+A câmera dos dados agora enquadra os limites projetados dos modelos, incluindo a posição de chegada e o movimento atual, com margem para evitar cortes. O lançamento usa deslocamentos menores e mantém a duração de 2,1 segundos. Isso aproxima rolagens de um a seis dados sem aumentar o popup: o canvas continua com 150 px de altura no desktop e 125 px no celular. O resultado no chat continua aguardando o fim da animação.
+
+![Seis dados com enquadramento próximo no desktop](../artifacts/chat-layout-audit/after-desktop.png)
+
+No celular, a janela dos dados recebe prioridade durante o lançamento e quando contém o foco. Ao terminar, a ficha aberta recupera a prioridade se o usuário não estiver operando os dados. A captura e o teste de pontos no topo e no rodapé do canvas verificam que a ficha não encobre a animação.
+
+[Lançamento sobre a ficha no celular](../artifacts/agility-audit/after-04-launch-mobile.png), [ficha com textos maiores](../artifacts/agility-audit/after-03-sheet-desktop.png).
+
+O nome do token passou a 14 px na tela e foi separado do elemento interativo do token, mantendo o alvo de clique alinhado ao corpo. A posição inicial dos dados no desktop foi ajustada à largura atual do chat. Seleção, arraste e navegação por teclado continuam cobertos.
+
+A revisão passou em 59 testes de unidade/integração e 130 casos de navegador, distribuídos em execuções de 34 e 96 casos. Depois do ajuste final da prioridade móvel, os 52 casos afetados de agilidade, layout e sessão passaram novamente em desktop e emulação móvel. O build com verificação TypeScript passou, importando 773 registros em três campanhas e confirmando os 86 arquivos originais idênticos. Permanecem os avisos existentes de três entradas no manifesto e chunks acima de 500 kB. As limitações de ambiente descritas acima continuam válidas.

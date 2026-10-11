@@ -16,6 +16,7 @@ import {
 } from 'three';
 import { asset } from '../../lib/paths';
 import { geometryFromModel, resultOrientation } from './models';
+import { diceFrustum } from './framing';
 import type { DiceModels } from './models';
 import type { DicePlan } from './roll-plan';
 
@@ -66,6 +67,9 @@ export async function renderDice(
   const camera = new OrthographicCamera();
   camera.position.set(0, 15, 5);
   camera.lookAt(0, 0, 0);
+  camera.near = 0.1;
+  camera.far = 60;
+  camera.updateMatrixWorld();
   scene.add(new HemisphereLight(0xfff4d3, 0x534653, 2.7));
   const light = new DirectionalLight(0xffe5a0, 3.5);
   light.position.set(-5, 10, 3);
@@ -128,6 +132,35 @@ export async function renderDice(
   })();
   const spin = new Quaternion();
   const euler = new Euler();
+  const restingBounds = new Box3();
+  const movingBounds = new Box3();
+  const meshBounds = new Box3();
+  for (const die of dice)
+    restingBounds.union(meshBounds.setFromObject(die.mesh).applyMatrix4(camera.matrixWorldInverse));
+  let viewportWidth = 1,
+    viewportHeight = 1;
+  function frameDice() {
+    // Keep the landing positions in view while fitting the current launch pose.
+    movingBounds.copy(restingBounds);
+    for (const die of dice)
+      movingBounds.union(
+        meshBounds.setFromObject(die.mesh).applyMatrix4(camera.matrixWorldInverse),
+      );
+    Object.assign(
+      camera,
+      diceFrustum(
+        {
+          minX: movingBounds.min.x,
+          maxX: movingBounds.max.x,
+          minY: movingBounds.min.y,
+          maxY: movingBounds.max.y,
+        },
+        viewportWidth,
+        viewportHeight,
+      ),
+    );
+    camera.updateProjectionMatrix();
+  }
   function updatePose(progress: number) {
     for (const die of dice) {
       const remaining = 1 - progress;
@@ -136,9 +169,9 @@ export async function renderDice(
       spin.setFromEuler(euler.set(angle, angle * 0.6, angle * 0.8));
       die.mesh.quaternion.copy(die.final).multiply(spin);
       die.mesh.position.set(
-        die.x - remaining ** 2 * (3 + (die.index % 2)),
-        die.height + Math.abs(Math.sin(progress * Math.PI * 3.5)) * remaining * 3,
-        die.z + (1 - eased) * Math.sin(die.index + 1) * 2,
+        die.x - remaining ** 2 * (0.65 + (die.index % 2) * 0.2),
+        die.height + Math.abs(Math.sin(progress * Math.PI * 3.5)) * remaining * 0.8,
+        die.z + (1 - eased) * Math.sin(die.index + 1) * 0.4,
       );
     }
   }
@@ -147,21 +180,10 @@ export async function renderDice(
   observer = new ResizeObserver(resize);
   function resize() {
     if (closed) return;
-    const width = Math.max(1, host.clientWidth),
-      height = Math.max(1, host.clientHeight);
-    const halfHeight = Math.max(
-      3.4,
-      (rows * spacing) / 2 + 1.8,
-      ((columns * spacing) / 2 + 1.5) / (width / height),
-    );
-    camera.left = (-halfHeight * width) / height;
-    camera.right = -camera.left;
-    camera.top = halfHeight;
-    camera.bottom = -halfHeight;
-    camera.near = 0.1;
-    camera.far = 60;
-    camera.updateProjectionMatrix();
-    renderer.setSize(width, height);
+    viewportWidth = Math.max(1, host.clientWidth);
+    viewportHeight = Math.max(1, host.clientHeight);
+    frameDice();
+    renderer.setSize(viewportWidth, viewportHeight);
     try {
       renderer.render(scene, camera);
     } catch {
@@ -206,6 +228,7 @@ export async function renderDice(
     if (closed) return;
     const progress = Math.min(1, (now - start) / 2100);
     updatePose(progress);
+    frameDice();
     try {
       renderer.render(scene, camera);
     } catch {

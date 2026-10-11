@@ -32,4 +32,8 @@
   .tabletop-shell .session-floating:focus-within {
     z-index: 26;
   }
+  .tabletop-shell .dice-floating:focus-within,
+  .tabletop-shell .dice-floating:has(.dice-tray[data-phase='rolando']) {
+    z-index: 28;
+  }
 }

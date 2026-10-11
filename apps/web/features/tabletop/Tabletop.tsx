@@ -836,164 +836,170 @@ export function Tabletop({
                   <g
                     key={token.id}
                     transform={`translate(${position.x * CELL} ${position.y * CELL})`}
-                    role="button"
-                    tabIndex={0}
-                    aria-label={'Token ' + token.nome}
-                    aria-pressed={selection.includes(token.id)}
-                    data-token-id={token.id}
-                    className={
-                      'map-token' +
-                      (token.oculto ? ' hidden-token' : '') +
-                      (selection.includes(token.id) ? ' selected-token' : '')
-                    }
-                    onPointerDown={(event) => beginToken(event, token)}
-                    onFocus={() => {
-                      setSelected(token.id);
-                      setSelection((ids) => (ids.includes(token.id) ? ids : [token.id]));
-                      setDeleteConfirm(false);
-                    }}
-                    onClick={(event) => {
-                      event.stopPropagation();
-                    }}
-                    onDoubleClick={() => {
-                      if (canOpen(token)) onOpenSheet?.(token.ficha_id!);
-                    }}
-                    onKeyDown={(event) => {
-                      if (event.key === 'Enter' || event.key === ' ') {
-                        event.preventDefault();
-                        setSelected(token.id);
-                        setSelection((ids) =>
-                          event.shiftKey && master
-                            ? ids.includes(token.id)
-                              ? ids.filter((id) => id !== token.id)
-                              : [...ids, token.id].slice(-40)
-                            : [token.id],
-                        );
-                      }
-                    }}
                   >
-                    <title>
-                      {token.nome}
-                      {token.oculto ? ' · Somente mestres' : ''}
-                      {token.bloqueado ? ' · Movimento bloqueado' : ''}
-                      {vitals ? ` · PV ${vitals.current}/${vitals.max}` : ''}
-                    </title>
-                    {(selection.includes(token.id) || active) && (
+                    <g
+                      role="button"
+                      tabIndex={0}
+                      aria-label={'Token ' + token.nome}
+                      aria-pressed={selection.includes(token.id)}
+                      data-token-id={token.id}
+                      className={
+                        'map-token' +
+                        (token.oculto ? ' hidden-token' : '') +
+                        (selection.includes(token.id) ? ' selected-token' : '')
+                      }
+                      onPointerDown={(event) => beginToken(event, token)}
+                      onFocus={() => {
+                        setSelected(token.id);
+                        setSelection((ids) => (ids.includes(token.id) ? ids : [token.id]));
+                        setDeleteConfirm(false);
+                      }}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                      }}
+                      onDoubleClick={() => {
+                        if (canOpen(token)) onOpenSheet?.(token.ficha_id!);
+                      }}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                          event.preventDefault();
+                          setSelected(token.id);
+                          setSelection((ids) =>
+                            event.shiftKey && master
+                              ? ids.includes(token.id)
+                                ? ids.filter((id) => id !== token.id)
+                                : [...ids, token.id].slice(-40)
+                              : [token.id],
+                          );
+                        }
+                      }}
+                    >
+                      <title>
+                        {token.nome}
+                        {token.oculto ? ' · Somente mestres' : ''}
+                        {token.bloqueado ? ' · Movimento bloqueado' : ''}
+                        {vitals ? ` · PV ${vitals.current}/${vitals.max}` : ''}
+                      </title>
+                      {(selection.includes(token.id) || active) && (
+                        <circle
+                          cx={center}
+                          cy={center}
+                          r={radius + 5 / camera.zoom}
+                          fill="none"
+                          stroke={active ? '#f5d483' : '#f0e9db'}
+                          strokeWidth={2 / camera.zoom}
+                          strokeDasharray={
+                            active ? undefined : `${4 / camera.zoom} ${3 / camera.zoom}`
+                          }
+                        />
+                      )}
                       <circle
                         cx={center}
                         cy={center}
-                        r={radius + 5 / camera.zoom}
-                        fill="none"
-                        stroke={active ? '#f5d483' : '#f0e9db'}
-                        strokeWidth={2 / camera.zoom}
-                        strokeDasharray={
-                          active ? undefined : `${4 / camera.zoom} ${3 / camera.zoom}`
-                        }
+                        r={radius}
+                        fill="#1b1c20"
+                        stroke={token.cor}
+                        strokeWidth={4 / camera.zoom}
                       />
-                    )}
-                    <circle
-                      cx={center}
-                      cy={center}
-                      r={radius}
-                      fill="#1b1c20"
-                      stroke={token.cor}
-                      strokeWidth={4 / camera.zoom}
-                    />
-                    {token.imagem_id && urls[token.imagem_id] ? (
-                      <image
-                        href={urls[token.imagem_id]}
-                        width={dimension}
-                        height={dimension}
-                        preserveAspectRatio="xMidYMid slice"
-                        clipPath={`url(#portrait${token.id})`}
-                        transform={`rotate(${token.rotacao} ${center} ${center})`}
-                      />
-                    ) : (
-                      <text
-                        x={center}
-                        y={center}
-                        fill={token.cor}
-                        textAnchor="middle"
-                        dominantBaseline="central"
-                        fontSize={dimension * 0.3}
-                        fontWeight="700"
-                      >
-                        {token.nome
-                          .trim()
-                          .split(/\s+/)
-                          .slice(0, 2)
-                          .map((word) => word[0])
-                          .join('')
-                          .toUpperCase()}
-                      </text>
-                    )}
-                    {token.rotacao !== 0 && (
-                      <path
-                        d={`M${center} ${center - radius - 5}l-5 8h10Z`}
-                        fill={token.cor}
-                        transform={`rotate(${token.rotacao} ${center} ${center})`}
-                      />
-                    )}
-                    {vitals && vitals.max > 0 && (
-                      <g>
-                        <rect
-                          x={dimension * 0.12}
-                          y={dimension * 0.87}
-                          width={dimension * 0.76}
-                          height={5 / camera.zoom}
-                          rx="2"
-                          fill="#17191b"
+                      {token.imagem_id && urls[token.imagem_id] ? (
+                        <image
+                          href={urls[token.imagem_id]}
+                          width={dimension}
+                          height={dimension}
+                          preserveAspectRatio="xMidYMid slice"
+                          clipPath={`url(#portrait${token.id})`}
+                          transform={`rotate(${token.rotacao} ${center} ${center})`}
                         />
-                        <rect
-                          x={dimension * 0.12}
-                          y={dimension * 0.87}
-                          width={
-                            dimension * 0.76 * Math.max(0, Math.min(1, vitals.current / vitals.max))
-                          }
-                          height={5 / camera.zoom}
-                          rx="2"
-                          fill={
-                            vitals.current <= 0
-                              ? '#aa5146'
-                              : vitals.current / vitals.max < 0.4
-                                ? '#dbad57'
-                                : '#78a584'
-                          }
+                      ) : (
+                        <text
+                          x={center}
+                          y={center}
+                          fill={token.cor}
+                          textAnchor="middle"
+                          dominantBaseline="central"
+                          fontSize={dimension * 0.3}
+                          fontWeight="700"
+                        >
+                          {token.nome
+                            .trim()
+                            .split(/\s+/)
+                            .slice(0, 2)
+                            .map((word) => word[0])
+                            .join('')
+                            .toUpperCase()}
+                        </text>
+                      )}
+                      {token.rotacao !== 0 && (
+                        <path
+                          d={`M${center} ${center - radius - 5}l-5 8h10Z`}
+                          fill={token.cor}
+                          transform={`rotate(${token.rotacao} ${center} ${center})`}
                         />
-                      </g>
-                    )}
-                    {!!vitals?.conditions.length && (
-                      <circle
-                        cx={dimension * 0.85}
-                        cy={dimension * 0.15}
-                        r={5 / camera.zoom}
-                        fill="#ce8557"
-                      >
-                        <title>
-                          {vitals.conditions.map((condition) => condition.nome).join(', ')}
-                        </title>
-                      </circle>
-                    )}
-                    {vitals?.concentration && (
-                      <text
-                        x={dimension * 0.07}
-                        y={dimension * 0.13}
-                        fontSize={12 / camera.zoom}
-                        fill="#b9a0d9"
-                      >
-                        ◆<title>{'Concentração: ' + vitals.concentration}</title>
-                      </text>
-                    )}
+                      )}
+                      {vitals && vitals.max > 0 && (
+                        <g>
+                          <rect
+                            x={dimension * 0.12}
+                            y={dimension * 0.87}
+                            width={dimension * 0.76}
+                            height={5 / camera.zoom}
+                            rx="2"
+                            fill="#17191b"
+                          />
+                          <rect
+                            x={dimension * 0.12}
+                            y={dimension * 0.87}
+                            width={
+                              dimension *
+                              0.76 *
+                              Math.max(0, Math.min(1, vitals.current / vitals.max))
+                            }
+                            height={5 / camera.zoom}
+                            rx="2"
+                            fill={
+                              vitals.current <= 0
+                                ? '#aa5146'
+                                : vitals.current / vitals.max < 0.4
+                                  ? '#dbad57'
+                                  : '#78a584'
+                            }
+                          />
+                        </g>
+                      )}
+                      {!!vitals?.conditions.length && (
+                        <circle
+                          cx={dimension * 0.85}
+                          cy={dimension * 0.15}
+                          r={5 / camera.zoom}
+                          fill="#ce8557"
+                        >
+                          <title>
+                            {vitals.conditions.map((condition) => condition.nome).join(', ')}
+                          </title>
+                        </circle>
+                      )}
+                      {vitals?.concentration && (
+                        <text
+                          x={dimension * 0.07}
+                          y={dimension * 0.13}
+                          fontSize={12 / camera.zoom}
+                          fill="#b9a0d9"
+                        >
+                          ◆<title>{'Concentração: ' + vitals.concentration}</title>
+                        </text>
+                      )}
+                    </g>
                     <text
                       x={center}
-                      y={dimension + 12 / camera.zoom}
-                      fontSize={11 / camera.zoom}
+                      y={dimension + 16 / camera.zoom}
+                      fontSize={14 / camera.zoom}
                       fill="#eee6d7"
                       textAnchor="middle"
                       stroke="#171719"
                       strokeWidth={3 / camera.zoom}
                       paintOrder="stroke"
                       className="token-name"
+                      opacity={token.oculto ? 0.62 : 1}
                     >
                       {token.nome.length > 24 ? token.nome.slice(0, 23) + '…' : token.nome}
                       {token.oculto ? ' ◌' : ''}
@@ -1089,7 +1095,7 @@ export function Tabletop({
                   <circle r={4 / camera.zoom} fill="#f0d996" />
                   <text
                     y={-28 / camera.zoom}
-                    fontSize={11 / camera.zoom}
+                    fontSize={14 / camera.zoom}
                     textAnchor="middle"
                     fill="#f2dfb0"
                     stroke="#17181b"

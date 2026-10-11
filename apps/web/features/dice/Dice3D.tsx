@@ -175,7 +175,7 @@ export function DicePanel({ sessionWindow = '' }: { sessionWindow?: string } = {
         x:
           window.innerWidth <= 760
             ? window.innerWidth - 253
-            : Math.max(80, window.innerWidth - 660),
+            : Math.max(80, window.innerWidth - 700),
         y: window.innerWidth <= 760 ? 125 : Math.max(110, window.innerHeight - 340),
       }}
     >
