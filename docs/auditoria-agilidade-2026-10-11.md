@@ -66,7 +66,7 @@ Os resultados finais de verificação estão registrados no [plano de execução
 
 Após o feedback sobre fontes pequenas, os textos principais de chat, ficha e formulários passaram a 16 px; controles, rótulos e informações secundárias usam 14 px. Esses tamanhos são escolhas do produto, não um mínimo atribuído à WCAG. O chat desktop ocupa 380 px e o painel de configuração do mapa, 340 px. No celular, a navegação superior permite rolagem horizontal dentro da própria barra. A [orientação W3C sobre redimensionamento de texto](https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html) permanece uma referência; esta etapa não certifica todos os fluxos com zoom de 200%.
 
-A câmera dos dados agora enquadra os limites projetados dos modelos, incluindo a posição de chegada e o movimento atual, com margem para evitar cortes. O lançamento usa deslocamentos menores e mantém a duração de 2,1 segundos. Isso aproxima rolagens de um a seis dados sem aumentar o popup: o canvas continua com 150 px de altura no desktop e 125 px no celular. O resultado no chat continua aguardando o fim da animação.
+A câmera dos dados enquadra os limites projetados de todo o lançamento, incluindo a posição de chegada, com margem para evitar cortes. Esse enquadramento é calculado uma vez e permanece fixo durante os giros; o redimensionamento do canvas atualiza apenas sua proporção. O lançamento usa deslocamentos menores, um único arco e mantém a duração de 2,1 segundos. Isso aproxima rolagens de um a seis dados sem aumentar o popup: o canvas continua com 150 px de altura no desktop e 125 px no celular. O resultado no chat continua aguardando o fim da animação.
 
 ![Seis dados com enquadramento próximo no desktop](../artifacts/chat-layout-audit/after-desktop.png)
 
@@ -77,3 +77,9 @@ No celular, a janela dos dados recebe prioridade durante o lançamento e quando 
 O nome do token passou a 14 px na tela e foi separado do elemento interativo do token, mantendo o alvo de clique alinhado ao corpo. A posição inicial dos dados no desktop foi ajustada à largura atual do chat. Seleção, arraste e navegação por teclado continuam cobertos.
 
 A revisão passou em 59 testes de unidade/integração e 130 casos de navegador, distribuídos em execuções de 34 e 96 casos. Depois do ajuste final da prioridade móvel, os 52 casos afetados de agilidade, layout e sessão passaram novamente em desktop e emulação móvel. O build com verificação TypeScript passou, importando 773 registros em três campanhas e confirmando os 86 arquivos originais idênticos. Permanecem os avisos existentes de três entradas no manifesto e chunks acima de 500 kB. As limitações de ambiente descritas acima continuam válidas.
+
+### Continuidade da animação
+
+O feedback seguinte relatou a impressão de rolar duas vezes. A reprodução registrou uma inicialização e um canvas, mas 124 projeções de câmera diferentes numa mesma rolagem; a trajetória também voltava a subir após a primeira queda. O enquadramento fixo e o arco único corrigem esses movimentos. O progresso agora permanece entre zero e um, evitando um recuo inicial quando o timestamp do primeiro quadro precede o instante de preparação do renderizador.
+
+O teste de navegador observa as matrizes enviadas ao WebGL e a criação de canvas: verifica uma projeção constante, um canvas, movimento efetivo e ausência de novo impulso depois da queda. Os testes reproduziram os problemas antes das correções. A regressão passou nos 58 casos de dados, layout e agilidade em desktop e emulação móvel; os sete testes de enquadramento, faces dos modelos e fila de revelação também passaram. O build com TypeScript e a preservação dos 86 arquivos originais passaram novamente. As capturas e gravações de diagnóstico ficam localmente em `artifacts/dice-motion/`.

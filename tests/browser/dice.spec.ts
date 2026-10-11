@@ -6,6 +6,39 @@ import { novaEntrada } from '../../packages/sheets/modelo.js';
 test('rolagem confirmada anima modelos 3D e mostra os valores do servidor', async ({ page }) => {
   await backend(page);
   await chatBackend(page);
+  // Observe the camera sent to WebGL, rather than a second React render or an asset fetch.
+  await page.addInitScript(() => {
+    const probe = { projections: [] as number[][], heights: [] as number[], canvases: 0 };
+    (window as any).diceMotionProbe = probe;
+    const names = new WeakMap<WebGLUniformLocation, string>();
+    const originalLocation = WebGL2RenderingContext.prototype.getUniformLocation;
+    WebGL2RenderingContext.prototype.getUniformLocation = function (program, name) {
+      const location = originalLocation.call(this, program, name);
+      if (location) names.set(location, name);
+      return location;
+    };
+    const originalMatrix = WebGL2RenderingContext.prototype.uniformMatrix4fv;
+    WebGL2RenderingContext.prototype.uniformMatrix4fv = function (location, transpose, value) {
+      if (location && names.get(location) === 'projectionMatrix') {
+        const matrix = Array.from(value);
+        const canvas = this.canvas as HTMLCanvasElement;
+        // The shadow camera is square; select the projection for the visible tray.
+        if (Math.abs(matrix[0] / matrix[5] - canvas.height / canvas.width) < 0.002)
+          probe.projections.push([matrix[0], matrix[5], matrix[12], matrix[13]]);
+      }
+      if (location && names.get(location) === 'modelMatrix') {
+        const matrix = Array.from(value);
+        // The left die in this two-dice roll; exclude the floor and the right die.
+        if (matrix[12] < -0.5 && matrix[13] > 0.1) probe.heights.push(matrix[13]);
+      }
+      originalMatrix.call(this, location, transpose, value);
+    };
+    new MutationObserver((mutations) => {
+      for (const mutation of mutations)
+        for (const node of mutation.addedNodes)
+          if (node instanceof HTMLCanvasElement) probe.canvases++;
+    }).observe(document, { childList: true, subtree: true });
+  });
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('app.html#/chat');
@@ -22,6 +55,25 @@ test('rolagem confirmada anima modelos 3D e mostra os valores do servidor', asyn
   await expect(tray).toHaveAttribute('data-phase', 'concluida', { timeout: 15000 });
   await expect(tray).toContainText('Resultado confirmado: 11');
   await expect(tray).toContainText('d6: 4, 4');
+  const probe = await page.evaluate(() => (window as any).diceMotionProbe);
+  await test.info().attach('dice-motion', {
+    body: JSON.stringify(probe),
+    contentType: 'application/json',
+  });
+  expect(probe.canvases).toBe(1);
+  expect(probe.projections.length).toBeGreaterThan(0);
+  expect(new Set(probe.projections.map((matrix: number[]) => matrix.join(','))).size).toBe(1);
+  expect(probe.heights.length).toBeGreaterThan(0);
+  let descending = false;
+  let secondLaunch = false;
+  for (let i = 1; i < probe.heights.length; i++) {
+    const difference = probe.heights[i] - probe.heights[i - 1];
+    if (difference < -0.001) descending = true;
+    if (descending && difference > 0.001) secondLaunch = true;
+  }
+  expect(descending).toBe(true);
+  expect(Math.max(...probe.heights) - Math.min(...probe.heights)).toBeGreaterThan(0.2);
+  expect(secondLaunch).toBe(false);
   await page.screenshot({ path: `artifacts/dice-${test.info().project.name}.png`, fullPage: true });
   expect(errors).toEqual([]);
   await page.getByRole('button', { name: 'Mesa de dados 3D', exact: true }).click();

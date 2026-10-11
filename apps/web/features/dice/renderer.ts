@@ -132,28 +132,21 @@ export async function renderDice(
   })();
   const spin = new Quaternion();
   const euler = new Euler();
-  const restingBounds = new Box3();
-  const movingBounds = new Box3();
+  const launchBounds = new Box3();
   const meshBounds = new Box3();
   for (const die of dice)
-    restingBounds.union(meshBounds.setFromObject(die.mesh).applyMatrix4(camera.matrixWorldInverse));
+    launchBounds.union(meshBounds.setFromObject(die.mesh).applyMatrix4(camera.matrixWorldInverse));
   let viewportWidth = 1,
     viewportHeight = 1;
   function frameDice() {
-    // Keep the landing positions in view while fitting the current launch pose.
-    movingBounds.copy(restingBounds);
-    for (const die of dice)
-      movingBounds.union(
-        meshBounds.setFromObject(die.mesh).applyMatrix4(camera.matrixWorldInverse),
-      );
     Object.assign(
       camera,
       diceFrustum(
         {
-          minX: movingBounds.min.x,
-          maxX: movingBounds.max.x,
-          minY: movingBounds.min.y,
-          maxY: movingBounds.max.y,
+          minX: launchBounds.min.x,
+          maxX: launchBounds.max.x,
+          minY: launchBounds.min.y,
+          maxY: launchBounds.max.y,
         },
         viewportWidth,
         viewportHeight,
@@ -170,13 +163,23 @@ export async function renderDice(
       die.mesh.quaternion.copy(die.final).multiply(spin);
       die.mesh.position.set(
         die.x - remaining ** 2 * (0.65 + (die.index % 2) * 0.2),
-        die.height + Math.abs(Math.sin(progress * Math.PI * 3.5)) * remaining * 0.8,
+        die.height + Math.sin(progress * Math.PI) * remaining * 0.8,
         die.z + (1 - eased) * Math.sin(die.index + 1) * 0.4,
       );
     }
   }
-  // O primeiro quadro já é o lançamento, evitando um flash da pose final.
-  if (animate) updatePose(0);
+  if (animate) {
+    // Fit the whole launch once. A camera following each rotating AABB pumps the zoom.
+    for (let step = 0; step <= 64; step++) {
+      updatePose(step / 64);
+      for (const die of dice)
+        launchBounds.union(
+          meshBounds.setFromObject(die.mesh).applyMatrix4(camera.matrixWorldInverse),
+        );
+    }
+    // O primeiro quadro já é o lançamento, evitando um flash da pose final.
+    updatePose(0);
+  }
   observer = new ResizeObserver(resize);
   function resize() {
     if (closed) return;
@@ -226,9 +229,8 @@ export async function renderDice(
   if (!animate || closed) return dispose;
   function tick(now: number) {
     if (closed) return;
-    const progress = Math.min(1, (now - start) / 2100);
+    const progress = Math.max(0, Math.min(1, (now - start) / 2100));
     updatePose(progress);
-    frameDice();
     try {
       renderer.render(scene, camera);
     } catch {
