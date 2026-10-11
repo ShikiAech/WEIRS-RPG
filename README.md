@@ -15,7 +15,7 @@ npm run dev
 
 Abra `http://127.0.0.1:5173/WEIRS-RPG/app.html`. Consulte o [guia de configuração da mesa](docs/configuracao-supabase.md) para instalar o banco, configurar o Google e adicionar participantes.
 
-Verificações: `npm test`, `npm run build` e `npm run test:browser` (instale Chromium com `npx playwright install chromium`). O build gera `dist/` e verifica que todas as fontes legadas foram preservadas. O compêndio é reimportado a partir do HTML durante o build; o JSON gerado não entra no Git.
+Verificações: `npm test`, `npm run build` e `npm run test:browser` (instale Chromium com `npx playwright install chromium`). O build gera `dist/` e verifica que todas as fontes legadas foram preservadas. O compêndio é reimportado a partir do HTML durante o build; o JSON gerado não entra no Git. Para publicar a mesa, siga o [guia do GitHub Pages](docs/publicacao-github-pages.md); o site deve servir `dist/`, e não o `app.html` de desenvolvimento da raiz.
 
 O chat inclui histórico, Realtime, `/r` e `/roll`, vantagem/desvantagem e ações das fichas. Mestres podem esconder resultados com `/gmroll` e revelá-los depois. Rolagens são calculadas e gravadas no banco, com proteção contra duplicação. Dados 3D gratuitos animam os seus envios confirmados em uma janela móvel e recolhível; total e faces são revelados quando a animação termina. Há opção de desligar e suporte a movimento reduzido. Para ativar o chat no projeto existente, siga o [guia do chat](docs/configuracao-chat.md).
 
