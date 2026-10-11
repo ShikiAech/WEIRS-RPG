@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yokais — Weirs RPG</title>
+    <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
+    <link rel="stylesheet" href="/WEIRS-RPG/css/class-style.css">
+    <script src="/WEIRS-RPG/javascript/menu.js"></script>
+    <script src="/WEIRS-RPG/javascript/subclass-tab.js"></script>
+    <style>
+    /* Estilos específicos para a listagem detalhada de subraças */
+    .subraca-container {
+      margin-top: 40px;
+      border-top: 1px solid var(--border-fantasy);
+      padding-top: 30px;
+    }
+    .subraca-card {
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 3px solid var(--gold);
+      padding: 20px;
+      margin-bottom: 25px;
+      border-radius: 0 4px 4px 0;
+    }
+    .subraca-card h4 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-bright);
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+    .subraca-card p {
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+    .trait-list {
+      list-style: none;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trait-list li strong {
+      color: var(--gold);
+    }
+  </style>
+</head>
+  
+<body>
+    <div class="container">
+
+        <!--BOTÃO DE RETORNO-->
+        <div style="margin-bottom: 30px;">
+            <a href="/WEIRS-RPG/pages/races/racas.html" class="btn-principal"
+                style="padding: 8px 20px; font-size: 0.85rem;">&larr; Voltar para Raças</a>
+        </div>
+
+        <!--TÍTULO-->
+        <h2>Yokais</h2>
+
+        <div class="card-rpg">
+
+            <!--DETALHES DE CLASSE-->
+            <div class="layout-detalhes">
+                <img src="/WEIRS-RPG/img/yokai.png"
+                    alt="A definir">
+                <div class="texto-lore">
+                    <h3>O Espírito Vulpino</h3>
+                    <p>Os Yokais são um povo que valoriza muito sua ligação com a espiritualidade. Corpo e Alma para eles devem estar em constante sintonia, com isso eles são capazes de desligar um do outro e acessar uma camada tênue da realidade, o que chama de Xeol, onde almas transitam em liberdade. Um plano de transição. São astutos, ágeis e habilidosos e confiam na profecia de que um dia um espírito evoluído nascerá entre eles e usará sua força para libertar a todos.</p>
+
+                    <!--CARACTERÍSTICAS BASICAS-->
+                    <h4
+                        style="color: var(--gold); margin-top: 30px; font-family: 'Cinzel'; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 5px;">
+                        Características Iniciais</h4>
+                    <ul class="trait-list" style="margin-top: 15px;">
+                        <li><strong>Tipo de Criatura:</strong> Humanóide.</li>
+                        <li><strong>Tamanho:</strong> Médio.</li>
+                        <li><strong>Deslocamento:</strong> 35 pés.</li>
+                        <li><strong>Idade:</strong> Atingem a maioridade aos 18 anos e podem viver até os 200 anos. </li>
+                        <li><strong>Visão no Escuro:</strong> Acostumado a longos períodos de escuridão, você possui Visão no Escuro com alcance de 60 pés. </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- HABILIDADES RACIAIS -->
+            <div style="margin-top: 40px; margin-bottom: 40px; border-top: 1px solid var(--border-fantasy); padding-top: 30px;">
+                <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Habilidades Raciais</h3>
+                
+                <ul class="trait-list">
+                    <li><strong>Passo Veloz:</strong> Quando você não estiver usando armadura pesada, seu Deslocamento aumenta em 1,5 m. Além disso, quando realizar a ação Disparada, você pode ignorar terreno difícil até o final do turno. </li>
+                    <li><strong>Laços Espírituais:</strong> Você possui proficiência em Religião e pode se comunicar telepaticamente com criaturas que estejam a até 30 pés de você, desde que compartilhem um idioma com você. </li>
+                    <li><strong>Desprendimento Espiritual:</strong> Você pode tentar se concentrar em uma criatura que possa ver em até 90 pés, acessando seus sentidos. Uma criatura não voluntária deverá realizar um teste de sabedoria, ou permitirá que você veja e sinta tudo o que ela sentir.  A criatura saberá que seu corpo está sendo invadido. Você pode se locomover e agir normalmente enquanto nesse estado, que pode durar até 1 minuto ou até você encerrá-lo. No final do turno da criatura, enquanto você estiver invadindo seus sentidos, ela poderá realizar o teste novamente. Se passar, te expulsará do corpo. Você também é expulso caso perca a concentração.
+A partir do 11° nível, criaturas inimigas não perceberão sua presença em seus corpos.
+Você pode usar essa característica um número de vezes igual ao seu bônus de proficiência e recupera seus usos num Descanso Longo.
+ </li>
+                    <li><strong>Espiar Ego:</strong> Você pode energizar seus olhos para enxergar a silhueta do espírito de criaturas num raio de 30 pés. Você não pode enxergar através de barreiras mágicas ou paredes mais grossas que 30 cm. A duração do efeito é de 1 turno, e você pode usar essa característica duas vezes por Descanso Curto.
+No 11° Nível, a duração passa a ser 1 minuto.
+</li>
+                    <li><strong>Devorar Espírito:</strong> Ao eliminar uma criatura, você pode usar sua reação para absorver parte da essência vital dela para potencializar técnicas específicas:
+                        <br>• <strong>Aura Defensiva</strong> Aura Defensiva: Você protege o corpo usando a energia absorvida, dando Desvantagem no próximo Ataque realizado contra você.
+                        <br>• <strong>Propulsão Espiritual</strong> Seu deslocamento aumenta em 15 pés até o final deste turno.
+                        <br>• <strong>Cura Piedosa</strong> Você converte a energia absorvida para curar seu corpo ou uma criatura aliada em até 30 pés numa quantidade igual ao seu bônus de proficiência.</li>
+                </ul>
+            </div> 
+
+            </div><!--FIM DA DIV recursos-detalhados-->
+        </div> <!--FIM DA DIV card-rpg-->
+    </div> <!--FIM DA DIV container-->
+</body>
+</html>
