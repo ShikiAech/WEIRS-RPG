@@ -15,11 +15,67 @@ test('importa o acervo real inteiro, preservando narrativas e identidade dos reg
       first.entries.filter((e) => e.kind === kind).length,
     ]),
   );
-  assert.deepEqual(counts, { magia: 477, talento: 199, antecedente: 61, classe: 17, especie: 19 });
+  assert.deepEqual(counts, { magia: 477, talento: 203, antecedente: 61, classe: 17, especie: 31 });
   assert.equal(first.campaigns.flatMap((c) => c.sessions).length, 16);
   assert.equal(first.campaigns.flatMap((c) => c.biographies).length, 19);
   assert.deepEqual(first, second);
   assert.equal(new Set(first.entries.map((e) => e.id)).size, first.entries.length);
+  const newSpecies = [
+    ['Anansis', 'anansis', 'anansi.png'],
+    ['Fenrirs', 'fenrirs', 'fenrir.jpg'],
+    ['Kinect', 'kinects', 'kinect.jpg'],
+    ['Malteanos', 'malteanos', 'malteano.png'],
+    ['N0-V4', 'n0-v4', 'n0v4.png'],
+    ['Nanuks', 'nanuks', 'nanuk.jpg'],
+    ['Nemeios', 'nemeios', 'nemeio.jpg'],
+    ['Norlock', 'norlocks', 'norlock.jpg'],
+    ['Yokais', 'yokais', 'yokai.png'],
+    ['Zoldyanos', 'zoldyanos', 'zoldyano.png'],
+    ['Zonuianos', 'zonuianos', 'zonuiano.png'],
+    ['Zorak', 'zoraks', 'zorak.png'],
+  ];
+  for (const [name, file, image] of newSpecies) {
+    const sourcePath = `pages/races/${file}.html`;
+    const entries = first.entries.filter(
+      (e) => e.kind === 'especie' && e.sourcePath === sourcePath,
+    );
+    assert.equal(entries.length, 1, `Espécie importada uma vez: ${sourcePath}`);
+    const entry = entries[0];
+    assert.equal(entry.name, name);
+    assert.equal(entry.sourceUrl, `/WEIRS-RPG/${sourcePath}`);
+    const $ = load(entry.descriptionHtml);
+    assert.equal($('h2').first().text(), name);
+    assert.match($.text(), /Habilidades Raciais/);
+    assert.doesNotMatch($.text(), /^\s*(?:<{7}|={7}|>{7})/m, sourcePath);
+    assert.equal($('img').first().attr('src'), `/WEIRS-RPG/img/${image}`);
+    assert.ok(first.manifest.sources.some((source) => source.path === `img/${image}`));
+  }
+  const newFeats = [
+    ['Espírito Manchado', 'origem', 'Humano Manchado', 'Aumento de Potencial'],
+    ['Mancha Superior da Manifestação Energética', 'geral', 'Nível 4+', 'Especialidade Inata'],
+    ['Mancha Superior do Deslocamento Aumentado', 'geral', 'Nível 4+', 'Movimento Etéreo'],
+    ['Mancha Superior do Corpo Potente', 'geral', 'Nível 4+', 'Resistência Fantasma'],
+    ['Mancha Suprema', 'geral', 'Nível 12+', 'Último de Pé'],
+  ];
+  for (const [name, type, prerequisite, feature] of newFeats) {
+    const entries = first.entries.filter((e) => e.kind === 'talento' && e.name === name);
+    assert.equal(entries.length, 1, `Talento importado uma vez: ${name}`);
+    const entry = entries[0];
+    assert.equal(entry.sourcePath, 'pages/talentos.html');
+    assert.equal(entry.metadata.tipo, type);
+    const description = load(entry.descriptionHtml).text();
+    assert.ok(description.includes(prerequisite), `Pré-requisito preservado: ${name}`);
+    assert.ok(description.includes(feature), `Habilidade preservada: ${name}`);
+  }
+  assert.ok(!first.entries.some((e) => e.metadata.nome === 'nome-do-talento'));
+  assert.equal(
+    first.entries.find((e) => e.kind === 'especie' && e.name === 'N0-V4')!.id,
+    'f03ab1f8-a660-83c4-a848-9e66ffb52dcd',
+  );
+  assert.equal(
+    first.entries.find((e) => e.kind === 'talento' && e.name === 'Espírito Manchado')!.id,
+    '08e965bb-0454-888c-abab-190a070407c9',
+  );
   const spell = first.entries.find((e) => e.metadata.original === 'calm emotions')!;
   assert.equal(spell.name, 'Acalmar Emoções');
   assert.equal(spell.metadata.concentracao, 'true');
