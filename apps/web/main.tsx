@@ -7,4 +7,6 @@ import './styles/tabletop-map.css';
 import './styles/agility-actions.css';
 import './styles/agility-map.css';
 import './styles/agility-workspace.css';
+import './styles/sheets.css';
+import './styles/campaign-access.css';
 createRoot(document.getElementById('root')!).render(<App />);

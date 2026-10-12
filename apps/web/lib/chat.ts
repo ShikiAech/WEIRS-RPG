@@ -44,19 +44,23 @@ export function createChatRepository(client: SupabaseClient): ChatRepository {
     validId(campaign);
     const { data, error } = await client.auth.getUser();
     if (error || !data.user) throw new ChatError('SESSAO');
-    const rows = await request<{ usuario_id: string; campanha_id: string; papel: string }[]>(
-      client
-        .from('membros_campanha')
-        .select('usuario_id,campanha_id,papel')
-        .eq('usuario_id', data.user.id)
-        .eq('campanha_id', campaign),
-    );
-    if (!rows.some((m) => m.usuario_id === data.user!.id && m.campanha_id === campaign))
-      throw new ChatError('ACESSO');
-    repository.onRole?.(
-      rows.find((m) => m.usuario_id === data.user!.id && m.campanha_id === campaign)!.papel,
-      campaign,
-    );
+    const [rows, admins] = await Promise.all([
+      request<{ usuario_id: string; campanha_id: string; papel: string }[]>(
+        client
+          .from('membros_campanha')
+          .select('usuario_id,campanha_id,papel')
+          .eq('usuario_id', data.user.id)
+          .eq('campanha_id', campaign),
+      ),
+      request<{ usuario_id: string }[]>(
+        client.from('administradores').select('usuario_id').eq('usuario_id', data.user.id),
+      ),
+    ]);
+    const role = admins.some((a) => a.usuario_id === data.user!.id)
+      ? 'mestre'
+      : rows.find((m) => m.usuario_id === data.user!.id && m.campanha_id === campaign)?.papel;
+    if (!role) throw new ChatError('ACESSO');
+    repository.onRole?.(role, campaign);
   }
   async function hydrate(campaign: string, rows: ChatMessage[]) {
     const ids = rows.filter((row) => row.secreta).map((row) => row.id);

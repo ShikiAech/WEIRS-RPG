@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import {
   ATRIBUTOS,
   PERICIAS,
@@ -11,6 +11,9 @@ import type { ContentSummary } from '../../../../packages/contracts/content';
 import { identity, combat, story, training, lists, number, attributeOptions } from './fields';
 import type { FieldSpec, ListSpec } from './fields';
 import { SheetActionButtons } from './SheetChat';
+import { InventoryEditor } from './InventoryEditor';
+import { SpellEditor } from './SpellEditor';
+import { sincronizarEquipamentos } from '../../../../packages/sheets/equipamentos.js';
 
 type Tree = Record<string, unknown>;
 function get(content: SheetContent, path: string): unknown {
@@ -41,6 +44,8 @@ export function SheetForm({
   errors?: { campo: string; mensagem: string }[];
 }) {
   const [tab, setTab] = useState(0);
+  const prefix = useId();
+  const change = (next: SheetContent) => onChange(sincronizarEquipamentos(next));
   const tabs = [
     'Personagem',
     'Atributos e perícias',
@@ -50,7 +55,7 @@ export function SheetForm({
     'Inventário',
   ];
   const calc = calcularFicha(content);
-  const update = (path: string, value: unknown) => onChange(set(content, path, value));
+  const update = (path: string, value: unknown) => change(set(content, path, value));
   function options(spec: FieldSpec): [string, string][] {
     if (spec.options) return spec.options;
     const source =
@@ -70,12 +75,14 @@ export function SheetForm({
   }
   function field(spec: FieldSpec, path = spec.key) {
     const value = get(content, path);
-    const id = 'field-' + path.replace(/\./g, '-');
+    const id = prefix + '-field-' + path.replace(/\./g, '-');
     const label = spec.label;
     const error = errors.find((e) => e.campo === path)?.mensagem;
     const accessibility = {
       'aria-invalid': Boolean(error) || undefined,
-      'aria-describedby': error ? id + '-error' : undefined,
+      'aria-describedby':
+        [error ? id + '-error' : '', spec.hint ? id + '-hint' : ''].filter(Boolean).join(' ') ||
+        undefined,
     };
     const suggestions = spec.suggestions
       ? [...new Set(catalog.filter((e) => e.kind === spec.suggestions).map((e) => e.name))]
@@ -133,7 +140,14 @@ export function SheetForm({
                 list={spec.suggestions ? id + '-suggestions' : undefined}
                 value={String(value ?? '')}
                 onChange={(e) =>
-                  update(path, spec.type === 'number' ? Number(e.target.value) : e.target.value)
+                  update(
+                    path,
+                    spec.type === 'number'
+                      ? spec.nullable && e.target.value === ''
+                        ? null
+                        : Number(e.target.value)
+                      : e.target.value,
+                  )
                 }
               />
             )}
@@ -146,6 +160,11 @@ export function SheetForm({
             )}
           </>
         )}
+        {spec.hint && (
+          <small className="field-hint" id={id + '-hint'}>
+            {spec.hint}
+          </small>
+        )}
         {error && (
           <span className="field-error" id={id + '-error'}>
             {error}
@@ -154,57 +173,69 @@ export function SheetForm({
       </div>
     );
   }
-  function repeated(spec: ListSpec) {
+  function repeated(spec: ListSpec, onlyIndex?: number) {
     const rows = get(content, spec.path) as Tree[];
     return (
-      <section className="form-section" key={spec.path}>
-        <div className="section-heading">
-          <h3>{spec.title}</h3>
-          <button
-            className="button secondary"
-            type="button"
-            onClick={() => update(spec.path, [...rows, novaEntrada(spec.path)])}
-          >
-            {spec.add}
-          </button>
-        </div>
+      <section
+        className={onlyIndex === undefined ? 'form-section' : 'spell-entry-editor'}
+        key={onlyIndex === undefined ? spec.path : String(rows[onlyIndex]?.id)}
+      >
+        {onlyIndex === undefined && (
+          <div className="section-heading">
+            <h3>{spec.title}</h3>
+            <button
+              className="button secondary"
+              type="button"
+              disabled={
+                spec.path === 'inventario.sintonizados' &&
+                rows.length >= content.inventario.limiteSintonizacao
+              }
+              onClick={() => update(spec.path, [...rows, novaEntrada(spec.path)])}
+            >
+              {spec.add}
+            </button>
+          </div>
+        )}
         {!rows.length && (
           <p className="empty-line">Nenhuma entrada. Adicione o que seu personagem precisa.</p>
         )}
-        {rows.map((row, i) => (
-          <fieldset className="repeat-entry" key={String(row.id)}>
-            <legend>
-              {spec.title} · {i + 1}
-            </legend>
-            <div className="field-grid">
-              {spec.fields.map((item) => field(item, `${spec.path}.${i}.${item.key}`))}
-            </div>
-            <SheetActionButtons path={spec.path} entry={row} />
-            {spec.path === 'conjuracao.perfis' && (
-              <p className="calculation">
-                CD {calc.perfis[String(row.id)]?.cd} · Ataque{' '}
-                {signed(calc.perfis[String(row.id)]?.ataque || 0)}
-              </p>
-            )}
-            <button
-              className="text-button danger"
-              type="button"
-              onClick={() =>
-                onChange(
-                  limparReferencias(
-                    set(
-                      content,
-                      spec.path,
-                      rows.filter((_, j) => j !== i),
-                    ),
-                  ),
-                )
-              }
-            >
-              Remover {spec.title.toLowerCase()} {i + 1}
-            </button>
-          </fieldset>
-        ))}
+        {rows.map(
+          (row, i) =>
+            (onlyIndex === undefined || onlyIndex === i) &&
+            !(spec.path === 'ataques' && row.itemId && onlyIndex === undefined) && (
+              <fieldset className="repeat-entry" key={String(row.id)}>
+                <legend>{String(row.nome || `${spec.title} · ${i + 1}`)}</legend>
+                <div className="field-grid">
+                  {spec.fields.map((item) => field(item, `${spec.path}.${i}.${item.key}`))}
+                </div>
+                <SheetActionButtons path={spec.path} entry={row} />
+                {spec.path === 'conjuracao.perfis' && (
+                  <p className="calculation">
+                    Atributo {signed(calc.perfis[String(row.id)]?.modificador || 0)} · CD de
+                    salvaguarda {calc.perfis[String(row.id)]?.cd} · Ataque{' '}
+                    {signed(calc.perfis[String(row.id)]?.ataque || 0)}
+                  </p>
+                )}
+                <button
+                  className="text-button danger"
+                  type="button"
+                  onClick={() =>
+                    change(
+                      limparReferencias(
+                        set(
+                          content,
+                          spec.path,
+                          rows.filter((_, j) => j !== i),
+                        ),
+                      ),
+                    )
+                  }
+                >
+                  Remover {spec.title.toLowerCase()} {i + 1}
+                </button>
+              </fieldset>
+            ),
+        )}
       </section>
     );
   }
@@ -242,17 +273,17 @@ export function SheetForm({
           else return;
           e.preventDefault();
           setTab(next);
-          document.getElementById('tab-' + next)?.focus();
+          document.getElementById(prefix + '-tab-' + next)?.focus();
         }}
       >
         {tabs.map((label, i) => (
           <button
             key={label}
-            id={'tab-' + i}
+            id={prefix + '-tab-' + i}
             data-tab={i}
             role="tab"
             aria-selected={tab === i}
-            aria-controls={'panel-' + i}
+            aria-controls={prefix + '-panel-' + i}
             tabIndex={tab === i ? 0 : -1}
             onClick={() => setTab(i)}
           >
@@ -264,8 +295,8 @@ export function SheetForm({
         disabled={readOnly}
         className="tab-panel sheet-body"
         role="tabpanel"
-        id={'panel-' + tab}
-        aria-labelledby={'tab-' + tab}
+        id={prefix + '-panel-' + tab}
+        aria-labelledby={prefix + '-tab-' + tab}
       >
         {tab === 0 && (
           <>
@@ -352,13 +383,31 @@ export function SheetForm({
               <div className="field-grid">{combat.map((spec) => field(spec))}</div>
             </section>
             {[lists.hitDice, lists.speeds, lists.conditions, lists.attacks, lists.resources].map(
-              repeated,
+              (spec) => repeated(spec),
+            )}
+            {content.ataques.some((a) => a.itemId) && (
+              <section className="form-section">
+                <h3>Ataques de equipamentos</h3>
+                <p className="muted">Edite a arma e seus danos na aba Inventário.</p>
+                {content.ataques
+                  .filter((a) => a.itemId)
+                  .map((a) => (
+                    <div className="play-entry" key={a.id}>
+                      <strong>{a.nome}</strong>
+                      <p className="calculation">
+                        Acerto {signed(a.valor)} · Dano {a.dano || 'Sem fórmula'} · Crítico{' '}
+                        {a.critico ?? 20}–20
+                      </p>
+                      <SheetActionButtons path="ataques" entry={a as unknown as Tree} />
+                    </div>
+                  ))}
+              </section>
             )}
           </>
         )}
         {tab === 3 && (
           <>
-            {[lists.features, lists.traits, lists.feats].map(repeated)}
+            {[lists.features, lists.traits, lists.feats].map((spec) => repeated(spec))}
             <section className="form-section">
               <h3>Treinamento</h3>
               <div className="field-grid">{training.map((spec) => field(spec))}</div>
@@ -369,29 +418,13 @@ export function SheetForm({
         {tab === 4 && (
           <>
             {repeated(lists.profiles)}
-            <section className="form-section">
-              <h3>Espaços de magia</h3>
-              <p className="muted">Controle o uso manualmente. Espaços de pacto ficam separados.</p>
-              <div className="slot-grid">
-                {content.conjuracao.espacos.map((slot, i) => (
-                  <fieldset key={slot.circulo}>
-                    <legend>Círculo {slot.circulo}</legend>
-                    {field(
-                      number(`conjuracao.espacos.${i}.total`, `Círculo ${slot.circulo}: total`),
-                    )}
-                    {field(
-                      number(`conjuracao.espacos.${i}.gastos`, `Círculo ${slot.circulo}: gastos`),
-                    )}
-                  </fieldset>
-                ))}
-              </div>
-              <div className="field-grid">
-                {field(number('conjuracao.pacto.circulo', 'Círculo dos espaços de pacto', 1, 9))}
-                {field(number('conjuracao.pacto.total', 'Espaços de pacto: total'))}
-                {field(number('conjuracao.pacto.gastos', 'Espaços de pacto: gastos'))}
-              </div>
-            </section>
-            {repeated(lists.spells)}
+            <SpellEditor
+              content={content}
+              onChange={change}
+              catalog={catalog}
+              field={field}
+              renderSpell={(i) => repeated(lists.spells, i)}
+            />
           </>
         )}
         {tab === 5 && (
@@ -410,9 +443,17 @@ export function SheetForm({
                 )}
               </div>
             </section>
-            {repeated(lists.items)}
-            {field(number('inventario.limiteSintonizacao', 'Limite de sintonização'))}
-            {repeated(lists.attuned)}
+            <InventoryEditor
+              content={content}
+              onChange={change}
+              field={field}
+              readOnly={readOnly}
+            />
+            <details className="equipment-legacy">
+              <summary>Sintonia personalizada e opções da mesa</summary>
+              {field(number('inventario.limiteSintonizacao', 'Limite de sintonização'))}
+              {repeated(lists.attuned)}
+            </details>
           </>
         )}
       </fieldset>

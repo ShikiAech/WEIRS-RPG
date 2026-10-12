@@ -79,6 +79,8 @@ test('importa o acervo real inteiro, preservando narrativas e identidade dos reg
   const spell = first.entries.find((e) => e.metadata.original === 'calm emotions')!;
   assert.equal(spell.name, 'Acalmar Emoções');
   assert.equal(spell.metadata.concentracao, 'true');
+  assert.equal(spell.id, '707d404f-c95a-87f0-a795-df42270004bc');
+  assert.match(spell.metadata.duracao || '', /Até 1 minuto/i);
   assert.match(spell.descriptionHtml, /hostil/);
   const othans = first.campaigns.find((c) => c.slug === 'othans')!;
   assert.equal(othans.name, 'Crônicas de Othans');

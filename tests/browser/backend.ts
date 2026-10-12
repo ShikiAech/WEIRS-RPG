@@ -18,7 +18,13 @@ const user = {
 // Somente os testes interceptam HTTP. O aplicativo usa o SDK real e não contém login de teste.
 export async function backend(
   page: Page,
-  options: { empty?: boolean; readonly?: boolean; master?: boolean } = {},
+  options: {
+    empty?: boolean;
+    readonly?: boolean;
+    master?: boolean;
+    admin?: boolean;
+    nonmember?: boolean;
+  } = {},
 ) {
   const state = {
     rows: options.empty
@@ -36,6 +42,20 @@ export async function backend(
             atualizado_em: '2026-10-07T00:00:00Z',
           } as SheetRecord,
         ],
+    campaigns: [{ id: campaignId, nome: 'Crônicas de Othans' }],
+    memberships: options.nonmember
+      ? []
+      : [
+          {
+            campanha_id: campaignId,
+            usuario_id: ownerId,
+            papel: options.readonly ? 'espectador' : options.master ? 'mestre' : 'jogador',
+          },
+        ],
+    admin: !!options.admin,
+    failJoinAcknowledgement: false,
+    failCopyAcknowledgement: false,
+    copies: new Map<string, SheetRecord>(),
     creates: 0,
     saves: 0,
     deletes: 0,
@@ -83,16 +103,51 @@ export async function backend(
       route.fulfill({ status, contentType: 'application/json', body: JSON.stringify(body) });
     if (url.pathname === '/auth/v1/user') return respond(user);
     if (url.pathname === '/auth/v1/logout') return route.fulfill({ status: 204 });
-    if (url.pathname === '/rest/v1/campanhas')
-      return respond([{ id: campaignId, nome: 'Crônicas de Othans' }]);
-    if (url.pathname === '/rest/v1/membros_campanha')
-      return respond([
-        {
-          campanha_id: campaignId,
-          usuario_id: ownerId,
-          papel: options.readonly ? 'espectador' : options.master ? 'mestre' : 'jogador',
-        },
-      ]);
+    if (url.pathname === '/rest/v1/campanhas') return respond(state.campaigns);
+    if (url.pathname === '/rest/v1/membros_campanha') {
+      const initial = state.memberships.find(
+        (m) => m.campanha_id === campaignId && m.usuario_id === ownerId,
+      );
+      if (!options.nonmember && initial)
+        initial.papel = options.readonly ? 'espectador' : options.master ? 'mestre' : 'jogador';
+      return respond(state.memberships);
+    }
+    if (url.pathname === '/rest/v1/administradores')
+      return respond(state.admin ? [{ usuario_id: ownerId }] : []);
+    if (url.pathname === '/rest/v1/rpc/entrar_campanha') {
+      const input = request.postDataJSON();
+      let member = state.memberships.find((m) => m.campanha_id === input.p_campanha);
+      if (!member) {
+        member = { campanha_id: input.p_campanha, usuario_id: ownerId, papel: 'jogador' };
+        state.memberships.push(member);
+      }
+      if (state.failJoinAcknowledgement) {
+        state.failJoinAcknowledgement = false;
+        return respond({ message: 'unavailable' }, 503);
+      }
+      return respond(member);
+    }
+    if (url.pathname === '/rest/v1/rpc/copiar_ficha_campanha') {
+      if (!state.admin) return respond({ code: 'WF002' }, 403);
+      const input = request.postDataJSON();
+      let row = state.copies.get(input.p_pedido);
+      if (!row) {
+        const source = state.rows.find((r) => r.id === input.p_origem)!;
+        row = {
+          ...structuredClone(source),
+          id: crypto.randomUUID(),
+          campanha_id: input.p_campanha,
+          versao: 1,
+        };
+        state.rows.push(row);
+        state.copies.set(input.p_pedido, row);
+      }
+      if (state.failCopyAcknowledgement) {
+        state.failCopyAcknowledgement = false;
+        return respond({ message: 'unavailable' }, 503);
+      }
+      return respond(row);
+    }
     if (url.pathname === '/rest/v1/fichas') {
       const id = url.searchParams.get('id')?.replace(/^eq\./, '');
       if (method === 'GET') return respond(id ? state.rows.find((r) => r.id === id) : state.rows);

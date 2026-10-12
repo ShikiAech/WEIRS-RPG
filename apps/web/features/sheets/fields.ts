@@ -8,6 +8,8 @@ export interface FieldSpec {
   min?: number;
   max?: number;
   step?: string;
+  nullable?: boolean;
+  hint?: string;
   suggestions?: 'classe' | 'especie' | 'antecedente';
 }
 const number = (key: string, label: string, min = 0, max = 9999): FieldSpec => ({
@@ -110,7 +112,7 @@ export const lists: Record<string, ListSpec> = {
         ],
       },
       number('valor', 'Bônus ou CD', -99, 99),
-      text('dano', 'Dano'),
+      { ...text('dano', 'Dano'), hint: 'Ex.: 1d8+4. Use fórmulas de dados e números.' },
       text('tipoDano', 'Tipo de dano'),
       text('observacoes', 'Observações do ataque', true),
     ],
@@ -231,7 +233,7 @@ export const lists: Record<string, ListSpec> = {
       flag('ritual', 'Ritual'),
       flag('verbal', 'Componente verbal'),
       flag('somatico', 'Componente somático'),
-      text('material', 'Material necessário'),
+      text('material', 'Material necessário', true),
       text('duracao', 'Duração'),
       text('descricao', 'Descrição da magia', true),
       text('observacoes', 'Observações da magia', true),
