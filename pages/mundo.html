@@ -6,38 +6,88 @@
   <title>Weirs RPG — Mundo</title>
   <link rel="stylesheet" href="/WEIRS-RPG/css/style.css">
   <style>
-    /* Estilos para o Atlas / Reinos */
-    .seletor-reinos {
+    /* ========================================== */
+    /* SELETOR DE CATEGORIAS PRINCIPAL */
+    /* ========================================== */
+    .seletor-categorias-principal {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin: 25px 0 15px 0;
+      border-bottom: 2px solid var(--border-fantasy);
+      padding-bottom: 15px;
+    }
+    .btn-categoria-main {
+      background: #0d0d0f;
+      border: 1px solid var(--border-fantasy);
+      color: #aaa;
+      padding: 12px 24px;
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      letter-spacing: 1px;
+    }
+    .btn-categoria-main:hover, .btn-categoria-main.ativo {
+      background: rgba(212, 175, 55, 0.25);
+      border-color: var(--gold);
+      color: var(--gold);
+      box-shadow: 0 0 15px rgba(212,175,55,0.3);
+      transform: translateY(-2px);
+    }
+
+    /* SEÇÕES DE CONTEÚDO PRINCIPAIS */
+    .secao-principal {
+      display: none;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+    .secao-principal.ativo {
+      display: block;
+    }
+
+    /* ========================================== */
+    /* SELETORES SECUNDÁRIOS (SUB-BOTÕES) */
+    /* ========================================== */
+    .seletor-subitens {
       display: flex;
       justify-content: center;
       gap: 10px;
       flex-wrap: wrap;
-      margin: 25px 0;
+      margin: 20px 0 30px 0;
     }
-    .btn-reino {
+    .btn-subitem {
       background: #161618;
       border: 1px solid var(--border-fantasy);
       color: #ccc;
-      padding: 10px 20px;
+      padding: 8px 18px;
       font-family: 'Cinzel', serif;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       cursor: pointer;
       border-radius: 4px;
       transition: all 0.2s ease;
     }
-    .btn-reino:hover, .btn-reino.ativo {
+    .btn-subitem:hover, .btn-subitem.ativo {
       background: rgba(212, 175, 55, 0.15);
       border-color: var(--gold);
       color: var(--gold);
       box-shadow: 0 0 10px rgba(212,175,55,0.2);
     }
-    .painel-reino {
+
+    /* PAINÉIS DE CONTEÚDO DOS SUB-ITENS */
+    .painel-conteudo {
       display: none;
       animation: fadeIn 0.4s ease-in-out;
     }
-    .painel-reino.ativo {
+    .painel-conteudo.ativo {
       display: block;
     }
+
+    /* ========================================== */
+    /* LAYOUTS E CARDS DE LORE / FICHA */
+    /* ========================================== */
     .reino-cabecalho {
       display: grid;
       grid-template-columns: 200px 1fr;
@@ -83,17 +133,9 @@
       color: #ddd;
       font-size: 0.9rem;
     }
-    .mapa-regional-container {
+    .mapa-container {
       text-align: center;
-      margin: 25px 0;
-      border: 1px solid var(--border-fantasy);
-      padding: 10px;
-      background: #111;
-      border-radius: 4px;
-    }
-      .mapa-container {
-      text-align: center;
-      margin: 40px 0;
+      margin: 30px 0;
       border: 1px solid var(--border-fantasy);
       padding: 15px;
       background: rgba(20, 20, 22, 0.6);
@@ -139,6 +181,7 @@
       border-bottom: 1px solid rgba(212,175,55,0.15);
       padding-bottom: 6px;
     }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(5px); }
       to { opacity: 1; transform: translateY(0); }
@@ -149,230 +192,1015 @@
 <body>
   <script src="/WEIRS-RPG/javascript/menu.js"></script>
 
- <div class="container">
+  <div class="container">
 
     <h2 style="font-family: 'Cinzel', serif; color: var(--gold); text-align: center; margin-top: 10px;">
-      MUNDO
+      MUNDO DE WEIRS
     </h2>
-    <p class="desc-intro">
-      Navegue pelos territórios conhecidos para desvendar suas tradições, fés registradas e a geografia de cada domínio.
+    <p class="desc-intro" style="text-align: center;">
+      Explore a cosmologia, o panteão de divindades, os domínios territoriais e os idiomas falados em Weirs.
     </p>
 
-    <!-- SELETOR DINÂMICO DE REINOS/REGIÕES -->
-    <div class="seletor-reinos">
-      <button class="btn-reino ativo" onclick="selecionarReino('reino-1')">Império Unificado</button>
-      <button class="btn-reino" onclick="selecionarReino('reino-2')">Xintai</button>
-     <!-- <button class="btn-reino" onclick="selecionarReino('reino-2')">Reino B</button> --> 
-      <!-- Basta duplicar os botões conforme criar novos reinos -->
+    <!-- ========================================================== -->
+    <!-- SELETOR PRINCIPAL (CATEGORIAS) - ORDEM SOLICITADA -->
+    <!-- ========================================================== -->
+    <div class="seletor-categorias-principal">
+      <button class="btn-categoria-main ativo" onclick="alternarCategoria('cat-cosmologia', this)">Cosmologia</button>
+      <button class="btn-categoria-main" onclick="alternarCategoria('cat-divindades', this)">Divindades</button>
+      <button class="btn-categoria-main" onclick="alternarCategoria('cat-regioes', this)">Regiões</button>
+      <button class="btn-categoria-main" onclick="alternarCategoria('cat-idiomas', this)">Idiomas</button>
     </div>
 
-    <!-- =================================================== -->
-    <!-- IMPERIO UNIFICADO -->
-    <!-- =================================================== -->
-    <div id="reino-1" class="painel-reino ativo">
+
+    <!-- ========================================================== -->
+    <!-- CATEGORIA 1: COSMOLOGIA -->
+    <!-- ========================================================== -->
+    <div id="cat-cosmologia" class="secao-principal ativo">
       
-      <!-- Cabeçalho com Bandeira e Dados Rápidos -->
-      <div class="reino-cabecalho">
-        <div class="bandeira-box">
-          <img src="/WEIRS-RPG/img/bandeiras/imperiounificado.png" alt="Bandeira do Reino" class="bandeira-img" onerror="this.src='https://via.placeholder.com/200x250/111/d4af37?text=Bandeira'">
-        </div>
-        <div>
-          <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 5px;">
-            IMPÉRIO UNIFICADO
+      <!-- Sub-botões de Cosmologia -->
+      <div class="seletor-subitens">
+        <button class="btn-subitem" onclick="alternarSubItem('cat-cosmologia', 'cosmo-ordem', this)">Ordem</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-cosmologia', 'cosmo-natureza', this)">Natureza</button>
+        <button class="btn-subitem ativo" onclick="alternarSubItem('cat-cosmologia', 'cosmo-vazio', this)">Vazio</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-cosmologia', 'cosmo-magia', this)">Magia</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-cosmologia', 'cosmo-caos', this)">Caos</button>
+      </div>
+
+      <!-- VAZIO -->
+      <!-- VAZIO -->
+      <div id="cosmo-vazio" class="painel-conteudo ativo">
+        <div class="bloco-lore-card">
+          <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 15px; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 10px;">
+            VAZIO
           </h3>
-          <p style="font-style: italic; color: #888; font-size: 0.9rem; margin-bottom: 15px;">
-            "Sob a vontade de Aurus, uma só terra, um só destino."
+          <p style="color: var(--gold); font-style: italic; font-size: 1.05rem; margin-bottom: 15px;">
+            A força neutra, além do espaço e do tempo
+          </p>
+
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;">
+            O <strong>Vazio</strong> é a força fundamental neutra, uma manifestação que não pertence à ordem natural da existência e que não apresenta afinidade com os seres vivos. Diferentemente das demais forças, sua origem não está na criação, na matéria ou nas transformações do mundo, mas em algo que existe para além de tudo isso.
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">
+            A força do Vazio provém do próprio Vazio: um <i>não lugar</i>, uma <i>não dimensão</i> que se encontra fora do espaço e do tempo. Embora possua um potencial extraordinário, essa força é extremamente instável e, na maioria das circunstâncias, impossível de controlar com segurança. Sua natureza não foi feita para interagir com os seres vivos, e aqueles que tentam dominá-la se arriscam a lidar com algo que ultrapassa os limites da compreensão material.
+          </p>
+
+          <!-- SEÇÃO: O VAZIO ALÉM DAS DIMENSÕES -->
+          <h4 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.3rem; margin-top: 30px; margin-bottom: 10px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 5px;">
+            O Vazio Além das Dimensões
+          </h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;">
+            O Vazio é o espaço exterior a todas as dimensões, onde nada existe e onde os conceitos que definem a realidade deixam de fazer sentido. Não há esquerda ou direita, acima ou abaixo, frente ou trás. Tampouco existem passado, presente ou futuro. Sem espaço para determinar posições e sem tempo para estabelecer uma sequência de acontecimentos, qualquer criatura que alcance esse lugar corre o risco de perder completamente sua referência de existência.
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">
+            Um ser vivo não consegue sobreviver no Vazio sem uma proteção extraordinária, como uma asa ou um revestimento poderoso de Ordem, capaz de preservar sua existência diante de um ambiente que não oferece sustentação às leis naturais. Mesmo protegido, compreender o Vazio permanece um desafio: uma mente formada dentro de um plano material não foi concebida para interpretar algo que existe além das próprias dimensões.
+          </p>
+
+          <!-- CARDS: PILAR, FIRMAMENTO E TRAVESSIA -->
+          <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 25px; margin-bottom: 20px;">
+            <div style="flex: 1 1 calc(50% - 15px); min-width: 250px; background: rgba(16, 16, 18, 0.8); border-left: 3px solid var(--gold); border-radius: 4px; padding: 15px;">
+              <strong style="color: var(--gold); font-size: 1.1rem; display: block; margin-bottom: 5px;">O Pilar e o Firmamento</strong>
+              <p style="color: #ccc; font-size: 0.9rem; line-height: 1.5; margin: 0; text-align: justify;">
+                No Vazio, os planos podem ser compreendidos como folhas sem espessura empilhadas umas sobre as outras. Cada folha representa um momento no tempo, e o conjunto dessas folhas forma a estrutura conhecida como <strong>Pilar ou Firmamento</strong>. Cada escolha pode originar uma nova ramificação da realidade, gerando infinitas linhas temporais para um mesmo plano.
+              </p>
+            </div>
+
+            <div style="flex: 1 1 calc(50% - 15px); min-width: 250px; background: rgba(16, 16, 18, 0.8); border-left: 3px solid #8a2be2; border-radius: 4px; padding: 15px;">
+              <strong style="color: #b57edc; font-size: 1.1rem; display: block; margin-bottom: 5px;">A Travessia Entre os Planos</strong>
+              <p style="color: #ccc; font-size: 0.9rem; line-height: 1.5; margin: 0; text-align: justify;">
+                Ultrapassar as barreiras de um plano significa abandonar a estrutura dimensional conhecida. Aquele que alcança o Vazio perde suas referências espaciais e temporais. Sem direção ou tempo, até mesmo a ideia de permanecer "perdido para sempre" perde o sentido, pois não há tempo para medir durações.
+              </p>
+            </div>
+          </div>
+
+          <!-- HIGHLIGHT BLOCK: A PONTE DE HADES -->
+          <div style="background: rgba(212, 175, 55, 0.08); border-left: 3px solid var(--gold); padding: 12px 15px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 25px;">
+            <strong style="color: var(--gold); font-size: 1.05rem; display: block; margin-bottom: 5px;">A Ponte de Hades</strong>
+            <p style="color: #ccc; font-size: 0.9rem; line-height: 1.5; margin: 0; text-align: justify;">
+              Em uma ocasião extraordinária, uma quantidade imensa de Ordem foi utilizada para criar um construto sólido capaz de existir no Vazio: a <strong>Ponte</strong>, conectando a Terra (Plano Material) a Tenebris. Por ser sustentada por uma concentração extraordinária de Ordem, ela não pode ser destruída por forças mortais e permite a travessia direta entre planos sem percorrer o Vazio.
+            </p>
+          </div>
+
+          <!-- SEÇÃO: CRISTAIS DO VAZIO -->
+          <h4 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.3rem; margin-top: 30px; margin-bottom: 10px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 5px;">
+            Os Cristais do Vazio
+          </h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;">
+            Quando a força do Vazio escapa para dentro de um dos planos, ela pode se acumular e cristalizar, dando origem aos <strong>Cristais do Vazio</strong>: pequenos cristais brilhantes de coloração dourada.
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">
+            Esses cristais não possuem afinidade com a vida e não podem ser utilizados diretamente para magia, cura ou manipulação elemental. Sua aplicação está na capacidade de fornecer energia em quantidades extraordinárias quando empregados com a tecnologia adequada. Em condições apropriadas, funcionam como uma fonte energética limpa e praticamente inesgotável.
+          </p>
+
+          <!-- SEÇÃO: PROPULSÃO ESPACIAL E PROIBIÇÃO -->
+          <h4 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.3rem; margin-top: 30px; margin-bottom: 10px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 5px;">
+            Propulsão Espacial e Tecnologia Proibida
+          </h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;">
+            A aplicação mais revolucionária dos Cristais do Vazio foi o desenvolvimento de núcleos energéticos para naves aeroespaciais, permitindo viagens intergalácticas com velocidades muito superiores às dos sistemas convencionais e reduzindo drasticamente a necessidade de reabastecimento.
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">
+            Entretanto, o potencial energético desses cristais vem acompanhado de riscos catastróficos. Sua instabilidade pode provocar fendas entre planos, comprometer as barreiras dimensionais e até mesmo perturbar o fluxo temporal nas proximidades.
+          </p>
+
+          <div style="background: rgba(16, 16, 18, 0.8); border-left: 3px solid #e74c3c; border-radius: 4px; padding: 12px 15px; margin-top: 15px;">
+            <p style="color: #ccc; font-size: 0.9rem; line-height: 1.5; margin: 0; text-align: justify;">
+              <strong style="color: #e74c3c;">Proibição da Confederação:</strong> Após acidentes com consequências devastadoras, a Confederação de Planetas proibiu a utilização desses núcleos em naves. Embora continuem sendo uma das fontes energéticas mais poderosas conhecidas, a existência de tecnologias clandestinas que continuam utilizando Cristais do Vazio demonstra que nem todos respeitam esse limite.
+            </p>
+          </div>
+
+          <!-- SEÇÃO: O DOMÍNIO DO VAZIO -->
+          <h4 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.3rem; margin-top: 30px; margin-bottom: 10px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 5px;">
+            O Domínio do Vazio
+          </h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;">
+            Dominar a força do Vazio significaria alcançar algo muito além da manipulação energética convencional. Seus princípios estão relacionados à própria estrutura do espaço, à organização das dimensões e à existência do tempo. Por isso, aquele que conseguisse controlar verdadeiramente essa força poderia, em teoria, interferir nesses fundamentos: atravessar distâncias sem percorrê-las, romper barreiras entre planos ou alterar a sequência temporal dos acontecimentos.
+          </p>
+
+          <div style="background: rgba(16, 16, 18, 0.9); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 4px; padding: 15px; margin-top: 25px; text-align: center;">
+            <p style="color: var(--gold); font-style: italic; font-size: 1rem; margin: 0; line-height: 1.5;">
+              "Contudo, controlar o Vazio não significa apenas possuir poder sobre o espaço e o tempo. Significa lidar com uma força cuja instabilidade pode comprometer os próprios fundamentos sobre os quais a existência se sustenta. Diante das consequências que um erro poderia provocar, permanece uma questão: será que o poder de controlar o Vazio vale o risco de desestabilizar a própria realidade?"
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ORDEM -->
+      <!-- ORDEM -->
+      <div id="cosmo-ordem" class="painel-conteudo">
+        <div class="bloco-lore-card">
+          <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 15px; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 10px;">
+            ORDEM
+          </h3>
+          <p style="color: var(--gold); font-style: italic; font-size: 1.05rem; margin-bottom: 15px;">
+            A força da criação, da vida e da organização
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;">
+            A Ordem é a força fundamental responsável pela criação e organização de todo o mundo natural. Alguns a chamam de <strong>Origem da Vida</strong>; outros, de <strong>Berço das Almas</strong>. É dela que provém o princípio que estabelece o nascimento das almas e a estrutura que permite à existência assumir forma e propósito.
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">
+            Da energia que emana das almas surge o <strong>Éter</strong>, a manifestação energética da Ordem por meio da vida. Presente em todos os seres vivos, o Éter representa a ligação entre a alma e o mundo material, permitindo que a existência exerça influência sobre aquilo que a cerca.
+          </p>
+
+          <!-- SEÇÃO: O ÉTER -->
+          <h4 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.3rem; margin-top: 30px; margin-bottom: 10px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 5px;">
+            O Éter
+          </h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;">
+            O Éter é a energia espiritual dos seres vivos e a principal manifestação da Ordem no plano material. Por meio dele, indivíduos capazes de compreender e controlar essa força podem influenciar a natureza, transmutar Éter em elementos ou criar manifestações compostas inteiramente por energia etérea.
+          </p>
+          <p style="color: #ccc; line-height: 1.6; margin-top: 10px;">
+            Sua manifestação pode ocorrer em <strong>três aspectos fundamentais</strong>:
+          </p>
+
+          <!-- CARDS: ASPECTOS DO ÉTER -->
+          <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 15px; margin-bottom: 20px;">
+            <div style="flex: 1 1 calc(33.333% - 15px); min-width: 200px; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border-fantasy); border-radius: 6px; padding: 15px; box-sizing: border-box;">
+              <strong style="color: var(--gold); display: block; margin-bottom: 6px; font-size: 1rem;">Corpo</strong>
+              <span style="color: #ccc; font-size: 0.9rem; line-height: 1.4; display: block;">Fortalece a estrutura física, ampliando a força, a velocidade, a resistência e os limites naturais do usuário.</span>
+            </div>
+            <div style="flex: 1 1 calc(33.333% - 15px); min-width: 200px; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border-fantasy); border-radius: 6px; padding: 15px; box-sizing: border-box;">
+              <strong style="color: var(--gold); display: block; margin-bottom: 6px; font-size: 1rem;">Mente</strong>
+              <span style="color: #ccc; font-size: 0.9rem; line-height: 1.4; display: block;">Permite expandir as capacidades mentais, aprimorar a percepção e alcançar manifestações extraordinárias, como a clarividência.</span>
+            </div>
+            <div style="flex: 1 1 calc(33.333% - 15px); min-width: 200px; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border-fantasy); border-radius: 6px; padding: 15px; box-sizing: border-box;">
+              <strong style="color: var(--gold); display: block; margin-bottom: 6px; font-size: 1rem;">Alma</strong>
+              <span style="color: #ccc; font-size: 0.9rem; line-height: 1.4; display: block;">Manifesta-se como energia pura ou como construtos sólidos capazes de interagir com o plano material.</span>
+            </div>
+          </div>
+
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; background: rgba(212, 175, 55, 0.08); border-left: 3px solid var(--gold); padding: 10px 15px; border-radius: 0 4px 4px 0;">
+            <strong>O Ego:</strong> O ápice desse domínio é a criação do Ego, a manifestação direta da própria alma do usuário. O Ego assume a forma daquilo que melhor representa sua essência, tornando-se uma expressão singular de sua identidade espiritual.
+          </p>
+
+          <!-- SEÇÃO: CRISTAIS ÉTERIS -->
+          <h4 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.3rem; margin-top: 30px; margin-bottom: 10px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 5px;">
+            Os Cristais Éteris
+          </h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;">
+            Em locais onde a Ordem se manifesta com grande intensidade, o Éter pode se acumular e condensar, dando origem aos <strong>Cristais Éteris</strong>. Esses cristais constituem fontes concentradas de energia órdica e possuem aplicações que vão muito além da prática espiritual.
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">
+            Por meio da <strong>Éterforja</strong>, sua energia pode alimentar equipamentos autônomos, aprimorar armamentos e permitir a criação de dispositivos de grande poder.
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">
+            Entretanto, os Cristais Éteris também emitem uma energia residual capaz de afetar profundamente a alma humana. A exposição a essa energia pode provocar o surgimento de <i>manchas espirituais</i>, alterando a individualidade dos afetados e concedendo-lhes habilidades singulares conhecidas como <strong>Manchas</strong>. Aqueles que desenvolvem tais características são chamados de <strong>Manchados</strong>.
+          </p>
+          <p style="color: #888; font-style: italic; font-size: 0.88rem; margin-top: 5px;">
+            * Devido a particularidades próprias de seus corpos e almas, os humanos são os únicos seres conhecidos suscetíveis a esse fenômeno.
+          </p>
+
+          <!-- SEÇÃO: RELÍQUIAS ETÉREAS -->
+          <h4 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.3rem; margin-top: 30px; margin-bottom: 10px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 5px;">
+            Relíquias Etéreas
+          </h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;">
+            A energia dos Cristais Éteris também permite a criação de equipamentos vinculados à essência de um indivíduo. Por meio de um processo especializado de forja, uma assinatura etérea única é incorporada ao equipamento, estabelecendo uma ligação com a alma de seu usuário.
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">
+            Esses artefatos são conhecidos como <strong>Relíquias Etéreas</strong>. Suas habilidades variam de acordo com a essência daquele que lhes deu origem, tornando cada relíquia uma extensão singular de seu portador.
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">
+            Quando uma criatura de <strong>Alma Divina</strong> participa desse processo, o poder da relíquia é potencializado pela natureza extraordinária de sua essência. O resultado são as <strong>Relíquias Divinas</strong>, artefatos cujas capacidades ultrapassam os limites das relíquias comuns.
+          </p>
+
+          <!-- SEÇÃO: OS TIPOS DE ALMA -->
+          <h4 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.3rem; margin-top: 30px; margin-bottom: 15px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 5px;">
+            Os Tipos de Alma
+          </h4>
+          <p style="color: #ccc; line-height: 1.6; margin-bottom: 15px;">
+            A relação entre a Ordem e a vida manifesta-se por meio de diferentes configurações de alma, determinadas pelas características dos planos de existência e pelas forças que neles predominam:
+          </p>
+
+          <div style="display: flex; flex-direction: column; gap: 15px;">
+            <div style="background: rgba(16, 16, 18, 0.8); border-left: 3px solid var(--gold); border-radius: 4px; padding: 15px;">
+              <strong style="color: var(--gold); font-size: 1.1rem; display: block; margin-bottom: 5px;">Alma Completa</strong>
+              <p style="color: #ccc; font-size: 0.9rem; line-height: 1.5; margin: 0; text-align: justify;">
+                Pertence aos seres vivos do <strong>Plano Material</strong>. Nela, a alma mantém ligações com a mente, o corpo e a vontade, formando uma estrutura espiritual integrada. Essa configuração permite que as diferentes dimensões do indivíduo atuem em conjunto, sustentando sua existência e identidade.
+              </p>
+            </div>
+
+            <div style="background: rgba(16, 16, 18, 0.8); border-left: 3px solid #8a2be2; border-radius: 4px; padding: 15px;">
+              <strong style="color: #b57edc; font-size: 1.1rem; display: block; margin-bottom: 5px;">Espírito ou Alma Fragmentada</strong>
+              <p style="color: #ccc; font-size: 0.9rem; line-height: 1.5; margin: 0; text-align: justify;">
+                Característica dos seres vivos de <strong>Tenebris</strong>, o plano inferior marcado pela elevada intensidade do Caos. Nesse ambiente, a alma encontra-se dividida em numerosas seções, cada uma estabelecendo ligações próprias com a mente, o corpo e a vontade. Essa fragmentação distingue profundamente os habitantes de Tenebris dos seres do Plano Material, influenciando sua natureza espiritual e a maneira como interagem com as forças fundamentais.
+              </p>
+            </div>
+
+            <div style="background: rgba(16, 16, 18, 0.8); border-left: 3px solid #00bfff; border-radius: 4px; padding: 15px;">
+              <strong style="color: #70d6ff; font-size: 1.1rem; display: block; margin-bottom: 5px;">Alma Divina</strong>
+              <p style="color: #ccc; font-size: 0.9rem; line-height: 1.5; margin: 0; text-align: justify;">
+                Pertence aos habitantes de <strong>Ordo</strong>, o plano onde a Ordem se manifesta em sua forma mais elevada. Dela provém o <strong>Éter Divino</strong>, uma expressão extraordinariamente poderosa da energia espiritual, presente nos deuses, dragões e anjos.
+              </p>
+              <p style="color: #ccc; font-size: 0.9rem; line-height: 1.5; margin-top: 8px; text-align: justify;">
+                Sua manifestação pode alcançar níveis capazes de curar e restaurar outros seres vivos, transcendendo as capacidades do Éter comum. Contudo, essa pureza também representa uma ameaça para criaturas de natureza espiritual incompatível: demônios e seres fragmentados, como os vampiros, podem sofrer severamente diante da influência direta do Éter Divino.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CAOS -->
+      <!-- CAOS -->
+      <div id="cosmo-caos" class="painel-conteudo">
+        <div class="bloco-lore-card">
+          <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 15px; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 10px;">
+            CAOS
+          </h3>
+          <p style="color: var(--gold); font-style: italic; font-size: 1.05rem; margin-bottom: 15px;">
+            A força da destruição, da instabilidade e da entropia
+          </p>
+
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;">
+            O <strong>Caos</strong> é uma das cinco forças fundamentais que sustentam a existência, sendo a mais instável de todas. Conhecido também como <strong>Entropia</strong>, representa a destruição, a desordem e a inevitabilidade do fim. É a força que desfaz aquilo que foi construído, rompe estruturas estabelecidas e conduz todas as coisas de volta a estados mais primitivos. Para alguns, o Caos não é apenas a origem da destruição, mas também o destino final de tudo o que existe.
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">
+            Entretanto, o Caos não se limita a destruir. Ele é também a <strong>origem da mente</strong> dos seres vivos, manifestando-se por meio da criatividade, da inquietação, dos pensamentos e da vontade de questionar o mundo. É a força que permite imaginar aquilo que ainda não existe, conceber possibilidades e desafiar aquilo que parece imutável. Se a Ordem estabelece as estruturas que sustentam a existência, o Caos fornece o impulso que as questiona e, eventualmente, as desfaz.
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">
+            Essa dualidade faz do Caos uma força tão necessária quanto perigosa. Embora esteja presente na mente de todos os seres vivos, sua natureza instável pode se tornar nociva quando seu equilíbrio é comprometido. Pensamentos e impulsos podem consumir alguém por dentro, levando a mente a se voltar contra o próprio indivíduo. Em sua manifestação mais extrema, o Caos deixa de ser apenas inquietação e passa a representar a perda de controle, a deterioração e a destruição de tudo aquilo que mantém um ser íntegro.
+          </p>
+
+          <!-- DUALIDADE: MENTE E MAGIA -->
+          <div style="background: rgba(138, 43, 226, 0.08); border-left: 3px solid #b57edc; border-radius: 4px; padding: 12px 15px; margin-top: 20px; margin-bottom: 25px;">
+            <strong style="color: #b57edc; font-size: 1.05rem; display: block; margin-bottom: 5px;">A Conexão com a Magia</strong>
+            <p style="color: #ccc; font-size: 0.9rem; line-height: 1.5; margin: 0; text-align: justify;">
+              É também do Caos que se origina a <strong>Magia</strong>, a força capaz de criar exceções às leis naturais. Enquanto o Caos rompe estruturas e questiona regras, a Magia transforma essa capacidade em manifestações concretas, permitindo alterar aquilo que, de outra forma, seria impossível. Assim, a Magia é considerada uma extensão especializada do potencial caótico: a capacidade de desafiar o que foi estabelecido sem depender exclusivamente da destruição.
+            </p>
+          </div>
+
+          <!-- SEÇÃO: NÚCLEOS CAÓTICOS -->
+          <h4 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.3rem; margin-top: 30px; margin-bottom: 10px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 5px;">
+            Núcleos Caóticos
+          </h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;">
+            Em regiões onde a energia caótica se acumula, podem surgir os chamados <strong>Núcleos Caóticos</strong>, fontes concentradas dessa força. Diferentemente de outras manifestações energéticas, os Núcleos são extremamente instáveis, tornando sua contenção e utilização um desafio constante.
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">
+            Atualmente, suas aplicações conhecidas concentram-se principalmente na fabricação de armas e bombas capazes de liberar grandes quantidades de energia destrutiva. Para viabilizar seu armazenamento e transporte, foi desenvolvido um revestimento especial que permite conter a energia caótica em estruturas físicas, reduzindo os riscos de uma liberação prematura. Mesmo com esses avanços, permanecem entre as fontes de energia mais perigosas conhecidas.
+          </p>
+
+          <!-- SEÇÃO: MANIPULAÇÃO E ESPÍRITOS -->
+          <h4 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.3rem; margin-top: 30px; margin-bottom: 10px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 5px;">
+            A Manipulação do Caos
+          </h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;">
+            Manipular diretamente o Caos é algo extraordinariamente raro. Sua instabilidade torna difícil conduzi-lo sem sofrer as consequências de sua própria natureza. Pouquíssimos seres vivos parecem possuir capacidade suficiente para exercer esse controle, e há quem acredite que somente as divindades sejam capazes de fazê-lo de maneira consciente e consistente.
+          </p>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 15px; margin-bottom: 20px;">
+            <div style="flex: 1 1 100%; background: rgba(16, 16, 18, 0.8); border-left: 3px solid #e74c3c; border-radius: 4px; padding: 15px;">
+              <strong style="color: #e74c3c; font-size: 1.05rem; display: block; margin-bottom: 5px;">Afinidade dos Espíritos de Tenebris</strong>
+              <p style="color: #ccc; font-size: 0.9rem; line-height: 1.5; margin: 0; text-align: justify;">
+                Nem todas as almas apresentam a mesma relação com essa força. Os <strong>Espíritos</strong>, seres de alma fragmentada que habitam Tenebris, são um dos exemplos mais evidentes de afinidade caótica. Sua própria constituição espiritual está associada à fragmentação e à instabilidade. Contudo, essa proximidade não significa necessariamente domínio: a mesma força capaz de romper limitações também pode comprometer aquilo que mantém um ser unido.
+              </p>
+            </div>
+          </div>
+
+          <!-- SEÇÃO: EQUILÍBRIO ENTRE ORDEM E CAOS -->
+          <h4 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.3rem; margin-top: 30px; margin-bottom: 10px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 5px;">
+            O Equilíbrio entre Ordem e Caos
+          </h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;">
+            Apesar de sua reputação destrutiva, o Caos não deve ser compreendido como uma força essencialmente maligna. Ele é uma parte indispensável do equilíbrio que sustenta a existência. O mundo depende da coexistência entre forças opostas: a <strong>Ordem</strong> estabelece, organiza e preserva, enquanto o <strong>Caos</strong> rompe, transforma e encerra.
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">
+            Sem a Ordem, a existência perderia suas estruturas e sua estabilidade. Sem o Caos, tudo permaneceria preso aquiloo que já foi estabelecido, sem espaço para rupturas, mudanças ou fins. Onde o Caos predomina, a estabilidade se torna escassa e a própria existência assume formas hostis — sendo <strong>Tenebris</strong> o maior exemplo conhecido dessa influência.
+          </p>
+
+          <!-- REFLEXÃO FINAL -->
+          <div style="background: rgba(16, 16, 18, 0.9); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 4px; padding: 15px; margin-top: 25px; text-align: center;">
+            <p style="color: var(--gold); font-style: italic; font-size: 1rem; margin: 0; line-height: 1.5;">
+              "Alguns estudiosos associam o Caos à morte e à força mórbida, mas a morte não é apenas destruição; é o encerramento necessário de uma existência. Talvez seja essa a verdade mais inquietante sobre o Caos: ele não precisa odiar aquilo que destrói, assim como a Ordem não precisa amar aquilo que cria. Ambos simplesmente cumprem seus papéis. Pois tudo aquilo que nasce um dia encontrará seu fim — e o Caos estará lá para recebê-lo."
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- NATUREZA -->
+      <!-- NATUREZA -->
+      <div id="cosmo-natureza" class="painel-conteudo">
+        <div class="bloco-lore-card">
+          <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 15px; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 10px;">
+            NATUREZA
+          </h3>
+          <p style="color: var(--gold); font-style: italic; font-size: 1.05rem; margin-bottom: 15px;">
+            A força dos elementos, da matéria e do corpo
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;">
+            A Natureza é a força filha da Ordem, responsável pela criação e organização das forças naturais do mundo. É dela que surgem os elementos que compõem a realidade material e a estrutura física conhecida como <strong>Corpo</strong>, a casca que abriga a mente e a alma.
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">
+            Enquanto a Ordem estabelece os princípios que permitem à vida existir, a Natureza fornece a matéria e as propriedades que tornam essa existência tangível. Toda rocha, chama, corrente de vento e manifestação elemental carrega consigo aspectos dessa força fundamental.
+          </p>
+
+          <!-- SEÇÃO: OS ELEMENTOS NATURAIS -->
+          <h4 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.3rem; margin-top: 30px; margin-bottom: 10px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 5px;">
+            Os Elementos Naturais
+          </h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;">
+            Da Natureza surgem as principais forças elementais conhecidas: <strong>Fogo, Terra, Eletricidade, Vento, Água, Gelo, Luz, Escuridão e Som</strong>.
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">
+            Embora possuam propriedades distintas, todos esses elementos compartilham uma origem comum. Por meio do Éter, indivíduos capazes de manipular essa energia podem manifestar e controlar os elementos naturais, produzindo efeitos que variam conforme seu domínio e afinidade.
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">
+            Entretanto, a Natureza segue propriedades próprias. Seus elementos podem ser conduzidos, intensificados, transformados ou combinados, mas não podem simplesmente negar aquilo que são. Uma manifestação de fogo continuará apresentando as propriedades do fogo, assim como uma manifestação de gelo permanecerá fria. O domínio elemental permite direcionar as forças naturais, não contrariar sua essência.
+          </p>
+
+          <!-- SEÇÃO: DRAGÕES E GUARDIÕES -->
+          <h4 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.3rem; margin-top: 30px; margin-bottom: 10px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 5px;">
+            Os Dragões e os Guardiões da Natureza
+          </h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;">
+            Segundo as lendas, os grandes guardiões da Natureza são os <strong>Dragões</strong>, criaturas que nascem com manifestações próprias dessa força e possuem uma afinidade extraordinária com os elementos.
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">
+            Considerados os mestres das forças naturais, os dragões são capazes de manifestar e controlar seus elementos com uma naturalidade incomparável. Suas habilidades estão ligadas à própria constituição de seus corpos e aos materiais por meio dos quais canalizam suas manifestações.
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">
+            Como pais dos elementos, os dragões transmitiram parte desse talento às suas raças afilhadas: os <strong>Draconianos</strong> e os <strong>Namyrianos</strong>, que herdaram uma afinidade especial com as forças naturais.
+          </p>
+
+          <!-- SEÇÃO: OS METAIS NATURAIS (TABELA) -->
+          <h4 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.3rem; margin-top: 30px; margin-bottom: 10px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 5px;">
+            Os Metais Naturais
+          </h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;">
+            No Plano Material, a Natureza também se manifesta por meio dos metais que nascem da Terra. Cada metal possui propriedades e afinidades próprias, podendo conduzir, armazenar ou facilitar a manifestação de determinados elementos:
+          </p>
+
+          <!-- TABELA DE AFINIDADES -->
+          <div style="overflow-x: auto; margin-top: 15px; margin-bottom: 15px;">
+            <table style="width: 100%; border-collapse: collapse; background: rgba(16, 16, 18, 0.8); border: 1px solid var(--border-fantasy); text-align: left;">
+              <thead>
+                <tr style="background: rgba(212, 175, 55, 0.15); border-bottom: 1px solid var(--border-fantasy);">
+                  <th style="padding: 10px; color: var(--gold); font-family: 'Cinzel', serif; font-size: 0.95rem;">Metal</th>
+                  <th style="padding: 10px; color: var(--gold); font-family: 'Cinzel', serif; font-size: 0.95rem;">Afinidade Elemental</th>
+                </tr>
+              </thead>
+              <tbody style="color: #ccc; font-size: 0.9rem;">
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px 10px; font-weight: bold; color: var(--gold);">Ouro</td><td style="padding: 8px 10px;">Fogo</td></tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px 10px; font-weight: bold; color: var(--gold);">Ferro</td><td style="padding: 8px 10px;">Terra</td></tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px 10px; font-weight: bold; color: var(--gold);">Cobre</td><td style="padding: 8px 10px;">Eletricidade</td></tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px 10px; font-weight: bold; color: var(--gold);">Prata</td><td style="padding: 8px 10px;">Gelo</td></tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px 10px; font-weight: bold; color: var(--gold);">Estanho</td><td style="padding: 8px 10px;">Água</td></tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px 10px; font-weight: bold; color: var(--gold);">Bronze</td><td style="padding: 8px 10px;">Vento</td></tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px 10px; font-weight: bold; color: var(--gold);">Platina</td><td style="padding: 8px 10px;">Luz</td></tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px 10px; font-weight: bold; color: var(--gold);">Chumbo</td><td style="padding: 8px 10px;">Escuridão</td></tr>
+                <tr><td style="padding: 8px 10px; font-weight: bold; color: var(--gold);">Mercúrio</td><td style="padding: 8px 10px;">Som</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p style="color: #888; font-style: italic; font-size: 0.88rem; margin-top: 5px;">
+            * Essas associações representam afinidades naturais, não exclusividades absolutas. Outros materiais podem interagir com os mesmos elementos, mas os metais ligados a cada força oferecem maior facilidade de condução e manifestação.
+          </p>
+
+          <!-- CARDS: METAIS ESPECIAIS -->
+          <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 25px;">
+            
+            <div style="background: rgba(16, 16, 18, 0.8); border-left: 3px solid var(--gold); border-radius: 4px; padding: 15px;">
+              <strong style="color: var(--gold); font-size: 1.1rem; display: block; margin-bottom: 5px;">Filzha — O Metal Universal</strong>
+              <p style="color: #ccc; font-size: 0.9rem; line-height: 1.5; margin: 0; text-align: justify;">
+                Entre todos os metais conhecidos, existe um que ocupa uma posição singular: o <strong>Filzha</strong>. Encontrado em raríssimas ocasiões, esse metal possui a capacidade extraordinária de manifestar ou estabelecer afinidade com qualquer elemento natural. Diferentemente dos metais comuns, cuja natureza favorece determinadas forças, o Filzha não se limita a uma única expressão elemental. Sua versatilidade o torna um dos materiais mais valiosos para aqueles que desejam dominar, conduzir ou desenvolver tecnologias relacionadas às forças da Natureza.
+              </p>
+            </div>
+
+            <div style="background: rgba(16, 16, 18, 0.8); border-left: 3px solid #70d6ff; border-radius: 4px; padding: 15px;">
+              <strong style="color: #70d6ff; font-size: 1.1rem; display: block; margin-bottom: 5px;">Os Metais das Forças Fundamentais</strong>
+              <p style="color: #ccc; font-size: 0.9rem; line-height: 1.5; margin: 0; text-align: justify;">
+                Nem todos os metais extraordinários estão ligados aos elementos naturais. Existem materiais capazes de conduzir as próprias forças fundamentais da realidade. A <strong>Prata do Ordo</strong> é associada à condução da Ordem, enquanto a <strong>Tenebrita</strong>, o metal negro de Tenebris, é capaz de conduzir a Magia. Esses materiais ocupam uma categoria distinta dos metais elementais, pois sua afinidade não está limitada a fogo, água, terra ou qualquer outro elemento natural: eles interagem diretamente com forças que sustentam a própria existência.
+              </p>
+            </div>
+
+            <div style="background: rgba(16, 16, 18, 0.8); border-left: 3px solid #2ecc71; border-radius: 4px; padding: 15px;">
+              <strong style="color: #2ecc71; font-size: 1.1rem; display: block; margin-bottom: 5px;">Namyr — A Terra dos Metais</strong>
+              <p style="color: #ccc; font-size: 0.9rem; line-height: 1.5; margin: 0; text-align: justify;">
+                As terras de Namyr são conhecidas por sua extraordinária riqueza em manifestações da Natureza. Seus depósitos minerais apresentam concentrações elevadas de energia elemental, tornando os metais encontrados nessa região especialmente eficientes na condução e manifestação dos elementos naturais.
+              </p>
+              <p style="color: #ccc; font-size: 0.9rem; line-height: 1.5; margin-top: 8px; text-align: justify;">
+                Essa particularidade torna os metais namyrianos valiosos tanto para a criação de equipamentos quanto para o desenvolvimento de técnicas de manipulação elemental. Além disso, o Filzha pode ser encontrado nessas terras com uma frequência relativamente maior do que em outras regiões conhecidas, embora continue sendo um recurso raro e disputado.
+              </p>
+            </div>
+
+          </div>
+
+          <!-- SEÇÃO: O CURSO DA NATUREZA -->
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 25px; background: rgba(212, 175, 55, 0.08); border-left: 3px solid var(--gold); padding: 12px 15px; border-radius: 0 4px 4px 0;">
+            <strong>O Curso da Natureza:</strong> A Natureza segue um curso definido por suas próprias propriedades. Suas forças podem ser conduzidas, moldadas e combinadas, mas não podem ser obrigadas a agir contra sua essência. Um usuário de Éter pode produzir chamas a partir das próprias mãos, mas o fogo continuará apresentando as propriedades que o definem. Da mesma forma, uma manifestação de gelo não poderá tornar-se quente enquanto permanecer gelo, e uma manifestação de fogo não poderá tornar-se fria enquanto continuar sendo fogo. Esse princípio estabelece os limites da manipulação elemental: dominar a Natureza é aprender a conduzir suas forças, não negar aquilo que elas são.
+          </p>
+
+        </div>
+      </div>
+
+      <!-- MAGIA -->
+      <!-- MAGIA -->
+      <div id="cosmo-magia" class="painel-conteudo">
+        <div class="bloco-lore-card">
+          <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 15px; border-bottom: 1px solid var(--border-fantasy); padding-bottom: 10px;">
+            MAGIA
+          </h3>
+          <p style="color: var(--gold); font-style: italic; font-size: 1.05rem; margin-bottom: 15px;">
+            A força da vontade, da transformação e das possibilidades
+          </p>
+
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;">
+            A <strong>Magia</strong> é a força filha do Caos, responsável por permitir que as regras naturais da existência sejam alteradas. Enquanto a Natureza estabelece as propriedades dos elementos e a Ordem determina os princípios que sustentam a vida, a Magia permite criar exceções a essas regras, estabelecendo novas possibilidades para a realidade.
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">
+            Por meio dela, o fogo pode tornar-se gelado, o gelo pode manifestar calor e a matéria pode assumir propriedades que jamais apresentaria naturally. Aquilo que seria impossível segundo as leis da Natureza torna-se possível quando a Magia impõe suas próprias condições.
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">
+            Entretanto, alterar a realidade não é uma tarefa simples. A Magia exige fontes de energia adequadas, conhecimento sobre as regras que serão modificadas e domínio sobre os métodos utilizados para produzir seus efeitos. Seu poder é extraordinário, mas sua execução está sujeita a princípios próprios que precisam ser compreendidos por aqueles que desejam manipulá-la.
+          </p>
+
+          <!-- SEÇÃO: ORIGEM E IDIOMA RÚNICO -->
+          <h4 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.3rem; margin-top: 30px; margin-bottom: 10px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 5px;">
+            A Origem da Magia e o Idioma Rúnico
+          </h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;">
+            O domínio da Magia e de sua energia, a <strong>Mana</strong>, teve início com a descoberta de um idioma capaz de transmitir comandos diretamente à força mágica: o <strong>Idioma Rúnico</strong>.
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">
+            Segundo a tradição, esse idioma foi ensinado aos mortais por <strong>Luna</strong>, a deusa que primeiro desvendou os segredos mágicos do mundo e ficou conhecida como a <i>Deusa da Magia</i>. Por meio das runas, os mortais learned a formular instruções que permitiam à Magia interpretar suas intenções e alterar as regras naturais de acordo com comandos específicos. O idioma rúnico oferece uma maneira de expressar instruções à força mágica, estabelecendo como, quando e sob quais condições determinado efeito deverá ocorrer.
           </p>
           
-          <div class="ficha-rapida-grid">
-            <div class="item-ficha">
-              <strong>Capital</strong>
-              <span>Falkora</span>
+          <div style="background: rgba(16, 16, 18, 0.8); border-left: 3px solid #8a2be2; border-radius: 4px; padding: 12px 15px; margin-top: 15px;">
+            <p style="color: #ccc; font-size: 0.9rem; line-height: 1.5; margin: 0; text-align: justify;">
+              <strong style="color: #b57edc;">O Rúnico Abissal:</strong> Em Tenebris, o conhecimento rúnico também foi descoberto. Contudo, ao entrar em contato com a linguagem dos antigos demônios primordiais, sofreu profundas transformações, dando origem ao Rúnico Abissal. Embora utilize os mesmos princípios fundamentais, essa vertente desenvolveu-se por caminhos próprios, orientada por propósitos sombrios.
+            </p>
+          </div>
+
+          <!-- SEÇÃO: MANA E FOCOS ARCANOS -->
+          <h4 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.3rem; margin-top: 30px; margin-bottom: 10px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 5px;">
+            A Mana e os Focos Arcanos
+          </h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;">
+            A Mana é a energia utilizada para executar a Magia. Sua manifestação está ligada à Vontade, que provém da Mente e carrega a natureza caótica necessária para impor novas possibilidades à realidade.
+          </p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">
+            Para manipular essa energia, o usuário precisa de um <strong>Foco Arcano</strong>. Os focos mais comuns são construídos com gemas capazes de absorver, armazenar e conduzir Mana. As pedras possuem propriedades diferentes que influenciam a precisão, estabilidade, taxa de absorção ou potência do efeito mágico.
+          </p>
+
+          <!-- TABELA DE GEMAS ARCANAS -->
+          <div style="overflow-x: auto; margin-top: 20px; margin-bottom: 20px;">
+            <table style="width: 100%; border-collapse: collapse; background: rgba(16, 16, 18, 0.8); border: 1px solid var(--border-fantasy); text-align: left;">
+              <thead>
+                <tr style="background: rgba(212, 175, 55, 0.15); border-bottom: 1px solid var(--border-fantasy);">
+                  <th style="padding: 10px; color: var(--gold); font-family: 'Cinzel', serif; font-size: 0.95rem;">Gema</th>
+                  <th style="padding: 10px; color: var(--gold); font-family: 'Cinzel', serif; font-size: 0.95rem;">Propriedade Mágica</th>
+                </tr>
+              </thead>
+              <tbody style="color: #ccc; font-size: 0.9rem;">
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px 10px; font-weight: bold; color: var(--gold);">Ametista</td><td style="padding: 8px 10px;">Grande capacidade de armazenamento, mas absorção lenta.</td></tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px 10px; font-weight: bold; color: var(--gold);">Rubi</td><td style="padding: 8px 10px;">Favorece a descarga rápida de Mana.</td></tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px 10px; font-weight: bold; color: var(--gold);">Safira</td><td style="padding: 8px 10px;">Oferece estabilidade e reduz as perdas de energia.</td></tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px 10px; font-weight: bold; color: var(--gold);">Topázio</td><td style="padding: 8px 10px;">Favorece a condução rápida de Mana.</td></tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px 10px; font-weight: bold; color: var(--gold);">Esmeralda</td><td style="padding: 8px 10px;">Favorece a regeneração da energia arcana.</td></tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px 10px; font-weight: bold; color: var(--gold);">Diamante</td><td style="padding: 8px 10px;">Apresenta capacidade e resistência extremas.</td></tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px 10px; font-weight: bold; color: var(--gold);">Opala</td><td style="padding: 8px 10px;">Adapta-se a diferentes formas de manifestação mágica.</td></tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px 10px; font-weight: bold; color: var(--gold);">Quartzo</td><td style="padding: 8px 10px;">Amplifica a energia mágica conduzida por ele.</td></tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px 10px; font-weight: bold; color: var(--gold);">Turmalina</td><td style="padding: 8px 10px;">Absorve Mana rapidamente.</td></tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px 10px; font-weight: bold; color: var(--gold);">Água-marinha</td><td style="padding: 8px 10px;">Favorece um fluxo constante de energia.</td></tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px 10px; font-weight: bold; color: var(--gold);">Granada</td><td style="padding: 8px 10px;">Permite concentrar energia para manifestações intensas, com risco de sobrecarga.</td></tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px 10px; font-weight: bold; color: var(--gold);">Ônix</td><td style="padding: 8px 10px;">Favorece a retenção prolongada de Mana.</td></tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px 10px; font-weight: bold; color: var(--gold);">Pérola</td><td style="padding: 8px 10px;">Filtra a energia mágica, favorecendo manifestações mais controladas.</td></tr>
+                <tr><td style="padding: 8px 10px; font-weight: bold; color: var(--gold);">Lápis-lazúli</td><td style="padding: 8px 10px;">Favorece a precisão na condução da Mana.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- PEDRA LUNAR (HIGHLIGHT) -->
+          <div style="background: rgba(112, 214, 255, 0.08); border-left: 3px solid #70d6ff; border-radius: 4px; padding: 15px; margin-top: 15px; margin-bottom: 25px;">
+            <strong style="color: #70d6ff; font-size: 1.1rem; display: block; margin-bottom: 5px;">Pedra Lunar (Moonstone) — A Gema Celestial</strong>
+            <p style="color: #ccc; font-size: 0.9rem; line-height: 1.5; margin: 0; text-align: justify;">
+              Diferentemente das gemas comuns, a Pedra Lunar já se manifesta naturalmente saturada de Magia. Trata-se de um material extraterrestre raro que canaliza energia diretamente da Lua, recuperando suas reservas extraordinárias sob a luz celeste. É um dos focos arcanos mais poderosos conhecidos.
+            </p>
+          </div>
+
+          <!-- SEÇÃO: AS ESCOLAS DA MAGIA -->
+          <h4 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.3rem; margin-top: 30px; margin-bottom: 15px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 5px;">
+            As Oito Escolas da Magia
+          </h4>
+          <p style="color: #ccc; line-height: 1.6; margin-bottom: 15px;">
+            Para organizar o conhecimento sobre quais regras da realidade serão modificadas, os praticantes dividem o estudo arcano em oito escolas:
+          </p>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-bottom: 25px;">
+            <div style="background: rgba(16, 16, 18, 0.8); border: 1px solid var(--border-fantasy); border-radius: 4px; padding: 12px 15px;">
+              <strong style="color: var(--gold); display: block; margin-bottom: 4px;">Abjuração</strong>
+              <span style="color: #ccc; font-size: 0.88rem; line-height: 1.4; display: block;">Negação e proteção. Cria barreiras, escudos e neutraliza manifestações mágicas.</span>
             </div>
-            <div class="item-ficha">
-              <strong>Governo</strong>
-              <span>Império Autocrático Expansionista (Teocracia Militar)</span>
+            <div style="background: rgba(16, 16, 18, 0.8); border: 1px solid var(--border-fantasy); border-radius: 4px; padding: 12px 15px;">
+              <strong style="color: var(--gold); display: block; margin-bottom: 4px;">Adivinhação</strong>
+              <span style="color: #ccc; font-size: 0.88rem; line-height: 1.4; display: block;">Conhecimento e revelação. Detecta presenças, descobre segredos e percebe o futuro.</span>
             </div>
-            <div class="item-ficha">
-              <strong>Religião Predominante</strong>
-              <span>Culto a Aurus, Comandante dos Céus</span>
+            <div style="background: rgba(16, 16, 18, 0.8); border: 1px solid var(--border-fantasy); border-radius: 4px; padding: 12px 15px;">
+              <strong style="color: var(--gold); display: block; margin-bottom: 4px;">Conjuração</strong>
+              <span style="color: #ccc; font-size: 0.88rem; line-height: 1.4; display: block;">Invocação e deslocamento. Teleporta objetos e seres, e conecta diferentes planos.</span>
             </div>
-            <div class="item-ficha">
-              <strong>Demografia Principal</strong>
-              <span>Humanos, Elfos, Draconianos e Fadas.</span>
+            <div style="background: rgba(16, 16, 18, 0.8); border: 1px solid var(--border-fantasy); border-radius: 4px; padding: 12px 15px;">
+              <strong style="color: var(--gold); display: block; margin-bottom: 4px;">Encantamento</strong>
+              <span style="color: #ccc; font-size: 0.88rem; line-height: 1.4; display: block;">Influência mental. Modifica emoções, induz comportamentos e restringe decisões.</span>
             </div>
+            <div style="background: rgba(16, 16, 18, 0.8); border: 1px solid var(--border-fantasy); border-radius: 4px; padding: 12px 15px;">
+              <strong style="color: var(--gold); display: block; margin-bottom: 4px;">Evocação</strong>
+              <span style="color: #ccc; font-size: 0.88rem; line-height: 1.4; display: block;">Manifestação de energia. Produz projéteis, explosões e canalizações elementais.</span>
+            </div>
+            <div style="background: rgba(16, 16, 18, 0.8); border: 1px solid var(--border-fantasy); border-radius: 4px; padding: 12px 15px;">
+              <strong style="color: var(--gold); display: block; margin-bottom: 4px;">Ilusão</strong>
+              <span style="color: #ccc; font-size: 0.88rem; line-height: 1.4; display: block;">Alteração da percepção. Oculta presenças e engana os sentidos com projeções.</span>
+            </div>
+            <div style="background: rgba(16, 16, 18, 0.8); border: 1px solid var(--border-fantasy); border-radius: 4px; padding: 12px 15px;">
+              <strong style="color: var(--gold); display: block; margin-bottom: 4px;">Necromancia</strong>
+              <span style="color: #ccc; font-size: 0.88rem; line-height: 1.4; display: block;">Vida, morte e vitalidade. Manipula energia vital, atua com mortos e restaurações.</span>
+            </div>
+            <div style="background: rgba(16, 16, 18, 0.8); border: 1px solid var(--border-fantasy); border-radius: 4px; padding: 12px 15px;">
+              <strong style="color: var(--gold); display: block; margin-bottom: 4px;">Transmutação</strong>
+              <span style="color: #ccc; font-size: 0.88rem; line-height: 1.4; display: block;">Transformação de propriedades. Altera formas, pesos e capacidades físicas da matéria.</span>
+            </div>
+          </div>
+
+          <!-- SEÇÃO: FORMAS DE MANIFESTAÇÃO -->
+          <h4 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.3rem; margin-top: 30px; margin-bottom: 15px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 5px;">
+            As Três Formas de Manifestação Mágica
+          </h4>
+
+          <div style="display: flex; flex-direction: column; gap: 15px;">
+            <div style="background: rgba(16, 16, 18, 0.8); border-left: 3px solid var(--gold); border-radius: 4px; padding: 15px;">
+              <strong style="color: var(--gold); font-size: 1.1rem; display: block; margin-bottom: 5px;">1. Magia Manifestada</strong>
+              <p style="color: #ccc; font-size: 0.9rem; line-height: 1.5; margin: 0; text-align: justify;">
+                O conjurador utiliza seu foco arcano para canalizar Mana e produzir um efeito imediato através da Vontade orientada (projéteis, escudos instantâneos, explosões).
+              </p>
+            </div>
+
+            <div style="background: rgba(16, 16, 18, 0.8); border-left: 3px solid #8a2be2; border-radius: 4px; padding: 15px;">
+              <strong style="color: #b57edc; font-size: 1.1rem; display: block; margin-bottom: 5px;">2. Magia Rúnica</strong>
+              <p style="color: #ccc; font-size: 0.9rem; line-height: 1.5; margin: 0; text-align: justify;">
+                Instruções inscritas em locais, objetos ou seres usando o idioma rúnico. As runas atuam como um programa pré-definido, permitindo que o efeito permaneça ativo sem a presença contínua do conjurador.
+              </p>
+            </div>
+
+            <div style="background: rgba(16, 16, 18, 0.8); border-left: 3px solid #2ecc71; border-radius: 4px; padding: 15px;">
+              <strong style="color: #2ecc71; font-size: 1.1rem; display: block; margin-bottom: 5px;">3. Magia Alquímica</strong>
+              <p style="color: #ccc; font-size: 0.9rem; line-height: 1.5; margin: 0; text-align: justify;">
+                Preparação de substâncias físicas (poções, elixires, óleos) que armazenam efeitos mágicos. O efeito é liberado quando a substância é consumida, aplicada ou entra em contato com o alvo.
+              </p>
+            </div>
+          </div>
+
+          <!-- SEÇÃO: FONTES EXTERNAS DE PODER -->
+          <h4 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.3rem; margin-top: 30px; margin-bottom: 10px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 5px;">
+            Fontes Externas de Poder
+          </h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;">
+            Nem toda Mana provém das reservas pessoais ou de pedras arcanas. <strong>Clérigos</strong> recorrem às preces a divindades, enquanto <strong>Bruxos</strong> estabelecem pactos com patronos e entidades demoníacas. Nessas circunstâncias, a entidade funciona como fonte primária de energia, exigindo do usuário os meios adequados para canalizá-la e manifestá-la.
+          </p>
+
+          <!-- HIGHLIGHT FINAL: REGRAS DA MAGIA -->
+          <div style="background: rgba(212, 175, 55, 0.08); border-left: 3px solid var(--gold); padding: 12px 15px; border-radius: 0 4px 4px 0; margin-top: 25px;">
+            <strong style="color: var(--gold); font-size: 1.05rem; display: block; margin-bottom: 5px;">As Regras Invioláveis da Magia</strong>
+            <p style="color: #ccc; font-size: 0.9rem; line-height: 1.5; margin: 0; text-align: justify;">
+              A Natureza determina aquilo que é possível segundo suas próprias leis. A Magia permite estabelecer exceções — mas até mesmo as exceções precisam obedecer às regras e limitações que tornam sua existência possível.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- ========================================================== -->
+    <!-- CATEGORIA 2: DIVINDADES & ENTIDADES -->
+    <!-- ========================================================== -->
+    <div id="cat-divindades" class="secao-principal">
+      
+      <!-- Sub-botões de Divindades -->
+      <div class="seletor-subitens">
+        <button class="btn-subitem ativo" onclick="alternarSubItem('cat-divindades', 'god-shen', this)">Shen</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-divindades', 'god-luna', this)">Luna</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-divindades', 'god-askel', this)">Askel</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-divindades', 'god-aurus', this)">Aurus</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-divindades', 'god-hozen', this)">Hozen</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-divindades', 'god-shiva', this)">Shiva</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-divindades', 'god-sol', this)">Sol</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-divindades', 'god-kali', this)">Kali</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-divindades', 'god-kapulus', this)">Kápulus</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-divindades', 'god-5dragoes', this)">5 Dragões</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-divindades', 'ent-asmodeus', this)">Asmodeus</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-divindades', 'ent-belial', this)">Belial</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-divindades', 'ent-baphomet', this)">Baphomet</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-divindades', 'ent-beelzebub', this)">Beelzebub</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-divindades', 'ent-lilith', this)">Lilith</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-divindades', 'ent-hades', this)">Hades</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-divindades', 'ent-zagreus', this)">Zagreus</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-divindades', 'ent-lucifer', this)">Lucifer</button>
+      </div>
+
+      <!-- SHEN -->
+      <div id="god-shen" class="painel-conteudo ativo">
+        <div class="bloco-lore-card">
+          <h4 style="font-size: 1.5rem;">Shen</h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;"><strong>Culto:</strong> Culto aos Dragmas.</p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">Divindade associada ao ciclo de renovação e proteção dos Dragmas que moldaram a história de Therpya.</p>
+        </div>
+      </div>
+
+      <!-- LUNA -->
+      <div id="god-luna" class="painel-conteudo">
+        <div class="bloco-lore-card">
+          <h4 style="font-size: 1.5rem;">Luna</h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;"><strong>Cultuado por:</strong> Elfos, Fadas e Yunkais.</p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">Conhecida como a Mãe da Magia, rege os mistérios arcanos e a sintonia com os planos sutis.</p>
+        </div>
+      </div>
+
+      <!-- ASKEL -->
+      <div id="god-askel" class="painel-conteudo">
+        <div class="bloco-lore-card">
+          <h4 style="font-size: 1.5rem;">Askel</h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;"><strong>Cultuado por:</strong> Pequenos grupos Anti-Império em Gorvhan.</p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">Atual guardião do plano terreno, venerado por resistências que lutam contra a dominação imperial.</p>
+        </div>
+      </div>
+
+      <!-- AURUS -->
+      <div id="god-aurus" class="painel-conteudo">
+        <div class="bloco-lore-card">
+          <h4 style="font-size: 1.5rem;">Aurus</h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;"><strong>Cultuado por:</strong> Império Unificado.</p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">O "Raijin", Deus mór do Império Unificado, descrito como o verdadeiro sucessor de Shen.</p>
+        </div>
+      </div>
+
+      <!-- HOZEN -->
+      <div id="god-hozen" class="painel-conteudo">
+        <div class="bloco-lore-card">
+          <h4 style="font-size: 1.5rem;">Hozen</h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;"><strong>Cultuado por:</strong> Xintainenses e Simyaris.</p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">O Deus Macaco das artes, da liberdade e do espírito.</p>
+        </div>
+      </div>
+
+      <!-- SHIVA -->
+      <div id="god-shiva" class="painel-conteudo">
+        <div class="bloco-lore-card">
+          <h4 style="font-size: 1.5rem;">Shiva</h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;"><strong>Cultuado por:</strong> Draconianos.</p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">Matriarca dos draconianos, associada à forja, à força e ao caos primordial.</p>
+        </div>
+      </div>
+
+      <!-- SOL -->
+      <div id="god-sol" class="painel-conteudo">
+        <div class="bloco-lore-card">
+          <h4 style="font-size: 1.5rem;">Sol</h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;"><strong>Cultuado por:</strong> Comunidades de Serafins.</p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">Deus antigo desaparecido, cujos fiéis aguardam fervorosamente o seu retorno.</p>
+        </div>
+      </div>
+
+      <!-- KALI -->
+      <div id="god-kali" class="painel-conteudo">
+        <div class="bloco-lore-card">
+          <h4 style="font-size: 1.5rem;">Kali</h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;"><strong>Cultuado por:</strong> Ogros.</p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">Deusa antiga ligada ao caos e à fúria indomável.</p>
+        </div>
+      </div>
+
+      <!-- KÁPULUS -->
+      <div id="god-kapulus" class="painel-conteudo">
+        <div class="bloco-lore-card">
+          <h4 style="font-size: 1.5rem;">Kápulus</h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;"><strong>Cultuado por:</strong> Cranori.</p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">Deus antigo com forte afinidade com o aspecto caótico.</p>
+        </div>
+      </div>
+
+      <!-- 5 DRAGÕES -->
+      <div id="god-5dragoes" class="painel-conteudo">
+        <div class="bloco-lore-card">
+          <h4 style="font-size: 1.5rem;">5 Dragões</h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;"><strong>Cultuado por:</strong> Phandor e Kaeshin.</p>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify; margin-top: 10px;">Guardiões do império de Phandor, ligados à crença de um despertar que fará o mundo curvar-se perante eles.</p>
+        </div>
+      </div>
+
+      <!-- ASMODEUS -->
+      <div id="ent-asmodeus" class="painel-conteudo">
+        <div class="bloco-lore-card">
+          <h4 style="font-size: 1.5rem;">Asmodeus</h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;"><strong>Função:</strong> Pai dos Archai, demônio primordial da morte.</p>
+        </div>
+      </div>
+
+      <!-- BELIAL -->
+      <div id="ent-belial" class="painel-conteudo">
+        <div class="bloco-lore-card">
+          <h4 style="font-size: 1.5rem;">Belial</h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;"><strong>Função:</strong> Pai dos ímpios, demônio primordial da guerra.</p>
+        </div>
+      </div>
+
+      <!-- BAPHOMET -->
+      <div id="ent-baphomet" class="painel-conteudo">
+        <div class="bloco-lore-card">
+          <h4 style="font-size: 1.5rem;">Baphomet</h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;"><strong>Função:</strong> Pai dos Baphoritas, demônio primordial da fome.</p>
+        </div>
+      </div>
+
+      <!-- BEELZEBUB -->
+      <div id="ent-beelzebub" class="painel-conteudo">
+        <div class="bloco-lore-card">
+          <h4 style="font-size: 1.5rem;">Beelzebub</h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;"><strong>Função:</strong> Pai dos Zeburins, demônio primordial da peste.</p>
+        </div>
+      </div>
+
+      <!-- LILITH -->
+      <div id="ent-lilith" class="painel-conteudo">
+        <div class="bloco-lore-card">
+          <h4 style="font-size: 1.5rem;">Lilith</h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;"><strong>Função:</strong> Mãe dos Lilins, portadora do pecado e banida nos confins de Tenebris.</p>
+        </div>
+      </div>
+
+      <!-- HADES -->
+      <div id="ent-hades" class="painel-conteudo">
+        <div class="bloco-lore-card">
+          <h4 style="font-size: 1.5rem;">Hades</h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;"><strong>Função:</strong> Antigo Imperador de Tenebris. Seus ideais ainda são cultuados e alguns acreditam no seu retorno.</p>
+        </div>
+      </div>
+
+      <!-- ZAGREUS -->
+      <div id="ent-zagreus" class="painel-conteudo">
+        <div class="bloco-lore-card">
+          <h4 style="font-size: 1.5rem;">Zagreus</h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;"><strong>Função:</strong> Atual Imperador de Tenebris. Grande parte dos antigos seguidores de seu pai não apoiam seu governo.</p>
+        </div>
+      </div>
+
+      <!-- LUCIFER -->
+      <div id="ent-lucifer" class="painel-conteudo">
+        <div class="bloco-lore-card">
+          <h4 style="font-size: 1.5rem;">Lucifer</h4>
+          <p style="color: #ccc; line-height: 1.6; text-align: justify;"><strong>Função:</strong> Cultuado como aquele que deveria ser o verdadeiro imperador de Tenebris.</p>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- ========================================================== -->
+    <!-- CATEGORIA 3: REGIÕES -->
+    <!-- ========================================================== -->
+    <div id="cat-regioes" class="secao-principal">
+      
+      <!-- Sub-botões de Regiões -->
+      <div class="seletor-subitens">
+        <button class="btn-subitem ativo" onclick="alternarSubItem('cat-regioes', 'reino-1', this)">Império Unificado</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-regioes', 'reino-2', this)">Xintai</button>
+      </div>
+
+      <!-- IMPÉRIO UNIFICADO -->
+      <div id="reino-1" class="painel-conteudo ativo">
+        <div class="reino-cabecalho">
+          <div class="bandeira-box">
+            <img src="/WEIRS-RPG/img/bandeiras/imperiounificado.png" alt="Bandeira do Império Unificado" class="bandeira-img" onerror="this.src='https://via.placeholder.com/200x250/111/d4af37?text=Bandeira'">
+          </div>
+          <div>
+            <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 5px;">
+              IMPÉRIO UNIFICADO
+            </h3>
+            <p style="font-style: italic; color: #888; font-size: 0.9rem; margin-bottom: 15px;">
+              "Sob a vontade de Aurus, uma só terra, um só destino."
+            </p>
+            <div class="ficha-rapida-grid">
+              <div class="item-ficha">
+                <strong>Capital</strong>
+                <span>Falkora</span>
+              </div>
+              <div class="item-ficha">
+                <strong>Governo</strong>
+                <span>Império Autocrático Expansionista (Teocracia Militar)</span>
+              </div>
+              <div class="item-ficha">
+                <strong>Religião Predominante</strong>
+                <span>Culto a Aurus, Comandante dos Céus</span>
+              </div>
+              <div class="item-ficha">
+                <strong>Demografia Principal</strong>
+                <span>Humanos, Elfos, Draconianos e Fadas</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mapa-container">
+          <h3 style="font-family: 'Cinzel', serif; color: var(--gold); margin-bottom: 10px;">Território do Império Unificado</h3>
+          <a href="/WEIRS-RPG/img/mapas/imperiounificadomapa.jpg" target="_blank" title="Clique para abrir o mapa em alta resolução">
+            <img src="/WEIRS-RPG/img/mapas/imperiounificadomapa.jpg" alt="Mapa Império Unificado" class="mapa-img">
+          </a>
+        </div>
+
+        <div class="grid-lore-secoes">
+          <div class="bloco-lore-card">
+            <h4>História & Geografia</h4>
+            <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6; text-align: justify;">Nascido no ano 350, o Império Unificado consolida o domínio sobre o noroeste de Weirs...</p>
+          </div>
+          <div class="bloco-lore-card">
+            <h4>Cultura & Sociedade</h4>
+            <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6; text-align: justify;">A cultura do Império Unificado é profundamente pragmática e militarizada...</p>
           </div>
         </div>
       </div>
 
-      <!-- Mapa da Região / Província -->
-      <div class="mapa-container">
-      <h3 style="font-family: 'Cinzel', serif; color: var(--gold); margin-bottom: 10px;">Território do Império Unificado</h3>
-      <a href="/WEIRS-RPG/img/mapas/imperiounificadomapa.jpg" target="_blank" title="Clique para abrir o mapa em alta resolução">
-        <img src="/WEIRS-RPG/img/mapas/imperiounificadomapa.jpg" alt="Mapa Mundi - Terra Weirs" class="mapa-img">
-      </a>
-    </div>
-
-      <!-- Blocos de Conteúdo Detalhado -->
-      <div class="grid-lore-secoes">
-        
-        <div class="bloco-lore-card">
-          <h4>História & Geografia</h4>
-          <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6; text-align: justify;">
-           Nascido no ano 350, o Império Unificado consolida o domínio sobre o noroeste de Weirs, unindo as planícies e minérios de Therpya (Lazular, Zaphir, Cintris, Rubivis, Emerala, Amétis, Diamonis), as terras frias e tecno-mágicas de Gorvhan (Bastalis, Spadira, Lanceron, Marthun, Halmor e a capital Falkora), e o ponto naval da Ilha de Salaner. O divisor de águas ocorreu por volta do ano 320, quando Hestia, a Dragma do Fogo, interveio para derrubar um elfo traidor; na sequência, as forças de Hades forçaram a abertura de um portal ao sul de Falkora. Hestia sacrificou-se para derrotar Hades, mas a Fenda de Tenebris continua aberta sob forte vigília, abrigando imigrantes demônios empurrados para a marginalização. O trauma dessa invasão moldou a doutrina imperial: o povo apoia a expansão militar e a assimilação de territórios pelo medo de um novo ataque, determinados a manter a humanidade forte sem depender do divino para ser salva.</p>
-        </div>
-
-        <div class="bloco-lore-card">
-          <h4>Cultura & Sociedade</h4>
-          <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6; text-align: justify;">
-            A cultura do Império Unificado é profundamente pragmática, militarizada e marcada pelo trauma da Fenda de Tenebris, estruturando-se em uma hierarquia social rígida onde o valor do indivíduo é medido por sua utilidade ao estado. Os humanos ocupam o topo da pirâmide como a classe governante, nobreza e alta cúpula militar. Por conveniência utilitária, Elfos e Fadas foram integrados à sociedade para liderar pesquisas arcanas e o avanço tecno-mágico, embora ainda sofram com um racismo estrutural e velado nos bastidores da elite. Já os Draconianos são submetidos ao trabalho pesado nas indústrias e grandes forjas bélicas, recebendo apenas o básico para a subsistência sob um forte controle ideológico que mascara a exploração como o preço justo pela proteção imperial. Na base dessa estrutura, os demônios vindos da Fenda vivem sob rigorosa vigilância e marginalização, enquanto todas as outras raças não humanas enfrentam um preconceito explícito, sendo tratadas como vassalagem ou utilizadas como mão de obra descartável e bucha de canhão nas linhas de frente expansionistas.
-          </p>
-        </div>
-
-        <div class="bloco-lore-card">
-          <h4>Governo & Leis</h4>
-          <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6; text-align: justify;">
-            A autoridade no Império Unificado opera sob um modelo de eleição restrita que combina controle elitista e burocracia militar, no qual a cada 10 anos, ou em caso de falecimento do soberano, ocorrem eleições para definir o governante supremo, disputadas sempre entre dois candidatos (um representante de Therpya e outro de Gorvhan), sendo o direito de voto limitado a homens alfabetizados das raças humana, élfica ou fada, enquanto a elegibilidade ao trono é um privilégio restrito a homens humanos, sistema pelo qual foi eleito o atual Imperador Avraham Colyn. O controle social e místico é assegurado por leis severas aplicadas pelo governo imperial, regulando a prática das artes arcanas através da EPM (Escola de Princípios Místicos), com sede em Bastalis, onde apenas humanos diplomados pela instituição recebem autorização para praticar magia de forma independente sob supervisão do estado, ao passo que para os não humanos a legislação proíbe o uso autônomo da feitiçaria, exigindo que qualquer praticante místico esteja obrigatoriamente vinculado às forças militares do Império ou a guildas privadas devidamente regularizadas e fiscalizadas.</p>
-        </div>
-
-        <div class="bloco-lore-card">
-          <h4>Religião & Divindades</h4>
-          <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6; text-align: justify;">
-            A fé no Império Unificado é dominada pelo culto estatal a Aurus, o Comandante dos Céus, uma religião expansiva que assimilou as antigas crenças locais e sufocou gradualmente os cultos tradicionais das terras conquistadas. Historicamente, a antiga Therpya devotava sua fé a Shen e à veneração dos Dragmas, vistos como salvadores renascidos a cada século, enquanto a população humana de Gorvhan adorava Sol, uma divindade ancestral da luz e da vida cujo culto acabou sendo totalmente substituído pela doutrina de Aurus. As tradições pagãs das raças subordinadas, como a adoração élfica a Luna, a Deusa da Magia, e a devoção dos draconianos de Salaner a Shiva, a Dragão da Forja e do Caos, foram forçadamente apagadas e criminalizadas pela hegemonia imperial. Atualmente, a teocracia valida a linhagem imperial ao reinivindicar a tutela dos Dragmas: o auge do fervor religioso gira em torno do novo Dragma de dois anos (nascido no ano 500), um contraste sombrio com o mistério do Dragma Elétrico nascido no ano 400, cuja existência e rastro foram completamente apagados da história pelo Império, alimentando teorias de que a própria cúpula governamental o teria executado em segredo.</p>
-        </div>
-
-      </div>
-    </div>
-    <!-- FIM DO IMPÉRIO UNIFICADO -->
-
-    <!-- =================================================== -->
-    <!-- XINTAI -->
-    <!-- =================================================== -->
-    <div id="reino-2" class="painel-reino">
-      <div class="reino-cabecalho">
-        <div class="bandeira-box">
-          <img src="/WEIRS-RPG/img/bandeiras/xintai.png" alt="Bandeira do Reino" class="bandeira-img" onerror="this.src='https://via.placeholder.com/200x250/111/d4af37?text=Bandeira+2'">
-        </div>
-        <div>
-          <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 5px;">
-            XINTAI
-          </h3>
-          <p style="font-style: italic; color: #888; font-size: 0.9rem; margin-bottom: 15px;">
-            "A mente molda a arte; o éter forja a resistência."
-          </p>
-          <div class="ficha-rapida-grid">
-            <div class="item-ficha">
-              <strong>Capital</strong>
-              <span>Baoshan</span>
+      <!-- XINTAI -->
+      <div id="reino-2" class="painel-conteudo">
+        <div class="reino-cabecalho">
+          <div class="bandeira-box">
+            <img src="/WEIRS-RPG/img/bandeiras/xintai.png" alt="Bandeira de Xintai" class="bandeira-img" onerror="this.src='https://via.placeholder.com/200x250/111/d4af37?text=Bandeira'">
+          </div>
+          <div>
+            <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 5px;">
+              XINTAI
+            </h3>
+            <p style="font-style: italic; color: #888; font-size: 0.9rem; margin-bottom: 15px;">
+              "A mente molda a arte; o éter forja a resistência."
+            </p>
+            <div class="ficha-rapida-grid">
+              <div class="item-ficha">
+                <strong>Capital</strong>
+                <span>Baoshan</span>
+              </div>
+              <div class="item-ficha">
+                <strong>Governo</strong>
+                <span>Conselho Teocrático Monástico</span>
+              </div>
+              <div class="item-ficha">
+                <strong>Religião Predominante</strong>
+                <span>Culto a Hozen</span>
+              </div>
+              <div class="item-ficha">
+                <strong>Demografia Principal</strong>
+                <span>Simyaris e Humanos</span>
+              </div>
             </div>
-            <div class="item-ficha">
-              <strong>Governo</strong>
-              <span>Conselho Teocrático Monástico</span>
-            </div>
-            <div class="item-ficha">
-              <strong>Religião Predominante</strong>
-              <span>Culto a Hozen, o Deus Macaco das Artes e do Espírito</span>
-            </div>
-            <div class="item-ficha">
-              <strong>Demografia Principal</strong>
-              <span>Simyaris e Humanos</span>
-            </div>
+          </div>
+        </div>
+
+        <div class="mapa-container">
+          <h3 style="font-family: 'Cinzel', serif; color: var(--gold); margin-bottom: 10px;">Território de Xintai</h3>
+          <a href="/WEIRS-RPG/img/mapas/xintaimapa.jpg" target="_blank" title="Clique para abrir o mapa em alta resolução">
+            <img src="/WEIRS-RPG/img/mapas/xintaimapa.jpg" alt="Mapa Xintai" class="mapa-img">
+          </a>
+        </div>
+
+        <div class="grid-lore-secoes">
+          <div class="bloco-lore-card">
+            <h4>História & Geografia</h4>
+            <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6; text-align: justify;">Xintai é o lar ancestral dos Simyaris...</p>
+          </div>
+          <div class="bloco-lore-card">
+            <h4>Cultura & Sociedade</h4>
+            <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6; text-align: justify;">A sociedade de Xintai é moldada pela união harmoniosa entre Simyaris e humanos...</p>
           </div>
         </div>
       </div>
 
-       <!-- Mapa da Região / Província -->
-      <div class="mapa-container">
-      <h3 style="font-family: 'Cinzel', serif; color: var(--gold); margin-bottom: 10px;">Território de Xintai</h3>
-      <a href="/WEIRS-RPG/img/mapas/xintaimapa.jpg" target="_blank" title="Clique para abrir o mapa em alta resolução">
-        <img src="/WEIRS-RPG/img/mapas/xintaimapa.jpg" alt="Mapa Mundi - Terra Weirs" class="mapa-img">
-      </a>
     </div>
 
-      <div class="grid-lore-secoes">
-        <div class="bloco-lore-card">
-          <h4>História & Geografia</h4>
-          <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6;text-align: justify;">Xintai é o lar ancestral dos Simyaris, raça de primatas dotada de grande agilidade e inteligência, que viveu séculos em harmonia, celebrando as artes e as bênçãos do deus Hozen ao lado dos humanos acolhidos em suas terras. Marcada por montanhas imponentes envoltas em névoa, florestas de bambu, rios majestosos e vales férteis, a geografia de Xintai divide o território entre a região montanhosa do interior, onde se ergue a imponente montanha de Baoshan, a região norte de Yulin, a costa leste de Hanzou com suas pequenas ilhas e a metrópole de Longyen. Quando a cobiça de vizinhos como Kaeshin, Phandor e o Império Unificado trouxe guerras ao seu povo, os Xintainenses uniram o uso espiritual do éter à engenharia mecânica para criar a Éterforja. No ano atual de 502, Xintai enfrenta a maior invasão de sua história contra o Império Unificado, que já tomou quase a totalidade de Longyen, enquanto as demais regiões resistem ferozmente utilizando a topografia acidentada e seu arsenal tecno-místico para defender o território sob a liderança do monastério central de Baoshan.</p>
-        </div>
-        <div class="bloco-lore-card">
-          <h4>Cultura & Sociedade</h4>
-          <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6;text-align: justify;">A sociedade de Xintai é moldada pela união harmoniosa entre Simyaris e humanos, fundamentada em uma profunda conexão espiritual, na expressão artística e no senso comunitário. O cotidiano da população gira em torno da devoção a Hozen, com comemorações constantes que marcam desde os ciclos lunares e estações até a época de colheitas, onde a música, a escultura e a dança se misturam às artes marciais ensinadas nos grandes monastérios como caminhos para o refinamento do éter interior. Embora a histórica hospitalidade xintainense tenha dado lugar a um estado de alerta e cautela devido às invasões do Império Unificado, o povo se mantém firme no ideal de cooperação, onde a busca do conhecimento, o domínio da Éterforja e o respeito aos anciãos sustentam a resistência e a identidade cultural de Xintai.</p>
-        </div>
-        <div class="bloco-lore-card">
-          <h4>Governo & Leis</h4>
-          <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6;text-align: justify;">A governança de Xintai opera sob um modelo teocrático, monástico e comunitário, centralizado na figura do respeitado ancião Simyari Mao Sing-Tse no Monastério da Montanha de Baoshan, que lidera o país com o apoio dos conselhos de anciãos dos monastérios regionais de cada cidade. A estrutura política prioriza a harmonia territorial e a subsistência coletiva, onde cada província produz e compartilha suas especialidades de forma cooperativa, sem espaço para a exploração predatória. A legislação de Xintai é severa quanto à proteção do conhecimento ancestral e à segurança nacional, restringindo rigorosamente o acesso de estrangeiros à tecnologia da Éterforja, ao mesmo tempo em que enquadra o uso das artes marciais e da manipulação do éter como deveres cívicos e espirituais voltados à preservação da paz e à defesa contra a invasão imperial.</p>
-        </div>
-        <div class="bloco-lore-card">
-          <h4>Religião & Divindades</h4>
-          <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6;text-align: justify;">A espiritualidade em Xintai é intrinsecamente ligada à lenda de origem dos Simyaris e ao culto a Hozen, o Deus Macaco, uma divindade rebelde e despreocupada com tradições que deixou o Ordo para viver isolado no plano terreno. Segundo o mito ancestral, Hozen desenhou o povo Simyari com as próprias mãos, utilizando a música para soprar-lhes a vida e a dança para despertar sua consciência, selando de forma definitiva a união entre a arte, o corpo, a mente e o espírito. Essa perspectiva divina faz com que a fé xintainense não seja vivida através de dogmas rígidos, mas sim pela celebração da existência, pelo aprimoramento espiritual através das artes marciais e pelo cultivo constante da harmonia com o éter, vendo na criatividade e no movimento a expressão máxima de devoção ao seu criador.</p>
+
+    <!-- ========================================================== -->
+    <!-- CATEGORIA 4: IDIOMAS -->
+    <!-- ========================================================== -->
+    <div id="cat-idiomas" class="secao-principal">
+      
+      <!-- Sub-botões de Idiomas -->
+      <div class="seletor-subitens">
+        <button class="btn-subitem ativo" onclick="alternarSubItem('cat-idiomas', 'lang-comum', this)">Comum</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-idiomas', 'lang-libras', this)">Comum — Língua de Sinais</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-idiomas', 'lang-draconico', this)">Dracônico</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-idiomas', 'lang-runico', this)">Rúnico</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-idiomas', 'lang-runicoabissal', this)">Rúnico Abissal</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-idiomas', 'lang-tribal', this)">Tribal</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-idiomas', 'lang-kemet', this)">Kemet</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-idiomas', 'lang-xian', this)">Xian</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-idiomas', 'lang-tenebriano', this)">Tenebriano</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-idiomas', 'lang-abissal', this)">Abissal</button>
+        <button class="btn-subitem" onclick="alternarSubItem('cat-idiomas', 'lang-celestial', this)">Celestial</button>
       </div>
+
+      <!-- IDIOMAS CARDS -->
+      <div id="lang-comum" class="painel-conteudo ativo">
+        <div class="bloco-lore-card"><h4 style="font-size: 1.5rem;">Comum</h4><p style="color: #ccc;">Idioma padrão amplamente falado em grande parte dos territórios civilizados.</p></div>
+      </div>
+      <div id="lang-libras" class="painel-conteudo">
+        <div class="bloco-lore-card"><h4 style="font-size: 1.5rem;">Comum — Língua de Sinais</h4><p style="color: #ccc;">Forma visual de comunicação gestual adaptada ao idioma Comum.</p></div>
+      </div>
+      <div id="lang-draconico" class="painel-conteudo">
+        <div class="bloco-lore-card"><h4 style="font-size: 1.5rem;">Dracônico</h4><p style="color: #ccc;">Antiga língua associada aos dragões, draconianos e conhecimentos arcaicos.</p></div>
+      </div>
+      <div id="lang-runico" class="painel-conteudo">
+        <div class="bloco-lore-card"><h4 style="font-size: 1.5rem;">Rúnico</h4><p style="color: #ccc;">Idioma baseado em glifos e entalhes mágicos para canalizar energias.</p></div>
+      </div>
+      <div id="lang-runicoabissal" class="painel-conteudo">
+        <div class="bloco-lore-card"><h4 style="font-size: 1.5rem;">Rúnico Abissal</h4><p style="color: #ccc;">Variante corrompida e perigosa do rúnico tradicional originária de Tenebris.</p></div>
+      </div>
+      <div id="lang-tribal" class="painel-conteudo">
+        <div class="bloco-lore-card"><h4 style="font-size: 1.5rem;">Tribal</h4><p style="color: #ccc;">Dialeto rústico compartilhado entre povos nômades e clãs independentes.</p></div>
+      </div>
+      <div id="lang-kemet" class="painel-conteudo">
+        <div class="bloco-lore-card"><h4 style="font-size: 1.5rem;">Kemet</h4><p style="color: #ccc;">Língua ancestral de povos com tradições e vestimentas inspiradas em eras clássicas.</p></div>
+      </div>
+      <div id="lang-xian" class="painel-conteudo">
+        <div class="bloco-lore-card"><h4 style="font-size: 1.5rem;">Xian</h4><p style="color: #ccc;">Idioma melódico e ideográfico falado nas regiões orientais e monastérios.</p></div>
+      </div>
+      <div id="lang-tenebriano" class="painel-conteudo">
+        <div class="bloco-lore-card"><h4 style="font-size: 1.5rem;">Tenebriano</h4><p style="color: #ccc;">Língua nativa das profundezas e dos habitantes exilados do submundo.</p></div>
+      </div>
+      <div id="lang-abissal" class="painel-conteudo">
+        <div class="bloco-lore-card"><h4 style="font-size: 1.5rem;">Abissal</h4><p style="color: #ccc;">Idioma áspero e carregado de intentos demoníacos dos planos inferiores.</p></div>
+      </div>
+      <div id="lang-celestial" class="painel-conteudo">
+        <div class="bloco-lore-card"><h4 style="font-size: 1.5rem;">Celestial</h4><p style="color: #ccc;">Linguagem harmoniosa e solene associada aos planos superiores e divindades da ordem.</p></div>
+      </div>
+
     </div>
-    <!-- FIM DO REINO 2 -->
 
-    <!-- =================================================== -->
-    <!-- MODELO -->
-    <!-- =================================================== -->
-    <!-- <div id="reino-2" class="painel-reino">
-      <div class="reino-cabecalho">
-        <div class="bandeira-box">
-          <img src="/WEIRS-RPG/img/bandeiras/reino2.png" alt="Bandeira do Reino" class="bandeira-img" onerror="this.src='https://via.placeholder.com/200x250/111/d4af37?text=Bandeira+2'">
-        </div>
-        <div>
-          <h3 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; margin-bottom: 5px;">
-            [Segundo Reino]
-          </h3>
-          <p style="font-style: italic; color: #888; font-size: 0.9rem; margin-bottom: 15px;">
-            "[Frase marcante]"
-          </p>
-          <div class="ficha-rapida-grid">
-            <div class="item-ficha">
-              <strong>Capital</strong>
-              <span>[Capital 2]</span>
-            </div>
-            <div class="item-ficha">
-              <strong>Governo</strong>
-              <span>[Tipo]</span>
-            </div>
-            <div class="item-ficha">
-              <strong>Religião Predominante</strong>
-              <span>[Divindade]</span>
-            </div>
-            <div class="item-ficha">
-              <strong>Demografia Principal</strong>
-              <span>[Raças]</span>
-            </div>
-          </div>
-        </div>
-      </div>
+  </div> <!-- FIM DO CONTAINER -->
 
-      <div class="grid-lore-secoes">
-        <div class="bloco-lore-card">
-          <h4>📜 História & Geografia</h4>
-          <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6;">TEXTO...</p>
-        </div>
-        <div class="bloco-lore-card">
-          <h4>🎨 Cultura & Sociedade</h4>
-          <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6;">[Texto...]</p>
-        </div>
-      </div>
-    </div> -->
-    <!-- FIM DO MODELO -->
-
-  </div>
-
+  <!-- ========================================================== -->
+  <!-- SCRIPT DE NAVEGAÇÃO / ALTERNÂNCIA DE ABAS -->
+  <!-- ========================================================== -->
   <script>
-    function selecionarReino(idReino) {
-      // Oculta todos os painéis
-      document.querySelectorAll('.painel-reino').forEach(p => p.classList.remove('ativo'));
-      // Remove o destaque dos botões
-      document.querySelectorAll('.btn-reino').forEach(b => b.classList.remove('ativo'));
+    function alternarCategoria(idCategoria, btnClicado) {
+      document.querySelectorAll('.secao-principal').forEach(sec => sec.classList.remove('ativo'));
+      document.querySelectorAll('.btn-categoria-main').forEach(btn => btn.classList.remove('ativo'));
 
-      // Exibe o reino clicado
-      const painelAlvo = document.getElementById(idReino);
+      const secaoAlvo = document.getElementById(idCategoria);
+      if (secaoAlvo) secaoAlvo.classList.add('ativo');
+      btnClicado.classList.add('ativo');
+    }
+
+    function alternarSubItem(idCategoriaPai, idSubConteudo, btnClicado) {
+      const secaoPai = document.getElementById(idCategoriaPai);
+      if (!secaoPai) return;
+
+      secaoPai.querySelectorAll('.painel-conteudo').forEach(painel => painel.classList.remove('ativo'));
+      secaoPai.querySelectorAll('.btn-subitem').forEach(btn => btn.classList.remove('ativo'));
+
+      const painelAlvo = document.getElementById(idSubConteudo);
       if (painelAlvo) painelAlvo.classList.add('ativo');
 
-      // Destaca o botão clicado
-      event.currentTarget.classList.add('ativo');
+      btnClicado.classList.add('ativo');
     }
   </script>
 </body>

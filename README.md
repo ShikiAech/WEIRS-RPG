@@ -25,6 +25,13 @@ Mapas incluem cenas públicas/privadas, uploads, tokens ligados à ficha/combate
 
 ## 📋 Changelog
 
+### Versão 1.18.0
+- **Data:** 12/10/2026
+- **Melhorias:**
+  - Melhoria da pagina Mundos
+  - Adição das seções: cosmologia, divindades, regiões, idiomas
+  - Finalização de Cosmologia com todas as forças fundamentais
+
 ### Versão 1.17.1
 - **Data:** 08/10/2026
 - **Melhorias:**

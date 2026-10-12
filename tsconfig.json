@@ -11,8 +11,7 @@
     "noEmit": true,
     "allowImportingTsExtensions": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "types": ["vite/client", "node"]
+    "skipLibCheck": true
   },
   "include": ["apps", "packages", "tools/**/*.ts", "tests/**/*.ts", "vite.config.ts", "playwright.config.ts"]
 }
