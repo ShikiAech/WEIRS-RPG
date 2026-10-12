@@ -30,7 +30,7 @@ O importador gera um índice leve, um JSON por registro, campanhas e um manifest
 2. No SQL Editor do projeto novo, execute uma vez `supabase/migrations/202610070001_foundation.sql`. A migração cria perfis, campanhas, membros, fichas e a função de salvamento. Não execute novamente sobre as mesmas tabelas.
 3. Execute `supabase/seed.sql`. Ele é gerado das campanhas originais, conserva os mesmos IDs do frontend e pode ser repetido sem duplicar campanhas. Não adiciona jogadores.
 
-Os papéis são `jogador`, `mestre` e `espectador`, por campanha. Um mestre de Othans não recebe acesso a outra campanha. Uma conta que só fez login ainda não pertence à mesa. O papel nunca vem de metadados editáveis do Google ou de um formulário do aplicativo.
+Os papéis são `jogador`, `mestre` e `espectador`, por campanha. Um mestre de Othans não recebe acesso a outra campanha. Com a migração `009`, uma conta que fez login pode entrar voluntariamente como jogador pela página Campanhas. Mestres continuam definidos por campanha no banco; admins globais recebem acesso de mestre a todas elas. O papel nunca vem de metadados editáveis do Google. Veja o [guia de acessos](acessos-campanhas.md) para instalar a migração e cadastrar um admin.
 
 O banco verifica a estrutura principal do JSON, versão e tamanho máximo de 256 KiB. O domínio da ficha valida os campos detalhados no aplicativo e ao carregar registros. Qualquer ferramenta administrativa que escreva JSON diretamente deve usar o mesmo validador; automações futuras de regras precisarão validar seus comandos no servidor.
 
@@ -160,7 +160,7 @@ A configuração local permite validar o login enquanto a publicação ainda est
 | `invalid_client`                                                    | Confira se Client ID e Client Secret no Supabase pertencem ao mesmo cliente Google e se o segredo continua habilitado.                                                     |
 | `disallowed_useragent`                                              | Abra o aplicativo em Chrome ou Edge diretamente. O Google pode rejeitar login dentro de navegadores incorporados a outros aplicativos.                                     |
 | Botão **Entrar com Google** desabilitado                            | Preencha a URL e a chave publicável em `.env.local` e reinicie o dev server; para preview, refaça o build.                                                                 |
-| Botão virou **Sair**, mas nenhuma campanha aparece                  | O login funcionou. Adicione sua conta aos membros da campanha, conforme a seção 5.                                                                                         |
+| Botão virou **Sair**, mas nenhuma campanha aparece                  | O login funcionou. Instale a migração 009 e escolha uma campanha na página Campanhas, conforme a seção 5.                                                                                         |
 | Não foi possível concluir o login após trocar de navegador/endereço | Reinicie o login na página original e conclua no mesmo navegador e origem.                                                                                                 |
 
 Os erros de redirecionamento e navegador são descritos na [documentação OAuth do Google](https://developers.google.com/identity/protocols/oauth2/web-server#errors). As mensagens e campos do WEIRS são verificados no código desta entrega.
@@ -179,9 +179,11 @@ A URL e a chave publicável podem ser obtidas no painel do projeto. Elas identif
 
 Reinicie o dev server depois de editar o arquivo. No build de produção, essas variáveis precisam estar presentes no ambiente de build. O arquivo `.env.local` é ignorado pelo Git.
 
-## 5. Adicionar os oito participantes
+## 5. Participantes e mestres
 
-Cada participante entra uma vez com Google para aparecer em `Authentication → Users`. Depois, o administrador executa no SQL Editor, substituindo o email, a campanha e o papel:
+Após instalar as migrações até `202610120009_acessos.sql`, cada participante entra com Google e escolhe **Campanhas → Entrar como jogador**. O [guia de acessos](acessos-campanhas.md) explica a participação aberta e o cadastro de admins globais.
+
+Para definir um mestre ou ajustar um vínculo manualmente, o responsável pelo banco executa no SQL Editor, substituindo o email, a campanha e o papel:
 
 ```sql
 INSERT INTO public.membros_campanha (campanha_id,usuario_id,papel)
@@ -199,7 +201,7 @@ Use `mestre` para quem conduz a campanha. Confirme que o comando afetou uma linh
 | EPM                    | `6400a630-0781-8129-ad1a-424ae39fc615` |
 | Taverna de Jungle Jack | `17931442-e319-8d9e-aac6-e15c953d7341` |
 
-Para retirar acesso, remova o membro dessa campanha no painel/SQL. A conta perde acesso às fichas daquela campanha, inclusive às próprias. Isso não apaga suas fichas. Nenhuma tela pública administra papéis nesta etapa.
+Para retirar acesso, remova o membro dessa campanha no painel/SQL. A conta perde acesso às fichas daquela campanha, inclusive às próprias. Isso não apaga suas fichas. A pessoa pode entrar novamente como jogador pelo aplicativo, pois a participação é aberta. A tela não permite se promover a mestre ou admin.
 
 ## 6. Uso e cópias
 

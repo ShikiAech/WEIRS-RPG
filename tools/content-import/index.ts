@@ -132,6 +132,15 @@ export async function importContent(root: string): Promise<ContentBundle> {
       );
       const key = `${kind}:${sourcePath}:${slug(name)}:${JSON.stringify(metadata)}:${sourceLabel}`;
       const id = stableId(key);
+      // A duração vem do texto visível, não dos atributos data-*. Acrescentá-la
+      // depois de calcular a identidade conserva os IDs das fichas existentes.
+      if (kind === 'magia') {
+        const duration = card
+          .find('.magia-metadados p')
+          .filter((_, node) => /^duração\s*:/i.test(text($(node).text())))
+          .first();
+        metadata.duracao = text(duration.text()).replace(/^duração\s*:\s*/i, '');
+      }
       const entry: ContentEntry = {
         id,
         slug: slug(name),

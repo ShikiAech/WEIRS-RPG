@@ -1,3 +1,5 @@
+import { validarEquipamentos } from './equipamentos.js';
+
 export const ATRIBUTOS = {
   for: 'Força',
   des: 'Destreza',
@@ -239,8 +241,9 @@ export function validarFicha(f) {
         min = 1;
         max = 99;
       } else if (key === 'valor' && caminho.startsWith('ataques.')) {
-        min = -99;
-        max = 99;
+        const linked = f.conteudo?.ataques?.[Number(caminho.split('.')[1])]?.itemId;
+        min = linked ? -9999 : -99;
+        max = linked ? 9999 : 99;
       } else if (key === 'circulo') {
         max = 9;
       } else if (key === 'sucessosMorte' || key === 'falhasMorte') {
@@ -266,7 +269,9 @@ export function validarFicha(f) {
     }
     if (typeof p === 'string') {
       const longo =
-        /descricao|observacoes|historia|aparencia|personalidade|Personalidade|ideais|vinculos|defeitos|anotacoes|resistencias|imunidades|vulnerabilidades|sentidos|ferramentas|armas/.test(
+        (/^ataques\.\d+\.(dano|tipoDano)$/.test(caminho) &&
+          Array.isArray(f.conteudo?.ataques?.[Number(caminho.split('.')[1])]?.danos)) ||
+        /descricao|observacoes|historia|aparencia|personalidade|Personalidade|ideais|vinculos|defeitos|anotacoes|resistencias|imunidades|vulnerabilidades|sentidos|ferramentas|armas|material/.test(
           caminho,
         );
       if (v.length > (longo ? 10000 : 120)) erro(caminho, 'Texto acima do limite permitido.');
@@ -287,6 +292,7 @@ export function validarFicha(f) {
   }
   validar(f.conteudo, padrao, '');
   if (erros.length === 0) {
+    erros.push(...validarEquipamentos(f.conteudo));
     if (f.conteudo.classes.length === 0 || f.conteudo.classes.reduce((s, x) => s + x.nivel, 0) > 20)
       erro('classes', 'O nível total deve ser de 1 a 20.');
     const refs = [

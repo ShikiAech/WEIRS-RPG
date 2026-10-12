@@ -161,10 +161,11 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
         .from('membros_campanha')
         .select('usuario_id,papel')
         .eq('campanha_id', campaign);
-      if (!memberships?.length || !alive.current) return;
-      const ids = memberships
+      if (!alive.current) return;
+      const ids = (memberships || [])
         .filter((member) => member.papel !== 'espectador')
         .map((member) => member.usuario_id as string);
+      if (master && !ids.includes(userId)) ids.push(userId);
       if (!ids.length) return;
       const { data: profiles } = await supabase!
         .from('perfis')

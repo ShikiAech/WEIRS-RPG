@@ -127,7 +127,14 @@ export function App() {
           </div>
         )}
         <main id="main-content" tabIndex={-1}>
-          {section === 'campanhas' && <Campaigns />}
+          {section === 'campanhas' && (
+            <Campaigns
+              key={user?.id || 'visitante'}
+              user={user}
+              authReady={authReady}
+              onLogin={account}
+            />
+          )}
           {section === 'compendio' && <Compendium />}
           {section === 'fichas' && (
             <Sheets key={user?.id || 'visitante'} route={route} user={user} authReady={authReady} />

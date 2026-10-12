@@ -2,6 +2,8 @@
 
 O chat agora reúne **Minha ficha**, **Combate** e **Loja**. A sessão usa as fichas, campanhas, Google OAuth e projeto Supabase existentes. Nenhuma biblioteca ou serviço pago foi acrescentado.
 
+Para os novos equipamentos com ataques e recursos vinculados, instale também [202610120008_ficha.sql](../supabase/migrations/202610120008_ficha.sql), uma vez, após a configuração abaixo. Ela preserva a consistência da ficha ao vender a última unidade de um item. Veja os [detalhes das melhorias da ficha](melhorias-ficha-jogador.md).
+
 ## Ativação no Supabase existente
 
 1. Abra seu projeto no [painel do Supabase](https://supabase.com/dashboard).

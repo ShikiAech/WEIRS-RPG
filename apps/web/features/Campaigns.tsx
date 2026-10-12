@@ -1,8 +1,18 @@
 import { useEffect, useState } from 'react';
+import type { User } from '@supabase/supabase-js';
+import { CampaignParticipation } from './campaigns/CampaignParticipation';
 import type { CampaignContent } from '../../../packages/contracts/content';
 import { asset, legacyHtml, legacyUrl } from '../lib/paths';
 
-export function Campaigns() {
+export function Campaigns({
+  user,
+  authReady,
+  onLogin,
+}: {
+  user: User | null;
+  authReady: boolean;
+  onLogin: () => void;
+}) {
   const [campaigns, setCampaigns] = useState<CampaignContent[]>([]);
   const [selected, setSelected] = useState('');
   const [error, setError] = useState('');
@@ -41,6 +51,7 @@ export function Campaigns() {
         </div>
         <img src={asset('img/weirs2.logo.png')} alt="Símbolo de Weirs RPG" />
       </section>
+      <CampaignParticipation user={user} authReady={authReady} onLogin={onLogin} />
       <div className="section-heading">
         <div>
           <p className="eyebrow">Histórias compartilhadas</p>

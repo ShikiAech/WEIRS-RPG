@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import type { SheetRecord } from '../../../../packages/contracts/sheets';
 import type { ChatCommand, RollMode, SheetAction } from '../../../../packages/contracts/chat';
 import type { SessionCommand } from '../../../../packages/contracts/session';
@@ -7,6 +7,7 @@ import { calcularFicha } from '../../../../packages/sheets/calculos.js';
 import { FavoriteActions } from './FavoriteActions';
 import { useActionFavorites } from './useActionFavorites';
 import { FAVORITE_LIMIT } from './action-favorites';
+import { TIPOS_EQUIPAMENTO } from '../../../../packages/sheets/equipamentos.js';
 
 type Entry = {
   id: string;
@@ -209,9 +210,21 @@ export function SheetPlay({
       {tab === 'Ações' && (
         <>
           <h3>Ataques</h3>
-          {entries(c.ataques).map((e) => (
+          {c.ataques.map((e) => (
             <article className="play-entry" key={e.id}>
               <strong>{e.nome}</strong>
+              <small>
+                {e.tipo === 'cd' ? `CD ${e.valor}` : `Acerto ${sign(e.valor)}`}
+                {e.itemId && ` · Crítico ${e.critico ?? 20}–20`}
+              </small>
+              {e.danos
+                ?.filter((d) => d.dado.trim())
+                .map((d) => (
+                  <small key={d.id}>
+                    {d.dado}
+                    {d.atributo ? ` ${sign(calc.atributos[d.atributo])}` : ''} {d.tipo}
+                  </small>
+                ))}
               <div className="play-actions">
                 {roll(
                   'ataque',
@@ -225,34 +238,85 @@ export function SheetPlay({
           ))}
           {!c.ataques.length && <p>Configure os ataques na ficha completa.</p>}
           <h3>Magias</h3>
-          {entries(c.magias).map((e) => (
-            <article className="play-entry" key={e.id}>
-              <strong>
-                {e.nome} · {e.circulo === 0 ? 'Truque' : 'Círculo ' + e.circulo}
-              </strong>
-              <div className="play-actions">
-                {roll('magia', e.id, `Conjurar: ${e.nome}`, true)}
-                {e.perfilId && roll('magia_ataque', e.id, `Ataque de magia: ${e.nome}`)}
-                {e.dano && roll('magia_dano', e.id, `Dano de magia: ${e.nome}`, true)}
-                {e.concentracao && (
-                  <button
-                    type="button"
-                    disabled={disabled}
-                    className="play-roll"
-                    onClick={() => change({ tipo: 'concentracao', nome: e.nome })}
-                  >
-                    Concentrar: {e.nome}
-                  </button>
-                )}
-              </div>
-              {e.descricao && (
-                <details>
-                  <summary>Descrição</summary>
-                  <p>{e.descricao}</p>
-                </details>
-              )}
-            </article>
+          {c.conjuracao.perfis.map((p, i) => (
+            <div className="play-entry" key={p.id}>
+              <strong>{p.nome || `Perfil ${i + 1}`}</strong>
+              <small>
+                {ATRIBUTOS[p.atributo as keyof typeof ATRIBUTOS]}{' '}
+                {sign(calc.perfis[p.id]?.modificador || 0)} · CD {calc.perfis[p.id]?.cd} · Ataque{' '}
+                {sign(calc.perfis[p.id]?.ataque || 0)}
+              </small>
+            </div>
           ))}
+          {[...c.magias]
+            .sort((a, b) => (a.circulo || 0) - (b.circulo || 0))
+            .map((e, i, list) => (
+              <Fragment key={e.id}>
+                {(i === 0 || list[i - 1].circulo !== e.circulo) && (
+                  <h4 className="spell-circle-title">
+                    {e.circulo === 0 ? 'Truques' : `Círculo ${e.circulo}`}
+                  </h4>
+                )}
+                <article className="play-entry" key={e.id}>
+                  <strong>
+                    {e.nome} · {e.circulo === 0 ? 'Truque' : 'Círculo ' + e.circulo}
+                  </strong>
+                  <div className="play-actions">
+                    {roll('magia', e.id, `Conjurar: ${e.nome}`, true)}
+                    {e.perfilId && roll('magia_ataque', e.id, `Ataque de magia: ${e.nome}`)}
+                    {e.dano && roll('magia_dano', e.id, `Dano de magia: ${e.nome}`, true)}
+                    {e.concentracao && (
+                      <button
+                        type="button"
+                        disabled={disabled}
+                        className="play-roll"
+                        onClick={() => change({ tipo: 'concentracao', nome: e.nome })}
+                      >
+                        Concentrar: {e.nome}
+                      </button>
+                    )}
+                  </div>
+                  {(e.descricao || e.material || e.tempo || e.duracao || e.alcance) && (
+                    <details className="spell-play-details">
+                      <summary>Detalhes de {e.nome}</summary>
+                      <dl className="spell-play-meta">
+                        {e.tempo && (
+                          <>
+                            <dt>Conjuração</dt>
+                            <dd>{e.tempo}</dd>
+                          </>
+                        )}
+                        {e.alcance && (
+                          <>
+                            <dt>Alcance</dt>
+                            <dd>{e.alcance}</dd>
+                          </>
+                        )}
+                        {e.duracao && (
+                          <>
+                            <dt>Duração</dt>
+                            <dd>{e.duracao}</dd>
+                          </>
+                        )}
+                        {(e.verbal || e.somatico || e.material) && (
+                          <>
+                            <dt>Componentes</dt>
+                            <dd>
+                              {[e.verbal ? 'V' : '', e.somatico ? 'S' : '', e.material ? 'M' : '']
+                                .filter(Boolean)
+                                .join(', ')}
+                            </dd>
+                          </>
+                        )}
+                      </dl>
+                      {e.material && <p>Material: {e.material}</p>}
+                      <p>{e.descricao}</p>
+                    </details>
+                  )}
+                </article>
+              </Fragment>
+            ))}
+          {!c.magias.length && <p>Adicione magias na ficha completa.</p>}
           <small>
             Use Recursos para gastar o espaço escolhido; rituais, truques e homebrew podem dispensar
             esse gasto.
@@ -372,6 +436,14 @@ export function SheetPlay({
           {entries(c.recursos).map((e) => (
             <div className="play-entry" key={e.id}>
               {e.nome} · {e.maximo - e.gastos}/{e.maximo}
+              {c.recursos.find((r) => r.id === e.id)?.itemId && (
+                <small>
+                  Equipamento:{' '}
+                  {c.inventario.itens.find(
+                    (item) => item.id === c.recursos.find((r) => r.id === e.id)?.itemId,
+                  )?.nome || 'Sem nome'}
+                </small>
+              )}
               <div className="play-actions">
                 {[1, -1].map((delta) => (
                   <button
@@ -435,11 +507,101 @@ export function SheetPlay({
               .map(([key, value]) => `${value} ${key.toUpperCase()}`)
               .join(' · ')}
           </p>
-          {entries(c.inventario.itens).map((e) => (
+          <p className="calculation">
+            Sintonia {c.inventario.sintonizados.length}/{c.inventario.limiteSintonizacao} · Peso
+            total{' '}
+            {c.inventario.itens
+              .reduce((sum, e) => sum + e.quantidade * e.peso, 0)
+              .toLocaleString('pt-BR', { maximumFractionDigits: 2 })}{' '}
+            kg
+          </p>
+          {!c.inventario.itens.length && <p>Seu inventário está vazio.</p>}
+          {c.inventario.itens.map((e) => (
             <article className="play-entry" key={e.id}>
               <strong>
                 {e.nome} × {e.quantidade}
               </strong>
+              <small>
+                {TIPOS_EQUIPAMENTO[e.tipo || 'basico']} · {e.peso.toLocaleString('pt-BR')} kg/un.
+                {e.equipado ? ' · Equipado' : ''}
+                {c.inventario.sintonizados.some((s) => s.itemId === e.id) ? ' · Sintonizado' : ''}
+              </small>
+              <details className="equipment-play-details">
+                <summary>Detalhes de {e.nome || 'equipamento'}</summary>
+                {e.tipo === 'arma' && (
+                  <p>
+                    {e.categoriaArma === 'marcial' ? 'Marcial' : 'Simples'} ·{' '}
+                    {e.alcanceArma === 'distancia' ? 'Distância' : 'Corpo a corpo'} · Crítico{' '}
+                    {e.critico ?? 20}–20
+                  </p>
+                )}
+                {e.tipo === 'armadura' && (
+                  <>
+                    <p>
+                      Armadura {e.categoriaArmadura || 'leve'} · CA base {e.caBase ?? 10} · Força
+                      mínima {e.forcaMinima || 0}
+                    </p>
+                    <p>
+                      {e.adicionarDestreza !== false
+                        ? `Adiciona Destreza (limite ${e.limiteDestreza ?? 'ilimitado'})`
+                        : 'Sem bônus de Destreza'}
+                      {e.desvantagemFurtividade ? ' · Desvantagem em Furtividade' : ''}
+                    </p>
+                  </>
+                )}
+                {e.tipo === 'escudo' && (
+                  <p>
+                    Bônus de CA {sign(e.bonusCa ?? 2)} · Outros bônus {sign(e.outrosBonus ?? 0)}
+                  </p>
+                )}
+                {e.descricao && <p>{e.descricao}</p>}
+                {e.observacoes && <p>{e.observacoes}</p>}
+                {(e.cargasMaximas || 0) > 0 && (
+                  <p>
+                    Cargas {e.cargasMaximas - e.cargasGastas}/{e.cargasMaximas}
+                  </p>
+                )}
+                {c.ataques
+                  .filter((a) => a.itemId === e.id)
+                  .map((a) => (
+                    <div className="play-entry" key={a.id}>
+                      <strong>{a.nome || 'Ataque'}</strong>
+                      <small>
+                        Acerto {sign(a.valor)} · {a.dano || 'Sem dano'} {a.tipoDano}
+                      </small>
+                      <div className="play-actions">
+                        {roll('ataque', a.id, `Ataque: ${a.nome}`)}
+                        {a.dano && roll('dano', a.id, `Dano: ${a.nome}`, true)}
+                      </div>
+                    </div>
+                  ))}
+                {c.recursos
+                  .filter((r) => r.itemId === e.id)
+                  .map((r) => (
+                    <div className="play-entry" key={r.id}>
+                      <strong>
+                        {r.nome || 'Recurso'} · {r.maximo - r.gastos}/{r.maximo}
+                      </strong>
+                      <div className="play-actions">
+                        {[1, -1].map((delta) => (
+                          <button
+                            type="button"
+                            key={delta}
+                            className="play-roll"
+                            disabled={
+                              disabled || (delta === 1 ? r.gastos >= r.maximo : r.gastos === 0)
+                            }
+                            onClick={() =>
+                              change({ tipo: 'gasto', caminho: 'recurso', entrada_id: r.id, delta })
+                            }
+                          >
+                            {delta === 1 ? 'Gastar' : 'Recuperar'} {r.nome}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+              </details>
               <button
                 className="play-roll"
                 disabled={disabled || e.quantidade < 1}

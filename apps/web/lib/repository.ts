@@ -3,11 +3,11 @@ import type {
   SheetContent,
   SheetRecord,
   SheetRepository,
-  CampaignRecord,
   CampaignMembership,
 } from '../../../packages/contracts/sheets';
 import { validarFicha, UUID } from '../../../packages/sheets/modelo.js';
 import { SheetError, publicError } from './errors';
+import { campaignAccess } from './campaign-access';
 
 // PostgreSQL JSONB não conserva a ordem das propriedades; a identidade da tentativa
 // depende dos valores, incluindo a ordem dos elementos nas listas.
@@ -63,14 +63,49 @@ export function createRepository(client: SupabaseClient): SheetRepository {
       ).map(record);
     },
     async campaigns() {
-      await user();
-      const [campaigns, memberships] = await Promise.all([
-        result<CampaignRecord[]>(client.from('campanhas').select('id,nome').order('nome')),
-        result<CampaignMembership[]>(
-          client.from('membros_campanha').select('campanha_id,usuario_id,papel'),
+      const owner = await user();
+      const access = await campaignAccess(client, owner.id).catch((e) => {
+        throw publicError(e);
+      });
+      return {
+        ...access,
+        campaigns: access.campaigns.filter((c) =>
+          access.memberships.some((m) => m.usuario_id === owner.id && m.campanha_id === c.id),
         ),
-      ]);
-      return { campaigns, memberships };
+      };
+    },
+    async availableCampaigns() {
+      const owner = await user();
+      return campaignAccess(client, owner.id).catch((e) => {
+        throw publicError(e);
+      });
+    },
+    async joinCampaign(value) {
+      id(value);
+      const owner = await user();
+      const response = await result<CampaignMembership | CampaignMembership[]>(
+        client.rpc('entrar_campanha', { p_campanha: value }),
+      );
+      const row = Array.isArray(response) ? response[0] : response;
+      if (!row || row.usuario_id !== owner.id || row.campanha_id !== value)
+        throw new SheetError('ACESSO');
+      return row;
+    },
+    async copyToCampaign(previous, campaignId, requestId) {
+      id(previous.id);
+      id(campaignId);
+      id(requestId);
+      await user();
+      return record(
+        await result<SheetRecord | SheetRecord[]>(
+          client.rpc('copiar_ficha_campanha', {
+            p_origem: previous.id,
+            p_versao: previous.versao,
+            p_campanha: campaignId,
+            p_pedido: requestId,
+          }),
+        ),
+      );
     },
     async get(value) {
       id(value);

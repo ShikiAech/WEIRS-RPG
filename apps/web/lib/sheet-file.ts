@@ -1,4 +1,5 @@
 import { validarFicha } from '../../../packages/sheets/modelo.js';
+import { sincronizarEquipamentos } from '../../../packages/sheets/equipamentos.js';
 import type { SheetContent } from '../../../packages/contracts/sheets';
 import { SheetError } from './errors';
 
@@ -10,7 +11,10 @@ export function readSheetFile(source: string): { name: string; content: SheetCon
     const errors = validarFicha(parsed);
     if (errors.length) throw new SheetError('VALIDACAO', errors);
     // Permissões, dono, versão de gravação e campanha pertencem à mesa atual.
-    return { name: parsed.nome.trim(), content: parsed.conteudo };
+    const content = sincronizarEquipamentos(parsed.conteudo);
+    const normalizedErrors = validarFicha({ ...parsed, conteudo: content });
+    if (normalizedErrors.length) throw new SheetError('VALIDACAO', normalizedErrors);
+    return { name: parsed.nome.trim(), content };
   } catch (error) {
     if (error instanceof SheetError) throw error;
     throw new SheetError('VALIDACAO', [

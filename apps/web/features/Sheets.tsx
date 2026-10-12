@@ -15,9 +15,13 @@ import { publicError, SheetError } from '../lib/errors';
 import { markEdited, acknowledgeSave } from '../lib/editor-state';
 import { asset } from '../lib/paths';
 import { SheetForm } from './sheets/SheetForm';
+import { CampaignCopy } from './sheets/CampaignCopy';
 import { readSheetFile } from '../lib/sheet-file';
 import { fieldLabel } from './sheets/fields';
 import { SheetChat } from './sheets/SheetChat';
+import { PdfImportPreview } from './sheets/PdfImportPreview';
+import { readRoll20Pdf } from '../lib/roll20-pdf-file';
+import type { Roll20PdfImport } from '../../../packages/sheets/roll20-pdf';
 
 type Draft = { name: string; content: SheetContent; campaignId: string };
 const drafts = new Map<string, Draft & { base?: SheetRecord; requestId?: string }>();
@@ -32,7 +36,8 @@ export function Sheets({
   authReady: boolean;
 }) {
   const repository = useMemo(() => (supabase ? createRepository(supabase) : null), []);
-  const suffix = route.split('/')[2];
+  const suffix = route.split('/')[2]?.split('?')[0];
+  const initialCampaign = new URLSearchParams(route.split('?')[1] || '').get('campanha') || '';
   if (suffix === 'teste')
     return <SheetEditor key="teste" id="teste" user={null} repository={null} />;
   if (!authReady)
@@ -67,7 +72,16 @@ export function Sheets({
         </section>
       </div>
     );
-  if (suffix) return <SheetEditor key={suffix} id={suffix} user={user} repository={repository} />;
+  if (suffix)
+    return (
+      <SheetEditor
+        key={suffix + initialCampaign}
+        id={suffix}
+        initialCampaign={initialCampaign}
+        user={user}
+        repository={repository}
+      />
+    );
   return <SheetList user={user} repository={repository} />;
 }
 function SheetList({ user, repository }: { user: User; repository: SheetRepository }) {
@@ -120,8 +134,8 @@ function SheetList({ user, repository }: { user: User; repository: SheetReposito
       )}
       {!loading && !error && !campaigns.length && (
         <p className="notice">
-          Sua conta ainda não está vinculada a uma campanha. Peça ao responsável pela mesa para
-          adicionar seu acesso.
+          Sua conta ainda não está vinculada a uma campanha.{' '}
+          <a href="#/campanhas">Escolha uma campanha e entre como jogador.</a>
         </p>
       )}
       {!loading && !error && campaigns.length > 0 && !rows.length && (
@@ -156,21 +170,26 @@ function SheetList({ user, repository }: { user: User; repository: SheetReposito
 }
 function SheetEditor({
   id,
+  initialCampaign = '',
   user,
   repository,
 }: {
   id: string;
+  initialCampaign?: string;
   user: User | null;
   repository: SheetRepository | null;
 }) {
   const temporary = id === 'teste';
-  const draftKey = user ? `${user.id}:${id}` : '';
+  const draftKey = user
+    ? `${user.id}:${id}${id === 'nova' && initialCampaign ? ':' + initialCampaign : ''}`
+    : '';
   const [draft, setDraft] = useState<Draft>(
     () => drafts.get(draftKey) || { name: '', content: criarConteudo(), campaignId: '' },
   );
   const [record, setRecord] = useState<SheetRecord | null>(null);
   const [campaigns, setCampaigns] = useState<CampaignRecord[]>([]);
   const [memberships, setMemberships] = useState<CampaignMembership[]>([]);
+  const [admin, setAdmin] = useState(false);
   const [catalog, setCatalog] = useState<ContentSummary[]>([]);
   const [loading, setLoading] = useState(!temporary);
   const [loadRetry, setLoadRetry] = useState(0);
@@ -186,13 +205,19 @@ function SheetEditor({
   const activeDraftKey = useRef(draftKey);
   const pending = useRef(false);
   const mounted = useRef(true);
-  useEffect(
-    () => () => {
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
       mounted.current = false;
-    },
-    [],
-  );
+    };
+  }, []);
   const fileInput = useRef<HTMLInputElement>(null);
+  const pdfInput = useRef<HTMLInputElement>(null);
+  const pdfController = useRef<AbortController | null>(null);
+  const [pdfReading, setPdfReading] = useState('');
+  const [pdfPreview, setPdfPreview] = useState<Roll20PdfImport | null>(null);
+  const [pdfWarnings, setPdfWarnings] = useState<string[]>([]);
+  useEffect(() => () => pdfController.current?.abort(), []);
   const [creationId] = useState(() => drafts.get(draftKey)?.requestId || crypto.randomUUID());
   const dirty = revision.revision !== revision.savedRevision;
   const allowedCampaigns = campaigns.filter((c) =>
@@ -227,6 +252,7 @@ function SheetEditor({
       if (!active) return;
       setCampaigns(data.campaigns);
       setMemberships(data.memberships);
+      setAdmin(data.admin);
       if (id !== 'nova') {
         if (!UUID.test(id)) throw new SheetError('ACESSO');
         const row = await repository.get(id);
@@ -242,7 +268,15 @@ function SheetEditor({
             (m) => m.campanha_id === c.id && m.usuario_id === user?.id && m.papel !== 'espectador',
           ),
         );
-        setDraft((d) => ({ ...d, campaignId: first?.id || '' }));
+        const requested = data.campaigns.find(
+          (c) =>
+            c.id === initialCampaign &&
+            data.memberships.some(
+              (m) =>
+                m.campanha_id === c.id && m.usuario_id === user?.id && m.papel !== 'espectador',
+            ),
+        );
+        setDraft((d) => ({ ...d, campaignId: requested?.id || first?.id || '' }));
       }
     })()
       .catch((e) => {
@@ -254,7 +288,7 @@ function SheetEditor({
     return () => {
       active = false;
     };
-  }, [id, repository, temporary, draftKey, user?.id, loadRetry]);
+  }, [id, repository, temporary, draftKey, user?.id, loadRetry, initialCampaign]);
   useEffect(() => {
     const beforeUnload = (event: BeforeUnloadEvent) => {
       if (revisionRef.current.revision !== revisionRef.current.savedRevision || pending.current) {
@@ -367,10 +401,38 @@ function SheetEditor({
       if (dirty && !window.confirm('Importar substitui os campos desta ficha. Deseja continuar?'))
         return;
       edit({ ...draft, ...recovered });
+      setPdfWarnings([]);
       setError(null);
       setMessage('Cópia importada. Confira os campos antes de salvar.');
     } catch (error) {
       setError(publicError(error));
+    }
+  }
+  async function importPdf(file: File) {
+    if (pdfController.current) return;
+    const controller = new AbortController();
+    pdfController.current = controller;
+    setPdfReading('Abrindo PDF…');
+    setError(null);
+    try {
+      const result = await readRoll20Pdf(file, {
+        signal: controller.signal,
+        onProgress: (page, total) => setPdfReading(`Lendo página ${page} de ${total}…`),
+      });
+      if (mounted.current && !controller.signal.aborted) setPdfPreview(result);
+    } catch (e) {
+      if (mounted.current && !controller.signal.aborted)
+        setError(
+          new SheetError('VALIDACAO', [
+            {
+              campo: 'arquivo',
+              mensagem: e instanceof Error ? e.message : 'Não foi possível ler o PDF.',
+            },
+          ]),
+        );
+    } finally {
+      pdfController.current = null;
+      if (mounted.current) setPdfReading('');
     }
   }
   async function remove() {
@@ -440,11 +502,38 @@ function SheetEditor({
         <span role="status" aria-live="polite">
           {saving
             ? 'Salvando…'
-            : dirty
-              ? 'Alterações pendentes'
-              : message || (temporary ? 'Apenas nesta página' : 'Sem alterações pendentes')}
+            : pdfReading
+              ? pdfReading
+              : dirty
+                ? 'Alterações pendentes'
+                : message || (temporary ? 'Apenas nesta página' : 'Sem alterações pendentes')}
         </span>
         <div>
+          <input
+            ref={pdfInput}
+            type="file"
+            accept="application/pdf,.pdf"
+            hidden
+            aria-label="PDF da ficha do Roll20"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              e.target.value = '';
+              if (file) void importPdf(file);
+            }}
+          />
+          {pdfReading ? (
+            <button className="button secondary" onClick={() => pdfController.current?.abort()}>
+              Cancelar leitura
+            </button>
+          ) : (
+            <button
+              className="button secondary"
+              disabled={!canEdit || saving}
+              onClick={() => pdfInput.current?.click()}
+            >
+              Importar PDF do Roll20
+            </button>
+          )}
           <input
             ref={fileInput}
             type="file"
@@ -459,7 +548,7 @@ function SheetEditor({
           />
           <button
             className="button secondary"
-            disabled={!canEdit || saving}
+            disabled={!canEdit || saving || !!pdfReading}
             onClick={() => fileInput.current?.click()}
           >
             Importar ficha
@@ -469,13 +558,39 @@ function SheetEditor({
           </button>
           <button
             className="button"
-            disabled={temporary || !canEdit || saving || error?.code === 'CONFLITO'}
+            disabled={temporary || !canEdit || saving || !!pdfReading || error?.code === 'CONFLITO'}
             onClick={save}
           >
             Salvar ficha
           </button>
         </div>
       </div>
+      {pdfPreview && (
+        <PdfImportPreview
+          result={pdfPreview}
+          replacing={dirty || !!record}
+          onClose={() => setPdfPreview(null)}
+          onApply={() => {
+            edit({ ...draftRef.current, name: pdfPreview.name, content: pdfPreview.content });
+            setPdfWarnings(pdfPreview.warnings);
+            setPdfPreview(null);
+            setMessage(
+              'PDF importado. Confira os pontos da revisão e os campos nas abas antes de salvar.',
+            );
+            setError(null);
+          }}
+        />
+      )}
+      {!!pdfWarnings.length && (
+        <details className="pdf-import-reminders">
+          <summary>Pontos para revisar na importação do PDF</summary>
+          <ul>
+            {pdfWarnings.map((w) => (
+              <li key={w}>{w}</li>
+            ))}
+          </ul>
+        </details>
+      )}
       {error && (
         <div role="alert" className="notice error">
           <p>{error.message}</p>
@@ -520,7 +635,7 @@ function SheetEditor({
           <p className="notice">
             {record
               ? 'Você tem acesso de leitura a esta ficha.'
-              : 'Sua conta precisa ser vinculada a uma campanha como jogador ou mestre para criar uma ficha.'}
+              : 'Escolha uma campanha na página Campanhas e entre como jogador para criar uma ficha.'}
           </p>
         )}
         <section className="form-section">
@@ -528,7 +643,7 @@ function SheetEditor({
             <label className="field">
               Nome do personagem
               <input
-                disabled={!canEdit}
+                disabled={!canEdit || !!pdfReading}
                 maxLength={120}
                 aria-invalid={error?.fields.some((f) => f.campo === 'nome') || undefined}
                 value={draft.name}
@@ -540,7 +655,7 @@ function SheetEditor({
                 Campanha
                 <select
                   value={draft.campaignId}
-                  disabled={!canEdit || Boolean(record)}
+                  disabled={!canEdit || !!pdfReading || Boolean(record)}
                   onChange={(e) => edit({ ...draft, campaignId: e.target.value })}
                 >
                   <option value="">Selecione uma campanha</option>
@@ -554,17 +669,25 @@ function SheetEditor({
             )}
           </div>
         </section>
+        {admin && record && repository && (
+          <CampaignCopy
+            record={record}
+            campaigns={campaigns}
+            repository={repository}
+            disabled={dirty || saving || !!pdfReading || !!error}
+          />
+        )}
         <SheetChat record={record} disabled={dirty || saving || !canEdit || Boolean(error)}>
           <SheetForm
             content={draft.content}
             onChange={(content) => edit({ ...draft, content })}
             catalog={catalog}
-            readOnly={!canEdit}
+            readOnly={!canEdit || !!pdfReading}
             errors={error?.fields || []}
           />
         </SheetChat>
       </div>
-      {record?.proprietario_id === user?.id && canEdit && (
+      {record && record.proprietario_id === user?.id && canEdit && (
         <button className="text-button danger delete-sheet" disabled={saving} onClick={remove}>
           Excluir esta ficha
         </button>

@@ -128,7 +128,8 @@ export function Chat({
         <p className="notice">
           {requested
             ? 'Esta campanha não está disponível para sua conta.'
-            : 'Você ainda não participa de uma campanha. Peça ao mestre para liberar seu acesso.'}
+            : 'Você ainda não participa de uma campanha. Entre como jogador pela página Campanhas.'}{' '}
+          <a href="#/campanhas">Escolher campanha</a>
         </p>
       )}
     </div>
