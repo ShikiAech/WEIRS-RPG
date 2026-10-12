@@ -37,6 +37,7 @@ export type RollResult = {
   total?: number;
   termos?: RollTerm[];
   cd?: number;
+  parcelas?: { id: string; tipo: string; expressao: string; total: number }[];
   origem?: {
     ficha_id: string;
     ficha_nome: string;

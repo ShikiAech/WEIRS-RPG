@@ -2,6 +2,7 @@ import type { ChatCommand, RollMode, SheetAction } from '../../../../packages/co
 import type { SheetRecord } from '../../../../packages/contracts/sheets';
 import { ATRIBUTOS, PERICIAS } from '../../../../packages/sheets/modelo.js';
 import { calcularFicha } from '../../../../packages/sheets/calculos.js';
+import { temDanoMagia } from '../../../../packages/sheets/magias.js';
 export type FavoriteReference = { acao: SheetAction; entrada_id: string };
 export type ActionOption = FavoriteReference & {
   label: string;
@@ -110,7 +111,7 @@ export function actionCatalog(record: SheetRecord): ActionOption[] {
     );
     if (e.dano) add('dano', e.id, `Dano: ${e.nome}`, true);
   }
-  for (const e of c.magias as Entry[]) {
+  for (const e of c.magias) {
     add('magia', e.id, `Conjurar: ${e.nome}`, true);
     if (e.perfilId)
       add(
@@ -120,7 +121,7 @@ export function actionCatalog(record: SheetRecord): ActionOption[] {
         false,
         !c.conjuracao.perfis.some((p) => p.id === e.perfilId),
       );
-    if (e.dano) add('magia_dano', e.id, `Dano de magia: ${e.nome}`, true);
+    if (temDanoMagia(e)) add('magia_dano', e.id, `Dano de magia: ${e.nome}`, true);
   }
   for (const e of c.combate.dadosVida as Entry[])
     add(

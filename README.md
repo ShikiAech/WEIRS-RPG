@@ -17,6 +17,8 @@ Abra `http://127.0.0.1:5173/WEIRS-RPG/app.html`. Consulte o [guia de configuraç
 
 Usuários autenticados podem entrar como jogadores pela página **Campanhas**. Administradores globais são definidos exclusivamente no banco e podem editar fichas alheias e copiá-las para outras campanhas. Instale `202610120009_acessos.sql` após as migrações anteriores e siga o [guia de participação, mestres e admins](docs/acessos-campanhas.md).
 
+Magias podem ter várias parcelas e tipos de dano e ser roladas pela aba **Combate** ou pelo painel da sessão, usando o mesmo cadastro. Veja [como configurar as magias de combate](docs/magias-combate.md) e instalar a migração `202610120010_danos_magias.sql`.
+
 A ficha aceita também o PDF impresso do Roll20 D&D 2024, com extração local e prévia antes de aplicar. Veja [como importar a ficha do Roll20](docs/importacao-roll20.md), a cobertura e os campos que precisam de revisão.
 
 Verificações: `npm test`, `npm run build` e `npm run test:browser` (instale Chromium com `npx playwright install chromium`). O build gera `dist/` e verifica que todas as fontes legadas foram preservadas. O compêndio é reimportado a partir do HTML durante o build; o JSON gerado não entra no Git. Para publicar a mesa, siga o [guia do GitHub Pages](docs/publicacao-github-pages.md); o site deve servir `dist/`, e não o `app.html` de desenvolvimento da raiz.

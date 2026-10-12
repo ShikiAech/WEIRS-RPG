@@ -6,7 +6,7 @@ import {
   limparReferencias,
 } from '../../../../packages/sheets/modelo.js';
 import { calcularFicha } from '../../../../packages/sheets/calculos.js';
-import type { SheetContent } from '../../../../packages/contracts/sheets';
+import type { SheetContent, SheetSpell } from '../../../../packages/contracts/sheets';
 import type { ContentSummary } from '../../../../packages/contracts/content';
 import { identity, combat, story, training, lists, number, attributeOptions } from './fields';
 import type { FieldSpec, ListSpec } from './fields';
@@ -14,6 +14,8 @@ import { SheetActionButtons } from './SheetChat';
 import { InventoryEditor } from './InventoryEditor';
 import { SpellEditor } from './SpellEditor';
 import { sincronizarEquipamentos } from '../../../../packages/sheets/equipamentos.js';
+import { sincronizarMagias, formulasMagia } from '../../../../packages/sheets/magias.js';
+import { SpellDamageEditor } from './SpellDamageEditor';
 
 type Tree = Record<string, unknown>;
 function get(content: SheetContent, path: string): unknown {
@@ -45,7 +47,7 @@ export function SheetForm({
 }) {
   const [tab, setTab] = useState(0);
   const prefix = useId();
-  const change = (next: SheetContent) => onChange(sincronizarEquipamentos(next));
+  const change = (next: SheetContent) => onChange(sincronizarMagias(sincronizarEquipamentos(next)));
   const tabs = [
     'Personagem',
     'Atributos e perícias',
@@ -206,8 +208,33 @@ export function SheetForm({
               <fieldset className="repeat-entry" key={String(row.id)}>
                 <legend>{String(row.nome || `${spec.title} · ${i + 1}`)}</legend>
                 <div className="field-grid">
-                  {spec.fields.map((item) => field(item, `${spec.path}.${i}.${item.key}`))}
+                  {spec.fields
+                    .filter((_, n) => spec.path !== 'magias' || n < 4)
+                    .map((item) => field(item, `${spec.path}.${i}.${item.key}`))}
                 </div>
+                {spec.path === 'magias' && (
+                  <SpellDamageEditor
+                    spell={row as unknown as SheetSpell}
+                    attributes={calc.atributos}
+                    path={spec.path + '.' + i}
+                    errors={errors}
+                    onChange={(spell) => {
+                      const next = structuredClone(content);
+                      next.magias[i] = spell;
+                      change(next);
+                    }}
+                  />
+                )}
+                {spec.path === 'magias' && (
+                  <section className="spell-metadata">
+                    <h4>Conjuração e descrição</h4>
+                    <div className="field-grid">
+                      {spec.fields
+                        .slice(4)
+                        .map((item) => field(item, `${spec.path}.${i}.${item.key}`))}
+                    </div>
+                  </section>
+                )}
                 <SheetActionButtons path={spec.path} entry={row} />
                 {spec.path === 'conjuracao.perfis' && (
                   <p className="calculation">
@@ -381,6 +408,54 @@ export function SheetForm({
             <section className="form-section">
               <h3>Defesa e vitalidade</h3>
               <div className="field-grid">{combat.map((spec) => field(spec))}</div>
+            </section>
+            <section className="form-section combat-spells">
+              <div className="section-heading">
+                <h3>Magias de combate</h3>
+                <button
+                  className="button secondary"
+                  type="button"
+                  onClick={() => {
+                    setTab(4);
+                    document.getElementById(prefix + '-tab-4')?.focus();
+                  }}
+                >
+                  Editar magias
+                </button>
+              </div>
+              <p className="muted">
+                As magias cadastradas na aba Magias já estão disponíveis aqui. Configure o dano uma
+                vez e use as mesmas ações durante a sessão.
+              </p>
+              {!content.magias.length && (
+                <p className="empty-line">
+                  Adicione uma magia na aba Magias para usar seus dados em combate.
+                </p>
+              )}
+              {[...content.magias]
+                .sort((a, b) => a.circulo - b.circulo)
+                .map((spell) => (
+                  <article className="play-entry" key={spell.id}>
+                    <strong>{spell.nome || 'Magia sem nome'}</strong>
+                    <p>
+                      {spell.circulo === 0 ? 'Truque' : 'Círculo ' + spell.circulo}
+                      {spell.perfilId && calc.perfis[spell.perfilId]
+                        ? ' · Ataque ' +
+                          signed(calc.perfis[spell.perfilId].ataque) +
+                          ' · CD ' +
+                          calc.perfis[spell.perfilId].cd
+                        : ''}
+                    </p>
+                    <ul className="spell-damage-summary">
+                      {formulasMagia(spell, calc.atributos).map((d) => (
+                        <li key={d.id}>
+                          {d.formula} {d.tipo || 'Sem tipo'}
+                        </li>
+                      ))}
+                    </ul>
+                    <SheetActionButtons path="magias" entry={spell as unknown as Tree} />
+                  </article>
+                ))}
             </section>
             {[lists.hitDice, lists.speeds, lists.conditions, lists.attacks, lists.resources].map(
               (spec) => repeated(spec),

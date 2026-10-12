@@ -9,4 +9,6 @@ import './styles/agility-map.css';
 import './styles/agility-workspace.css';
 import './styles/sheets.css';
 import './styles/campaign-access.css';
+import './styles/spell-damage.css';
+import './styles/header.css';
 createRoot(document.getElementById('root')!).render(<App />);

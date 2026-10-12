@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
-import type { SheetRecord } from '../../../../packages/contracts/sheets';
+import type { SheetRecord, SheetSpell } from '../../../../packages/contracts/sheets';
+import { temDanoMagia } from '../../../../packages/sheets/magias.js';
 import type { ChatCommand, RollMode, SheetAction } from '../../../../packages/contracts/chat';
 import { supabase } from '../../lib/supabase';
 import { createChatRepository, chatError } from '../../lib/chat';
@@ -201,7 +202,7 @@ export function SheetActionButtons({
         <>
           {button('magia', 'Conjurar no chat', 'Conjurar magia')}
           {hasRoll && button('magia_ataque', 'Rolar ataque', 'Rolar ataque de magia', mode)}
-          {Boolean(String(entry.dano || '').trim()) &&
+          {temDanoMagia(entry as unknown as SheetSpell) &&
             button('magia_dano', 'Rolar dano', 'Rolar dano de magia')}
         </>
       ) : (
