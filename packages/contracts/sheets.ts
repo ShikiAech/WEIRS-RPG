@@ -60,7 +60,12 @@ export interface SheetTextEntry extends SheetNamedEntry {
   descricao: string;
 }
 type BaseContent = ReturnType<typeof criarConteudo>;
-export type SheetSpell = BaseContent['magias'][number] & { compendioId?: string; dano?: string };
+export type SheetSpell = BaseContent['magias'][number] & {
+  compendioId?: string;
+  dano?: string;
+  tipoDano?: string;
+  danos?: AttackDamage[];
+};
 export type SheetContent = Omit<
   BaseContent,
   | 'inventario'

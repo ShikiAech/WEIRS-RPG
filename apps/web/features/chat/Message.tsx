@@ -1,5 +1,6 @@
 import type { ChatMessage } from '../../../../packages/contracts/chat';
 import { useDice3D } from '../dice/Dice3D';
+import { DamageBreakdown } from './DamageBreakdown';
 
 const actionNames = {
   ataque: 'Ataque',
@@ -92,6 +93,7 @@ export function Message({
               ))}
             </div>
           )}
+          {!concealed && <DamageBreakdown parts={result?.parcelas} />}
           {result?.origem && (
             <p className="muted roll-source">
               Ficha salva · versão {result.origem.versao}

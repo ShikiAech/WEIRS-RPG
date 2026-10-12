@@ -13,6 +13,7 @@ import {
 } from 'react';
 import type { ReactNode } from 'react';
 import type { ChatMessage } from '../../../../packages/contracts/chat';
+import { DamageBreakdown } from '../chat/DamageBreakdown';
 import { dicePlan } from './roll-plan';
 import { concealedResults, initialRevealState, revealReducer } from './reveal-state';
 import type { Presentation } from './reveal-state';
@@ -274,6 +275,7 @@ function DiceScene({
           <>
             <strong>Resultado confirmado: {message.resultado?.total}</strong>
             <p className="dice-values">{plan.groups.join(' · ')}</p>
+            <DamageBreakdown parts={message.resultado?.parcelas} />
           </>
         ) : (
           <p className="dice-rolling">Rolando dados…</p>

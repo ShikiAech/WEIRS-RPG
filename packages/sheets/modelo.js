@@ -1,4 +1,5 @@
 import { validarEquipamentos } from './equipamentos.js';
+import { validarMagias } from './magias.js';
 
 export const ATRIBUTOS = {
   for: 'Força',
@@ -293,6 +294,7 @@ export function validarFicha(f) {
   validar(f.conteudo, padrao, '');
   if (erros.length === 0) {
     erros.push(...validarEquipamentos(f.conteudo));
+    erros.push(...validarMagias(f.conteudo));
     if (f.conteudo.classes.length === 0 || f.conteudo.classes.reduce((s, x) => s + x.nivel, 0) > 20)
       erro('classes', 'O nível total deve ser de 1 a 20.');
     const refs = [

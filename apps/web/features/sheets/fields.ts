@@ -228,7 +228,7 @@ export const lists: Record<string, ListSpec> = {
       flag('preparada', 'Magia preparada'),
       text('tempo', 'Tempo de conjuração'),
       text('alcance', 'Alcance'),
-      text('dano', 'Fórmula de dano da magia (opcional)'),
+
       flag('concentracao', 'Exige concentração'),
       flag('ritual', 'Ritual'),
       flag('verbal', 'Componente verbal'),

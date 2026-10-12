@@ -8,6 +8,7 @@ import { FavoriteActions } from './FavoriteActions';
 import { useActionFavorites } from './useActionFavorites';
 import { FAVORITE_LIMIT } from './action-favorites';
 import { TIPOS_EQUIPAMENTO } from '../../../../packages/sheets/equipamentos.js';
+import { formulasMagia, temDanoMagia } from '../../../../packages/sheets/magias.js';
 
 type Entry = {
   id: string;
@@ -261,10 +262,17 @@ export function SheetPlay({
                   <strong>
                     {e.nome} · {e.circulo === 0 ? 'Truque' : 'Círculo ' + e.circulo}
                   </strong>
+                  <ul className="spell-damage-summary">
+                    {formulasMagia(e, calc.atributos).map((d) => (
+                      <li key={d.id}>
+                        {d.formula} {d.tipo || 'Sem tipo'}
+                      </li>
+                    ))}
+                  </ul>
                   <div className="play-actions">
                     {roll('magia', e.id, `Conjurar: ${e.nome}`, true)}
                     {e.perfilId && roll('magia_ataque', e.id, `Ataque de magia: ${e.nome}`)}
-                    {e.dano && roll('magia_dano', e.id, `Dano de magia: ${e.nome}`, true)}
+                    {temDanoMagia(e) && roll('magia_dano', e.id, `Dano de magia: ${e.nome}`, true)}
                     {e.concentracao && (
                       <button
                         type="button"

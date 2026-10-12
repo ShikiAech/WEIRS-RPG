@@ -1,0 +1,102 @@
+.spell-damage-editor {
+  margin: 22px 0 18px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-fantasy);
+}
+.spell-damage-editor h4 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+.spell-damage-editor > p,
+.combat-spells > p {
+  font-size: 16px;
+  line-height: 1.6;
+}
+.spell-damage-part {
+  border: 1px solid #393129;
+  background: #141214;
+  padding: 18px;
+  margin: 16px 0;
+  min-width: 0;
+}
+.spell-damage-part legend {
+  padding: 0 8px;
+  color: var(--gold-bright);
+}
+.spell-damage-part .field-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.spell-damage-editor .entry-actions {
+  margin-top: 14px;
+  justify-content: space-between;
+}
+.spell-damage-editor button,
+.combat-spells button {
+  min-height: 44px;
+}
+.spell-damage-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  list-style: none;
+  margin: 12px 0;
+}
+.spell-damage-summary li {
+  border: 1px solid #393129;
+  padding: 7px 10px;
+  border-radius: 3px;
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+.combat-spells .play-entry {
+  margin-top: 16px;
+}
+.damage-type-breakdown {
+  margin: 14px 0;
+  padding: 12px 14px;
+  background: #211c16;
+  border: 1px solid #51442d;
+  border-radius: 4px;
+}
+.damage-type-breakdown > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 7px 0;
+}
+.damage-type-breakdown > div + div {
+  border-top: 1px solid #51442d;
+}
+.damage-type-breakdown dt {
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  font-size: 15px;
+}
+.damage-type-breakdown code {
+  color: var(--text-soft);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.damage-type-breakdown dd {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gold-bright);
+  margin: 0;
+}
+.dice-confirmation .damage-type-breakdown {
+  text-align: left;
+  width: 100%;
+}
+@media (max-width: 640px) {
+  .spell-damage-part {
+    padding: 14px;
+  }
+  .spell-damage-part .field-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
