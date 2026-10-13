@@ -392,3 +392,289 @@ test('bônus acima da proficiência simples não inventa especialização', () =
   assert.equal(calcularFicha(result.content).pericias.atletismo, 8);
   assert.ok(result.warnings.some((w) => /especialização/.test(w)));
 });
+
+test('multiclasse separa classes, subclasses e todos os dados de vida impressos', () => {
+  const p = basics();
+  p.items.find((i) => i.text === 'Bárbaro 4')!.text = 'Druida 4 | Clérigo 3';
+  p.items.find((i) => i.text === 'Berserker')!.text = 'Estrelas | Vida';
+  p.items.find((i) => i.text === '4D12')!.text = '3D8 | 4D8';
+  const { content } = parseRoll20Pdf([p]);
+  assert.deepEqual(
+    content.classes.map(({ nome, nivel, subclasse }) => ({ nome, nivel, subclasse })),
+    [
+      { nome: 'Druida', nivel: 4, subclasse: 'Estrelas' },
+      { nome: 'Clérigo', nivel: 3, subclasse: 'Vida' },
+    ],
+  );
+  assert.equal(
+    content.combate.dadosVida.reduce((sum, d) => sum + d.maximo, 0),
+    7,
+  );
+  assert.ok(content.combate.dadosVida.every((d) => d.dado === 'd8'));
+});
+
+test('deslocamento reconhece unidade impressa junto do número', () => {
+  const p = basics();
+  p.items.find((i) => i.text === '--')!.text = '40 ft.';
+  const result = parseRoll20Pdf([p]);
+  assert.equal(result.content.combate.deslocamento, 40);
+  assert.equal(result.content.combate.unidade, 'pes');
+  assert.ok(!result.warnings.some((w) => /Deslocamento vazio/.test(w)));
+});
+
+test('ataques sem bônus e continuação da tabela não desaparecem nem contaminam o ataque anterior', () => {
+  const attacks = page([
+    t('COMBAT REFERENCE', 220, 14),
+    t('ATTACKS', 280, 180),
+    t('NAME', 26, 207),
+    t('ATK/DC', 131, 207),
+    t('DAMAGE', 173, 207),
+    t('RANGE', 244, 207),
+    t('NOTES', 307, 207),
+    t('Raio', 26, 223),
+    t('+6', 131, 223),
+    t('1d6 fire', 173, 223),
+    t('Cura', 26, 250),
+    t('—', 131, 250),
+    t('2d8+3', 173, 250),
+    t('Toque', 244, 250),
+    t('Recupera vida.', 307, 250),
+  ]);
+  const next = page([
+    t('NAME', 26, 3),
+    t('ATK/DC', 131, 3),
+    t('DAMAGE', 173, 3),
+    t('RANGE', 244, 3),
+    t('NOTES', 307, 3),
+    t('Sugestão', 26, 21),
+    t('WIS 13', 131, 21),
+    t('—', 173, 21),
+    t('30 feet', 244, 21),
+    t('Descrição da sugestão.', 307, 21),
+    t('ACTIONS', 280, 80),
+  ]);
+  const { content } = parseRoll20Pdf([basics(), attacks, next]);
+  assert.deepEqual(
+    content.ataques.map((a) => a.nome),
+    ['Raio', 'Cura', 'Sugestão'],
+  );
+  assert.equal(content.ataques[0].dano, '1d6');
+  assert.equal(content.ataques[1].tipo, 'bonus');
+  assert.equal(content.ataques[1].valor, 0);
+  assert.match(content.ataques[1].observacoes, /Sem jogada de ataque/);
+  assert.equal(content.ataques[1].dano, '2d8+3');
+  assert.equal(content.ataques[2].valor, 13);
+  assert.doesNotMatch(content.ataques[0].observacoes, /Recupera/);
+});
+
+test('características aceitam classe, subclasse, espécie e outras origens sem misturar descrições', () => {
+  const p = basics();
+  const features = page([
+    t('BACKSTORY, PERSONALITY & FEATURES', 150, 24),
+    t('CLASS FEATURES', 270, 70),
+    t('Fúria (Bárbaro)', 14, 90),
+    t('Descrição da fúria.', 14, 105),
+    t('Frenesi (Berserker)', 14, 140),
+    t('Descrição do frenesi.', 14, 155),
+    t('SPECIES TRAITS', 270, 200),
+    t('Visão (Oni)', 14, 220),
+    t('Descrição da visão.', 14, 240),
+    t('OTHER FEATURES', 270, 280),
+    t('Atacante (Feat)', 14, 300),
+    t('Descrição do talento.', 14, 315),
+    t('Manobra (Other)', 14, 350),
+    t('Descrição da manobra.', 14, 365),
+    t('Herança (Background)', 307, 300),
+    t('Descrição da herança.', 307, 315),
+    t('Ajuste (Custom)', 307, 350),
+    t('Descrição do ajuste.', 307, 365),
+  ]);
+  const { content } = parseRoll20Pdf([p, features]);
+  assert.deepEqual(
+    content.caracteristicas.map((f) => f.nome),
+    ['Fúria', 'Frenesi', 'Manobra', 'Herança', 'Ajuste'],
+  );
+  assert.deepEqual(
+    content.tracos.map((f) => f.nome),
+    ['Visão'],
+  );
+  assert.deepEqual(
+    content.talentos.map((f) => f.nome),
+    ['Atacante'],
+  );
+  assert.doesNotMatch(content.talentos[0].descricao, /manobra/);
+  assert.doesNotMatch(content.caracteristicas[0].descricao, /frenesi/);
+});
+
+test('magias com coluna PR mantêm limites na quebra de página, componentes e preparação', () => {
+  const spells = page([
+    t('SPELLS & SPELLCASTING', 220, 32),
+    t('CANTRIPS & SPELLS', 267, 174),
+    t('LVL', 14, 200),
+    t('PR.', 29, 200),
+    t('NAME', 49, 200),
+    t('RANGE', 136, 200),
+    t('V', 194, 194, 3),
+    t('S', 205, 194, 3),
+    t('M', 214, 194, 4),
+    t('NOTES', 226, 200),
+    t('1', 16, 714),
+    t('Proteção', 47, 707),
+    t('Action', 47, 721),
+    t('V', 194, 712, 3),
+    t('S', 205, 712, 3),
+    t('Descrição anterior.', 227, 695),
+    t('1', 16, 747.25),
+    t('Detectar Magia', 47, 748),
+    t('1 hora', 47, 761),
+    t('V', 194, 751, 3),
+    t('S', 205, 751, 3),
+    t('R', 199, 761, 3),
+    t('Descrição da detecção.', 227, 747.5),
+  ]);
+  spells.rules = [214.5, 692, 744.5].map((y) => ({ x0: 14, x1: 598, y }));
+  spells.inkAt = (x, y) => Math.abs(x - 28) < 2 && Math.abs(y - 718) < 2;
+  spells.ringAt = (x, y) => x < 202 && y > 745;
+  const next = page([
+    t('LVL', 14, 3),
+    t('PR.', 29, 3),
+    t('NAME', 49, 3),
+    t('RANGE', 136, 3),
+    t('V', 194, 1, 3),
+    t('NOTES', 226, 3),
+    t('Continuação da detecção.', 227, 22),
+  ]);
+  const { content } = parseRoll20Pdf([basics(), spells, next]);
+  assert.deepEqual(
+    content.magias.map((m) => m.nome),
+    ['Proteção', 'Detectar Magia'],
+  );
+  assert.equal(content.magias[0].preparada, true);
+  assert.equal(content.magias[1].preparada, false);
+  assert.equal(content.magias[1].tempo, '1 hora');
+  assert.equal(content.magias[1].verbal, true);
+  assert.equal(content.magias[1].somatico, false);
+  assert.equal(content.magias[1].ritual, true);
+  assert.equal(content.magias[1].descricao, 'Descrição da detecção.\nContinuação da detecção.');
+  assert.doesNotMatch(content.magias[0].descricao, /detecção|S M/);
+});
+
+test('sentidos não são sobrescritos por notas de ataques nas páginas de continuação', () => {
+  const combat = page([
+    t('COMBAT REFERENCE', 220, 24),
+    t('SENSES', 260, 77),
+    t('PROFICIENCIES', 437, 77),
+    t('PASSIVE', 240, 96),
+    t('PERCEPTION', 240, 105),
+    t('12', 305, 105),
+    t('DARKVISION', 240, 132),
+    t('60 ft', 305, 132),
+    t('ATTACKS', 280, 180),
+  ]);
+  const next = page([t('Notas de outra ação.', 310, 90)]);
+  const { content } = parseRoll20Pdf([basics(), combat, next]);
+  assert.equal(content.combate.sentidos, 'DARKVISION 60 ft');
+});
+
+test('perfis múltiplos e espaços normais e de pacto usam os rótulos da tabela', () => {
+  const second = page([
+    t('CHA /', 25, 29),
+    t('INT', 30, 56),
+    t('Ability', 63, 48),
+    t('-1 / +0', 20, 82),
+    t('Modifier', 63, 88),
+    t('13 / 14', 24, 123),
+    t('Spell Save DC', 63, 121),
+    t('+5 / +6', 24, 162),
+    t('Spell Attack', 63, 156),
+    t('Bonus', 63, 167),
+    t('SPELL SLOTS', 251, 56),
+    t('Level', 136, 71),
+    t('Total', 165, 71),
+    t('Expended', 195, 71),
+    t('1', 142, 89),
+    t('4', 170, 87),
+    t('2', 142, 105),
+    t('3', 170, 103),
+    t('3', 142, 121),
+    t('2', 170, 119),
+    t('WARLOCK SPELLS', 136, 141),
+    t('Level', 136, 153),
+    t('Total', 165, 153),
+    t('Expended', 195, 153),
+    t('3', 142, 167),
+    t('2', 170, 167),
+    t('CANTRIPS & PREPARED SPELLS', 155, 194),
+  ]);
+  const { content } = parseRoll20Pdf([basics(), second]);
+  assert.deepEqual(
+    content.conjuracao.perfis.map((p) => p.atributo),
+    ['car', 'int'],
+  );
+  const computed = calcularFicha(content);
+  assert.deepEqual(
+    content.conjuracao.perfis.map((p) => computed.perfis[p.id]),
+    [
+      { modificador: -1, cd: 13, ataque: 5 },
+      { modificador: 0, cd: 14, ataque: 6 },
+    ],
+  );
+  assert.deepEqual(
+    content.conjuracao.espacos.slice(0, 3).map((s) => s.total),
+    [4, 3, 2],
+  );
+  assert.deepEqual(content.conjuracao.pacto, { circulo: 3, total: 2, gastos: 0 });
+});
+
+test('cabeçalho comprimido não mistura antecedente com NAME e mantém as quatro classes', () => {
+  const p = basics();
+  p.items.find((i) => i.text === 'Bárbaro 4')!.text = 'Warlock 5 | Bard 5 | Barbarian 5 | Rogue 5';
+  p.items.find((i) => i.text === 'Berserker')!.text = 'Fiend Patron | Lore | Berserker | Thief';
+  for (const i of p.items) if (i.x === 149) i.x = 85;
+  const { content } = parseRoll20Pdf([p]);
+  assert.equal(content.identidade.antecedente, 'Soldado');
+  assert.deepEqual(
+    content.classes.map((c) => c.nome),
+    ['Warlock', 'Bard', 'Barbarian', 'Rogue'],
+  );
+  assert.equal(
+    content.classes.reduce((sum, c) => sum + c.nivel, 0),
+    20,
+  );
+});
+
+test('bônus de perícias com dois dígitos permanecem na coluna da direita', () => {
+  const p = basics();
+  p.items = p.items.filter((i) => !i.text.includes('Perception'));
+  p.items.push(t('+13', 145, 436), t('Perception', 164, 436));
+  const { content } = parseRoll20Pdf([p]);
+  assert.equal(calcularFicha(content).pericias.percepcao, 13);
+  assert.equal(content.pericias.percepcao.grau, 'proficiente');
+});
+
+test('inventário conserva itens de quantidade zero e marcação de equipado na continuação', () => {
+  const inventory = page([
+    t('INVENTORY', 269, 27),
+    t('EQUIPMENT', 282, 58),
+    t('Escudo', 52, 92),
+    t('1 lb', 245, 92),
+    t('1', 285, 92),
+  ]);
+  const next = page([
+    t('Adaga', 52, 21),
+    t('1 lb', 245, 21),
+    t('1', 285, 21),
+    t('Melee Weapon', 25, 35),
+    t('MAGIC ITEM ATTUNEMENT', 254, 60),
+    t('POSSESSIONS', 270, 90),
+    t('Corda', 25, 120),
+    t('0 lbs', 245, 120),
+    t('0', 285, 120),
+  ]);
+  next.inkAt = (x, y) => Math.abs(x - 37) < 1 && Math.abs(y - 25) < 1;
+  const { content } = parseRoll20Pdf([basics(), inventory, next]);
+  assert.equal(content.inventario.itens.length, 3);
+  assert.equal(content.inventario.itens[1].equipado, true);
+  assert.equal(content.inventario.itens[2].quantidade, 0);
+  assert.equal(content.inventario.itens[2].peso, 0);
+});

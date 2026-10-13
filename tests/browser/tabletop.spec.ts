@@ -323,3 +323,80 @@ test('ping compartilha a posição entre duas janelas e desaparece sem registrar
   expect(chat.rows).toHaveLength(1);
   await player.close();
 });
+
+test('régua trava vértices com botão direito e soma o percurso sem mover o mapa', async ({
+  page,
+}) => {
+  const sheets = await backend(page),
+    chat = await chatBackend(page);
+  const maps = await tabletopBackend(page, sheets, chat);
+  await page.goto('app.html#/chat');
+  await showMap(page);
+  if (test.info().project.name === 'desktop')
+    await page.getByRole('button', { name: 'Mesa de dados 3D', exact: true }).click();
+  await page.getByRole('button', { name: 'Régua', exact: true }).click();
+  const canvas = page.getByRole('application', { name: 'Mapa da campanha' });
+  const positions = await canvas.evaluate((node) => {
+    const svg = node as SVGSVGElement;
+    const layer = svg.querySelector(':scope > g') as SVGGraphicsElement;
+    return [
+      [8, 10],
+      [11, 10],
+      [13, 8],
+      [13, 11],
+      [14, 11],
+    ].map(([x, y]) => {
+      const point = svg.createSVGPoint();
+      point.x = x * 64;
+      point.y = y * 64;
+      const screen = point.matrixTransform(layer.getScreenCTM()!);
+      return { x: screen.x, y: screen.y };
+    });
+  });
+  const transform = await canvas.locator(':scope > g').getAttribute('transform');
+  await page.mouse.move(positions[0].x, positions[0].y);
+  await page.mouse.down();
+  await page.mouse.move(positions[1].x, positions[1].y, { steps: 4 });
+  await expect(page.locator('.map-status')).toContainText('15 pés');
+  await page.mouse.down({ button: 'right' });
+  await page.mouse.up({ button: 'right' });
+  await page.mouse.move(positions[2].x, positions[2].y, { steps: 4 });
+  await expect(page.locator('.map-status')).toContainText('25 pés');
+  await page.mouse.down({ button: 'right' });
+  await page.mouse.up({ button: 'right' });
+  await page.mouse.move(positions[3].x, positions[3].y, { steps: 4 });
+  await expect(page.locator('.map-status')).toContainText('40 pés');
+  await expect(canvas.locator(':scope > g')).toHaveAttribute('transform', transform!);
+  await page.mouse.up();
+  await page.mouse.move(positions[4].x, positions[4].y);
+  await expect(page.locator('.map-status')).toContainText('40 pés');
+  await expect(canvas.locator('text').filter({ hasText: /^15 pés$/ })).toHaveCount(1);
+  await expect(canvas.locator('text').filter({ hasText: /^25 pés$/ })).toHaveCount(1);
+  await expect(canvas.locator('text').filter({ hasText: /^40 pés$/ })).toHaveCount(1);
+  // A new drag starts a fresh measurement, without the previous vertices.
+  await page.mouse.move(positions[3].x, positions[3].y);
+  await page.mouse.down();
+  await page.mouse.move(positions[4].x, positions[4].y);
+  await page.mouse.up();
+  await expect(page.locator('.map-status')).toHaveText(/^5 pés ·/);
+  await expect(canvas.locator('text').filter({ hasText: /^25 pés$/ })).toHaveCount(0);
+  // Releasing left first must finish, even if right is still held.
+  await page.mouse.move(positions[3].x, positions[3].y);
+  await page.mouse.down();
+  await page.mouse.move(positions[4].x, positions[4].y);
+  await page.mouse.down({ button: 'right' });
+  await page.mouse.up();
+  await page.mouse.move(positions[0].x, positions[0].y);
+  await expect(page.locator('.map-status')).toHaveText(/^5 pés ·/);
+  await page.mouse.up({ button: 'right' });
+  await expect(page.locator('.map-status')).toHaveText(/^5 pés ·/);
+  // Escape during a drag must clear the ruler and prevent it reappearing.
+  await page.mouse.move(positions[0].x, positions[0].y);
+  await page.mouse.down();
+  await page.mouse.move(positions[1].x, positions[1].y);
+  await page.keyboard.press('Escape');
+  await page.mouse.move(positions[2].x, positions[2].y);
+  await page.mouse.up();
+  await expect(canvas.locator('text').filter({ hasText: /pés$/ })).toHaveCount(0);
+  expect(maps.operations).toHaveLength(0);
+});

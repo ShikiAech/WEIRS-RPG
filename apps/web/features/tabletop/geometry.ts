@@ -58,6 +58,13 @@ export function fitCamera(
 export function distance(a: Point, b: Point, unit: number): number {
   return Math.round(Math.max(Math.abs(a.x - b.x), Math.abs(a.y - b.y)) * unit * 10) / 10;
 }
+export function cumulativeDistances(points: Point[], unit: number): number[] {
+  let total = 0;
+  return points.map((point, index) => {
+    if (index > 0) total = Math.round((total + distance(points[index - 1], point, unit)) * 10) / 10;
+    return total;
+  });
+}
 export function revealRectangle(a: Point, b: Point, width: number, height: number) {
   const x = clamp(Math.floor(Math.min(a.x, b.x)), 0, width - 1),
     y = clamp(Math.floor(Math.min(a.y, b.y)), 0, height - 1);

@@ -70,6 +70,27 @@ function numeric(p: PdfPage, x0: number, x1: number, y0: number, y1: number) {
 function heading(p: PdfPage, name: string, y0 = 0) {
   return rows(p.items).find((r) => r.y >= y0 && r.text.includes(name));
 }
+function label(p: PdfPage, name: string, x0 = 0, x1 = 612) {
+  return p.items.find((i) => i.text === name && i.x >= x0 && i.x < x1);
+}
+function fieldAbove(p: PdfPage, name: string, x0 = 0, x1 = 270) {
+  const h = label(p, name, x0, x1);
+  if (!h) return '';
+  const right =
+    p.items
+      .filter((i) => i.x > h.x + 2 && i.x < x1 && Math.abs(i.y - h.y) < 3)
+      .sort((a, b) => a.x - b.x)[0]?.x ?? x1;
+  return clean(text(p, h.x - 1, right - 1, h.y - 22, h.y - 1));
+}
+function numberAbove(p: PdfPage, h: PdfText | undefined) {
+  if (!h) return undefined;
+  const cx = h.x + h.width / 2;
+  return p.items
+    .filter((i) => i.y < h.y && i.y >= h.y - 24 && Math.abs(i.x + i.width / 2 - cx) < 16)
+    .sort((a, b) => b.y - a.y)
+    .map((i) => number(i.text))
+    .find((n) => n !== undefined);
+}
 function normalized(p: PdfPage): PdfPage {
   const sx = 612 / p.width,
     sy = 792 / p.height;
@@ -135,12 +156,12 @@ export function parseRoll20Pdf(input: PdfPage[]): Roll20PdfImport {
       );
     return s.trim().slice(0, max);
   };
-  const name = fit(clean(text(first, 27, 273, 14, 40)), 120, 'Nome');
+  const name = fit(fieldAbove(first, 'NAME'), 120, 'Nome');
   if (!name) throw Error('Não foi possível localizar o nome no layout do PDF do Roll20.');
-  c.identidade.antecedente = fit(clean(text(first, 27, 143, 48, 64)));
-  c.identidade.especie = fit(clean(text(first, 27, 143, 80, 97)));
-  const classText = clean(text(first, 148, 270, 48, 64));
-  const classes = [...classText.matchAll(/([^\d,;/]+?)\s*(\d{1,2})(?=\s|[,;/]|$)/g)];
+  c.identidade.antecedente = fit(fieldAbove(first, 'BACKGROUND'));
+  c.identidade.especie = fit(fieldAbove(first, 'SPECIES'));
+  const classText = fieldAbove(first, 'CLASS');
+  const classes = [...classText.matchAll(/([^\d,;/|]+?)\s*(\d{1,2})(?=\s|[,;/|]|$)/g)];
   if (classes.length)
     c.classes = classes.map((m) => ({
       ...novaEntrada('classes'),
@@ -151,8 +172,11 @@ export function parseRoll20Pdf(input: PdfPage[]): Roll20PdfImport {
     c.classes[0].nome = fit(classText);
     warn('Classe e nível: confira os valores; o nível não pôde ser identificado.');
   }
-  c.classes[0].subclasse = fit(clean(text(first, 148, 270, 80, 97)));
-  const xp = text(first, 280, 320, 72, 87).match(/(\d[\d.,]*)\s*\//);
+  const subclasses = fieldAbove(first, 'SUBCLASS').split('|');
+  c.classes.forEach((entry, i) => {
+    entry.subclasse = fit(subclasses[i] || '');
+  });
+  const xp = fieldAbove(first, 'XP', 270, 345).match(/(\d[\d.,]*)\s*\//);
   if (xp) c.identidade.experiencia = Number(xp[1].replace(/[.,]/g, ''));
   const size = norm(text(first, 443, 492, 153, 181));
   c.identidade.tamanho =
@@ -168,30 +192,74 @@ export function parseRoll20Pdf(input: PdfPage[]): Roll20PdfImport {
     )[size] ||
     fit(size) ||
     'Médio';
-  const ca = numeric(first, 339, 376, 45, 70),
-    current = numeric(first, 395, 431, 65, 88),
-    max = numeric(first, 438, 462, 70, 88);
+  const armor = label(first, 'ARMOR', 330),
+    shield = label(first, 'SHIELD');
+  const ca = armor
+      ? numeric(
+          first,
+          armor.x - 8,
+          armor.x + armor.width + 8,
+          armor.y + 14,
+          shield?.y ?? armor.y + 40,
+        )
+      : numeric(first, 339, 376, 45, 70),
+    current = numberAbove(first, label(first, 'CURRENT')),
+    max = numberAbove(first, label(first, 'MAX', 430, 480));
   if (ca !== undefined) c.combate.ca = ca;
   else warn('CA não encontrada: confira o valor padrão.');
   if (max !== undefined) c.combate.pvMaximos = max;
   else warn('PV máximos não encontrados: confira o valor padrão.');
   if (current !== undefined) c.combate.pvAtuais = current;
   else warn('PV atuais não encontrados: confira o valor padrão.');
-  c.combate.pvTemporarios = numeric(first, 438, 462, 45, 62) ?? 0;
-  const hit = text(first, 478, 516, 73, 89).match(/(\d+)\s*[dD](6|8|10|12)\b/);
-  if (hit)
-    c.combate.dadosVida = [
-      {
+  c.combate.pvTemporarios = numberAbove(first, label(first, 'TEMP')) ?? 0;
+  const spent = label(first, 'SPENT'),
+    diceMax = label(first, 'MAX', 480, 525);
+  const hitText = text(first, 474, 525, spent ? spent.y + spent.height : 68, diceMax?.y ?? 89);
+  const hits = [...hitText.matchAll(/(\d+)\s*[dD](6|8|10|12)\b/g)];
+  for (const hit of hits) {
+    const existing = c.combate.dadosVida.find((d) => d.dado === 'd' + hit[2]);
+    if (existing) existing.maximo += Number(hit[1]);
+    else
+      c.combate.dadosVida.push({
         ...novaEntrada('combate.dadosVida'),
         dado: 'd' + hit[2],
         maximo: Number(hit[1]),
-        gastos: numeric(first, 478, 516, 45, 62) ?? 0,
-      },
-    ];
-  c.combate.escudo = first.inkAt?.(357.5, 71) ?? false;
-  c.combate.sucessosMorte = [545, 558, 571].filter((x) => first.inkAt?.(x, 54)).length;
-  c.combate.falhasMorte = [545, 558, 571].filter((x) => first.inkAt?.(x, 80)).length;
-  c.combate.inspiracao = first.inkAt?.(67, 637) ?? false;
+        gastos: 0,
+      });
+  }
+  const spentText = spent ? text(first, 474, 525, spent.y - 24, spent.y - 1) : '';
+  const spentDice = [...spentText.matchAll(/(\d+)\s*[dD](6|8|10|12)\b/g)];
+  for (const hit of spentDice) {
+    const die = c.combate.dadosVida.find((d) => d.dado === 'd' + hit[2]);
+    if (die) die.gastos += Number(hit[1]);
+  }
+  if (!spentDice.length && c.combate.dadosVida.length === 1)
+    c.combate.dadosVida[0].gastos = numberAbove(first, spent) ?? 0;
+  c.combate.escudo =
+    first.inkAt?.(shield ? shield.x + shield.width / 2 : 357.5, shield ? shield.y - 6 : 71) ??
+    false;
+  const deathMarks = (name: string) => {
+    const h = label(first, name);
+    return h
+      ? [-13, 0, 13].filter((dx) => {
+          const x = h.x + h.width / 2 + dx,
+            y = h.y - 8;
+          return (
+            [
+              [0, 0],
+              [-1.25, 0],
+              [1.25, 0],
+              [0, -1.25],
+              [0, 1.25],
+            ].filter(([ox, oy]) => first.inkAt?.(x + ox, y + oy)).length >= 4
+          );
+        }).length
+      : 0;
+  };
+  c.combate.sucessosMorte = deathMarks('SUCCESSES');
+  c.combate.falhasMorte = deathMarks('FAILURES');
+  const inspiration = label(first, 'HEROIC INSPIRATION');
+  c.combate.inspiracao = first.inkAt?.(67, inspiration ? inspiration.y + 37.5 : 637) ?? false;
   const abilityNames: Record<Ability, string> = {
     for: 'STRENGTH',
     des: 'DEXTERITY',
@@ -243,7 +311,7 @@ export function parseRoll20Pdf(input: PdfPage[]): Roll20PdfImport {
   for (const [key, label] of Object.entries(abilityNames) as [Ability, string][]) {
     const h = first.items.find((i) => i.text === label)!;
     const right = ['int', 'sab', 'car'].includes(key),
-      x0 = right ? 148 : 28,
+      x0 = right ? 143 : 27,
       x1 = right ? 237 : 122;
     const next =
       first.items
@@ -287,10 +355,13 @@ export function parseRoll20Pdf(input: PdfPage[]): Roll20PdfImport {
   if (initiative !== undefined) c.combate.ajusteIniciativa = initiative - calc.atributos.des;
   if (passive !== undefined)
     c.combate.ajustePercepcaoPassiva = passive - (10 + calc.pericias.percepcao);
-  const speed = numeric(first, 352, 412, 152, 179);
-  if (speed !== undefined) {
-    c.combate.deslocamento = speed;
-    c.combate.unidade = 'pes';
+  const speedLabel = label(first, 'SPEED');
+  const speed = clean(
+    text(first, 352, 412, (speedLabel?.y ?? 143) + 7, (speedLabel?.y ?? 143) + 35),
+  ).match(/^(\d+(?:[.,]\d+)?)\s*(ft\.?|feet|m|metros?)?$/i);
+  if (speed) {
+    c.combate.deslocamento = Number(speed[1].replace(',', '.'));
+    c.combate.unidade = /^(m|metro)/i.test(speed[2] || '') ? 'metros' : 'pes';
   } else
     warn(
       'Deslocamento vazio no PDF: o padrão de 9 metros foi mantido; informe o deslocamento correto.',
@@ -301,7 +372,7 @@ export function parseRoll20Pdf(input: PdfPage[]): Roll20PdfImport {
     ['pesadas', 146],
     ['escudos', 181.2],
   ] as const)
-    c.treinamento[key] = first.inkAt?.(x, 708.2) ?? false;
+    c.treinamento[key] = first.inkAt?.(x, (label(first, 'LIGHT')?.y ?? 703.5) + 4.7) ?? false;
   c.treinamento.armas = fit(
     clean(text(first, 24, 237, 720, 744))
       .replace(/^WEAPONS\s*/, '')
@@ -316,34 +387,45 @@ export function parseRoll20Pdf(input: PdfPage[]): Roll20PdfImport {
   const second = pages.find((p) => heading(p, 'CANTRIPS & PREPARED SPELLS'));
   const prepared = new Set<string>();
   if (second) {
-    const sourceAbility = norm(text(second, 14, 60, 28, 51));
-    const ability = (
-      {
-        str: 'for',
-        strength: 'for',
-        dex: 'des',
-        dexterity: 'des',
-        con: 'con',
-        constitution: 'con',
-        int: 'int',
-        intelligence: 'int',
-        wis: 'sab',
-        wisdom: 'sab',
-        cha: 'car',
-        charisma: 'car',
-      } as Record<string, Ability>
-    )[sourceAbility];
-    if (ability) {
+    const anchors = ['Ability', 'Modifier', 'Spell Save DC', 'Bonus'].map((name) =>
+      label(second, name, 60, 125),
+    );
+    const defaults = [28, 55, 85, 110, 141];
+    const bands = anchors.every(Boolean)
+      ? [0, ...anchors.slice(1).map((h, i) => (h!.y + anchors[i]!.y) / 2), anchors[3]!.y + 25]
+      : defaults;
+    const values = bands.slice(0, 4).map((top, i) =>
+      clean(text(second, 14, 60, top, bands[i + 1]))
+        .split('/')
+        .map(clean),
+    );
+    const abilityMap: Record<string, Ability> = {
+      str: 'for',
+      strength: 'for',
+      dex: 'des',
+      dexterity: 'des',
+      con: 'con',
+      constitution: 'con',
+      int: 'int',
+      intelligence: 'int',
+      wis: 'sab',
+      wisdom: 'sab',
+      cha: 'car',
+      charisma: 'car',
+    };
+    values[0].forEach((source, i) => {
+      const ability = abilityMap[norm(source)];
+      if (!ability) return;
       const profile = {
         ...novaEntrada('conjuracao.perfis'),
-        nome: 'Conjuração do PDF',
+        nome: values[0].length > 1 ? 'Conjuração do PDF ' + (i + 1) : 'Conjuração do PDF',
         atributo: ability,
-        classeId: c.classes.length === 1 ? c.classes[0].id : '',
+        classeId: c.classes.length === 1 && values[0].length === 1 ? c.classes[0].id : '',
       };
       const base = calcularFicha(c),
-        printedMod = numeric(second, 14, 60, 55, 85),
-        printedDc = numeric(second, 14, 60, 85, 110),
-        printedAttack = numeric(second, 14, 60, 110, 141);
+        printedMod = number(values[1][i] || ''),
+        printedDc = number(values[2][i] || ''),
+        printedAttack = number(values[3][i] || '');
       profile.ajusteModificador = (printedMod ?? base.atributos[ability]) - base.atributos[ability];
       const modifier = base.atributos[ability] + profile.ajusteModificador;
       profile.ajusteCd =
@@ -351,7 +433,11 @@ export function parseRoll20Pdf(input: PdfPage[]): Roll20PdfImport {
       profile.ajusteAtaque =
         printedAttack !== undefined ? printedAttack - (base.proficiencia + modifier) : 0;
       c.conjuracao.perfis.push(profile);
-    }
+    });
+    if (c.conjuracao.perfis.length > 1)
+      warn(
+        'Múltiplos perfis de conjuração: confira a classe de origem e associe cada magia ao perfil correto. A ordem impressa não identifica esses vínculos.',
+      );
     const lang = heading(second, 'LANGUAGES')?.y,
       equip = heading(second, 'EQUIPMENT', 300)?.y;
     if (lang !== undefined && equip !== undefined)
@@ -397,20 +483,30 @@ export function parseRoll20Pdf(input: PdfPage[]): Roll20PdfImport {
     )
       combatActive = false;
     if (!combatActive) continue;
-    const attacks = heading(p, 'ATTACKS')?.y,
+    const attackHeader = label(p, 'ATK/DC');
+    const attacks = heading(p, 'ATTACKS')?.y ?? (attackHeader ? attackHeader.y - 15 : undefined),
       end = heading(p, 'WEAPON MASTERIES')?.y ?? heading(p, 'ACTIONS')?.y ?? 792;
     if (attacks !== undefined) {
       const candidates = rows(region(p, 129, 169, attacks + 15, end)).filter((r) =>
-        /^(?:[+-]\d+|(?:STR|DEX|CON|INT|WIS|CHA)\s+\d+)$/.test(r.text),
+        /^(?:[+-]\d+|(?:STR|DEX|CON|INT|WIS|CHA)\s+\d+|[—–-])$/.test(r.text),
       );
       candidates.forEach((r, i) => {
         const stop = candidates[i + 1]?.y ?? end;
         const name = clean(text(p, 24, 128, r.y - 3, stop - 4));
-        const damage = clean(text(p, 171, 241, r.y - 3, stop - 4)).match(/^([\ddD+−.\-]+)\s*(.*)$/);
-        const range = clean(text(p, 242, 304, r.y - 3, stop - 4));
-        const notes = text(p, 306, 601, r.y - 3, stop - 4);
-        const dc = !r.text.startsWith('+') && /^[A-Z]/.test(r.text);
-        const value = Number(r.text.match(/[+-]?\d+$/)![0]);
+        const damage = clean(
+          text(p, 171, (label(p, 'RANGE')?.x ?? 244) - 2, r.y - 3, stop - 4),
+        ).match(/^([\ddD+−.\-]+)\s*(.*)$/);
+        const rangeX = label(p, 'RANGE')?.x ?? 244,
+          notesX = label(p, 'NOTES')?.x ?? 307;
+        const range = clean(text(p, rangeX - 2, notesX - 2, r.y - 3, stop - 4));
+        const notes = text(p, notesX - 2, 601, r.y - 3, stop - 4);
+        const dc = /^[A-Z]/.test(r.text),
+          damageOnly = /^[—–-]$/.test(r.text);
+        const value = Number(r.text.match(/[+-]?\d+$/)?.[0] ?? 0);
+        if (damageOnly)
+          warn(
+            'Algumas entradas de dano ou cura não têm jogada de ataque/CD no PDF. Foram preservadas com bônus 0 e uma observação; confira antes de rolar.',
+          );
         c.ataques.push({
           ...novaEntrada('ataques'),
           nome: fit(name),
@@ -419,7 +515,13 @@ export function parseRoll20Pdf(input: PdfPage[]): Roll20PdfImport {
           dano: fit(damage?.[1]?.replace('−', '-') || ''),
           tipoDano: fit(damage?.[2] || ''),
           observacoes: fit(
-            [range && 'Alcance: ' + range, dc && 'Salvaguarda: ' + r.text.split(' ')[0], notes]
+            [
+              range && 'Alcance: ' + range,
+              dc && 'Salvaguarda: ' + r.text.split(' ')[0],
+              damageOnly &&
+                'Sem jogada de ataque/CD no PDF; use somente o dano ou cura. Bônus 0 é um marcador editável.',
+              notes,
+            ]
               .filter(Boolean)
               .join('\n'),
             10000,
@@ -449,11 +551,17 @@ export function parseRoll20Pdf(input: PdfPage[]): Roll20PdfImport {
         clean(text(p, 80, 217, immune - 3, immune + 15)).replace(/^None$/i, ''),
         10000,
       );
-    const sense = text(p, 220, 390, 66, 173)
-      .split('\n')
-      .filter((s) => !s.includes('PASSIVE') && !s.includes('PERCEPTION'))
-      .join('\n');
-    if (sense) c.combate.sentidos = fit(sense, 10000);
+    const senses = label(p, 'SENSES');
+    if (senses) {
+      const bottom = heading(p, 'ATTACKS')?.y ?? 175;
+      const sense = rows(
+        region(p, 220, label(p, 'WEAPONS', senses.x)?.x ?? 395, senses.y + 9, bottom - 4),
+      )
+        .filter((r) => !/PASSIVE|PERCEPTION|^\d+$/.test(r.text))
+        .map((r) => r.text)
+        .join('\n');
+      c.combate.sentidos = fit(sense, 10000);
+    }
   }
   if (!c.ataques.length) {
     const h = heading(first, 'WEAPONS & DAMAGE CANTRIPS')?.y,
@@ -487,15 +595,21 @@ export function parseRoll20Pdf(input: PdfPage[]): Roll20PdfImport {
     if (!spellActive) continue;
     const h = heading(p, 'CANTRIPS & SPELLS')?.y;
     const top = h !== undefined ? h + 35 : 0;
+    const nameX = (label(p, 'NAME')?.x ?? 27) - 3;
+    const rangeX = (label(p, 'RANGE')?.x ?? 114) - 1;
+    const notesX = label(p, 'NOTES')?.x ?? 204;
+    const flagsX =
+      (p.items.find((i) => i.text === 'V' && i.y < (label(p, 'NAME')?.y ?? top) + 3)?.x ?? 172) - 3;
+    const prepHeader = label(p, 'PR.');
     const levels = p.items
       .filter((i) => i.x < 24 && i.y > (h !== undefined ? h + 20 : 0) && /^[0-9]$/.test(i.text))
       .sort((a, b) => a.y - b.y);
     const rules = p.rules?.filter((r) => r.x0 <= 25 && r.x1 >= 590).map((r) => r.y) || [];
     if (lastSpell) {
       const stop = levels.length
-        ? (rules.filter((y) => y < levels[0].y - 3).at(-1) ?? levels[0].y - 10)
+        ? (rules.filter((y) => y < levels[0].y).at(-1) ?? levels[0].y - 10)
         : 792;
-      const continuation = text(p, 204, 601, top, stop - 2)
+      const continuation = text(p, notesX, 601, top, stop - 1)
         .split('\n')
         .filter((s) => !/^NOTES$/.test(s))
         .join('\n');
@@ -503,13 +617,15 @@ export function parseRoll20Pdf(input: PdfPage[]): Roll20PdfImport {
     }
     levels.forEach((level, i) => {
       const start =
-        rules.filter((y) => y < level.y - 3).at(-1) ?? (i ? (levels[i - 1].y + level.y) / 2 : top);
+        rules.filter((y) => y < level.y).at(-1) ?? (i ? (levels[i - 1].y + level.y) / 2 : top);
       const end =
         rules.find((y) => y > level.y + 8) ??
         (levels[i + 1] ? (level.y + levels[i + 1].y) / 2 : 792);
-      const nameAndTime = rows(region(p, 24, 113, start + 2, end - 2));
+      const nameAndTime = rows(region(p, nameX, rangeX, start + 1, end - 1));
       const timeRow = nameAndTime.find((r) =>
-        /^(Action|Bonus Action|Reaction|\d+\s+(Minute|Hour)|Special|Ação|Reação)/i.test(r.text),
+        /^(Action|Bonus Action|Reaction|\d+\s+(Action|Minute|Hour|ação|ações|minuto|hora)|Special|Ação|Reação)/i.test(
+          r.text,
+        ),
       );
       const name = clean(
         nameAndTime
@@ -518,7 +634,7 @@ export function parseRoll20Pdf(input: PdfPage[]): Roll20PdfImport {
           .join(' '),
       );
       if (!name) return;
-      const flags = region(p, 169, 203, start + 2, end - 2);
+      const flags = region(p, flagsX, notesX, start + 1, end - 1);
       const flag = (letter: string) => {
         const f = flags.find((f) => f.text === letter);
         return !!(f && p.ringAt?.(f.x + f.width / 2, f.y + f.height / 2));
@@ -527,45 +643,60 @@ export function parseRoll20Pdf(input: PdfPage[]): Roll20PdfImport {
         ...novaEntrada('magias'),
         nome: fit(name),
         circulo: Number(level.text),
-        preparada: prepared.has(norm(name)),
+        preparada:
+          Number(level.text) === 0 ||
+          (prepHeader
+            ? (p.inkAt?.(prepHeader.x - 1, level.y + 4) ?? false)
+            : prepared.has(norm(name))),
         tempo: fit(timeRow?.text || ''),
-        alcance: fit(clean(text(p, 113, 169, start + 2, end - 2))),
+        alcance: fit(clean(text(p, rangeX, flagsX, start + 1, end - 1))),
         verbal: flag('V'),
         somatico: flag('S'),
         material: flag('M') ? 'Componente material indicado no PDF; confira os detalhes.' : '',
         ritual: flag('R'),
         concentracao: flag('C'),
-        descricao: fit(text(p, 204, 601, start + 2, end - 2), 10000),
+        descricao: fit(text(p, notesX, 601, start + 1, end - 1), 10000),
         observacoes: 'Importada do PDF do Roll20.',
       });
       lastSpell = c.magias.at(-1);
     });
-    // Slot columns repeat in groups of three; the level itself is never a slot total.
-    const slots = heading(p, 'SPELL SLOTS')?.y,
-      end = heading(p, 'CANTRIPS & SPELLS')?.y;
-    if (slots !== undefined && end !== undefined) {
-      const headers = region(p, 125, 601, slots + 5, end)
+  }
+  for (const p of pages.slice(1)) {
+    for (const title of ['SPELL SLOTS', 'WARLOCK SPELLS']) {
+      const h = label(p, title);
+      if (!h) continue;
+      const headers = region(p, 125, 601, h.y + 5, h.y + 30)
         .filter((i) => i.text === 'Level')
         .sort((a, b) => a.x - b.x);
       for (let col = 0; col < headers.length; col++) {
         const left = headers[col].x,
-          right = headers[col + 1]?.x ?? 601;
-        const totalHeader = region(p, left, right, slots + 5, end).find((i) => i.text === 'Total');
-        const spentHeader = region(p, left, right, slots + 5, end).find(
+          right = headers[col + 1]?.x ?? (title === 'WARLOCK SPELLS' ? 235 : 601);
+        const totalHeader = region(p, left, right, h.y + 5, h.y + 30).find(
+          (i) => i.text === 'Total',
+        );
+        const spentHeader = region(p, left, right, h.y + 5, h.y + 30).find(
           (i) => i.text === 'Expended',
         );
         if (!totalHeader || !spentHeader) continue;
+        const end =
+          title === 'WARLOCK SPELLS'
+            ? totalHeader.y + 30
+            : Math.min(totalHeader.y + 65, label(p, 'WARLOCK SPELLS')?.y ?? 792);
         for (const r of rows(region(p, left - 3, totalHeader.x - 10, totalHeader.y + 8, end))) {
           const n = number(r.text);
           if (!n || n > 9) continue;
-          const total = numeric(p, totalHeader.x - 12, spentHeader.x - 10, r.y - 3, r.y + 10);
-          const spent = numeric(p, spentHeader.x - 8, right, r.y - 3, r.y + 10);
-          if (total !== undefined)
-            c.conjuracao.espacos[n - 1] = { circulo: n, total, gastos: spent ?? 0, ativo: true };
+          const total = numeric(p, totalHeader.x - 10, spentHeader.x - 10, r.y - 3, r.y + 10);
+          const spent = numeric(p, spentHeader.x - 8, right, r.y - 3, r.y + 10) ?? 0;
+          if (total !== undefined) {
+            if (title === 'WARLOCK SPELLS')
+              c.conjuracao.pacto = { circulo: n, total, gastos: spent };
+            else c.conjuracao.espacos[n - 1] = { circulo: n, total, gastos: spent, ativo: true };
+          }
         }
       }
     }
   }
+
   if (!c.magias.length && second)
     for (const level of region(second, 14, 24, 175, 790).filter((i) => /^[0-9]$/.test(i.text))) {
       c.magias.push({
@@ -589,10 +720,14 @@ export function parseRoll20Pdf(input: PdfPage[]): Roll20PdfImport {
       );
   }
 
-  let inventoryActive = false;
+  let inventoryActive = false,
+    equipmentSection = false;
   const previous: (EquipmentItem | undefined)[] = [];
   for (const p of pages.slice(1)) {
-    if (heading(p, 'INVENTORY')) inventoryActive = true;
+    if (heading(p, 'INVENTORY')) {
+      inventoryActive = true;
+      equipmentSection = true;
+    }
     if (heading(p, 'BACKSTORY, PERSONALITY')) inventoryActive = false;
     if (!inventoryActive) continue;
     const equipment = heading(p, 'EQUIPMENT')?.y ?? -1,
@@ -637,33 +772,46 @@ export function parseRoll20Pdf(input: PdfPage[]): Roll20PdfImport {
         const name = clean(text(p, x0, weightX, r.y - 3, r.y + 10));
         const wt = text(p, weightX, qtyX, r.y - 3, r.y + 9).match(/([\d.,]+)\s*(lbs?|kg)/);
         const qty = Number(r.text);
-        if (!name || !wt || !qty) return;
+        if (!name || !wt) return;
+        if (!qty && Number(wt[1].replace(',', '.')))
+          warn(
+            'Item com quantidade zero e peso impresso: o peso por unidade não pode ser calculado. Confira o inventário.',
+          );
         const body = text(p, x0, x1, r.y + 11, stop - 4);
         const item: EquipmentItem = {
           ...novoEquipamento(),
           nome: fit(name),
           quantidade: qty,
-          peso:
-            Math.round(
-              ((Number(wt[1].replace(',', '.')) * (wt[2] === 'kg' ? 1 : 0.45359237)) / qty) *
-                100000,
-            ) / 100000,
+          peso: !qty
+            ? 0
+            : Math.round(
+                ((Number(wt[1].replace(',', '.')) * (wt[2] === 'kg' ? 1 : 0.45359237)) / qty) *
+                  100000,
+              ) / 100000,
           descricao: fit(body, 10000),
           equipado:
-            equipment >= 0 && r.y > equipment && (attunement === undefined || r.y < attunement)
+            equipmentSection &&
+            r.y > equipment &&
+            (attunement === undefined || r.y < attunement) &&
+            (possessions === undefined || r.y < possessions)
               ? (p.inkAt?.(37 + col * 285.75, r.y + 4) ?? false)
               : false,
         };
-        if (/(?:Melee|Ranged) Weapon/i.test(body)) {
+        // Categories are printed in the first metadata row, not inferred from narrative mentions.
+        const metadata = body.split('\n')[0] || '';
+        if (/(?:Melee|Ranged) Weapon/i.test(metadata)) {
           item.tipo = 'arma';
-          item.categoriaArma = /\bMartial\b/.test(body) ? 'marcial' : 'simples';
-          item.alcanceArma = /Ranged Weapon/.test(body) ? 'distancia' : 'corpo-a-corpo';
-        } else if (/Shield/i.test(name + ' ' + body)) item.tipo = 'escudo';
-        else if (/(?:Light|Medium|Heavy) Armor/.test(body)) {
+          item.categoriaArma = /\bMartial\b/.test(metadata) ? 'marcial' : 'simples';
+          item.alcanceArma = /Ranged Weapon/.test(metadata) ? 'distancia' : 'corpo-a-corpo';
+        } else if (/^Shield(?:\s|·|$)/i.test(metadata)) {
+          item.tipo = 'escudo';
+          const ac = metadata.match(/([+-]?\d+)\s+AC\b/);
+          if (ac) item.bonusCa = Number(ac[1]);
+        } else if (/^(Light|Medium|Heavy)(?:\s|·|$)/.test(metadata)) {
           item.tipo = 'armadura';
-          item.categoriaArmadura = /Heavy Armor/.test(body)
+          item.categoriaArmadura = metadata.startsWith('Heavy')
             ? 'pesada'
-            : /Medium Armor/.test(body)
+            : metadata.startsWith('Medium')
               ? 'media'
               : 'leve';
         }
@@ -692,6 +840,7 @@ export function parseRoll20Pdf(input: PdfPage[]): Roll20PdfImport {
             itemId: match?.id || '',
           });
       }
+    if (attunement !== undefined || possessions !== undefined) equipmentSection = false;
     const weight = heading(p, 'WEIGHT')?.y;
     if (weight !== undefined)
       c.historia.anotacoes += '\n\nPeso informado no PDF:\n' + text(p, 14, 601, weight + 10);
@@ -705,6 +854,20 @@ export function parseRoll20Pdf(input: PdfPage[]): Roll20PdfImport {
       'Ataques: bônus e danos preservados como valores manuais. Confira vínculos com equipamentos e atributos antes de usar progressão automática.',
     );
 
+  const classSources = new Set(
+    c.classes.flatMap((entry) => [entry.nome, entry.subclasse]).map(norm),
+  );
+  const speciesSources = new Set(c.identidade.especie.split(/\s*[-|]\s*/).map(norm));
+  const featureTitle = (value: string) => {
+    const match = value.match(/^(.*?)\s*\(([^()]+)\)\s*$/);
+    if (!match) return undefined;
+    const source = norm(match[2]);
+    return ['class', 'species', 'feat', 'other', 'custom', 'background'].includes(source) ||
+      classSources.has(source) ||
+      speciesSources.has(source)
+      ? match
+      : undefined;
+  };
   // Feature titles sit at the top of each column; descriptions may continue across pages.
   const lastFeature: (SheetContent['caracteristicas'][number] | undefined)[] = [];
   let featuresActive = false;
@@ -727,9 +890,7 @@ export function parseRoll20Pdf(input: PdfPage[]): Roll20PdfImport {
     for (let col = 0; col < 2; col++) {
       const x0 = col ? 306 : 14,
         x1 = col ? 601 : 303;
-      const titles = rows(region(p, x0, x1, 0, 792)).filter((r) =>
-        /\((Class|Species|Feat)\)\s*$/.test(r.text),
-      );
+      const titles = rows(region(p, x0, x1, 0, 792)).filter((r) => featureTitle(r.text));
       const limit = Math.min(titles[0]?.y ?? 792, ...breaks);
       if (lastFeature[col] && !storyHeading) {
         const continuation = text(p, x0, x1, 0, limit - 3);
@@ -740,7 +901,7 @@ export function parseRoll20Pdf(input: PdfPage[]): Roll20PdfImport {
           );
       }
       titles.forEach((r, i) => {
-        const match = r.text.match(/^(.*?)\s*\((Class|Species|Feat)\)$/)!;
+        const match = featureTitle(r.text)!;
         const stop = Math.min(titles[i + 1]?.y ?? 792, ...breaks.filter((y) => y > r.y));
         const entry = {
           ...novaEntrada('caracteristicas'),
@@ -748,7 +909,16 @@ export function parseRoll20Pdf(input: PdfPage[]): Roll20PdfImport {
           descricao: fit(text(p, x0, x1, r.y + 9, stop - 4), 10000),
         };
         const list =
-          match[2] === 'Class' ? c.caracteristicas : match[2] === 'Species' ? c.tracos : c.talentos;
+          norm(match[2]) === 'feat'
+            ? c.talentos
+            : norm(match[2]) === 'species' || speciesSources.has(norm(match[2]))
+              ? c.tracos
+              : c.caracteristicas;
+        if (['other', 'custom', 'background'].includes(norm(match[2])))
+          entry.descricao = fit(
+            'Origem no PDF: ' + match[2].trim() + '\n' + entry.descricao,
+            10000,
+          );
         list.push(entry);
         lastFeature[col] = entry;
       });
