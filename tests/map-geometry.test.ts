@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   distance,
+  cumulativeDistances,
   fitCamera,
   gridPoint,
   revealRectangle,
@@ -53,4 +54,40 @@ test('fog rectangles normalize reversed drags and clip to scene edges', () => {
     w: 1,
     h: 1,
   });
+});
+
+test('ruler adds each leg and shows cumulative distances at turns using the scene scale', () => {
+  const points = [
+    { x: 8, y: 10 },
+    { x: 11, y: 10 },
+    { x: 13, y: 8 },
+    { x: 13, y: 11 },
+  ];
+  assert.deepEqual(cumulativeDistances(points, 5), [0, 15, 25, 40]);
+  assert.deepEqual(cumulativeDistances(points, 10), [0, 30, 50, 80]);
+  assert.deepEqual(cumulativeDistances([], 5), []);
+  assert.deepEqual(
+    cumulativeDistances(
+      [
+        { x: 1, y: 1 },
+        { x: 1, y: 1 },
+      ],
+      5,
+    ),
+    [0, 0],
+  );
+});
+
+test('ruler rounds cumulative fractional distances without floating-point artifacts', () => {
+  assert.deepEqual(
+    cumulativeDistances(
+      [
+        { x: 0, y: 0 },
+        { x: 0.02, y: 0 },
+        { x: 0.06, y: 0 },
+      ],
+      5,
+    ),
+    [0, 0.1, 0.3],
+  );
 });

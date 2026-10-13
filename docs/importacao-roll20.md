@@ -6,18 +6,20 @@ A extração acontece localmente no navegador, usando PDF.js e um worker distrib
 
 ## Cobertura
 
-- Nome, espécie, antecedente, tamanho, experiência, classes e subclasse.
+- Nome, espécie, antecedente, tamanho, experiência, múltiplas classes e suas subclasses, inclusive cabeçalhos comprimidos.
 - Seis atributos, modificadores, bônus/proficiência em resistências e perícias, iniciativa, percepção passiva, CA, PV, dados de vida e marcações impressas.
 - Ataques completos, nomes em várias linhas, bônus ou CD, fórmula de dano, tipo, alcance e notas; referência de combate adicional vai para Anotações.
-- Magias, círculos, preparação, tempo, alcance, descrições e componentes marcados. Perfil de conjuração quando o atributo/bônus estão explicitamente impressos. Espaços quando a tabela contém os totais.
-- Equipamento e posses em ambas as colunas e páginas de continuação, quantidades, estado de equipado, descrições, moedas, idiomas e sintonia.
-- História, aparência, alinhamento, características de classe, traços de espécie e talentos; descrições em colunas separadas e continuação sem entrada nova.
+- Magias, círculos, preparação, tempo, alcance, descrições e componentes marcados. Perfis de conjuração quando os atributos/bônus estão explicitamente impressos, incluindo vários perfis. Espaços normais e de pacto quando a tabela contém os totais. A coluna PR, quando presente, determina a preparação; truques permanecem disponíveis.
+- Equipamento e posses em ambas as colunas e páginas de continuação, quantidades (inclusive zero), estado de equipado, descrições, moedas, idiomas e sintonia. A classificação usa a linha de categoria impressa, evitando confundir menções na descrição com o tipo do item.
+- História, aparência, alinhamento, características de classe/subclasse, traços de espécie e talentos; descrições em colunas separadas e continuação sem entrada nova. Entradas Other, Custom e Background são preservadas em Características com a origem indicada.
 
 O peso da linha do inventário impresso é o peso total daquela pilha. A importação divide pela quantidade e converte libras para **kg por unidade**. O total de peso informado pelo PDF também é preservado em Anotações.
 
 ## Revisão necessária
 
 O PDF é uma representação impressa; configurações internas não exportadas não podem ser recuperadas. Campos vazios mantêm os padrões da ficha e aparecem na revisão quando relevantes. Confira deslocamento, origem/atributo das magias, duração e materiais, cargas/recuperação de recursos, efeitos ativos e parâmetros de armadura/crítico. Ataques ficam manuais para preservar os valores impressos; configure vínculos e atributos no editor quando desejar progressão automática.
+
+Entradas de dano ou cura sem jogada de ataque/CD são mantidas com bônus 0 e uma observação explícita: use somente o dano/cura e confira antes de rolar. Quando há vários perfis de conjuração, a importação preserva os números de cada perfil; os vínculos entre classe, perfil e magia precisam de revisão porque a ordem impressa não os identifica.
 
 Os marcadores impressos identificam proficiência simples. Um bônus mais alto pode vir de especialização ou de outro ajuste: o leitor conserva o valor como proficiência mais ajuste e pede confirmação, sem inventar especialização.
 
@@ -27,7 +29,7 @@ Limites: **10 MiB**, **30 páginas**, dimensões de página até **1.800 pontos*
 
 ## Verificação
 
-Os testes usam uma ficha fictícia gerada em código e cenários de colunas, nomes semelhantes, proficiência ambígua e continuação. Uma verificação local adicional lê o PDF fornecido pelo usuário sem incluí-lo no repositório:
+Os testes usam uma ficha fictícia gerada em código e cenários de colunas, nomes semelhantes, proficiência ambígua e continuação. As regressões também cobrem multiclasses, dados de vida múltiplos, deslocamento com unidade, ataques sem bônus, coluna PR de magias, limites de linhas nas quebras de página, perfis múltiplos, pacto e inventário com quantidade zero. Uma verificação local adicional lê o PDF fornecido pelo usuário sem incluí-lo no repositório:
 
 ```powershell
 $env:ROLL20_PDF_SAMPLE='C:\caminho\personagem.pdf'
@@ -35,5 +37,3 @@ npx playwright test tests/browser/roll20-pdf.spec.ts --workers=1
 ```
 
 Esse cenário local verifica o personagem TONY OLLI: 8 ataques, 3 magias, 11 itens, 9 características de classe, 3 traços e 2 talentos; também confere marcações, moedas e a separação das descrições. O arquivo convertido fica em `artifacts/roll20-import/tony-olli.json`, ignorado pelo Git. Para outra ficha, adapte as expectativas desse teste; o importador não depende do nome ou desses números.
-
-Validação da implementação: 81 testes unitários/banco e 46 testes de navegador passaram; build, typecheck e preservação das páginas legadas também foram confirmados.

@@ -4,6 +4,7 @@ import {
   useLayoutEffect,
   useRef,
   useState,
+  type MouseEvent as ReactMouseEvent,
   type PointerEvent as ReactPointerEvent,
 } from 'react';
 import type { AreaRecord, SceneRecord, TokenRecord } from '../../../../packages/contracts/tabletop';
@@ -18,7 +19,7 @@ import { AssetLibrary, SceneEditor, TokenEditor } from './MapEditors';
 import { useAssetUrls, useTabletop } from './useTabletop';
 import {
   CELL,
-  distance,
+  cumulativeDistances,
   fitCamera,
   gridPoint,
   revealRectangle,
@@ -89,7 +90,7 @@ export function Tabletop({
   const [selected, setSelected] = useState(''),
     [selection, setSelection] = useState<string[]>([]),
     [preview, setPreview] = useState<Point | null>(null),
-    [ruler, setRuler] = useState<{ a: Point; b: Point } | null>(null);
+    [ruler, setRuler] = useState<{ points: Point[]; b: Point } | null>(null);
   const [fogPreview, setFogPreview] = useState<{
       x: number;
       y: number;
@@ -256,6 +257,7 @@ export function Tabletop({
   function begin(event: ReactPointerEvent<SVGSVGElement>) {
     if (!scene || (event.button !== 0 && event.button !== 1 && event.button !== 2)) return;
     event.preventDefault();
+    if (event.button === 2 && tool === 'ruler' && drag.current?.kind === 'ruler') return;
     const p = world(event),
       kind =
         event.button !== 0 ? 'pan' : tool === 'select' && event.shiftKey && master ? 'box' : tool;
@@ -279,9 +281,12 @@ export function Tabletop({
       start: kind === 'pan' || kind === 'select' ? point(event) : p,
       kind,
       camera: cameraRef.current,
-      points: kind === 'draw' ? [p] : undefined,
+      points: kind === 'draw' || kind === 'ruler' ? [p] : undefined,
     };
-    if (kind === 'ruler') setRuler({ a: p, b: p });
+    if (kind === 'ruler') {
+      svg.current!.focus();
+      setRuler({ points: [p], b: p });
+    }
     if (kind === 'fog') setFogPreview(revealRectangle(p, p, scene.largura, scene.altura));
     if (kind === 'draw') setDrawPreview([p]);
     if (kind === 'box') {
@@ -332,6 +337,10 @@ export function Tabletop({
   function move(event: ReactPointerEvent<SVGSVGElement>) {
     const action = drag.current;
     if (!action || action.pointer !== event.pointerId || !scene) return;
+    if (action.kind === 'ruler' && (event.buttons & 1) === 0) {
+      end(event);
+      return;
+    }
     const p = world(event);
     if (action.token) {
       if (master && action.tokens!.length > 1) {
@@ -373,7 +382,7 @@ export function Tabletop({
         x: action.camera.x + screen.x - action.start.x,
         y: action.camera.y + screen.y - action.start.y,
       });
-    } else if (action.kind === 'ruler') setRuler({ a: action.start, b: p });
+    } else if (action.kind === 'ruler') setRuler({ points: [...action.points!], b: p });
     else if (action.kind === 'fog')
       setFogPreview(revealRectangle(action.start, p, scene.largura, scene.altura));
     else if (action.kind === 'draw') {
@@ -391,9 +400,22 @@ export function Tabletop({
       }
     }
   }
+  function contextMenu(event: ReactMouseEvent<SVGSVGElement>) {
+    event.preventDefault();
+    const action = drag.current;
+    if (tool !== 'ruler' || action?.kind !== 'ruler' || !ruler) return;
+    const p = ruler.b;
+    const previous = action.points!.at(-1)!;
+    if (previous.x === p.x && previous.y === p.y) return;
+    action.points!.push(p);
+    setRuler({ points: [...action.points!], b: p });
+  }
   function end(event: ReactPointerEvent<SVGSVGElement>, cancel = false) {
     const action = drag.current;
     if (!action || action.pointer !== event.pointerId || !scene) return;
+    if (action.kind === 'ruler' && !cancel && (event.buttons & 1) !== 0) return;
+    if (action.kind === 'ruler')
+      setRuler(cancel ? null : { points: [...action.points!], b: world(event) });
     drag.current = null;
     if (svg.current!.hasPointerCapture(event.pointerId))
       svg.current!.releasePointerCapture(event.pointerId);
@@ -603,6 +625,8 @@ export function Tabletop({
     }
   }
 
+  const rulerPoints = ruler ? [...ruler.points, ruler.b] : [];
+  const rulerDistances = cumulativeDistances(rulerPoints, scene?.unidade || 5);
   return (
     <section className="tabletop-map" aria-label="Mesa virtual">
       <div className="map-stage" ref={stage}>
@@ -620,9 +644,15 @@ export function Tabletop({
             onPointerMove={move}
             onPointerUp={(event) => end(event)}
             onPointerCancel={(event) => end(event, true)}
-            onContextMenu={(event) => event.preventDefault()}
+            onContextMenu={contextMenu}
             onKeyDown={(event) => {
               if (event.key === 'Escape') {
+                if (drag.current?.kind === 'ruler') {
+                  const pointer = drag.current.pointer;
+                  drag.current = null;
+                  if (svg.current!.hasPointerCapture(pointer))
+                    svg.current!.releasePointerCapture(pointer);
+                }
                 setSelected('');
                 setSelection([]);
                 setAreaDraft(null);
@@ -1042,21 +1072,33 @@ export function Tabletop({
               )}
               {ruler && (
                 <g pointerEvents="none">
-                  <line
-                    x1={ruler.a.x * CELL}
-                    y1={ruler.a.y * CELL}
-                    x2={ruler.b.x * CELL}
-                    y2={ruler.b.y * CELL}
+                  <polyline
+                    points={rulerPoints.map((p) => `${p.x * CELL},${p.y * CELL}`).join(' ')}
+                    fill="none"
                     stroke="#e7c97c"
                     strokeWidth={2 / camera.zoom}
                     strokeDasharray={5 / camera.zoom}
+                    strokeLinejoin="round"
                   />
-                  <circle
-                    cx={ruler.a.x * CELL}
-                    cy={ruler.a.y * CELL}
-                    r={4 / camera.zoom}
-                    fill="#e7c97c"
-                  />
+                  {ruler.points.map((p, index) => (
+                    <g key={index}>
+                      <circle cx={p.x * CELL} cy={p.y * CELL} r={4 / camera.zoom} fill="#e7c97c" />
+                      {index > 0 && (p.x !== ruler.b.x || p.y !== ruler.b.y) && (
+                        <text
+                          x={p.x * CELL}
+                          y={p.y * CELL - 12 / camera.zoom}
+                          fill="#f4e2b2"
+                          stroke="#161719"
+                          strokeWidth={4 / camera.zoom}
+                          paintOrder="stroke"
+                          fontSize={14 / camera.zoom}
+                          textAnchor="middle"
+                        >
+                          {rulerDistances[index]} pés
+                        </text>
+                      )}
+                    </g>
+                  ))}
                   <circle
                     cx={ruler.b.x * CELL}
                     cy={ruler.b.y * CELL}
@@ -1073,7 +1115,7 @@ export function Tabletop({
                     fontSize={14 / camera.zoom}
                     textAnchor="middle"
                   >
-                    {distance(ruler.a, ruler.b, scene.unidade)} pés
+                    {rulerDistances.at(-1)} pés
                   </text>
                 </g>
               )}
@@ -1307,7 +1349,7 @@ export function Tabletop({
           {map.pending
             ? 'Salvando…'
             : tool === 'ruler'
-              ? `${ruler ? distance(ruler.a, ruler.b, scene.unidade) + ' pés · ' : ''}Arraste para medir · diagonais D&D`
+              ? `${ruler ? rulerDistances.at(-1) + ' pés · ' : ''}Arraste para medir · Botão direito fixa um ponto · Solte para finalizar · Esc cancela · diagonais D&D`
               : tool === 'ping'
                 ? 'Clique no mapa para marcar um local para a campanha'
                 : tool === 'fog'
