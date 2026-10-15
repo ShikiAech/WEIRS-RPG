@@ -85,11 +85,12 @@ body {
   letter-spacing: 3px;
   text-transform: uppercase;
   text-decoration: none;
+  margin-right: 15px;
 }
 
 .nav ul {
   display: flex;
-  gap: 25px;
+  gap: 15px;
   list-style: none;
   flex-wrap: wrap; /* Permite quebrar linha caso existam muitos links em tablets */
 }
