@@ -62,7 +62,7 @@ Usar os JSONs como entrada preferencial para os domínios que cobrem. Complement
 
 ## Carga relacional local verificada
 
-A carga de 2026-10-16 foi aplicada duas vezes em PostgreSQL/PGlite com as migrações do projeto, sem duplicação: **2.990 registros**, derivados de **2.706 elementos de entrada**, incluindo variantes de instrumentos/jogos e blocos de criaturas. Há 439 referências bibliográficas versionadas, extraídas de 62 arquivos e da curadoria do núcleo. O relatório completo está em `content/compendium/coverage.json`.
+A carga de 2026-10-16 foi aplicada duas vezes em PostgreSQL/PGlite com as migrações do projeto, sem duplicação: **2.986 registros**, derivados de **2.706 elementos de entrada**, incluindo variantes de instrumentos/jogos e blocos de criaturas. Há 439 referências bibliográficas versionadas, extraídas de 62 arquivos e da curadoria do núcleo. O relatório completo está em `content/compendium/coverage.json`.
 
 | Domínio | Registros |
 | --- | ---: |
@@ -71,12 +71,13 @@ A carga de 2026-10-16 foi aplicada duas vezes em PostgreSQL/PGlite com as migra�
 | Antecedentes / talentos | 132 / 407 |
 | Características / criaturas | 1.238 / 9 |
 | Magias | 477 |
-| Equipamentos / pacotes | 292 / 173 |
+| Equipamentos / pacotes | 286 / 175 |
 | Idiomas / moedas | 11 / 5 |
 | Maestrias / propriedades de arma / serviços | 8 / 29 / 31 |
 
-Os números incluem variantes e edições distintas, além de registros gerados para itens citados nos kits. Eles não significam que todos esses registros receberam revisão de compatibilidade 2024 ou automação completa. No checkpoint da carga, nenhum registro foi marcado como revisão 2024 concluída nem como automação completa. Há 1.927 avisos, em sua maioria texto legado que requer curadoria; escolhas vinculadas de equipamento e pré-requisitos ainda não interpretados também permanecem explícitos no relatório. Não inferimos peso, custo ou estatísticas ausentes de um item citado apenas em um kit.
+Os números incluem variantes e edições distintas, além de registros gerados para itens citados nos kits. Eles não significam que todos esses registros receberam revisão de compatibilidade 2024 ou automação completa. No checkpoint da carga, nenhum registro foi marcado como revisão 2024 concluída nem como automação completa. Há 1.923 avisos, em sua maioria texto legado que requer curadoria; escolhas vinculadas de equipamento e pré-requisitos ainda não interpretados também permanecem explícitos no relatório. Não inferimos peso, custo ou estatísticas ausentes de um item citado apenas em um kit.
 
 `npm run compendium:check` gera o relatório; `npm run compendium:seed` gera `supabase/compendium-seed.sql` e atualiza o manifesto de identidades. Nenhum desses comandos abre conexão remota. A aplicação usa uma transação e a publicação exige a identidade de um administrador já cadastrado. Divergências de conteúdo ou linhas adicionadas em revisão importada cancelam a carga com `WC004`, preservando as edições anteriores. Uma nova versão do importador mecânico deve incrementar `resolverVersion` antes de produzir revisões para um acervo já publicado.
 
 O assistente, sua validação no servidor e a ativação remota continuam sendo etapas posteriores desta implementação.
+

@@ -58,6 +58,7 @@ export interface CreationDraft {
   levels: CreationLevel[];
   choices: CreationChoice[];
   equipmentOptions: { ownerRevisionId: string; optionId: string }[];
+  equippedRefs?: CompendiumRef[];
   spellSelections: { profileId: string; spellRef: CompendiumRef; prepared: boolean }[];
   castingAbilities: { profileId: string; ability: Ability }[];
 }
