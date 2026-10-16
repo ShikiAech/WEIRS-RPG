@@ -1,0 +1,3 @@
+[functions.criar-personagem]
+verify_jwt = true
+entrypoint = "./functions/criar-personagem/index.ts"

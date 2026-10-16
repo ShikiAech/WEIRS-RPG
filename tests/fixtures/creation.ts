@@ -10,7 +10,7 @@ export function entry<K extends CompendiumKind>(
   n: number,
   kind: K,
   data: CompendiumPayloadMap[K],
-  name = kind,
+  name: string = kind,
 ): CompendiumEntry<K> {
   return {
     ref: { recordId: id(n), revisionId: id(n + 1000) },

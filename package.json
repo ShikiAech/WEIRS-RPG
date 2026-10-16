@@ -11,7 +11,8 @@
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test tests/*.test.js tests/*.test.ts",
     "test:browser": "playwright test",
-    "build": "npm run import:content && npm run typecheck && vite build && node tools/build/copy-legacy.mjs && node tools/build/verify-legacy.mjs",
+    "build:creation-server": "node tools/build/creation-server.mjs",
+    "build": "npm run import:content && npm run typecheck && npm run build:creation-server && vite build && node tools/build/copy-legacy.mjs && node tools/build/verify-legacy.mjs",
     "preview": "vite preview --host 127.0.0.1"
   },
   "dependencies": {

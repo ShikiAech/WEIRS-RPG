@@ -80,6 +80,7 @@ export type SheetContent = Omit<
   | 'talentos'
   | 'idiomas'
 > & {
+  criacao?: import('./character-creation').CreationSnapshot;
   caracteristicas: SheetTextEntry[];
   tracos: SheetTextEntry[];
   talentos: SheetTextEntry[];
@@ -138,6 +139,7 @@ export interface SheetRepository {
     content: SheetContent,
     requestId?: string,
   ): Promise<SheetRecord>;
+  createFromChoices(request: import('../character-creation/server').CreationRequest): Promise<SheetRecord>;
   save(record: SheetRecord, name: string, content: SheetContent): Promise<SheetRecord>;
   remove(id: string): Promise<void>;
 }

@@ -147,6 +147,19 @@ export function createRepository(client: SupabaseClient): SheetRepository {
       if (response.error) throw publicError(response.error);
       return record(response.data);
     },
+    async createFromChoices(request) {
+      await user();
+      id(request.campaignId); id(request.requestId);
+      const {data,error}=await client.functions.invoke('criar-personagem',{body:request});
+      if(error){
+        let details: {code?:string;problems?:{field:string;message:string}[]}={};
+        try { details=await error.context?.json(); } catch { /* Network failures have no response body. */ }
+        if(details?.code==='INVALID'||details?.code==='DIVERGED')throw new SheetError('VALIDACAO',(details.problems ?? [{field:'criacao',message:'A prévia mudou ou contém pendências. Atualize o compêndio e revise a criação.'}]).map(p=>({campo:p.field,mensagem:p.message})));
+        if(details?.code==='ACCESS')throw new SheetError('ACESSO');
+        throw new SheetError('REDE');
+      }
+      return record(data?.record);
+    },
     async save(previous, name, content) {
       id(previous.id);
       await user();

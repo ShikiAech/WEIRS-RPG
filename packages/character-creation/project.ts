@@ -68,7 +68,7 @@ export function projectSheet(
     if (e.kind === 'idioma' && !sheet.idiomas.some((i) => i.nome === e.name))
       sheet.idiomas.push({ id: instanceUuid(instance.id), nome: e.name });
   }
-  const degrees = { meia: 1, proficiente: 2, especializacao: 3 };
+  const degrees: Record<string,number> = { meia: 1, proficiente: 2, especializacao: 3 };
   for (const grant of state.concessions.proficiencyGrants) {
     const p = catalog.proficiencies.find((p) => p.id === grant.proficiencyId);
     if (!p) continue;
@@ -79,12 +79,12 @@ export function projectSheet(
     if (p.type === 'salvaguarda' && p.ability)
       sheet.atributos[p.ability].resistenciaProficiente = true;
     if (p.type === 'categoria' && p.category) {
-      const key = {
+      const training: Record<string,'leves'|'medias'|'pesadas'|'escudos'> = {
         'armadura-leve': 'leves',
         'armadura-media': 'medias',
         'armadura-pesada': 'pesadas',
         escudo: 'escudos',
-      }[p.category];
+      }; const key=training[p.category];
       if (key) sheet.treinamento[key] = true;
       else
         sheet.treinamento.armas = [sheet.treinamento.armas, p.category].filter(Boolean).join('; ');
@@ -110,11 +110,11 @@ export function projectSheet(
     });
     if (effect.type === 'iniciativa_bonus') sheet.combate.ajusteIniciativa += value;
     if (effect.type === 'percepcao_bonus') sheet.combate.ajustePercepcaoPassiva += value;
-    const key = {
+    const defenseKeys: Partial<Record<typeof effect.type,'resistencias'|'imunidades'|'vulnerabilidades'>> = {
       resistencia: 'resistencias',
       imunidade: 'imunidades',
       vulnerabilidade: 'vulnerabilidades',
-    }[effect.type];
+    }; const key=defenseKeys[effect.type];
     if (key)
       sheet.combate[key] = [sheet.combate[key], ...effect.defenses.map((d) => d.damageType)]
         .filter(Boolean)
@@ -174,7 +174,7 @@ export function projectSheet(
         if (row.currencyRef) {
           const currency = entry(row.currencyRef.revisionId);
           if (currency?.kind === 'moeda') {
-            const code = currency.data.code.toLowerCase();
+            const code = currency.data.code.toLowerCase() as keyof typeof sheet.inventario.moedas;
             if (Object.hasOwn(sheet.inventario.moedas, code))
               sheet.inventario.moedas[code] += row.quantity;
           }

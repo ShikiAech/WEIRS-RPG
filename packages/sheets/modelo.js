@@ -1,5 +1,6 @@
 import { validarEquipamentos } from './equipamentos.js';
 import { validarMagias } from './magias.js';
+import { validCreationSnapshot } from '../character-creation/validation.js';
 
 export const ATRIBUTOS = {
   for: 'Força',
@@ -177,6 +178,11 @@ export function limparReferencias(c) {
 export function validarFicha(f) {
   const erros = [];
   const erro = (campo, mensagem) => erros.push({ campo, mensagem });
+  if (f?.conteudo?.criacao !== undefined && !validCreationSnapshot(f.conteudo.criacao))
+    erro('conteudo.criacao', 'O histórico de criação está inválido.');
+  if (Array.isArray(f?.conteudo?.magias)) for (const [i,s] of f.conteudo.magias.entries())
+    if (s?.compendioRef !== undefined && (!s.compendioRef || !UUID.test(s.compendioRef.recordId) || !UUID.test(s.compendioRef.revisionId)))
+      erro(`magias.${i}.compendioRef`, 'A referência do compêndio está inválida.');
   if (typeof f.nome !== 'string' || !f.nome.trim() || f.nome.trim().length > 120)
     erro('nome', 'Informe um nome de 1 a 120 caracteres.');
   if (f.versao_esquema !== 1) erro('versao_esquema', 'Versão da ficha não suportada.');
