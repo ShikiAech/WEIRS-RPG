@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "names": [
+    {
+      "name": "Mancha Espiritual",
+      "target": "Espírito Manchado",
+      "kind": "talento",
+      "context": "Humanos/Manchados/Mancha",
+      "decision": "Equivalência confirmada pelo autor em 2026-10-16."
+    }
+  ],
+  "categories": [
+    { "code": "dom-sombrio", "names": ["Dom Sombrio", "Presente Sombrio", "Dark Gift"] }
+  ],
+  "unresolved": []
+}

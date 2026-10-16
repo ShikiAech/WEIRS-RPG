@@ -80,12 +80,12 @@ Sequência: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11. Cad
 
 **Produces:** `readJsonSources(root: string): Promise<ImportedSource[]>`, `readLegacySources(root: string): Promise<ImportedSource[]>` e `normalizeSources(sources: ImportedSource[], registry: IdentityRegistry): ImportedCatalog`. `ImportedCatalog` contém coleções tipadas por domínio e `issues`, não apenas HTML/metadados genéricos.
 
-- [ ] Conferir o baseline e o ledger da preparação na tarefa 1; não repetir a instalação/testes sem mudança que a justifique. A base remota inclui a integração da branch local e alterações em CSS/antecedentes; não descartar essas alterações.
-- [ ] Escrever testes com os arquivos reais: contagens 71/204/30, Elfos/Meio-Elfo e Humanos/Manchados/Marcados relacionados; Neflins também presente após complemento HTML; ausência dos modelos `teste*.html`; mudança de tradução mantendo ID via registro de identidade. Não usar igualdade de nome PT como único identificador.
-- [ ] Executar `node --import tsx --test tests/compendium-import.test.ts`; confirmar falha pela ausência da ingestão.
-- [ ] Implementar leitores de JSON e extratores de elementos internos das páginas. Para datasets de equipamentos embutidos, usar análise sintática de literais; não executar os scripts das páginas. Conservar nome/caminho original, hash, commit e localização de cada elemento.
-- [ ] Emitir problemas por fonte e ponteiro com códigos `INVALID_SOURCE`, `UNRESOLVED_REFERENCE`, `AMBIGUOUS_IDENTITY`, `UNSUPPORTED_MECHANIC` e `INCOMPLETE_RULESET`; severidade `error` ou `warning`. Identidade publicada nunca depende do hash da descrição.
-- [ ] Reexecutar testes e conferir que os JSONs de entrada e arquivos legados não foram reescritos. Commit: `feat: import compendium JSON and legacy sources`.
+- [x] Conferir o baseline e o ledger da preparação na tarefa 1; não repetir a instalação/testes sem mudança que a justifique. A base remota inclui a integração da branch local e alterações em CSS/antecedentes; não descartar essas alterações.
+- [x] Escrever testes com os arquivos reais: contagens 71/204/30, Elfos/Meio-Elfo e Humanos/Manchados/Marcados relacionados; Neflins também presente após complemento HTML; ausência dos modelos `teste*.html`; mudança de tradução mantendo ID via registro de identidade. Não usar igualdade de nome PT como único identificador.
+- [x] Executar `node --import tsx --test tests/compendium-import.test.ts`; confirmar falha pela ausência da ingestão.
+- [x] Implementar leitores de JSON e extratores de elementos internos das páginas. Para datasets de equipamentos embutidos, usar análise sintática de literais; não executar os scripts das páginas. Conservar nome/caminho original, hash, commit e localização de cada elemento.
+- [x] Emitir problemas por fonte e ponteiro com códigos `INVALID_SOURCE`, `UNRESOLVED_REFERENCE`, `AMBIGUOUS_IDENTITY`, `UNSUPPORTED_MECHANIC` e `INCOMPLETE_RULESET`; severidade `error` ou `warning`. Identidade publicada nunca depende do hash da descrição.
+- [x] Reexecutar testes e conferir que os JSONs de entrada e arquivos legados não foram reescritos. Commit: `feat: import compendium JSON and legacy sources`.
 
 ## Tarefa 3 — Curadoria e resolução das mecânicas
 

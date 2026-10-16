@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "ruleSetId": "dnd-5e-2024",
+  "referenceSites": [
+    { "url": "https://dnd5e.wikidot.com/", "edition": "a conferir por registro" },
+    { "url": "https://dnd2024.wikidot.com/", "edition": "2024" },
+    { "url": "https://www.dndbeyond.com/srd", "edition": "SRD 5.2.1" }
+  ],
+  "preferredInputs": ["data/background.json", "data/feats.json", "data/races.json"],
+  "legacySupplement": ["pages/classes", "pages/races", "pages/magias.html", "pages/talentos.html", "pages/antecedentes.html", "pages/itens", "pages/mundo.html"]
+}

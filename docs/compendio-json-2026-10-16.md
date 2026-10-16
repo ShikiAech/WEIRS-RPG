@@ -48,7 +48,7 @@ Os três JSONs não cobrem classes, subclasses, progressões, magias, equipament
 
 ## Pendências editoriais concretas
 
-- O traço Mancha de Humanos/Manchados concede um talento chamado **Mancha Espiritual**. Em `feats.json`, o talento de Origem correspondente em contexto é chamado **Espírito Manchado**. Registrar a referência como não resolvida até confirmar a equivalência, sem conceder outro talento automaticamente.
+- O traço Mancha de Humanos/Manchados concede um talento chamado **Mancha Espiritual**. Em `feats.json`, o talento de Origem correspondente em contexto é chamado **Espírito Manchado**. O autor confirmou em 2026-10-16 que são o mesmo talento. O alias editorial aponta para Espírito Manchado e não cria outro registro.
 - Alguns antecedentes chamam a categoria de **Dom Sombrio**, enquanto os talentos usam **Presente Sombrio**. A conciliação de rótulos deve ficar explícita no glossário/cadastro de categorias.
 - `Player's Handbook` sem ano não determina sozinho a versão de uma mecânica. Fonte de referência, edição e adaptação precisam de campos separados.
 
