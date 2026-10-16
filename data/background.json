@@ -1,0 +1,1147 @@
+[
+  {
+    "name": "Acolyte",
+    "name_pt": "Acólito",
+    "book": "Player's Handbook (2024)",
+    "publisher": "Wizards of the Coast",
+    "description": "Você se dedicou ao serviço em um templo, seja ele aninhado em uma cidade ou isolado em um bosque sagrado. Lá você realizava ritos em honra a um deus ou panteão. Você serviu sob as ordens de um sacerdote e estudou religião. Graças à instrução de seu sacerdote e à sua própria devoção, você também aprendeu a canalizar uma parcela de poder divino a serviço de seu local de culto e das pessoas que oravam ali.",
+    "ability_scores": ["Inteligência", "Sabedoria", "Carisma"],
+    "feat": "Iniciado em Magia (Clérigo) (Magic Initiate)",
+    "skill_proficiencies": ["Intuição", "Religião"],
+    "tool_proficiencies": ["Suprimentos de Calígrafo"],
+    "equipment": {
+      "option_a": ["Suprimentos de Calígrafo", "Livro (orações)", "Símbolo Sagrado", "Pergaminho (10 folhas)", "Túnica", "8 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Comum"]
+  },
+
+    {
+    "name": "Artisan",
+    "name_pt": "Artesão",
+    "book": "Player's Handbook (2024)",
+    "publisher": "Wizards of the Coast",
+    "description": "Você começou esfregando chão e limpando balcões na oficina de um artesão por alguns cobres ao dia, assim que foi forte o suficiente para carregar um balde. Quando teve idade suficiente para ser aprendiz, aprendeu a criar artesanatos básicos próprios, além de aprender a bajular o ocasional cliente exigente. Seu ofício também lhe deu um olhar atento aos detalhes.",
+    "ability_scores": ["Força", "Destreza", "Inteligência"],
+    "feat": "Artesão (Crafter)",
+    "skill_proficiencies": ["Investigação", "Persuasão"],
+    "tool_proficiencies": ["Escolha um tipo de Ferramenta de Artesão"],
+    "equipment": {
+      "option_a": ["Ferramentas de Artesão (mesmas escolhidas acima)", "2 Bolsas", "Roupas de Viajante", "32 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Comum"]
+  },
+  {
+    "name": "Charlatan",
+    "name_pt": "Charlatão",
+    "book": "Player's Handbook (2024)",
+    "publisher": "Wizards of the Coast",
+    "description": "Quando você já tinha idade suficiente para pedir uma cerveja, logo tinha seu banquinho favorito em cada taverna num raio de dez milhas de onde nasceu. Enquanto viajava pelo circuito de um bar a outro, você aprendeu a caçar infortunados que estavam no mercado por uma mentira reconfortante ou duas — talvez uma poção falsa ou registros de ancestralidade forjados.",
+    "ability_scores": ["Destreza", "Constituição", "Carisma"],
+    "feat": "Habilidoso (Skilled)",
+    "skill_proficiencies": ["Enganação", "Prestidigitação"],
+    "tool_proficiencies": ["Kit de Falsificação"],
+    "equipment": {
+      "option_a": ["Kit de Falsificação", "Figurino", "Roupas Finas", "15 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Comum"]
+  },
+  {
+    "name": "Criminal",
+    "name_pt": "Criminoso",
+    "book": "Player's Handbook (2024)",
+    "publisher": "Wizards of the Coast",
+    "description": "Você tirava o sustento em becos escuros, cortando bolsas ou arrombando lojas. Talvez você fizesse parte de uma pequena gangue de malfeitores de ideias semelhantes que cuidavam uns dos outros. Ou talvez você fosse um lobo solitário, defendendo-se por conta própria contra a guilda de ladrões local e criminosos mais temíveis.",
+    "ability_scores": ["Destreza", "Constituição", "Inteligência"],
+    "feat": "Alerta (Alert)",
+    "skill_proficiencies": ["Prestidigitação", "Furtividade"],
+    "tool_proficiencies": ["Ferramentas de Ladrão"],
+    "equipment": {
+      "option_a": ["2 Adagas", "Ferramentas de Ladrão", "Pé de Cabra", "2 Bolsas", "Roupas de Viajante", "16 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Comum"]
+  },
+  {
+    "name": "Entertainer",
+    "name_pt": "Artista",
+    "book": "Player's Handbook (2024)",
+    "publisher": "Wizards of the Coast",
+    "description": "Você passou muito da juventude seguindo feiras e carnavais itinerantes, realizando trabalhos variados para músicos e acrobatas em troca de lições. Você pode ter aprendido a andar na corda bamba, a tocar um alaúde em um estilo distinto, ou a recitar poesia com dicção impecável. Até hoje, você prospera com aplausos e anseia pelo palco.",
+    "ability_scores": ["Força", "Destreza", "Carisma"],
+    "feat": "Músico (Musician)",
+    "skill_proficiencies": ["Acrobacia", "Atuação"],
+    "tool_proficiencies": ["Escolha um tipo de Instrumento Musical"],
+    "equipment": {
+      "option_a": ["Instrumento Musical (mesmo escolhido acima)", "2 Figurinos", "Espelho", "Perfume", "Roupas de Viajante", "11 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Comum"]
+  },
+  {
+    "name": "Farmer",
+    "name_pt": "Fazendeiro",
+    "book": "Player's Handbook (2024)",
+    "publisher": "Wizards of the Coast",
+    "description": "Você cresceu próximo à terra. Anos cuidando de animais e cultivando a terra recompensaram-no com paciência e boa saúde. Você tem uma apreciação aguçada pelas dádivas da natureza, junto com um saudável respeito pela fúria dela.",
+    "ability_scores": ["Força", "Constituição", "Sabedoria"],
+    "feat": "Robusto (Tough)",
+    "skill_proficiencies": ["Lidar com Animais", "Natureza"],
+    "tool_proficiencies": ["Ferramentas de Carpinteiro"],
+    "equipment": {
+      "option_a": ["Foice", "Ferramentas de Carpinteiro", "Kit de Curandeiro", "Panela de Ferro", "Pá", "Roupas de Viajante", "30 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Comum"]
+  },
+  {
+    "name": "Guard",
+    "name_pt": "Guarda",
+    "book": "Player's Handbook (2024)",
+    "publisher": "Wizards of the Coast",
+    "description": "Seus pés doem quando você se lembra das incontáveis horas que passou em seu posto na torre. Você foi treinado a manter um olho voltado para fora da muralha, observando saqueadores vindos da floresta próxima, e o outro olho voltado para dentro da muralha, procurando batedores de carteira e encrenqueiros.",
+    "ability_scores": ["Força", "Inteligência", "Sabedoria"],
+    "feat": "Alerta (Alert)",
+    "skill_proficiencies": ["Atletismo", "Percepção"],
+    "tool_proficiencies": ["Escolha um tipo de Conjunto de Jogos"],
+    "equipment": {
+      "option_a": ["Lança", "Besta Leve", "20 Virote", "Conjunto de Jogos (mesmo escolhido acima)", "Lanterna Coberta", "Algemas", "Aljava", "Roupas de Viajante", "12 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Comum"]
+  },
+
+    {
+    "name": "Guide",
+    "name_pt": "Guia",
+    "book": "Player's Handbook (2024)",
+    "publisher": "Wizards of the Coast",
+    "description": "Você cresceu ao ar livre, longe das terras colonizadas. Seu lar era onde quer que você escolhesse estender seu saco de dormir. Há maravilhas nas selvas — monstros estranhos, florestas e riachos imaculados, ruínas cobertas de vegetação de grandes salões antes pisados por gigantes — e você aprendeu a se virar sozinho enquanto os explorava. De tempos em tempos, você guiava sacerdotes amigáveis da natureza que lhe instruíam nos fundamentos de canalizar a magia do selvagem.",
+    "ability_scores": ["Destreza", "Constituição", "Sabedoria"],
+    "feat": "Iniciado em Magia (Druida) (Magic Initiate)",
+    "skill_proficiencies": ["Furtividade", "Sobrevivência"],
+    "tool_proficiencies": ["Ferramentas de Cartógrafo"],
+    "equipment": {
+      "option_a": ["Arco Curto", "20 Flechas", "Ferramentas de Cartógrafo", "Saco de Dormir", "Aljava", "Barraca", "Roupas de Viajante", "3 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Comum"]
+  },
+  {
+    "name": "Hermit",
+    "name_pt": "Eremita",
+    "book": "Player's Handbook (2024)",
+    "publisher": "Wizards of the Coast",
+    "description": "Você passou seus primeiros anos recluso em uma cabana ou mosteiro localizado bem além dos arredores do assentamento mais próximo. Naqueles dias, seus únicos companheiros eram as criaturas da floresta e aqueles que ocasionalmente o visitavam para trazer notícias do mundo exterior e suprimentos. A solidão lhe permitiu passar muitas horas ponderando os mistérios da criação.",
+    "ability_scores": ["Constituição", "Sabedoria", "Carisma"],
+    "feat": "Curandeiro (Healer)",
+    "skill_proficiencies": ["Medicina", "Religião"],
+    "tool_proficiencies": ["Kit de Herbalismo"],
+    "equipment": {
+      "option_a": ["Cajado", "Kit de Herbalismo", "Saco de Dormir", "Livro (filosofia)", "Lâmpada", "Óleo (3 frascos)", "Roupas de Viajante", "16 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Comum"]
+  },
+  {
+    "name": "Merchant",
+    "name_pt": "Mercador",
+    "book": "Player's Handbook (2024)",
+    "publisher": "Wizards of the Coast",
+    "description": "Você foi aprendiz de um comerciante, mestre de caravana, ou lojista, aprendendo os fundamentos do comércio. Você viajou amplamente e ganhou a vida comprando e vendendo as matérias-primas que artesãos precisam para praticar seu ofício, ou obras acabadas desses artesãos. Você pode ter transportado mercadorias de um lugar para outro (por navio, carroça ou caravana), ou comprado de comerciantes viajantes e vendido em sua própria loja.",
+    "ability_scores": ["Constituição", "Inteligência", "Carisma"],
+    "feat": "Sortudo (Lucky)",
+    "skill_proficiencies": ["Lidar com Animais", "Persuasão"],
+    "tool_proficiencies": ["Ferramentas de Navegador"],
+    "equipment": {
+      "option_a": ["Ferramentas de Navegador", "2 Bolsas", "Roupas de Viajante", "22 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Comum"]
+  },
+  {
+    "name": "Noble",
+    "name_pt": "Nobre",
+    "book": "Player's Handbook (2024)",
+    "publisher": "Wizards of the Coast",
+    "description": "Você foi criado em um castelo, cercado por riqueza, poder e privilégio. Sua família de aristocratas menores garantiu que você recebesse uma educação de primeira classe, parte da qual você apreciou e parte da qual você ressentiu. Seu tempo no castelo, especialmente as muitas horas que passou observando sua família na corte, também lhe ensinou muito sobre liderança.",
+    "ability_scores": ["Força", "Inteligência", "Carisma"],
+    "feat": "Habilidoso (Skilled)",
+    "skill_proficiencies": ["História", "Persuasão"],
+    "tool_proficiencies": ["Escolha um tipo de Conjunto de Jogos"],
+    "equipment": {
+      "option_a": ["Conjunto de Jogos (mesmo escolhido acima)", "Roupas Finas", "Perfume", "29 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Comum"]
+  },
+  {
+    "name": "Sage",
+    "name_pt": "Sábio",
+    "book": "Player's Handbook (2024)",
+    "publisher": "Wizards of the Coast",
+    "description": "Você passou seus anos de formação viajando entre mansões e mosteiros, realizando trabalhos variados e serviços em troca de acesso às suas bibliotecas. Você passou muitas longas noites estudando livros e pergaminhos, aprendendo o saber do multiverso — até os rudimentos da magia — e sua mente anseia por mais.",
+    "ability_scores": ["Constituição", "Inteligência", "Sabedoria"],
+    "feat": "Iniciado em Magia (Mago) (Magic Initiate)",
+    "skill_proficiencies": ["Arcanismo", "História"],
+    "tool_proficiencies": ["Suprimentos de Calígrafo"],
+    "equipment": {
+      "option_a": ["Cajado", "Suprimentos de Calígrafo", "Livro (história)", "Pergaminho (8 folhas)", "Túnica", "8 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Comum"]
+  },
+  {
+    "name": "Sailor",
+    "name_pt": "Marinheiro",
+    "book": "Player's Handbook (2024)",
+    "publisher": "Wizards of the Coast",
+    "description": "Você viveu como um homem do mar, com o vento às suas costas e os conveses balançando sob seus pés. Você se sentou em banquinhos de bar em mais portos do que consegue lembrar, enfrentou tempestades poderosas, e trocou histórias com gente que vive sob as ondas.",
+    "ability_scores": ["Força", "Destreza", "Sabedoria"],
+    "feat": "Brigão de Taverna (Tavern Brawler)",
+    "skill_proficiencies": ["Acrobacia", "Percepção"],
+    "tool_proficiencies": ["Ferramentas de Navegador"],
+    "equipment": {
+      "option_a": ["Adaga", "Ferramentas de Navegador", "Corda", "Roupas de Viajante", "20 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Comum"]
+  },
+  {
+    "name": "Scribe",
+    "name_pt": "Escriba",
+    "book": "Player's Handbook (2024)",
+    "publisher": "Wizards of the Coast",
+    "description": "Você passou seus anos de formação em um scriptorium, um mosteiro dedicado à preservação do conhecimento, ou uma agência governamental, onde aprendeu a escrever com caligrafia clara e produzir textos finamente escritos. Talvez você tenha redigido documentos governamentais ou copiado tomos de literatura. Você pode ter alguma habilidade como escritor de poesia, narrativa, ou pesquisa acadêmica. Acima de tudo, você tem uma atenção cuidadosa aos detalhes, ajudando-o a evitar introduzir erros nos documentos que copia e cria.",
+    "ability_scores": ["Destreza", "Inteligência", "Sabedoria"],
+    "feat": "Habilidoso (Skilled)",
+    "skill_proficiencies": ["Investigação", "Percepção"],
+    "tool_proficiencies": ["Suprimentos de Calígrafo"],
+    "equipment": {
+      "option_a": ["Suprimentos de Calígrafo", "Roupas Finas", "Lâmpada", "Óleo (3 frascos)", "Pergaminho (12 folhas)", "23 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Comum"]
+  },
+  {
+    "name": "Soldier",
+    "name_pt": "Soldado",
+    "book": "Player's Handbook (2024)",
+    "publisher": "Wizards of the Coast",
+    "description": "Você começou a treinar para a guerra assim que atingiu a idade adulta e carrega pouquíssimas lembranças da vida antes de pegar em armas. A batalha corre em seu sangue. Às vezes você se pega executando reflexivamente os exercícios básicos de luta que aprendeu primeiro. Eventualmente, você colocou esse treinamento em uso no campo de batalha, protegendo o reino ao travar guerra.",
+    "ability_scores": ["Força", "Destreza", "Constituição"],
+    "feat": "Atacante Selvagem (Savage Attacker)",
+    "skill_proficiencies": ["Atletismo", "Intimidação"],
+    "tool_proficiencies": ["Escolha um tipo de Conjunto de Jogos"],
+    "equipment": {
+      "option_a": ["Lança", "Arco Curto", "20 Flechas", "Conjunto de Jogos (mesmo escolhido acima)", "Kit de Curandeiro", "Aljava", "Roupas de Viajante", "14 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Comum"]
+  },
+  {
+    "name": "Wayfarer",
+    "name_pt": "Andarilho",
+    "book": "Player's Handbook (2024)",
+    "publisher": "Wizards of the Coast",
+    "description": "Você cresceu nas ruas, cercado por outros desafortunados abandonados, alguns deles amigos e alguns deles rivais. Você dormia onde podia e fazia trabalhos ocasionais por comida. Às vezes, quando a fome se tornava insuportável, você recorria ao roubo. Ainda assim, você nunca perdeu seu orgulho e nunca abandonou a esperança. O destino ainda não terminou com você.",
+    "ability_scores": ["Destreza", "Sabedoria", "Carisma"],
+    "feat": "Sortudo (Lucky)",
+    "skill_proficiencies": ["Intuição", "Furtividade"],
+    "tool_proficiencies": ["Ferramentas de Ladrão"],
+    "equipment": {
+      "option_a": ["2 Adagas", "Ferramentas de Ladrão", "Conjunto de Jogos (qualquer)", "Saco de Dormir", "2 Bolsas", "Roupas de Viajante", "16 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Comum"]
+  },
+
+    {
+    "name": "Aberrant Heir",
+    "name_pt": "Herdeiro Aberrante",
+    "book": "Eberron - Forge of the Artificer",
+    "publisher": "Wizards of the Coast",
+    "description": "Sua marca dragonmarked aberrante tornou a vida desafiadora desde que se manifestou. Você pode tê-la escondido com sucesso durante a maior parte da vida ou conseguido evitar ser notado. Alternativamente, você pode ter encontrado suspeita e medo, talvez acompanhados pela hostilidade aberta de uma ou mais casas dragonmarked. Você pode ter formado uma associação com a organização criminosa Casa Tarkanan (assim chamada por um dos líderes mais notórios dos aberrantes dragonmarked na Guerra da Marca, vinte e cinco séculos atrás). Ou você pode lutar para encontrar seu próprio caminho no mundo, contando com sua astúcia e o poder de sua marca.",
+    "ability_scores": ["Força", "Constituição", "Carisma"],
+    "feat": "Marca Dragonmarked Aberrante (Aberrant Dragonmark)",
+    "skill_proficiencies": ["História", "Intimidação"],
+    "tool_proficiencies": ["Kit de Disfarce"],
+    "equipment": {
+      "option_a": ["Adaga", "Kit de Disfarce", "Figurino", "Roupas de Viajante", "16 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Eberron", "EFotA", "Forge of the Artificer"]
+  },
+  {
+    "name": "Archaeologist",
+    "name_pt": "Arqueólogo",
+    "book": "Eberron - Forge of the Artificer",
+    "publisher": "Wizards of the Coast",
+    "description": "Você fez um estudo de uma vida inteira sobre as culturas perdidas e caídas do passado, visitando suas ruínas, decifrando seus registros escritos, e examinando suas obras-primas sobreviventes. Talvez você tenha estudado na Universidade de Morgrave ou em uma instituição similar, complementando seu tempo na biblioteca com trabalho de campo em ruínas antigas em locais remotos. Alguns arqueólogos saqueiam os tesouros do passado em busca de riqueza ou fama, mas a maioria considera seu chamado aprender com o passado. Em qualquer caso, os arqueólogos de Eberron combinam as qualidades de historiadores eruditos com a têmpera de caçadores de tesouros.",
+    "ability_scores": ["Destreza", "Inteligência", "Sabedoria"],
+    "feat": "Habilidoso (Skilled)",
+    "skill_proficiencies": ["História", "Sobrevivência"],
+    "tool_proficiencies": ["Ferramentas de Cartógrafo"],
+    "equipment": {
+      "option_a": ["Ferramentas de Cartógrafo", "Lanterna Oculada", "Mapa", "Estojo para Mapa ou Pergaminho", "Pá", "Barraca", "Roupas de Viajante", "17 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Eberron", "EFotA", "Forge of the Artificer"]
+  },
+  {
+    "name": "House Agent",
+    "name_pt": "Agente de Casa",
+    "book": "Eberron - Forge of the Artificer",
+    "publisher": "Wizards of the Coast",
+    "description": "Você está conectado a uma das casas dragonmarked, mas ainda não manifestou uma marca dragonmarked. Você pode ser um membro da família por nascimento ou um empregado da casa sem conexão familiar. Você ganhou a vida fazendo os negócios da casa, servindo como mãos, pés e olhos da liderança da casa no mundo. Você pode ter muitos velhos amigos, mentores e rivais na casa que serve, além de aliados ou inimigos em outras casas.",
+    "ability_scores": ["Força", "Inteligência", "Carisma"],
+    "feat": "Sortudo (Lucky)",
+    "skill_proficiencies": ["Investigação", "Persuasão"],
+    "tool_proficiencies": ["Escolha um tipo de Ferramenta de Artesão"],
+    "equipment": {
+      "option_a": ["Ferramentas de Artesão (mesmas escolhidas acima)", "Roupas Finas", "20 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Eberron", "EFotA", "Forge of the Artificer"]
+  },
+  {
+    "name": "House Cannith Heir",
+    "name_pt": "Herdeiro da Casa Cannith",
+    "book": "Eberron - Forge of the Artificer",
+    "publisher": "Wizards of the Coast",
+    "description": "Como um rebento da Casa Cannith, você carrega um legado orgulhoso. Cannith cria maravilhas do mundo moderno, e espera-se que você contribua para o sucesso contínuo da casa por meio de invenção, erudição, negócios ou diplomacia. A única coisa que pode ficar em seu caminho é a profunda fissura dentro de sua própria casa. Quanto mais cedo os três barões resolverem qual deles é o verdadeiro chefe da casa (e você, sem dúvida, tem sua preferência), mais cedo a Casa Cannith poderá reivindicar sua posição legítima de liderança entre todas as casas dragonmarked.",
+    "ability_scores": ["Força", "Destreza", "Inteligência"],
+    "feat": "Marca da Criação (Mark of Making)",
+    "skill_proficiencies": ["Investigação", "Prestidigitação"],
+    "tool_proficiencies": ["Escolha um tipo de Ferramenta de Artesão"],
+    "equipment": {
+      "option_a": ["Ferramentas de Artesão (mesmas escolhidas acima)", "Pé de Cabra", "Roupas Finas", "2 Bolsas", "17 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Eberron", "EFotA", "Forge of the Artificer"]
+  },
+  {
+    "name": "House Deneith Heir",
+    "name_pt": "Herdeiro da Casa Deneith",
+    "book": "Eberron - Forge of the Artificer",
+    "publisher": "Wizards of the Coast",
+    "description": "Como herdeiro da Casa Deneith, você foi treinado para o combate — não para procurá-lo, mas também não para fugir dele. Você aprendeu a importância do dever, da honra, e das leis usadas para governar a sociedade quando dever e honra falham. Ao estabelecer seu nome na casa, você pode ter trabalhado como guarda-costas de alguma autoridade menor, como mercenário, ou como marechal caçando fugitivos. Agora você está preparado para reivindicar sua posição legítima na mais poderosa das casas dragonmarked.",
+    "ability_scores": ["Força", "Constituição", "Sabedoria"],
+    "feat": "Marca do Sentinela (Mark of Sentinel)",
+    "skill_proficiencies": ["Intuição", "Percepção"],
+    "tool_proficiencies": ["Escolha um tipo de Conjunto de Jogos"],
+    "equipment": {
+      "option_a": ["Lança", "Arco Curto", "20 Flechas", "Conjunto de Jogos (mesmo escolhido acima)", "Roupas Finas", "Kit de Curandeiro", "Aljava", "1 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Eberron", "EFotA", "Forge of the Artificer"]
+  },
+  {
+    "name": "House Ghallanda Heir",
+    "name_pt": "Herdeiro da Casa Ghallanda",
+    "book": "Eberron - Forge of the Artificer",
+    "publisher": "Wizards of the Coast",
+    "description": "Graças às suas conexões com a Casa Ghallanda, você cresceu acostumado ao conforto das criaturas, conversas animadas, boa bebida e comida deliciosa. Você pode ser um rebento encantador e espirituoso da casa que não ama nada mais do que uma noite agradável ao lado de uma lareira quente. Ou você pode ser um intrigante que explora laços de confiança e amizade para dobrar os outros à sua vontade. Você pode buscar uma carreira de aventura para dominar as culinárias de outras culturas e eras, expandir sua rede de contatos úteis, ou ganhar dinheiro suficiente para abrir sua própria estalagem.",
+    "ability_scores": ["Destreza", "Sabedoria", "Carisma"],
+    "feat": "Marca da Hospitalidade (Mark of Hospitality)",
+    "skill_proficiencies": ["Intuição", "Persuasão"],
+    "tool_proficiencies": ["Utensílios de Cozinheiro"],
+    "equipment": {
+      "option_a": ["Utensílios de Cozinheiro", "Roupas Finas", "Panela de Ferro", "Lâmpada", "Óleo (5 frascos)", "Perfume", "26 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Eberron", "EFotA", "Forge of the Artificer"]
+  },
+  {
+    "name": "House Jorasco Heir",
+    "name_pt": "Herdeiro da Casa Jorasco",
+    "book": "Eberron - Forge of the Artificer",
+    "publisher": "Wizards of the Coast",
+    "description": "A Casa Jorasco ensina que doença e ferimento espreitam os vivos como fantasmas, roubando das pessoas a saúde e a longevidade. Você foi ensinado a combater esses flagelos, tanto mágica quanto medicinalmente. Você é treinado a usar essas habilidades a serviço dos outros — e a certificar-se de que você é sempre adequadamente compensado por esse serviço, garantindo a saúde e a longevidade da Casa Jorasco. Você pode ser um curador bondoso sem estômago para combate, ou um especialista desapaixonado que sabe exatamente como incapacitar ou matar um inimigo com golpes precisos.",
+    "ability_scores": ["Destreza", "Constituição", "Sabedoria"],
+    "feat": "Marca da Cura (Mark of Healing)",
+    "skill_proficiencies": ["Medicina", "Furtividade"],
+    "tool_proficiencies": ["Kit de Herbalismo"],
+    "equipment": {
+      "option_a": ["Kit de Herbalismo", "Roupas Finas", "Kit de Curandeiro", "25 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Eberron", "EFotA", "Forge of the Artificer"]
+  },
+  {
+    "name": "House Kundarak Heir",
+    "name_pt": "Herdeiro da Casa Kundarak",
+    "book": "Eberron - Forge of the Artificer",
+    "publisher": "Wizards of the Coast",
+    "description": "Como herdeiro da Casa Kundarak, você tem grande orgulho de sua família e de seu trabalho de salvaguardar os valores de Khorvaire. Sua casa sempre foi uma líder entre os clãs dos Domínios Mror. Embora nunca tenha detido a coroa, tem uma reputação de profissionalismo, honra e ordem. Você pode se esforçar para manter essa reputação, pode colocar seu próprio senso de honra acima do de sua família, ou pode se rebelar contra as expectativas da casa e desafiar as exigências da honra.",
+    "ability_scores": ["Força", "Constituição", "Inteligência"],
+    "feat": "Marca da Proteção (Mark of Warding)",
+    "skill_proficiencies": ["Arcanismo", "Investigação"],
+    "tool_proficiencies": ["Ferramentas de Ladrão"],
+    "equipment": {
+      "option_a": ["Ferramentas de Ladrão", "Roupas Finas", "10 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Eberron", "EFotA", "Forge of the Artificer"]
+  },
+
+    {
+    "name": "House Lyrandar Heir",
+    "name_pt": "Herdeiro da Casa Lyrandar",
+    "book": "Eberron - Forge of the Artificer",
+    "publisher": "Wizards of the Coast",
+    "description": "Como herdeiro da Casa Lyrandar, o vento é seu aliado, o mar e o céu seu domínio. Apesar da devastação da Última Guerra, sua casa está em ascensão, sustentada por seu domínio da nova tecnologia de dirigíveis. Você pode ter passado sua carreira inicial no mar como marinheiro ou navegador; como construtor naval; ou como membro da Guilda dos Invocadores de Chuva, manipulando o clima e auxiliando com irrigação e obras públicas similares. Ou você pode ter estado entre os primeiros de sua casa a subir aos céus como parte de uma tripulação de dirigível. O serviço à casa pode chamá-lo para caçar piratas no Mar Lhazaar, explorar ruínas antigas em busca de tecnologia mágica para vincular forças elementais, ou resgatar um dirigível naufragado no Luto.",
+    "ability_scores": ["Força", "Destreza", "Carisma"],
+    "feat": "Marca da Tempestade (Mark of Storm)",
+    "skill_proficiencies": ["Acrobacia", "Natureza"],
+    "tool_proficiencies": ["Ferramentas de Navegador"],
+    "equipment": {
+      "option_a": ["Ferramentas de Navegador", "Roupas Finas", "10 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Eberron", "EFotA", "Forge of the Artificer"]
+  },
+  {
+    "name": "House Medani Heir",
+    "name_pt": "Herdeiro da Casa Medani",
+    "book": "Eberron - Forge of the Artificer",
+    "publisher": "Wizards of the Coast",
+    "description": "Como membro da Casa Medani, sua vida gira em torno do subterfúgio — não o praticando, mas impedindo que outros o façam. Você enxerga o mundo ao seu redor como uma teia intrincada de esquemas, tramas e contra-tramas. Avaliando o leque de possibilidades, você usa o instinto para prever ameaças aos seus clientes e defendê-los bem antes que essas ameaças possam se tornar perigo. Defender contra a lâmina de um assassino é um trabalho que qualquer espada de aluguel Deneith ou capanga Tharashk pode fazer — garantir que ninguém jamais empunhe essa lâmina é o caminho Medani.",
+    "ability_scores": ["Destreza", "Inteligência", "Sabedoria"],
+    "feat": "Marca da Detecção (Mark of Detection)",
+    "skill_proficiencies": ["Intuição", "Investigação"],
+    "tool_proficiencies": ["Kit de Disfarce"],
+    "equipment": {
+      "option_a": ["Kit de Disfarce", "Roupas Finas", "10 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Eberron", "EFotA", "Forge of the Artificer"]
+  },
+  {
+    "name": "House Orien Heir",
+    "name_pt": "Herdeiro da Casa Orien",
+    "book": "Eberron - Forge of the Artificer",
+    "publisher": "Wizards of the Coast",
+    "description": "Antes da Última Guerra, a influência de Orien cobria Khorvaire, e suas estradas comerciais e trilhos-relâmpago eram a força vital de um reino vibrante. Mas a guerra cortou essas artérias, deixando Galifar morto e a Casa Orien ferida. Embora os mensageiros e transportadores da casa ainda mantenham mercadorias em movimento em ambos os lados do continente, encontrar uma maneira de restabelecer rotas através do Luto continua sendo a principal prioridade da casa. Enquanto isso, aventureiros Orien podem servir sua casa investigando mensageiros desaparecidos, recuperando mercadorias roubadas de caravanas, e solucionando interrupções no trilho-relâmpago.",
+    "ability_scores": ["Destreza", "Constituição", "Inteligência"],
+    "feat": "Marca da Passagem (Mark of Passage)",
+    "skill_proficiencies": ["Acrobacia", "Atletismo"],
+    "tool_proficiencies": ["Ferramentas de Cartógrafo"],
+    "equipment": {
+      "option_a": ["Ferramentas de Cartógrafo", "Roupas Finas", "Mapa", "Estojo para Mapa ou Pergaminho", "18 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Eberron", "EFotA", "Forge of the Artificer"]
+  },
+  {
+    "name": "House Phiarlan Heir",
+    "name_pt": "Herdeiro da Casa Phiarlan",
+    "book": "Eberron - Forge of the Artificer",
+    "publisher": "Wizards of the Coast",
+    "description": "Embora você tenha visto riqueza, fama e beleza como filho da Casa Phiarlan, você considera o conhecimento (e o poder que ele traz) o maior tesouro de todos. Você pode buscar esse poder como artista ou performer, sempre atento a segredos mesmo enquanto deleita o mundo com história, canção, acrobacia ou arte. Ou você pode cultivar laços com o braço secreto de espionagem de sua casa: a Tábua Serpentina.",
+    "ability_scores": ["Destreza", "Sabedoria", "Carisma"],
+    "feat": "Marca da Sombra (Mark of Shadow)",
+    "skill_proficiencies": ["Enganação", "Furtividade"],
+    "tool_proficiencies": ["Kit de Disfarce"],
+    "equipment": {
+      "option_a": ["Kit de Disfarce", "Roupas Finas", "10 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Eberron", "EFotA", "Forge of the Artificer"]
+  },
+  {
+    "name": "House Sivis Heir",
+    "name_pt": "Herdeiro da Casa Sivis",
+    "book": "Eberron - Forge of the Artificer",
+    "publisher": "Wizards of the Coast",
+    "description": "Por quase trinta séculos, sua família trabalhou para manter a ordem. A comunicação é o cordão que une a civilização, e seus ancestrais resolveram disputas de soberanos e ajudaram as casas dragonmarked a encontrar um lugar no mundo. Poucas pessoas percebem a influência que a Casa Sivis teve na forma da era moderna — assim como poucos sabem com que frequência um conselheiro real detém mais poder do que o governante de fato. Enquanto as outras casas dragonmarked lutam por fama e reconhecimento, a Casa Sivis joga um longo jogo de influência sutil nos bastidores, mantendo a ordem em meio ao caos da intriga sem fim.",
+    "ability_scores": ["Inteligência", "Sabedoria", "Carisma"],
+    "feat": "Marca da Escrita (Mark of Scribing)",
+    "skill_proficiencies": ["História", "Percepção"],
+    "tool_proficiencies": ["Suprimentos de Calígrafo"],
+    "equipment": {
+      "option_a": ["Suprimentos de Calígrafo", "Roupas Finas", "Tinta", "5 Penas de Tinta", "Papel (30 folhas)", "Pergaminho (9 folhas)", "8 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Eberron", "EFotA", "Forge of the Artificer"]
+  },
+  {
+    "name": "House Tharashk Heir",
+    "name_pt": "Herdeiro da Casa Tharashk",
+    "book": "Eberron - Forge of the Artificer",
+    "publisher": "Wizards of the Coast",
+    "description": "Herdeiros de outras casas levam vidas de luxo, mas na Casa Tharashk você aprendeu autossuficiência desde cedo. O que sua jovem casa carece em recursos, ela compensa em espírito e determinação. Tharashk tem um destino a cumprir, e você tem um papel nele. Seja em combate ou em interação social, você aprendeu a desempenhar o papel de caçador: estudar seus inimigos, explorar suas fraquezas, e fazer o que for preciso para alcançar a vitória.",
+    "ability_scores": ["Constituição", "Inteligência", "Sabedoria"],
+    "feat": "Marca da Descoberta (Mark of Finding)",
+    "skill_proficiencies": ["Percepção", "Sobrevivência"],
+    "tool_proficiencies": ["Escolha um tipo de Conjunto de Jogos"],
+    "equipment": {
+      "option_a": ["Conjunto de Jogos (mesmo escolhido acima)", "Kit de Escalada", "Roupas Finas", "Armadilha de Caça", "Algemas", "2 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Eberron", "EFotA", "Forge of the Artificer"]
+  },
+  {
+    "name": "House Thuranni Heir",
+    "name_pt": "Herdeiro da Casa Thuranni",
+    "book": "Eberron - Forge of the Artificer",
+    "publisher": "Wizards of the Coast",
+    "description": "Dada a curta história da Casa Thuranni e seu foco em espionagem, seus líderes esperam que você promova os interesses da casa em cada oportunidade. Durante os anos formativos da casa como entidade independente, cada movimento seu foi observado de perto. Isso não quer dizer que todo herdeiro Thuranni deva espionar ativamente a pedido dos anciãos da casa. Mas até os artistas e artesãos mais isolados da casa devem se manter atualizados sobre os eventos políticos atuais e passar adiante ou coletar informações quando solicitados.",
+    "ability_scores": ["Destreza", "Inteligência", "Carisma"],
+    "feat": "Marca da Sombra (Mark of Shadow)",
+    "skill_proficiencies": ["Atuação", "Furtividade"],
+    "tool_proficiencies": ["Escolha um tipo de Instrumento Musical"],
+    "equipment": {
+      "option_a": ["Instrumento Musical (mesmo escolhido acima)", "Figurino", "Roupas Finas", "13 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Eberron", "EFotA", "Forge of the Artificer"]
+  },
+  {
+    "name": "House Vadalis Heir",
+    "name_pt": "Herdeiro da Casa Vadalis",
+    "book": "Eberron - Forge of the Artificer",
+    "publisher": "Wizards of the Coast",
+    "description": "Você cresceu com respeito tanto pela família quanto pela natureza. Você entende a cultura das Cinco Nações, mas não se deixa levar pelos jogos de ambição e status que os outros jogam. Você conhece a beleza e o poder inerentes à vida, os mistérios do nascimento e da morte, e os milagres que acontecem entre eles. Sua percepção do mundo natural permite que você veja através das mentiras e enganos do povo da cidade — e nunca deixa transparecer o quanto do subterfúgio deles você reconhece.",
+    "ability_scores": ["Constituição", "Sabedoria", "Carisma"],
+    "feat": "Marca do Manejo (Mark of Handling)",
+    "skill_proficiencies": ["Lidar com Animais", "Natureza"],
+    "tool_proficiencies": ["Kit de Herbalismo"],
+    "equipment": {
+      "option_a": ["Kit de Herbalismo", "Roupas Finas", "Rede", "29 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Eberron", "EFotA", "Forge of the Artificer"]
+  },
+  {
+    "name": "Inquisitive",
+    "name_pt": "Inquisitivo",
+    "book": "Eberron - Forge of the Artificer",
+    "publisher": "Wizards of the Coast",
+    "description": "Você aprimorou seus talentos de investigação e dedução — alimentados por uma curiosidade sem limites — para explorar mistérios, encontrar pessoas desaparecidas, recuperar mercadorias roubadas, desenterrar corrupção e conspirações, e resolver crimes. Como inquisitivo, você pode ter buscado trabalho autônomo, se juntado a uma agência de inquisitivos (talvez uma licenciada por uma casa dragonmarked como Medani ou Tharashk), reportado para um jornal, ou trabalhado para uma força policial.",
+    "ability_scores": ["Constituição", "Inteligência", "Carisma"],
+    "feat": "Alerta (Alert)",
+    "skill_proficiencies": ["Intuição", "Investigação"],
+    "tool_proficiencies": ["Ferramentas de Ladrão"],
+    "equipment": {
+      "option_a": ["Ferramentas de Ladrão", "Lanterna Oculada", "Pé de Cabra", "Óleo (10 frascos)", "Roupas de Viajante", "10 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Eberron", "EFotA", "Forge of the Artificer"]
+  },
+
+    {
+    "name": "Chondathan Freebooter",
+    "name_pt": "Pirata Chondatano",
+    "book": "Heroes of Faerûn",
+    "publisher": "Wizards of the Coast",
+    "description": "Embora a maioria dos jovens de Chondath aceite seu período de quatro anos de serviço militar obrigatório, você se irritou com essa tentativa autoritária de controlar sua vida. Você abandonou sua nacionalidade, descartou seu nome de nascença, e trabalhou como pirata no primeiro navio que o aceitasse. Desde então, você viajou pelo Estreito de Vilhon. Embora você nunca tenha navegado mais do que algumas dúzias de léguas da terra, você compensa isso com profundas conexões locais e a amplitude de suas experiências.",
+    "ability_scores": ["Força", "Destreza", "Sabedoria"],
+    "feat": "Habilidoso (Skilled)",
+    "skill_proficiencies": ["Atletismo", "Prestidigitação"],
+    "tool_proficiencies": ["Ferramentas de Tecelão"],
+    "equipment": {
+      "option_a": ["Adaga", "Ferramentas de Tecelão", "Mochila", "Rolamentos", "Cesta", "Saco de Dormir", "Balde", "Rações (3 dias)", "Corda", "Apito de Sinal", "Roupas de Viajante", "38 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Faerun", "FRHOF", "Heroes of Faerûn"]
+  },
+  {
+    "name": "Dead Magic Dweller",
+    "name_pt": "Habitante da Magia Morta",
+    "book": "Heroes of Faerûn",
+    "publisher": "Wizards of the Coast",
+    "description": "As zonas de magia morta do deserto de Anauroch são anátema para conjuradores e monstros que dependem de magia — e é exatamente por isso que você fez sua vida lá. Talvez você esteja fugindo de Magos Vermelhos, ou tenha se desentendido com um djinni poderoso em Calimshan. Seja qual for o caso, você decidiu que viver em Anauroch era sua melhor opção. Após longos meses ou anos, você está mais forte, mais sábio, e armado com conhecimento duramente conquistado sobre medicina do deserto e sobrevivência em ermos.",
+    "ability_scores": ["Força", "Constituição", "Sabedoria"],
+    "feat": "Curandeiro (Healer)",
+    "skill_proficiencies": ["Medicina", "Sobrevivência"],
+    "tool_proficiencies": ["Ferramentas de Coureiro"],
+    "equipment": {
+      "option_a": ["Clava Grande", "Ferramentas de Coureiro", "Saco de Dormir", "Cobertor", "Kit de Curandeiro", "Vara", "Rações (3 dias)", "Barraca", "Caixa de Fogo", "5 Tochas", "Roupas de Viajante", "Odre", "32 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Faerun", "FRHOF", "Heroes of Faerûn"]
+  },
+  {
+    "name": "Dragon Cultist",
+    "name_pt": "Cultista do Dragão",
+    "book": "Heroes of Faerûn",
+    "publisher": "Wizards of the Coast",
+    "description": "Você é um iniciado do Culto do Dragão. Você descobriu ou foi trazido a um culto celular, onde você exemplificou os valores honrados pelos cultistas do dragão: duplicidade, sigilo e determinação. Em troca de seu juramento de servir ao culto, o culto lhe ofereceu a companhia de companheiros adoradores de dragões, além de acesso a recursos que podem ajudar a promover seus estudos nos reinos do arcano e do ocultismo.",
+    "ability_scores": ["Destreza", "Constituição", "Inteligência"],
+    "feat": "Iniciado do Culto do Dragão (Cult of the Dragon Initiate)",
+    "skill_proficiencies": ["Enganação", "Furtividade"],
+    "tool_proficiencies": ["Suprimentos de Calígrafo"],
+    "equipment": {
+      "option_a": ["Suprimentos de Calígrafo", "Adaga", "Garrafa de Vidro", "Lâmpada", "Algemas", "Óleo (5 frascos)", "2 Bolsas", "Túnica", "Corda", "30 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Faerun", "FRHOF", "Heroes of Faerûn"]
+  },
+  {
+    "name": "Emerald Enclave Caretaker",
+    "name_pt": "Cuidador do Enclave Esmeralda",
+    "book": "Heroes of Faerûn",
+    "publisher": "Wizards of the Coast",
+    "description": "Como Cuidador do Enclave Esmeralda, você cuida daqueles que cuidam do mundo. Seja ao lado de seus companheiros do Enclave Esmeralda ou sozinho, você aprendeu habilidades essenciais para viver com a terra: como rastrear caça, onde procurar ervas úteis, e até como prever o tempo. Você usa esses talentos para manter o equilíbrio entre a civilização e as selvas, e para livrar o mundo de criaturas antinaturais.",
+    "ability_scores": ["Constituição", "Inteligência", "Sabedoria"],
+    "feat": "Novato do Enclave Esmeralda (Emerald Enclave Fledgling)",
+    "skill_proficiencies": ["Natureza", "Sobrevivência"],
+    "tool_proficiencies": ["Kit de Herbalismo"],
+    "equipment": {
+      "option_a": ["Arco Curto", "20 Flechas", "Kit de Herbalismo", "Saco de Dormir", "Cobertor", "Bolsa", "Barraca", "Roupas de Viajante", "13 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Faerun", "FRHOF", "Heroes of Faerûn"]
+  },
+  {
+    "name": "Flaming Fist Mercenary",
+    "name_pt": "Mercenário do Punho Flamejante",
+    "book": "Heroes of Faerûn",
+    "publisher": "Wizards of the Coast",
+    "description": "O principal braço de aplicação da lei de Baldur's Gate é o Punho Flamejante, uma robusta guilda de mercenários liderada pelo grão-duque da cidade. Você já serviu como um Punho Flamejante, onde aprendeu a impedir problemas com seu olhar intimidante e, quando necessário, absorver golpes mortais. Mercenários do Punho Flamejante, ativos ou aposentados, são conhecidos como alguns dos guerreiros mais resistentes e resilientes da Costa da Espada, e você busca manter essa reputação.",
+    "ability_scores": ["Força", "Constituição", "Carisma"],
+    "feat": "Robusto (Tough)",
+    "skill_proficiencies": ["Intimidação", "Percepção"],
+    "tool_proficiencies": ["Ferramentas de Ferreiro"],
+    "equipment": {
+      "option_a": ["Maça", "Ferramentas de Ferreiro", "Roupas Finas", "Algemas", "Aríete Portátil", "4 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Faerun", "FRHOF", "Heroes of Faerûn"]
+  },
+  {
+    "name": "Genie Touched",
+    "name_pt": "Tocado pelo Gênio",
+    "book": "Heroes of Faerûn",
+    "publisher": "Wizards of the Coast",
+    "description": "Embora os gênios não governem mais Calimshan, a magia dos gênios ainda é comum em sua terra natal. Talvez você tenha invocado inadvertidamente um djinni de uma lâmpada mágica, ou talvez tenha encontrado um oásis guardado por um marid. Um dao pode ter salvado você de um deslizamento de terra, ou você negociou com um efreeti por riqueza efêmera. Não importa como seu destino se cruzou com o de um gênio, a experiência lhe deixou com um olhar aguçado, uma língua de prata, e mais do que um toque de magia.",
+    "ability_scores": ["Destreza", "Sabedoria", "Carisma"],
+    "feat": "Iniciado em Magia (Mago) (Magic Initiate)",
+    "skill_proficiencies": ["Percepção", "Persuasão"],
+    "tool_proficiencies": ["Ferramentas de Vidreiro"],
+    "equipment": {
+      "option_a": ["Martelo Leve", "Ferramentas de Vidreiro", "Roupas Finas", "Lâmpada", "Óleo (3 frascos)", "Odre", "2 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Faerun", "FRHOF", "Heroes of Faerûn"]
+  },
+  {
+    "name": "Harper",
+    "name_pt": "Harper",
+    "book": "Heroes of Faerûn",
+    "publisher": "Wizards of the Coast",
+    "description": "Você aceitou um convite para se juntar aos Harpers, jurando um juramento de defender o código Harper e agir a serviço do bem comum. Como todos os Harpers, você entende o valor do trabalho em equipe, bem como quando é melhor agir sozinho. Veteranos Harpers lhe ensinaram os segredos da ordem — melodias mágicas, palavras de vigilância especiais, e prestidigitação — e confiaram a você o uso desse conhecimento para vigiar e minar as forças do mal.",
+    "ability_scores": ["Destreza", "Inteligência", "Carisma"],
+    "feat": "Agente Harper (Harper Agent)",
+    "skill_proficiencies": ["Atuação", "Prestidigitação"],
+    "tool_proficiencies": ["Kit de Disfarce"],
+    "equipment": {
+      "option_a": ["Kit de Disfarce", "Saco de Dormir", "Figurino", "Arpéu", "Corda", "Roupas de Viajante", "14 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Faerun", "FRHOF", "Heroes of Faerûn"]
+  },
+
+    {
+    "name": "Ice Fisher",
+    "name_pt": "Pescador do Gelo",
+    "book": "Heroes of Faerûn",
+    "publisher": "Wizards of the Coast",
+    "description": "Você vem de uma linhagem orgulhosa de pescadores do gelo das Dez Cidades em Icewind Dale. Pescar truta-cabeçuda não é o comércio mais glorioso do Norte, mas é um sustento honesto. Você treinou seus sentidos para o menor puxão na linha, lutou com grandes trutas em lagos cobertos de gelo, e limpou trutas-cabeçudas suficientes para alimentar sua vila muitas vezes. Essas experiências endureceram seu corpo e mente para uma vida de aventuras.",
+    "ability_scores": ["Força", "Destreza", "Constituição"],
+    "feat": "Alerta (Alert)",
+    "skill_proficiencies": ["Lidar com Animais", "Atletismo"],
+    "tool_proficiencies": ["Ferramentas de Entalhador"],
+    "equipment": {
+      "option_a": ["Ferramentas de Entalhador", "Cesta", "Talha e Moitão", "Balde", "Corrente", "Armadilha de Caça", "Rede", "Vara", "Rações (3 dias)", "Corda", "Roupas de Viajante", "32 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Faerun", "FRHOF", "Heroes of Faerûn"]
+  },
+  {
+    "name": "Knight Of The Gauntlet",
+    "name_pt": "Cavaleiro da Manopla",
+    "book": "Heroes of Faerûn",
+    "publisher": "Wizards of the Coast",
+    "description": "Não são todos os que atendem ao chamado de um poder superior que se contentam em debruçar-se sobre as escrituras em uma abside de templo abafada. Você escolheu o caminho do guerreiro sagrado ao se juntar à Ordem da Manopla. Como cavaleiro da Manopla, você exerce desprezo justo pelas forças do mal, camaradagem inabalável por seus irmãos de armas, e compaixão sincera pelos sobreviventes da guerra. Com arma e símbolo sagrado em mãos, você jurou não descansar até que a luz da justiça tenha vencido a sombra do caos por toda Faerûn.",
+    "ability_scores": ["Força", "Inteligência", "Sabedoria"],
+    "feat": "Noviço da Manopla (Tyro of the Gauntlet)",
+    "skill_proficiencies": ["Atletismo", "Medicina"],
+    "tool_proficiencies": ["Ferramentas de Ferreiro"],
+    "equipment": {
+      "option_a": ["Lança", "Ferramentas de Ferreiro", "Lanterna Oculada", "Símbolo Sagrado", "Algemas", "Óleo (5 frascos)", "Caixa de Fogo", "Roupas de Viajante", "9 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Faerun", "FRHOF", "Heroes of Faerûn"]
+  },
+  {
+    "name": "Lords' Alliance Vassal",
+    "name_pt": "Vassalo da Aliança dos Lordes",
+    "book": "Heroes of Faerûn",
+    "publisher": "Wizards of the Coast",
+    "description": "Você jurou sua lealdade a uma cidade-membro da Aliança dos Lordes. Como agente da Aliança, você deve defender os princípios da Aliança e buscar aumentar a segurança e a prosperidade ao longo da Costa da Espada. Você jurou trazer honra e glória à casa de seu lord, seja isso significando garantir estradas comerciais para um mercador-lorde de Waterdeep ou aniquilar monstros rio acima de Daggerford. Você foi treinado nas artes da esgrima e da arte de governar, e é tão hábil com uma lâmina quanto com uma pena.",
+    "ability_scores": ["Força", "Inteligência", "Carisma"],
+    "feat": "Agente da Aliança dos Lordes (Lords' Alliance Agent)",
+    "skill_proficiencies": ["Intuição", "Persuasão"],
+    "tool_proficiencies": ["Suprimentos de Calígrafo"],
+    "equipment": {
+      "option_a": ["2 Azagaias", "Suprimentos de Calígrafo", "Roupas Finas", "Tinta", "5 Penas de Tinta", "Pergaminho (9 folhas)", "13 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Faerun", "FRHOF", "Heroes of Faerûn"]
+  },
+  {
+    "name": "Moonwell Pilgrim",
+    "name_pt": "Peregrino dos Poços da Lua",
+    "book": "Heroes of Faerûn",
+    "publisher": "Wizards of the Coast",
+    "description": "Como muitos que vêm das Ilhas de Moonshae, você cresceu reverenciando a terra abençoada, seus deuses únicos, e os santuários misteriosos chamados poços da lua. Como peregrino dos poços da lua, você empreendeu uma busca para visitar e comungar com cada poço da lua no mapa (ou fora dele). Ao longo de suas jornadas idílicas, você coletou um repertório de canções folclóricas moonshavianas, pintou paisagens de vistas encantadoras, e até aprendeu a empunhar um pouco de magia primal.",
+    "ability_scores": ["Constituição", "Sabedoria", "Carisma"],
+    "feat": "Iniciado em Magia (Druida) (Magic Initiate)",
+    "skill_proficiencies": ["Natureza", "Atuação"],
+    "tool_proficiencies": ["Suprimentos de Pintor"],
+    "equipment": {
+      "option_a": ["Cajado", "Suprimentos de Pintor", "Saco de Dormir", "Sino", "Bolsa", "Túnica", "Cordão", "Roupas de Viajante", "Odre", "34 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Faerun", "FRHOF", "Heroes of Faerûn"]
+  },
+  {
+    "name": "Mulhorandi Tomb Raider",
+    "name_pt": "Saqueador de Túmulos Mulhorandês",
+    "book": "Heroes of Faerûn",
+    "publisher": "Wizards of the Coast",
+    "description": "Você cresceu em uma terra de reis-deuses vivos, e quando criança lhe contaram incontáveis histórias de impérios antigos e cidades sepultadas. Nesses contos, Mulhorand era uma terra transbordando de riquezas esquecidas — tesouros inestimáveis aguardando qualquer um astuto e corajoso o suficiente para buscá-los. Você tomou para si a tarefa de explorar as criptas, túmulos e pirâmides de sua terra natal para recuperar as relíquias de seu povo.",
+    "ability_scores": ["Destreza", "Constituição", "Inteligência"],
+    "feat": "Sortudo (Lucky)",
+    "skill_proficiencies": ["Investigação", "Religião"],
+    "tool_proficiencies": ["Ferramentas de Pedreiro"],
+    "equipment": {
+      "option_a": ["Adaga", "Martelo Leve", "Ferramentas de Pedreiro", "Mochila", "Saco de Dormir", "Pé de Cabra", "Escada", "Vara", "2 Bolsas", "Corda", "Cordão", "Caixa de Fogo", "5 Tochas", "Roupas de Viajante", "Odre", "26 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Faerun", "FRHOF", "Heroes of Faerûn"]
+  },
+  {
+    "name": "Mythalkeeper",
+    "name_pt": "Guardião de Mythal",
+    "book": "Heroes of Faerûn",
+    "publisher": "Wizards of the Coast",
+    "description": "Mythals são fontes de grande poder mágico que podem alterar a Trama ou até a própria natureza da realidade. A maioria foi construída na antiguidade, e muitas foram danificadas ou adormeceram desde então. Como guardião de mythal dos Dalelands, sua primeira experiência com um mythal foi provavelmente nas ruínas de Myth Drannor. Você vagueia por Faerûn em busca de outros lugares arruinados de poder, esperando aprender mais sobre a história e os poderes dos mythals — ou até restaurar um que esteja com defeito.",
+    "ability_scores": ["Inteligência", "Sabedoria", "Carisma"],
+    "feat": "Artesão (Crafter)",
+    "skill_proficiencies": ["Arcanismo", "História"],
+    "tool_proficiencies": ["Ferramentas de Joalheiro"],
+    "equipment": {
+      "option_a": ["Cajado", "Ferramentas de Joalheiro", "Perfume", "Bolsa", "Túnica", "Pá", "Cordão", "Odre", "16 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Faerun", "FRHOF", "Heroes of Faerûn"]
+  },
+  {
+    "name": "Purple Dragon Squire",
+    "name_pt": "Escudeiro do Dragão Púrpura",
+    "book": "Heroes of Faerûn",
+    "publisher": "Wizards of the Coast",
+    "description": "Você jurou sua vida à segurança de Cormyr e buscou admissão à ordem de guerreiros de elite daquele reino: os Cavaleiros do Dragão Púrpura. Mas antes que você tenha a chance de se juntar oficialmente às fileiras, você deve primeiro servir como escudeiro de um cavaleiro. Você encontrou um senhor disposto a recebê-lo e ensinar-lhe os caminhos da ordem. Você defenderá os ideais dos Cavaleiros do Dragão Púrpura de glória, honra e força, e provará ser digno da cavalaria?",
+    "ability_scores": ["Força", "Sabedoria", "Carisma"],
+    "feat": "Torre do Dragão Púrpura (Purple Dragon Rook)",
+    "skill_proficiencies": ["Lidar com Animais", "Intuição"],
+    "tool_proficiencies": ["Ferramentas de Navegador"],
+    "equipment": {
+      "option_a": ["Lança", "Ferramentas de Navegador", "Roupas Finas", "9 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Faerun", "FRHOF", "Heroes of Faerûn"]
+  },
+  {
+    "name": "Rashemi Wanderer",
+    "name_pt": "Andarilho Rashemi",
+    "book": "Heroes of Faerûn",
+    "publisher": "Wizards of the Coast",
+    "description": "Você passou anos vagando pelas terras altas de Rashemen, uma charneca perigosa e varrida pelo vento, salpicada de obeliscos antigos encantados para aprisionar Corruptores e lar de dragões, gnolls e outras criaturas mortais. Amizades são difíceis de encontrar em uma terra tão isolada, e você aprendeu a manter estranhos à distância.",
+    "ability_scores": ["Força", "Constituição", "Carisma"],
+    "feat": "Robusto (Tough)",
+    "skill_proficiencies": ["Intimidação", "Percepção"],
+    "tool_proficiencies": ["Ferramentas de Cartógrafo"],
+    "equipment": {
+      "option_a": ["Ferramentas de Cartógrafo", "Mochila", "Saco de Dormir", "Lanterna Coberta", "Óleo (3 frascos)", "Corda", "Caixa de Fogo", "Roupas de Viajante", "Odre", "23 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Faerun", "FRHOF", "Heroes of Faerûn"]
+  },
+  {
+    "name": "Shadowmasters Exile",
+    "name_pt": "Exilado dos Mestres das Sombras",
+    "book": "Heroes of Faerûn",
+    "publisher": "Wizards of the Coast",
+    "description": "Você treinou a vida inteira para se tornar membro dos Mestres das Sombras, a misteriosa guilda de ladrões que controla o reino de Thesk nos bastidores. Furtividade e reflexos rápidos foram apenas o começo de sua educação como Mestre das Sombras; você também precisou afiar sua impiedade para garantir a segurança dos segredos da guilda. Mas um passo em falso levou à sua expulsão da ordem. Agora você deve trilhar seu próprio caminho.",
+    "ability_scores": ["Destreza", "Inteligência", "Carisma"],
+    "feat": "Atacante Selvagem (Savage Attacker)",
+    "skill_proficiencies": ["Acrobacia", "Furtividade"],
+    "tool_proficiencies": ["Ferramentas de Ladrão"],
+    "equipment": {
+      "option_a": ["2 Adagas", "Ferramentas de Ladrão", "Estrepes", "Figurino", "Arpéu", "Pregos de Ferro", "Espelho", "2 Bolsas", "Corda", "Roupas de Viajante", "3 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Faerun", "FRHOF", "Heroes of Faerûn"]
+  },
+  {
+    "name": "Spellfire Initiate",
+    "name_pt": "Iniciado do Fogo Mágico",
+    "book": "Heroes of Faerûn",
+    "publisher": "Wizards of the Coast",
+    "description": "Você carrega o dom do fogo mágico: uma forma rara de magia que canaliza o poder bruto da Trama. Empunhar o fogo mágico cobra um preço pesado do corpo. Você treinou tanto a mente quanto o corpo para empunhar eficientemente esse poder sagrado.",
+    "ability_scores": ["Constituição", "Inteligência", "Carisma"],
+    "feat": "Faísca do Fogo Mágico (Spellfire Spark)",
+    "skill_proficiencies": ["Arcanismo", "Percepção"],
+    "tool_proficiencies": ["Escolha um tipo de Conjunto de Jogos"],
+    "equipment": {
+      "option_a": ["Conjunto de Jogos (mesmo escolhido acima)", "Foco Arcano (Cristal ou Varinha)", "2 Bolsas", "Roupas de Viajante", "36 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Faerun", "FRHOF", "Heroes of Faerûn"]
+  },
+  {
+    "name": "Zhentarim Mercenary",
+    "name_pt": "Mercenário Zhentarim",
+    "book": "Heroes of Faerûn",
+    "publisher": "Wizards of the Coast",
+    "description": "Talvez você precisasse do dinheiro. Talvez ansiasses por uma família, por mais duvidosa que fosse. Ou talvez você seja simplesmente bom em fazer o trabalho por quaisquer meios necessários. Seja qual for sua razão, você se alistou com os Zhentarim, a guilda de mercenários mais notória dos Reinos. Embora os líderes dos Zhentarim insistam que a organização é mais como uma família do que um sindicato sombrio, poucas famílias exibem tanta desonestidade, nepotismo e corrupção quanto esta. Você afiou sua astúcia, reflexos e lâmina para subir nas fileiras da guilda.",
+    "ability_scores": ["Força", "Destreza", "Carisma"],
+    "feat": "Capanga Zhentarim (Zhentarim Ruffian)",
+    "skill_proficiencies": ["Intimidação", "Percepção"],
+    "tool_proficiencies": ["Kit de Falsificação"],
+    "equipment": {
+      "option_a": ["Clava", "Adaga", "Kit de Falsificação", "Roupas Finas", "Lanterna Coberta", "Óleo (3 frascos)", "2 Bolsas", "Cordão", "Caixa de Fogo", "11 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Faerun", "FRHOF", "Heroes of Faerûn"]
+  },
+
+    {
+    "name": "Haunted One",
+    "name_pt": "Assombrado",
+    "book": "The Horrors Within",
+    "publisher": "Wizards of the Coast",
+    "description": "Você é assombrado pelos eventos de seu passado. Seja um único incidente terrível ou um acúmulo de momentos dolorosos, você carrega o peso inabalável do que lhe aconteceu. Você tentou enterrar isso e fugir, sem sucesso; não pode ser morto com uma espada nem banido por magia. Ainda assim, você persiste.",
+    "ability_scores": ["Constituição", "Sabedoria", "Carisma"],
+    "feat": "Sobrevivente (Survivor) ou um talento de Dom Sombrio (Dark Gift) à sua escolha",
+    "skill_proficiencies": ["Arcanismo", "Sobrevivência"],
+    "tool_proficiencies": ["Escolha um tipo de Conjunto de Jogos"],
+    "equipment": {
+      "option_a": ["Conjunto de Jogos (mesmo escolhido acima)", "Pé de Cabra", "Água Benta (1 frasco)", "Espelho", "Óleo (2 frascos)", "Apito de Sinal", "Caixa de Fogo", "Roupas de Viajante", "5 Tochas", "Odre", "14 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Ravenloft", "RTHW", "The Horrors Within"]
+  },
+  {
+    "name": "Investigator",
+    "name_pt": "Investigador",
+    "book": "The Horrors Within",
+    "publisher": "Wizards of the Coast",
+    "description": "Você busca a verdade incansavelmente. Talvez você tenha testemunhado algo notável ou terrível e agora deseje desvendar seu mistério, ou talvez seja motivado por justiça e honestidade universais. Sejam os casos em que você está envolvido crimes locais ou conspirações eldritch, você é movido a revelar o que outros manteriam escondido.",
+    "ability_scores": ["Inteligência", "Sabedoria", "Carisma"],
+    "feat": "Olhar Aguçado (Sharp Eye) ou um talento de Dom Sombrio (Dark Gift) à sua escolha",
+    "skill_proficiencies": ["Intuição", "Investigação"],
+    "tool_proficiencies": ["Kit de Disfarce"],
+    "equipment": {
+      "option_a": ["Kit de Disfarce", "Algemas", "Pá", "Roupas de Viajante", "3 Frascos", "16 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Ravenloft", "RTHW", "The Horrors Within"]
+  },
+  {
+    "name": "Mist Wanderer",
+    "name_pt": "Errante da Névoa",
+    "book": "The Horrors Within",
+    "publisher": "Wizards of the Coast",
+    "description": "Você um dia conheceu seu lar. Mas um dia, as Névoadas se ergueram e o arrastaram para um Domínio do Pavor. Desde então, você vagueia entre domínios, enfrentando as névoas voláteis enquanto procura um caminho de volta para casa. Seu tempo nesses reinos amaldiçoados o transformou, mas você encontra consolo em comunidades de companheiros errantes através das Névoas.",
+    "ability_scores": ["Destreza", "Constituição", "Sabedoria"],
+    "feat": "Um talento de Dom Sombrio (Dark Gift) à sua escolha (Errante das Névoas (Mist Walker) é recomendado)",
+    "skill_proficiencies": ["Sobrevivência", "Furtividade"],
+    "tool_proficiencies": ["Escolha um tipo de Ferramenta de Artesão"],
+    "equipment": {
+      "option_a": ["Ferramentas de Artesão (mesmas escolhidas acima)", "Lâmpada", "Óleo (5 frascos)", "Bolsa", "Corda", "Caixa de Fogo", "Roupas de Viajante", "30 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Ravenloft", "RTHW", "The Horrors Within"]
+  },
+  {
+    "name": "Spirit Medium",
+    "name_pt": "Médium Espiritual",
+    "book": "The Horrors Within",
+    "publisher": "Wizards of the Coast",
+    "description": "Através de rituais estranhos e encontros fatídicos, você descobriu que carrega uma conexão única com os espíritos dos mortos e condenados. Seu corpo é um conduto para tais espíritos, concedendo-lhe percepção presciente do além. Mas as intenções desses espíritos nem sempre são inocentes, e seus dons vêm a um custo assombroso.",
+    "ability_scores": ["Constituição", "Inteligência", "Sabedoria"],
+    "feat": "Um talento de Dom Sombrio (Dark Gift) à sua escolha (Sussurros Reunidos (Gathered Whispers) é recomendado)",
+    "skill_proficiencies": ["Intuição", "Religião"],
+    "tool_proficiencies": ["Escolha um tipo de Conjunto de Jogos"],
+    "equipment": {
+      "option_a": ["Adaga", "Conjunto de Jogos (mesmo escolhido acima)", "Cesta", "Sino", "8 Velas", "Tinta", "Pena de Tinta", "Papel (5 folhas)", "Caixa de Fogo", "Roupas de Viajante", "32 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Ravenloft", "RTHW", "The Horrors Within"]
+  },
+
+    {
+    "name": "Agent of the Ninth Quill",
+    "name_pt": "Agente da Nona Pena",
+    "book": "Arcana Unleashed",
+    "publisher": "Wizards of the Coast",
+    "description": "Sua mente afiada e suas habilidades aguçadas de arrombamento o levaram a se juntar à Nona Pena, um coletivo de ladrões, sabotadores e espiões que roubam conhecimento mágico e relíquias dos outros. Através de suas escapadas — de surrupiar itens mágicos e tomos arcanos a sabotar grupos de magos — você desenvolveu habilidades astutas e truques mágicos para aprimorar sua arte de espionagem.",
+    "ability_scores": ["Destreza", "Inteligência", "Carisma"],
+    "feat": "Infiltrator Arcano (Arcane Infiltrator)",
+    "skill_proficiencies": ["Arcanismo", "Prestidigitação"],
+    "tool_proficiencies": ["Ferramentas de Ladrão"],
+    "equipment": {
+      "option_a": ["Adaga", "Martelo Leve", "Ferramentas de Ladrão", "Pregos de Ferro", "Corda", "Roupas de Viajante", "17 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["AU", "Arcana Unleashed"]
+  },
+  {
+    "name": "Bejeweled Conclave Spy",
+    "name_pt": "Espião do Conclave Jovado",
+    "book": "Arcana Unleashed",
+    "publisher": "Wizards of the Coast",
+    "description": "Publicamente, você é um cortesão, mediador ou artista. Mas por trás dessa fachada glamorosa há uma mente afiada para coletar segredos. Treinado pelos encantadores do Conclave Jovado, você sabe como usar seu charme e sagacidade (mais um pouco de magia) para se infiltrar em organizações, desenterrar informações e intermediar acordos.",
+    "ability_scores": ["Destreza", "Sabedoria", "Carisma"],
+    "feat": "Eloquência Arcana (Arcane Eloquence)",
+    "skill_proficiencies": ["Enganação", "Percepção"],
+    "tool_proficiencies": ["Kit de Disfarce"],
+    "equipment": {
+      "option_a": ["Kit de Disfarce", "Roupas Finas", "Perfume", "5 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["AU", "Arcana Unleashed"]
+  },
+  {
+    "name": "Cosmic Dawn Experiment",
+    "name_pt": "Experimento da Aurora Cósmica",
+    "book": "Arcana Unleashed",
+    "publisher": "Wizards of the Coast",
+    "description": "Seu corpo foi distorcido pelas práticas de transmutação dos Portadores da Aurora Cósmica. Talvez você tenha sido inadvertidamente envolvido em um dos experimentos da organização, ou talvez tenha sido membro da organização e buscado aprimorar sua forma física por meio do poder mágico. Seja qual for o caso, você usa sua anatomia estranha em seu benefício.",
+    "ability_scores": ["Força", "Destreza", "Constituição"],
+    "feat": "Anatomia Transmutada (Transmuted Anatomy)",
+    "skill_proficiencies": ["Atletismo", "Sobrevivência"],
+    "tool_proficiencies": ["Escolha um tipo de Ferramenta de Artesão"],
+    "equipment": {
+      "option_a": ["Ferramentas de Artesão (mesmas escolhidas acima)", "Mochila", "Túnica", "Roupas de Viajante", "30 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["AU", "Arcana Unleashed"]
+  },
+  {
+    "name": "Covenant of the Grave Recruit",
+    "name_pt": "Recruta do Pacto do Túmulo",
+    "book": "Arcana Unleashed",
+    "publisher": "Wizards of the Coast",
+    "description": "A morte sempre o fascinou. Você estudou esse tópico mórbido ao lado de membros do Pacto do Túmulo, analisando o macabro com precisão científica. Através desses estudos, você acumulou conhecimento de medicação, necromancia e história.",
+    "ability_scores": ["Força", "Inteligência", "Sabedoria"],
+    "feat": "Coveiro Arcano (Arcane Undertaker)",
+    "skill_proficiencies": ["História", "Medicina"],
+    "tool_proficiencies": ["Kit de Herbalismo"],
+    "equipment": {
+      "option_a": ["Adaga", "Kit de Herbalismo", "Livro (anatomia)", "Pá", "16 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["AU", "Arcana Unleashed"]
+  },
+  {
+    "name": "Crucible Storm Chaser",
+    "name_pt": "Caçador de Tempestades do Crisol",
+    "book": "Arcana Unleashed",
+    "publisher": "Wizards of the Coast",
+    "description": "Suas tendências destemidas e sede de emoção o levaram aos Guardiões do Crisol, uma organização dedicada a estudar catástrofes naturais e mágicas. De brincar com vidro derretido a correr para o olho de um furacão, você prospera quando o desastre está a poucos passos de distância.",
+    "ability_scores": ["Força", "Constituição", "Inteligência"],
+    "feat": "Sobrecarga Arcana (Arcane Overload)",
+    "skill_proficiencies": ["Atletismo", "Natureza"],
+    "tool_proficiencies": ["Ferramentas de Vidreiro"],
+    "equipment": {
+      "option_a": ["Ferramentas de Vidreiro", "Mochila", "Corda", "Roupas de Viajante", "15 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["AU", "Arcana Unleashed"]
+  },
+  {
+    "name": "Familiar Trainer",
+    "name_pt": "Treinador de Familiares",
+    "book": "Arcana Unleashed",
+    "publisher": "Wizards of the Coast",
+    "description": "Um familiar mágico se vinculou a você quando era jovem, acompanhando-o durante toda a adolescência. Agora, você não consegue imaginar a vida sem seu amigo peludo — ou emplumado, escamoso, ou viscoso — ao seu lado. Você aprendeu a trabalhar em conjunto com seu familiar, e quando a aventura apresenta seus desafios, seu familiar é rápido em lembrá-lo das pequenas alegrias da vida.",
+    "ability_scores": ["Constituição", "Inteligência", "Sabedoria"],
+    "feat": "Amigo Familiar (Familiar Friend)",
+    "skill_proficiencies": ["Lidar com Animais", "Arcanismo"],
+    "tool_proficiencies": ["Escolha um tipo de Conjunto de Jogos"],
+    "equipment": {
+      "option_a": ["Cajado", "Conjunto de Jogos (mesmo escolhido acima)", "Saco de Dormir", "Sino", "Cordão", "Caixa de Fogo", "Roupas de Viajante", "Odre", "44 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["AU", "Arcana Unleashed"]
+  },
+  {
+    "name": "Horizon Weaver Initiate",
+    "name_pt": "Iniciado dos Tecelões do Horizonte",
+    "book": "Arcana Unleashed",
+    "publisher": "Wizards of the Coast",
+    "description": "Sua adolescência foi marcada por uma sede insaciável de aventura. Você deixou o lar e começou suas viagens assim que pôde. Pelo caminho, encontrou os conjuradores aventureiros dos Tecelões do Horizonte, que lhe ensinaram parte de sua magia de teleporte para impulsionar suas explorações.",
+    "ability_scores": ["Destreza", "Constituição", "Sabedoria"],
+    "feat": "Saltador de Portais (Portal Jumper)",
+    "skill_proficiencies": ["Acrobacia", "Sobrevivência"],
+    "tool_proficiencies": ["Ferramentas de Tecelão"],
+    "equipment": {
+      "option_a": ["Arco Curto", "20 Flechas", "Ferramentas de Tecelão", "Mapa", "Aljava", "Corda", "Roupas de Viajante", "18 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["AU", "Arcana Unleashed"]
+  },
+  {
+    "name": "Phantasmic Circus Trouper",
+    "name_pt": "Artista do Circo Fantasmagórico",
+    "book": "Arcana Unleashed",
+    "publisher": "Wizards of the Coast",
+    "description": "Seja como artista ou como auxiliar do circo, você encontrou um lar entre os membros do Circo Fantasmagórico. Enquanto viajava pelo mundo trazendo magia e maravilha a plateias empolgadas, você aprendeu um pouco de magia de ilusão e aprimorou seus talentos para atuação e despiste.",
+    "ability_scores": ["Destreza", "Constituição", "Carisma"],
+    "feat": "Artista Arcano (Arcane Artist)",
+    "skill_proficiencies": ["Enganação", "Atuação"],
+    "tool_proficiencies": ["Kit de Disfarce"],
+    "equipment": {
+      "option_a": ["Kit de Disfarce", "Conjunto de Jogos (qualquer)", "Figurino", "Espelho", "Roupas de Viajante", "12 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["AU", "Arcana Unleashed"]
+  },
+  {
+    "name": "Seer Apprentice",
+    "name_pt": "Aprendiz de Vidente",
+    "book": "Arcana Unleashed",
+    "publisher": "Wizards of the Coast",
+    "description": "Como aprendiz entre os Videntes do Mar e do Céu, você aprendeu a interpretar pequenos presságios das nuvens acima e das profundezas abaixo. A rica rede de bibliotecas da organização aprofundou sua educação, e você agora viaja pelo mundo, oferecendo conselhos e ajuda aos outros.",
+    "ability_scores": ["Inteligência", "Sabedoria", "Carisma"],
+    "feat": "Presságios Arcanos (Arcane Omens)",
+    "skill_proficiencies": ["História", "Intuição"],
+    "tool_proficiencies": ["Ferramentas de Navegador"],
+    "equipment": {
+      "option_a": ["Ferramentas de Navegador", "8 Velas", "Tinta", "Pena de Tinta", "Pergaminho (9 folhas)", "Bolsa", "Caixa de Fogo", "Roupas de Viajante", "11 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["AU", "Arcana Unleashed"]
+  },
+  {
+    "name": "Ward of the Sheltering Hands",
+    "name_pt": "Tutelado das Mãos Acolhedoras",
+    "book": "Arcana Unleashed",
+    "publisher": "Wizards of the Coast",
+    "description": "Uma reviravolta do azar o levou às Mãos Acolhedoras, uma organização altruísta dedicada a defender os oprimidos. A organização ajudou-o a recuperar o equilíbrio e ensinou-lhe um pouco de sua magia protetora — na esperança de que um dia você também abrigasse os menos afortunados em seu momento de necessidade.",
+    "ability_scores": ["Constituição", "Sabedoria", "Carisma"],
+    "feat": "Salvaguarda Arcana (Arcane Safeguard)",
+    "skill_proficiencies": ["Intuição", "Medicina"],
+    "tool_proficiencies": ["Utensílios de Cozinheiro"],
+    "equipment": {
+      "option_a": ["Utensílios de Cozinheiro", "Cobertor", "Kit de Curandeiro", "Lâmpada", "Óleo (3 frascos)", "Caixa de Fogo", "Roupas de Viajante", "Odre", "40 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["AU", "Arcana Unleashed"]
+  },
+
+    {
+    "name": "Carouser",
+    "name_pt": "Farrista",
+    "book": "Astarion's Book of Hungers",
+    "publisher": "Wizards of the Coast",
+    "description": "Você cresceu até a idade adulta no coração pulsante de uma grande cidade, como Baldur's Gate. Passou incontáveis noites em tavernas, teatros, salões e covis de jogatina, saboreando tudo o que a cidade tinha a oferecer. Você é um natural em interagir com as pessoas para descobrir seus segredos, seja em um jogo de alto risco ou em uma festa de alto nível. Você pode ter sido expulso de um ou dez estabelecimentos, mas apenas por pessoas que não sabem como festejar.",
+    "ability_scores": ["Destreza", "Inteligência", "Carisma"],
+    "feat": "Folião Incansável (Tireless Reveler)",
+    "skill_proficiencies": ["Enganação", "Persuasão"],
+    "tool_proficiencies": ["Escolha um tipo de Conjunto de Jogos"],
+    "equipment": {
+      "option_a": ["Adaga", "Conjunto de Jogos (mesmo escolhido acima)", "Roupas Finas", "Garrafa de Vidro", "Espelho", "Perfume", "Bolsa", "Caixa de Fogo", "19 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["ABOH", "Exotic", "Astarion's Book of Hungers"]
+  },
+  {
+    "name": "Lorwyn Expert",
+    "name_pt": "Especialista de Lorwyn",
+    "book": "Lorwyn - First Light",
+    "publisher": "Wizards of the Coast",
+    "description": "Você vem de Lorwyn, uma terra de sol eterno, ou estudou o lugar com grande intensidade. Você considera a majestosa criatura Eirdu a encarnação viva do sol, e ama embarcar em aventuras caprichosas. Você mantém seus entes queridos por perto, mesmo que apenas emocionalmente, pois já viu alguns se aventurarem em Shadowmoor ou além e se tornarem versões desbotadas de si mesmos. Você é, ainda assim, corajoso e sempre anseia por novas experiências.",
+    "ability_scores": ["Força", "Constituição", "Sabedoria"],
+    "feat": "Filho do Sol (Child of the Sun)",
+    "skill_proficiencies": ["Atletismo", "Natureza"],
+    "tool_proficiencies": ["Ferramentas de Cartógrafo"],
+    "equipment": {
+      "option_a": ["Cajado", "Ferramentas de Cartógrafo", "Mochila", "Cesta", "Pergaminho (4 folhas)", "Corda", "Roupas de Viajante", "29 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Lorwyn", "First Light"]
+  },
+  {
+    "name": "Pact Seeker",
+    "name_pt": "Buscador de Pacto",
+    "book": "D&D Beyond Drops - May 2026",
+    "publisher": "Wizards of the Coast",
+    "description": "Você tinha um propósito em mente. Talvez estivesse buscando conhecimento ou poder. Ou talvez estivesse à procura de segredos ocultos. De uma forma ou de outra, sua jornada o levou a buscar uma entidade extraplanar. Assim que fez contato, um acordo foi firmado, e sua vida mudou.",
+    "ability_scores": ["Constituição", "Inteligência", "Carisma"],
+    "feat": "Escolha um talento de Pacto Planar (Planar Pact)",
+    "skill_proficiencies": ["Arcanismo", "Persuasão"],
+    "tool_proficiencies": ["Suprimentos de Calígrafo"],
+    "equipment": {
+      "option_a": ["Livro", "Suprimentos de Calígrafo", "Tinta", "Pena de Tinta", "Pergaminho (10 folhas)", "Roupas de Viajante", "2 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["D&D Beyond", "D&D Beyond Drops - May 2026"]
+  },
+  {
+    "name": "Shadowmoor Expert",
+    "name_pt": "Especialista de Shadowmoor",
+    "book": "Lorwyn - First Light",
+    "publisher": "Wizards of the Coast",
+    "description": "Você é de Shadowmoor ou o estudou por anos. É um lugar sombrio e caótico, perpetuamente iluminado por um luar pálido. Você pode sobreviver às condições impiedosas de Shadowmoor graças à sua astúcia e sagacidade, ou pode manter as ameaças à distância com seu músculo e bravura. Independentemente de onde pise, você entende agudamente que a amizade é uma mercadoria rara. Você acredita que saber em quem confiar e quem manter à distância não é apenas prático — é muitas vezes uma questão de vida ou morte.",
+    "ability_scores": ["Destreza", "Inteligência", "Carisma"],
+    "feat": "Bagunceiro de Shadowmoor (Shadowmoor Hexer)",
+    "skill_proficiencies": ["Acrobacia", "Enganação"],
+    "tool_proficiencies": ["Ferramentas de Vidreiro"],
+    "equipment": {
+      "option_a": ["Adaga", "Ferramentas de Vidreiro", "Mochila", "Armadilha de Caça", "Lâmpada", "Óleo (3 frascos)", "Roupas de Viajante", "Odre", "8 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["Lorwyn", "First Light"]
+  },
+  {
+    "name": "Vampire Devotee",
+    "name_pt": "Devoto de Vampiro",
+    "book": "Astarion's Book of Hungers",
+    "publisher": "Wizards of the Coast",
+    "description": "Você estava a serviço de um vampiro ou de um pequeno grupo de vampiros que se abrigavam juntos. Os Mortos-Vivos beberam seu sangue mais vezes do que você consegue contar. Você pode ter servido voluntariamente, talvez com aspirações de um dia se tornar um vampiro você mesmo. Ou pode ter sido enfeitiçado magicamente e retém apenas algumas memórias confusas de seu tempo como familiar de vampiro. Em qualquer caso, seu tempo no covil dos vampiros acabou.",
+    "ability_scores": ["Força", "Constituição", "Carisma"],
+    "feat": "Brinquedo do Vampiro (Vampire's Plaything)",
+    "skill_proficiencies": ["Persuasão", "Furtividade"],
+    "tool_proficiencies": ["Utensílios de Cozinheiro"],
+    "equipment": {
+      "option_a": ["Utensílios de Cozinheiro", "Roupas Finas", "2 Garrafas de Vidro", "Kit de Curandeiro", "Perfume", "Lâmpada", "Óleo (3 frascos)", "Odre", "19 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["ABOH", "Exotic", "Astarion's Book of Hungers"]
+  },
+  {
+    "name": "Vampire Survivor",
+    "name_pt": "Sobrevivente de Vampiro",
+    "book": "Astarion's Book of Hungers",
+    "publisher": "Wizards of the Coast",
+    "description": "Você testemunhou ou sobreviveu a um ataque de vampiro. Você pode ter estado diretamente envolvido nesse confronto, ou talvez tenha ficado paralisado de terror pelo que viu. Independentemente disso, você permanece vigilante contra ataques de monstros e orgulha-se de estar pronto para qualquer coisa. Nenhum vampiro o pegará — ou a seus aliados — de surpresa novamente.",
+    "ability_scores": ["Destreza", "Constituição", "Sabedoria"],
+    "feat": "Caçador de Vampiros (Vampire Hunter)",
+    "skill_proficiencies": ["Intuição", "Religião"],
+    "tool_proficiencies": ["Ferramentas de Entalhador"],
+    "equipment": {
+      "option_a": ["Ferramentas de Entalhador", "Pé de Cabra", "Lanterna Coberta", "Símbolo Sagrado (reliquário)", "Água Benta", "Espelho", "Óleo (3 frascos)", "Caixa de Fogo", "Roupas de Viajante", "Odre", "4 PO"],
+      "option_b": ["50 PO"]
+    },
+    "tags": ["ABOH", "Exotic", "Astarion's Book of Hungers"]
+  }
+]

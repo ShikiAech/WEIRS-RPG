@@ -1,0 +1,1113 @@
+[  
+    {
+        "name_pt": "Cranoris",
+        "book": "WEIRS - Homebrew",
+        "img":[],
+        "description_title": "Os Filhos de Kápulus",
+        "description": "Criados a partir da costela de Kápulus — o deus rejeitado pelos humanos —, os cranoris nasceram em meio a uma terra completamente inóspita e violenta, onde tiveram que se adaptar brutalmente para sobreviver e onde a lei do mais forte sempre predominou. Kápulus, assim como os outros deuses, sonhava em ser profundamente venerado. Porém, por sua aparência esquelética marcante e de ossos protuberantes, acabou assustando os primeiros povos humanos. Tomado pela rejeição, decidiu criar seus próprios servos à sua imagem e semelhança. Utilizando o poder bruto de moldar o caos, deu origem aos cranoris, enchendo-os com seus próprios valores de força, prazer e orgulho.",
+        "type": "Humanoide",
+        "size": "Médio",
+        "speed": "9 metros",
+        "age": "Cranoris atingem a maioridade com 18 anos e podem viver até os 100 anos.",
+        "traits_title": "Fisiologia do Caos",
+        "traits": [
+            {
+            "name": "Carapaça Óssea",
+            "description": "As protuberâncias esqueléticas em seu corpo rejeitam proteções artificiais. Você tem Desvantagem em testes e rolagens ao trajar qualquer tipo de armadura, independentemente dos benefícios ou proficiências de sua classe. Em contrapartida, enquanto estiver sem armadura, sua Classe de Armadura (CA) base é igual a 13 + seu modificador de Constituição. Você ainda pode empunhar um escudo normalmente e somá-lo a este benefício."
+            },
+            {
+            "name": "Troféu Letal",
+            "description": "Você transformou as duras placas ósseas de um oponente Cranori superado e estraçalhado em batalha na sua nova arma de assinatura. Você adquire os seguintes benefícios: Escolha uma arma corpo a corpo ou de ataque à distância com a qual você possua proficiência. Você pode forjar essa arma a partir da estrutura óssea macabra de um Cranori derrotado, imbuindo-a com benefícios permanentes com base no tipo de arma escolhida. Corpo a Corpo: A arma confeccionada recebe um bônus de +1 nas jogadas de ataque. Além disso, quando você ataca com essa arma específica, suas jogadas de ataque causam um acerto crítico em uma rolagem de 19 ou 20 no dado. À Distância: Criaturas têm desvantagem em testes para desarmá-lo. Além disso, você não sofre desvantagem em jogadas de ataque à distância ao realizar um ataque contra uma criatura inimiga que esteja a até 5 pés de você."
+            },
+            {
+            "name": "Celebração Sangrenta",
+            "description": "Como uma Reação, imediatamente após você reduzir os PV de uma criatura inimiga para 0, pode soltar um grito triunfante. Ao fazer isso, você gasta um dado de vida e se cura numa quantidade igual ao resultado. A quantidade de dados de vida que você pode usar na ativação dessa característica aumenta para 2 no 7° nível. Você também se beneficia dessa característica quando um aliado que você possa ver reduz os PV de uma criatura inimiga para 0, desde que você tenha atacado a criatura no último turno. Nesse caso, você não soma sua constituição no resultado da cura. Você pode usar essa característica um número de vezes igual ao seu bônus de proficiência por Descanso Longo."
+            },
+            {
+            "name": "Competição Brutal",
+            "description": "No início do combate, você pode marcar uma criatura aliada como um Rival Digno. Essa rivalidade te incentiva a usar suas habilidades com maestria, lhe conferindo os seguintes benefícios enquanto o Rival Digno estiver no alcance de 60 pés: Quando o Rival Digno elimina uma criatura inimiga, você recebe um bônus de 1d4 no acerto do seu próximo ataque. Quando o Rival Digno falha em uma Salvaguarda ou Teste de Habilidade, você recebe um bônus de 1d4 na sua próxima Salvaguarda ou Teste de Habilidade. Quando o Rival Digno tem seus PV reduzidos a 0, suas placas ósseas se tornam mais densas e você recebe resistência a um dos tipos de dano: Cortante, Concussivo ou Contundente. Você só pode usar cada um dos benefícios uma vez por turno, e o traço dura até o fim do combate ou até o Rival Digno ficar incapacitado."
+            }
+        ],
+        "tags": ["Terrestre"]
+    },
+    {
+        "name_pt": "Draconianos",
+        "book": "WEIRS - Homebrew",
+        "img":[],
+        "description_title": "Os Forjadores do Ordo",
+        "description": "Não se sabe ao certo como essa raça surgiu, mas este povo sempre foi devoto dos grandes dragões do Ordo. Daí derivou-se sua cultura baseada na forja mágica. Draconianos não herdaram apenas características físicas de seus ancestrais ordemicos, mas também sua afinidade elemental, dando-lhe habilidades únicas de sopro e resistência a certos tipos de elementos. A maior parte da população draconiana vive na ilha de Salaner, sua terra natal, de onde surgiu a lenda de que essa terra serviu de casa para Shiva, milhares de anos atrás. Lá eles se desenvolveram e formaram seu império, mas também se espalharam pelo mundo, exportando seu talento de forja.",
+        "type": "Humanoide",
+        "size": "Médio",
+        "speed": "9 metros",
+        "age": "Atingem a maioridade aos 15 anos e podem viver até os 80 anos.",
+        "traits_title": "Habilidades de Linhagem",
+        "traits": [
+            {
+            "name": "Visão no Escuro",
+            "description": "Você tem Visão no Escuro com um alcance de 18 metros (60ft)."
+            },
+            {
+            "name": "Herança Elemental",
+            "description": "Sua linhagem elemental lhe garante o elemento no qual você possui afinidade. Escolha o tipo de elemento ao criar o personagem; isso definirá sua aparência, o tipo de dano da sua Arma de Sopro e sua Resistência a Dano. \n\nElemento | Cor das Escamas / Energia \nElétrico | Azul \nGélido | Branco \nÍgneo | Vermelho \nÁcido | Amarelo \nVenenoso | Verde"
+            },
+            {
+            "name": "Resistência a Dano",
+            "description": "Você tem Resistência ao tipo de dano determinado por seu traço Herança Elemental."
+            },
+            {
+            "name": "Ataque de Sopro",
+            "description": "Ao executar uma ação no seu turno, você pode substituir um de seus ataques por uma emissão de energia mágica em um Cone de 4,5 metros (15ft) ou em uma Linha de 9 metros (30ft) de comprimento e 1,5 metros (5ft) de largura (escolha a forma a cada vez). Cada criatura nessa área deve realizar uma salvaguarda de Destreza (CD 8 + seu modificador de Constituição + seu Bônus de Proficiência). Se falhar, a criatura sofre 1d10 pontos de dano do tipo determinado por sua Herança Elemental. Em caso de sucesso, ela sofre metade do dano. Esse dano aumenta quando você atinge os níveis de personagem 5 (2d10), 11 (3d10) e 17 (4d10). Você pode usar seu Sopro um número de vezes igual ao seu Bônus de Proficiência, e você restaura todos os usos gastos quando completa um Descanso Longo."
+            },
+            {
+            "name": "Voo Dracônico",
+            "description": "No nível 5 de personagem, você pode canalizar magia dracônica para se beneficiar de um voo temporário. Como uma Ação Bônus, você cria asas espectrais nas costas que duram 10 minutos, ou até que você as retraia (nenhuma ação necessária) ou fique com a condição Incapacitado. Pela duração, você tem um Deslocamento de Voo igual ao seu Deslocamento terrestre. Suas asas parecem feitas da mesma energia que o seu Ataque de Sopro. Após usar esse traço, você não pode usá-lo novamente até completar um Descanso Longo."
+            }
+        ],
+        
+        "tags": ["Terrestre"]
+    },
+    {
+        "name_pt": "Elfos",
+        "book": "WEIRS - Homebrew",
+        "img":[],
+        "description_title": "Os Filhos da Lua",
+        "description": "Um dos três povos abençoados pela deusa Luna. Dizem as lendas que os elfos foram abençoados com o dom da magia pela própria deusa rúnica. Também conhecidos como filhos da lua, os elfos foram ensinados a decifrar as runas arcanas para alterar os estados e as leis da natureza, podendo assim criar magias e feitiços. Foi a partir deles que a cultura arcana se espalhou pelo mundo. Inicialmente eram repudiados pelos humanos por medo, mas com o passar dos anos, depois de ambos se isolarem, as espécies decidiram se unir. A grande integração veio do reino de Gorvahn quando o imperador utilizou os conhecimentos místicos dos elfos para fortalecer o reino na guerra. Após isso a primeira escola de magia oficial foi criada, a Escola de Princípios Místicos (EPM). Desde então os elfos adquiriram uma posição de respeito na sociedade humana. A maior diferença dos elfos para os humanos é a coloração de sua pele que é azulada e suas orelhas pontudas.",
+        "type": "Humanoide",
+        "size": "Médio",
+        "speed": "9 metros",
+        "age": "Atingem a maioridade aos 50 anos e podem viver até os 400 anos.",
+        "traits_title": "Bençãos do Luar",
+        "traits": [
+            {
+            "name": "Visão no Escuro",
+            "description": "Você tem Visão no Escuro com um alcance de 18 metros (60ft)."
+            },
+            {
+            "name": "Ancestralidade Feérica",
+            "description": "Você tem vantagem em realizar salvaguardas para evitar ou encerrar a condição Enfeitiçado."
+            },
+            {
+            "name": "Sentidos Aguçados",
+            "description": "Você tem proficiência na perícia Intuição, Percepção ou Sobrevivência (escolha uma)."
+            },
+            {
+            "name": "Transe",
+            "description": "Você pode completar um descanso longo em 4 horas ao meditar, sem a necessidade de dormir, e magia não pode forçá-lo a se deitar ou dormir."
+            },
+            {
+            "name": "Familiaridade Arcana",
+            "description": "Devido à herança rúnica deixada por Luna, os elfos têm grande proximidade com a magia. Você conhece o truque Mensagem. Você também adquire a magia Detectar Magia e Contra Mágica (esta última ao atingir o nível 3) e pode usá-las sem gastar espaço de magia uma vez por descanso longo."
+            }
+        ],
+        "subraces": [
+            {
+            "name_pt": "Meio-Elfo",
+            "description_title": "Dádiva Herdada",
+            "description": "A integração dos elfos na sociedade humana gerou mais do que parcerias militares ou políticas, mas também paixões e amores. Com isso surgiu uma subespécie conhecida como meio-elfos, mantendo como característica principal as orelhas pontudas dos elfos, mas herdando a tonalidade bege da pele humana.",
+            "traits_title": "Traços Alterados de Meio-Elfo",
+            "traits": [
+                {
+                "name": "Dádiva Herdada",
+                "description": "Mostrando a versatilidade de sua metade humana, você adquire um talento de Origem à sua escolha."
+                }
+            ]
+            }
+        ],
+        "tags": ["Terrestre"]
+    },
+    {
+        "name_pt": "Fadas",
+        "book": "WEIRS - Homebrew",
+        "img":[],
+        "description_title": "As Guardiãs de Sequovila",
+        "description": "Assim como os elfos, as fadas desenvolveram-se na magia a partir do idioma rúnico. Porém, sua conexão profunda com as forças da natureza refinou seus feitiços e traços místicos de forma singular, tornando essa espécie os verdadeiros guardiões do mundo natural, mantendo a ordem e o equilíbrio acima de tudo. Como parte de sua forte ligação com a fauna e a flora, as fadas geralmente são batizadas com nomes de flores. Sua exuberante terra natal é Sequovila, a lendária região das árvores gigantes localiza no continente de Nivien.",
+        "type": "Humanoide",
+        "size": "Médio",
+        "speed": "9 metros",
+        "age": "Fadas atingem a maioridade com 25 anos e podem viver até os 200 anos.",
+        "traits_title": "Protetores do Mundo Natural",
+        "traits": [
+            {
+            "name": "Asas de Inseto",
+            "description": "As asas membranosas em suas costas te dão liberdade que o vento possui em fluir no espaço. Você possui deslocamento de vôo de 9 metros (30ft.) e pode pairar no ar. Além disso, suas asas podem se dobrar para ocupar menos espaço, possibilitando escondê-las em suas roupas. Asas danificadas podem se regenerar durante um Descanso Longo."
+            },
+            {
+            "name": "Magia Feérica",
+            "description": "Sua herança mística ligada à natureza infunde seu espírito com feitiços naturais natos. Você adquire as seguintes propriedades de conjuração: \n\nNível 1 - Druidismo: Você conhece e pode conjurar o truque Druidismo à vontade. \n\nNível 3 - Fogo das Fadas: Você pode conjurar a magia Fogo das Fadas sem gastar espaços de magia. Uma vez conjurada dessa forma, você só poderá usá-la novamente após terminar um Descanso Longo. \n\nNível 5 - Aumentar/Diminuir: Você pode conjurar a magia Aumentar/Reduzir sem gastar espaços de magia. Você recupera o uso desta habilidade após completar um Descanso Longo. \n\nVocê também pode conjurar qualquer uma dessas magias utilizando normalmente quaisquer espaços de magia disponíveis que sua classe possua. \nSua habilidade de conjuração para essas três magias será Inteligência, Sabedoria ou Carisma, escolhido ao selecionar esta espécie durante a criação do personagem."
+            }
+        ],
+        
+        "tags": ["Terrestre"]
+    },
+    {
+        "name_pt": "Humanos",
+        "book": "WEIRS - Homebrew",
+        "img": [],
+        "description_title": "A Centelha da Curiosidade",
+        "description": "Os deuses se encantaram pelas semelhanças físicas com essa espécie de primatas que originou-se na Terra. Por isso os humanos foram abençoados com a fagulha da curiosidade, com isso desenvolveram-se e adaptaram-se povoando o planeta quase que por completo. Essa curiosidade também fez com que eles buscassem pelos deuses e cultuassem-nos.",
+        "type": "Humanoide",
+        "size": "Médio (cerca de 1,20 - 2,10 metros de altura) ou Pequeno (cerca de 0,60 - 1,20 metro de altura), escolhido ao selecionar esta raça.",
+        "speed": "9 metros",
+        "age": "Humanos atingem a maioridade com 18 anos e podem viver até os 100 anos.",
+        "traits_title": "O Espírito Indominável",
+        "traits": [
+            {
+            "name": "Eficiente",
+            "description": "Você adquire Inspiração Heroica sempre que completar um Descanso Longo."
+            },
+            {
+            "name": "Hábil",
+            "description": "Você adquire proficiência em uma perícia à sua escolha."
+            },
+            {
+            "name": "Versátil",
+            "description": "Você adquire um talento de Origem à sua escolha. *Habilidoso* é recomendado."
+            }
+        ],
+        "subraces": [
+            {
+            "name_pt": "Manchados",
+            "description_title": "Sobreviventes da Fragmentação",
+            "description": "Após a implementação do Etéris no dia-a-dia, foi descoberto que esse recurso místico valioso produz efeitos inusitados no corpo de humanos que ficam em contato com o composto. Na maior parte dos casos o triste fim é a fragmentação espiritual que leva a sequelas físicas severas e em alguns casos até a morte. Alguns humanos conseguem sobreviver a fragmentação e estes podem desenvolver habilidades sobre-humanas depois do contato.",
+            "traits": [
+                {
+                "name": "Mancha",
+                "description": "Apesar de ter sobrevivido a fragmentação espiritual essa experiência mudou a sua fisiologia de uma forma irreversível. Em adição ao Talento de Origem concedido pelo seu antecedente, você adquire o Talento de Origem Mancha Espiritual."
+                }
+            ]
+            },
+            {
+            "name_pt": "Marcados",
+            "description_title": "Maldição Transcendental",
+            "description": "Humanos marcados de forma irreversível por um poder extraplanar.",
+            "traits": [
+                {
+                "name": "Corpo Marcado",
+                "description": "Sua forma física foi alterada de forma que remeta a entidade que maculou seu corpo. Você ganha um dos seguintes traços: Anfíbio, Ágil (nimble), Tática de Matilha ou Ancestral Feérico."
+                },
+                {
+                "name": "Maldição",
+                "description": "Você pode entrar em acordo com sua nova realidade e usar sua maldição para sua vantagem. Como já está amaldiçoado, você se torna imune a novos efeitos de maldição."
+                },
+                {
+                "name": "Conhecimento Proibido",
+                "description": "Estar ligado a forces ancestrais te dá acesso ao saber que não é acessível por todos. Escolha 2 perícias em que não tenha proficiência para adquirir. Adicionalmente, escolha uma perícia em que já tenha proficiência para adquirir especialização."
+                }
+            ]
+            }
+        ],
+        "tags": ["Terrestre"]
+    },
+    {
+        "name_pt": "Namyrianos",
+        "book": "WEIRS - Homebrew",
+        "img": [],
+        "description_title": "Os Felinos de Namyr",
+        "description": "Os felinos humanoides abençoados pelos dragões tiveram origem em Namyr e se espalharam por todo o planeta. Possuem uma dádiva mágica dada a sua espécie que é a de utilizar metais como fonte de poder mágico. Namyrianos têm a capacidade de consumir um tipo de metal dependendo do clã e, com isso, adquirem afinidades elementais poderosas que podem ser canalizadas diretamente em combate para surpreender seus adversários.",
+        "type": "Humanoide",
+        "size": "Médio",
+        "speed": "9 metros",
+        "age": "Você atinge a maioridade aos 10 anos e pode viver até os 80 anos.",
+        "traits_title": "Herdeiros da Força Dracônica",
+        "traits": [
+            {
+            "name": "Reflexos Felinos",
+            "description": "Você tem vantagem em testes de resistência de Destreza, e sempre poderá substituir seu modificador de Força na perícia Atletismo pelo seu modificador de Destreza."
+            },
+            {
+            "name": "Capacidade Felina",
+            "description": "Você possui proficiência nas perícias Furtividade e Sobrevivência."
+            },
+            {
+            "name": "Armas Naturais",
+            "description": "As garras dos namyrianos são consideradas armas naturais e causam 1d8 + seu modificador de Destreza ou Força (definido na tabela Afinidade Elemental) de dano perfurante. Quando você consome o metal do seu respectivo clã ou Filzha, durante 1 hora suas garras são imbuidas com o poder elemental do clã, causando dano adicional que aumenta conforme você evolui. O dano inicial é 1d4 e aumenta para 1d6 a partir do 5° nível, 1d8 a partir do 11° nivel e 1d10 a partir do 17° nível. Se você estiver portando uma arma feita de Filzha, ela também recebe esses benefícios."
+            },
+            {
+            "name": "Agilidade Felina",
+            "description": "Seus reflexos e agilidade lhe permitem mover-se com uma explosão de velocidade. Quando você se move em seu turno de combate, você pode dobrar sua velocidade até o final do turno. Uma vez que você usa esse traço, você não pode usá-lo novamente até que você se mova 0 metros em um de seus turnos."
+            },
+            {
+            "name": "Afinidade Elemental",
+            "description": "Namyr, o berço dos namyrianos, foi abençoada pelos dragões com um solo rico em vários tipos de metais, de onde os habitantes tiram seu sustento. Estes minérios também servem para alimentar o poder mágico dos namyrianos, que eles chamam de afinidade elemental. Cada um dos clãs de Namyr possui uma afinidade diferente e, com isso, um metal diferente. Ao consumir o metal referente ao seu clã, você ganha um número de Cargas Elementais igual ao seu bônus de proficiência, e pode utilizar essas cargas para ativar as suas habilidades da afinidade elemental. Namyrianos podem consumir metal uma vez por descanso curto e, ao consumir, os efeitos têm duração de 1 hora. \n\nClã | Metal | Resistência a Dano | Mod. Armas Naturais | Habilidade\nMontanha | Ferro | Contundente | FOR | Pele de Aço\nTrovão | Cobre | Elétrico | DEX | Choque do Trovão\nChamas | Ouro | Ígneo | DEX | Repreensão Ígnea\nGélido | Prata | Frio | FOR | Raio de Gelo (Proteção Gélida)"
+            },
+            {
+            "name": "O Perigo de Filzha",
+            "description": "As terras de Namyr ainda possuem uma outra riqueza, algo exclusivo em toda a Terra: o metal que chamam de Filzha. Este metal é um excelente condutor mágico e não pertence a nenhum clã específico. Segundo as lendas, um namyriano comum que consumir Filzha morreria por não suportar tamanha carga mágica; talvez somente os mais poderosos aguentariam. Consumir Filzha: Caso você possua uma moeda de Filzha e queira consumi-la, deverá realizar uma salvaguarda de Constituição CD 14. Sucesso: você recebe o triplo das Cargas Elementais que receberia normalmente e ganha efeitos aprimorados para suas habilidades. Falha: seu corpo entra em colapso — você recebe 1d4 de dano por turno durante 1 hora. Saturação de Filzha: A partir da segunda vez que você consumir Filzha em um dia, você ganha um nível do efeito Saturação de Filzha, até o nível 2. A cada nível de Saturação de Filzha: A CD da salvaguarda aumenta em +2. O dano recebido em caso de falha aumenta em +1d4."
+            },
+            {
+            "name": "Habilidades da Afinidade Elemental",
+            "description": "Pele de Aço (Clã Montanha): Você pode usar sua Reação e 2 Cargas Elementais para aumentar seu CA em +5 até o fim desse turno. \nSobrecarga de Filzha: Caso use essa habilidade após o consumo de Filzha, seu corpo é coberto de estruturas espinhosas. Enquanto a Pele de Aço durar, quando uma criatura tenta te atacar com um golpe corpo-a-corpo e falha, ela recebe 1d6 de dano perfurante. \n\nChoque do Trovão (Clã Trovão): Como uma ação, você gasta 2 Cargas Elementais e solta uma onda de energia estática ao seu redor. Inimigos em um cubo de 15 pés devem realizar um teste de resistência de Constituição CD 15. Falha: sofrem 2d8 de dano elétrico. Sucesso: sofrem metade desse dano. \nSobrecarga de Filzha: Caso use essa habilidade após o consumo de Filzha, criaturas que falharem no teste terão seu deslocamento reduzido pela metade e não poderão usar suas Reações até o fim deste turno. \n\nRepreensão Ígnea (Clã Chamas): Ao sofrer dano, você pode usar sua Reação e 2 Cargas Elementais para lançar uma rajada de chamas no inimigo que lhe atingiu. O alvo deve ser bem-sucedido em um teste de resistência de Destreza CD 15. Falha: sofre 2d10 de dano de fogo. Sucesso: sofre metade do dano. Ao gastar mais Cargas Elementais, você aumenta o impacto em +1d10 para cada carga adicional investida. \nSobrecarga de Filzha: Caso use essa habilidade após o consumo de Filzha, criaturas adjacentes ao alvo também deverão realizar a salvaguarda, recebendo 1d6 de dano de fogo em caso de falha e metade do dano em um sucesso. O dano também aumenta em +1d6 por Carga Elemental adicional. \n\nProteção Gélida / Raio de Gelo (Clã Gélido): Você adquire o truque Raio de Gelo. O atributo de conjuração é Inteligência, Sabedoria ou Carisma (escolha ao selecionar esse clã). Ao utilizar essa habilidade e gastar 2 Cargas Elementais, você condensa a umidade do ar e adquire 5 pontos de vida temporários. \nSobrecarga de Filzha: Caso use essa habilidade após o consumo de Filzha, você soma seu modificador de atributo de conjuração no dano do Raio de Gelo. Além disso, os pontos de vida temporários se tornam 5 + seu nível de jogador."
+            }
+        ],
+        "tags": ["Terrestre"]
+    },
+    {
+        "name_pt": "Ogros",
+        "book": "WEIRS - Homebrew",
+        "img": [],
+        "description_title": "Os Exilados de Kali",
+        "description": "Conforme a sociedade élfica antiga se desenvolvia, alguns indivíduos começaram a nascer com um tipo bastante peculiar de mutação biológica. Estes elfos nasciam com a pele esverdeada, dentes proeminentes e muito maiores que o comum, além de uma musculatura massiva hiperdesenvolvida. Considerados \"doentes\" e deformados, esses indivíduos foram cruelmente excluídos e banidos da comunidade élfica pura. Conforme debandavam sem rumo, os rejeitados se organizaram e ergueram sua própria sociedade em terras distantes, isoladas e pantanosas. Eles renunciaram totalmente à deusa Luna por alegarem abandono e passaram a servir fervorosamente a outra divindade: Kali, a deusa que os guiou e fortaleceu através dos caminhos caóticos da sobrevivência brutal.",
+        "type": "Humanoide",
+        "size": "Médio (pesados e robustos, medindo entre 1,20 e 2,10 metros).",
+        "speed": "9 metros",
+        "age": "Devido ao metabolismo acelerado e vida hostil, atingem a maioridade aos 14 anos e podem viver até os 60 anos.",
+        "traits_title": "Resiliência dos Exilados",
+        "traits": [
+            {
+            "name": "Visão no Escuro Superior",
+            "description": "Acostumados com as brumas e a escuridão densa dos pântanos selvagens, você possui visão no escuro com alcance estendido de 36 metros (120ft)."
+            },
+            {
+            "name": "Pico de Adrenalina",
+            "description": "A fúria dos injustiçados corre em suas veias, permitindo impulsos violentos de velocidade e resiliência em combate. Mecânica: Você pode executar a ação Correr utilizando apenas uma Ação Bônus no seu turno. Ao fazer isso, a explosão de energia faz com que você adquira instantaneamente um número de Pontos de Vida Temporários igual ao seu Bônus de Proficiência. Você pode usar este traço um número de vezes igual ao seu Bônus de Proficiência, e você restaura todos os usos gastos quando completa um Descanso Curto ou Longo."
+            },
+            {
+            "name": "Vigor Implacável",
+            "description": "Guiado pela resiliência dada por Kali, seu corpo se recusa a tombar diante de golpes que matariam criaturas comuns. Mecânica: Ao sofrer dano e ser reduzido a 0 Pontos de Vida, mas não sendo morto imediatamente por dano massivo, você pode negar a inconsciência e se manter de pé com exatamente 1 Ponto de Vida. Após desfrutar deste vigor implacável, você não poderá utilizá-lo novamente até completar um Descanso Longo."
+            }
+        ],
+        "tags": ["Terrestre"]
+    },
+    {
+        "name_pt": "Onis",
+        "book": "WEIRS - Homebrew",
+        "img": [],
+        "description_title": "Os Descendentes de Tenebris",
+        "description": "Desde que Helix, um demônio subordinado de Hades, abriu uma fenda dimensional que liga o plano material a Tenebris, os seres terrenos se acostumaram com a dura realidade de conviver diretamente com demônios. O povo mais receptivo a essa nova ordem foram os habitantes do continente de Yozaki. Lá, os demônios não apenas passaram a coexistir, mas também criaram profundos laços de sangue com os humanos, dando origem a descendentes que herdaram suas características demoníacas marcantes: os Onis. Somente três raças infernais eram capazes de gerar descendentes com parceiros humanos, sendo estas as linhagens de Asmodeus, Belial e Beelzebub.",
+        "type": "Humanoide",
+        "size": "Médio",
+        "speed": "9 metros",
+        "age": "Onis atingem a maioridade com 18 anos e possuem longevidade estendida, podendo viver até os 150 anos.",
+        "traits_title": "Poder Influxo Infernal",
+        "traits": [
+            {
+            "name": "Visão no Escuro Superior",
+            "description": "Devido ao seu sangue infernal habituado às trevas, você possui a capacidade de enxergar na mais completa escuridão por até 36 metros (120ft)."
+            },
+            {
+            "name": "Presença Sobrenatural",
+            "description": "A sua aura exala o medo do submundo. Você conhece o truque Taumaturgia. Ao conjurá-lo através deste traço racial, a magia utiliza obrigatoriamente o mesmo atributo de conjuração definido por você na sua característica de Legado Tenebrico."
+            },
+            {
+            "name": "Devorador de Almas",
+            "description": "Ao ceifar a vida de um oponente, você é capaz de se alimentar temporariamente da essência vital dele para potencializar suas próprias capacidades em combate. Mecânica: Quando você reduz uma criatura a 0 pontos de vida, você pode usar sua energia para consumir a alma dela. Ao fazer isso, você escolhe e ganha um dos seguintes efeitos benéficos até o final do seu próximo turno: \nÍmpeto de Ataque: Você ganha Vantagem na sua próxima jogada de ataque. \nPasso Sombrio: Seu deslocamento aumenta em +4,5 metros (+15ft) adicionais. \nGolpe Cruel: Você causa dano necrótico extra em seu próximo golpe igual ao seu Bônus de Proficiência. \nVocê pode usar esta característica um número de vezes igual ao seu bônus de proficiência, recuperando todos os usos gastos após terminar um Descanso Longo."
+            },
+            {
+            "name": "Legado Tenebrico",
+            "description": "Você é o portador de uma linhagem específica que lhe confere poderes sobrenaturais únicos. Escolha um dos legados da tabela abaixo ao criar o personagem. Você adquire o benefício de Nível 1 imediatamente. Ao atingir os níveis de personagem 3 e 5, você aprende magias de círculo superior. Estas magias estão sempre preparadas e podem ser conjuradas uma vez sem gastar espaços de magia, restaurando o uso após um Descanso Longo. Você também pode conjurá-las utilizando quaisquer espaços de magia de nível correspondente que sua classe possua. Escolha entre Inteligência, Sabedoria ou Carisma para ser seu atributo de conjuração ao selecionar o legado. \n\nLegado | Nível 1 | Nível 3 | Nível 5\nBeelzebub | Você tem Resistência a dano Venenoso. Você também conhece o truque Rajada de Veneno. | Raio Nauseante | Paralisar Pessoa\nAsmodeus | Você tem Resistência a dano Necrótico. Você também conhece o truque Toque Necrótico. | Vitalidade Vazia | Raio do Enfraquecimento\nBelial | Você tem Resistência a dano Ígneo. Você também conhece o truque Raio de Fogo. | Repreensão Infernal | Escuridão"
+            }
+        ],
+        "tags": ["Terrestre"]
+    },
+    {
+        "name_pt": "Serafins",
+        "book": "WEIRS - Homebrew",
+        "img": [],
+        "description_title": "Os Filhos dos Anjos",
+        "description": "Considerados os filhos dos anjos, essa espécie nasceu do presente que os arcanjos concederam aos antigos povos das montanhas, permitindo que sentissem a brisa do céu em seus rostos e pudessem tocar as nuvens assim como eles. Os serafins possuem seus próprios anjos da guarda e não costumam se misturar muito nas sociedades humanas, preferindo manter uma postura de observadores distantes. Seus vilarejos isolados são bastante comunitários, harmônicos e pacíficos. Contudo, há também aqueles que ousaram partir para o mundo exterior e acabaram sendo caçados impiedosamente pela estonteante beleza de suas asas ou pela extrema raridade de sua espécie.",
+        "type": "Humanoide",
+        "size": "Médio (cerca de 1,20 - 2,10 metros de altura) ou Pequeno (cerca de 0,60 - 1,20 metro de altura), escolhido ao selecionar esta raça.",
+        "speed": "9 metros (Terrestre); 9 metros (Voo Inato)",
+        "age": "Atingem a maioridade aos 30 anos e podem viver até os 200 anos.",
+        "traits_title": "Dádivas Celestes",
+        "traits": [
+            {
+            "name": "Penas Reluzentes",
+            "description": "A plumagem sagrada de suas asas repele energias extremas. Você possui Resistência a dano Necrótico e dano Celestial."
+            },
+            {
+            "name": "Visão no Escuro",
+            "description": "Seus olhos são adaptados para enxergar através do véu da noite ou acima das nuvens. Você possui visão no escuro com alcance de 18 metros (60ft)."
+            },
+            {
+            "name": "Armas Naturais (Garras de Rapina)",
+            "description": "Suas garras nas mãos e pés são consideradas armas naturais com as quais você possui proficiência inata. Elas causam 1d6 + seu modificador de Força ou Destreza de dano perfurante (escolha o atributo a cada ataque)."
+            },
+            {
+            "name": "Mãos Curativas",
+            "description": "A energia reconfortante dos arcanjos flui através do seu toque para fechar feridas e aliviar a dor de seus aliados. Mecânica: Você possui uma reserva de dados de cura (1d4) igual ao seu Bônus de Proficiência. Como uma ação, você pode gastar qualquer quantidade desses dados para curar uma criatura voluntária apenas ao tocá-la. Role os dados gastos; a criatura recupera uma quantidade de pontos de vida igual ao total obtido. Você recupera todos os dados de cura gastos desta habilidade após completar um Descanso Longo."
+            }
+        ],
+        "tags": ["Terrestre"]
+    },
+    {
+        "name_pt": "Simyaris",
+        "book": "WEIRS - Homebrew",
+        "img": [],
+        "description_title": "Os Mestres da Éterforja",
+        "description": "A raça de primatas na qual o conhecimento não encontrou limites. Apesar de suas habilidades físicas naturalmente aprimoradas, eles decidiram usar a mente como sua principal arma de defesa e evolução cultural. Suas terras em Xintai sempre foram alvo constante de ataques vindos dos reinos de fora. Por conta disso, os Simyaris desenvolveram a avançada tecnologia conhecida como Éterforja. Unindo seu éteris nativo a complexos equipamentos mecânicos, eles projetam armas, ferramentas e métodos de defesa deveras poderosos.",
+        "type": "Humanoide",
+        "size": "Médio (cerca de 1,20 - 2,10 metros de altura) ou Pequeno (cerca de 0,60 - 1,20 metro de altura), escolhido ao selecionar esta raça.",
+        "speed": "9 metros",
+        "age": "...",
+        "traits_title": "Agilidade Primata",
+        "traits": [
+            {
+            "name": "Visão no Escuro",
+            "description": "Você possui visão no escuro equivalente a 18 metros (60ft)."
+            },
+            {
+            "name": "Pés Ágeis",
+            "description": "Sua coordenação motora é extraordinária. Como uma ação bônus, você pode utilizar algum item do seu inventário — como por exemplo beber uma poção ou trocar de arma rapidamente —, utilizando um de seus pés ou até mesmo a sua cauda preênsil."
+            },
+            {
+            "name": "Ágil",
+            "description": "Você possui uma velocidade de escalada perfeitamente igual ao seu deslocamento terrestre padrão. Além disso, a sua distância máxima de salto é completamente dobrada."
+            },
+            {
+            "name": "Exímio Símio",
+            "description": "A mente hiperdesenvolvida de seu povo lhe garante uma facilidade incomum para dominar perícias acadêmicas, místicas ou de sobrevivência prática. Você adquire duas expertises à sua escolha de acordo com os grupos abaixo: Intelecto Elevado (Escolha 1): Você adquire Expertise (proficiência dobrada) em uma das seguintes perícias de mente: Arcanismo, História, Investigação, Natureza ou Religião. Percepção Prática (Escolha 1): Você adquire Expertise (proficiência dobrada) em uma das seguintes perícias de instinto: Adestrar Animais, Intuição, Medicina, Percepção ou Sobrevivência."
+            }
+        ],
+        "tags": ["Terrestre"]
+    },
+    {
+        "name_pt": "Talpas",
+        "book": "WEIRS - Homebrew",
+        "img": [],
+        "description_title": "Os Escavadores Geniais",
+        "description": "Os Talpas são pequenos humanoides subterrâneos conhecidos por sua pele amarelada, quatro braços e enormes garras adaptadas à escavação. Naturalmente cegos, percebem o ambiente através de uma combinação extremamente desenvolvida de audição, olfato e sensibilidade às vibrações. Sua sociedade possui uma forte tradição artesanal. Desde jovens, os Talpas são direcionados para diferentes Castas, que representam sua principal especialização: Ferreiros, Armeiros ou Ferramenteiros.",
+        "type": "Humanoide",
+        "size": "Pequeno",
+        "speed": "20 pés",
+        "age": "Os Talpas atingem a maioridade por volta dos 50 anos e normalmente vivem até aproximadamente 120 anos.",
+        "traits_title": "Inventores das Profundezas",
+        "traits": [
+            {
+            "name": "Sentidos Talpa",
+            "description": "Talpas são naturalmente cegos e não possuem visão convencional. Seus sentidos extremamente desenvolvidos de audição, olfato e percepção de vibrações concedem Visão às Cegas de 60 pés (18 m)."
+            },
+            {
+            "name": "Escavador",
+            "description": "Você possui Deslocamento de Escavação de 15 pés (4,5 m). Você pode utilizar esse deslocamento através de terra, areia, argila e materiais semelhantes, mas não pode escavar através de pedra sólida ou metal."
+            },
+            {
+            "name": "Garras de Toupeira",
+            "description": "Suas enormes garras são armas naturais. Quando você realiza um Ataque Desarmado utilizando suas garras, causa 1d6 de dano Cortante em vez do dano normal de um Ataque Desarmado."
+            },
+            {
+            "name": "Quatro Braços",
+            "description": "Você possui dois braços adicionais. Seus braços adicionais podem manipular objetos, Utilizar objetos, utilizar ferramentas e auxiliar você durante escaladas e escavações. Eles não podem ser utilizados para empunhar armas ou escudos durante combate."
+            },
+            {
+            "name": "Castas Talpa",
+            "description": "Ao criar seu personagem, escolha uma das seguintes Castas: Talpa Ferreiro, Talpa Armeiro ou Talpa Ferramenteiro. Sua Casta representa o treinamento artesanal que recebeu dentro da sociedade Talpa."
+            },
+            {
+            "name": "Talpa Ferreiro",
+            "description": "Os Ferreiros são especialistas na fabricação, adaptação e reforço de armaduras. Treinamento de Ferreiro: Você ganha proficiência com Ferramentas de Ferreiro. Reforjar Armadura: Utilizando suas Ferramentas de Ferreiro, você pode modificar a construção de uma armadura para alterar sua categoria. Você pode alterar uma armadura em um estágio: Leve ↔ Média ↔ Pesada. Uma armadura Leve, portanto, precisa primeiro ser transformada em Média antes que possa posteriormente ser transformada em Pesada. A armadura passa a utilizar as regras da nova categoria, incluindo requisitos de proficiência, utilização de Destreza e demais limitações aplicáveis. Entretanto, ela mantém quaisquer propriedades mágicas ou características especiais que já possuía. A aparência da armadura também muda de acordo com a modificação realizada pelo Ferreiro."
+            },
+            {
+            "name": "Talpa Armeiro",
+            "description": "Armeiros dedicam suas vidas ao desenvolvimento de armas. Para um Armeiro Talpa, a forma de uma arma deve servir à sua função — e não o contrário. Treinamento de Armeiro: Você ganha proficiência com Ferramentas de Ferreiro. Arma Personalizada: Ao fabricar uma arma, você pode escolher uma propriedade de Maestria de Arma apropriada para a função que deseja que ela desempenhe, em vez de utilizar necessariamente a Maestria normalmente associada àquela arma. A aparência e construção da arma devem representar a Maestria escolhida. Por exemplo, um machado construído para Empurrar pode possuir uma cabeça larga e pesada destinada ao impacto, enquanto um martelo construído para Cleave pode possuir lâminas laterais capazes de atingir múltiplos inimigos. Mecanicamente, a arma continua utilizando seus dados de dano e demais propriedades normais. Apenas sua Maestria e aparência são alteradas."
+            },
+            {
+            "name": "Talpa Ferramenteiro",
+            "description": "Os Ferramenteiros são inventores, mecânicos e engenhoqueiros. Enquanto outros Talpas aperfeiçoam armas e armaduras, Ferramenteiros procuram construir uma ferramenta para praticamente qualquer problema. Treinamento de Ferramenteiro: Você ganha proficiência com Ferramentas de Funileiro. Engenhoqueiro Talpa: Utilizando suas Ferramentas de Funileiro e materiais apropriados, você pode construir Engenhocas Talpa. Você pode manter simultaneamente um número de Engenhocas Talpa funcionais igual ao seu Bônus de Proficiência. Caso construa uma além desse limite, deverá desmontar uma de suas engenhocas existentes e reutilizar suas peças. Você conhece os projetos de todas as Engenhocas Talpa apresentadas abaixo.\n\nEngenhocas Talpa\n\nAbridor de Portas: Um mecanismo expansível desenvolvido para manipular ou forçar portas e fechaduras. Pode ser instalado em uma porta para auxiliar sua abertura, concedendo Vantagem em um teste realizado para abrir ou arrombar aquela porta. Portas simples podem, a critério do Mestre, ser abertas automaticamente pelo mecanismo.\n\nAlarme Talpa: Um pequeno dispositivo capaz de detectar movimento e vibrações. Você pode instalá-lo em um ponto escolhido. Quando uma criatura atravessa a área monitorada, o dispositivo produz um som e vibração de alerta.\n\nEsfera de Comunicação: Você fabrica duas esferas vinculadas, que juntas contam como uma única Engenhoca Talpa. Enquanto estiverem a até 1 milha (1,6 km) uma da outra, criaturas segurando as esferas podem utilizá-las para conversar à distância.\n\nAranha Mecânica: Uma pequena criatura mecânica capaz de atravessar espaços estreitos e explorar locais perigosos. Você pode enviá-la para explorar uma área a até 60 pés (18 m) de você. A Aranha consegue transmitir informações simples através de sinais e vibrações, como a presença de movimento, criaturas, obstáculos ou perigos físicos.\n\nÂncora de Impacto: Um mecanismo que dispara uma âncora presa a um cabo resistente. Utilizada como gancho de escalada, para fixar uma corda em uma superfície apropriada, prender objetos ou estabelecer rapidamente uma linha entre dois pontos.\n\nDisparador Arcano: Uma pequena torreta capaz de armazenar e reproduzir magia. Um conjurador pode tocar o Disparador Arcano e armazenar nele um Truque que conheça e que cause dano. O Truque permanece armazenado até ser utilizado ou substituído. Como uma Ação, você pode instalar o Disparador em um espaço desocupado a até 5 pés de você. Enquanto estiver instalado, você pode utilizar uma Ação Bônus em cada um de seus turnos para ordenar que o Disparador conjure o Truque armazenado contra um alvo válido dentro do alcance normal do Truque. O Truque utiliza o modificador de ataque mágico ou CD para resistência do conjurador que o armazenou, conforme apropriado. Para determinar o dano e demais efeitos que aumentam conforme o nível, considere o nível do Talpa Ferramenteiro. O Disparador permanece ativo por até 1 minuto. Após sua ativação terminar, o Truque armazenado é consumido e um conjurador precisa armazenar novamente um Truque antes que o Disparador possa ser ativado outra vez. Truques com alcance Pessoal não podem ser armazenados."
+            }
+        ],
+        "tags": ["Terrestre"]
+    },
+    {
+        "name_pt": "Yun'kais",
+        "book": "WEIRS - Homebrew",
+        "img": [],
+        "description_title": "Os Elfos Noturnos",
+        "description": "O segundo povo abençado pela deusa Luna. Às vezes chamados de elfos noturnos, os Yun'kais escolheram seguir por um caminho de maior conexão íntima com as forças da natureza selvagem e uma organização de sociedade mais tribal. Vivendo em alojamentos camuflados dentro da floresta profunda, sua comunidade funciona de forma coletiva, onde absolutamente todos contribuem para o bem-estar do clã. O Sacerdote figura como a liderança máxima e espiritual do local, sendo o responsável por conduzir os sagrados rituais de adoração à lua. Os Yun'kais carregam marcas rúnicas inatas em seus corpos que reagem visivelmente ao luar, banhando os indivíduos com uma poderosa energia arcana.",
+        "type": "Humanoide",
+        "size": "Médio",
+        "speed": "9 metros",
+        "age": "Atingem a maioridade aos 50 anos e podem viver até os 400 anos.",
+        "traits_title": "Herança de Luna",
+        "traits": [
+            {
+            "name": "Visão no Escuro",
+            "description": "Seus olhos são perfeitamente adaptados para a escuridão das matas. Você tem Visão no Escuro com um alcance de 18 metros (60ft)."
+            },
+            {
+            "name": "Ancestralidade Feérica",
+            "description": "Você tem vantagem em realizar salvaguardas para evitar ou encerrar a condição Enfeitiçado."
+            },
+            {
+            "name": "Sentidos Aguçados",
+            "description": "A vida nas florestas aguçou seus instintos. Você tem proficiência na perícia Intuição, Percepção ou Sobrevivência (escolha uma)."
+            },
+            {
+            "name": "Transe",
+            "description": "Você pode completar um descanso longo em apenas 4 horas ao meditar, sem a necessidade de dormir como os humanos, e efeitos mágicos não podem forçá-lo a dormir."
+            },
+            {
+            "name": "Proteção Lunar",
+            "description": "O magnetismo da lua protege seu espírito. Você possui Resistência a dano Radiante ou dano Necrótico (escolha ao selecionar esta espécie). Adicionalmente, você aprende o truque Rajada Mística. Escolha se o seu atributo de conjuração para este truque será Carisma, Inteligência ou Sabedoria."
+            },
+            {
+            "name": "Afinidade Arcana",
+            "description": "Conforme você evolui, as runas do seu corpo desbloqueiam novas magias que podem ser conjuradas sem o gasto de espaços de magia (recuperando o uso após um Descanso Longos) ou usando seus espaços de classe normais: A partir do 3º Nível: Você pode conjurar a magia Passo Nebuloso uma vez por descanso longo. A partir do 5º Nível: Você pode conjurar a magia Raio Lunar uma vez por descanso longo."
+            }
+        ],
+        "tags": ["Terrestre"]
+    },
+    {
+        "name_pt": "Anansis",
+        "book": "WEIRS - Homebrew",
+        "img": [],
+        "description_title": "Pequenos Observadores Cósmicos",
+        "description": "Os Anansis são pequenos humanoides conhecidos por seu enorme desenvolvimento intelectual e tecnológico. Possuem corpos pequenos e cabeças desproporcionalmente grandes, seis olhos monocromáticos, antenas e estruturas cranianas características. Sua espécie possui capacidades telecinéticas naturais, além de uma extraordinária capacidade de processar simultaneamente diferentes estímulos visuais e mentais. Os Anansis também desenvolveram uma tecnologia baseada em um estranho metal líquido roxo, normalmente mantido em uma pequena quantidade integrada à testa de cada indivíduo.",
+        "type": "Humanoide",
+        "size": "Pequeno",
+        "speed": "25 pés",
+        "age": "Atingem a maioridade aos 40 anos e vivem cerca de 800 anos.",
+        "traits_title": "Genialidade Extraterrestre",
+        "traits": [
+            {
+            "name": "Visão Hexaocular",
+            "description": "Seus seis olhos permitem observar diferentes direções simultaneamente. Você possui Visão no Escuro com alcance de 18 metros e tem Vantagem em testes de Sabedoria (Percepção) que dependam da visão. Além disso, você não pode ser Flanqueado. Criaturas não recebem Vantagem em jogadas de ataque contra você como resultado das regras de Flanqueamento."
+            },
+            {
+            "name": "Mente Analítica",
+            "description": "Os Anansis possuem enorme capacidade de aprendizado e especialização intelectual. Escolha uma das seguintes perícias para receber Proficiência: Arcanismo, História, Investigação, Medicina, Natureza."
+            },
+            {
+            "name": "Processamento Paralelo",
+            "description": "Seu cérebro é capaz de administrar diversos estímulos e processos mentais simultaneamente. Você possui Vantagem em Salvaguardas de Constituição realizadas para manter Concentração."
+            },
+            {
+            "name": "Telecinese Anansi",
+            "description": "A telecinese é uma capacidade natural da espécie Anansi. O arco utilizado ao redor do pescoço serve como uma ferramenta de foco e amplificação dessa capacidade. Você aprende o truque Mãos Mágicas. Você pode conjurá-lo sem componentes verbais ou somáticos, e pode tornar a mão espectral invisível."
+            },
+            {
+            "name": "Metal Líquido Clivarium",
+            "description": "Uma pequena quantidade de metal líquido roxo permanece integrada à sua testa e responde aos seus comandos mentais. Como uma Ação Bônus, você pode reorganizar esse metal e transformá-lo em uma ferramenta ou objeto simples que possa ser segurado em uma mão. O metal pode assumir formas como: Chaves e ferramentas simples; Pinças; Lentes; Recipientes pequenos; Utensílios; Instrumentos de medição; Pequenos objetos semelhantes. O metal não pode reproduzir mecanismos complexos, componentes mágicos com valor monetário, armas, munições ou outros objetos cuja função dependa de materiais que o metal não consiga reproduzir. Você pode desfazer a forma criada a qualquer momento, fazendo o metal retornar à sua testa. Você só pode manter um objeto criado dessa maneira por vez."
+            }
+        ],
+        "tags": ["Extraterrestre"]
+    },
+    {
+  "name_pt": "Fenrirs",
+  "book": "WEIRS - Homebrew",
+  "img": [],
+  "description_title": "A Linhagem Canina de Pharlat",
+  "description": "Segundo suas próprias lendas, seu antepassado Fenrir foi o responsável por alinhar as luas de Pharlat carregando-as com as correntes do firmamento. Seu senso de comunidade é o centro da sociedade Fenrir. Para eles abandonar um companheiro de raça é o mesmo que trair a si mesmo. Retiram sua força da Lua, mas não seguem nenhum tipo de deus, apenas continuam apegados a sua cultura e contribuem para que a comunidade sobreviva. São fortes, robustos e sua aparência é intimidadora, principalmente quando iluminados apenas pela luz das luas. Se você ver um Fenrir se aproximar de você numa noite escura, é melhor sentar e rezar, pois provavelmente já estará cercado.",
+  "type": "Humanoide",
+  "size": "Médio",
+  "speed": "30 pés",
+  "age": "Atingem a maioridade aos 10 anos e vivem cerca de 40 anos.",
+  "traits_title": "Ferocidade Lunar",
+  "traits": [
+    {
+      "name": "Visão no Escuro",
+      "description": "Você tem visão no escuro de 18 metros (60 pés)."
+    },
+    {
+      "name": "Mordida Predadória",
+      "description": "Suas presas são armas naturais. Ao realizar um ataque desarmado com sua mordida, você causa 1d6 + Força de dano perfurante."
+    },
+    {
+      "name": "Faro Aguçado",
+      "description": "Você possui proficiência em Percepção e tem Vantagem em testes de Percepção que dependam exclusivamente do olfato."
+    },
+    {
+      "name": "Instinto de Raça",
+      "description": "Você possui proficiência em Sobrevivência, sendo especialmente habilidoso em rastrear criaturas e identificar seus rastros."
+    },
+    {
+      "name": "Uivo Atemorizante",
+      "description": "No início do seu turno, você pode usar uma ação bônus e uivar para dar moral a até 3 criaturas aliadas, adicionando um bônus de 1d6 em um acerto ou testes de habilidade que realizarem. Esse efeito dura até 1 minuto, e você pode usar essa característica uma vez a cada Descanso Longo."
+    },
+    {
+      "name": "Instinto de Matilha",
+      "description": "Enquanto estiver no alcance de pelo menos 2 criaturas aliadas, você ganha +1 de CA. Quando uma criatura aliada no seu alcance for atacada, você pode usar sua reação para ajudá-la a se defender, adicionando +2 de CA para o alvo até o fim desse turno. Você pode usar essa característica 1 vez a cada Descanso Longo."
+    }
+  ],
+  "tags": ["Extraterrestre"]
+},
+{
+  "name_pt": "Kinect",
+  "book": "WEIRS - Homebrew",
+  "img": [],
+  "description_title": "Construtos Aquáticos Elementais",
+  "description": "Os Kinects são uma espécie de seres mecânicos desenvolvidos para habitar ambientes aquáticos. Seus corpos artificiais são formados por placas brancas articuladas, padrões vermelhos e diferentes estruturas hidrodinâmicas, incluindo barbatanas, estabilizadores e sistemas internos de propulsão. No lugar de um rosto orgânico, cada Kinect possui um display capaz de representar olhos, expressões e informações visuais. Sua voz é produzida artificialmente pelo próprio corpo. Cada Kinect também possui um sistema elemental integrado, responsável tanto por alimentar uma arma acoplada quanto por proteger seu corpo contra o mesmo tipo de energia. Os nomes Kinects são códigos formados por símbolos químicos e sequências numéricas, como H2O/00098.",
+  "type": "Construto",
+  "size": "Médio",
+  "speed": "30 pés",
+  "age": "Atingem a maioridade aos 2 anos e vivem cerca de 200 anos.",
+  "traits_title": "Ápice Biotecnológico",
+  "traits": [
+    {
+      "name": "Natureza Mecânica",
+      "description": "Seu corpo é uma máquina consciente e não depende das mesmas funções biológicas de criaturas orgânicas. Você não precisa respirar. Você possui Resistência a dano de Veneno e possui Vantagem em Salvaguardas realizadas para evitar ou encerrar a condição Envenenado."
+    },
+    {
+      "name": "Unidade Aquática",
+      "description": "Seu corpo foi desenvolvido especificamente para funcionar em ambientes aquáticos. Você possui Deslocamento de Natação de 40 pés e pode utilizar normalmente suas características, armas e equipamentos enquanto estiver completamente submerso. Seu corpo também é construído para suportar grandes variações de pressão aquática e não sofre os efeitos ambientais normais provocados pela pressão de grandes profundidades."
+    },
+    {
+      "name": "Propulsor Integrado",
+      "description": "Turbinas e sistemas de propulsão fazem parte do seu corpo. Como uma Ação Bônus, você pode ativar seus propulsores e realizar imediatamente a ação Disparada. Quando utiliza esta característica enquanto estiver submerso, seu movimento também não provoca Ataques de Oportunidade até o final do turno. Você pode utilizar esta característica um número de vezes igual ao seu Bônus de Proficiência e recupera todos os usos após terminar um Descanso Longo."
+    },
+    {
+      "name": "Estabilizadores Hidrodinâmicos",
+      "description": "As barbatanas presentes em sua cabeça, costas e outras partes do corpo funcionam como estabilizadores e sensores de movimento. Enquanto estiver submerso, você possui Vantagem em testes de Força (Atletismo) relacionados a nadar ou resistir a correntes e movimentos forçados. Além disso, enquanto estiver nadando, você possui Vantagem em qualquer teste de atributo ou Salvaguarda realizado para resistir a ser movido contra sua vontade."
+    },
+    {
+      "name": "Núcleo Elemental",
+      "description": "Durante sua criação, escolha um dos seguintes tipos de dano para representar a energia que alimenta seu corpo. Você possui Resistência ao tipo de dano escolhido: Ácido, Elétrico, Fogo, Frio, Trovão."
+    },
+    {
+      "name": "Canhão Elemental",
+      "description": "Seu corpo possui uma arma integrada alimentada diretamente pelo seu Núcleo Elemental. Como uma Ação, você dispara sua arma em uma linha de 9 metros de comprimento por 1,5 metro de largura. Cada criatura na linha deve realizar uma Salvaguarda de Destreza. CD da Salvaguarda: 8 + seu Bônus de Proficiência + seu modificador de Constituição. Em uma falha, a criatura sofre 1d10 de dano do tipo escolhido para seu Núcleo Elemental. Em um sucesso, sofre metade desse dano. O dano aumenta para 2d10 no 5º Nível, 3d10 no 11º Nível e 4d10 no 17º Nível. Você pode utilizar seu Canhão Elemental um número de vezes igual ao seu Bônus de Proficiência e recupera todos os usos após terminar um Descanso Longo."
+    },
+    {
+      "name": "Display Facial",
+      "description": "Você não possui características faciais orgânicas. No lugar delas existe um display integrado capaz de reproduzir olhos, símbolos, cores e expressões. Essa característica não concede benefícios mecânicos, mas permite que um Kinect demonstre emoções e se comunique visualmente mesmo sem utilizar sua voz sintetizada."
+    }
+  ],
+  "tags": ["Extraterrestre"]
+},
+{
+  "name_pt": "Malteanos",
+  "book": "WEIRS - Homebrew",
+  "img": [],
+  "description_title": "O Povo Fermentado de Malte",
+  "description": "Os Malteanos são uma espécie humanóide conhecida por sua peculiar fisiologia. Possuem pele amarelada, olhos completamente brancos marcados por vasos avermelhados, mãos e pés desproporcionalmente grandes, ausência de orelhas e pelos faciais presentes em ambos os sexos. Seus corpos possuem uma plasticidade extraordinária, permitindo que redistribuam músculos, gordura, fluidos e outros tecidos para alterar suas proporções, densidade e até mesmo sua massa aparente. A fermentação possui enorme importância para sua sociedade. O organismo Malteano é extremamente eficiente em metabolizar álcool, fazendo com que bebidas fermentadas sejam parte de sua alimentação, celebrações e tradições sociais.",
+  "type": "Humanoide",
+  "size": "Médio",
+  "speed": "30 pés",
+  "age": "Atingem a maioridade aos 15 anos e pode viver até os 80 anos.",
+  "traits_title": "Sangue Alcoolizado",
+  "traits": [
+    {
+      "name": "Metabolismo Fermentado",
+      "description": "Seu organismo consegue processar substâncias que seriam nocivas para a maioria das espécies. Você possui Resistência a dano de Veneno e Vantagem nas Salvaguardas realizadas para evitar ou encerrar a condição Envenenado."
+    },
+    {
+      "name": "Mãos de Malteano",
+      "description": "Suas mãos enormes e poderosas são particularmente eficientes em prender outras criaturas. Você possui Vantagem em testes realizados para iniciar ou manter um Agarrão."
+    },
+    {
+      "name": "Fisiologia Variável",
+      "description": "Altura, peso e proporções corporais não são características constantes entre os Malteanos. Um indivíduo pode alterar consideravelmente sua aparência ao redistribuir a própria massa. Essas alterações não permitem que você assuma a aparência de outra criatura, mude seu Tamanho ou obtenha características de outra espécie. Você continua sendo reconhecível como o mesmo Malteano."
+    },
+    {
+      "name": "Corpo Maleável",
+      "description": "Seu corpo não possui proporções completamente fixas. Como uma Ação Bônus, você pode redistribuir sua massa corporal e assumir uma das formas abaixo. Você permanece nessa forma até assumir outra forma ou decidir retornar à sua forma natural como uma Ação Bônus. Você pode manter apenas uma forma por vez. \n\nForma Densa: Você conta como uma categoria de tamanho maior para determinar sua capacidade de carga e o peso que pode empurrar, arrastar ou levantar. Você possui Vantagem em testes de atributo e Salvaguardas realizados para resistir a ser empurrado ou derrubado. Seus Ataques Desarmados podem causar 1d6 + seu modificador de força como dano Contundente em vez do dano normal. \n\nForma Alongada: Seu alcance aumenta para 10 pés. Você pode manipular objetos e realizar interações simples com objetos a até 3 metros de distância. Você possui Vantagem em testes de Força (Atletismo) relacionados a escalar. \n\nForma Leve: Seu Deslocamento aumenta em 5 pés. A distância dos seus saltos é duplicada. Quando você sofre dano devido a uma queda, pode usar sua Reação para reduzir esse dano em uma quantidade igual a cinco vezes seu Bônus de Proficiência."
+    }
+  ],
+  "tags": ["Extraterrestre"]
+},
+{
+  "name_pt": "Nanuks",
+  "book": "WEIRS - Homebrew",
+  "img": [],
+  "description_title": "Os Guardiões do Gelo",
+  "description": "Os Nanuks são uma das linhagens Pharlatianas, grandes humanoides ursinos originários das regiões geladas de Pharlat. Seus corpos são cobertos por uma pelagem espessa e possuem força e resistência excepcionais. Sua cultura se desenvolveu em comunidades adaptadas a condições extremas, nas quais cooperação, proteção mútua e sobrevivência coletiva são fundamentais. Para um Nanuk, a força de um indivíduo possui pouco valor se não for utilizada para proteger aqueles ao seu redor.",
+  "type": "Humanoide",
+  "size": "Médio",
+  "speed": "30 pés",
+  "age": "Atingem a maioridade aos 12 anos e vivem cerca de 80 anos.",
+  "traits_title": "Bestas do Frio Extremo",
+  "traits": [
+    {
+      "name": "Constituição Ursina",
+      "description": "Sua estrutura física é extraordinariamente robusta. Você conta como uma categoria de tamanho maior ao determinar sua capacidade de carga e o peso que pode empurrar, arrastar ou levantar. Além disso, você tem Vantagem em qualquer teste de atributo ou salvaguarda realizado para evitar ou encerrar a condição Agarrado, ou para resistir a ser empurrado ou derrubado."
+    },
+    {
+      "name": "Garras Naturais",
+      "description": "Você possui grandes garras naturais. Ao realizar um Ataque Desarmado, você pode causar 1d6 + seu modificador de Força como dano Cortante em vez do dano normal do ataque."
+    },
+    {
+      "name": "Pelagem Espessa",
+      "description": "Sua pelagem e fisiologia são naturalmente adaptadas a temperaturas extremas. Você possui Resistência a dano de Frio."
+    },
+    {
+      "name": "Tenacidade Nanuk",
+      "description": "Quando você sofre dano que reduziria seus Pontos de Vida a 0, mas não o mataria instantaneamente, você pode permanecer com 1 Ponto de Vida. Depois de usar esta característica, você não pode usá-la novamente até terminar um Descanso Longo."
+    }
+  ],
+  "tags": ["Extraterrestre"]
+},
+{
+  "name_pt": "Nemeios",
+  "book": "WEIRS - Homebrew",
+  "img": [],
+  "description_title": "Linhagem Felina de Pharlat",
+  "description": "Desenvolveram uma cultura bastante expansiva em Pharlat baseada na força e no poderio de guerra. Conquistaram territórios e detém as terras mais férteis e populosas do planeta. São bastante devotos do deus da guerra Ares e constroem coliseus de batalha em seu nome. Os grandes felinos Nemeios orgulham-se de sua força, seu corpo robusto lhes garante respeito e seus inimigos temem o poder de suas presas e garras.",
+  "type": "Humanoide",
+  "size": "Médio",
+  "speed": "30 pés",
+  "age": "Atingem a maioridade aos 20 anos e vivem cerca de 150 anos.",
+  "traits_title": "Reis da Batalha",
+  "traits": [
+    {
+      "name": "Garras",
+      "description": "Suas garras são armas naturais. Ao realizar um ataque desarmado com elas, você causa 1d6 + Força de dano cortante."
+    },
+    {
+      "name": "Rugido Nemeio",
+      "description": "Como Ação Bônus, você libera um rugido. Criaturas à sua escolha a até 3 m fazem um teste de resistência de Sabedoria (CD 8 + Proficiência + Constituição). Em caso de falha, ficam Amedrontadas até o início do seu próximo turno. Usos: 1x por Descanso Longo."
+    },
+    {
+      "name": "Instinto Predador",
+      "description": "Quando reduz uma criatura a 0 PV com um ataque corpo a corpo, pode usar sua Reação para se mover até 10 pés sem provocar Ataques de Oportunidade. Usos: 1x descanso curto."
+    },
+    {
+      "name": "Corpo de Nemeia",
+      "description": "Você pode usar o atributo de Força para testes de Acrobacia, ao invés de Destreza. Além disso, conta como uma categoria de tamanho maior para determinar sua capacidade de carga e o peso que pode empurrar, arrastar ou levantar."
+    }
+  ],
+  "tags": ["Extraterrestre"]
+},
+{
+  "name_pt": "Norlock",
+  "book": "WEIRS - Homebrew",
+  "img": [],
+  "description_title": "Sobreviventes do Subterrâneo",
+  "description": "Os Norlocks são humanoides de pele cinzenta marcada por padrões naturais escuros, cabelos pretos e olhos vermelhos. Originários de um planeta constantemente coberto por nuvens densas, grande parte de sua civilização se desenvolveu em enormes sistemas subterrâneos. Seus corpos possuem resistência extraordinária e uma capacidade regenerativa extremamente desenvolvida. Sua adaptação à vida subterrânea também lhes concedeu excelente visão em ambientes sem iluminação e grande facilidade para escalar superfícies rochosas.",
+  "type": "Humanoide",
+  "size": "Médio",
+  "speed": "9 metros (30 pés)",
+  "age": "Atingem a maioridade aos 20 anos e vivem cerca de 500 anos.",
+  "traits_title": "Residentes das Trevas",
+  "traits": [
+    {
+      "name": "Constituição Norlock",
+      "description": "O valor máximo do seu atributo de Constituição é 23, em vez de 20. Além disso, você possui Vantagem em testes de Força (Atletismo)."
+    },
+    {
+      "name": "Golpes Poderosos",
+      "description": "Quando realiza um Ataque Desarmado, você pode causar 1d8 de dano Contundente em vez do dano normal. A partir do 11º nível, esse dano aumenta para 1d10."
+    },
+    {
+      "name": "Regeneração Norlock",
+      "description": "Seu organismo consegue reconstruir rapidamente tecidos danificados. Como uma Ação Bônus, você pode gastar um de seus Dados de Vida. Role o dado e recupere uma quantidade de Pontos de Vida igual ao resultado + seu modificador de Constituição. Você pode utilizar esta característica um número de vezes igual ao seu Bônus de Proficiência e recupera todos os usos após terminar um Descanso Longo."
+    },
+    {
+      "name": "Escalada Subterrânea",
+      "description": "Seus membros são adaptados para movimentação pelas cavernas e formações rochosas de seu mundo natal. Você possui Deslocamento de Escalada de 9 metros (30 pés). Além disso, pode escalar superfícies difíceis sem precisar realizar um teste de Força (Atletismo), desde que a superfície ofereça alguma forma de apoio ou aderência."
+    },
+    {
+      "name": "Visão Subterrânea",
+      "description": "Seus olhos são adaptados às regiões subterrâneas praticamente desprovidas de luz. Você possui Visão no Escuro com alcance de 120 pés (36 metros)."
+    }
+  ],
+  "tags": ["Extraterrestre"]
+},
+{
+  "name_pt": "N0-V4",
+  "book": "WEIRS - Homebrew",
+  "img": [],
+  "description_title": "Mentes Brilhantes em Corpos Amorfos",
+  "description": "Os N0-V4 são uma espécie de organismos amorfos e sencientes. Em seu estado natural, seus corpos são constituídos por uma massa gelatinosa capaz de se deformar livremente, mas incapaz de produzir fala ou interagir de maneira eficiente com ferramentas e armas. Para superar essas limitações, sua sociedade desenvolveu exotrajes mecânicos controlados diretamente pelo organismo. Cada N0-V4 possui seu próprio exotraje, adaptado às necessidades e funções de seu usuário.",
+  "type": "Limo",
+  "size": "Pequeno (Forma Natural) / Médio (dentro do Exotraje)",
+  "speed": "20 pés (Forma Natural) / 30 pés (dentro do Exotraje)",
+  "age": "Atingem a maioridade aos 3 meses e vivem cerca de 1000 anos.",
+  "traits_title": "Simbiose Mecânica",
+  "traits": [
+    {
+      "name": "Forma Natural",
+      "description": "Enquanto estiver fora do Exotraje, você assume sua verdadeira forma gelatinosa. Nesta forma, você possui as seguintes características:\n\nSua CA é 10.\nSua vitalidade máxima é a metade do total conferido por sua classe (arredondado para cima).\nVocê pode se deformar para atravessar qualquer abertura com pelo menos 2,5 cm de largura, desde que não esteja carregando objetos grandes demais para atravessá-la.\nVocê pode entrar e permanecer dentro de recipientes ou espaços capazes de comportar sua massa.\nVocê não pode falar, realizar ataques, utilizar armas ou manusear ferramentas/objetos que exijam mãos ou estruturas semelhantes.\nVocê possui Resistência a dano Contundente, Cortante e Perfurante causado por armas não mágicas.\nVocê possui Deslocamento de Escalada de 20 pés."
+    },
+    {
+      "name": "Exotraje N0-V4",
+      "description": "Você possui um Exotraje desenvolvido especificamente para acomodar e interagir com seu corpo.\n\nSe estiver em sua Forma Natural, você pode vestir seu Exotraje usando uma ação, desde que ele esteja disponível em até 5 pés de você. Um Exotraje só pode ser usado pelo N0-V4 para o qual foi construído ou adaptado.\n\nEnquanto estiver dentro dele, você pode falar através do sistema de comunicação do traje, manipular objetos, utilizar armas, ferramentas e equipamentos normalmente, mas não pode vestir armaduras. Sua CA se torna 16, e você pode receber os benefícios de um escudo (interpretado como um escudo acoplado ao traje). Você recebe um total de Vida Falsa igual ao dobro dos seus pontos de vida totais, representando a durabilidade do Exotraje. Seu deslocamento base se torna 30 pés, e seu tamanho se torna Médio.\n\nPara efeitos que exijam um alvo Humanóide (como Imobilizar Pessoa), você conta como Construto enquanto está dentro do traje. Você não recebe imunidades de Construto. O Exotraje é uma máquina utilizada pelo N0-V4 e não faz parte de seu organismo.\n\nSe o traje for destruído, inutilizado ou precisar ser abandonado, o N0-V4 continua vivo em sua Forma Natural, mas perde todas as características fornecidas pelo Exotraje até conseguir repará-lo ou obter outro traje compatível. A Forma Natural do N0-V4 pode abandonar um Exotraje inutilizado normalmente."
+    },
+    {
+      "name": "Sistema de Mobilidade",
+      "description": "Escolha uma das seguintes opções ao criar seu personagem:\n\nTerrestre Aprimorado: Seu Deslocamento terrestre aumenta para 40 pés.\nEscalador: Você recebe Deslocamento de Escalada de 30 pés.\nAquático: Você recebe Deslocamento de Natação de 40 pés, e seu Exotraje pode funcionar normalmente enquanto estiver completamente submerso.\nPropulsor: Você recebe Deslocamento de Voo de 30 pés."
+    },
+    {
+      "name": "Módulo Especializado",
+      "description": "Escolha um dos seguintes módulos para o seu Exotraje:\n\nMódulo Defensivo: Sistemas adicionais de proteção reforçam seu Exotraje. Enquanto estiver utilizando o traje, você recebe +1 de bônus na CA.\nMódulo de Armamento: Uma arma de energia é integrada ao seu Exotraje (Arma marcial à distância, Dano: 1d8 Energia, Alcance: 12/36m, Munição ilimitada). Utiliza Destreza para jogadas de ataque e dano.\nMódulo Utilitário: Escolha uma ferramenta. Essa ferramenta é integrada ao seu Exotraje e pode ser estendida ou recolhida. Você ganha +1 em testes com essa ferramenta e proficiência nela enquanto usa o traje."
+    },
+    {
+      "name": "Blindagem Adaptativa",
+      "description": "Escolha um dos seguintes tipos de dano para receber Resistência enquanto estiver utilizando seu Exotraje:\n\nÁcido\nElétrico\nFogo\nFrio"
+    },
+    {
+      "name": "Modo de Emergência",
+      "description": "Quando sua Vida Falsa é reduzida a 0, o Exotraje não desliga imediatamente. Ele entra em Modo de Emergência por 1 minuto, durante o qual:\n\nSua CA cai para 12.\nSeu Deslocamento cai para 20 pés.\nVocê não pode usar seu Módulo Especializado nem sua Blindagem Adaptativa.\nVocê ainda pode falar, mover-se e manipular objetos.\nVocê não pode recuperar Vida Falsa por nenhum meio durante o Modo de Emergência.\n\nAo final do Modo de Emergência, o Exotraje desliga completamente, e você é forçado a sair para sua Forma Natural. Se você sair voluntariamente antes disso, o Modo de Emergência termina imediatamente."
+    },
+    {
+      "name": "Auto-Reparo",
+      "description": "Quando o traje está danificado, você pode permanecer dentro dele para executar um auto-reparo durante seus descansos:\n\nDescanso Curto: O Exotraje recupera Vida Falsa igual ao seu nível de jogador × 5.\nDescanso Longo: O Exotraje recupera toda a Vida Falsa.\n\nQuando você é alvo de um efeito de magia curativa enquanto está vestindo o traje e possui menos que o máximo de Vida Falsa, a cura restaura Vida Falsa primeiro. Qualquer excedente cura seus PV reais."
+    },
+    {
+      "name": "Substituição do Exotraje",
+      "description": "Um Exotraje substituto pode ser encomendado a um artesão N0-V4 ou construído por alguém com proficiência em Ferramentas de Funileiro e acesso a materiais raros.\n\nTempo: 1d4 + 2 dias de trabalho.\nCusto: 200 PO em materiais.\nAdaptação: Um Exotraje construído para outro N0-V4 exige 1 dia de adaptação antes de poder ser usado."
+    }
+  ],
+  "tags": ["Extraterrestre"]
+},
+{
+  "name_pt": "Yokais",
+  "book": "WEIRS - Homebrew",
+  "img": [],
+  "description_title": "O Espírito Vulpino",
+  "description": "Os Yokais são um povo que valoriza muito sua ligação com a espiritualidade. Corpo e Alma para eles devem estar em constante sintonia, com isso eles são capazes de desligar um do outro e acessar uma camada tênue da realidade, o que chama de Xeol, onde almas transitam em liberdade. Um plano de transição. São astutos, ágeis e habilidosos e confiam na profecia de que um dia um espírito evoluído nascerá entre eles e usará sua força para libertar a todos.",
+  "type": "Humanoide",
+  "size": "Médio",
+  "speed": "35 pés",
+  "age": "Atingem a maioridade aos 18 anos e podem viver até os 200 anos.",
+  "traits_title": "Apoteose Espiritual",
+  "traits": [
+    {
+      "name": "Visão no Escuro",
+      "description": "Acostumado a longos períodos de escuridão, você possui Visão no Escuro com alcance de 60 pés."
+    },
+    {
+      "name": "Passo Veloz",
+      "description": "Quando você não estiver usando armadura pesada, seu Deslocamento aumenta em 1,5 m. Além disso, quando realizar a ação Disparada, você pode ignorar terreno difícil até o final do turno."
+    },
+    {
+      "name": "Laços Espírituais",
+      "description": "Você possui proficiência em Religião e pode se comunicar telepaticamente com criaturas que estejam a até 30 pés de você, desde que compartilhem um idioma com você."
+    },
+    {
+      "name": "Desprendimento Espiritual",
+      "description": "Você pode tentar se concentrar em uma criatura que possa ver em até 90 pés, acessando seus sentidos. Uma criatura não voluntária deverá realizar um teste de sabedoria, ou permitirá que você veja e sinta tudo o que ela sentir. A criatura saberá que seu corpo está sendo invadido. Você pode se locomover e agir normalmente enquanto nesse estado, que pode durar até 1 minuto ou até você encerrá-lo. No final do turno da criatura, enquanto você estiver invadindo seus sentidos, ela poderá realizar o teste novamente. Se passar, te expulsará do corpo. Você também é expulso caso perca a concentração. A partir do 11° nível, criaturas inimigas não perceberão sua presença em seus corpos. Você pode usar essa característica um número de vezes igual ao seu bônus de proficiência e recupera seus usos num Descanso Longo."
+    },
+    {
+      "name": "Espiar Ego",
+      "description": "Você pode energizar seus olhos para enxergar a silhueta do espírito de criaturas num raio de 30 pés. Você não pode enxergar através de barreiras mágicas ou paredes mais grossas que 30 cm. A duração do efeito é de 1 turno, e você pode usar essa característica duas vezes por Descanso Curto. No 11° Nível, a duração passa a ser 1 minuto."
+    },
+    {
+      "name": "Devorar Espírito",
+      "description": "Ao eliminar uma criatura, você pode usar sua reação para absorver parte da essência vital dela para potencializar técnicas específicas:\n\nAura Defensiva: Você protege o corpo usando a energia absorvida, dando Desvantagem no próximo Ataque realizado contra você.\nPropulsão Espiritual: Seu deslocamento aumenta em 15 pés até o final deste turno.\nCura Piedosa: Você converte a energia absorvida para curar seu corpo ou uma criatura aliada em até 30 pés numa quantidade igual ao seu bônus de proficiência."
+    }
+  ],
+  "tags": ["Extraterrestre"]
+},
+{
+  "name_pt": "Zoldyanos",
+  "book": "WEIRS - Homebrew",
+  "img": [],
+  "description_title": "Os Reptilianos de Zoldya",
+  "description": "Os Zoldyanos são humanoides de pele verde originários de Zoldya. Apesar de apresentarem uma estrutura corporal e facial semelhante à humana, possuem características reptilianas marcantes, como olhos adaptados, nariz semelhante ao de uma lagartixa, garras, orelhas pontudas e uma longa e poderosa cauda. Sua fisiologia possui uma capacidade regenerativa extraordinária, permitindo que sobrevivam a ferimentos que seriam extremamente graves para outras espécies.",
+  "type": "Humanoide",
+  "size": "Médio",
+  "speed": "30 pés",
+  "age": "Atingem a maioridade aos 15 anos e vivem cerca de 300 anos.",
+  "traits_title": "Pele de Dragão",
+  "traits": [
+    {
+        "name": "Visão no Escuro",
+        "description": "Você tem Visão no Escuro com um alcance de 18 metros (60ft)."
+    },
+    {
+      "name": "Aderência Zoldyana",
+      "description": "Suas mãos e pés possuem estruturas microscópicas que permitem aderir facilmente a superfícies. Você possui Deslocamento de Escalada igual ao seu Deslocamento normal e pode escalar superfícies difíceis, incluindo paredes, sem precisar realizar um teste de atributo, desde que possua mãos e pés disponíveis para se prender à superfície."
+    },
+    {
+      "name": "Cauda Poderosa",
+      "description": "Sua longa cauda possui musculatura suficientemente desenvolvida para ser utilizada como arma. Quando realiza um Ataque Desarmado, você pode atacar utilizando sua cauda. Em um acerto, ela causa 1d6 + seu modificador de Força como dano Contundente em vez do dano normal do Ataque Desarmado."
+    },
+    {
+      "name": "Regeneração Acelerada",
+      "description": "Seu organismo consegue reparar ferimentos em uma velocidade extraordinária. Como uma Ação Bônus, você pode gastar um de seus Dados de Vida, rolá-lo e recuperar uma quantidade de Pontos de Vida igual ao resultado da rolagem + seu modificador de Constituição. Você pode utilizar esta característica um número de vezes igual ao seu Bônus de Proficiência e recupera todos os usos após terminar um Descanso Longo."
+    },
+    {
+      "name": "Regeneração de Membros",
+      "description": "Seu corpo é capaz de reconstruir partes perdidas. Ao terminar um Descanso Longo, você pode regenerar completamente uma parte externa perdida ou severamente danificada do corpo, como um dedo, olho ou cauda. Membros maiores, como braços ou pernas, exigem 7 dias para serem completamente regenerados. Esse processo ocorre naturalmente enquanto você estiver vivo e possuir alimentação suficiente."
+    },
+    {
+      "name": "Último Recurso",
+      "description": "Como uma reação, ao ser atacado, você pode sacrificar sua cauda para distrair criaturas inimigas ou para se tornar mais leve, adicionando +5 de CA até o final desse turno. Você perde o uso dessa característica e da característica \"Cauda Poderosa\" até que esse membro se regenere."
+    }
+  ],
+  "tags": ["Extraterrestre"]
+},
+{
+  "name_pt": "Zorak",
+  "book": "WEIRS - Homebrew",
+  "img": [],
+  "description_title": "Os Fortes e Gentis",
+  "description": "Os Zoraks são humanóides conhecidos por suas capacidades físicas extraordinárias. Apesar de possuírem aparência semelhante à humana, são facilmente reconhecidos pelos cabelos naturalmente verde-limão e pelos olhos completamente vermelhos. Seus músculos, ossos e tecidos são muito mais resistentes e poderosos do que os de humanóides comuns, permitindo que alcancem níveis de força, velocidade e resistência muito além das limitações humanas.",
+  "type": "Humanoide",
+  "size": "Médio",
+  "speed": "9 metros (30 pés)",
+  "age": "Atingem a maioridade aos 20 anos e vivem cerca de 500 anos.",
+  "traits_title": "Potência Biológica",
+  "traits": [
+    {
+      "name": "Força Zorak",
+      "description": "O valor máximo do seu atributo de Força é 23, em vez de 20. Além disso, você possui Vantagem em testes de Força (Atletismo)."
+    },
+    {
+      "name": "Corpo Super-Resistente",
+      "description": "Seu corpo possui resistência extraordinária contra impactos e ferimentos. Enquanto não estiver utilizando armadura, sua Classe de Armadura é 16. A partir do 11º nível, sua Classe de Armadura Natural aumenta para 18. Você ainda pode utilizar um escudo e receber normalmente o bônus de CA fornecido por ele."
+    },
+    {
+      "name": "Golpes Poderosos",
+      "description": "Seus golpes são capazes de causar danos muito superiores aos de um humanoide comum. Quando realiza um Ataque Desarmado, você pode causar 1d8 de dano Contundente em vez do dano normal. Você usa seu modificador de Força no acerto e dano, e é proficiente. A partir do 11º nível, esse dano aumenta para 1d10."
+    },
+    {
+      "name": "Impulso Zorak",
+      "description": "Seu corpo é capaz de produzir explosões repentinas de velocidade e força. Você pode realizar a ação Disparada (Dash) como uma Ação Bônus. Além disso, as distâncias dos seus Saltos em Distância e Saltos em Altura são duplicadas, e você não precisa realizar uma corrida de 3 metros antes do salto para alcançar a distância máxima. Seus saltos continuam limitados pelo Deslocamento disponível durante o turno."
+    },
+    {
+      "name": "Investida",
+      "description": "Você recebe o talento Investida (Charger). Você recebe todos os benefícios desse talento e deve cumprir normalmente seus requisitos e condições para utilizá-lo."
+    }
+  ],
+  "tags": ["Extraterrestre"]
+},
+{
+  "name_pt": "Zonuianos",
+  "book": "WEIRS - Homebrew",
+  "img": [],
+  "description_title": "Civilização Moldada pelo Aether",
+  "description": "Os Zonuianos são uma espécie em transição, passando pelo estágio tribal e desenvolvendo as primeiras grandes civilizações. O planeta hostil onde vivem os obrigou a se adaptarem, tornando-os habilidosos e destemidos. Eventualmente, eles aprenderam a usufruir do Aether presente em abundância no planeta. Os Zonuianos e o Aether establishedaram uma relação praticamente simbiótica, permitindo que o potencial da espécie disparasse em diversas áreas. A tecnologia que passou a existir desde então não é alimentada por metal e eletricidade. De medicina até construção de armas, o Aether é a fonte fundamental que alimenta a sociedade zonuiana.",
+  "type": "Humanoide",
+  "size": "Médio",
+  "speed": "30 pés (9 metros)",
+  "age": "Atingem a maioridade aos 20 anos e vivem cerca de 100 anos. O uso de Aether permite o prolongamento do tempo de vida por décadas.",
+  "traits_title": "Filhos do Aether",
+  "traits": [
+    {
+      "name": "Transe No Xeol",
+      "description": "Você não precisa dormir. Em vez disso, entra em um estado de meditação profunda para se conectar à fonte de Aether que flui por toda a vida. Você permanece consciente do ambiente durante o transe. Na conclusão de um Descanso Longo, você recebe os benefícios normais e Pontos de Vida temporários iguais ao seu Nível + modificador de Constituição. Esses PV temporários duram até serem perdidos ou até o fim do seu próximo Descanso Longo."
+    },
+    {
+      "name": "Conhecimento Nomádico",
+      "description": "Escolha uma das seguintes perícias para se tornar proficiente. Ao atingir o 5º nível, você adiciona o dobro do seu bônus de proficiência em testes para a perícia escolhida:\n\nAcrobacia\nAtletismo\nNatureza\nSobrevivência"
+    },
+    {
+      "name": "Infusão Espiritual",
+      "description": "Escolha uma arma com a qual você seja proficiente. Você pode infundir sua energia etérea por 1 minuto na arma como uma Ação Bônus, ganhando o seguinte benefício:\n\nEnquanto infundida, ela causa +1d4 de dano do tipo Radiante ou Necrótico (à sua escolha).\n\nCaso a arma esteja conectada a um Cristal de Aether, você também soma seu modificador de Constituição ao dano.\n\nVocê pode usar essa característica um número de vezes igual ao seu bônus de proficiência por Descanso Longo."
+    },
+    {
+      "name": "Leitura Vital",
+      "description": "Como uma Ação, você toca uma criatura viva e descobre uma informação sobre ela: se está envenenada, doente, amaldiçoada, enfeitiçada, com PV atuais abaixo do máximo, ou se é um morto-vivo. Você pode usar essa característica uma vez a cada Descanso Curto ou Longo."
+    },
+    {
+      "name": "Sintonia Aetheria",
+      "description": "Você pode gastar 1 minuto meditando para sentir a presença de criaturas vivas (ou de Aether concentrado) em um raio de 30 pés (9 metros). Você consegue identificar a direção da presença, mas não a localização exata. Você pode usar essa característica um número de vezes igual ao seu bônus de proficiência por Descanso Longo."
+    }
+  ],
+  "tags": ["Extraterrestre"]
+},
+{
+  "name_pt": "Archais",
+  "book": "WEIRS - Homebrew",
+  "img": [],
+  "description_title": "Os Filhos de Asmodeus",
+  "description": "Nascidos da manifestação da energia do demônio ancestral Asmodeus. Os primeiros habitantes de Tenebris, desenvolveram cultura, história e escrita e também, aprenderam a manipular a realidade a partir da magia rúnica. Com isso constituiram suas sociedades ao redor das terras mais férteis de Tenebris, tornando-se o povo mais desenvolvido politico e socialmente. Um de seus representantes mais notáveis, Lucifer foi escolhido pelos deuses para sofrer a ascenção e se tornar um anjo, mas após uma revolta frustrada tornou-se um caído, embora ainda seja um grande nome em meio a sociedade Tenebrica, governante das região de Gehinom. A grande maioria dos Archais é fiel aos príncipios do primordial da morte, Asmodeus, realizando os rituais morbidos do culto.",
+  "type": "Humanoide",
+  "size": "Médio",
+  "speed": "30 pés",
+  "age": "Atingem a maioridade aos 50 anos e vivem cerca de 500 anos.",
+  "traits_title": "Devotos da Morte",
+  "traits": [
+    {
+      "name": "Resistência Mortal",
+      "description": "Você tem resistência à dano Necrótico."
+    },
+    {
+      "name": "Visão no Escuro",
+      "description": "Você tem visão no escuro 60 pés."
+    },
+    {
+      "name": "Herança de Asmodeus",
+      "description": "A essência de Asmodeus corre em seu sangue. Você possui vantagem em Testes de Resistência contra a condição Amedrontado. Além disso, você não pode ser magicamente colocado para dormir."
+    },
+    {
+      "name": "Aparência Sobrenatural",
+      "description": "Você possui proficiência em Intimidação ou Persuasão, à sua escolha."
+    },
+    {
+      "name": "Toque da Morte",
+      "description": "Uma vez por turno, quando você acerta uma criatura com um ataque corpo a corpo, pode fazer com que o ataque cause dano necrótico adicional igual ao seu Bônus de Proficiência. Você pode usar essa característica um número de vezes igual ao seu bônus de proficiência e recupera seus usos com um descanso longo."
+    },
+    {
+      "name": "Herdeiro do Submundo",
+      "description": "Você conhece o truque Toque Arrepiante (Chill Touch). A partir do 3º nível, você pode conjurar Infligir Ferimentos (Inflict Wounds) uma vez sem gastar espaço de magia. Você recupera a capacidade de conjurar essa magia ao terminar um Descanso Longo. Atributo de Conjuração: escolha Inteligência, Sabedoria ou Carisma ao selecionar esta espécie."
+    }
+  ],
+  "tags": ["Tenebriana"]
+},
+{
+  "name_pt": "Baphoritas",
+  "book": "WEIRS - Homebrew",
+  "img": [],
+  "description_title": "Os Filhos de Baphomet",
+  "description": "Nascidos a partir da mente do mais velho dos primordiais, o desejo de Baphomet sempre foi trazer a ordem para Tenebris e seus filhos continuaram sua tradição no estudo de magia antiga e manipulação das forças naturais do universo. Os baphoritas tornaram-se em sua maioria reclusos e solitários, isolados nas grandes montanhas próximas ao abismo resolveram virar suas atenções para os céus, os limites do cosmos do plano.",
+  "type": "Humanoide",
+  "size": "Médio",
+  "speed": "30 pés",
+  "age": "Atingem a maioridade aos 100 anos e vivem cerca de 700 anos.",
+  "traits_title": "Sábios em Diáspora",
+  "traits": [
+    {
+      "name": "Chifres",
+      "description": "Seus chifres podem ser usados em um ataque desarmado. Força é seu atributo de acerto e você causa 1d6 + seu modificador de Força como dano contundente."
+    },
+    {
+      "name": "Investida Bestial",
+      "description": "Ao se mover pelo menos 20 pés em linha reta e acertar um ataque de Chifres, o dano aumenta em 1d6. O alvo deve passar num Teste de Resistência de Força (CD = 8 + Bônus Proficiência + mod. Força) ou é empurrado 10 pés (isso não causa ataques de oportunidade)."
+    },
+    {
+      "name": "Salto Bestial",
+      "description": "Você adiciona 1d8 pés à distância do seu salto."
+    },
+    {
+      "name": "Resistência Demoníaca",
+      "description": "Você tem resistência à dano Psíquico."
+    },
+    {
+      "name": "Fúria de Baphomet",
+      "description": "Você tem vantagem em Testes de Resistência para evitar ou encerrar os efeitos Amedrontado ou Enfeitiçado."
+    },
+    {
+      "name": "Taumaturgia",
+      "description": "Você conhece o truque Taumaturgia. Carisma é seu atributo de conjuração."
+    }
+  ],
+  "tags": ["Tenebriana"]
+},
+{
+  "name_pt": "Ímpios",
+  "book": "WEIRS - Homebrew",
+  "img": [],
+  "description_title": "Os Filhos de Belial",
+  "description": "A raça mais populosa do plano inferior, aos ímpios restaram as terras mais inóspitas de Tenebris. Surgidos a partir da fúria de Belial, eles são conhecidos por sua sede por batalhas, porém isso os levou a miséria e ao domínio, principalmente dos Archais. Como derrotados foram forçados aos trabalhos exaustivos para continuar se mantendo. Os Archais usam a força de trabalho dos Ímpios para construir suas enormes cidades e monumentos, enquanto os rubros se submetem para que consigam sobreviver. Devido a sua resistência natural, os ímpios passaram a se reunir em terras mais quentes e áridas, perto de rios de lava onde organizam pequenos clubes de luta para saciar sua sede por batalhas.",
+  "type": "Humanoide",
+  "size": "Médio",
+  "speed": "30 pés",
+  "age": "Atingem a maioridade aos 20 anos e vivem cerca de 300 anos.",
+  "traits_title": "Ira Primordial Suprimida",
+  "traits": [
+    {
+      "name": "Resistência Infernal",
+      "description": "Você tem resistência à dano de Fogo."
+    },
+    {
+      "name": "Visão no Escuro",
+      "description": "Você tem visão no escuro 60 pés."
+    },
+    {
+      "name": "Herança de Belial",
+      "description": "A essência de Belial, Primordial da Guerra, corre em seu sangue. Quando você realiza um ataque e erra, pode usar sua Reação para rolar novamente o ataque. Você pode usar esta característica uma vez por Descanso Longo."
+    },
+    {
+      "name": "Espírito de Guerra",
+      "description": "Você possui vantagem em Testes de Resistência para evitar ou encerrar a condição Amedrontado."
+    },
+    {
+      "name": "Cauda Demoníaca",
+      "description": "Sua cauda pode manipular objetos leves. Você pode usá-la para abrir portas destrancadas, puxar ou empurrar objetos, apanhar objetos soltos ou realizar tarefas semelhantes. A cauda não pode realizar ataques nem executar tarefas que exijam a precisão de uma mão."
+    },
+    {
+      "name": "Herdeiro do Submundo",
+      "description": "Você conhece o truque Toque Arrepiante (Chill Touch). A partir do 3º nível, você pode conjurar Infligir Ferimentos (Inflict Wounds) uma vez sem gastar espaço de magia. Você recupera a capacidade de conjurar essa magia ao terminar um Descanso Longo. Atributo de Conjuração: escolha Inteligência, Sabedoria ou Carisma ao selecionar esta espécie."
+    }
+  ],
+  "tags": ["Tenebriana"]
+},
+{
+  "name_pt": "Inamons",
+  "book": "WEIRS - Homebrew",
+  "img": [],
+  "description_title": "A Engenhosidade Tenebriana",
+  "description": "Os Inamons são construtos sencientes criados em Tenebris por Lucifer, utilizando carcaças de Abissais como base biológica, combinadas com magia caótica e tecnologia arcana. Seus corpos possuem carapaças, estruturas quitinosas e componentes orgânicos modificados, permitindo que desenvolvam armas naturais e aprimoramentos corporais.\n\nCada Inamon possui uma configuração própria, podendo adaptar seu corpo para combate, exploração, mobilidade ou defesa. Apesar de sua origem artificial, são seres conscientes, capazes de desenvolver personalidade, vontade e identidade próprias.",
+  "type": "Construto",
+  "size": "Médio",
+  "speed": "30 pés",
+  "age": "...",
+  "traits_title": "Artifício Consciênte",
+  "traits": [
+    {
+      "name": "Visão no Escuro",
+      "description": "Adaptados às profundezas de Tenebris, você possui Visão no Escuro com alcance de 60 pés."
+    },
+    {
+      "name": "Disfarce Abissal",
+      "description": "Sua carapaça e estrutura corporal podem se reorganizar para reproduzir a aparência de outras espécies de Tenebris. Você pode usar os efeitos da magia Disfarçar-se (Disguise Self) para assumir a aparência de outra raça nativa de Tenebris que conheça, alterando características como rosto, pele, carapaça, membros, olhos e demais traços físicos.\n\nVocê pode usar essa característica um número de vezes igual ao seu bônus de proficiência e recupera seus usos com um Descanso Curto."
+    },
+    {
+      "name": "Arma Natural Integrada",
+      "description": "Todos os Inamons possuem uma arma natural incorporada ao próprio corpo, desenvolvida a partir de suas estruturas orgânicas e mecânicas. Durante a criação do personagem, escolha uma arma com a qual seja proficiente. Essa arma passa a fazer parte do seu corpo e pode assumir diferentes formas, como:\n\nBraço de Lâmina: uma espada integrada ao antebraço.\nLançador de Espinhos: uma estrutura que dispara projéteis semelhantes a uma besta.\nGarras Retráteis: lâminas quitinosas que emergem dos dedos.\nCanhão Orgânico: uma arma de disparo integrada ao braço.\nArmas de Impacto: membros reforçados para golpes contundentes.\n\nA arma escolhida utiliza as estatísticas de uma arma oficial de D&D compatível com sua forma, incluindo dano, propriedades, alcance e tipo de dano. Ela é considerada uma arma natural e não pode ser desarmada. Você pode manifestar ou recolher sua arma integrada como uma Ação Bônus. Ela não pode ser substituída por outra arma durante um combate."
+    },
+    {
+      "name": "Sobrecarga da Essência",
+      "description": "Todo Inamon possui um núcleo que armazena energia da Essência, permitindo realizar um ataque devastador em situações extremas.\n\nComo uma Ação, você pode liberar essa energia em um disparo concentrado, formando um poderoso canhão de energia caótica.\n\nEscolha um ponto que possa ver a até 18 metros. Uma explosão ocorre em um raio de 3 metros ao redor desse ponto. Todas as criaturas na área devem realizar uma Salvaguarda de Destreza, com CD igual a 8 + seu Bônus de Proficiência + seu modificador de Constituição.\n\nEm uma falha, a criatura sofre 2d10 de dano de Energia. Em um sucesso, sofre metade do dano.\n\nIndependentemente do resultado, após utilizar a Sobrecarga da Essência, você não poderá utilizá-la novamente até terminar um Descanso Longo."
+    },
+    {
+      "name": "Aprimoramentos Inamônicos",
+      "description": "Os Inamons podem modificar sua estrutura corporal para adquirir diferentes capacidades. No 1º nível, escolha um dos aprimoramentos abaixo. Ao atingir o 7º nível, você pode escolher um segundo aprimoramento.\n\nCada aprimoramento pode ser substituído por outro ao terminar um Descanso Longo. Você pode reorganizar seus aprimoramentos durante esse descanso, respeitando o número de aprimoramentos disponíveis pelo seu nível.\n\nAsas Abissais: Você desenvolve asas quitinosas ou membranosas, capazes de sustentar seu corpo durante o voo. Você recebe Deslocamento de Voo de 9 metros.\n\nPernas Aprimoradas: Suas pernas são reforçadas com estruturas musculares e mecânicas, permitindo deslocamentos rápidos e explosivos. Seu Deslocamento terrestre aumenta em 3 metros, passando a ser de 12 metros.\n\nCarapaça Reforçada: Sua carapaça recebe placas adicionais de quitina, reforçadas por componentes arcanos e estruturas resistentes. Enquanto não estiver utilizando armadura, sua Classe de Armadura é 16. A partir do 11º nível, sua Classe de Armadura aumenta para 18. Você pode utilizar escudos normalmente, recebendo seus benefícios, desde que tenha um membro livre e compatível para empunhá-los.\n\nQuatro Braços: Seu corpo desenvolve um segundo par de braços, permitindo manipular objetos e equipamentos simultaneamente. Você pode utilizar seus braços adicionais para manipular objetos, interagir com o ambiente, abrir portas, carregar itens e realizar outras tarefas que normalmente exigiriam uma mão livre. Esses braços não concedem ataques adicionais, não permitem realizar mais ações ou Ataques de Oportunidade e não possibilitam empunhar armas ou escudos extras para obter benefícios adicionais. Além disso, você recebe Deslocamento de Escalada de 9 metros e pode escalar superfícies difíceis sem precisar realizar testes de atributo, desde que tenha os membros disponíveis para se apoiar."
+    }
+  ],
+  "tags": ["Tenebriana"]
+},
+{
+  "name_pt": "Lilins",
+  "book": "WEIRS - Homebrew",
+  "img": [],
+  "description_title": "Os Filhos de Lilith",
+  "description": "Lilith foi aprisionada pelos deuses no Limbo, mas seu poder psíquico era tamanho que sua influência conseguiu espalhar-se pelo plano inferior desenvolvendo seus filhos a partir da mente vazia dos abissais. Os Lilins surgiram adquirindo características ofídicas e adorando sua mãe Lilith. Os Lilins vivem nas regiões mais periféricas de Tenebris, vistos como aberrações antinaturais, os únicos que não possuem um ancestral primordial. São geralmente muito fieis à Lilith e vivem na missão de libertar sua mãe. Roubaram os segrdos rúnicos Archais e aprenderam a realizar pactos com seres do plano material para concretizar seus planos de libertar Lilith e assim, nas sombras, vão ganhando cada vez mais influência e poder.",
+  "type": "Humanoide",
+  "size": "Médio",
+  "speed": "40 pés",
+  "age": "Você atinge maioridade aos 15 anos e vive em média 100 a 200 anos.",
+  "traits_title": "Herança Humana",
+  "traits": [
+    {
+      "name": "Visão no Escuro",
+      "description": "Você tem visão no escuro 60 pés."
+    },
+    {
+      "name": "Resistência à Magia",
+      "description": "Você tem vantagem em testes de resistência contra os efeitos que lhe causem encantamento, surdez ou cegueira, e tem vantagem em testes para decifrar ilusões."
+    },
+    {
+      "name": "Imunidade à Veneno",
+      "description": "Você é imune a dano de veneno e à condição envenenado."
+    },
+    {
+      "name": "Conjuração Inata",
+      "description": "Conhece o truque Rajada de Veneno. Pode conjurar Amizade Animal ilimitadamente (apenas em serpentes).\n\nA partir do 3º nível, pode conjurar Sugestão uma vez a cada descanso. O atributo de conjuração é Carisma."
+    }
+  ],
+  "tags": ["Tenebriana"]
+},
+{
+  "name_pt": "Zebulins",
+  "book": "WEIRS - Homebrew",
+  "img": [],
+  "description_title": "Os Filhos de Beelzebub",
+  "description": "Mais conhecidos como carniceiros de Tenebris, os Zebulins são uma raça que apesar de não se envolverem muito em conflitos, estão sempre por perto para se alimentar dos restos pútridos daqueles que perecem nos campos de batalha. Geralmente habitam regiões inóspitas do plano, onde há poucas chances de outras criaturas sobreviverem, mas por onde se é necessário passar. Lá é um ótimo lugar para se encontrar carniça. As sociedades dos Zebulins se organizam em grandes ninhos onde são depositados os ovos. Ele geralmente andam em bando, lutam e caçam assim também, já que dependem quase que exclusivamente dos próprios corpos para sobreviver. Nascidos a partir dos restos de Beelzebub, veneram o primordial acreditando no seu retorno algum dia.",
+  "type": "Humanoide",
+  "size": "Médio ou Pequeno, escolhido no momento da criação.",
+  "speed": "30 pés",
+  "age": "Atingem a maioridade aos 10 anos e podem viver até os 150 anos.",
+  "traits_title": "Decompositores Pútridos",
+  "traits": [
+    {
+      "name": "Resistência Pútrida",
+      "description": "Você tem resistência à dano Ácido."
+    },
+    {
+      "name": "Olhos Compostos",
+      "description": "Você tem proficiência em Percepção. Além disso, você não sofre desvantagem em testes de Sabedoria (Percepção) feitos para enxergar criaturas ou objetos que estejam a até 30 pés de você."
+    },
+    {
+      "name": "Reflexos de Mosca",
+      "description": "Uma vez por descanso longo, se uma criatura que você possa ver realizar um ataque contra você, você pode usar sua Reação para impor desvantagem nesse ataque."
+    },
+    {
+      "name": "Asas Incompletas",
+      "description": "Você possui asas membranosas que permitem controlar sua queda. Quando você cair, pode usar sua Reação para reduzir o dano da queda em uma quantidade igual a 5 × seu nível."
+    },
+    {
+      "name": "Vôo Rasante (5° Nível)",
+      "description": "Você desenvolve asas suficientemente fortes para voar. Você possui Deslocamento de Voo de 30 pés. Se terminar seu turno no ar sem estar apoiado em uma superfície, você cai."
+    },
+    {
+      "name": "Carniça do Abismo",
+      "description": "Você possui vantagem em testes de resistência contra doenças e pode consumir alimentos estragados ou contaminados sem sofrer efeitos negativos."
+    }
+  ],
+  "tags": ["Tenebriana"]
+}
+
+]
