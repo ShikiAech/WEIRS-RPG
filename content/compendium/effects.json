@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "entries": [
+    {
+      "name": "Carapaça Óssea",
+      "parent": "Cranoris",
+      "key": "carapaca",
+      "type": "ca_formula",
+      "stacking": "alternativa",
+      "formula": {
+        "op": "add",
+        "args": [
+          { "op": "constant", "value": 13 },
+          { "op": "ability_modifier", "ability": "con" }
+        ]
+      },
+      "defenses": [{ "damageType": null, "unarmored": true, "permitsShield": true }],
+      "condition": "Sem armadura. Com armadura, aplicar manualmente a desvantagem descrita no traço."
+    },
+    {
+      "originalName": "Tough",
+      "key": "robusto",
+      "type": "pv_por_nivel",
+      "formula": { "op": "constant", "value": 2 }
+    },
+    {
+      "originalName": "Alert",
+      "key": "alerta",
+      "type": "iniciativa_bonus",
+      "formula": { "op": "proficiency" }
+    }
+  ]
+}

@@ -98,6 +98,7 @@ export interface SizeDefinition {
 }
 export interface ProficiencyDefinition {
   id: string;
+  ownerRevisionId: string;
   type: 'pericia' | 'salvaguarda' | 'equipamento' | 'categoria' | 'idioma';
   skill?: string;
   ability?: Ability;
@@ -177,6 +178,7 @@ export interface SpellDefinition {
 }
 export interface EquipmentDefinition {
   category: string;
+  variantOf?: CompendiumRef;
   weight: number | null;
   weightUnit: 'kg' | 'lb';
   cost: number | null;
@@ -216,6 +218,7 @@ export interface CreatureDefinition {
   creatureType: string;
   size: string;
   armorClass: number | null;
+  armorClassText: string;
   hitPointFormula: string | null;
   abilities: Partial<Record<Ability, number>>;
   challenge: string | null;
@@ -288,6 +291,9 @@ export interface ChoiceGroupDefinition {
   name: string;
   minimum: number;
   maximum: number;
+  acquisition: 'inicial' | 'multiclasse' | 'ambas';
+  abilityPoints: number | null;
+  abilityLimit: number | null;
   optionKind: CompendiumKind | null;
   featCategory: string | null;
   requirementId: string | null;

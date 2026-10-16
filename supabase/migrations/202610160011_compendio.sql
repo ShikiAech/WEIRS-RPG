@@ -193,13 +193,14 @@ BEGIN
    chave text NOT NULL$def$),
  ('compendio_equipamentos','equipamento',true,$def$
    categoria_codigo text NOT NULL REFERENCES public.compendio_categorias_equipamento(codigo),
+   variante_de_revisao_id uuid REFERENCES public.compendio_equipamentos(revisao_id),
    peso numeric(12,4) CHECK(peso>=0),unidade_peso text NOT NULL DEFAULT 'kg' CHECK(unidade_peso IN ('kg','lb')),
    custo numeric(14,4) CHECK(custo>=0),moeda_revisao_id uuid REFERENCES public.compendio_moedas(revisao_id),
    requer_sintonia boolean NOT NULL DEFAULT false$def$),
  ('compendio_armas','equipamento',false,$def$
    alcance_tipo text NOT NULL CHECK(alcance_tipo IN ('corpo-a-corpo','distancia')),
-   alcance_normal_pes integer CHECK(alcance_normal_pes>=0),
-   alcance_longo_pes integer CHECK(alcance_longo_pes>=alcance_normal_pes),
+   alcance_normal_pes numeric(10,3) CHECK(alcance_normal_pes>=0),
+   alcance_longo_pes numeric(10,3) CHECK(alcance_longo_pes>=alcance_normal_pes),
    maestria_revisao_id uuid REFERENCES public.compendio_maestrias(revisao_id),
    critico_minimo integer NOT NULL DEFAULT 20 CHECK(critico_minimo BETWEEN 1 AND 20),
    FOREIGN KEY(revisao_id) REFERENCES public.compendio_equipamentos(revisao_id)$def$),
@@ -338,6 +339,10 @@ BEGIN
  ('compendio_grupos_escolha','classe,subclasse,especie,linhagem,antecedente,talento,caracteristica,pacote',false,$def$
    chave text NOT NULL,nome_pt text NOT NULL,minimo integer NOT NULL DEFAULT 1 CHECK(minimo>=0),
    maximo integer NOT NULL DEFAULT 1 CHECK(maximo>=minimo AND maximo<=100),
+   aquisicao text NOT NULL DEFAULT 'ambas' CHECK(aquisicao IN ('inicial','multiclasse','ambas')),
+   pontos_atributo integer CHECK(pontos_atributo BETWEEN 1 AND 6),
+   limite_atributo integer CHECK(limite_atributo BETWEEN 1 AND 30),
+   CHECK((pontos_atributo IS NULL)=(limite_atributo IS NULL)),
    tipo_opcao text,categoria_talento_codigo text REFERENCES public.compendio_categorias_talento(codigo),
    requisito_id uuid,
    FOREIGN KEY(requisito_id,revisao_id) REFERENCES public.compendio_requisitos(id,revisao_id),
@@ -434,7 +439,7 @@ BEGIN
  ('compendio_criaturas','criatura',true,$def$
    tipo_criatura_codigo text NOT NULL REFERENCES public.compendio_tipos_criatura(codigo),
    tamanho_codigo text NOT NULL REFERENCES public.compendio_tamanhos(codigo),
-   ca integer CHECK(ca>=0),pv_formula text,forca integer,destreza integer,constituicao integer,
+   ca integer CHECK(ca>=0),ca_formula_pt text NOT NULL DEFAULT '',pv_formula text,forca integer,destreza integer,constituicao integer,
    inteligencia integer,sabedoria integer,carisma integer,desafio text$def$),
  ('compendio_criatura_acoes','criatura',false,$def$
    nome_pt text NOT NULL,tipo text NOT NULL CHECK(tipo IN ('acao','bonus','reacao','traco','lendaria')),
@@ -452,11 +457,16 @@ BEGIN
  ('compendio_servicos','servico',true,$def$
    custo numeric NOT NULL CHECK(custo>=0),moeda_revisao_id uuid NOT NULL REFERENCES public.compendio_moedas(revisao_id),
    unidade_cobranca text NOT NULL$def$),
+ ('compendio_progressao_celulas','classe,subclasse,caracteristica',false,$def$
+   tabela integer NOT NULL CHECK(tabela>=0),linha integer NOT NULL CHECK(linha>0),
+   coluna integer NOT NULL CHECK(coluna>=0),cabecalho_pt text NOT NULL,valor_pt text NOT NULL,
+   UNIQUE(revisao_id,tabela,linha,coluna)$def$),
  ('compendio_aliases','classe,subclasse,especie,linhagem,antecedente,talento,caracteristica,magia,equipamento,idioma,criatura,pacote,maestria,propriedade_arma,servico,moeda',false,$def$
    nome text NOT NULL CHECK(length(btrim(nome)) BETWEEN 1 AND 240),
    idioma text NOT NULL DEFAULT 'pt-BR',UNIQUE(revisao_id,nome)$def$),
  ('compendio_referencias_legadas','classe,subclasse,especie,linhagem,antecedente,talento,caracteristica,magia,equipamento,idioma,criatura,pacote,maestria,propriedade_arma,servico,moeda',false,$def$
-   legado_id uuid NOT NULL UNIQUE,caminho text NOT NULL DEFAULT '',ancora text NOT NULL DEFAULT ''$def$)
+   legado_id uuid NOT NULL,caminho text NOT NULL DEFAULT '',ancora text NOT NULL DEFAULT '',
+   UNIQUE(revisao_id,legado_id)$def$)
  ) AS dados(nome,tipos,principal,definicao) LOOP
    -- Subtipos têm o mesmo PK da entidade de domínio; relações têm sua identidade.
    IF d.principal OR d.nome IN ('compendio_armas','compendio_armaduras','compendio_escudos',
@@ -475,7 +485,7 @@ END $dominios$;
 
 CREATE FUNCTION private.proteger_dominio_compendio() RETURNS trigger
 LANGUAGE plpgsql SECURITY DEFINER SET search_path='' AS $$
-DECLARE p uuid; estado text; tipo text; destino text;
+DECLARE p uuid; estado text; tipo text; destino text; conceito uuid;
 BEGIN
   IF TG_OP='DELETE' THEN p:=OLD.revisao_id; ELSE p:=NEW.revisao_id; END IF;
   IF TG_OP='UPDATE' AND NEW.revisao_id<>OLD.revisao_id THEN
@@ -488,6 +498,15 @@ BEGIN
   END IF;
   IF tipo IS NULL OR NOT(tipo=ANY(string_to_array(TG_ARGV[0],','))) THEN
     RAISE EXCEPTION 'Entidade incompatível com o registro.' USING ERRCODE='WC001';
+  END IF;
+  IF TG_TABLE_NAME='compendio_referencias_legadas' AND TG_OP<>'DELETE' THEN
+    SELECT registro_id INTO conceito FROM public.compendio_revisoes WHERE id=p;
+    PERFORM pg_advisory_xact_lock(hashtextextended(NEW.legado_id::text,0));
+    IF EXISTS(SELECT 1 FROM public.compendio_referencias_legadas l
+      JOIN public.compendio_revisoes r ON r.id=l.revisao_id
+      WHERE l.legado_id=NEW.legado_id AND r.registro_id<>conceito) THEN
+      RAISE EXCEPTION 'ID legado pertence a outro conceito.' USING ERRCODE='WC001';
+    END IF;
   END IF;
   IF TG_TABLE_NAME='compendio_concessoes' AND TG_OP<>'DELETE' THEN
     IF NEW.alvo_revisao_id IS NOT NULL THEN
@@ -554,7 +573,7 @@ BEGIN
     END IF;
   END IF;
   -- Verifica todos os destinos de revisão das entidades, não somente os nomes.
-  FOR d IN SELECT nome FROM private.compendio_dominios LOOP
+  FOR d IN SELECT nome FROM private.compendio_dominios WHERE tipo=ANY(string_to_array(tipos,',')) LOOP
     FOR a IN SELECT attname FROM pg_catalog.pg_attribute
       WHERE attrelid=format('public.%I',d.nome)::regclass AND attnum>0 AND NOT attisdropped
       AND attname LIKE '%\_revisao\_id' ESCAPE '\' LOOP

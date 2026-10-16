@@ -252,6 +252,39 @@ test('compêndio protege publicação, relações, revisões e autoridade global
         );
       },
     );
+    await t.test('ID legado permanece na mesma identidade ao publicar nova revisão', async () => {
+      const one = await f.species('Revisão legado'),
+        legacy = crypto.randomUUID();
+      await db.query(
+        'INSERT INTO compendio_referencias_legadas(revisao_id,legado_id) VALUES($1,$2)',
+        [one.revisionId, legacy],
+      );
+      await f.publish(one.revisionId);
+      const next = crypto.randomUUID();
+      await db.query(
+        `INSERT INTO compendio_revisoes(id,registro_id,numero,conjunto_regras_codigo,fonte_id,nome_pt)
+        VALUES($1,$2,2,'dnd-5e-2024',$3,'Revisão seguinte')`,
+        [next, one.recordId, f.sourceId],
+      );
+      await db.query('INSERT INTO compendio_especies(revisao_id) VALUES($1)', [next]);
+      await db.query(
+        "INSERT INTO compendio_deslocamentos(revisao_id,modo,distancia,unidade) VALUES($1,'terrestre',9,'metros')",
+        [next],
+      );
+      await db.query(
+        'INSERT INTO compendio_referencias_legadas(revisao_id,legado_id) VALUES($1,$2)',
+        [next, legacy],
+      );
+      await f.publish(next);
+      const other = await f.species('Outra identidade');
+      await assert.rejects(
+        db.query('INSERT INTO compendio_referencias_legadas(revisao_id,legado_id) VALUES($1,$2)', [
+          other.revisionId,
+          legacy,
+        ]),
+        { code: 'WC001' },
+      );
+    });
   } finally {
     await db.close();
   }

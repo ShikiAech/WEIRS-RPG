@@ -151,9 +151,10 @@ export async function readLegacySources(root: string, commit = ''): Promise<Impo
       $ = load(raw);
     const parent = source.records.find((r) => r.kind === 'classe')!;
     const panes = new Map<object, string>();
+    const featureElements = new Map<object, string>();
     const section = (
       element: Parameters<typeof $>[0],
-      kind: 'subclasse' | 'caracteristica',
+      kind: 'subclasse' | 'caracteristica' | 'criatura',
       key: string,
       name: string,
       parentKey: string,
@@ -218,18 +219,34 @@ export async function readLegacySources(root: string, commit = ''): Promise<Impo
       const level = match ? Number(match[1]) : undefined,
         name = match?.[2] ?? header;
       const pane = $(element).closest('.tab-pane')[0];
-      const parentKey = (pane && panes.get(pane)) ?? parent.key;
-      source.records.push(
-        section(
-          element,
-          'caracteristica',
-          parentKey + ':feature:' + (level ?? 'opcao') + ':' + normalizeName(name),
-          name,
-          parentKey,
-          '.recurso-card/' + i,
-          level,
-        ),
+      const statBlock =
+        !match &&
+        $(element)
+          .find('table th')
+          .map((_, cell) => clean($(cell).text()))
+          .get()
+          .join(',')
+          .includes('FOR,DES,CON,INT,SAB,CAR');
+      const outer = $(element).parents('.recurso-card').first()[0];
+      const parentKey =
+        (statBlock && outer && featureElements.get(outer)) ||
+        (pane && panes.get(pane)) ||
+        parent.key;
+      const record = section(
+        element,
+        statBlock ? 'criatura' : 'caracteristica',
+        parentKey +
+          (statBlock ? ':creature:' : ':feature:') +
+          (level ?? 'opcao') +
+          ':' +
+          normalizeName(name),
+        name,
+        parentKey,
+        '.recurso-card/' + i,
+        level,
       );
+      featureElements.set(element, record.key);
+      source.records.push(record);
     });
   }
   const datasets = [
@@ -269,8 +286,11 @@ export async function readLegacySources(root: string, commit = ''): Promise<Impo
             : typeof item.descricao === 'string'
               ? item.descricao
               : '';
+        const itemKey = unique(
+          kind + ':legacy:' + file + ':' + group + ':' + normalizeName(item.nome),
+        );
         source.records.push({
-          key: unique(kind + ':legacy:' + file + ':' + group + ':' + normalizeName(item.nome)),
+          key: itemKey,
           kind,
           name: item.nome,
           originalName: item.nome,
@@ -282,6 +302,39 @@ export async function readLegacySources(root: string, commit = ''): Promise<Impo
           anchor: '',
           payload: { type: 'equipment', category: category + ':' + group, input: item },
         });
+        if (category === 'ferramenta' && typeof item.variantes === 'string') {
+          for (const [variantIndex, match] of [
+            ...item.variantes.matchAll(/([^,(]+?)\s*\(([^)]+)\)(?:,\s*|$)/g),
+          ].entries()) {
+            const variantName = match[1].trim(),
+              values = match[2].split(/,\s+(?=\d)/);
+            const subtype = item.nome === 'Instrumento Musical' ? 'instrumento' : 'jogo';
+            source.records.push({
+              key: itemKey + ':variant:' + normalizeName(variantName),
+              parentKey: itemKey,
+              kind: 'equipamento',
+              name: variantName,
+              originalName: variantName,
+              description: '',
+              descriptionHtml: '',
+              book: 'Acervo Weirs — equipamentos',
+              publisher: 'WEIRS',
+              pointer: variableName + '/' + group + '/' + i + '/variantes/' + variantIndex,
+              anchor: '',
+              payload: {
+                type: 'equipment',
+                category: 'ferramenta:' + subtype,
+                input: {
+                  ...item,
+                  nome: variantName,
+                  custo: values[0],
+                  peso: values[1] ?? null,
+                  variantes: null,
+                },
+              },
+            });
+          }
+        }
       });
     }
   }

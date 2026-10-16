@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "source": "pages/magias.html#data-classes",
+  "description": "Vínculos extraídos do atributo data-classes de cada magia; a edição do acervo legado permanece pendente de revisão individual.",
+  "classAliases": {
+    "artificer": "artifice",
+    "artífice": "artifice",
+    "bárbaro": "barbaro",
+    "clérigo": "clerigo",
+    "druida": "druida",
+    "feiticeiro": "feiticeiro",
+    "guerreiro": "guerreiro",
+    "ladino": "ladino",
+    "mago": "mago",
+    "paladino": "paladino",
+    "patrulheiro": "patrulheiro",
+    "ranger": "patrulheiro",
+    "bardo": "bardo",
+    "bruxo": "bruxo"
+  }
+}

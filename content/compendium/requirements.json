@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "abilityNames": {
+    "Força": "for",
+    "Destreza": "des",
+    "Constituição": "con",
+    "Inteligência": "int",
+    "Sabedoria": "sab",
+    "Carisma": "car"
+  },
+  "skillAliases": {
+    "Lidar com Animais": "adestrarAnimais",
+    "Adestrar Animais": "adestrarAnimais",
+    "Arcanos": "arcanismo",
+    "Arcanismo": "arcanismo",
+    "Acrobacia": "acrobacia",
+    "Atletismo": "atletismo",
+    "Atuação": "atuacao",
+    "Enganação": "enganacao",
+    "Furtividade": "furtividade",
+    "História": "historia",
+    "Intimidação": "intimidacao",
+    "Intuição": "intuicao",
+    "Investigação": "investigacao",
+    "Medicina": "medicina",
+    "Natureza": "natureza",
+    "Percepção": "percepcao",
+    "Persuasão": "persuasao",
+    "Prestidigitação": "prestidigitacao",
+    "Religião": "religiao",
+    "Sobrevivência": "sobrevivencia"
+  }
+}
