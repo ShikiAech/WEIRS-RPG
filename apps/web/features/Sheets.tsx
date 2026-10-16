@@ -7,13 +7,13 @@ import type {
   CampaignRecord,
   CampaignMembership,
 } from '../../../packages/contracts/sheets';
-import type { ContentSummary } from '../../../packages/contracts/content';
+import type { CompendiumSummary, CompendiumKind } from '../../../packages/contracts/compendium';
 import { criarConteudo, validarFicha, UUID } from '../../../packages/sheets/modelo.js';
 import { supabase } from '../lib/supabase';
 import { createRepository } from '../lib/repository';
 import { publicError, SheetError } from '../lib/errors';
 import { markEdited, acknowledgeSave } from '../lib/editor-state';
-import { asset } from '../lib/paths';
+import { compendiumSource } from '../lib/compendium-source';
 import { SheetForm } from './sheets/SheetForm';
 import { CampaignCopy } from './sheets/CampaignCopy';
 import { readSheetFile } from '../lib/sheet-file';
@@ -190,7 +190,9 @@ function SheetEditor({
   const [campaigns, setCampaigns] = useState<CampaignRecord[]>([]);
   const [memberships, setMemberships] = useState<CampaignMembership[]>([]);
   const [admin, setAdmin] = useState(false);
-  const [catalog, setCatalog] = useState<ContentSummary[]>([]);
+  const { repository: compendium, demo: demoCatalog } = compendiumSource(temporary);
+  const [catalog, setCatalog] = useState<CompendiumSummary[]>([]);
+  const [catalogError, setCatalogError] = useState('');
   const [loading, setLoading] = useState(!temporary);
   const [loadRetry, setLoadRetry] = useState(0);
   const [saving, setSaving] = useState(false);
@@ -236,12 +238,17 @@ function SheetEditor({
     );
   useEffect(() => {
     const controller = new AbortController();
-    fetch(asset('content/generated/index.json'), { signal: controller.signal })
-      .then((r) => r.json())
-      .then(setCatalog)
-      .catch(() => {});
+    Promise.all((['classe','especie','antecedente','talento'] as CompendiumKind[]).map(async kind => {
+      const entries: CompendiumSummary[] = []; let cursor: string | undefined;
+      do {
+        const page = await compendium.list({ruleSetId:'dnd-5e-2024',kind,limit:100,cursor},controller.signal);
+        entries.push(...page.entries); cursor = page.nextCursor ?? undefined;
+      } while (cursor);
+      return entries;
+    })).then(lists => { if (!controller.signal.aborted) setCatalog(lists.flat()); })
+      .catch(() => { if (!controller.signal.aborted) setCatalogError('As sugestões do compêndio não estão disponíveis. Os campos manuais continuam disponíveis.'); });
     return () => controller.abort();
-  }, []);
+  }, [compendium]);
   useEffect(() => {
     if (temporary || !repository) return;
     let active = true;
@@ -677,11 +684,14 @@ function SheetEditor({
             disabled={dirty || saving || !!pdfReading || !!error}
           />
         )}
+        {demoCatalog && <p className="notice">Catálogo de demonstração nas sugestões e na busca de magias.</p>}
+        {catalogError && <p className="notice" role="status">{catalogError}</p>}
         <SheetChat record={record} disabled={dirty || saving || !canEdit || Boolean(error)}>
           <SheetForm
             content={draft.content}
             onChange={(content) => edit({ ...draft, content })}
             catalog={catalog}
+            compendium={compendium}
             readOnly={!canEdit || !!pdfReading}
             errors={error?.fields || []}
           />

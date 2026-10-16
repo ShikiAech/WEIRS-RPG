@@ -15,6 +15,7 @@ import type {
 } from '../../packages/contracts/compendium';
 import { normalizeName, stableId, revisionId, hash, canonical, conceptId } from './identity';
 import { plainHtml } from './legacy';
+import { linkRequirements } from './requirements';
 import type { CatalogDraftRecord, ImportedCatalog, JsonObject } from './model';
 import type { CompendiumCuration, ResolvedCatalog, ResolvedEntry } from './resolved';
 export type { CompendiumCuration, ResolvedCatalog } from './resolved';
@@ -131,6 +132,10 @@ export function parsePrerequisites(
     return node.id;
   };
   const root = add('todos', null);
+  text = text.replace(
+    /(Força|Destreza|Constituição|Inteligência|Sabedoria|Carisma),\s*(?=Força|Destreza|Constituição|Inteligência|Sabedoria|Carisma)/gi,
+    '$1 ou ',
+  );
   for (const part of text
     .split(/[,;]/)
     .map((s) => s.trim())
@@ -228,11 +233,11 @@ export function resolveCatalog(
       path: r.sourcePath,
       pointer: r.pointer,
       message,
-      revisionId: byKey.get(r.key)?.ref.revisionId ?? r.revisionId,
+      revisionId: byKey.get(r.key)?.ref.revisionId ?? version(r),
     });
   // Curation is part of a revision: a changed formula or alias cannot silently alter a pinned sheet.
   const version = (r: CatalogDraftRecord) =>
-    revisionId(r.id, { sourceRevision: r.revisionId, curation, resolverVersion: 1 });
+    revisionId(r.id, { sourceRevision: r.revisionId, curation, resolverVersion: 2 });
   const create = <K extends CompendiumKind>(
     r: CatalogDraftRecord,
     data: CompendiumPayloadMap[K],
@@ -347,6 +352,15 @@ export function resolveCatalog(
     else if (r.kind === 'talento')
       create<'talento'>(r, {
         category: featCategory(p.type === 'feat' ? p.input.type : (meta.tipo ?? 'Geral'), curation),
+        prerequisiteText:
+          p.type === 'feat'
+            ? (p.input.prerequisite ?? '')
+            : (load(r.descriptionHtml)('p')
+                .toArray()
+                .map((el) => plainHtml(load(el).html()))
+                .find((text) => /^Pr[ée]-requisitos?:/i.test(text))
+                ?.replace(/^Pr[ée]-requisitos?:\s*/i, '') ?? ''),
+        requirementsComplete: false,
         repeatable:
           /pode (?:selecionar|escolher|adquirir) (?:este|esse) talento mais de uma vez/i.test(
             r.description,
@@ -355,6 +369,16 @@ export function resolveCatalog(
     else if (r.kind === 'caracteristica')
       create<'caracteristica'>(r, {
         category: p.type === 'trait' ? 'traco' : 'classe',
+        ...(r.parentKey && raw.has(r.parentKey)
+          ? {
+              parentRef: {
+                recordId: raw.get(r.parentKey)!.id,
+                revisionId: version(raw.get(r.parentKey)!),
+              },
+            }
+          : {}),
+        level: r.level ?? (p.type === 'trait' ? 1 : null),
+        optional: p.type === 'section' && r.level === undefined,
         manualDecision: /escolh|escolh[ae]|à sua escolha/i.test(r.description),
       });
     else if (r.kind === 'magia') {
@@ -514,9 +538,13 @@ export function resolveCatalog(
     );
   }
   const money = (s: string) => {
-    const m = /([\d.,]+)\s*(PC|PP|PE|PO|PL)\b/i.exec(s);
+    const m = /([\d.,]+)\s*(PC|PP|PE|PO|PL|GP|SP|CP|EP)\b/i.exec(s);
+    const aliases: Record<string, string> = { GP: 'PO', SP: 'PP', CP: 'PC', EP: 'PE' };
     return m
-      ? { cost: number(m[1])!, currencyRef: ref(coins.get(m[2].toUpperCase())!) }
+      ? {
+          cost: number(m[1])!,
+          currencyRef: ref(coins.get(aliases[m[2].toUpperCase()] ?? m[2].toUpperCase())!),
+        }
       : { cost: null, currencyRef: null };
   };
   for (const r of input.records) {
@@ -731,9 +759,23 @@ export function resolveCatalog(
       });
     return id;
   };
-  const equipment = (r: CatalogDraftRecord, name: string) =>
-    find('equipamento', name) ??
-    synthetic(r, 'equipamento:fonte:' + normalizeName(name), 'equipamento', name, {
+  const equipment = (r: CatalogDraftRecord, name: string) => {
+    const exact = find('equipamento', name);
+    if (exact) return exact;
+    const variants = c.entries.filter(
+      (e) =>
+        e.kind === 'equipamento' &&
+        [
+          e.name + 's',
+          e.name.replace(/^\S+/, (word) => word + 's'),
+          e.name
+            .split(' ')
+            .map((word) => (['de', 'do', 'da', 'e'].includes(word) ? word : word + 's'))
+            .join(' '),
+        ].some((plural) => normalizeName(plural) === normalizeName(name)),
+    );
+    if (variants.length === 1) return variants[0];
+    return synthetic(r, 'equipamento:fonte:' + normalizeName(name), 'equipamento', name, {
       category: 'basico',
       weight: null,
       weightUnit: 'kg',
@@ -741,6 +783,7 @@ export function resolveCatalog(
       currencyRef: null,
       requiresAttunement: false,
     });
+  };
   const packageFor = (
     r: CatalogDraftRecord,
     owner: ResolvedEntry,
@@ -754,7 +797,7 @@ export function resolveCatalog(
     if (pkg.kind !== 'pacote') throw Error('Tipo de pacote inválido');
     for (const [i, text] of items.entries()) {
       const price = money(text);
-      if (/^\s*[\d.,]+\s*(PC|PP|PE|PO|PL)\s*$/i.test(text) && price.currencyRef) {
+      if (/^\s*[\d.,]+\s*(PC|PP|PE|PO|PL|GP|SP|CP|EP)\s*$/i.test(text) && price.currencyRef) {
         pkg.data.items.push({
           id: stableId(pkg.ref.revisionId + ':item:' + i),
           equipmentRef: null,
@@ -913,9 +956,20 @@ export function resolveCatalog(
       packageFor(r, owner, 'A', p.input.equipment.option_a);
       packageFor(r, owner, 'B', p.input.equipment.option_b);
     }
-    if (p.type === 'feat' && p.input.prerequisite) {
-      const parsed = parsePrerequisites(p.input.prerequisite, owner.ref.revisionId);
+    if (owner.kind === 'talento') {
+      const parsed = linkRequirements(
+        parsePrerequisites(
+          owner.data.prerequisiteText.replace(/[.;]\s*$/, ''),
+          owner.ref.revisionId,
+        ),
+        {
+          entries: c.entries,
+          find: (kind, name) => find(kind, name),
+          proficiency: (key, data) => proficiency(owner, key, data, 'ambas', false),
+        },
+      );
       c.requirements.push(...parsed.requirements);
+      owner.data.requirementsComplete = parsed.unsupported.length === 0;
       if (parsed.unsupported.length)
         issue(r, 'Pré-requisito exige revisão: ' + parsed.unsupported.join('; '));
     }
@@ -1086,13 +1140,17 @@ export function resolveCatalog(
         }
       } else issue(r, 'Quantidade de perícias iniciais exige revisão.');
       const equipmentText = l['equipamento-inicial'] ?? '';
-      const parts = [...equipmentText.matchAll(/\(([A-Z])\)\s*([\s\S]*?)(?=;\s*\([A-Z]\)|$)/g)];
+      const parts = [
+        ...equipmentText.matchAll(/\(([A-Z])\)\s*([\s\S]*?)(?=;\s*(?:ou\s*)?\([A-Z]\)|$)/g),
+      ];
       for (const part of parts)
         packageFor(
           r,
           owner,
           part[1],
-          part[2].replace(/[.;]\s*$/, '').split(/,\s*|\s+e\s+(?=\d+\s*(?:PO|PP|PC)\b)/),
+          part[2]
+            .replace(/[.;]\s*$/, '')
+            .split(/,\s*(?![^()]*\))|\s+e\s+(?=\d+\s*(?:PO|PP|PC|GP|SP|CP|EP)\b)/),
         );
       for (const ability of abilityCodes(l['testes-de-resistencia'] ?? l.salvaguardas ?? ''))
         proficiency(owner, 'save:' + ability, { type: 'salvaguarda', ability }, 'inicial');

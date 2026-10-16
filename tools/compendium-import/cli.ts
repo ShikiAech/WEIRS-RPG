@@ -1,4 +1,4 @@
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 import { readJsonSources } from './json';
@@ -6,6 +6,7 @@ import { readLegacySources } from './legacy';
 import { normalizeSources } from './normalize';
 import { loadCuration, resolveCatalog } from './resolve';
 import { coverageReport, generateSeed } from './sql';
+import { exportPublishedSnapshot } from './snapshot';
 
 const root = path.resolve(import.meta.dirname, '../..');
 const args = process.argv.slice(2);
@@ -47,6 +48,11 @@ console.log(
   ),
 );
 if (args.includes('--seed')) {
+  await mkdir(path.join(root, 'public/compendium'), { recursive: true });
+  await writeFile(
+    path.join(root, 'public/compendium/demo.json'),
+    JSON.stringify(exportPublishedSnapshot(resolved)) + '\n',
+  );
   await writeFile(path.join(root, 'supabase/compendium-seed.sql'), generateSeed(resolved));
   await writeFile(
     path.join(root, 'content/compendium/identities.json'),

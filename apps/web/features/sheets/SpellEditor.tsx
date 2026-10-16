@@ -1,7 +1,8 @@
 import { useId, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { SheetContent } from '../../../../packages/contracts/sheets';
-import type { ContentSummary } from '../../../../packages/contracts/content';
+import type { CompendiumSummary } from '../../../../packages/contracts/compendium';
+import type { CompendiumRepository } from '../../../../packages/contracts/character-creation';
 import { novaEntrada } from '../../../../packages/sheets/modelo.js';
 import { normalize } from '../../lib/paths';
 import { number } from './fields';
@@ -12,12 +13,14 @@ export function SpellEditor({
   content: c,
   onChange,
   catalog,
+  compendium,
   field,
   renderSpell,
 }: {
   content: SheetContent;
   onChange: (c: SheetContent) => void;
-  catalog: ContentSummary[];
+  catalog: CompendiumSummary[];
+  compendium: CompendiumRepository;
   field: RenderField;
   renderSpell: (i: number) => ReactNode;
 }) {
@@ -142,7 +145,6 @@ export function SpellEditor({
             <button
               type="button"
               className="button secondary"
-              disabled={!catalog.some((e) => e.kind === 'magia')}
               ref={pickerButton}
               onClick={() => setPicker(true)}
             >
@@ -162,11 +164,6 @@ export function SpellEditor({
             </button>
           </div>
         </div>
-        {!catalog.some((e) => e.kind === 'magia') && (
-          <p className="muted">
-            O compêndio ainda não está disponível. Você pode adicionar magias manualmente.
-          </p>
-        )}
         {c.magias.length > 0 && (
           <label className="field equipment-search">
             Buscar na ficha
@@ -222,7 +219,7 @@ export function SpellEditor({
       {picker && (
         <SpellPicker
           content={c}
-          catalog={catalog}
+          repository={compendium}
           onChange={onChange}
           onClose={() => {
             setPicker(false);

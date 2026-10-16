@@ -289,3 +289,35 @@ test('compêndio protege publicação, relações, revisões e autoridade global
     await db.close();
   }
 });
+
+test('talento só publica automação completa com pré-requisitos estruturados', async () => {
+  const f = await compendiumFixture();
+  try {
+    const row = await f.draft('talento', 'Talento com requisito');
+    await f.db.query(
+      "INSERT INTO compendio_talentos(revisao_id,categoria_codigo,pre_requisito_pt) VALUES($1,'geral','Nível 4+')",
+      [row.revisionId],
+    );
+    await f.db.query("UPDATE compendio_revisoes SET automacao='completa' WHERE id=$1", [
+      row.revisionId,
+    ]);
+    await assert.rejects(f.publish(row.revisionId), { code: 'WC001' });
+    await f.db.query(
+      'UPDATE compendio_talentos SET requisitos_completos=true WHERE revisao_id=$1',
+      [row.revisionId],
+    );
+    await assert.rejects(f.publish(row.revisionId), { code: 'WC001' });
+    await f.db.query(
+      "INSERT INTO compendio_requisitos(revisao_id,operador,minimo) VALUES($1,'nivel',4)",
+      [row.revisionId],
+    );
+    await f.publish(row.revisionId);
+    assert.equal(
+      (await f.anonymous('SELECT estado FROM compendio_revisoes WHERE id=$1', [row.revisionId]))[0]
+        .estado,
+      'publicado',
+    );
+  } finally {
+    await f.db.close();
+  }
+});

@@ -7,7 +7,8 @@ import {
 } from '../../../../packages/sheets/modelo.js';
 import { calcularFicha } from '../../../../packages/sheets/calculos.js';
 import type { SheetContent, SheetSpell } from '../../../../packages/contracts/sheets';
-import type { ContentSummary } from '../../../../packages/contracts/content';
+import type { CompendiumSummary } from '../../../../packages/contracts/compendium';
+import type { CompendiumRepository } from '../../../../packages/contracts/character-creation';
 import { identity, combat, story, training, lists, number, attributeOptions } from './fields';
 import type { FieldSpec, ListSpec } from './fields';
 import { SheetActionButtons } from './SheetChat';
@@ -36,12 +37,14 @@ export function SheetForm({
   content,
   onChange,
   catalog,
+  compendium,
   readOnly = false,
   errors = [],
 }: {
   content: SheetContent;
   onChange: (c: SheetContent) => void;
-  catalog: ContentSummary[];
+  catalog: CompendiumSummary[];
+  compendium: CompendiumRepository;
   readOnly?: boolean;
   errors?: { campo: string; mensagem: string }[];
 }) {
@@ -497,6 +500,7 @@ export function SheetForm({
               content={content}
               onChange={change}
               catalog={catalog}
+              compendium={compendium}
               field={field}
               renderSpell={(i) => repeated(lists.spells, i)}
             />

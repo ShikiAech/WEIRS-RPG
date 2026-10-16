@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 test('compêndio filtra acentos, abre texto completo e mantém páginas originais', async ({
   page,
 }, testInfo) => {
-  await page.goto('app.html#/compendio');
+  await page.goto('app.html#/compendio?demo=1');
   await page.getByLabel('Buscar no compêndio').fill('acalmar emocoes');
   await page.getByRole('button', { name: 'Acalmar Emoções', exact: true }).click();
   await expect(page.getByRole('dialog')).toContainText('hostil');

@@ -143,5 +143,6 @@ export interface CreationSnapshot {
 export interface CompendiumRepository {
   list(query: CompendiumQuery, signal?: AbortSignal): Promise<CompendiumPage>;
   get(ref: CompendiumRef, signal?: AbortSignal): Promise<CompendiumEntry>;
+  getContext(ref: CompendiumRef, signal?: AbortSignal): Promise<CreationCatalog>;
   getCreationCatalog(draft: CreationDraft, signal?: AbortSignal): Promise<CreationCatalog>;
 }

@@ -269,3 +269,133 @@ test('instrumentos e jogos possuem variantes próprias para escolhas de profici�
     'Instrumento Musical',
   );
 });
+
+test('pré-requisitos referenciam linhagem, treinamento, talento e característica', async () => {
+  const c = await resolved;
+  const stain = c.entries.find(
+    (e) =>
+      e.kind === 'talento' && e.name === 'Espírito Manchado' && e.sourcePath === 'data/feats.json',
+  )!;
+  const lineage = c.entries.find((e) => e.kind === 'linhagem' && e.name === 'Manchados')!;
+  assert.equal(stain.kind === 'talento' && stain.data.requirementsComplete, true);
+  assert.ok(
+    c.requirements.some(
+      (r) =>
+        r.ownerRevisionId === stain.ref.revisionId &&
+        r.operator === 'linhagem' &&
+        r.targetRef?.revisionId === lineage.ref.revisionId,
+    ),
+  );
+  const armor = c.origins.find(
+    (r) =>
+      r.payload.type === 'feat' &&
+      r.payload.input.prerequisite === 'Nível 4+, Treinamento com Armadura Média',
+  )!;
+  const armorEntry = c.entries.find((e) => e.key === armor.key)!;
+  const profReq = c.requirements.find(
+    (r) => r.ownerRevisionId === armorEntry.ref.revisionId && r.operator === 'proficiencia',
+  )!;
+  assert.equal(
+    c.proficiencies.find((p) => p.id === profReq?.proficiencyId)?.category,
+    'armadura-media',
+  );
+  const warSource = c.origins.find(
+    (r) =>
+      r.payload.type === 'feat' &&
+      r.payload.input.prerequisite === 'Nível 4+, Característica Conjuração ou Magia de Pacto',
+  )!;
+  const war = c.entries.find((e) => e.key === warSource.key)!;
+  assert.ok(
+    c.requirements.some(
+      (r) =>
+        r.ownerRevisionId === war.ref.revisionId && r.operator === 'caracteristica' && r.targetRef,
+    ),
+  );
+  const featSource = c.origins.find(
+    (r) =>
+      r.payload.type === 'feat' &&
+      r.payload.input.prerequisite === 'Nível 4+, Talento Iniciado em Magia (Magic Initiate)',
+  )!;
+  const feat = c.entries.find((e) => e.key === featSource.key)!;
+  const gated = c.entries.find(
+    (e) => e.kind === 'talento' && e.data.prerequisiteText.includes('Campanha de Eberron'),
+  )!;
+  assert.equal(gated.kind === 'talento' && gated.data.requirementsComplete, false);
+  assert.ok(
+    c.requirements.some(
+      (r) =>
+        r.ownerRevisionId === feat.ref.revisionId &&
+        r.operator === 'talento' &&
+        c.entries.find((e) => e.ref.revisionId === r.targetRef?.revisionId)?.originalName ===
+          'Magic Initiate',
+    ),
+  );
+});
+
+test('erro de origem aponta a revisão final para bloquear sua publicação', async () => {
+  const data = structuredClone(await imported);
+  const invalid = data.records.find((r) => r.payload.type === 'species')!;
+  if (invalid.payload.type !== 'species') return;
+  invalid.payload.input.speed = 'deslocamento a conferir';
+  const c = resolveCatalog(data, await loadCuration(root));
+  const entry = c.entries.find((e) => e.key === invalid.key)!;
+  assert.ok(
+    c.issues.some((i) => i.code === 'INVALID_SOURCE' && i.revisionId === entry.ref.revisionId),
+  );
+});
+
+test('kits separam alternativas com ou, moeda GP e itens plurais com quantidade', async () => {
+  const c = await resolved;
+  const pugilist = c.entries.find((e) => e.kind === 'classe' && e.name === 'Pugilista')!;
+  const options = c.equipmentOptions.filter((o) => o.ownerRevisionId === pugilist.ref.revisionId);
+  assert.equal(options.length, 2);
+  const gold = c.entries.find(
+    (e) => e.ref.revisionId === options.find((o) => o.key === 'B')!.packageRef.revisionId,
+  )!;
+  assert.ok(
+    gold.kind === 'pacote' && gold.data.items.some((i) => i.currencyRef && i.quantity === 50),
+  );
+  const criminal = c.entries.find(
+    (e) => e.kind === 'antecedente' && e.originalName === 'Criminal',
+  )!;
+  const kit = c.equipmentOptions.find(
+    (o) => o.ownerRevisionId === criminal.ref.revisionId && o.key === 'A',
+  )!;
+  const kitEntry = c.entries.find((e) => e.ref.revisionId === kit.packageRef.revisionId)!;
+  assert.ok(
+    kitEntry.kind === 'pacote' &&
+      kitEntry.data.items.some(
+        (i) =>
+          i.quantity === 2 &&
+          c.entries.find((e) => e.ref.revisionId === i.equipmentRef?.revisionId)?.name === 'Adaga',
+      ),
+  );
+  const mystic = c.entries.find((e) => e.kind === 'classe' && e.name === 'Artífice')!;
+  {
+    const golds = c.equipmentOptions
+      .filter((o) => o.ownerRevisionId === mystic.ref.revisionId)
+      .map((o) => c.entries.find((e) => e.ref.revisionId === o.packageRef.revisionId)!);
+    assert.ok(
+      golds.some(
+        (e) => e.kind === 'pacote' && e.data.items.some((i) => i.currencyRef && i.quantity === 150),
+      ),
+    );
+  }
+});
+
+test('características opcionais conservam a classe ou subclasse de origem', async () => {
+  const c = await resolved;
+  const source = c.origins.find(
+    (r) =>
+      r.kind === 'caracteristica' &&
+      r.payload.type === 'section' &&
+      r.level === undefined &&
+      r.parentKey,
+  )!;
+  const entry = c.entries.find((e) => e.key === source.key)!;
+  const parent = c.entries.find((e) => e.key === source.parentKey)!;
+  assert.ok(
+    entry.kind === 'caracteristica' && entry.data.parentRef?.revisionId === parent.ref.revisionId,
+  );
+  assert.equal(entry.kind === 'caracteristica' && entry.data.optional, true);
+});

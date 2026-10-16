@@ -2998,7 +2998,10 @@
     "antecedente:json:astarion-s-book-of-hungers:vampire-survivor:package:A": "20b52b00-f9cf-82ba-a1e3-32019a8015da",
     "equipamento:fonte:simbolo-sagrado-reliquario": "99c1b8d2-ed8b-8388-a19b-42cd27b659fc",
     "antecedente:json:astarion-s-book-of-hungers:vampire-survivor:package:B": "36e36fdb-2c53-81d0-aac5-c32974b1cc84",
-    "caracteristica:regra:conjuracao-multiclasse-2024": "252237c0-4a65-8750-a097-2aa0ba4ae88b"
+    "caracteristica:regra:conjuracao-multiclasse-2024": "252237c0-4a65-8750-a097-2aa0ba4ae88b",
+    "equipamento:fonte:pacote-de-explorador-de-masmorras": "1c25e632-e2cc-8166-ad72-8a8e61dc5370",
+    "classe:legacy:pages/classes/artificer.html:artifice:package:B": "bd0ba1d0-06ac-8d84-a88d-0e10f6ff31dc",
+    "classe:legacy:pages/classes/pugilista.html:pugilista:package:B": "3c61faa8-b95c-8c00-af60-5715a5ed5df1"
   },
   "aliases": {}
 }

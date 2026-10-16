@@ -1714,3 +1714,8 @@ dialog::backdrop {
     max-height: 45px;
   }
 }
+.compendium-facts { display:grid;grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));gap:1rem;border-block:1px solid var(--line);padding-block:1rem; }
+.compendium-facts dt { font-size:.8rem;color:var(--muted); }
+.compendium-facts dd { margin:.3rem 0 0;overflow-wrap:anywhere; }
+.compendium-description p { white-space:pre-line;overflow-wrap:anywhere; }
+.text-button { border:0;background:transparent;color:var(--accent);padding:0;text-align:left;text-decoration:underline;cursor:pointer; }

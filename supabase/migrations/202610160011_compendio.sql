@@ -271,10 +271,14 @@ BEGIN
    tipo text NOT NULL,distancia_pes numeric(10,3) CHECK(distancia_pes>=0),
    condicao_pt text NOT NULL DEFAULT ''$def$),
  ('compendio_caracteristicas','caracteristica',true,$def$
-   categoria text NOT NULL DEFAULT 'traco',decisao_manual boolean NOT NULL DEFAULT false$def$),
+   categoria text NOT NULL DEFAULT 'traco',decisao_manual boolean NOT NULL DEFAULT false,
+   origem_revisao_id uuid REFERENCES public.compendio_revisoes(id),
+   nivel integer CHECK(nivel BETWEEN 1 AND 20),opcional boolean NOT NULL DEFAULT false,
+   CHECK(origem_revisao_id IS DISTINCT FROM revisao_id)$def$),
  ('compendio_talentos','talento',true,$def$
    categoria_codigo text NOT NULL REFERENCES public.compendio_categorias_talento(codigo),
-   repetivel boolean NOT NULL DEFAULT false$def$),
+   repetivel boolean NOT NULL DEFAULT false,pre_requisito_pt text NOT NULL DEFAULT '',
+   requisitos_completos boolean NOT NULL DEFAULT false$def$),
  ('compendio_antecedentes','antecedente',true,$def$
    distribuicao_atributos text NOT NULL DEFAULT '2-1-ou-1-1-1'
      CHECK(distribuicao_atributos IN ('2-1-ou-1-1-1','personalizada','nenhuma')),
@@ -559,6 +563,13 @@ BEGIN
     (SELECT count(*) FROM public.compendio_classe_niveis WHERE revisao_id=p)<>20 THEN
     RAISE EXCEPTION 'Progressão da classe incompleta.' USING ERRCODE='WC001';
   END IF;
+  IF tipo='talento' AND r.automacao='completa' AND EXISTS(
+    SELECT 1 FROM public.compendio_talentos t WHERE t.revisao_id=p AND
+    (NOT t.requisitos_completos OR (length(btrim(t.pre_requisito_pt))>0 AND NOT EXISTS(
+      SELECT 1 FROM public.compendio_requisitos q WHERE q.revisao_id=p
+      AND q.operador NOT IN ('todos','qualquer'))))) THEN
+    RAISE EXCEPTION 'Requisitos do talento ainda não estruturados.' USING ERRCODE='WC001';
+  END IF;
   IF tipo='equipamento' THEN
     SELECT CASE categoria_codigo
       WHEN 'arma-simples' THEN 'compendio_armas' WHEN 'arma-marcial' THEN 'compendio_armas'
@@ -729,12 +740,110 @@ CREATE VIEW public.compendio_indice WITH(security_invoker=true) AS
  SELECT r.id AS revisao_id,r.registro_id,c.tipo,c.slug,r.nome_pt,r.nome_original,
    r.conjunto_regras_codigo,r.fonte_id,r.numero,r.revisado_2024,r.automacao,
    f.titulo AS fonte_titulo,f.origem,f.referencia_url,
-   m.circulo,m.escola,m.ritual,m.concentracao
+   m.circulo,m.escola,m.ritual,m.concentracao,
+   ARRAY(SELECT DISTINCT legado.legado_id FROM public.compendio_referencias_legadas legado
+     JOIN public.compendio_revisoes anterior ON anterior.id=legado.revisao_id
+     WHERE anterior.registro_id=r.registro_id AND anterior.estado='publicado') AS legados
  FROM public.compendio_revisoes r JOIN public.compendio_registros c
    ON c.id=r.registro_id AND c.revisao_atual_id=r.id
  JOIN public.compendio_fontes f ON f.id=r.fonte_id
  LEFT JOIN public.compendio_magias m ON m.revisao_id=r.id
  WHERE r.estado='publicado' AND c.ativo;
 GRANT SELECT ON public.compendio_indice TO anon,authenticated;
+
+CREATE FUNCTION public.buscar_compendio(p_conjunto text,p_tipo text DEFAULT NULL,
+  p_busca text DEFAULT NULL,p_fonte uuid DEFAULT NULL,p_classe uuid DEFAULT NULL,
+  p_pai uuid DEFAULT NULL,p_circulo integer DEFAULT NULL,p_apos_nome text DEFAULT NULL,
+  p_apos_registro uuid DEFAULT NULL,p_limite integer DEFAULT 25)
+RETURNS SETOF public.compendio_indice
+LANGUAGE sql STABLE SECURITY INVOKER SET search_path='' AS $$
+  SELECT i.* FROM public.compendio_indice i
+  WHERE i.conjunto_regras_codigo=p_conjunto AND (p_tipo IS NULL OR i.tipo=p_tipo)
+    AND (p_fonte IS NULL OR i.fonte_id=p_fonte)
+    AND (p_circulo IS NULL OR i.circulo=p_circulo)
+    AND (p_classe IS NULL OR EXISTS(SELECT 1 FROM public.compendio_magia_classes m
+      WHERE m.revisao_id=i.revisao_id AND m.classe_revisao_id=p_classe))
+    AND (p_pai IS NULL OR EXISTS(SELECT 1 FROM public.compendio_subclasses s
+      WHERE s.revisao_id=i.revisao_id AND s.classe_revisao_id=p_pai)
+      OR EXISTS(SELECT 1 FROM public.compendio_linhagens l
+        WHERE l.revisao_id=i.revisao_id AND l.especie_revisao_id=p_pai)
+      OR EXISTS(SELECT 1 FROM public.compendio_caracteristicas c
+        WHERE c.revisao_id=i.revisao_id AND c.origem_revisao_id=p_pai))
+    AND (coalesce(btrim(p_busca),'')='' OR
+      position(public.normalizar_busca_compendio(p_busca) IN
+        public.normalizar_busca_compendio(i.nome_pt||' '||i.nome_original))>0
+      OR EXISTS(SELECT 1 FROM public.compendio_aliases a WHERE a.revisao_id=i.revisao_id
+        AND position(public.normalizar_busca_compendio(p_busca) IN
+          public.normalizar_busca_compendio(a.nome))>0))
+    AND (p_apos_nome IS NULL OR
+      (public.normalizar_busca_compendio(i.nome_pt),i.registro_id)>
+      (public.normalizar_busca_compendio(p_apos_nome),p_apos_registro))
+  ORDER BY public.normalizar_busca_compendio(i.nome_pt),i.registro_id
+  LIMIT greatest(1,least(coalesce(p_limite,25),101))
+$$;
+REVOKE ALL ON FUNCTION public.buscar_compendio(text,text,text,uuid,uuid,uuid,integer,text,uuid,integer) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.buscar_compendio(text,text,text,uuid,uuid,uuid,integer,text,uuid,integer) TO anon,authenticated;
+
+-- O catálogo é público, mas a travessia nunca inclui uma revisão editorial.
+-- Identificadores SQL vêm exclusivamente do registro privado desta migração.
+CREATE FUNCTION public.obter_compendio(p_revisoes uuid[],p_conjunto text DEFAULT NULL)
+RETURNS jsonb LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path='' AS $$
+DECLARE ids uuid[]; novos uuid[]; d record; a record; mudou boolean; rodada integer:=0;
+  tabelas jsonb:='{}'; linhas jsonb; registros jsonb;
+BEGIN
+  IF cardinality(coalesce(p_revisoes,'{}'))>1000 THEN
+    RAISE EXCEPTION 'Consulta de compêndio muito extensa.' USING ERRCODE='WC001';
+  END IF;
+  SELECT coalesce(array_agg(DISTINCT r.id),'{}') INTO ids FROM public.compendio_revisoes r
+    WHERE r.estado='publicado' AND (p_conjunto IS NULL OR r.conjunto_regras_codigo=p_conjunto)
+    AND (r.id=ANY(coalesce(p_revisoes,'{}')) OR (p_conjunto IS NOT NULL AND EXISTS(
+      SELECT 1 FROM public.compendio_caracteristicas c JOIN public.compendio_registros x
+        ON x.revisao_atual_id=r.id WHERE c.revisao_id=r.id AND c.categoria='regra-criacao')));
+  LOOP
+    mudou:=false; rodada:=rodada+1;
+    IF rodada>50 OR cardinality(ids)>10000 THEN
+      RAISE EXCEPTION 'Dependências do compêndio excedem o limite.' USING ERRCODE='WC001';
+    END IF;
+    FOR d IN SELECT nome FROM private.compendio_dominios LOOP
+      FOR a IN SELECT attname FROM pg_catalog.pg_attribute
+        WHERE attrelid=format('public.%I',d.nome)::regclass AND attnum>0 AND NOT attisdropped
+        AND attname LIKE '%\_revisao\_id' ESCAPE '\' LOOP
+        EXECUTE format('SELECT array_agg(DISTINCT r.id) FROM public.%I t
+          JOIN public.compendio_revisoes r ON r.id=t.%I
+          WHERE t.revisao_id=ANY($1) AND NOT(r.id=ANY($1)) AND r.estado=''publicado''
+          AND ($2 IS NULL OR r.conjunto_regras_codigo=$2)',d.nome,a.attname)
+          INTO novos USING ids,p_conjunto;
+        IF cardinality(novos)>0 THEN ids:=ids||novos; mudou:=true; END IF;
+      END LOOP;
+    END LOOP;
+    EXIT WHEN NOT mudou;
+  END LOOP;
+  FOR d IN SELECT nome FROM private.compendio_dominios LOOP
+    EXECUTE format('SELECT coalesce(jsonb_agg(to_jsonb(t)),''[]'') FROM public.%I t WHERE revisao_id=ANY($1)',d.nome)
+      INTO linhas USING ids;
+    tabelas:=tabelas||jsonb_build_object(d.nome,linhas);
+  END LOOP;
+  SELECT coalesce(jsonb_agg(to_jsonb(r)||jsonb_build_object('tipo',c.tipo,'slug',c.slug,
+    'fonte',to_jsonb(f),'aliases',coalesce((SELECT jsonb_agg(apelido.nome) FROM public.compendio_aliases apelido
+      WHERE apelido.revisao_id=r.id),'[]'),
+    'legados',coalesce((SELECT jsonb_agg(DISTINCT l.legado_id) FROM public.compendio_referencias_legadas l
+      JOIN public.compendio_revisoes anterior ON anterior.id=l.revisao_id
+      WHERE anterior.registro_id=r.registro_id AND anterior.estado='publicado'),'[]'))),'[]') INTO registros
+    FROM public.compendio_revisoes r JOIN public.compendio_registros c ON c.id=r.registro_id
+    JOIN public.compendio_fontes f ON f.id=r.fonte_id WHERE r.id=ANY(ids) AND r.estado='publicado';
+  RETURN jsonb_build_object('records',registros,'tables',tabelas);
+END $$;
+REVOKE ALL ON FUNCTION public.obter_compendio(uuid[],text) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.obter_compendio(uuid[],text) TO anon,authenticated;
+
+CREATE FUNCTION public.referencia_legada_compendio(p_legado uuid)
+RETURNS TABLE(registro_id uuid,revisao_id uuid)
+LANGUAGE sql STABLE SECURITY INVOKER SET search_path='' AS $$
+  SELECT DISTINCT c.id,c.revisao_atual_id FROM public.compendio_referencias_legadas l
+  JOIN public.compendio_revisoes r ON r.id=l.revisao_id AND r.estado='publicado'
+  JOIN public.compendio_registros c ON c.id=r.registro_id WHERE l.legado_id=p_legado
+$$;
+REVOKE ALL ON FUNCTION public.referencia_legada_compendio(uuid) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.referencia_legada_compendio(uuid) TO anon,authenticated;
 
 COMMIT;

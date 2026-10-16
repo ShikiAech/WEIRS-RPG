@@ -116,6 +116,8 @@ export function catalogTables(c: ResolvedCatalog): SeedTables {
           revisao_id: id,
           categoria_codigo: e.data.category,
           repetivel: e.data.repeatable,
+          pre_requisito_pt: e.data.prerequisiteText,
+          requisitos_completos: e.data.requirementsComplete,
         });
         break;
       case 'caracteristica':
@@ -123,6 +125,9 @@ export function catalogTables(c: ResolvedCatalog): SeedTables {
           revisao_id: id,
           categoria: e.data.category,
           decisao_manual: e.data.manualDecision,
+          origem_revisao_id: target(e.data.parentRef),
+          nivel: e.data.level ?? null,
+          opcional: e.data.optional ?? false,
         });
         break;
       case 'magia': {

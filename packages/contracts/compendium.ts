@@ -56,6 +56,7 @@ export interface CompendiumSummary {
   school?: string;
   ritual?: boolean;
   concentration?: boolean;
+  legacyIds?: string[];
 }
 export interface CompendiumQuery {
   kind?: CompendiumKind;
@@ -144,10 +145,15 @@ export interface BackgroundDefinition {
 export interface FeatDefinition {
   category: string;
   repeatable: boolean;
+  prerequisiteText: string;
+  requirementsComplete: boolean;
 }
 export interface FeatureDefinition {
   category: string;
   manualDecision: boolean;
+  parentRef?: CompendiumRef;
+  level?: number | null;
+  optional?: boolean;
 }
 export interface SpellDamageDefinition {
   id: string;

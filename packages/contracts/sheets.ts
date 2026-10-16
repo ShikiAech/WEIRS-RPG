@@ -62,6 +62,7 @@ export interface SheetTextEntry extends SheetNamedEntry {
 type BaseContent = ReturnType<typeof criarConteudo>;
 export type SheetSpell = BaseContent['magias'][number] & {
   compendioId?: string;
+  compendioRef?: import('./compendium').CompendiumRef;
   dano?: string;
   tipoDano?: string;
   danos?: AttackDamage[];
