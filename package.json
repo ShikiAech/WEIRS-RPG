@@ -6,6 +6,8 @@
     "predev": "npm run import:content",
     "dev": "vite --host 127.0.0.1",
     "import:content": "tsx tools/content-import/cli.ts",
+    "compendium:check": "tsx tools/compendium-import/cli.ts --check",
+    "compendium:seed": "tsx tools/compendium-import/cli.ts --seed",
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test tests/*.test.js tests/*.test.ts",
     "test:browser": "playwright test",

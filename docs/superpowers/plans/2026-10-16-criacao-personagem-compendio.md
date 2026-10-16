@@ -111,11 +111,11 @@ Sequência: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11. Cad
 
 **Produces:** `generateSeed(catalog: ResolvedCatalog): string`; comandos `npm run compendium:check` e `npm run compendium:seed`. O primeiro valida e relata; o segundo gera SQL local e não se conecta ao banco hospedado.
 
-- [ ] Testar carga seguida de recarga sem duplicar entidades; descrição com aspas/newlines preservada; nenhuma referência pendente em registros publicados; edição posterior de uma revisão de rascunho não sobrescrita pela reimportação. Conflito de hash esperado deve abortar a alteração daquela unidade em transação.
-- [ ] Executar `node --import tsx --test tests/compendium-seed.test.ts`; confirmar falhas.
-- [ ] Gerar carga em ordem de dependências, com vínculo às fontes e relatório por elemento. Publicar apenas revisões completas, mantendo pendências explícitas. Reexecução não desfaz manutenção posterior do catálogo.
-- [ ] Acrescentar os comandos sem ligá-los ao `predev` ou `build`. O importador legado pode continuar produzindo os arquivos de compatibilidade; nenhum comando de build aplica escrita remota.
-- [ ] Executar os dois comandos e teste SQL em PGlite, inclusive duas aplicações da carga. Comparar cobertura com as fontes e corrigir ausências estruturais antes de marcar a migração completa. Commit: `feat: add versioned compendium seed and coverage report`.
+- [x] Testar carga seguida de recarga sem duplicar entidades; descrição com aspas/newlines preservada; nenhuma referência pendente em registros publicados; edição posterior de uma revisão de rascunho não sobrescrita pela reimportação. Conflito de hash esperado deve abortar a alteração daquela unidade em transação.
+- [x] Executar `node --import tsx --test tests/compendium-seed.test.ts`; confirmar falhas.
+- [x] Gerar carga em ordem de dependências, com vínculo às fontes e relatório por elemento. Publicar apenas revisões completas, mantendo pendências explícitas. Reexecução não desfaz manutenção posterior do catálogo.
+- [x] Acrescentar os comandos sem ligá-los ao `predev` ou `build`. O importador legado pode continuar produzindo os arquivos de compatibilidade; nenhum comando de build aplica escrita remota.
+- [x] Executar os dois comandos e teste SQL em PGlite, inclusive duas aplicações da carga. Comparar cobertura com as fontes e corrigir ausências estruturais antes de marcar a migração completa. Commit: `feat: add versioned compendium seed and coverage report`.
 
 ## Tarefa 5 — Repositório de compêndio e consumidores existentes
 
