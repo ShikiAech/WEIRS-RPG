@@ -235,7 +235,7 @@ Antes de usar o banco com dados reais, valide com duas contas da mesa: login/log
 
 ## Compêndio e criação guiada
 
-As operações desta seção são a ativação hospedada; o repositório prepara e testa tudo localmente. Consulte [o modelo e a cobertura](compendio-banco.md) e [o assistente](criacao-personagem.md).
+O projeto Weirs recebeu a ativação hospedada em 17/10/2026; veja o [relatório de auditoria e carga](ativacao-supabase-2026-10-17.md). Os passos abaixo orientam novas instalações; confira o que já está aplicado antes de executá-los. Consulte [o modelo e a cobertura](compendio-banco.md) e [o assistente](criacao-personagem.md).
 
 1. Faça um backup do projeto existente. Confira as migrações já aplicadas e mantenha a sequência de `001` até `010` antes de prosseguir.
 2. Execute `supabase/migrations/202610160011_compendio.sql` uma vez. Ela cria o catálogo relacional, revisões, leitura pública de conteúdo publicado e manutenção exclusiva de admins globais.
