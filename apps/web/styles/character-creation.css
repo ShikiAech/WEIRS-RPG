@@ -33,6 +33,23 @@
 .creation-metrics { display:flex;gap:1.2rem;border-top:1px solid var(--border-fantasy);padding-top:1rem; }
 .creation-metrics dd { margin:.5rem 0;font:1.35rem Cinzel,serif;color:var(--gold); }
 .catalog-select { margin:1rem 0; }.catalog-select small { color:var(--text-soft); }
+.catalog-select { position:relative; }
+.catalog-input { display:flex;align-items:center;gap:.25rem;border:1px solid #3a3630;border-radius:3px;background:#0d0d0f; }
+.catalog-input:focus-within { outline:2px solid var(--gold);outline-offset:2px; }
+.catalog-input input { flex:1;min-width:0;margin:0;border:0;background:transparent; }
+.catalog-input input:focus-visible { outline:none; }
+.catalog-input-action { align-self:stretch;border:0;border-left:1px solid var(--border-fantasy);background:transparent;color:var(--text-soft);padding:0 .7rem;font:inherit;font-size:.78rem;cursor:pointer; }
+.catalog-input-action:hover { color:var(--gold-bright);background:#252016; }
+.catalog-dropdown { position:absolute;top:100%;left:0;right:0;z-index:20;max-height:min(24rem,50vh);overflow:auto;overscroll-behavior:contain;border:1px solid var(--gold-dark);border-radius:3px;background:#121213;box-shadow:0 12px 30px #0009; }
+.catalog-dropdown ul { list-style:none;margin:0;padding:.3rem; }
+.catalog-option { display:flex;flex-direction:column;gap:.25rem;min-height:44px;padding:.65rem .75rem;overflow-wrap:anywhere;cursor:pointer;border-left:2px solid transparent; }
+.catalog-option small { font-size:.75rem; }
+.catalog-option:hover,.catalog-option.active { background:#2c2517;border-left-color:var(--gold);color:var(--gold-bright); }
+.catalog-option[aria-selected=true] { background:#211d16;border-left-color:var(--gold-dark); }
+.catalog-option[aria-selected=true].active { background:#2c2517;border-left-color:var(--gold); }
+.catalog-feedback { display:flex;flex-direction:column;gap:.6rem;padding:.65rem 1rem;border-top:1px solid var(--border-fantasy); }
+.catalog-feedback .button { width:100%;white-space:normal; }
+.catalog-feedback [role=alert] { display:flex;flex-direction:column;gap:.6rem; }
 .creation-choice,.creation-class,.creation-casting,.creation-hp fieldset { border:1px solid var(--border-fantasy);padding:1.2rem;margin:1.3rem 0;min-width:0; }
 .creation-choice legend,.creation-class legend,.creation-casting legend { color:var(--gold-bright);padding:0 .5rem;font-family:Cinzel,serif; }
 .creation-kit { margin:1.5rem 0; }.creation-stage select { max-width:100%;text-overflow:ellipsis; }

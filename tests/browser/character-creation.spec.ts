@@ -1,10 +1,72 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 const snapshot = JSON.parse(await readFile('public/compendium/demo.json', 'utf8')).catalog;
 const find = (kind: string, name: string, path?: string) =>
   snapshot.entries.find(
     (e: any) => e.kind === kind && e.name === name && (!path || e.source.path === path),
   );
+
+async function chooseCatalog(page: Page, label: string, name: string, source: string) {
+  await page.getByRole('combobox', { name: label, exact: true }).fill(name);
+  await page.getByRole('option', { name: `${name} · ${source}`, exact: true }).click();
+}
+
+test('autocomplete pesquisa, seleciona por teclado e preserva a escolha ao cancelar a busca', async ({
+  page,
+}, info) => {
+  await page.goto('app.html#/fichas/nova?demo=1');
+  await page.getByRole('button', { name: '2 Espécie', exact: true }).click();
+  const species = page.getByRole('combobox', { name: 'Espécie', exact: true });
+  await species.fill('Anansis');
+  const option = page.getByRole('option', {
+    name: `Anansis · ${find('especie', 'Anansis').sourceTitle}`,
+    exact: true,
+  });
+  await expect(option).toBeVisible();
+  await species.press('ArrowDown');
+  await expect(species).toHaveAttribute(
+    'aria-activedescendant',
+    (await option.getAttribute('id')) as string,
+  );
+  await species.press('Enter');
+  await expect(species).toHaveValue('Anansis');
+  await expect(species).toHaveAttribute('aria-expanded', 'false');
+  await expect(page.getByRole('listbox')).toHaveCount(0);
+
+  await species.fill('nome inexistente zzz');
+  await expect(
+    page.getByRole('status').filter({ hasText: 'Nenhuma opção encontrada' }),
+  ).toBeVisible();
+  await species.press('Escape');
+  await expect(species).toHaveValue('Anansis');
+  await species.fill('Elfo');
+  await page.getByRole('heading', { name: 'Espécie e linhagem' }).click();
+  await expect(species).toHaveValue('Anansis');
+  await expect(page.getByRole('listbox')).toHaveCount(0);
+
+  await page.getByRole('button', { name: '3 Antecedente', exact: true }).click();
+  await page.getByRole('button', { name: '2 Espécie', exact: true }).click();
+  await expect(species).toHaveValue('Anansis');
+  await species.click();
+  await expect(page.getByRole('option').first()).toBeVisible();
+  await page.screenshot({
+    path: `artifacts/character-creation/${info.project.name}-autocomplete.png`,
+    fullPage: true,
+  });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  if (info.project.use.hasTouch) {
+    await option.tap();
+    await expect(species).toHaveValue('Anansis');
+    await expect(species).toHaveAttribute('aria-expanded', 'false');
+  } else {
+    await species.press('Escape');
+  }
+  await page.getByRole('button', { name: 'Limpar Espécie', exact: true }).click();
+  await expect(species).toHaveValue('');
+  await expect(
+    page.getByRole('combobox', { name: 'Linhagem (quando houver)', exact: true }),
+  ).toHaveCount(0);
+});
 test('assistente demonstra atributos, origens e revisão antes de abrir a ficha', async ({
   page,
 }, info) => {
@@ -14,14 +76,10 @@ test('assistente demonstra atributos, origens e revisão antes de abrir a ficha'
   for (const label of ['Força', 'Destreza', 'Constituição', 'Inteligência', 'Sabedoria', 'Carisma'])
     await page.getByLabel(`${label}: valor base`, { exact: true }).fill('14');
   await page.getByRole('button', { name: 'Próxima etapa', exact: true }).click();
-  await page.getByLabel('Buscar espécie', { exact: true }).fill('Anansis');
-  await page
-    .getByLabel('Espécie', { exact: true })
-    .selectOption(find('especie', 'Anansis').ref.revisionId);
+  await chooseCatalog(page, 'Espécie', 'Anansis', find('especie', 'Anansis').sourceTitle);
   await page.getByRole('button', { name: 'Próxima etapa', exact: true }).click();
-  await page.getByLabel('Buscar antecedente', { exact: true }).fill('Criminoso');
   const bg = find('antecedente', 'Criminoso', 'data/background.json');
-  await page.getByLabel('Antecedente', { exact: true }).selectOption(bg.ref.revisionId);
+  await chooseCatalog(page, 'Antecedente', 'Criminoso', bg.sourceTitle);
   await page.getByLabel('Destreza: bônus do antecedente', { exact: true }).fill('2');
   await page.getByLabel('Constituição: bônus do antecedente', { exact: true }).fill('1');
   await page
@@ -33,8 +91,7 @@ test('assistente demonstra atributos, origens e revisão antes de abrir a ficha'
     );
   await page.getByRole('button', { name: 'Próxima etapa', exact: true }).click();
   const cls = find('classe', 'Guerreiro');
-  await page.getByLabel('Buscar classe', { exact: true }).fill('Guerreiro');
-  await page.getByLabel('Classe', { exact: true }).selectOption(cls.ref.revisionId);
+  await chooseCatalog(page, 'Classe', 'Guerreiro', cls.sourceTitle);
   await page.getByLabel('Atletismo', { exact: true }).check();
   await page.getByLabel('Percepção', { exact: true }).check();
   const style = snapshot.entries.find(
@@ -75,6 +132,56 @@ test('assistente demonstra atributos, origens e revisão antes de abrir a ficha'
     'Anansi de teste',
   );
 });
+
+test('autocomplete pagina opções e mantém linhagens, subclasses e multiclasse vinculadas às origens', async ({
+  page,
+}) => {
+  await page.goto('app.html#/fichas/nova?demo=1');
+  await page.getByRole('button', { name: '2 Espécie', exact: true }).click();
+  await page.getByRole('combobox', { name: 'Espécie', exact: true }).click();
+  await expect(page.getByRole('option')).toHaveCount(24);
+  await page.getByRole('button', { name: 'Carregar mais opções de espécie', exact: true }).click();
+  await expect(
+    page.getByRole('option', { name: 'Zonuianos · WEIRS - Homebrew', exact: true }),
+  ).toBeVisible();
+  await chooseCatalog(page, 'Espécie', 'Elfos', find('especie', 'Elfos').sourceTitle);
+  await chooseCatalog(
+    page,
+    'Linhagem (quando houver)',
+    'Meio-Elfo',
+    find('linhagem', 'Meio-Elfo').sourceTitle,
+  );
+  await chooseCatalog(page, 'Espécie', 'Elfos', find('especie', 'Elfos').sourceTitle);
+  await expect(
+    page.getByRole('combobox', { name: 'Linhagem (quando houver)', exact: true }),
+  ).toHaveValue('Meio-Elfo');
+  await chooseCatalog(page, 'Espécie', 'Humanos', find('especie', 'Humanos').sourceTitle);
+  const lineage = page.getByRole('combobox', { name: 'Linhagem (quando houver)', exact: true });
+  await expect(lineage).toHaveValue('');
+  await lineage.click();
+  await expect(
+    page.getByRole('option', { name: 'Manchados · WEIRS - Homebrew', exact: true }),
+  ).toBeVisible();
+  await expect(page.getByRole('option', { name: /Meio-Elfo/ })).toHaveCount(0);
+  await lineage.press('Escape');
+  await page.getByRole('button', { name: '4 Classes', exact: true }).click();
+  await chooseCatalog(page, 'Classe', 'Guerreiro', find('classe', 'Guerreiro').sourceTitle);
+  await page.getByLabel('Níveis em Guerreiro', { exact: true }).fill('3');
+  await chooseCatalog(
+    page,
+    'Subclasse de Guerreiro',
+    'Campeão',
+    find('subclasse', 'Campeão').sourceTitle,
+  );
+  await expect(
+    page.getByRole('combobox', { name: 'Subclasse de Guerreiro', exact: true }),
+  ).toHaveValue('Campeão');
+  await chooseCatalog(page, 'Adicionar multiclasse', 'Mago', find('classe', 'Mago').sourceTitle);
+  await expect(page.getByRole('combobox', { name: 'Classe 2', exact: true })).toHaveValue('Mago');
+  await expect(
+    page.getByRole('combobox', { name: 'Adicionar multiclasse', exact: true }),
+  ).toHaveValue('');
+});
 test('rolagens ficam no rascunho entre etapas e não escolhem um conjunto automaticamente', async ({
   page,
 }) => {
@@ -93,6 +200,30 @@ test('rolagens ficam no rascunho entre etapas e não escolhem um conjunto automa
 
 import { creationBackend } from './creation-backend';
 import { campaignId } from './backend';
+
+test('autocomplete recupera falha de busca sem perder a seleção atual', async ({ page }) => {
+  await creationBackend(page);
+  let unavailable = false;
+  await page.route('**/rest/v1/rpc/buscar_compendio', (route) =>
+    unavailable
+      ? route.fulfill({ status: 503, json: { message: 'Indisponível' } })
+      : route.fallback(),
+  );
+  await page.goto('app.html#/fichas/nova');
+  await page.getByRole('button', { name: '2 Espécie', exact: true }).click();
+  await chooseCatalog(page, 'Espécie', 'Espécie de teste', 'Teste');
+  unavailable = true;
+  const species = page.getByRole('combobox', { name: 'Espécie', exact: true });
+  await species.fill('outra espécie');
+  await expect(page.locator('.catalog-dropdown').getByRole('alert')).toBeVisible();
+  unavailable = false;
+  await page.getByRole('button', { name: 'Tentar novamente', exact: true }).click();
+  await expect(
+    page.getByRole('option', { name: 'Espécie de teste · Teste', exact: true }),
+  ).toBeVisible();
+  await species.press('Escape');
+  await expect(species).toHaveValue('Espécie de teste');
+});
 test('criação autenticada repete a mesma tentativa depois de resposta perdida', async ({
   page,
 }) => {
@@ -101,19 +232,13 @@ test('criação autenticada repete a mesma tentativa depois de resposta perdida'
   for (const label of ['Força', 'Destreza', 'Constituição', 'Inteligência', 'Sabedoria', 'Carisma'])
     await page.getByLabel(`${label}: valor base`, { exact: true }).fill('14');
   await page.getByRole('button', { name: 'Próxima etapa', exact: true }).click();
-  await page
-    .getByLabel('Espécie', { exact: true })
-    .selectOption({ label: 'Espécie de teste · Teste' });
+  await chooseCatalog(page, 'Espécie', 'Espécie de teste', 'Teste');
   await page.getByRole('button', { name: 'Próxima etapa', exact: true }).click();
-  await page
-    .getByLabel('Antecedente', { exact: true })
-    .selectOption({ label: 'Origem de teste · Teste' });
+  await chooseCatalog(page, 'Antecedente', 'Origem de teste', 'Teste');
   await page.getByLabel('Força: bônus do antecedente', { exact: true }).fill('2');
   await page.getByLabel('Constituição: bônus do antecedente', { exact: true }).fill('1');
   await page.getByRole('button', { name: 'Próxima etapa', exact: true }).click();
-  await page
-    .getByLabel('Classe', { exact: true })
-    .selectOption({ label: 'Classe de teste · Teste' });
+  await chooseCatalog(page, 'Classe', 'Classe de teste', 'Teste');
   await page.getByRole('button', { name: '7 Revisão', exact: true }).click();
   await page.getByLabel('Nome do personagem', { exact: true }).fill('Persistente');
   await page.getByLabel('Campanha', { exact: true }).selectOption(campaignId);
@@ -209,9 +334,7 @@ test('editar atributos durante falha do catálogo preserva escolhas existentes',
   );
   await page.goto('app.html#/fichas/nova');
   await page.getByRole('button', { name: '2 Espécie', exact: true }).click();
-  await page
-    .getByLabel('Espécie', { exact: true })
-    .selectOption({ label: 'Espécie de teste · Teste' });
+  await chooseCatalog(page, 'Espécie', 'Espécie de teste', 'Teste');
   await page.getByLabel('Aparência vigilante', { exact: true }).check();
   unavailable = true;
   page.once('dialog', (dialog) => dialog.accept());
