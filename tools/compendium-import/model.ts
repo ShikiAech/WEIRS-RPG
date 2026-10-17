@@ -101,7 +101,7 @@ export interface CatalogDraftRecord extends SourceRecord {
   sourcePath: string;
   sourceHash: string;
   sourceFormat: 'json' | 'html';
-  alternatives: { sourcePath: string; pointer: string; payload: SourcePayload }[];
+  alternatives: { sourcePath: string; pointer: string; payload: SourcePayload;sourceId?:string;sourceHash?:string }[];
   legacyIds: string[];
 }
 export interface ImportedCatalog {

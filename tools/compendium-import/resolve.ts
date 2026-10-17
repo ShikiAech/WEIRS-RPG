@@ -237,7 +237,7 @@ export function resolveCatalog(
     });
   // Curation is part of a revision: a changed formula or alias cannot silently alter a pinned sheet.
   const version = (r: CatalogDraftRecord) =>
-    revisionId(r.id, { sourceRevision: r.revisionId, curation, resolverVersion: 2 });
+    revisionId(r.id, { sourceRevision: r.revisionId, curation, resolverVersion: 3 });
   const create = <K extends CompendiumKind>(
     r: CatalogDraftRecord,
     data: CompendiumPayloadMap[K],
@@ -358,8 +358,8 @@ export function resolveCatalog(
             : (load(r.descriptionHtml)('p')
                 .toArray()
                 .map((el) => plainHtml(load(el).html()))
-                .find((text) => /^Pr[ée]-requisitos?:/i.test(text))
-                ?.replace(/^Pr[ée]-requisitos?:\s*/i, '') ?? ''),
+                .find((text) => /^Pr[ée][\s-]*requisitos?\s*:/i.test(text))
+                ?.replace(/^Pr[ée][\s-]*requisitos?\s*:\s*/i, '') ?? ''),
         requirementsComplete: false,
         repeatable:
           /pode (?:selecionar|escolher|adquirir) (?:este|esse) talento mais de uma vez/i.test(
@@ -888,16 +888,21 @@ export function resolveCatalog(
         issue(r, 'Talento de antecedente não resolvido: ' + name, 'UNRESOLVED_REFERENCE', 'error');
       const variant = /\((Clérigo|Druida|Mago)\)/.exec(name);
       if (target && variant) {
+        const listClass = c.entries.find(
+          (e) => e.kind === 'classe' && normalizeName(e.name) === normalizeName(variant[1]),
+        );
+        if (!listClass)
+          issue(r, 'Lista de classe não resolvida: ' + variant[1], 'UNRESOLVED_REFERENCE', 'error');
         const g = group(owner, 'iniciado-lista', 'Lista de Iniciado em Magia');
         g.options.push({
           id: stableId(g.id + ':' + variant[1]),
           groupId: g.id,
           name: variant[1],
           type: 'lista-magia',
-          targetRef: null,
+          targetRef: listClass ? ref(listClass) : null,
           ability: null,
           proficiencyId: null,
-          value: normalizeName(variant[1]),
+          value: listClass ? null : normalizeName(variant[1]),
           quantity: 1,
         });
       }
@@ -1067,7 +1072,9 @@ export function resolveCatalog(
           .map((type) => 'armadura-' + type),
         ...(armor.includes('escudo') ? ['escudo'] : []),
         ...(weapons.includes('simples') ? ['arma-simples'] : []),
-        ...(weapons.includes('marciais') ? ['arma-marcial'] : []),
+        ...(weapons.includes('marciais') && !weapons.includes('propriedade')
+          ? ['arma-marcial']
+          : []),
       ];
       for (const category of categories)
         proficiency(
@@ -1076,6 +1083,27 @@ export function resolveCatalog(
           { type: 'categoria', category },
           classConfig?.multiclassProficiencies?.includes(category) ? 'ambas' : 'inicial',
         );
+      if (weapons.includes('marciais') && weapons.includes('propriedade'))
+        for (const equipment of c.entries.filter(
+          (e) =>
+            e.kind === 'equipamento' &&
+            e.data.category.includes('marcial') &&
+            e.data.weapon?.propertyRefs.some((ref) => {
+              const property = c.entries.find((p) => p.ref.revisionId === ref.revisionId);
+              return (
+                property?.kind === 'propriedade_arma' &&
+                ['acuidade', 'leve'].some(
+                  (key) => weapons.includes(key) && property.data.key === key,
+                )
+              );
+            }),
+        ))
+          proficiency(
+            owner,
+            'arma-restrita:' + equipment.key,
+            { type: 'equipamento', equipment: ref(equipment) },
+            'ambas',
+          );
       const skillText = l.pericias ?? '',
         countWords: Record<string, number> = {
           uma: 1,
@@ -1270,6 +1298,280 @@ export function resolveCatalog(
         ),
     );
   }
+  for (const e of c.entries) {
+    if (e.kind === 'especie')
+      e.data.lineageRequired = c.entries.some(
+        (l) => l.kind === 'linhagem' && l.data.speciesRef.revisionId === e.ref.revisionId,
+      );
+    if (e.kind === 'classe') {
+      const subclassLevels = c.entries.flatMap((s) =>
+        s.kind === 'subclasse' && s.data.classRef.revisionId === e.ref.revisionId
+          ? [s.data.acquisitionLevel]
+          : [],
+      );
+      if (subclassLevels.length) e.data.subclassLevel = Math.min(...subclassLevels);
+      let knownMasteries = 0;
+      const masteryCells = c.progressionCells
+        .filter(
+          (cell) =>
+            cell.ownerRevisionId === e.ref.revisionId &&
+            cell.table === 0 &&
+            normalizeName(cell.heading).includes('maestria') &&
+            /^\d+$/.test(cell.value),
+        )
+        .sort((a, b) => a.row - b.row);
+      for (const cell of masteryCells) {
+        const total = Number(cell.value),
+          increase = total - knownMasteries;
+        if (increase <= 0) continue;
+        knownMasteries = total;
+        const g = group(
+          e,
+          `maestrias-${cell.row}`,
+          `Maestrias em armas do nível ${cell.row}`,
+          increase,
+          increase,
+          cell.row,
+        );
+        for (const weapon of c.entries.filter(
+          (w) => w.kind === 'equipamento' && w.data.weapon?.masteryRef,
+        ))
+          g.options.push({
+            id: stableId(g.id + weapon.key),
+            groupId: g.id,
+            name: weapon.name,
+            type: 'maestria-arma',
+            targetRef: ref(weapon),
+            ability: null,
+            proficiencyId: null,
+            value: null,
+            quantity: 1,
+          });
+      }
+      for (const level of curation.progressions.featLevels?.[normalizeName(e.name)] ?? []) {
+        const g = group(e, `talento-nivel-${level}`, `Talento do nível ${level}`, 1, 1, level);
+        g.optionKind = 'talento';
+        for (const target of c.entries.filter(
+          (t) =>
+            t.kind === 'talento' &&
+            t.sourcePath === 'data/feats.json' &&
+            ['origem', 'geral', 'estilo-luta', ...(level >= 19 ? ['dadiva-epica'] : [])].includes(
+              t.data.category,
+            ),
+        ))
+          g.options.push({
+            id: stableId(g.id + target.key),
+            groupId: g.id,
+            name: target.name,
+            type: 'talento',
+            targetRef: ref(target),
+            ability: null,
+            proficiencyId: null,
+            value: null,
+            quantity: 1,
+          });
+      }
+    }
+    if (e.kind === 'caracteristica' && e.name === 'Estilo de Luta') {
+      const g = group(e, 'estilo-luta', 'Estilo de luta');
+      g.optionKind = 'talento';
+      g.featCategory = 'estilo-luta';
+      for (const target of c.entries.filter(
+        (t) =>
+          t.kind === 'talento' &&
+          t.sourcePath === 'data/feats.json' &&
+          t.data.category === 'estilo-luta',
+      ))
+        g.options.push({
+          id: stableId(g.id + target.key),
+          groupId: g.id,
+          name: target.name,
+          type: 'talento',
+          targetRef: ref(target),
+          ability: null,
+          proficiencyId: null,
+          value: null,
+          quantity: 1,
+        });
+    }
+    if (e.kind === 'talento' && e.originalName === 'Magic Initiate') {
+      const classes = c.entries.filter(
+        (cls) =>
+          cls.kind === 'classe' && ['clerigo', 'druida', 'mago'].includes(normalizeName(cls.name)),
+      );
+      if (classes.length !== 3)
+        issue(
+          raw.get(e.key)!,
+          'As três listas de Iniciado em Magia não estão disponíveis.',
+          'UNRESOLVED_REFERENCE',
+          'error',
+        );
+      const g = group(e, 'iniciado-lista', 'Lista de Iniciado em Magia');
+      g.options = classes.map((cls) => ({
+        id: stableId(g.id + cls.key),
+        groupId: g.id,
+        name: cls.name,
+        type: 'lista-magia',
+        targetRef: ref(cls),
+        ability: null,
+        proficiencyId: null,
+        value: null,
+        quantity: 1,
+      }));
+      c.castingProfiles.push({
+        id: stableId(e.ref.revisionId + ':casting'),
+        ownerRevisionId: e.ref.revisionId,
+        key: 'iniciado',
+        type: 'concedida',
+        method: 'fixas',
+        listClassRefs: classes.map(ref),
+        listChoiceKey: g.key,
+        selectionUses: 1,
+        selectionRecovery: 'longo',
+        contributionNumerator: 0,
+        contributionDenominator: 1,
+        rounding: 'baixo',
+        firstLevel: 1,
+        abilities: ['int', 'sab', 'car'],
+        progression: Array.from({ length: 20 }, (_, i) => ({
+          level: i + 1,
+          cantrips: 2,
+          prepared: 1,
+          known: 1,
+          maximumCircle: 1,
+        })),
+        slots: [],
+        spells: [],
+      });
+    }
+    if (e.kind === 'subclasse' && ['Cavaleiro Místico', 'Trapaceiro Arcano'].includes(e.name)) {
+      const mage = c.entries.find((e) => e.kind === 'classe' && e.name === 'Mago');
+      if (!mage) {
+        issue(
+          raw.get(e.key)!,
+          'A lista de Mago não está disponível.',
+          'UNRESOLVED_REFERENCE',
+          'error',
+        );
+        continue;
+      }
+      const $ = load(e.descriptionHtml);
+      const rows = $('table')
+        .first()
+        .find('tr')
+        .slice(1)
+        .map((_, tr) => [
+          $(tr)
+            .find('th,td')
+            .map((_, td) => $(td).text().trim())
+            .get(),
+        ])
+        .get()
+        .filter((row) => row.length >= 6 && Number.isInteger(parseInt(row[0]))) as string[][];
+      const slots = rows.flatMap((row) =>
+        row
+          .slice(2)
+          .flatMap((total, i) =>
+            /^\d+$/.test(total)
+              ? [{ level: parseInt(row[0]), circle: i + 1, total: Number(total) }]
+              : [],
+          ),
+      );
+      const hand = c.entries.find(
+        (e) => e.kind === 'magia' && e.originalName.toLowerCase() === 'mage hand',
+      );
+      c.castingProfiles.push({
+        id: stableId(e.ref.revisionId + ':third-caster'),
+        ownerRevisionId: e.ref.revisionId,
+        key: 'conjuracao',
+        type: 'conjuracao',
+        method: 'preparadas',
+        contributionNumerator: 1,
+        contributionDenominator: 3,
+        rounding: 'baixo',
+        firstLevel: 3,
+        abilities: ['int'],
+        listClassRefs: [ref(mage)],
+        progression: rows.map((row) => ({
+          level: parseInt(row[0]),
+          cantrips: parseInt(row[0]) >= 10 ? 3 : 2,
+          prepared: Number(row[1]),
+          known: null,
+          maximumCircle: Math.max(
+            0,
+            ...slots.filter((s) => s.level === parseInt(row[0])).map((s) => s.circle),
+          ),
+        })),
+        slots,
+        spells:
+          e.name === 'Trapaceiro Arcano' && hand
+            ? [
+                {
+                  spellRef: ref(hand),
+                  level: 3,
+                  alwaysPrepared: true,
+                  usesSlots: false,
+                  ownUses: null,
+                  recovery: null,
+                },
+              ]
+            : [],
+      });
+    }
+    for (const config of curation.effects.innateProfiles ?? []) {
+      if (
+        e.kind !== 'caracteristica' ||
+        e.name !== config.name ||
+        c.entries.find((p) => p.ref.revisionId === e.data.parentRef?.revisionId)?.name !==
+          config.parent
+      )
+        continue;
+      const spells = config.spells.flatMap((s) => {
+        const target = c.entries.find(
+          (m) => m.kind === 'magia' && normalizeName(m.originalName) === normalizeName(s.original),
+        );
+        if (!target) {
+          c.issues.push({
+            code: 'UNRESOLVED_REFERENCE',
+            severity: 'error',
+            path: e.sourcePath,
+            pointer: e.pointer,
+            message: 'Magia concedida não encontrada: ' + s.original,
+            revisionId: e.ref.revisionId,
+          });
+          return [];
+        }
+        return [
+          {
+            spellRef: ref(target),
+            level: s.level,
+            alwaysPrepared: true,
+            usesSlots: !!s.uses,
+            ownUses: s.uses ?? null,
+            recovery: s.uses ? ('longo' as const) : null,
+          },
+        ];
+      });
+      c.castingProfiles.push({
+        id: stableId(e.ref.revisionId + ':innate'),
+        ownerRevisionId: e.ref.revisionId,
+        key: 'inata',
+        type: 'concedida',
+        method: 'fixas',
+        contributionNumerator: 0,
+        contributionDenominator: 1,
+        rounding: 'baixo',
+        firstLevel: 1,
+        abilities: config.abilities,
+        progression: [],
+        slots: [],
+        spells,
+      });
+    }
+  }
+  for (const profile of c.castingProfiles)
+    if (profile.method === 'grimorio')
+      for (const row of profile.progression) row.known = 6 + 2 * (row.level - 1);
   c.multiclassSlots = curation.progressions.multiclassSlots.flatMap((slots, i) =>
     slots.map((total, j) => ({ level: i + 1, circle: j + 1, total })),
   );

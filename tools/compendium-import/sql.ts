@@ -17,6 +17,28 @@ export function catalogTables(c: ResolvedCatalog): SeedTables {
   };
   const child = (name: string, owner: string, key: string, row: Row) =>
     add(name, { id: stableId(owner + ':' + name + ':' + key), revisao_id: owner, ...row });
+  for (const origin of c.origins) {
+    const entry = c.entries.find((e) => e.ref.recordId === origin.id);
+    if (!entry) continue;
+    for (const alternative of origin.alternatives) {
+      const source =
+        c.sources.find((s) => s.id === alternative.sourceId) ??
+        c.sources.find((s) => s.path === alternative.sourcePath);
+      if (!source) throw Error('A fonte da variante não está disponível.');
+      child(
+        'compendio_variantes_fonte',
+        entry.ref.revisionId,
+        alternative.sourcePath + alternative.pointer,
+        {
+          fonte_id: source.id,
+          caminho: alternative.sourcePath,
+          ponteiro: alternative.pointer,
+          hash_fonte: alternative.sourceHash ?? source.hash,
+          dados_originais: alternative.payload,
+        },
+      );
+    }
+  }
   for (const e of c.entries) {
     const id = e.ref.revisionId;
     switch (e.kind) {
@@ -42,7 +64,11 @@ export function catalogTables(c: ResolvedCatalog): SeedTables {
         add('compendio_propriedades_arma', { revisao_id: id, chave: e.data.key });
         break;
       case 'classe':
-        add('compendio_classes', { revisao_id: id, dado_vida: e.data.hitDie });
+        add('compendio_classes', {
+          revisao_id: id,
+          dado_vida: e.data.hitDie,
+          nivel_subclasse: e.data.subclassLevel ?? null,
+        });
         e.data.primaryAbilities.forEach((ability) =>
           child('compendio_classe_atributos', id, 'primario:' + ability, {
             atributo_codigo: ability,
@@ -81,6 +107,7 @@ export function catalogTables(c: ResolvedCatalog): SeedTables {
         break;
       case 'especie':
         add('compendio_especies', {
+          linhagem_obrigatoria: e.data.lineageRequired ?? false,
           revisao_id: id,
           tipo_criatura_codigo: e.data.creatureType,
           tamanho_codigo: e.data.defaultSize,
@@ -443,6 +470,9 @@ export function catalogTables(c: ResolvedCatalog): SeedTables {
   }
   for (const p of c.castingProfiles) {
     add('compendio_perfis_conjuracao', {
+      chave_escolha_lista: p.listChoiceKey ?? null,
+      usos_selecao: p.selectionUses ?? null,
+      recuperacao_selecao: p.selectionRecovery ?? null,
       id: p.id,
       revisao_id: p.ownerRevisionId,
       chave: p.key,
@@ -453,6 +483,12 @@ export function catalogTables(c: ResolvedCatalog): SeedTables {
       arredondamento: p.rounding,
       nivel_inicial: p.firstLevel,
     });
+    p.listClassRefs?.forEach((r) =>
+      child('compendio_perfil_listas', p.ownerRevisionId, p.id + r.revisionId, {
+        perfil_id: p.id,
+        classe_revisao_id: r.revisionId,
+      }),
+    );
     p.abilities.forEach((a) =>
       child('compendio_perfil_atributos', p.ownerRevisionId, p.id + a, {
         perfil_id: p.id,
@@ -582,7 +618,7 @@ export function coverageReport(c: ResolvedCatalog) {
     schemaVersion: 1,
     sources: c.sources.length,
     concepts: c.entries.length,
-    sourceElements: c.origins.length,
+    sourceElements: c.origins.reduce((n, r) => n + 1 + r.alternatives.length, 0),
     byKind: Object.fromEntries(
       [...new Set(c.entries.map((e) => e.kind))].map((kind) => [
         kind,

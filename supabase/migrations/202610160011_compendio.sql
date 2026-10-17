@@ -233,6 +233,7 @@ BEGIN
    atributo_codigo text REFERENCES public.compendio_atributos(codigo),
    FOREIGN KEY(revisao_id) REFERENCES public.compendio_equipamentos(revisao_id)$def$),
  ('compendio_classes','classe',true,$def$
+   nivel_subclasse integer CHECK(nivel_subclasse BETWEEN 1 AND 20),
    dado_vida integer NOT NULL CHECK(dado_vida IN (6,8,10,12)),
    pv_fixo integer GENERATED ALWAYS AS (dado_vida/2+1) STORED$def$),
  ('compendio_subclasses','subclasse',true,$def$
@@ -251,6 +252,7 @@ BEGIN
    nivel integer NOT NULL CHECK(nivel BETWEEN 1 AND 20),
    FOREIGN KEY(revisao_id) REFERENCES public.compendio_subclasses(revisao_id),UNIQUE(revisao_id,nivel)$def$),
  ('compendio_especies','especie',true,$def$
+   linhagem_obrigatoria boolean NOT NULL DEFAULT false,
    tipo_criatura_codigo text NOT NULL DEFAULT 'humanoide' REFERENCES public.compendio_tipos_criatura(codigo),
    tamanho_codigo text NOT NULL DEFAULT 'medio' REFERENCES public.compendio_tamanhos(codigo),
    idade_pt text NOT NULL DEFAULT ''$def$),
@@ -399,6 +401,7 @@ BEGIN
    grau text NOT NULL CHECK(grau IN ('meia','proficiente','especializacao')),
    FOREIGN KEY(efeito_id,revisao_id) REFERENCES public.compendio_efeitos(id,revisao_id)$def$),
  ('compendio_perfis_conjuracao','classe,subclasse,especie,linhagem,talento,caracteristica',false,$def$
+   chave_escolha_lista text,usos_selecao integer CHECK(usos_selecao>=0),recuperacao_selecao text CHECK(recuperacao_selecao IN ('curto','longo','manual')),
    chave text NOT NULL,tipo text NOT NULL CHECK(tipo IN ('conjuracao','pacto','concedida')),
    metodo text NOT NULL CHECK(metodo IN ('preparadas','conhecidas','grimorio','fixas')),
    contribuicao_numerador integer NOT NULL DEFAULT 0 CHECK(contribuicao_numerador BETWEEN 0 AND 1),
@@ -410,6 +413,10 @@ BEGIN
    perfil_id uuid NOT NULL,atributo_codigo text NOT NULL REFERENCES public.compendio_atributos(codigo),
    FOREIGN KEY(perfil_id,revisao_id) REFERENCES public.compendio_perfis_conjuracao(id,revisao_id),
    UNIQUE(perfil_id,atributo_codigo)$def$),
+ ('compendio_perfil_listas','classe,subclasse,especie,linhagem,talento,caracteristica',false,$def$
+   perfil_id uuid NOT NULL,classe_revisao_id uuid NOT NULL REFERENCES public.compendio_classes(revisao_id),
+   FOREIGN KEY(perfil_id,revisao_id) REFERENCES public.compendio_perfis_conjuracao(id,revisao_id),
+   UNIQUE(perfil_id,classe_revisao_id)$def$),
  ('compendio_conjuracao_progressao','classe,subclasse,especie,linhagem,talento,caracteristica',false,$def$
    perfil_id uuid NOT NULL,nivel integer NOT NULL CHECK(nivel BETWEEN 1 AND 20),
    truques integer NOT NULL DEFAULT 0 CHECK(truques>=0),magias_preparadas integer CHECK(magias_preparadas>=0),
@@ -430,6 +437,9 @@ BEGIN
    UNIQUE(perfil_id,magia_revisao_id,nivel)$def$),
  ('compendio_pacotes','pacote',true,$def$
    observacoes_pt text NOT NULL DEFAULT ''$def$),
+ ('compendio_variantes_fonte','classe,subclasse,especie,linhagem,antecedente,talento,caracteristica,magia,equipamento,idioma,criatura,pacote,maestria,propriedade_arma,servico,moeda',false,$def$
+   fonte_id uuid NOT NULL REFERENCES public.compendio_fontes(id),caminho text NOT NULL,ponteiro text NOT NULL,
+   hash_fonte text NOT NULL,dados_originais jsonb NOT NULL CHECK(jsonb_typeof(dados_originais)='object')$def$),
  ('compendio_pacote_itens','pacote',false,$def$
    equipamento_revisao_id uuid REFERENCES public.compendio_equipamentos(revisao_id),
    moeda_revisao_id uuid REFERENCES public.compendio_moedas(revisao_id),

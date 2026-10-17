@@ -9,6 +9,8 @@ import { useActionFavorites } from './useActionFavorites';
 import { FAVORITE_LIMIT } from './action-favorites';
 import { TIPOS_EQUIPAMENTO } from '../../../../packages/sheets/equipamentos.js';
 import { formulasMagia, temDanoMagia } from '../../../../packages/sheets/magias.js';
+import { CreationHistory } from '../sheets/CreationHistory';
+import { compendiumSource } from '../../lib/compendium-source';
 
 type Entry = {
   id: string;
@@ -626,6 +628,7 @@ export function SheetPlay({
       <a className="back-link" href={'#/fichas/' + record.id}>
         Editar ficha completa →
       </a>
+      <CreationHistory snapshot={c.criacao} repository={compendiumSource().repository} />
     </>
   );
 }

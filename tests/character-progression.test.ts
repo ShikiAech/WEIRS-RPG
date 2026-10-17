@@ -189,3 +189,160 @@ test('projection is deterministic and does not grant merely loaded dependencies'
   assert.deepEqual(preview, resolveCreation(catalog, draft));
   assert.equal(preview.sheet!.talentos.length, 0);
 });
+test('typed starting weapons produce linked attacks with safe damage and proficiency', () => {
+  const { catalog, draft, species, cls } = fixture();
+  const weapon = entry(17, 'equipamento', {
+    category: 'arma-simples',
+    weight: 1,
+    weightUnit: 'kg',
+    cost: null,
+    currencyRef: null,
+    requiresAttunement: false,
+    weapon: {
+      rangeType: 'corpo-a-corpo',
+      normalRangeFeet: null,
+      longRangeFeet: null,
+      masteryRef: null,
+      criticalMinimum: 20,
+      propertyRefs: [],
+      damages: [{ dice: '1d6', damageType: 'cortante', ability: null }],
+    },
+  });
+  catalog.entries.push(weapon);
+  catalog.grants.push(grant(40, species, weapon));
+  catalog.proficiencies.push({
+    id: id(41),
+    ownerRevisionId: cls.ref.revisionId,
+    type: 'categoria',
+    category: 'arma-simples',
+  });
+  cls.data.proficiencies.push({ proficiencyId: id(41), acquisition: 'inicial' });
+  const result = resolveCreation(catalog, draft);
+  assert.ok(result.sheet);
+  assert.equal(result.sheet!.ataques.length, 1);
+  assert.equal(result.sheet!.ataques[0].valor, 3);
+  assert.equal(result.sheet!.ataques[0].dano, '1d6+1');
+  assert.equal(result.sheet!.ataques[0].itemId, result.sheet!.inventario.itens[0].id);
+});
+test('multiclass entry cannot use an ability increase acquired in a later level', () => {
+  const { catalog, draft, cls } = fixture();
+  cls.data.multiclassAbilities = [{ ability: 'for', minimum: 13, alternativeGroup: 0 }];
+  draft.abilities.external.for = 10;
+  draft.abilities.external.int = 14;
+  const other = entry(18, 'classe', classData(6));
+  catalog.entries.push(other);
+  draft.classes[0].level = 4;
+  draft.classes.push({ id: id(102), classRef: other.ref, subclassRef: null, level: 1 });
+  draft.levels = [
+    draft.classes[0].id,
+    id(102),
+    draft.classes[0].id,
+    draft.classes[0].id,
+    draft.classes[0].id,
+  ].map((classEntryId, i) => ({
+    totalLevel: i + 1,
+    classEntryId,
+    hitPointMethod: 'fixed',
+    hitPointRoll: null,
+  }));
+  const feature = entry(19, 'caracteristica', { category: 'classe', manualDecision: false });
+  catalog.entries.push(feature);
+  catalog.grants.push(grant(42, cls, feature, 4));
+  catalog.effects.push({
+    id: id(43),
+    ownerRevisionId: feature.ref.revisionId,
+    key: 'ability',
+    type: 'atributo',
+    formula: null,
+    requirementId: null,
+    level: 1,
+    stacking: 'somar',
+    condition: '',
+    abilities: [{ ability: 'for', increase: 1, limit: 20 }],
+    defenses: [],
+    resources: [],
+    proficiencies: [],
+  });
+  assert.ok(
+    resolveCreation(catalog, draft).problems.some((p) => p.code === 'MULTICLASS_REQUIREMENT'),
+  );
+});
+test('same granted spell retains separate ability profiles and own uses', () => {
+  const { catalog, draft, species, background } = fixture();
+  const spell = entry(20, 'magia', {
+    circle: 1,
+    school: 'Evocação',
+    castingTime: '1 ação',
+    range: '18 metros',
+    rangeFeet: 60,
+    duration: 'Instantânea',
+    durationSeconds: 0,
+    concentration: false,
+    ritual: false,
+    components: { verbal: true, somatic: true, material: '', costCopper: null, consumed: false },
+    classRefs: [],
+    damages: [],
+    scales: [],
+  });
+  catalog.entries.push(spell);
+  for (const [i, owner, ability] of [
+    [80, species, 'int'],
+    [81, background, 'sab'],
+  ] as const)
+    catalog.castingProfiles.push({
+      ...caster(owner.ref.revisionId, i, 1, 'baixo', 'concedida'),
+      abilities: [ability],
+      progression: [],
+      spells: [
+        {
+          spellRef: spell.ref,
+          level: 1,
+          alwaysPrepared: true,
+          usesSlots: false,
+          ownUses: 1,
+          recovery: 'longo',
+        },
+      ],
+    });
+  const preview = resolveCreation(catalog, draft);
+  assert.deepEqual(preview.problems, []);
+  assert.equal(preview.sheet!.magias.length, 2);
+  assert.equal(new Set(preview.sheet!.magias.map((s) => s.perfilId)).size, 2);
+  assert.equal(preview.sheet!.recursos.length, 2);
+  assert.equal(
+    preview.sheet!.conjuracao.espacos.every((s) => s.total === 0),
+    true,
+  );
+});
+
+test('ability limits follow acquisition order before epic increases', () => {
+  const { catalog, draft, cls, background } = fixture();
+  background.data.distribution = 'nenhuma';
+  draft.abilities.backgroundBonuses = {};
+  draft.abilities.external.int = 18;
+  draft.classes[0].level = 19;
+  draft.levels = Array.from({ length: 19 }, (_, i) => ({ ...draft.levels[0], totalLevel: i + 1 }));
+  for (const [n, level, increase, limit] of [
+    [10, 19, 1, 30],
+    [20, 4, 2, 20],
+  ]) {
+    catalog.effects.push({
+      id: id(n),
+      ownerRevisionId: cls.ref.revisionId,
+      key: 'ability-' + n,
+      type: 'atributo',
+      formula: null,
+      requirementId: null,
+      level,
+      stacking: 'somar',
+      condition: '',
+      abilities: [{ ability: 'int', increase, limit }],
+      defenses: [],
+      resources: [],
+      proficiencies: [],
+    });
+  }
+  const p = resolveCreation(catalog, draft);
+  assert.equal(p.sheet?.atributos.int.valor, 21);
+  assert.ok(!p.problems.some((p) => p.code === 'ABILITY_LIMIT'));
+});

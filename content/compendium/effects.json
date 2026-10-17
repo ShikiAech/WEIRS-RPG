@@ -10,24 +10,194 @@
       "formula": {
         "op": "add",
         "args": [
-          { "op": "constant", "value": 13 },
-          { "op": "ability_modifier", "ability": "con" }
+          {
+            "op": "constant",
+            "value": 13
+          },
+          {
+            "op": "ability_modifier",
+            "ability": "con"
+          }
         ]
       },
-      "defenses": [{ "damageType": null, "unarmored": true, "permitsShield": true }],
+      "defenses": [
+        {
+          "damageType": null,
+          "unarmored": true,
+          "permitsShield": true
+        }
+      ],
       "condition": "Sem armadura. Com armadura, aplicar manualmente a desvantagem descrita no traço."
     },
     {
       "originalName": "Tough",
       "key": "robusto",
       "type": "pv_por_nivel",
-      "formula": { "op": "constant", "value": 2 }
+      "formula": {
+        "op": "constant",
+        "value": 2
+      }
     },
     {
       "originalName": "Alert",
       "key": "alerta",
       "type": "iniciativa_bonus",
-      "formula": { "op": "proficiency" }
+      "formula": {
+        "op": "proficiency"
+      }
+    },
+    {
+      "name": "Defesa sem Armadura",
+      "parent": "Bárbaro",
+      "key": "defesa-sem-armadura",
+      "type": "ca_formula",
+      "stacking": "alternativa",
+      "formula": {
+        "op": "add",
+        "args": [
+          {
+            "op": "constant",
+            "value": 10
+          },
+          {
+            "op": "ability_modifier",
+            "ability": "des"
+          },
+          {
+            "op": "ability_modifier",
+            "ability": "con"
+          }
+        ]
+      },
+      "defenses": [
+        {
+          "damageType": null,
+          "unarmored": true,
+          "permitsShield": true
+        }
+      ]
+    },
+    {
+      "name": "Defesa sem Armadura",
+      "parent": "Monge",
+      "key": "defesa-sem-armadura",
+      "type": "ca_formula",
+      "stacking": "alternativa",
+      "formula": {
+        "op": "add",
+        "args": [
+          {
+            "op": "constant",
+            "value": 10
+          },
+          {
+            "op": "ability_modifier",
+            "ability": "des"
+          },
+          {
+            "op": "ability_modifier",
+            "ability": "sab"
+          }
+        ]
+      },
+      "defenses": [
+        {
+          "damageType": null,
+          "unarmored": true,
+          "permitsShield": false
+        }
+      ]
+    }
+  ],
+  "innateProfiles": [
+    {
+      "name": "Magia Feérica",
+      "parent": "Fadas",
+      "abilities": [
+        "int",
+        "sab",
+        "car"
+      ],
+      "spells": [
+        {
+          "original": "druidcraft",
+          "level": 1
+        },
+        {
+          "original": "faerie fire",
+          "level": 3,
+          "uses": 1
+        },
+        {
+          "original": "enlarge/reduce",
+          "level": 5,
+          "uses": 1
+        }
+      ]
+    },
+    {
+      "name": "Herdeiro do Submundo",
+      "parent": "Archais",
+      "abilities": [
+        "int",
+        "sab",
+        "car"
+      ],
+      "spells": [
+        {
+          "original": "chill touch",
+          "level": 1
+        },
+        {
+          "original": "inflict wounds",
+          "level": 3,
+          "uses": 1
+        }
+      ]
+    },
+    {
+      "name": "Herdeiro do Submundo",
+      "parent": "Ímpios",
+      "abilities": [
+        "int",
+        "sab",
+        "car"
+      ],
+      "spells": [
+        {
+          "original": "chill touch",
+          "level": 1
+        },
+        {
+          "original": "inflict wounds",
+          "level": 3,
+          "uses": 1
+        }
+      ]
+    },
+    {
+      "name": "Taumaturgia",
+      "parent": "Baphoritas",
+      "abilities": [
+        "car"
+      ],
+      "spells": [
+        {
+          "original": "thaumaturgy",
+          "level": 1
+        }
+      ]
+    },
+    {
+      "name": "Telecinese Anansi",
+      "parent": "Anansis",
+      "abilities": [],
+      "spells": [
+        {
+          "original": "mage hand",
+          "level": 1
+        }
+      ]
     }
   ]
 }

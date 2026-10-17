@@ -29,7 +29,10 @@ export function resolveSpellcasting(
     const key = `${instance.id}/casting:${p.id}`,
       chosen = draft.castingAbilities.filter((a) => a.profileId === key);
     const ability = chosen[0]?.ability ?? (p.abilities.length === 1 ? p.abilities[0] : null);
-    if (chosen.length > 1 || !ability || !p.abilities.includes(ability))
+    if (
+      chosen.length > 1 ||
+      (p.abilities.length > 0 ? !ability || !p.abilities.includes(ability) : chosen.length > 0)
+    )
       result.problems.push({
         code: 'CASTING_ABILITY',
         field: `castingAbilities.${key}`,
@@ -65,7 +68,59 @@ export function resolveSpellcasting(
       known: progress?.known ?? 0,
       cantrips: progress?.cantrips ?? 0,
       type: p.type,
+      listClassRevisionIds: [] as string[],
+      selectable: p.type !== 'concedida' || !!p.listClassRefs?.length,
     };
+    const ownClass =
+      instance.entry.kind === 'subclasse'
+        ? instance.entry.data.classRef
+        : instance.entry.kind === 'classe'
+          ? instance.entry.ref
+          : null;
+    if (ownClass) row.listClassRevisionIds = [ownClass.revisionId];
+    if (p.listClassRefs?.length) {
+      const group = state.concessions.choices
+        .filter(
+          (c) =>
+            c.group.key === p.listChoiceKey &&
+            (c.instance.id === instance.id || instance.id.startsWith(c.instance.id + '/')),
+        )
+        .sort((a, b) => b.instance.id.length - a.instance.id.length)[0];
+      const choice =
+        group &&
+        draft.choices.find(
+          (c) => c.groupId === group.group.id && c.sourceInstanceId === group.instance.id,
+        );
+      row.listClassRevisionIds =
+        p.listClassRefs.length === 1
+          ? p.listClassRefs.map((r) => r.revisionId)
+          : (choice?.values.flatMap((v) => {
+              const o =
+                v.type === 'option' ? group.group.options.find((o) => o.id === v.optionId) : null;
+              return o?.targetRef &&
+                p.listClassRefs!.some((r) => r.revisionId === o.targetRef!.revisionId)
+                ? [o.targetRef.revisionId]
+                : [];
+            }) ?? []);
+      if (row.listClassRevisionIds.length !== 1)
+        result.problems.push({
+          code: 'SPELL_LIST_REQUIRED',
+          field: key,
+          message: 'Escolha uma lista de magias para esta origem.',
+        });
+      if (
+        result.profiles.some(
+          (previous) =>
+            previous.ownerRevisionId === p.ownerRevisionId &&
+            previous.listClassRevisionIds?.some((id) => row.listClassRevisionIds.includes(id)),
+        )
+      )
+        result.problems.push({
+          code: 'REPEATED_SPELL_LIST',
+          field: key,
+          message: 'Ao repetir este talento, escolha uma lista de magias diferente.',
+        });
+    }
     result.profiles.push(row);
     if (p.type === 'conjuracao') {
       const contribution = (instance.level * p.contributionNumerator) / p.contributionDenominator;
@@ -95,15 +150,13 @@ export function resolveSpellcasting(
       const fixed = p.spells.some(
         (s) => s.spellRef.revisionId === e?.ref.revisionId && s.level <= instance.level,
       );
-      const classRef =
-        instance.entry.kind === 'subclasse' ? instance.entry.data.classRef : instance.entry.ref;
       if (
         !e ||
         e.kind !== 'magia' ||
         seen.has(e.ref.recordId) ||
         (!fixed &&
           (e.data.circle > maximumCircle ||
-            !e.data.classRefs.some((c) => c.revisionId === classRef.revisionId)))
+            !e.data.classRefs.some((c) => row.listClassRevisionIds.includes(c.revisionId))))
       ) {
         result.problems.push({
           code: 'SPELL_NOT_AVAILABLE',
@@ -130,6 +183,20 @@ export function resolveSpellcasting(
         field: key,
         message:
           'A seleção excede a quantidade de truques, magias conhecidas ou preparadas desta origem.',
+      });
+    if (
+      progress &&
+      (cantrips !== row.cantrips ||
+        (p.method === 'conhecidas' && known !== row.known) ||
+        (p.method === 'grimorio' && progress.known !== null && known !== row.known) ||
+        (['preparadas', 'fixas', 'grimorio'].includes(p.method) &&
+          progress.prepared !== null &&
+          prepared !== row.prepared))
+    )
+      result.problems.push({
+        code: 'SPELL_SELECTION_REQUIRED',
+        field: key,
+        message: 'Complete a seleção de truques e magias desta origem.',
       });
   }
   if (normal.length > 1) {

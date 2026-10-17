@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { compendiumFixture } from './sql/compendium-fixture';
 import { readJsonSources } from '../tools/compendium-import/json';
+import { readLegacySources } from '../tools/compendium-import/legacy';
 import { normalizeSources } from '../tools/compendium-import/normalize';
 import { loadCuration, resolveCatalog } from '../tools/compendium-import/resolve';
 import { generateSeed, coverageReport } from '../tools/compendium-import/sql';
@@ -16,12 +17,19 @@ async function sample() {
         r.key === 'especie:weirs:cranoris' ||
         r.parentKey === 'especie:weirs:cranoris',
     );
+  const legacy = await readLegacySources(process.cwd());
+  for (const source of legacy)
+    source.records = source.records.filter(
+      (r) => r.kind === 'classe' && ['Clérigo', 'Druida', 'Mago'].includes(r.name),
+    );
+  sources.push(...legacy.filter((s) => s.records.length));
   const c = resolveCatalog(
     normalizeSources(sources, { records: {} }),
     await loadCuration(process.cwd()),
   );
   const actor = c.entries.find((e) => e.originalName === 'Actor')!;
-  actor.description = "Uma tradução com 'aspas', barra \\ e\nparágrafo novo. Texto literal $verify$; $compendio_0$.";
+  actor.description =
+    "Uma tradução com 'aspas', barra \\ e\nparágrafo novo. Texto literal $verify$; $compendio_0$.";
   return { c, actor };
 }
 test('carga relacional publica vínculos, preserva texto e é idempotente', async () => {

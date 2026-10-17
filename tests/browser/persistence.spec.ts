@@ -6,7 +6,7 @@ test('criação com resposta perdida recupera a mesma ficha sem duplicar, mesmo 
 }) => {
   const state = await backend(page, { empty: true });
   state.failCreateAcknowledgement = true;
-  await page.goto('app.html#/fichas/nova');
+  await page.goto('app.html#/fichas/nova?modo=manual');
   await page
     .getByLabel('Nome do personagem', { exact: true })
     .fill('<img src=x onerror=alert(1)> Ímpio');
@@ -16,6 +16,7 @@ test('criação com resposta perdida recupera a mesma ficha sem duplicar, mesmo 
   page.on('dialog', (dialog) => dialog.accept());
   await page.getByRole('link', { name: 'Fichas', exact: true }).click();
   await page.getByRole('link', { name: 'Criar personagem +' }).click();
+  await page.getByRole('link',{name:'Preencher manualmente',exact:true}).click();
   await page.getByRole('button', { name: 'Salvar ficha', exact: true }).click();
   await expect(page.getByRole('status')).toContainText('Ficha salva');
   expect(state.rows).toHaveLength(1);

@@ -17,6 +17,7 @@ test('usuário entra como jogador, repete uma confirmação perdida e cria ficha
     fullPage: true,
   });
   await page.getByRole('link', { name: 'Criar personagem nesta campanha' }).click();
+  await page.getByRole('link', { name: 'Preencher manualmente', exact: true }).click();
   await page.getByLabel('Nome do personagem', { exact: true }).fill('Novo jogador');
   await expect(page.getByRole('combobox', { name: 'Campanha', exact: true })).toHaveValue(
     campaignId,
@@ -85,6 +86,7 @@ test('criar em outra campanha conserva os rascunhos separados da conta', async (
     .getByRole('article', { name: 'Participação em Crônicas de Othans' })
     .getByRole('link', { name: 'Criar personagem nesta campanha' })
     .click();
+  await page.getByRole('link', { name: 'Preencher manualmente', exact: true }).click();
   await page.getByLabel('Nome do personagem', { exact: true }).fill('Rascunho Othans');
   page.on('dialog', (dialog) => dialog.accept());
   await page.getByRole('link', { name: 'Campanhas', exact: true }).click();
@@ -92,6 +94,7 @@ test('criar em outra campanha conserva os rascunhos separados da conta', async (
     .getByRole('article', { name: 'Participação em Outra campanha' })
     .getByRole('link', { name: 'Criar personagem nesta campanha' })
     .click();
+  await page.getByRole('link', { name: 'Preencher manualmente', exact: true }).click();
   await expect(page.getByRole('combobox', { name: 'Campanha', exact: true })).toHaveValue(other);
   await expect(page.getByLabel('Nome do personagem', { exact: true })).toHaveValue('');
   await page.getByLabel('Nome do personagem', { exact: true }).fill('Rascunho outra mesa');
@@ -100,6 +103,7 @@ test('criar em outra campanha conserva os rascunhos separados da conta', async (
     .getByRole('article', { name: 'Participação em Crônicas de Othans' })
     .getByRole('link', { name: 'Criar personagem nesta campanha' })
     .click();
+  await page.getByRole('link', { name: 'Preencher manualmente', exact: true }).click();
   await expect(page.getByLabel('Nome do personagem', { exact: true })).toHaveValue(
     'Rascunho Othans',
   );

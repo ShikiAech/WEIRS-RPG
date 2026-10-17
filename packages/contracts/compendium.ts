@@ -111,6 +111,7 @@ export interface ClassLevelDefinition {
   level: number;
 }
 export interface ClassDefinition {
+  subclassLevel?: number;
   hitDie: 6 | 8 | 10 | 12;
   fixedHitPoints: number;
   primaryAbilities: Ability[];
@@ -124,6 +125,7 @@ export interface SubclassDefinition {
   levels: ClassLevelDefinition[];
 }
 export interface SpeciesDefinition {
+  lineageRequired?: boolean;
   creatureType: string;
   defaultSize: string;
   sizes: SizeDefinition[];
@@ -362,6 +364,10 @@ export interface EffectDefinition {
   proficiencies: { proficiencyId: string; degree: 'meia' | 'proficiente' | 'especializacao' }[];
 }
 export interface SpellcastingProfileDefinition {
+  listClassRefs?: CompendiumRef[];
+  listChoiceKey?: string | null;
+  selectionUses?: number | null;
+  selectionRecovery?: 'curto' | 'longo' | 'manual' | null;
   id: string;
   ownerRevisionId: string;
   key: string;

@@ -90,7 +90,11 @@ test('antecedente relaciona talento, perícias e kits com quantidades e moedas',
   assert.ok(
     c.choices.some(
       (g) =>
-        g.ownerRevisionId === entry.ref.revisionId && g.options.some((o) => o.value === 'clerigo'),
+        g.ownerRevisionId === entry.ref.revisionId &&
+        g.options.some(
+          (o) =>
+            c.entries.find((e) => e.ref.revisionId === o.targetRef?.revisionId)?.name === 'Clérigo',
+        ),
     ),
   );
 });
@@ -398,4 +402,55 @@ test('características opcionais conservam a classe ou subclasse de origem', asy
     entry.kind === 'caracteristica' && entry.data.parentRef?.revisionId === parent.ref.revisionId,
   );
   assert.equal(entry.kind === 'caracteristica' && entry.data.optional, true);
+});
+test('creation catalog includes class feat milestones, fighting styles and granted spell profiles', async () => {
+  const c = await resolved;
+  const fighter = c.entries.find((e) => e.kind === 'classe' && e.name === 'Guerreiro')!;
+  assert.ok(
+    c.choices.some(
+      (g) =>
+        g.ownerRevisionId === fighter.ref.revisionId && g.level === 6 && g.optionKind === 'talento',
+    ),
+  );
+  const style = c.entries.find(
+    (e) =>
+      e.kind === 'caracteristica' &&
+      e.name === 'Estilo de Luta' &&
+      e.data.parentRef?.revisionId === fighter.ref.revisionId,
+  )!;
+  assert.ok(
+    c.choices.some(
+      (g) => g.ownerRevisionId === style.ref.revisionId && g.featCategory === 'estilo-luta',
+    ),
+  );
+  const initiate = c.entries.find(
+    (e) => e.kind === 'talento' && e.originalName === 'Magic Initiate',
+  )!;
+  const profile = c.castingProfiles.find((p) => p.ownerRevisionId === initiate.ref.revisionId)!;
+  assert.ok(profile);
+  assert.equal(profile.progression[0].cantrips, 2);
+  assert.equal(profile.progression[0].prepared, 1);
+  assert.equal(profile.listClassRefs?.length, 3);
+  const fairy = c.entries.find((e) => e.kind === 'caracteristica' && e.name === 'Magia Feérica')!;
+  const innate = c.castingProfiles.find((p) => p.ownerRevisionId === fairy.ref.revisionId)!;
+  assert.ok(innate);
+  assert.deepEqual(
+    innate.spells.map((s) => s.level),
+    [1, 3, 5],
+  );
+  const knight = c.entries.find((e) => e.kind === 'subclasse' && e.name === 'Cavaleiro Místico')!;
+  const third = c.castingProfiles.find((p) => p.ownerRevisionId === knight.ref.revisionId)!;
+  assert.deepEqual(third.progression[0], {
+    level: 3,
+    cantrips: 2,
+    prepared: 3,
+    known: null,
+    maximumCircle: 1,
+  });
+  assert.equal(third.progression.at(-1)?.level, 20);
+  assert.equal(new Set(third.progression.map((p) => p.level)).size, third.progression.length);
+});
+test('legacy prerequisite spelling with a space is not treated as an empty requirement',async()=>{
+ const sources=await readLegacySources(root);for(const source of sources)source.records=source.records.filter(r=>r.kind==='talento'&&r.name==='Espírito Manchado');
+ const c=resolveCatalog(normalizeSources(sources,{records:{}}),await loadCuration(root));const feat=c.entries.find(e=>e.kind==='talento'&&e.name==='Espírito Manchado')!;assert.match(feat.kind==='talento'?feat.data.prerequisiteText:'',/Humano Manchado/);
 });

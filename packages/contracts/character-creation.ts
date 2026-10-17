@@ -83,6 +83,7 @@ export interface CreationProblem {
 export interface CreationContribution {
   id: string;
   sourceRevisionId: string;
+  sourceRecordId?: string;
   sourceInstanceId: string;
   grantId: string | null;
   target: string;
@@ -119,6 +120,8 @@ export interface SpellcastingBreakdown {
     known: number;
     cantrips: number;
     type: 'conjuracao' | 'pacto' | 'concedida';
+    listClassRevisionIds?: string[];
+    selectable?: boolean;
   }[];
   effectiveCasterLevel: number;
   slots: { circle: number; total: number }[];

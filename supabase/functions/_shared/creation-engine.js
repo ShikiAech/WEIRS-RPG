@@ -64,6 +64,21 @@ function validarFormulaDano(expression) {
 	}
 	return "";
 }
+/** @param {import('../contracts/sheets').SheetContent} content */
+function sincronizarEquipamentos(content) {
+	const c = structuredClone(content), calc = calcularFicha(c);
+	for (const attack of c.ataques) {
+		if (!attack.itemId || !attack.atributo) continue;
+		const item = c.inventario.itens.find((x) => x.id === attack.itemId);
+		if (!item) continue;
+		attack.valor = calc.atributos[attack.atributo] + (attack.bonus ?? 0) + (attack.proficiente ? calc.proficiencia : 0);
+		attack.critico = item.critico ?? 20;
+		const damages = (attack.danos || []).filter((x) => x.dado.trim());
+		attack.dano = damages.map((x) => formulaDano(x, calc.atributos).trim().replace(/^\+\s*/, "")).join("+").replace(/\+\-/g, "-").replace(/\s/g, "");
+		attack.tipoDano = [...new Set(damages.map((x) => x.tipo.trim()).filter(Boolean))].join(" / ");
+	}
+	return c;
+}
 function validarEquipamentos(c) {
 	const errors = [], ids = new Set(c.inventario.itens.map((x) => x.id));
 	const damageIds = /* @__PURE__ */ new Set();
@@ -298,7 +313,7 @@ function validCreationDraft(value) {
 /** @param {unknown} value @returns {value is import('../contracts/character-creation').CreationSnapshot} */
 function validCreationSnapshot(value) {
 	const s = value;
-	return object(s) && s.schemaVersion === 1 && validCreationDraft(s.draft) && list(s.contributions, 1e3, (c) => object(c) && UUID$2.test(c.id) && UUID$2.test(c.sourceRevisionId) && text(c.sourceInstanceId, 4096) && (c.grantId === null || UUID$2.test(c.grantId)) && text(c.target, 80) && text(c.name, 240) && (c.amount === null || typeof c.amount === "number" && Number.isFinite(c.amount) && Math.abs(c.amount) <= 1e6));
+	return object(s) && s.schemaVersion === 1 && validCreationDraft(s.draft) && list(s.contributions, 1e3, (c) => object(c) && UUID$2.test(c.id) && UUID$2.test(c.sourceRevisionId) && (c.sourceRecordId === void 0 || UUID$2.test(c.sourceRecordId)) && text(c.sourceInstanceId, 4096) && (c.grantId === null || UUID$2.test(c.grantId)) && text(c.target, 80) && text(c.name, 240) && (c.amount === null || typeof c.amount === "number" && Number.isFinite(c.amount) && Math.abs(c.amount) <= 1e6));
 }
 //#endregion
 //#region packages/sheets/modelo.js
@@ -660,6 +675,9 @@ var abilities = [
 	"car"
 ];
 var modifier = (score) => Math.floor((score - 10) / 2);
+function orderedAbilityBonuses(bonuses) {
+	return [...bonuses].sort((a, b) => a.instance.acquiredAt - b.instance.acquiredAt || a.limit - b.limit || a.instance.id.localeCompare(b.instance.id));
+}
 function resolveAbilities(catalog, draft) {
 	const base = {}, totals = {}, problems = [];
 	const problem = (code, field, message) => problems.push({
@@ -708,6 +726,17 @@ function resolveAbilities(catalog, draft) {
 }
 //#endregion
 //#region packages/character-creation/requirements.ts
+function proficiencyKey(catalog, id) {
+	const p = catalog.proficiencies.find((p) => p.id === id);
+	return p ? JSON.stringify([
+		p.type,
+		p.skill ?? "",
+		p.ability ?? "",
+		p.category ?? "",
+		p.equipment?.recordId ?? "",
+		p.language?.recordId ?? ""
+	]) : id;
+}
 function requirementMet(catalog, id, context, seen = /* @__PURE__ */ new Set()) {
 	if (!id) return true;
 	if (seen.has(id) || seen.size > 100) return false;
@@ -721,7 +750,7 @@ function requirementMet(catalog, id, context, seen = /* @__PURE__ */ new Set()) 
 		case "nivel": return context.level >= (r.minimum ?? Infinity);
 		case "nivel-classe": return (context.classLevels.get(target) ?? 0) >= (r.minimum ?? Infinity);
 		case "atributo": return !!r.ability && (context.abilities[r.ability] ?? 0) >= (r.minimum ?? Infinity);
-		case "proficiencia": return !!r.proficiencyId && context.proficiencies.has(r.proficiencyId);
+		case "proficiencia": return !!r.proficiencyId && (context.proficiencies.has(r.proficiencyId) || context.proficiencies.has(proficiencyKey(catalog, r.proficiencyId)));
 		case "especie":
 		case "linhagem":
 		case "caracteristica":
@@ -730,6 +759,42 @@ function requirementMet(catalog, id, context, seen = /* @__PURE__ */ new Set()) 
 		case "escolha": return context.choices.some((c) => c.groupId === r.choiceKey && c.values.length > 0);
 		default: return false;
 	}
+}
+//#endregion
+//#region packages/character-creation/order.ts
+var compare = (a, b) => a < b ? -1 : a > b ? 1 : 0;
+var byId = (rows) => [...rows].sort((a, b) => compare(a.id, b.id));
+function orderedCatalog(c) {
+	return {
+		...c,
+		entries: [...c.entries].sort((a, b) => compare(a.ref.revisionId, b.ref.revisionId)).map((e) => e.kind === "pacote" ? {
+			...e,
+			data: {
+				...e.data,
+				items: byId(e.data.items)
+			}
+		} : e.kind === "classe" ? {
+			...e,
+			data: {
+				...e.data,
+				proficiencies: [...e.data.proficiencies].sort((a, b) => compare(a.proficiencyId, b.proficiencyId))
+			}
+		} : e),
+		choices: byId(c.choices).map((g) => ({
+			...g,
+			options: byId(g.options)
+		})),
+		grants: byId(c.grants).sort((a, b) => a.level - b.level || compare(a.id, b.id)),
+		requirements: byId(c.requirements),
+		effects: byId(c.effects),
+		proficiencies: byId(c.proficiencies),
+		equipmentOptions: byId(c.equipmentOptions),
+		castingProfiles: byId(c.castingProfiles).map((p) => ({
+			...p,
+			spells: [...p.spells].sort((a, b) => a.level - b.level || compare(a.spellRef.revisionId, b.spellRef.revisionId))
+		})),
+		multiclassSlots: [...c.multiclassSlots].sort((a, b) => a.level - b.level || a.circle - b.circle)
+	};
 }
 //#endregion
 //#region packages/character-creation/concessions.ts
@@ -747,7 +812,9 @@ function instanceUuid(key) {
 	return `${words.slice(0, 8)}-${words.slice(8, 12)}-4${words.slice(13, 16)}-8${words.slice(17, 20)}-${words.slice(20, 32)}`;
 }
 function resolveConcessions(catalog, draft) {
+	catalog = orderedCatalog(catalog);
 	const result = {
+		masteries: [],
 		instances: [],
 		choices: [],
 		effects: [],
@@ -782,10 +849,10 @@ function resolveConcessions(catalog, draft) {
 			ancestors: []
 		});
 	};
-	root(draft.speciesRef, "species", "especie");
-	root(draft.backgroundRef, "background", "antecedente");
+	root(draft.speciesRef, "species", "especie", Math.max(1, totalLevel));
+	root(draft.backgroundRef, "background", "antecedente", Math.max(1, totalLevel));
 	if (draft.lineageRef) {
-		root(draft.lineageRef, "lineage", "linhagem");
+		root(draft.lineageRef, "lineage", "linhagem", Math.max(1, totalLevel));
 		const lineage = find(draft.lineageRef);
 		if (lineage?.kind === "linhagem" && lineage.data.speciesRef.revisionId !== draft.speciesRef?.revisionId) problem("INVALID_LINEAGE", "lineageRef", "A linhagem não pertence à espécie selecionada.");
 	}
@@ -801,7 +868,7 @@ function resolveConcessions(catalog, draft) {
 			else root(cls.subclassRef, `subclass:${cls.id}`, "subclasse", cls.level, cls.id === initialClass ? "inicial" : "multiclasse", cls.id, draft.levels.filter((l) => l.classEntryId === cls.id)[sub.data.acquisitionLevel - 1]?.totalLevel ?? acquiredAt);
 		} else if (cls.subclassRef) problem("MISSING_REFERENCE", `classes.${cls.id}.subclassRef`, "A revisão da subclasse não está disponível.");
 		const classEntry = find(cls.classRef);
-		if (!cls.subclassRef && catalog.entries.some((e) => e.kind === "subclasse" && e.data.classRef.revisionId === classEntry?.ref.revisionId && cls.level >= e.data.acquisitionLevel)) problem("SUBCLASS_REQUIRED", `classes.${cls.id}.subclassRef`, "Escolha a subclasse.");
+		if (!cls.subclassRef && (classEntry?.kind === "classe" && classEntry.data.subclassLevel !== void 0 && cls.level >= classEntry.data.subclassLevel || catalog.entries.some((e) => e.kind === "subclasse" && e.data.classRef.revisionId === classEntry?.ref.revisionId && cls.level >= e.data.acquisitionLevel))) problem("SUBCLASS_REQUIRED", `classes.${cls.id}.subclassRef`, "Escolha a subclasse.");
 	}
 	const base = resolveAbilities(catalog, draft).totals;
 	function context(at) {
@@ -814,19 +881,19 @@ function resolveConcessions(catalog, draft) {
 		const repetitions = /* @__PURE__ */ new Map();
 		for (const i of owned) repetitions.set(i.entry.ref.revisionId, (repetitions.get(i.entry.ref.revisionId) ?? 0) + 1);
 		const scores = { ...base };
-		for (const b of result.abilityBonuses.filter((b) => b.instance.acquiredAt < at)) if (scores[b.ability] !== void 0) scores[b.ability] = Math.min(b.limit, scores[b.ability] + b.amount);
+		for (const b of orderedAbilityBonuses(result.abilityBonuses).filter((b) => b.instance.acquiredAt < at)) if (scores[b.ability] !== void 0) scores[b.ability] = Math.min(b.limit, scores[b.ability] + b.amount);
 		return {
 			level: at,
 			classLevels: counts,
 			abilities: scores,
 			records: new Set(owned.map((i) => i.entry.ref.revisionId)),
-			proficiencies: new Set(result.proficiencyGrants.filter((p) => p.instance.acquiredAt <= at).map((p) => p.proficiencyId)),
+			proficiencies: new Set(result.proficiencyGrants.filter((p) => p.instance.acquiredAt <= at).flatMap((p) => [p.proficiencyId, proficiencyKey(catalog, p.proficiencyId)])),
 			choices: draft.choices,
 			repetitions
 		};
 	}
 	const matchesAcquisition = (acquisition, node) => acquisition === "ambas" || acquisition === node.acquisition;
-	const atLevel = (node, level) => node.classEntryId ? draft.levels.filter((l) => l.classEntryId === node.classEntryId)[Math.max(0, level - 1)]?.totalLevel ?? node.acquiredAt : node.acquiredAt;
+	const atLevel = (node, level) => node.classEntryId ? Math.max(node.acquiredAt, draft.levels.filter((l) => l.classEntryId === node.classEntryId)[Math.max(0, level - 1)]?.totalLevel ?? node.acquiredAt) : Math.max(node.acquiredAt, level);
 	const pending = [];
 	const processed = /* @__PURE__ */ new Set();
 	function process(node) {
@@ -841,11 +908,27 @@ function resolveConcessions(catalog, draft) {
 		if (node.id === "species" && find(draft.lineageRef)?.kind === "linhagem" && find(draft.lineageRef).data.inheritTraits === false) return;
 		for (const group of catalog.choices.filter((g) => g.ownerRevisionId === node.entry.ref.revisionId && g.level <= node.level && matchesAcquisition(g.acquisition, node))) {
 			if (!requirementMet(catalog, group.requirementId, context(atLevel(node, group.level)))) continue;
-			result.choices.push({
+			let selected = draft.choices.filter((c) => c.groupId === group.id && c.sourceInstanceId === node.id);
+			const ancestorChoice = result.choices.filter((c) => c.group.key === group.key && node.id.startsWith(c.instance.id + "/")).reverse().map((c) => ({
+				group: c.group,
+				choice: draft.choices.find((s) => s.groupId === c.group.id && s.sourceInstanceId === c.instance.id)
+			})).find((c) => c.choice?.values.length);
+			if (!selected.length && ancestorChoice?.choice) selected = [{
+				groupId: group.id,
+				sourceInstanceId: node.id,
+				values: ancestorChoice.choice.values.flatMap((v) => {
+					const old = v.type === "option" ? ancestorChoice.group.options.find((o) => o.id === v.optionId) : null;
+					const option = old?.targetRef ? group.options.find((o) => o.targetRef?.revisionId === old.targetRef?.revisionId) : null;
+					return option ? [{
+						type: "option",
+						optionId: option.id
+					}] : [];
+				})
+			}];
+			else result.choices.push({
 				instance: node,
 				group
 			});
-			const selected = draft.choices.filter((c) => c.groupId === group.id && c.sourceInstanceId === node.id);
 			const values = selected[0]?.values ?? [];
 			if (selected.length > 1 || values.length < group.minimum || values.length > group.maximum) {
 				problem("CHOICE_REQUIRED", `choices.${node.id}.${group.id}`, `Escolha de ${group.minimum} a ${group.maximum} opção(ões): ${group.name}.`, node.entry.ref.revisionId);
@@ -869,7 +952,15 @@ function resolveConcessions(catalog, draft) {
 					continue;
 				}
 				const ref = value.type === "record" ? value.ref : option?.targetRef;
-				if (ref) pending.push({
+				if (ref && option?.type === "maestria-arma") {
+					if (result.masteries.some((m) => m.instance.id === node.id && m.ref.recordId === ref.recordId)) problem("DUPLICATE_MASTERY", `choices.${group.id}`, "Escolha uma arma diferente para cada maestria da classe.");
+					else result.masteries.push({
+						instance: node,
+						ref,
+						id: `${node.id}/mastery:${group.id}:${option.id}`
+					});
+				}
+				if (ref && !["lista-magia", "maestria-arma"].includes(option?.type ?? "")) pending.push({
 					parent: node,
 					grant: null,
 					ref,
@@ -948,6 +1039,7 @@ function resolveConcessions(catalog, draft) {
 	roots.forEach(process);
 	const errors = /* @__PURE__ */ new Map();
 	for (let round = 0; round < 64 && pending.length; round++) {
+		pending.sort((a, b) => a.at - b.at || a.id.localeCompare(b.id));
 		let progressed = false;
 		for (let index = 0; index < pending.length;) {
 			const p = pending[index], entry = find(p.ref);
@@ -999,12 +1091,26 @@ function resolveConcessions(catalog, draft) {
 	for (const node of result.instances) result.contributions.push({
 		id: instanceUuid(node.id),
 		sourceRevisionId: node.entry.ref.revisionId,
+		sourceRecordId: node.entry.ref.recordId,
 		sourceInstanceId: node.id,
 		grantId: node.grantId,
 		target: node.entry.kind,
 		name: node.entry.name,
 		amount: null
 	});
+	for (const mastery of result.masteries) {
+		const e = find(mastery.ref);
+		if (e) result.contributions.push({
+			id: instanceUuid(mastery.id),
+			sourceRevisionId: e.ref.revisionId,
+			sourceRecordId: e.ref.recordId,
+			sourceInstanceId: mastery.id,
+			grantId: null,
+			target: "maestria-arma",
+			name: `Maestria: ${e.name}`,
+			amount: null
+		});
+	}
 	return result;
 }
 //#endregion
@@ -1013,7 +1119,7 @@ function resolveState(catalog, draft) {
 	const scores = resolveAbilities(catalog, draft), concessions = resolveConcessions(catalog, draft);
 	const totals = { ...scores.totals };
 	const problems = [...scores.problems, ...concessions.problems];
-	for (const b of concessions.abilityBonuses) if (totals[b.ability] !== void 0) {
+	for (const b of orderedAbilityBonuses(concessions.abilityBonuses)) if (totals[b.ability] !== void 0) {
 		const next = totals[b.ability] + b.amount;
 		if (next > b.limit) problems.push({
 			code: "ABILITY_LIMIT",
@@ -1214,7 +1320,7 @@ function resolveSpellcasting(catalog, draft, state = resolveState(catalog, draft
 	for (const { instance, definition: p } of active) {
 		const key = `${instance.id}/casting:${p.id}`, chosen = draft.castingAbilities.filter((a) => a.profileId === key);
 		const ability = chosen[0]?.ability ?? (p.abilities.length === 1 ? p.abilities[0] : null);
-		if (chosen.length > 1 || !ability || !p.abilities.includes(ability)) result.problems.push({
+		if (chosen.length > 1 || (p.abilities.length > 0 ? !ability || !p.abilities.includes(ability) : chosen.length > 0)) result.problems.push({
 			code: "CASTING_ABILITY",
 			field: `castingAbilities.${key}`,
 			message: "Escolha um atributo de conjuração permitido.",
@@ -1239,8 +1345,30 @@ function resolveSpellcasting(catalog, draft, state = resolveState(catalog, draft
 			prepared: progress?.prepared ?? 0,
 			known: progress?.known ?? 0,
 			cantrips: progress?.cantrips ?? 0,
-			type: p.type
+			type: p.type,
+			listClassRevisionIds: [],
+			selectable: p.type !== "concedida" || !!p.listClassRefs?.length
 		};
+		const ownClass = instance.entry.kind === "subclasse" ? instance.entry.data.classRef : instance.entry.kind === "classe" ? instance.entry.ref : null;
+		if (ownClass) row.listClassRevisionIds = [ownClass.revisionId];
+		if (p.listClassRefs?.length) {
+			const group = state.concessions.choices.filter((c) => c.group.key === p.listChoiceKey && (c.instance.id === instance.id || instance.id.startsWith(c.instance.id + "/"))).sort((a, b) => b.instance.id.length - a.instance.id.length)[0];
+			const choice = group && draft.choices.find((c) => c.groupId === group.group.id && c.sourceInstanceId === group.instance.id);
+			row.listClassRevisionIds = p.listClassRefs.length === 1 ? p.listClassRefs.map((r) => r.revisionId) : choice?.values.flatMap((v) => {
+				const o = v.type === "option" ? group.group.options.find((o) => o.id === v.optionId) : null;
+				return o?.targetRef && p.listClassRefs.some((r) => r.revisionId === o.targetRef.revisionId) ? [o.targetRef.revisionId] : [];
+			}) ?? [];
+			if (row.listClassRevisionIds.length !== 1) result.problems.push({
+				code: "SPELL_LIST_REQUIRED",
+				field: key,
+				message: "Escolha uma lista de magias para esta origem."
+			});
+			if (result.profiles.some((previous) => previous.ownerRevisionId === p.ownerRevisionId && previous.listClassRevisionIds?.some((id) => row.listClassRevisionIds.includes(id)))) result.problems.push({
+				code: "REPEATED_SPELL_LIST",
+				field: key,
+				message: "Ao repetir este talento, escolha uma lista de magias diferente."
+			});
+		}
 		result.profiles.push(row);
 		if (p.type === "conjuracao") {
 			const contribution = instance.level * p.contributionNumerator / p.contributionDenominator;
@@ -1262,8 +1390,7 @@ function resolveSpellcasting(catalog, draft, state = resolveState(catalog, draft
 		for (const selection of selected) {
 			const e = catalog.entries.find((e) => e.ref.revisionId === selection.spellRef.revisionId && e.ref.recordId === selection.spellRef.recordId);
 			const fixed = p.spells.some((s) => s.spellRef.revisionId === e?.ref.revisionId && s.level <= instance.level);
-			const classRef = instance.entry.kind === "subclasse" ? instance.entry.data.classRef : instance.entry.ref;
-			if (!e || e.kind !== "magia" || seen.has(e.ref.recordId) || !fixed && (e.data.circle > maximumCircle || !e.data.classRefs.some((c) => c.revisionId === classRef.revisionId))) {
+			if (!e || e.kind !== "magia" || seen.has(e.ref.recordId) || !fixed && (e.data.circle > maximumCircle || !e.data.classRefs.some((c) => row.listClassRevisionIds.includes(c.revisionId)))) {
 				result.problems.push({
 					code: "SPELL_NOT_AVAILABLE",
 					field: key,
@@ -1283,6 +1410,15 @@ function resolveSpellcasting(catalog, draft, state = resolveState(catalog, draft
 			code: "SPELL_LIMIT",
 			field: key,
 			message: "A seleção excede a quantidade de truques, magias conhecidas ou preparadas desta origem."
+		});
+		if (progress && (cantrips !== row.cantrips || p.method === "conhecidas" && known !== row.known || p.method === "grimorio" && progress.known !== null && known !== row.known || [
+			"preparadas",
+			"fixas",
+			"grimorio"
+		].includes(p.method) && progress.prepared !== null && prepared !== row.prepared)) result.problems.push({
+			code: "SPELL_SELECTION_REQUIRED",
+			field: key,
+			message: "Complete a seleção de truques e magias desta origem."
 		});
 	}
 	if (normal.length > 1) {
@@ -1343,6 +1479,7 @@ function projectSheet(catalog, draft, state, hp, defenses, casting) {
 	const roots = state.concessions.instances;
 	const species = roots.find((i) => i.id === "species")?.entry, lineage = roots.find((i) => i.id === "lineage")?.entry, bg = roots.find((i) => i.id === "background")?.entry;
 	sheet.identidade.especie = [species?.name, lineage?.name].filter(Boolean).join(" / ");
+	if (species?.kind === "especie") sheet.combate.sentidos = species.data.senses.map((s) => `${s.type}${s.distanceFeet === null ? "" : `: ${s.distanceFeet * .3} m`}${s.condition ? ` (${s.condition})` : ""}`).join("; ");
 	sheet.identidade.antecedente = bg?.name ?? "";
 	sheet.identidade.tamanho = draft.size ?? "";
 	sheet.classes = draft.classes.map((c) => ({
@@ -1388,6 +1525,15 @@ function projectSheet(catalog, draft, state, hp, defenses, casting) {
 		proficiente: 2,
 		especializacao: 3
 	};
+	for (const mastery of state.concessions.masteries) {
+		const weapon = entry(mastery.ref.revisionId);
+		const definition = weapon?.kind === "equipamento" && weapon.data.weapon?.masteryRef ? entry(weapon.data.weapon.masteryRef.revisionId) : null;
+		sheet.caracteristicas.push({
+			id: instanceUuid(mastery.id),
+			nome: `Maestria: ${weapon?.name}`,
+			descricao: definition ? `${definition.name}\n${definition.description}` : "Consulte a propriedade de maestria da arma."
+		});
+	}
 	for (const grant of state.concessions.proficiencyGrants) {
 		const p = catalog.proficiencies.find((p) => p.id === grant.proficiencyId);
 		if (!p) continue;
@@ -1407,7 +1553,8 @@ function projectSheet(catalog, draft, state, hp, defenses, casting) {
 		}
 		if (p.type === "equipamento" && p.equipment) {
 			const e = entry(p.equipment.revisionId);
-			sheet.treinamento.ferramentas = [sheet.treinamento.ferramentas, e?.name].filter(Boolean).join("; ");
+			const key = e?.kind === "equipamento" && e.data.weapon ? "armas" : "ferramentas";
+			sheet.treinamento[key] = [sheet.treinamento[key], e?.name].filter(Boolean).join("; ");
 		}
 		if (p.type === "idioma" && p.language) {
 			const e = entry(p.language.revisionId);
@@ -1469,6 +1616,39 @@ function projectSheet(catalog, draft, state, hp, defenses, casting) {
 			critico: d.weapon.criticalMinimum
 		});
 		sheet.inventario.itens.push(row);
+		if (d.weapon) {
+			const finesse = d.weapon.propertyRefs.some((r) => {
+				const property = entry(r.revisionId);
+				return property?.kind === "propriedade_arma" && property.data.key === "acuidade";
+			});
+			const attribute = d.weapon.rangeType === "distancia" || finesse && (state.totals.des ?? 10) > (state.totals.for ?? 10) ? "des" : "for";
+			const proficient = state.concessions.proficiencyGrants.some((g) => {
+				const p = catalog.proficiencies.find((p) => p.id === g.proficiencyId);
+				return p?.type === "equipamento" && p.equipment?.recordId === e.ref.recordId || p?.type === "categoria" && (p.category === "arma-simples" && !d.category.includes("marcial") || p.category === "arma-marcial" && d.category.includes("marcial"));
+			});
+			const damages = d.weapon.damages.map((damage, i) => ({
+				id: instanceUuid(`${key}/damage:${i}`),
+				dado: damage.dice,
+				atributo: damage.ability ?? (i === 0 ? attribute : ""),
+				tipo: damage.damageType
+			}));
+			sheet.ataques.push({
+				...novaEntrada("ataques"),
+				id: instanceUuid(`${key}/attack`),
+				nome: e.name,
+				tipo: "bonus",
+				valor: modifier(state.totals[attribute] ?? 10) + (proficient ? state.proficiency : 0),
+				dano: "",
+				tipoDano: "",
+				observacoes: d.weapon.masteryRef ? entry(d.weapon.masteryRef.revisionId)?.name ?? "" : "",
+				itemId: row.id,
+				atributo: attribute,
+				bonus: 0,
+				proficiente: proficient,
+				critico: d.weapon.criticalMinimum,
+				danos: damages
+			});
+		}
 	}
 	for (const instance of roots) {
 		const e = instance.entry;
@@ -1487,8 +1667,8 @@ function projectSheet(catalog, draft, state, hp, defenses, casting) {
 	for (const profile of casting.profiles) {
 		const instance = roots.find((i) => profile.id.startsWith(`${i.id}/casting:`));
 		const definition = catalog.castingProfiles.find((p) => p.ownerRevisionId === profile.ownerRevisionId && profile.id.endsWith(`:${p.id}`));
-		const profileId = instanceUuid(profile.id);
-		sheet.conjuracao.perfis.push({
+		const profileId = profile.ability ? instanceUuid(profile.id) : "";
+		if (profile.ability) sheet.conjuracao.perfis.push({
 			...novaEntrada("conjuracao.perfis"),
 			id: profileId,
 			nome: instance?.entry.name ?? "Conjuração",
@@ -1502,11 +1682,19 @@ function projectSheet(catalog, draft, state, hp, defenses, casting) {
 			prepared: s.alwaysPrepared
 		})), ...selected]) {
 			const e = entry(spell.spellRef.revisionId);
-			if (e?.kind !== "magia" || sheet.magias.some((s) => s.perfilId === profileId && s.compendioRef?.revisionId === e.ref.revisionId)) continue;
+			if (e?.kind !== "magia" || sheet.magias.some((s) => s.id === instanceUuid(`${profile.id}/spell:${e.ref.recordId}`))) continue;
 			const row = spellToSheet(e, profileId);
 			row.id = instanceUuid(`${profile.id}/spell:${e.ref.recordId}`);
+			row.origemCriacao = profile.id;
 			row.preparada = spell.prepared;
 			sheet.magias.push(row);
+			if (definition?.selectionUses !== null && definition?.selectionUses !== void 0 && e.data.circle > 0 && !fixed.some((s) => s.spellRef.revisionId === e.ref.revisionId)) sheet.recursos.push({
+				id: instanceUuid(`${profile.id}/uses:${e.ref.recordId}`),
+				nome: `${e.name} (${instance?.entry.name})`,
+				maximo: definition.selectionUses,
+				gastos: 0,
+				recuperacao: definition.selectionRecovery ?? "manual"
+			});
 		}
 		for (const s of fixed.filter((s) => s.ownUses !== null)) sheet.recursos.push({
 			id: instanceUuid(`${profile.id}/uses:${s.spellRef.recordId}`),
@@ -1527,11 +1715,12 @@ function projectSheet(catalog, draft, state, hp, defenses, casting) {
 		total: casting.pactSlots.reduce((n, s) => n + s.total, 0),
 		gastos: 0
 	};
-	return sheet;
+	return sincronizarEquipamentos(sheet);
 }
 //#endregion
 //#region packages/character-creation/resolve.ts
 function resolveCreation(catalog, draft) {
+	catalog = orderedCatalog(catalog);
 	const state = resolveState(catalog, draft), hp = resolveHitPoints(catalog, draft, state), defenses = resolveDefenses(catalog, draft, state), spellcasting = resolveSpellcasting(catalog, draft, state);
 	const problems = [
 		...state.problems,
@@ -1539,6 +1728,26 @@ function resolveCreation(catalog, draft) {
 		...defenses.problems,
 		...spellcasting.problems
 	];
+	const supportedEffects = /* @__PURE__ */ new Set([
+		"atributo",
+		"ca_formula",
+		"ca_bonus",
+		"pv_bonus",
+		"pv_por_nivel",
+		"resistencia",
+		"imunidade",
+		"vulnerabilidade",
+		"recurso",
+		"proficiencia",
+		"iniciativa_bonus",
+		"percepcao_bonus"
+	]);
+	for (const { effect, instance } of state.concessions.effects) if (!supportedEffects.has(effect.type) || effect.type !== "ca_formula" && effect.type !== "proficiencia" && effect.stacking !== "somar" || effect.condition && effect.type !== "ca_formula") problems.push({
+		code: "UNSUPPORTED_EFFECT",
+		field: instance.id,
+		message: "Um efeito desta origem precisa de uma regra tipada suportada antes da aplicação automática.",
+		sourceRevisionId: effect.ownerRevisionId
+	});
 	if (catalog.ruleSetId !== draft.ruleSetId || draft.engineVersion !== 1) problems.push({
 		code: "RULESET",
 		field: "ruleSetId",
@@ -1546,6 +1755,11 @@ function resolveCreation(catalog, draft) {
 	});
 	const species = state.concessions.instances.find((i) => i.entry.kind === "especie")?.entry;
 	const lineage = state.concessions.instances.find((i) => i.entry.kind === "linhagem")?.entry;
+	if (species?.kind === "especie" && species.data.lineageRequired && !draft.lineageRef) problems.push({
+		code: "LINEAGE_REQUIRED",
+		field: "lineageRef",
+		message: "Escolha uma linhagem para esta espécie."
+	});
 	const ownedEquipment = new Set(state.concessions.instances.flatMap((i) => i.entry.kind === "equipamento" ? [i.entry.ref.revisionId] : i.entry.kind === "pacote" ? i.entry.data.items.flatMap((item) => item.equipmentRef ? [item.equipmentRef.revisionId] : []) : []));
 	if (draft.equippedRefs?.some((r) => !ownedEquipment.has(r.revisionId))) problems.push({
 		code: "EQUIPMENT_NOT_OWNED",
@@ -1560,8 +1774,12 @@ function resolveCreation(catalog, draft) {
 	if (draft.classes.length > 1) for (const cls of draft.classes) {
 		const e = catalog.entries.find((e) => e.ref.revisionId === cls.classRef.revisionId);
 		if (e?.kind !== "classe") continue;
+		const initial = draft.levels[0]?.classEntryId;
+		const acquiredAt = (cls.id === initial ? draft.levels.find((l) => l.classEntryId !== initial) : draft.levels.find((l) => l.classEntryId === cls.id))?.totalLevel ?? 1;
+		const acquisitionScores = { ...resolveAbilities(catalog, draft).totals };
+		for (const bonus of orderedAbilityBonuses(state.concessions.abilityBonuses).filter((b) => b.instance.acquiredAt < acquiredAt)) if (acquisitionScores[bonus.ability] !== void 0) acquisitionScores[bonus.ability] = Math.min(bonus.limit, acquisitionScores[bonus.ability] + bonus.amount);
 		const required = e.data.multiclassAbilities, groups = new Set(required.filter((r) => r.alternativeGroup > 0).map((r) => r.alternativeGroup));
-		if (required.some((r) => r.alternativeGroup === 0 && (state.totals[r.ability] ?? 0) < r.minimum) || [...groups].some((g) => !required.filter((r) => r.alternativeGroup === g).some((r) => (state.totals[r.ability] ?? 0) >= r.minimum))) problems.push({
+		if (required.some((r) => r.alternativeGroup === 0 && (acquisitionScores[r.ability] ?? 0) < r.minimum) || [...groups].some((g) => !required.filter((r) => r.alternativeGroup === g).some((r) => (acquisitionScores[r.ability] ?? 0) >= r.minimum))) problems.push({
 			code: "MULTICLASS_REQUIREMENT",
 			field: `classes.${cls.id}`,
 			message: `Os atributos não atendem aos requisitos de multiclasse de ${e.name}.`
@@ -1704,6 +1922,8 @@ function createCreationHandler(deps) {
 				code: "INVALID",
 				message: "Revise os dados de criação."
 			});
+			const recovered = await deps.recover?.(userId, body, token);
+			if (recovered) return reply(200, { record: recovered });
 			const canonical = validateCreationRequest(await deps.compendium(token).getCreationCatalog(body.draft), body);
 			const record = await deps.persist(userId, body, canonical);
 			return reply(200, { record });
@@ -1819,6 +2039,7 @@ function decodeCatalog(raw, ruleSetId = "dnd-5e-2024") {
 				const d = one("classes", id), attrs = rows("classe_atributos", id);
 				data = {
 					hitDie: n(d, "dado_vida"),
+					subclassLevel: nullable(d, "nivel_subclasse") ?? void 0,
 					fixedHitPoints: n(d, "pv_fixo"),
 					primaryAbilities: attrs.filter((a) => a.papel === "primario").map((a) => a.atributo_codigo),
 					multiclassAbilities: attrs.filter((a) => a.papel === "multiclasse").map((a) => ({
@@ -1847,6 +2068,7 @@ function decodeCatalog(raw, ruleSetId = "dnd-5e-2024") {
 				const d = one("especies", id);
 				data = {
 					creatureType: s(d, "tipo_criatura_codigo"),
+					lineageRequired: b(d, "linhagem_obrigatoria"),
 					defaultSize: s(d, "tamanho_codigo"),
 					age: s(d, "idade_pt"),
 					sizes: sizes(id),
@@ -2167,6 +2389,10 @@ function decodeCatalog(raw, ruleSetId = "dnd-5e-2024") {
 		language: ref(p.idioma_revisao_id) ?? void 0
 	}));
 	const castingProfiles = all("perfis_conjuracao").map((p) => ({
+		listClassRefs: all("perfil_listas").filter((l) => l.perfil_id === p.id).map((l) => ref(l.classe_revisao_id)),
+		listChoiceKey: p.chave_escolha_lista ?? null,
+		selectionUses: nullable(p, "usos_selecao"),
+		selectionRecovery: p.recuperacao_selecao ?? null,
 		id: s(p, "id"),
 		ownerRevisionId: s(p, "revisao_id"),
 		key: s(p, "chave"),

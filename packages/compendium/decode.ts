@@ -95,6 +95,7 @@ export function decodeCatalog(raw: DatabaseCatalog, ruleSetId = 'dnd-5e-2024'): 
           attrs = rows('classe_atributos', id);
         data = {
           hitDie: n(d, 'dado_vida'),
+          subclassLevel: nullable(d, 'nivel_subclasse') ?? undefined,
           fixedHitPoints: n(d, 'pv_fixo'),
           primaryAbilities: attrs
             .filter((a) => a.papel === 'primario')
@@ -127,6 +128,7 @@ export function decodeCatalog(raw: DatabaseCatalog, ruleSetId = 'dnd-5e-2024'): 
         const d = one('especies', id);
         data = {
           creatureType: s(d, 'tipo_criatura_codigo'),
+          lineageRequired: b(d, 'linhagem_obrigatoria'),
           defaultSize: s(d, 'tamanho_codigo'),
           age: s(d, 'idade_pt'),
           sizes: sizes(id),
@@ -478,6 +480,12 @@ export function decodeCatalog(raw: DatabaseCatalog, ruleSetId = 'dnd-5e-2024'): 
     language: ref(p.idioma_revisao_id) ?? undefined,
   }));
   const castingProfiles = all('perfis_conjuracao').map((p) => ({
+    listClassRefs: all('perfil_listas')
+      .filter((l) => l.perfil_id === p.id)
+      .map((l) => ref(l.classe_revisao_id)!),
+    listChoiceKey: p.chave_escolha_lista ?? null,
+    selectionUses: nullable(p, 'usos_selecao'),
+    selectionRecovery: p.recuperacao_selecao ?? null,
     id: s(p, 'id'),
     ownerRevisionId: s(p, 'revisao_id'),
     key: s(p, 'chave'),

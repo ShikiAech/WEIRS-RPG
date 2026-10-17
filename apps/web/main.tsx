@@ -11,4 +11,5 @@ import './styles/sheets.css';
 import './styles/campaign-access.css';
 import './styles/spell-damage.css';
 import './styles/header.css';
+import './styles/character-creation.css';
 createRoot(document.getElementById('root')!).render(<App />);

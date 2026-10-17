@@ -22,6 +22,9 @@ import { SheetChat } from './sheets/SheetChat';
 import { PdfImportPreview } from './sheets/PdfImportPreview';
 import { readRoll20Pdf } from '../lib/roll20-pdf-file';
 import type { Roll20PdfImport } from '../../../packages/sheets/roll20-pdf';
+import { CharacterCreator } from './character-creation/CharacterCreator';
+import { temporaryCreation,clearTemporaryCreation } from './character-creation/useCreationDraft';
+import { CreationHistory } from './sheets/CreationHistory';
 
 type Draft = { name: string; content: SheetContent; campaignId: string };
 const drafts = new Map<string, Draft & { base?: SheetRecord; requestId?: string }>();
@@ -38,6 +41,9 @@ export function Sheets({
   const repository = useMemo(() => (supabase ? createRepository(supabase) : null), []);
   const suffix = route.split('/')[2]?.split('?')[0];
   const initialCampaign = new URLSearchParams(route.split('?')[1] || '').get('campanha') || '';
+  const params = new URLSearchParams(route.split('?')[1] || '');
+  if (suffix === 'nova' && params.get('demo') === '1')
+    return <CharacterCreator user={null} repository={null} compendium={compendiumSource(true).repository} demo />;
   if (suffix === 'teste')
     return <SheetEditor key="teste" id="teste" user={null} repository={null} />;
   if (!authReady)
@@ -65,6 +71,7 @@ export function Sheets({
           <a className="button" href="#/fichas/teste">
             Experimentar ficha
           </a>
+          <a className="button secondary" href="#/fichas/nova?demo=1">Experimentar criação guiada</a>
           <p className="muted">
             A ficha temporária permite explorar todos os campos e baixar uma cópia. Ela não é salva
             na mesa.
@@ -72,6 +79,8 @@ export function Sheets({
         </section>
       </div>
     );
+  if (suffix === 'nova' && params.get('modo') !== 'manual')
+    return <CharacterCreator user={user} repository={repository} compendium={compendiumSource().repository} initialCampaign={initialCampaign} />;
   if (suffix)
     return (
       <SheetEditor
@@ -184,9 +193,10 @@ function SheetEditor({
     ? `${user.id}:${id}${id === 'nova' && initialCampaign ? ':' + initialCampaign : ''}`
     : '';
   const [draft, setDraft] = useState<Draft>(
-    () => drafts.get(draftKey) || { name: '', content: criarConteudo(), campaignId: '' },
+    () => drafts.get(draftKey) || (temporary && temporaryCreation() ? {...temporaryCreation()!,campaignId:''} : { name: '', content: criarConteudo(), campaignId: '' }),
   );
   const [record, setRecord] = useState<SheetRecord | null>(null);
+  useEffect(()=>{if(temporary)clearTemporaryCreation();},[temporary]);
   const [campaigns, setCampaigns] = useState<CampaignRecord[]>([]);
   const [memberships, setMemberships] = useState<CampaignMembership[]>([]);
   const [admin, setAdmin] = useState(false);
@@ -407,10 +417,11 @@ function SheetEditor({
       const recovered = readSheetFile(await file.text());
       if (dirty && !window.confirm('Importar substitui os campos desta ficha. Deseja continuar?'))
         return;
+      if(record?.conteudo.criacao)recovered.content.criacao=record.conteudo.criacao;
       edit({ ...draft, ...recovered });
       setPdfWarnings([]);
       setError(null);
-      setMessage('Cópia importada. Confira os campos antes de salvar.');
+      setMessage(recovered.content.criacao?'Cópia importada para edição manual. O histórico inicial foi preservado; confira os campos e a disponibilidade das origens antes de salvar.':'Cópia importada. Confira os campos antes de salvar.');
     } catch (error) {
       setError(publicError(error));
     }
@@ -685,6 +696,7 @@ function SheetEditor({
           />
         )}
         {demoCatalog && <p className="notice">Catálogo de demonstração nas sugestões e na busca de magias.</p>}
+        <CreationHistory snapshot={draft.content.criacao} repository={compendium} />
         {catalogError && <p className="notice" role="status">{catalogError}</p>}
         <SheetChat record={record} disabled={dirty || saving || !canEdit || Boolean(error)}>
           <SheetForm

@@ -140,7 +140,9 @@ export function createCompendiumRepository(client: SupabaseClient): CompendiumRe
         (e) => e.ref.revisionId === ref.revisionId,
       )!;
     },
-    async getContext(ref,signal){return catalog([ref],null,signal);},
+    async getContext(ref, signal) {
+      return catalog([ref], null, signal);
+    },
     async getCreationCatalog(draft: CreationDraft, signal) {
       if (!/^[a-z0-9-]{1,80}$/.test(draft.ruleSetId)) throw new CompendiumError('INVALID_QUERY');
       const refs = [

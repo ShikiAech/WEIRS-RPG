@@ -3,6 +3,19 @@ import type {
   CreationCatalog,
   CreationDraft,
 } from '../contracts/character-creation';
+export function proficiencyKey(catalog: CreationCatalog, id: string) {
+  const p = catalog.proficiencies.find((p) => p.id === id);
+  return p
+    ? JSON.stringify([
+        p.type,
+        p.skill ?? '',
+        p.ability ?? '',
+        p.category ?? '',
+        p.equipment?.recordId ?? '',
+        p.language?.recordId ?? '',
+      ])
+    : id;
+}
 export interface RequirementContext {
   level: number;
   classLevels: Map<string, number>;
@@ -39,7 +52,11 @@ export function requirementMet(
     case 'atributo':
       return !!r.ability && (context.abilities[r.ability] ?? 0) >= (r.minimum ?? Infinity);
     case 'proficiencia':
-      return !!r.proficiencyId && context.proficiencies.has(r.proficiencyId);
+      return (
+        !!r.proficiencyId &&
+        (context.proficiencies.has(r.proficiencyId) ||
+          context.proficiencies.has(proficiencyKey(catalog, r.proficiencyId)))
+      );
     case 'especie':
     case 'linhagem':
     case 'caracteristica':

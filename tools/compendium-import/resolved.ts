@@ -31,11 +31,18 @@ export interface ResolvedCatalog extends Omit<CreationCatalog, 'entries'> {
 }
 export interface CompendiumCuration {
   aliases: {
+    identities?: Record<string,string>;
     names: { name: string; target: string; kind: string; context?: string }[];
     categories: { code: string; names: string[] }[];
   };
   requirements: { abilityNames: Record<string, Ability>; skillAliases: Record<string, string> };
   effects: {
+    innateProfiles?: {
+      name: string;
+      parent: string;
+      abilities: Ability[];
+      spells: { original: string; level: number; uses?: number }[];
+    }[];
     entries: (Partial<EffectDefinition> & {
       name?: string;
       originalName?: string;
@@ -45,6 +52,7 @@ export interface CompendiumCuration {
     })[];
   };
   progressions: {
+    featLevels: Record<string, number[]>;
     multiclassSlots: number[][];
     classes: Record<
       string,

@@ -12,8 +12,9 @@ import type {
   EffectDefinition,
   GrantDefinition,
 } from '../contracts/compendium';
-import { resolveAbilities } from './abilities';
-import { requirementMet, type RequirementContext } from './requirements';
+import { resolveAbilities, orderedAbilityBonuses } from './abilities';
+import { requirementMet, proficiencyKey, type RequirementContext } from './requirements';
+import { orderedCatalog } from './order';
 
 export function instanceUuid(key: string) {
   const words = [2166136261, 2246822519, 3266489917, 668265263]
@@ -44,6 +45,7 @@ export interface ActiveEffect {
   effect: EffectDefinition;
 }
 export interface ResolvedConcessions {
+  masteries: { instance: CreationInstance; ref: CompendiumRef; id: string }[];
   instances: CreationInstance[];
   choices: ActiveChoice[];
   effects: ActiveEffect[];
@@ -65,7 +67,9 @@ export function resolveConcessions(
   catalog: CreationCatalog,
   draft: CreationDraft,
 ): ResolvedConcessions {
+  catalog = orderedCatalog(catalog);
   const result: ResolvedConcessions = {
+    masteries: [],
     instances: [],
     choices: [],
     effects: [],
@@ -108,10 +112,10 @@ export function resolveConcessions(
       ancestors: [],
     });
   };
-  root(draft.speciesRef, 'species', 'especie');
-  root(draft.backgroundRef, 'background', 'antecedente');
+  root(draft.speciesRef, 'species', 'especie', Math.max(1, totalLevel));
+  root(draft.backgroundRef, 'background', 'antecedente', Math.max(1, totalLevel));
   if (draft.lineageRef) {
-    root(draft.lineageRef, 'lineage', 'linhagem');
+    root(draft.lineageRef, 'lineage', 'linhagem', Math.max(1, totalLevel));
     const lineage = find(draft.lineageRef);
     if (
       lineage?.kind === 'linhagem' &&
@@ -169,12 +173,15 @@ export function resolveConcessions(
     const classEntry = find(cls.classRef);
     if (
       !cls.subclassRef &&
-      catalog.entries.some(
-        (e) =>
-          e.kind === 'subclasse' &&
-          e.data.classRef.revisionId === classEntry?.ref.revisionId &&
-          cls.level >= e.data.acquisitionLevel,
-      )
+      ((classEntry?.kind === 'classe' &&
+        classEntry.data.subclassLevel !== undefined &&
+        cls.level >= classEntry.data.subclassLevel) ||
+        catalog.entries.some(
+          (e) =>
+            e.kind === 'subclasse' &&
+            e.data.classRef.revisionId === classEntry?.ref.revisionId &&
+            cls.level >= e.data.acquisitionLevel,
+        ))
     )
       problem('SUBCLASS_REQUIRED', `classes.${cls.id}.subclassRef`, 'Escolha a subclasse.');
   }
@@ -190,7 +197,9 @@ export function resolveConcessions(
     for (const i of owned)
       repetitions.set(i.entry.ref.revisionId, (repetitions.get(i.entry.ref.revisionId) ?? 0) + 1);
     const scores = { ...base };
-    for (const b of result.abilityBonuses.filter((b) => b.instance.acquiredAt < at))
+    for (const b of orderedAbilityBonuses(result.abilityBonuses).filter(
+      (b) => b.instance.acquiredAt < at,
+    ))
       if (scores[b.ability] !== undefined)
         scores[b.ability] = Math.min(b.limit, scores[b.ability]! + b.amount);
     return {
@@ -201,7 +210,7 @@ export function resolveConcessions(
       proficiencies: new Set(
         result.proficiencyGrants
           .filter((p) => p.instance.acquiredAt <= at)
-          .map((p) => p.proficiencyId),
+          .flatMap((p) => [p.proficiencyId, proficiencyKey(catalog, p.proficiencyId)]),
       ),
       choices: draft.choices,
       repetitions,
@@ -211,9 +220,12 @@ export function resolveConcessions(
     acquisition === 'ambas' || acquisition === node.acquisition;
   const atLevel = (node: CreationInstance, level: number) =>
     node.classEntryId
-      ? (draft.levels.filter((l) => l.classEntryId === node.classEntryId)[Math.max(0, level - 1)]
-          ?.totalLevel ?? node.acquiredAt)
-      : node.acquiredAt;
+      ? Math.max(
+          node.acquiredAt,
+          draft.levels.filter((l) => l.classEntryId === node.classEntryId)[Math.max(0, level - 1)]
+            ?.totalLevel ?? node.acquiredAt,
+        )
+      : Math.max(node.acquiredAt, level);
   type Pending = {
     parent: CreationInstance;
     grant: GrantDefinition | null;
@@ -250,10 +262,37 @@ export function resolveConcessions(
     )) {
       if (!requirementMet(catalog, group.requirementId, context(atLevel(node, group.level))))
         continue;
-      result.choices.push({ instance: node, group });
-      const selected = draft.choices.filter(
+      let selected = draft.choices.filter(
         (c) => c.groupId === group.id && c.sourceInstanceId === node.id,
       );
+      const ancestorChoice = result.choices
+        .filter((c) => c.group.key === group.key && node.id.startsWith(c.instance.id + '/'))
+        .reverse()
+        .map((c) => ({
+          group: c.group,
+          choice: draft.choices.find(
+            (s) => s.groupId === c.group.id && s.sourceInstanceId === c.instance.id,
+          ),
+        }))
+        .find((c) => c.choice?.values.length);
+      if (!selected.length && ancestorChoice?.choice) {
+        selected = [
+          {
+            groupId: group.id,
+            sourceInstanceId: node.id,
+            values: ancestorChoice.choice.values.flatMap((v) => {
+              const old =
+                v.type === 'option'
+                  ? ancestorChoice.group.options.find((o) => o.id === v.optionId)
+                  : null;
+              const option = old?.targetRef
+                ? group.options.find((o) => o.targetRef?.revisionId === old.targetRef?.revisionId)
+                : null;
+              return option ? [{ type: 'option' as const, optionId: option.id }] : [];
+            }),
+          },
+        ];
+      } else result.choices.push({ instance: node, group });
       const values = selected[0]?.values ?? [];
       if (selected.length > 1 || values.length < group.minimum || values.length > group.maximum) {
         problem(
@@ -303,7 +342,25 @@ export function resolveConcessions(
           continue;
         }
         const ref = value.type === 'record' ? value.ref : option?.targetRef;
-        if (ref)
+        if (ref && option?.type === 'maestria-arma') {
+          if (
+            result.masteries.some(
+              (m) => m.instance.id === node.id && m.ref.recordId === ref.recordId,
+            )
+          )
+            problem(
+              'DUPLICATE_MASTERY',
+              `choices.${group.id}`,
+              'Escolha uma arma diferente para cada maestria da classe.',
+            );
+          else
+            result.masteries.push({
+              instance: node,
+              ref,
+              id: `${node.id}/mastery:${group.id}:${option.id}`,
+            });
+        }
+        if (ref && !['lista-magia', 'maestria-arma'].includes(option?.type ?? ''))
           pending.push({
             parent: node,
             grant: null,
@@ -427,6 +484,7 @@ export function resolveConcessions(
   roots.forEach(process);
   const errors = new Map<string, string>();
   for (let round = 0; round < 64 && pending.length; round++) {
+    pending.sort((a, b) => a.at - b.at || a.id.localeCompare(b.id));
     let progressed = false;
     for (let index = 0; index < pending.length;) {
       const p = pending[index],
@@ -497,12 +555,27 @@ export function resolveConcessions(
     result.contributions.push({
       id: instanceUuid(node.id),
       sourceRevisionId: node.entry.ref.revisionId,
+      sourceRecordId: node.entry.ref.recordId,
       sourceInstanceId: node.id,
       grantId: node.grantId,
       target: node.entry.kind,
       name: node.entry.name,
       amount: null,
     });
+  }
+  for (const mastery of result.masteries) {
+    const e = find(mastery.ref);
+    if (e)
+      result.contributions.push({
+        id: instanceUuid(mastery.id),
+        sourceRevisionId: e.ref.revisionId,
+        sourceRecordId: e.ref.recordId,
+        sourceInstanceId: mastery.id,
+        grantId: null,
+        target: 'maestria-arma',
+        name: `Maestria: ${e.name}`,
+        amount: null,
+      });
   }
   return result;
 }

@@ -7,6 +7,7 @@ import { Campaigns } from './features/Campaigns';
 import { Sheets } from './features/Sheets';
 import { Chat } from './features/Chat';
 import { DiceProvider } from './features/dice/Dice3D';
+import { clearCreationDrafts } from './features/character-creation/useCreationDraft';
 
 export function App() {
   const [route, setRoute] = useState(window.location.hash.slice(1) || '/campanhas');
@@ -31,7 +32,11 @@ export function App() {
   useEffect(() => {
     if (!supabase) return;
     let active = true;
+    let previousAccount: string|null=null;
     const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+      const nextAccount=session?.user.id??null;
+      if (_event==='SIGNED_OUT'||previousAccount!==null&&previousAccount!==nextAccount) clearCreationDrafts();
+      previousAccount=nextAccount;
       if (active) setUser(session?.user || null);
     });
     completeOAuth()

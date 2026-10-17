@@ -50,6 +50,8 @@ export function normalizeSources(
               sourcePath: previous.sourcePath,
               pointer: previous.pointer,
               payload: previous.payload,
+              sourceId: previous.sourceId,
+              sourceHash: previous.sourceHash,
             },
           ]
         : [];

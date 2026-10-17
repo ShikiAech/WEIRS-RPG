@@ -8,6 +8,7 @@
     "import:content": "tsx tools/content-import/cli.ts",
     "compendium:check": "tsx tools/compendium-import/cli.ts --check",
     "compendium:seed": "tsx tools/compendium-import/cli.ts --seed",
+    "compendium:verify": "node --import tsx --test tests/integration/compendium-full.test.ts",
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test tests/*.test.js tests/*.test.ts",
     "test:browser": "playwright test",

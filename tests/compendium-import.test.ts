@@ -121,3 +121,7 @@ test('datasets literais são extraídos sem executar scripts das páginas', () =
     /literal/i,
   );
 });
+test('confirmed identity alias preserves legacy UUID and original source variant',async()=>{
+ const sources=[...await readLegacySources(root),...await readJsonSources(root)];const curation=JSON.parse(await readFile(path.join(root,'content/compendium/aliases.json'),'utf8'));const c=normalizeSources(sources,{records:{},aliases:curation.identities});
+ const records=c.records.filter(r=>r.kind==='talento'&&r.name==='Espírito Manchado');assert.equal(records.length,1);assert.equal(records[0].sourcePath,'data/feats.json');assert.equal(records[0].legacyIds.length,1);assert.equal(records[0].alternatives.length,1);assert.equal(records[0].alternatives[0].sourcePath,'pages/talentos.html');assert.ok(records[0].alternatives[0].sourceId);
+});

@@ -156,6 +156,22 @@ BEGIN
 END $$;
 CREATE TRIGGER weirs_validar_historico_criacao BEFORE INSERT OR UPDATE OF conteudo ON public.fichas FOR EACH ROW EXECUTE FUNCTION private.validar_historico_criacao();
 REVOKE ALL ON FUNCTION private.validar_historico_criacao() FROM PUBLIC,anon,authenticated;
+
+CREATE FUNCTION public.recuperar_criacao_personagem(p_pedido uuid,p_campanha uuid,p_nome text,p_rascunho jsonb,p_previa jsonb) RETURNS public.fichas
+LANGUAGE plpgsql SECURITY DEFINER SET search_path='' AS $$
+DECLARE anterior private.criacao_pedidos; f public.fichas;
+BEGIN
+ IF auth.uid() IS NULL THEN RAISE EXCEPTION 'Acesso indisponível' USING ERRCODE='WF002'; END IF;
+ SELECT * INTO anterior FROM private.criacao_pedidos WHERE usuario_id=auth.uid() AND pedido_id=p_pedido;
+ IF NOT FOUND THEN RETURN NULL; END IF;
+ IF anterior.pedido->>'campanha' IS DISTINCT FROM p_campanha::text OR anterior.pedido->>'nome' IS DISTINCT FROM btrim(p_nome) OR anterior.pedido->'rascunho' IS DISTINCT FROM p_rascunho OR (anterior.pedido->'conteudo')-'criacao' IS DISTINCT FROM p_previa THEN RAISE EXCEPTION 'Tentativa já utilizada' USING ERRCODE='WF001'; END IF;
+ SELECT * INTO f FROM public.fichas WHERE id=anterior.ficha_id;
+ IF NOT FOUND OR NOT EXISTS(SELECT 1 FROM public.membros_campanha WHERE campanha_id=f.campanha_id AND usuario_id=auth.uid() AND papel IN ('jogador','mestre')) THEN RAISE EXCEPTION 'Acesso indisponível' USING ERRCODE='WF002'; END IF;
+ RETURN f;
+END $$;
+REVOKE ALL ON FUNCTION public.recuperar_criacao_personagem(uuid,uuid,text,jsonb,jsonb) FROM PUBLIC,anon;
+GRANT EXECUTE ON FUNCTION public.recuperar_criacao_personagem(uuid,uuid,text,jsonb,jsonb) TO authenticated;
+
 CREATE OR REPLACE FUNCTION public.copiar_ficha_campanha(p_origem uuid,p_versao integer,p_campanha uuid,p_pedido uuid)
 RETURNS public.fichas LANGUAGE plpgsql SECURITY DEFINER SET search_path='' AS $$
 DECLARE origem public.fichas; copia public.fichas; recibo private.copias_ficha;

@@ -7,6 +7,19 @@ import type {
 import type { Ability } from '../contracts/sheets';
 export const abilities: Ability[] = ['for', 'des', 'con', 'int', 'sab', 'car'];
 export const modifier = (score: number) => Math.floor((score - 10) / 2);
+export function orderedAbilityBonuses<
+  T extends {
+    instance: { acquiredAt: number; id: string };
+    limit: number;
+  },
+>(bonuses: T[]): T[] {
+  return [...bonuses].sort(
+    (a, b) =>
+      a.instance.acquiredAt - b.instance.acquiredAt ||
+      a.limit - b.limit ||
+      a.instance.id.localeCompare(b.instance.id),
+  );
+}
 export function resolveAbilities(catalog: CreationCatalog, draft: CreationDraft) {
   const base: Partial<AbilityScores> = {},
     totals: Partial<AbilityScores> = {},

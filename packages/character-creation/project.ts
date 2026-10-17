@@ -11,6 +11,8 @@ import { spellToSheet } from '../compendium/sheet-adapter';
 import { instanceUuid } from './concessions';
 import type { CreationState } from './state';
 import { evaluateFormula } from './formula';
+import { modifier } from './abilities';
+import { sincronizarEquipamentos } from '../sheets/equipamentos.js';
 export function projectSheet(
   catalog: CreationCatalog,
   draft: CreationDraft,
@@ -26,6 +28,13 @@ export function projectSheet(
     lineage = roots.find((i) => i.id === 'lineage')?.entry,
     bg = roots.find((i) => i.id === 'background')?.entry;
   sheet.identidade.especie = [species?.name, lineage?.name].filter(Boolean).join(' / ');
+  if (species?.kind === 'especie')
+    sheet.combate.sentidos = species.data.senses
+      .map(
+        (s) =>
+          `${s.type}${s.distanceFeet === null ? '' : `: ${s.distanceFeet * 0.3} m`}${s.condition ? ` (${s.condition})` : ''}`,
+      )
+      .join('; ');
   sheet.identidade.antecedente = bg?.name ?? '';
   sheet.identidade.tamanho = draft.size ?? '';
   sheet.classes = draft.classes.map((c) => ({
@@ -68,7 +77,21 @@ export function projectSheet(
     if (e.kind === 'idioma' && !sheet.idiomas.some((i) => i.nome === e.name))
       sheet.idiomas.push({ id: instanceUuid(instance.id), nome: e.name });
   }
-  const degrees: Record<string,number> = { meia: 1, proficiente: 2, especializacao: 3 };
+  const degrees: Record<string, number> = { meia: 1, proficiente: 2, especializacao: 3 };
+  for (const mastery of state.concessions.masteries) {
+    const weapon = entry(mastery.ref.revisionId);
+    const definition =
+      weapon?.kind === 'equipamento' && weapon.data.weapon?.masteryRef
+        ? entry(weapon.data.weapon.masteryRef.revisionId)
+        : null;
+    sheet.caracteristicas.push({
+      id: instanceUuid(mastery.id),
+      nome: `Maestria: ${weapon?.name}`,
+      descricao: definition
+        ? `${definition.name}\n${definition.description}`
+        : 'Consulte a propriedade de maestria da arma.',
+    });
+  }
   for (const grant of state.concessions.proficiencyGrants) {
     const p = catalog.proficiencies.find((p) => p.id === grant.proficiencyId);
     if (!p) continue;
@@ -79,21 +102,21 @@ export function projectSheet(
     if (p.type === 'salvaguarda' && p.ability)
       sheet.atributos[p.ability].resistenciaProficiente = true;
     if (p.type === 'categoria' && p.category) {
-      const training: Record<string,'leves'|'medias'|'pesadas'|'escudos'> = {
+      const training: Record<string, 'leves' | 'medias' | 'pesadas' | 'escudos'> = {
         'armadura-leve': 'leves',
         'armadura-media': 'medias',
         'armadura-pesada': 'pesadas',
         escudo: 'escudos',
-      }; const key=training[p.category];
+      };
+      const key = training[p.category];
       if (key) sheet.treinamento[key] = true;
       else
         sheet.treinamento.armas = [sheet.treinamento.armas, p.category].filter(Boolean).join('; ');
     }
     if (p.type === 'equipamento' && p.equipment) {
       const e = entry(p.equipment.revisionId);
-      sheet.treinamento.ferramentas = [sheet.treinamento.ferramentas, e?.name]
-        .filter(Boolean)
-        .join('; ');
+      const key = e?.kind === 'equipamento' && e.data.weapon ? 'armas' : 'ferramentas';
+      sheet.treinamento[key] = [sheet.treinamento[key], e?.name].filter(Boolean).join('; ');
     }
     if (p.type === 'idioma' && p.language) {
       const e = entry(p.language.revisionId);
@@ -110,11 +133,14 @@ export function projectSheet(
     });
     if (effect.type === 'iniciativa_bonus') sheet.combate.ajusteIniciativa += value;
     if (effect.type === 'percepcao_bonus') sheet.combate.ajustePercepcaoPassiva += value;
-    const defenseKeys: Partial<Record<typeof effect.type,'resistencias'|'imunidades'|'vulnerabilidades'>> = {
+    const defenseKeys: Partial<
+      Record<typeof effect.type, 'resistencias' | 'imunidades' | 'vulnerabilidades'>
+    > = {
       resistencia: 'resistencias',
       imunidade: 'imunidades',
       vulnerabilidade: 'vulnerabilidades',
-    }; const key=defenseKeys[effect.type];
+    };
+    const key = defenseKeys[effect.type];
     if (key)
       sheet.combate[key] = [sheet.combate[key], ...effect.defenses.map((d) => d.damageType)]
         .filter(Boolean)
@@ -163,6 +189,48 @@ export function projectSheet(
         critico: d.weapon.criticalMinimum,
       });
     sheet.inventario.itens.push(row);
+    if (d.weapon) {
+      const finesse = d.weapon.propertyRefs.some((r) => {
+        const property = entry(r.revisionId);
+        return property?.kind === 'propriedade_arma' && property.data.key === 'acuidade';
+      });
+      const attribute =
+        d.weapon.rangeType === 'distancia' ||
+        (finesse && (state.totals.des ?? 10) > (state.totals.for ?? 10))
+          ? 'des'
+          : 'for';
+      const proficient = state.concessions.proficiencyGrants.some((g) => {
+        const p = catalog.proficiencies.find((p) => p.id === g.proficiencyId);
+        return (
+          (p?.type === 'equipamento' && p.equipment?.recordId === e.ref.recordId) ||
+          (p?.type === 'categoria' &&
+            ((p.category === 'arma-simples' && !d.category.includes('marcial')) ||
+              (p.category === 'arma-marcial' && d.category.includes('marcial'))))
+        );
+      });
+      const damages = d.weapon.damages.map((damage, i) => ({
+        id: instanceUuid(`${key}/damage:${i}`),
+        dado: damage.dice,
+        atributo: damage.ability ?? (i === 0 ? attribute : ''),
+        tipo: damage.damageType,
+      }));
+      sheet.ataques.push({
+        ...novaEntrada('ataques'),
+        id: instanceUuid(`${key}/attack`),
+        nome: e.name,
+        tipo: 'bonus',
+        valor: modifier(state.totals[attribute] ?? 10) + (proficient ? state.proficiency : 0),
+        dano: '',
+        tipoDano: '',
+        observacoes: d.weapon.masteryRef ? (entry(d.weapon.masteryRef.revisionId)?.name ?? '') : '',
+        itemId: row.id,
+        atributo: attribute,
+        bonus: 0,
+        proficiente: proficient,
+        critico: d.weapon.criticalMinimum,
+        danos: damages,
+      });
+    }
   }
   for (const instance of roots) {
     const e = instance.entry;
@@ -186,14 +254,15 @@ export function projectSheet(
     const definition = catalog.castingProfiles.find(
       (p) => p.ownerRevisionId === profile.ownerRevisionId && profile.id.endsWith(`:${p.id}`),
     );
-    const profileId = instanceUuid(profile.id);
-    sheet.conjuracao.perfis.push({
-      ...novaEntrada('conjuracao.perfis'),
-      id: profileId,
-      nome: instance?.entry.name ?? 'Conjuração',
-      classeId: instance?.classEntryId ?? '',
-      atributo: profile.ability ?? 'int',
-    });
+    const profileId = profile.ability ? instanceUuid(profile.id) : '';
+    if (profile.ability)
+      sheet.conjuracao.perfis.push({
+        ...novaEntrada('conjuracao.perfis'),
+        id: profileId,
+        nome: instance?.entry.name ?? 'Conjuração',
+        classeId: instance?.classEntryId ?? '',
+        atributo: profile.ability ?? 'int',
+      });
     const fixed = definition?.spells.filter((s) => s.level <= (instance?.level ?? 0)) ?? [];
     const selected = draft.spellSelections.filter((s) => s.profileId === profile.id);
     for (const spell of [
@@ -203,15 +272,27 @@ export function projectSheet(
       const e = entry(spell.spellRef.revisionId);
       if (
         e?.kind !== 'magia' ||
-        sheet.magias.some(
-          (s) => s.perfilId === profileId && s.compendioRef?.revisionId === e.ref.revisionId,
-        )
+        sheet.magias.some((s) => s.id === instanceUuid(`${profile.id}/spell:${e.ref.recordId}`))
       )
         continue;
       const row = spellToSheet(e, profileId);
       row.id = instanceUuid(`${profile.id}/spell:${e.ref.recordId}`);
+      row.origemCriacao = profile.id;
       row.preparada = spell.prepared;
       sheet.magias.push(row);
+      if (
+        definition?.selectionUses !== null &&
+        definition?.selectionUses !== undefined &&
+        e.data.circle > 0 &&
+        !fixed.some((s) => s.spellRef.revisionId === e.ref.revisionId)
+      )
+        sheet.recursos.push({
+          id: instanceUuid(`${profile.id}/uses:${e.ref.recordId}`),
+          nome: `${e.name} (${instance?.entry.name})`,
+          maximo: definition.selectionUses,
+          gastos: 0,
+          recuperacao: definition.selectionRecovery ?? 'manual',
+        });
     }
     for (const s of fixed.filter((s) => s.ownUses !== null))
       sheet.recursos.push({
@@ -235,5 +316,5 @@ export function projectSheet(
       total: casting.pactSlots.reduce((n, s) => n + s.total, 0),
       gastos: 0,
     };
-  return sheet;
+  return sincronizarEquipamentos(sheet);
 }

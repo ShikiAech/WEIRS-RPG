@@ -10,7 +10,17 @@
     }
   ],
   "categories": [
-    { "code": "dom-sombrio", "names": ["Dom Sombrio", "Presente Sombrio", "Dark Gift"] }
+    {
+      "code": "dom-sombrio",
+      "names": [
+        "Dom Sombrio",
+        "Presente Sombrio",
+        "Dark Gift"
+      ]
+    }
   ],
-  "unresolved": []
+  "unresolved": [],
+  "identities": {
+    "talento:json:weirs:espirito-manchado": "talento:legacy:pages/talentos.html:espirito-manchado"
+  }
 }

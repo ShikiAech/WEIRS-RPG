@@ -3,125 +3,414 @@
   "source": "https://www.dndbeyond.com/sources/dnd/free-rules/creating-a-character#Multiclassing",
   "edition": "2024",
   "multiclassSlots": [
-    [2],
-    [3],
-    [4, 2],
-    [4, 3],
-    [4, 3, 2],
-    [4, 3, 3],
-    [4, 3, 3, 1],
-    [4, 3, 3, 2],
-    [4, 3, 3, 3, 1],
-    [4, 3, 3, 3, 2],
-    [4, 3, 3, 3, 2, 1],
-    [4, 3, 3, 3, 2, 1],
-    [4, 3, 3, 3, 2, 1, 1],
-    [4, 3, 3, 3, 2, 1, 1],
-    [4, 3, 3, 3, 2, 1, 1, 1],
-    [4, 3, 3, 3, 2, 1, 1, 1],
-    [4, 3, 3, 3, 2, 1, 1, 1, 1],
-    [4, 3, 3, 3, 3, 1, 1, 1, 1],
-    [4, 3, 3, 3, 3, 2, 1, 1, 1],
-    [4, 3, 3, 3, 3, 2, 2, 1, 1]
+    [
+      2
+    ],
+    [
+      3
+    ],
+    [
+      4,
+      2
+    ],
+    [
+      4,
+      3
+    ],
+    [
+      4,
+      3,
+      2
+    ],
+    [
+      4,
+      3,
+      3
+    ],
+    [
+      4,
+      3,
+      3,
+      1
+    ],
+    [
+      4,
+      3,
+      3,
+      2
+    ],
+    [
+      4,
+      3,
+      3,
+      3,
+      1
+    ],
+    [
+      4,
+      3,
+      3,
+      3,
+      2
+    ],
+    [
+      4,
+      3,
+      3,
+      3,
+      2,
+      1
+    ],
+    [
+      4,
+      3,
+      3,
+      3,
+      2,
+      1
+    ],
+    [
+      4,
+      3,
+      3,
+      3,
+      2,
+      1,
+      1
+    ],
+    [
+      4,
+      3,
+      3,
+      3,
+      2,
+      1,
+      1
+    ],
+    [
+      4,
+      3,
+      3,
+      3,
+      2,
+      1,
+      1,
+      1
+    ],
+    [
+      4,
+      3,
+      3,
+      3,
+      2,
+      1,
+      1,
+      1
+    ],
+    [
+      4,
+      3,
+      3,
+      3,
+      2,
+      1,
+      1,
+      1,
+      1
+    ],
+    [
+      4,
+      3,
+      3,
+      3,
+      3,
+      1,
+      1,
+      1,
+      1
+    ],
+    [
+      4,
+      3,
+      3,
+      3,
+      3,
+      2,
+      1,
+      1,
+      1
+    ],
+    [
+      4,
+      3,
+      3,
+      3,
+      3,
+      2,
+      2,
+      1,
+      1
+    ]
   ],
   "classes": {
     "artifice": {
-      "abilities": ["int"],
+      "abilities": [
+        "int"
+      ],
       "denominator": 2,
       "rounding": "cima",
       "castingAbility": "int"
     },
     "barbaro": {
-      "abilities": ["for"],
+      "abilities": [
+        "for"
+      ],
       "denominator": 0,
-      "multiclassProficiencies": ["arma-marcial", "escudo"]
+      "multiclassProficiencies": [
+        "arma-marcial",
+        "escudo"
+      ]
     },
     "bardo": {
-      "abilities": ["car"],
+      "abilities": [
+        "car"
+      ],
       "denominator": 1,
       "castingAbility": "car",
-      "multiclassProficiencies": ["armadura-leve"],
+      "multiclassProficiencies": [
+        "armadura-leve"
+      ],
       "multiclassSkillCount": 1
     },
     "bruxo": {
-      "abilities": ["car"],
+      "abilities": [
+        "car"
+      ],
       "denominator": 0,
       "castingAbility": "car",
       "pact": true,
-      "multiclassProficiencies": ["armadura-leve"]
+      "multiclassProficiencies": [
+        "armadura-leve"
+      ]
     },
     "cacador-sanguinario": {
-      "abilities": ["for", "des", "int"],
+      "abilities": [
+        "for",
+        "des",
+        "int"
+      ],
       "denominator": 0
     },
     "clerigo": {
-      "abilities": ["sab"],
+      "abilities": [
+        "sab"
+      ],
       "denominator": 1,
       "castingAbility": "sab",
-      "multiclassProficiencies": ["armadura-leve", "armadura-media", "escudo"]
+      "multiclassProficiencies": [
+        "armadura-leve",
+        "armadura-media",
+        "escudo"
+      ]
     },
     "druida": {
-      "abilities": ["sab"],
+      "abilities": [
+        "sab"
+      ],
       "denominator": 1,
       "castingAbility": "sab",
-      "multiclassProficiencies": ["armadura-leve", "escudo"]
+      "multiclassProficiencies": [
+        "armadura-leve",
+        "escudo"
+      ]
     },
     "feiticeiro": {
-      "abilities": ["car"],
+      "abilities": [
+        "car"
+      ],
       "denominator": 1,
       "castingAbility": "car",
       "multiclassProficiencies": []
     },
     "guerreiro": {
-      "abilities": ["for", "des"],
+      "abilities": [
+        "for",
+        "des"
+      ],
       "alternative": true,
       "denominator": 0,
-      "multiclassProficiencies": ["arma-marcial", "armadura-leve", "armadura-media", "escudo"]
+      "multiclassProficiencies": [
+        "arma-marcial",
+        "armadura-leve",
+        "armadura-media",
+        "escudo"
+      ]
     },
     "ladino": {
-      "abilities": ["des"],
+      "abilities": [
+        "des"
+      ],
       "denominator": 0,
-      "multiclassProficiencies": ["armadura-leve"],
+      "multiclassProficiencies": [
+        "armadura-leve"
+      ],
       "multiclassSkillCount": 1
     },
     "mago": {
-      "abilities": ["int"],
+      "abilities": [
+        "int"
+      ],
       "denominator": 1,
       "castingAbility": "int",
       "multiclassProficiencies": []
     },
     "monge": {
-      "abilities": ["des", "sab"],
+      "abilities": [
+        "des",
+        "sab"
+      ],
       "denominator": 0,
       "multiclassProficiencies": []
     },
     "paladino": {
-      "abilities": ["for", "car"],
+      "abilities": [
+        "for",
+        "car"
+      ],
       "denominator": 2,
       "rounding": "cima",
       "castingAbility": "car",
-      "multiclassProficiencies": ["arma-marcial", "armadura-leve", "armadura-media", "escudo"]
+      "multiclassProficiencies": [
+        "arma-marcial",
+        "armadura-leve",
+        "armadura-media",
+        "escudo"
+      ]
     },
     "patrulheiro": {
-      "abilities": ["des", "sab"],
+      "abilities": [
+        "des",
+        "sab"
+      ],
       "denominator": 2,
       "rounding": "cima",
       "castingAbility": "sab",
-      "multiclassProficiencies": ["arma-marcial", "armadura-leve", "armadura-media", "escudo"],
+      "multiclassProficiencies": [
+        "arma-marcial",
+        "armadura-leve",
+        "armadura-media",
+        "escudo"
+      ],
       "multiclassSkillCount": 1
     },
     "pistoleiro": {
-      "abilities": ["des"],
+      "abilities": [
+        "des"
+      ],
       "denominator": 0
     },
     "psionista": {
-      "abilities": ["int"],
+      "abilities": [
+        "int"
+      ],
       "denominator": 0
     },
     "pugilista": {
-      "abilities": ["for", "con"],
+      "abilities": [
+        "for",
+        "con"
+      ],
       "denominator": 0
     }
   },
-  "classSource": "https://www.dndbeyond.com/sources/dnd/br-2024/character-classes"
+  "classSource": "https://www.dndbeyond.com/sources/dnd/br-2024/character-classes",
+  "featLevels": {
+    "barbaro": [
+      4,
+      8,
+      12,
+      16,
+      19
+    ],
+    "bardo": [
+      4,
+      8,
+      12,
+      16,
+      19
+    ],
+    "bruxo": [
+      4,
+      8,
+      12,
+      16,
+      19
+    ],
+    "clerigo": [
+      4,
+      8,
+      12,
+      16,
+      19
+    ],
+    "druida": [
+      4,
+      8,
+      12,
+      16,
+      19
+    ],
+    "feiticeiro": [
+      4,
+      8,
+      12,
+      16,
+      19
+    ],
+    "guerreiro": [
+      4,
+      6,
+      8,
+      12,
+      14,
+      16,
+      19
+    ],
+    "ladino": [
+      4,
+      8,
+      10,
+      12,
+      16,
+      19
+    ],
+    "mago": [
+      4,
+      8,
+      12,
+      16,
+      19
+    ],
+    "monge": [
+      4,
+      8,
+      12,
+      16,
+      19
+    ],
+    "paladino": [
+      4,
+      8,
+      12,
+      16,
+      19
+    ],
+    "patrulheiro": [
+      4,
+      8,
+      12,
+      16,
+      19
+    ]
+  }
 }

@@ -1,12 +1,12 @@
 import type { CreationCatalog, CreationDraft } from '../contracts/character-creation';
-import { resolveAbilities } from './abilities';
+import { resolveAbilities, orderedAbilityBonuses } from './abilities';
 import { resolveConcessions } from './concessions';
 export function resolveState(catalog: CreationCatalog, draft: CreationDraft) {
   const scores = resolveAbilities(catalog, draft),
     concessions = resolveConcessions(catalog, draft);
   const totals = { ...scores.totals };
   const problems = [...scores.problems, ...concessions.problems];
-  for (const b of concessions.abilityBonuses)
+  for (const b of orderedAbilityBonuses(concessions.abilityBonuses))
     if (totals[b.ability] !== undefined) {
       const next = totals[b.ability]! + b.amount;
       if (next > b.limit)

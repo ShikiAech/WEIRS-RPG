@@ -63,6 +63,7 @@ type BaseContent = ReturnType<typeof criarConteudo>;
 export type SheetSpell = BaseContent['magias'][number] & {
   compendioId?: string;
   compendioRef?: import('./compendium').CompendiumRef;
+  origemCriacao?: string;
   dano?: string;
   tipoDano?: string;
   danos?: AttackDamage[];

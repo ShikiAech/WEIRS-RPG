@@ -3003,5 +3003,7 @@
     "classe:legacy:pages/classes/artificer.html:artifice:package:B": "bd0ba1d0-06ac-8d84-a88d-0e10f6ff31dc",
     "classe:legacy:pages/classes/pugilista.html:pugilista:package:B": "3c61faa8-b95c-8c00-af60-5715a5ed5df1"
   },
-  "aliases": {}
+  "aliases": {
+    "talento:json:weirs:espirito-manchado": "talento:legacy:pages/talentos.html:espirito-manchado"
+  }
 }

@@ -202,3 +202,72 @@ test('fixed background training participates in feat prerequisites and equipped 
   draft.equippedRefs = [item.ref];
   assert.ok(resolveCreation(catalog, draft).problems.some((p) => p.code === 'EQUIPMENT_NOT_OWNED'));
 });
+test('proficiency requirements compare the trained domain rather than source-specific IDs', () => {
+  const { catalog, draft, species, background } = fixture();
+  const feat = entry(14, 'talento', {
+    category: 'origem',
+    repeatable: false,
+    prerequisiteText: 'Armadura leve',
+    requirementsComplete: true,
+  });
+  catalog.entries.push(feat);
+  catalog.grants.push(grant(32, species, feat));
+  catalog.proficiencies.push(
+    {
+      id: id(33),
+      ownerRevisionId: background.ref.revisionId,
+      type: 'categoria',
+      category: 'armadura-leve',
+    },
+    {
+      id: id(34),
+      ownerRevisionId: feat.ref.revisionId,
+      type: 'categoria',
+      category: 'armadura-leve',
+    },
+  );
+  catalog.effects.push({
+    id: id(35),
+    ownerRevisionId: background.ref.revisionId,
+    key: 'training',
+    type: 'proficiencia',
+    formula: null,
+    requirementId: null,
+    level: 1,
+    stacking: 'maximo',
+    condition: '',
+    abilities: [],
+    defenses: [],
+    resources: [],
+    proficiencies: [{ proficiencyId: id(33), degree: 'proficiente' }],
+  });
+  catalog.requirements.push({
+    id: id(36),
+    ownerRevisionId: feat.ref.revisionId,
+    parentId: null,
+    operator: 'proficiencia',
+    minimum: null,
+    ability: null,
+    targetRef: null,
+    choiceKey: null,
+    proficiencyId: id(34),
+  });
+  assert.equal(
+    resolveConcessions(catalog, draft).problems.filter((p) => p.code === 'REQUIREMENT_NOT_MET')
+      .length,
+    0,
+  );
+});
+test('projection does not depend on database row order', async () => {
+  const { catalog, draft, species, background } = fixture();
+  const a = entry(15, 'caracteristica', { category: 'traco', manualDecision: false }, 'A'),
+    b = entry(16, 'caracteristica', { category: 'traco', manualDecision: false }, 'B');
+  catalog.entries.push(a, b);
+  catalog.grants.push(grant(38, species, a), grant(37, species, b), grant(39, background, a));
+  const { resolveCreation } = await import('../packages/character-creation/resolve');
+  const first = resolveCreation(catalog, draft);
+  const reversed = structuredClone(catalog);
+  reversed.entries.reverse();
+  reversed.grants.reverse();
+  assert.deepEqual(first, resolveCreation(reversed, draft));
+});

@@ -24,6 +24,7 @@ for (const source of [...json, ...legacy])
     cwd: root,
     encoding: 'utf8',
   }).trim();
+registry.aliases={...registry.aliases,...curation.aliases.identities};
 const imported = normalizeSources([...legacy, ...json], registry);
 const resolved = resolveCatalog(imported, curation);
 const report = coverageReport(resolved);
