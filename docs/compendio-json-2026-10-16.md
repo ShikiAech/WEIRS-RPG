@@ -62,13 +62,13 @@ Usar os JSONs como entrada preferencial para os domínios que cobrem. Complement
 
 ## Carga relacional local verificada
 
-A carga de 2026-10-16 foi aplicada duas vezes em PostgreSQL/PGlite com as migrações do projeto, sem duplicação: **2.986 registros**, derivados de **2.706 elementos de entrada**, incluindo variantes de instrumentos/jogos e blocos de criaturas. Há 439 referências bibliográficas versionadas, extraídas de 62 arquivos e da curadoria do núcleo. O relatório completo está em `content/compendium/coverage.json`.
+A carga de 2026-10-16 foi aplicada duas vezes em PostgreSQL/PGlite com as migrações do projeto, sem duplicação: **2.985 registros**, derivados de **2.736 elementos de entrada**, incluindo variantes de instrumentos/jogos e blocos de criaturas. Há 439 referências bibliográficas versionadas, extraídas de 62 arquivos e da curadoria do núcleo. O relatório completo está em `content/compendium/coverage.json`.
 
 | Domínio | Registros |
 | --- | ---: |
 | Classes / subclasses | 17 / 127 |
 | Espécies / linhagens | 31 / 3 |
-| Antecedentes / talentos | 132 / 407 |
+| Antecedentes / talentos | 132 / 406 |
 | Características / criaturas | 1.238 / 9 |
 | Magias | 477 |
 | Equipamentos / pacotes | 286 / 175 |
@@ -79,5 +79,5 @@ Os números incluem variantes e edições distintas, além de registros gerados 
 
 `npm run compendium:check` gera o relatório; `npm run compendium:seed` gera `supabase/compendium-seed.sql` e atualiza o manifesto de identidades. Nenhum desses comandos abre conexão remota. A aplicação usa uma transação e a publicação exige a identidade de um administrador já cadastrado. Divergências de conteúdo ou linhas adicionadas em revisão importada cancelam a carga com `WC004`, preservando as edições anteriores. Uma nova versão do importador mecânico deve incrementar `resolverVersion` antes de produzir revisões para um acervo já publicado.
 
-O assistente, sua validação no servidor e a ativação remota continuam sendo etapas posteriores desta implementação.
+O assistente e a validação no servidor estão implementados; a ativação remota segue o guia do Supabase. O alias confirmado também concilia as versões de Espírito Manchado, preservando identidade legada e evidência original em compendio_variantes_fonte. O inventário de fonte inclui as versões conciliadas.
 

@@ -1,6 +1,6 @@
 # Criação de personagem e compêndio — plano de implementação
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** migrar o acervo D&D/Weirs para um compêndio PostgreSQL estruturado em português e utilizá-lo na criação assistida de personagens.
 
@@ -95,13 +95,13 @@ Sequência: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11. Cad
 
 **Produces:** `resolveCatalog(input: ImportedCatalog, curation: CompendiumCuration): ResolvedCatalog` e `validateCatalog(catalog: ResolvedCatalog): ImportIssue[]`. `ResolvedCatalog` tem vínculos por UUID/revisão; a cobertura por fonte acompanha o resultado.
 
-- [ ] Testar requisito `Nível 4+, Força ou Destreza 13+` como nível E (Força OU Destreza); equipamento do Acólito com quantidade 10 de pergaminho e 8 PO versus 50 PO; Iniciado em Magia/Clérigo como talento mais escolha; categoria Dom Sombrio/Presente Sombrio por alias editorial explícito.
-- [ ] Testar que o alias Mancha Espiritual → Espírito Manchado, confirmado pelo autor, resolve a concessão. Remover o alias na fixture deve gerar `UNRESOLVED_REFERENCE` e impedir publicação da concessão incompleta. Testar também que variantes de Luta Cega não são fundidas apenas pelo nome.
-- [ ] Testar distâncias de jogo: 30 pés ↔ 9 metros; conservar valor/unidade originais. Separar voo/terrestre e condições de forma natural/exotraje. Carapaça Óssea dos Cranoris deve produzir a fórmula alternativa `13 + mod(con)`, sem armadura, com escudo permitido.
-- [ ] Executar `node --import tsx --test tests/compendium-rules.test.ts`; confirmar falhas relevantes.
-- [ ] Implementar os mapeamentos tipados e o glossário. Completar classes/subclasses, progressões 1–20, listas/magias, equipamentos, idiomas e referências de criaturas pelo restante do acervo. Conferir as regras do núcleo com a referência primária e conservar adaptações de Weirs identificadas.
-- [ ] Registrar cobertura separada de texto importado, relações conferidas, revisão 2024 e automação. Não publicar um perfil de criação que dependa de uma mecânica/referência obrigatória incompleta. Problemas editoriais que dependam do autor vão à lista de pendências com candidatos e trecho de origem; não inventar equivalências.
-- [ ] Reexecutar testes, inspecionar o relatório por domínio e commit: `feat: resolve compendium mechanics and provenance`.
+- [x] Testar requisito `Nível 4+, Força ou Destreza 13+` como nível E (Força OU Destreza); equipamento do Acólito com quantidade 10 de pergaminho e 8 PO versus 50 PO; Iniciado em Magia/Clérigo como talento mais escolha; categoria Dom Sombrio/Presente Sombrio por alias editorial explícito.
+- [x] Testar que o alias Mancha Espiritual → Espírito Manchado, confirmado pelo autor, resolve a concessão. Remover o alias na fixture deve gerar `UNRESOLVED_REFERENCE` e impedir publicação da concessão incompleta. Testar também que variantes de Luta Cega não são fundidas apenas pelo nome.
+- [x] Testar distâncias de jogo: 30 pés ↔ 9 metros; conservar valor/unidade originais. Separar voo/terrestre e condições de forma natural/exotraje. Carapaça Óssea dos Cranoris deve produzir a fórmula alternativa `13 + mod(con)`, sem armadura, com escudo permitido.
+- [x] Executar `node --import tsx --test tests/compendium-rules.test.ts`; confirmar falhas relevantes.
+- [x] Implementar os mapeamentos tipados e o glossário. Completar classes/subclasses, progressões 1–20, listas/magias, equipamentos, idiomas e referências de criaturas pelo restante do acervo. Conferir as regras do núcleo com a referência primária e conservar adaptações de Weirs identificadas.
+- [x] Registrar cobertura separada de texto importado, relações conferidas, revisão 2024 e automação. Não publicar um perfil de criação que dependa de uma mecânica/referência obrigatória incompleta. Problemas editoriais que dependam do autor vão à lista de pendências com candidatos e trecho de origem; não inventar equivalências.
+- [x] Reexecutar testes, inspecionar o relatório por domínio e commit: `feat: resolve compendium mechanics and provenance`.
 
 ## Tarefa 4 — Carga reproduzível e relatório de migração
 
@@ -123,12 +123,12 @@ Sequência: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11. Cad
 
 **Produces:** `createCompendiumRepository(client: SupabaseClient): CompendiumRepository`, com `list(query, signal?)`, `get(ref, signal?)` e `getCreationCatalog(draft, signal?)`. A consulta de criação retorna apenas revisões publicadas e dependências transitivas das seleções; `get` conserva a revisão solicitada por fichas existentes.
 
-- [ ] Testar paginação sem registros repetidos, busca PT/original sem acentos, filtro de classe/círculo/fonte, cancelamento de busca anterior e ausência de rascunhos. Uma ficha com ID legado resolve o registro/revisão correto. Falha não retorna catálogo estático como se fosse atual.
-- [ ] Executar `node --import tsx --test tests/compendium-repository.test.ts`; confirmar falhas.
-- [ ] Implementar consultas parametrizadas às tabelas/visões e adapter temporário para consumidores que ainda usam `ContentSummary`. Remover interpretação de HTML para obter dados mecânicos de magia; os campos vêm de suas entidades.
-- [ ] Atualizar a página Compêndio e os seletores para o mesmo repositório. Paginar listas; buscar descrições completas sob demanda. A demonstração sem banco usa snapshot explicitamente exportado do modelo publicado e identificado na interface. Snapshot não é fallback para falha de um banco configurado.
-- [ ] Tratar presença de magia por identidade, perfil e origem, permitindo a mesma magia obtida por fontes diferentes. Preservar magias manuais e referências antigas.
-- [ ] Rodar o teste unitário e `npx playwright test tests/browser/compendium.spec.ts tests/browser/spell-content.spec.ts --workers=1`. Conferir busca/erro/retentativa e navegação do diálogo. Commit: `feat: query database compendium across the app`.
+- [x] Testar paginação sem registros repetidos, busca PT/original sem acentos, filtro de classe/círculo/fonte, cancelamento de busca anterior e ausência de rascunhos. Uma ficha com ID legado resolve o registro/revisão correto. Falha não retorna catálogo estático como se fosse atual.
+- [x] Executar `node --import tsx --test tests/compendium-repository.test.ts`; confirmar falhas.
+- [x] Implementar consultas parametrizadas às tabelas/visões e adapter temporário para consumidores que ainda usam `ContentSummary`. Remover interpretação de HTML para obter dados mecânicos de magia; os campos vêm de suas entidades.
+- [x] Atualizar a página Compêndio e os seletores para o mesmo repositório. Paginar listas; buscar descrições completas sob demanda. A demonstração sem banco usa snapshot explicitamente exportado do modelo publicado e identificado na interface. Snapshot não é fallback para falha de um banco configurado.
+- [x] Tratar presença de magia por identidade, perfil e origem, permitindo a mesma magia obtida por fontes diferentes. Preservar magias manuais e referências antigas.
+- [x] Rodar o teste unitário e `npx playwright test tests/browser/compendium.spec.ts tests/browser/spell-content.spec.ts --workers=1`. Conferir busca/erro/retentativa e navegação do diálogo. Commit: `feat: query database compendium across the app`.
 
 ## Tarefa 6 — Atributos, requisitos e concessões rastreáveis
 
@@ -136,12 +136,12 @@ Sequência: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11. Cad
 
 **Produces:** `resolveCreation(catalog: CreationCatalog, draft: CreationDraft): CreationPreview`. A resolução é pura; não rola dados, acessa rede ou grava fichas. Produz IDs de instância preservados no rascunho e procedência para cada benefício.
 
-- [ ] Testar dois conjuntos selecionáveis sem preferência automática; valores repetidos distribuídos por índices diferentes; reutilização de um índice recusada; campos externos vazios não equivalem a zero. Exatamente dois conjuntos por rascunho no modo Weirs.
-- [ ] Testar bônus +2/+1 ou +1/+1/+1 entre atributos permitidos, limite de regra, escolhas pendentes e elegibilidade no nível de aquisição. Trocar antecedente remove apenas suas concessões; resolver duas vezes não duplica itens, moedas, proficiências ou talentos.
-- [ ] Testar uma magia concedida por duas fontes com perfis/usos separados; referência Mancha Espiritual não resolvida aparece como pendência e não é aplicada. Característica sem automação conserva descrição e estado de cobertura.
-- [ ] Executar `node --import tsx --test tests/character-creation.test.ts`; confirmar falhas.
-- [ ] Implementar leitura de grupos/opções e condições tipadas. Projetar valores base e parcelas separadas; não inferir benefícios pelo nome ou por regex de descrição durante o uso. Manter entradas manuais separadas das geradas.
-- [ ] Reexecutar o teste e commit: `feat: resolve character creation choices and grants`.
+- [x] Testar dois conjuntos selecionáveis sem preferência automática; valores repetidos distribuídos por índices diferentes; reutilização de um índice recusada; campos externos vazios não equivalem a zero. Exatamente dois conjuntos por rascunho no modo Weirs.
+- [x] Testar bônus +2/+1 ou +1/+1/+1 entre atributos permitidos, limite de regra, escolhas pendentes e elegibilidade no nível de aquisição. Trocar antecedente remove apenas suas concessões; resolver duas vezes não duplica itens, moedas, proficiências ou talentos.
+- [x] Testar uma magia concedida por duas fontes com perfis/usos separados; referência Mancha Espiritual não resolvida aparece como pendência e não é aplicada. Característica sem automação conserva descrição e estado de cobertura.
+- [x] Executar `node --import tsx --test tests/character-creation.test.ts`; confirmar falhas.
+- [x] Implementar leitura de grupos/opções e condições tipadas. Projetar valores base e parcelas separadas; não inferir benefícios pelo nome ou por regex de descrição durante o uso. Manter entradas manuais separadas das geradas.
+- [x] Reexecutar o teste e commit: `feat: resolve character creation choices and grants`.
 
 ## Tarefa 7 — Progressão, PV, CA e conjuração multiclasse
 
@@ -149,25 +149,25 @@ Sequência: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11. Cad
 
 **Produces:** `resolveHitPoints(catalog, draft): HitPointBreakdown`, `resolveDefenses(catalog, draft): DefenseBreakdown` e `resolveSpellcasting(catalog, draft): SpellcastingBreakdown`; tipos definidos em `character-creation.ts`. Os resultados carregam fórmulas, revisões de origem e escolhas pendentes.
 
-- [ ] Testar primeiro nível total com máximo do dado, novo nível em outra classe com ganho posterior ao primeiro, mistura de d6/d8/d10/d12 e mínimo 1 por nível posterior. Alterar Constituição recalcula sem trocar os resultados armazenados.
-- [ ] Testar nível total e marcos específicos de cada classe, requisitos de multiclasse, proficiências iniciais versus de entrada e subclasse vinculada à classe. CA dos Cranoris sem armadura e com escudo usa uma fórmula, sem somar outra defesa alternativa. Modos de movimento incompatíveis não acumulam.
-- [ ] Testar classe única com sua própria tabela; Conjuração de uma só fonte com outra classe não conjuradora; soma de conjuradores completos; metades arredondadas para cima para paladino/patrulheiro; terços arredondados para baixo para subclasses pertinentes; pacto fora da soma normal. Patrulheiro 4/Feiticeiro 3 resulta em espaços 4/3/2, sem liberar magias de círculo 3.
-- [ ] Testar personagem sem classe conjuradora com magia racial/talento, seleção de atributo apenas entre os permitidos e usos próprios. Atributos/perfis continuam separados por origem.
-- [ ] Executar `node --import tsx --test tests/character-progression.test.ts`; confirmar falhas. Implementar as funções a partir de progressões/efeitos do banco, incluindo a distinção entre espaços disponíveis e magias elegíveis.
-- [ ] Reexecutar os testes das tarefas 6–7 e commit: `feat: calculate character progression and multiclass casting`.
+- [x] Testar primeiro nível total com máximo do dado, novo nível em outra classe com ganho posterior ao primeiro, mistura de d6/d8/d10/d12 e mínimo 1 por nível posterior. Alterar Constituição recalcula sem trocar os resultados armazenados.
+- [x] Testar nível total e marcos específicos de cada classe, requisitos de multiclasse, proficiências iniciais versus de entrada e subclasse vinculada à classe. CA dos Cranoris sem armadura e com escudo usa uma fórmula, sem somar outra defesa alternativa. Modos de movimento incompatíveis não acumulam.
+- [x] Testar classe única com sua própria tabela; Conjuração de uma só fonte com outra classe não conjuradora; soma de conjuradores completos; metades arredondadas para cima para paladino/patrulheiro; terços arredondados para baixo para subclasses pertinentes; pacto fora da soma normal. Patrulheiro 4/Feiticeiro 3 resulta em espaços 4/3/2, sem liberar magias de círculo 3.
+- [x] Testar personagem sem classe conjuradora com magia racial/talento, seleção de atributo apenas entre os permitidos e usos próprios. Atributos/perfis continuam separados por origem.
+- [x] Executar `node --import tsx --test tests/character-progression.test.ts`; confirmar falhas. Implementar as funções a partir de progressões/efeitos do banco, incluindo a distinção entre espaços disponíveis e magias elegíveis.
+- [x] Reexecutar os testes das tarefas 6–7 e commit: `feat: calculate character progression and multiclass casting`.
 
 ## Tarefa 8 — Criação transacional e compatibilidade dos arquivos
 
 **Files:** criar `supabase/migrations/202610160012_criacao_personagem.sql`, `tests/character-creation-database.test.ts`; modificar `packages/contracts/sheets.ts`, `packages/sheets/modelo.js`, `apps/web/lib/{repository,errors,sheet-file}.ts` e testes de arquivo/estado existentes.
 
-**Produces:** RPC `public.criar_personagem(p_campanha uuid, p_pedido uuid, p_nome text, p_criacao jsonb)`, retornando `public.fichas`; repositório `createFromChoices(campaignId: string, name: string, draft: CreationDraft, requestId: string): Promise<SheetRecord>`. Resolver SQL privado valida/recalcula os valores essenciais contra as tabelas, sem confiar na prévia enviada pelo navegador.
+**Produces:** Edge Function autenticada `criar-personagem` e repositório `createFromChoices`, retornando `SheetRecord`. O motor TypeScript compartilhado recalcula a criação no servidor com o catálogo PostgreSQL; a RPC `registrar_criacao_personagem` é exclusiva de `service_role`, revalida acesso/referências e grava ficha/relações atomicamente. `recuperar_criacao_personagem` recupera recibos da conta antes de reler o catálogo. Decisão registrada durante execução: evita manter dois motores divergentes em TypeScript/PLpgSQL e exige publicar a Edge Function junto das migrações. A prévia do navegador permanece não confiável.
 
-- [ ] Testar permissão por campanha, FK das revisões, vínculos classe/subclasse, escolhas impossíveis, rolagens fora das faixas e alteração de fonte após prévia. Falha reverte ficha e relações; reenvio com o mesmo pedido devolve a ficha original; pedido repetido com dados diferentes é conflito.
-- [ ] Testar equivalência semântica da projeção PostgreSQL/TypeScript para os casos das tarefas 6–7. Comparar atributos, PV, CA, movimentos, proficiências, equipamentos, moedas, recursos, perfis e espaços; IDs novos do servidor podem ser comparados pelo vínculo de procedência.
-- [ ] Executar `node --import tsx --test tests/character-creation-database.test.ts`; confirmar falhas. Implementar as relações privadas da seção 9 da spec, RLS vinculada à ficha e idempotência seguindo o padrão dos recibos existentes.
-- [ ] Acrescentar snapshot opcional de criação ao formato v1 com validação explícita nos dois lados. Manter limites existentes de ficha e rejeitar excesso antes de gravar, sem truncamento silencioso. Exportar/importar conserva snapshot e revisões; revisão indisponível preserva a ficha manual e informa a indisponibilidade da automação.
-- [ ] Testar JSON v1 antigo e novo, Roll20, fontes ausentes, logout e isolamento entre contas. Cópia para campanha mantém o snapshot e copia relações somente com a autoridade já existente, sem trazer dados privados de outro usuário.
-- [ ] Rodar testes de criação e `tests/sheet-file.test.ts`, `tests/roll20-pdf.test.ts`, `tests/campaign-access.test.ts`. Commit: `feat: persist character creation atomically`.
+- [x] Testar permissão por campanha, FK das revisões, vínculos classe/subclasse, escolhas impossíveis, rolagens fora das faixas e alteração de fonte após prévia. Falha reverte ficha e relações; reenvio com o mesmo pedido devolve a ficha original; pedido repetido com dados diferentes é conflito.
+- [x] Testar equivalência semântica da projeção com DTOs lidos do PostgreSQL e do snapshot, usando o mesmo motor TypeScript no cliente/servidor para os casos das tarefas 6–7. Comparar atributos, PV, CA, movimentos, proficiências, equipamentos, moedas, recursos, perfis e espaços; IDs novos do servidor podem ser comparados pelo vínculo de procedência.
+- [x] Executar `node --import tsx --test tests/character-creation-database.test.ts`; confirmar falhas. Implementar as relações protegidas da seção 9 da spec, RLS vinculada à ficha e idempotência seguindo o padrão dos recibos existentes.
+- [x] Acrescentar snapshot opcional de criação ao formato v1 com validação explícita nos dois lados. Manter limites existentes de ficha e rejeitar excesso antes de gravar, sem truncamento silencioso. Exportar/importar conserva snapshot e revisões; revisão indisponível preserva a ficha manual e informa a indisponibilidade da automação.
+- [x] Testar JSON v1 antigo e novo, Roll20, fontes ausentes, logout e isolamento entre contas. Cópia para campanha mantém o snapshot e copia relações somente com a autoridade já existente, sem trazer dados privados de outro usuário.
+- [x] Rodar testes de criação e `tests/sheet-file.test.ts`, `tests/roll20-pdf.test.ts`, `tests/campaign-access.test.ts`. Commit: `feat: persist character creation atomically`.
 
 ## Tarefa 9 — Assistente e revisão antes de criar
 
@@ -177,12 +177,12 @@ Sequência: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11. Cad
 
 **Produces:** `CharacterCreator({ user, repository, compendium, initialCampaign })`. `#/fichas/nova` abre o assistente; **Preencher manualmente** usa `#/fichas/nova?modo=manual`. `#/fichas/teste` preserva o editor temporário atual e oferece entrada explícita na demonstração do assistente.
 
-- [ ] Escrever fluxo Playwright com atributos, espécie/linhagem, antecedente, kit, classe/nível, escolhas, PV, magias e revisão; confirmar que a ficha resultante abre no editor existente. Testar duas resoluções iguais sem duplicação e troca de origem com limpeza apenas das escolhas dependentes.
-- [ ] Executar `npx playwright test tests/browser/character-creation.spec.ts --workers=1`; confirmar falhas por fluxo ausente.
-- [ ] Implementar sete etapas com resumo persistente e fórmulas/origens consultáveis. Gerar aleatoriedade apenas em ações explícitas e guardar todos os resultados no rascunho. Não rerrolar em renderização, navegação ou alteração de Constituição.
-- [ ] Mostrar grupos de escolhas do banco e listas dependentes; manter o rascunho em memória por conta/campanha, limpar no logout e permitir a navegação entre etapas. Impedir finalização com dependências carregando, pendências obrigatórias ou prévia divergente do catálogo.
-- [ ] Finalizar pela RPC com um ID de tentativa preservado até confirmação. Rejeição mantém o preenchimento e mostra a causa; sucesso usa o registro devolvido pelo banco e abre a ficha.
-- [ ] Reexecutar Playwright e commit: `feat: add guided character creation`.
+- [x] Escrever fluxo Playwright com atributos, espécie/linhagem, antecedente, kit, classe/nível, escolhas, PV, magias e revisão; confirmar que a ficha resultante abre no editor existente. Testar duas resoluções iguais sem duplicação e troca de origem com limpeza apenas das escolhas dependentes.
+- [x] Executar `npx playwright test tests/browser/character-creation.spec.ts --workers=1`; confirmar falhas por fluxo ausente.
+- [x] Implementar sete etapas com resumo persistente e fórmulas/origens consultáveis. Gerar aleatoriedade apenas em ações explícitas e guardar todos os resultados no rascunho. Não rerrolar em renderização, navegação ou alteração de Constituição.
+- [x] Mostrar grupos de escolhas do banco e listas dependentes; manter o rascunho em memória por conta/campanha, limpar no logout e permitir a navegação entre etapas. Impedir finalização com dependências carregando, pendências obrigatórias ou prévia divergente do catálogo.
+- [x] Finalizar pela RPC com um ID de tentativa preservado até confirmação. Rejeição mantém o preenchimento e mostra a causa; sucesso usa o registro devolvido pelo banco e abre a ficha.
+- [x] Reexecutar Playwright e commit: `feat: add guided character creation`.
 
 ## Tarefa 10 — Integração na mesa e resiliência de interface
 
@@ -190,24 +190,36 @@ Sequência: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11. Cad
 
 **Consumes:** projeção v1 da tarefa 8. Nenhuma regra nova de combate deve ser inferida ou aplicada pelo chat.
 
-- [ ] Testar a ficha recém-criada na sessão: mesmos inventário, ataques, recursos, perfis e espaços; gastos/descansos existentes continuam operando; edição manual não reaplica o assistente. Testar copiar para outra campanha e exportar/importar.
-- [ ] Testar perda de rede antes/depois do envio, confirmação perdida, clique repetido, catálogo desatualizado e ausência da migração. Preservar o rascunho, permitir retentativa idempotente e nunca mostrar sucesso sem resposta confirmada.
-- [ ] Implementar os ajustes de consumo e mensagens públicas; tratar distintamente consulta indisponível, atualização de catálogo e escolha inválida. Não expor erros SQL ou credenciais.
-- [ ] Conferir desktop/celular, navegação por teclado, foco, labels, mensagens e resumo sem overflow. Usar os mecanismos de teste/inspeção de navegador permitidos e salvar capturas finais das etapas representativas.
-- [ ] Rodar `npx playwright test tests/browser/character-creation.spec.ts tests/browser/compendium.spec.ts tests/browser/persistence.spec.ts tests/browser/session.spec.ts tests/browser/sheet-improvements.spec.ts tests/browser/roll20-pdf.spec.ts --workers=1`. Commit: `fix: integrate generated sheets with existing play flows`.
+- [x] Testar a ficha recém-criada na sessão: mesmos inventário, ataques, recursos, perfis e espaços; gastos/descansos existentes continuam operando; edição manual não reaplica o assistente. Testar copiar para outra campanha e exportar/importar.
+- [x] Testar perda de rede antes/depois do envio, confirmação perdida, clique repetido, catálogo desatualizado e ausência da migração. Preservar o rascunho, permitir retentativa idempotente e nunca mostrar sucesso sem resposta confirmada.
+- [x] Implementar os ajustes de consumo e mensagens públicas; tratar distintamente consulta indisponível, atualização de catálogo e escolha inválida. Não expor erros SQL ou credenciais.
+- [x] Conferir desktop/celular, navegação por teclado, foco, labels, mensagens e resumo sem overflow. Usar os mecanismos de teste/inspeção de navegador permitidos e salvar capturas finais das etapas representativas.
+- [x] Rodar `npx playwright test tests/browser/character-creation.spec.ts tests/browser/compendium.spec.ts tests/browser/persistence.spec.ts tests/browser/session.spec.ts tests/browser/sheet-improvements.spec.ts tests/browser/roll20-pdf.spec.ts --workers=1`. Commit: `fix: integrate generated sheets with existing play flows`.
 
 ## Tarefa 11 — Verificação final, cobertura e instruções de ativação
 
 **Files:** criar `docs/criacao-personagem.md` e `docs/compendio-banco.md`; atualizar `README.md`, `docs/configuracao-supabase.md`, relatório de cobertura e checkboxes deste plano.
 
-- [ ] Documentar os domínios realmente carregados, contagens consolidadas, fontes/edições, aliases, pendências editoriais e cobertura de criação. Não declarar completude de campos/regras sem dados e verificações correspondentes.
-- [ ] Descrever a ordem: migrações existentes até 010 → 011 → carga do compêndio → 012 → conferência de cobertura/publicação. Incluir migração ausente, backup e retentativa, sem afirmar que o ambiente remoto já foi atualizado.
-- [ ] Rodar `npm run compendium:check`, `npm test`, `npm run build` e `npm run test:browser`. Confirmar os resultados e a integridade dos arquivos legados na base atualizada. Corrigir falhas da mudança e repetir somente as verificações justificadas pelas correções.
-- [ ] Fazer revisão final de integridade, segurança e fluxos com a skill de revisão aplicável; resolver achados acionáveis antes de concluir. Conferir diff e ausência de segredos/artefatos temporários.
-- [ ] Usar `superpowers:verification-before-completion` e `superpowers:finishing-a-development-branch`. Informar exatamente o que foi implementado/testado e quais operações remotas não foram executadas; entregar migrações/carga prontas para ativação. Commit final de documentação: `docs: describe database compendium and character creation`.
+- [x] Documentar os domínios realmente carregados, contagens consolidadas, fontes/edições, aliases, pendências editoriais e cobertura de criação. Não declarar completude de campos/regras sem dados e verificações correspondentes.
+- [x] Descrever a ordem: migrações existentes até 010 → 011 → carga do compêndio → 012 → conferência de cobertura/publicação. Incluir migração ausente, backup e retentativa, sem afirmar que o ambiente remoto já foi atualizado.
+- [x] Rodar `npm run compendium:check`, `npm test`, `npm run build` e `npm run test:browser`. Confirmar os resultados e a integridade dos arquivos legados na base atualizada. Corrigir falhas da mudança e repetir somente as verificações justificadas pelas correções.
+- [x] Fazer revisão final de integridade, segurança e fluxos com a skill de revisão aplicável; resolver achados acionáveis antes de concluir. Conferir diff e ausência de segredos/artefatos temporários.
+- [x] Usar `superpowers:verification-before-completion` e `superpowers:finishing-a-development-branch`. Informar exatamente o que foi implementado/testado e quais operações remotas não foram executadas; entregar migrações/carga prontas para ativação. Commit final de documentação: `docs: describe database compendium and character creation`.
 
 ## Revisão do plano
 
 - Cobertura da spec: domínios e segurança (1); fontes e identidade (2); mecânicas/pendências (3); carga (4); consultas (5); escolhas/atributos (6); progressão/PV/CA/conjuração (7); persistência/compatibilidade (8); fluxo (9); mesa/resiliência/acessibilidade (10); verificação/ativação (11).
 - Pontos da auditoria: os três JSONs são reaproveitados, sem substituir Neflins ou variantes do legado; referências não resolvidas bloqueiam a concessão afetada; o SRD confere regras do núcleo, enquanto o acervo de Weirs permanece identificado.
 - Método recomendado: execução direta nesta conversa, porque importação, contratos, projeção e persistência dependem fortemente dos mesmos vínculos. A escolha e a revisão do plano precedem a implementação.
+
+## Decisões de execução e cobertura
+
+- A revisão/publicação de conteúdo e a cobertura de automação são independentes. Textos e variantes de fonte são preservados; requisitos obrigatórios incompletos impedem a concessão automática correspondente. Nenhum registro recebeu revisão geral de 2024 ou automação completa. Ver `docs/compendio-banco.md` e o relatório de cobertura.
+- A validação mecânica do servidor usa o mesmo motor TypeScript empacotado na Edge Function. PostgreSQL conserva as relações, revisões, autorização, recibos e atomicidade. A carga integral é aplicada duas vezes no teste de integração e a projeção a partir dos dados reais é comparada à demonstração.
+- A verificação de navegador utiliza a suíte Playwright existente no repositório, incluindo criação, editor, campanhas e mesa, em desktop e celular.
+
+## Revisão final da implementação
+
+Uma revisão independente somente leitura identificou quatro problemas, corrigidos antes da entrega: recuperar a tentativa preservada mesmo sem catálogo; preservar escolhas durante carga/falha; aplicar aumentos de atributos cronologicamente; confirmar a tentativa incerta antes de liberar edição. As regressões de recuperação e preservação passaram em desktop/celular, e o caso real de INT18 + melhoria2 no nível4 + dádiva1 no19 agora resulta em INT21 sem erro de limite.
+
+Verificação após as correções: 168 testes de unidade aprovados; carga integral SQL aplicada duas vezes, com 2.985 revisões publicadas e ficha resolvida do grafo real igual ao snapshot; build aprovado com motor da Edge regenerado e 122 arquivos originais idênticos. A suíte ampla de navegador aprovou 176 testes em desktop/celular; dois testes opcionais dependentes de amostra externa do PDF Roll20 foram ignorados. Após o build, os dois testes do artefato HTTP/recuperação da Edge também passaram. Nenhuma migração, publicação ou gravação no ambiente hospedado foi executada.

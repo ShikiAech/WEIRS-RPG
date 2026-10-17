@@ -8,6 +8,8 @@ Um aplicativo web para recordação de campanhas, guia de criação básico e co
 
 A nova área em `app.html` reúne campanhas, compêndio pesquisável, fichas completas com homebrew e mesa virtual com mapa central e chat lateral. As páginas e imagens originais continuam disponíveis. PostgreSQL/Supabase mantém fichas, conversas e mapas com acesso por campanha e login Google; sem configuração, é possível experimentar uma ficha temporária e importar/exportar JSON.
 
+A [criação guiada](docs/criacao-personagem.md) reúne atributos, origens, progressão, PV, defesas e magias em sete etapas, com revisão antes de salvar. O [compêndio relacional](docs/compendio-banco.md) contém os JSONs e o acervo anterior em tabelas versionadas, com fontes e cobertura explícitas. Ative as migrações `011`/`012`, a carga e a Edge Function conforme o [guia do Supabase](docs/configuracao-supabase.md#compêndio-e-criação-guiada).
+
 ```powershell
 npm ci
 npm run dev
@@ -21,7 +23,7 @@ Magias podem ter várias parcelas e tipos de dano e ser roladas pela aba **Comba
 
 A ficha aceita também o PDF impresso do Roll20 D&D 2024, com extração local e prévia antes de aplicar. Veja [como importar a ficha do Roll20](docs/importacao-roll20.md), a cobertura e os campos que precisam de revisão.
 
-Verificações: `npm test`, `npm run build` e `npm run test:browser` (instale Chromium com `npx playwright install chromium`). O build gera `dist/` e verifica que todas as fontes legadas foram preservadas. O compêndio é reimportado a partir do HTML durante o build; o JSON gerado não entra no Git. Para publicar a mesa, siga o [guia do GitHub Pages](docs/publicacao-github-pages.md); o site deve servir `dist/`, e não o `app.html` de desenvolvimento da raiz.
+Verificações: `npm test`, `npm run compendium:verify`, `npm run build` e `npm run test:browser` (instale Chromium com `npx playwright install chromium`). O build gera `dist/`, empacota o motor da Edge Function e verifica a integridade das páginas originais. `compendium:seed` gera a carga relacional e o snapshot identificado de demonstração, sem conexão remota; a aplicação configurada consulta o banco. A importação HTML legada do build continua atendendo às crônicas e à preservação do site anterior. Para publicar a mesa, siga o [guia do GitHub Pages](docs/publicacao-github-pages.md); o site deve servir `dist/`.
 
 O chat inclui histórico, Realtime, `/r` e `/roll`, vantagem/desvantagem e ações das fichas. Mestres podem esconder resultados com `/gmroll` e revelá-los depois. Rolagens são calculadas e gravadas no banco, com proteção contra duplicação. Dados 3D gratuitos animam os seus envios confirmados em uma janela móvel e recolhível; total e faces são revelados quando a animação termina. Há opção de desligar e suporte a movimento reduzido. Para ativar o chat no projeto existente, siga o [guia do chat](docs/configuracao-chat.md).
 

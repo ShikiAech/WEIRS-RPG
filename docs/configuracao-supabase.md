@@ -4,8 +4,8 @@ Esta entrega usa React/TypeScript e o backend gerenciado do Supabase. O banco ap
 
 ## O que já funciona
 
-- Campanhas e compêndio importados das páginas existentes, com textos completos, links e imagens locais.
-- Ficha completa e editável: multiclasse, seis atributos, dezoito perícias, combate, recursos, características, magia/pacto, inventário e história. Campos livres e ajustes comportam homebrew; escolher uma classe não aplica todas as suas regras automaticamente.
+- Campanhas preservadas das páginas existentes e compêndio relacional com descrições, fontes, versões e relações tipadas.
+- Ficha completa e editável, com assistente de criação e modo manual para homebrew. A cobertura de automação de cada origem é informada pelo compêndio.
 - Criação, leitura, edição e exclusão via Supabase; conflitos por versão; importação/exportação JSON. O mestre edita fichas da sua campanha. Só o proprietário com acesso de escrita pode excluir.
 - Sem configuração, o compêndio e a ficha temporária funcionam. A ficha temporária é mantida apenas na página; baixe uma cópia para recuperá-la posteriormente.
 
@@ -22,7 +22,7 @@ npm run dev
 
 Abra `http://127.0.0.1:5173/WEIRS-RPG/app.html`. O endereço do site original continua em `/WEIRS-RPG/index.html`. `npm run dev` importa o conteúdo antes de iniciar; execute `npm run import:content` novamente após editar páginas originais.
 
-O importador gera um índice leve, um JSON por registro, campanhas e um manifesto de hashes em `content/generated/`. Esse diretório não entra no Git. As fontes HTML continuam sendo a origem do compêndio nesta etapa; a ficha salva e a participação na mesa ficam no PostgreSQL. As biografias existentes não contêm todos os dados de uma ficha: são preservadas nas crônicas, sem inventar atributos ou equipamentos ausentes.
+O importador legado gera campanhas e arquivos de preservação em `content/generated/`. O compêndio da aplicação usa as tabelas e a carga descritas abaixo. As biografias antigas continuam nas crônicas sem inventar atributos ou equipamentos ausentes.
 
 ## 2. Criar o projeto gratuito e instalar o banco
 
@@ -205,7 +205,7 @@ Para retirar acesso, remova o membro dessa campanha no painel/SQL. A conta perde
 
 ## 6. Uso e cópias
 
-Abra **Fichas → Criar personagem**, selecione a campanha e salve. A confirmação aparece depois da resposta do banco. Os campos continuam editáveis enquanto um save está em andamento, e novas alterações permanecem pendentes.
+Abra **Fichas → Criar personagem** para usar o assistente e selecionar a campanha na revisão final. **Preencher manualmente** abre o editor livre. A confirmação aparece depois da resposta do servidor. No editor manual, os campos continuam editáveis durante o salvamento e novas alterações permanecem pendentes; o assistente preserva uma tentativa congelada até confirmar seu resultado.
 
 Use **Baixar ficha** antes de fechar uma edição importante ou resolver um conflito. **Importar ficha** aceita uma cópia JSON válida e substitui os campos, mantendo a campanha, propriedade e versão atuais. Importar não salva automaticamente. Assim também é possível levar uma ficha temporária para a mesa depois de entrar.
 
@@ -232,3 +232,34 @@ O build verifica os hashes de todas as fontes legadas e gera `dist/`, incluindo 
 Para GitHub Pages, mantenha `VITE_BASE_PATH=/WEIRS-RPG/`. O legado usa URLs absolutas nesse caminho. Hospedagem em outro prefixo exigirá também ajustar os caminhos das páginas legadas, embora os links da nova aplicação respeitem a base configurada.
 
 Antes de usar o banco com dados reais, valide com duas contas da mesa: login/logout, criação, edição pelo mestre da campanha, recusa de acesso entre campanhas, exclusão somente pelo dono e recuperação de um conflito. Esta validação remota depende das contas e configurações externas.
+
+## Compêndio e criação guiada
+
+As operações desta seção são a ativação hospedada; o repositório prepara e testa tudo localmente. Consulte [o modelo e a cobertura](compendio-banco.md) e [o assistente](criacao-personagem.md).
+
+1. Faça um backup do projeto existente. Confira as migrações já aplicadas e mantenha a sequência de `001` até `010` antes de prosseguir.
+2. Execute `supabase/migrations/202610160011_compendio.sql` uma vez. Ela cria o catálogo relacional, revisões, leitura pública de conteúdo publicado e manutenção exclusiva de admins globais.
+3. Confira `content/compendium/coverage.json`. Se precisar regenerar a carga, execute `npm run compendium:seed` e `npm run compendium:verify`. Nenhum desses comandos acessa seu Supabase remoto.
+4. Execute `supabase/compendium-seed.sql` como responsável pelo banco, identificando um administrador **já cadastrado** em `public.administradores`. No SQL Editor ou na mesma conexão usada para a carga, antes do arquivo:
+
+   ```sql
+   SELECT set_config('request.jwt.claim.sub', 'UUID_DO_ADMIN_EXISTENTE', false);
+   ```
+
+   A carga contém sua própria transação. Para o arquivo maior, prefira um cliente PostgreSQL que aceite executar arquivos completos. A identidade acima serve à autorização de publicação e não cria um administrador. Ao terminar a sessão, remova essa configuração ou feche a conexão.
+
+5. Confira `compendio_indice` e `compendio_pendencias`. A carga é repetível; `WC004` significa divergência editorial e cancela a transação. Revise a diferença em vez de apagar as linhas para forçar a importação.
+6. Execute `supabase/migrations/202610160012_criacao_personagem.sql` uma vez. Ela cria o histórico privado, a gravação atômica restrita ao servidor e a recuperação da tentativa autenticada.
+7. Gere o servidor com `npm run build:creation-server`. Com a CLI do Supabase autenticada no projeto correto, publique a função preparada:
+
+   ```powershell
+   supabase functions deploy criar-personagem --project-ref SEU_PROJECT_REF
+   ```
+
+   O arquivo `supabase/config.toml` mantém `verify_jwt = true`. O handler também verifica a sessão com Auth. As variáveis `SUPABASE_URL`, `SUPABASE_ANON_KEY` e `SUPABASE_SERVICE_ROLE_KEY` pertencem ao runtime hospedado da função. A chave de serviço nunca deve estar em uma variável `VITE_*`, no navegador ou no Git. A separação entre cliente com RLS e cliente administrativo segue as [orientações de autenticação de Edge Functions](https://supabase.com/docs/guides/functions/auth).
+
+8. Publique o frontend gerado por `npm run build`. Confirme com uma conta de jogador: busca pública, criação em campanha autorizada, leitura da ficha, histórico e repetição da mesma tentativa após resposta perdida. Verifique também que um espectador não consegue criar e que nenhum cliente chama o gravador `registrar_criacao_personagem` diretamente.
+
+Sem `011`, a consulta mostra erro com retentativa. Sem `012` ou a Edge Function, a finalização mostra erro e mantém o rascunho. O modo de demonstração é explícito e não substitui uma consulta que falhou em um banco configurado. Fichas v1 existentes continuam manuais; nenhuma migração reconstrói seus dados.
+
+O CRUD administrativo é futuro. Para manutenção SQL, crie uma revisão nova, suas relações e publique pelo procedimento administrativo; revisões publicadas permanecem imutáveis. Não reaplique uma migração já instalada sobre as mesmas tabelas.
