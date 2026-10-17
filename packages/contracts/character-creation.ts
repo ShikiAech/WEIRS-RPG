@@ -91,6 +91,8 @@ export interface CreationContribution {
   amount: number | null;
 }
 export interface HitPointBreakdown {
+  classTotal?: number;
+  falseLife?: number;
   total: number;
   levels: {
     totalLevel: number;

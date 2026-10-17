@@ -137,6 +137,9 @@ test('autocomplete pagina opções e mantém linhagens, subclasses e multiclasse
   page,
 }) => {
   await page.goto('app.html#/fichas/nova?demo=1');
+  await expect(page.getByText('Atualizando regras e benefícios…', { exact: true })).toBeHidden({
+    timeout: 20_000,
+  });
   await page.getByRole('button', { name: '2 Espécie', exact: true }).click();
   await page.getByRole('combobox', { name: 'Espécie', exact: true }).click();
   await expect(page.getByRole('option')).toHaveCount(24);
@@ -167,6 +170,7 @@ test('autocomplete pagina opções e mantém linhagens, subclasses e multiclasse
   await page.getByRole('button', { name: '4 Classes', exact: true }).click();
   await chooseCatalog(page, 'Classe', 'Guerreiro', find('classe', 'Guerreiro').sourceTitle);
   await page.getByLabel('Níveis em Guerreiro', { exact: true }).fill('3');
+  await page.getByLabel('Níveis em Guerreiro', { exact: true }).press('Tab');
   await chooseCatalog(
     page,
     'Subclasse de Guerreiro',
@@ -200,6 +204,101 @@ test('rolagens ficam no rascunho entre etapas e não escolhem um conjunto automa
 
 import { creationBackend } from './creation-backend';
 import { campaignId } from './backend';
+
+test('nível da classe aceita apagar e exige um inteiro de 1 a 20 antes de concluir', async ({
+  page,
+}, info) => {
+  await creationBackend(page);
+  await page.goto('app.html#/fichas/nova');
+  for (const label of ['Força', 'Destreza', 'Constituição', 'Inteligência', 'Sabedoria', 'Carisma'])
+    await page.getByLabel(`${label}: valor base`, { exact: true }).fill('14');
+  await page.getByRole('button', { name: '2 Espécie', exact: true }).click();
+  await chooseCatalog(page, 'Espécie', 'Espécie de teste', 'Teste');
+  await page.getByRole('button', { name: '3 Antecedente', exact: true }).click();
+  await chooseCatalog(page, 'Antecedente', 'Origem de teste', 'Teste');
+  await page.getByLabel('Força: bônus do antecedente', { exact: true }).fill('2');
+  await page.getByLabel('Constituição: bônus do antecedente', { exact: true }).fill('1');
+  await page.getByRole('button', { name: '4 Classes', exact: true }).click();
+  await chooseCatalog(page, 'Classe', 'Classe de teste', 'Teste');
+  await page.getByRole('button', { name: '7 Revisão', exact: true }).click();
+  await page.getByLabel('Nome do personagem', { exact: true }).fill('Nível obrigatório');
+  await page.getByLabel('Campanha', { exact: true }).selectOption(campaignId);
+  const submit = page.getByRole('button', { name: 'Criar ficha na campanha', exact: true });
+  await expect(submit).toBeEnabled();
+
+  await page.getByRole('button', { name: '4 Classes', exact: true }).click();
+  const level = page.getByLabel('Níveis em Classe de teste', { exact: true });
+  await level.press('ControlOrMeta+a');
+  await level.press('Backspace');
+  await expect(level).toHaveValue('');
+  await expect(level).toHaveAttribute('required', '');
+  await expect(level).toHaveAttribute('aria-invalid', 'true');
+  await expect(page.getByRole('alert')).toHaveText('O nível da classe é obrigatório.');
+  await page.screenshot({
+    path: `artifacts/character-creation/${info.project.name}-class-level-required.png`,
+    fullPage: true,
+  });
+  await page.getByRole('button', { name: '7 Revisão', exact: true }).click();
+  await expect(page.getByRole('alert')).toContainText('O nível da classe é obrigatório.');
+  await expect(submit).toBeDisabled();
+  await page.getByRole('button', { name: '4 Classes', exact: true }).click();
+  await expect(level).toHaveValue('');
+  await level.pressSequentially('12');
+  await expect(level).toHaveValue('12');
+  await expect(level).toHaveAttribute('aria-invalid', 'false');
+  await expect(page.getByRole('alert')).toHaveCount(0);
+  await page.getByRole('button', { name: '7 Revisão', exact: true }).click();
+  await expect(submit).toBeEnabled();
+  await expect(page.getByLabel('Resumo do personagem')).toContainText('Classe de teste 12');
+
+  for (const invalid of ['0', '21', '1.5']) {
+    await page.getByRole('button', { name: '4 Classes', exact: true }).click();
+    await level.fill(invalid);
+    await expect(level).toHaveValue(invalid);
+    await expect(level).toHaveAttribute('aria-invalid', 'true');
+    await expect(page.getByRole('alert')).toHaveText('Informe um nível inteiro entre 1 e 20.');
+    await page.getByRole('button', { name: '7 Revisão', exact: true }).click();
+    await expect(submit).toBeDisabled();
+  }
+  await page.getByRole('button', { name: '4 Classes', exact: true }).click();
+  await level.fill('1');
+  await page.getByRole('button', { name: '7 Revisão', exact: true }).click();
+  await expect(submit).toBeEnabled();
+});
+
+test('editar níveis preserva subclasse e valida cada multiclasse separadamente', async ({
+  page,
+}) => {
+  await page.goto('app.html#/fichas/nova?demo=1');
+  await page.getByRole('button', { name: '4 Classes', exact: true }).click();
+  await chooseCatalog(page, 'Classe', 'Guerreiro', find('classe', 'Guerreiro').sourceTitle);
+  const fighterLevel = page.getByLabel('Níveis em Guerreiro', { exact: true });
+  await fighterLevel.fill('3');
+  await fighterLevel.press('Tab');
+  await chooseCatalog(
+    page,
+    'Subclasse de Guerreiro',
+    'Campeão',
+    find('subclasse', 'Campeão').sourceTitle,
+  );
+  await fighterLevel.fill('');
+  await chooseCatalog(page, 'Adicionar multiclasse', 'Mago', find('classe', 'Mago').sourceTitle);
+  await expect(fighterLevel).toHaveValue('');
+  await page.getByLabel('Níveis em Mago', { exact: true }).fill('2');
+  await expect(fighterLevel).toHaveValue('');
+  await fighterLevel.fill('3');
+  await expect(
+    page.getByRole('combobox', { name: 'Subclasse de Guerreiro', exact: true }),
+  ).toHaveValue('Campeão');
+  await page.getByLabel('Níveis em Mago', { exact: true }).fill('');
+  await page.getByRole('button', { name: '7 Revisão', exact: true }).click();
+  await expect(page.getByRole('alert')).toContainText('O nível da classe é obrigatório. (Mago)');
+  await page.getByRole('button', { name: '4 Classes', exact: true }).click();
+  await page.getByRole('button', { name: 'Remover esta classe', exact: true }).click();
+  await expect(page.getByText('O nível da classe é obrigatório.', { exact: true })).toHaveCount(0);
+  await chooseCatalog(page, 'Classe', 'Mago', find('classe', 'Mago').sourceTitle);
+  await expect(page.getByLabel('Níveis em Mago', { exact: true })).toHaveValue('1');
+});
 
 test('autocomplete recupera falha de busca sem perder a seleção atual', async ({ page }) => {
   await creationBackend(page);

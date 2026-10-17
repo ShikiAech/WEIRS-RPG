@@ -12,6 +12,7 @@ import { instanceUuid } from './concessions';
 import type { CreationState } from './state';
 import { evaluateFormula } from './formula';
 import { modifier } from './abilities';
+import { profileGrantedSpells } from './casting-grants';
 import { sincronizarEquipamentos } from '../sheets/equipamentos.js';
 export function projectSheet(
   catalog: CreationCatalog,
@@ -52,6 +53,14 @@ export function projectSheet(
   });
   sheet.combate.pvMaximos = hp.total;
   sheet.combate.pvAtuais = hp.total;
+  if (hp.falseLife)
+    sheet.recursos.push({
+      id: instanceUuid('species:false-life'),
+      nome: 'Vida Falsa do Exotraje',
+      maximo: hp.falseLife,
+      gastos: 0,
+      recuperacao: 'manual',
+    });
   sheet.combate.dadosVida = hp.hitDice.map((d) => ({
     id: instanceUuid(`hit-die:${d.die}`),
     dado: `d${d.die}`,
@@ -72,10 +81,76 @@ export function projectSheet(
               ? 'tracos'
               : 'caracteristicas'
             : null;
-    if (key)
-      sheet[key].push({ id: instanceUuid(instance.id), nome: e.name, descricao: e.description });
+    if (key) {
+      const targets = state.concessions.choices
+        .filter((c) => c.instance.id === instance.id)
+        .flatMap((c) => {
+          const selected = draft.choices.find(
+            (s) => s.groupId === c.group.id && s.sourceInstanceId === instance.id,
+          );
+          return (
+            selected?.values.flatMap((v) => {
+              const option =
+                v.type === 'option'
+                  ? c.group.options.find((o) => o.id === v.optionId && o.type === 'magia-alvo')
+                  : undefined;
+              return option ? [`${c.group.name}: ${option.name}`] : [];
+            }) ?? []
+          );
+        });
+      sheet[key].push({
+        id: instanceUuid(instance.id),
+        nome: e.name,
+        descricao: [e.description, ...targets].join('\n'),
+      });
+    }
     if (e.kind === 'idioma' && !sheet.idiomas.some((i) => i.nome === e.name))
       sheet.idiomas.push({ id: instanceUuid(instance.id), nome: e.name });
+  }
+  for (const instance of roots) {
+    if (instance.entry.kind !== 'caracteristica') continue;
+    const data = instance.entry.data,
+      form = data.formEffects;
+    if (form && (!form.form || form.form === draft.form))
+      sheet.combate.resistencias = [sheet.combate.resistencias, ...(form.resistances ?? [])]
+        .filter(Boolean)
+        .join('; ');
+    if (form?.attack && (!form.form || form.form === draft.form)) {
+      const attack = form.attack;
+      const proficient = state.concessions.proficiencyGrants.some((g) => {
+        const p = catalog.proficiencies.find((p) => p.id === g.proficiencyId);
+        return p?.type === 'categoria' && p.category === `arma-${attack.category}`;
+      });
+      sheet.ataques.push({
+        ...novaEntrada('ataques'),
+        id: instanceUuid(`${instance.id}/attack`),
+        nome: attack.name,
+        tipo: 'bonus',
+        valor: modifier(state.totals[attack.ability] ?? 10) + (proficient ? state.proficiency : 0),
+        atributo: attack.ability,
+        bonus: 0,
+        proficiente: proficient,
+        critico: 20,
+        dano: `${attack.dice}${modifier(state.totals[attack.ability] ?? 10) >= 0 ? '+' : ''}${modifier(state.totals[attack.ability] ?? 10)}`,
+        tipoDano: attack.damageType,
+        observacoes: `Alcance ${attack.normalRangeFeet * 0.3}/${attack.longRangeFeet * 0.3} m; munição ilimitada.`,
+        danos: [
+          {
+            id: instanceUuid(`${instance.id}/damage`),
+            dado: attack.dice,
+            atributo: attack.ability,
+            tipo: attack.damageType,
+          },
+        ],
+      });
+    }
+    for (const rule of data.skillBonuses ?? [])
+      for (const skill of rule.skills)
+        if (sheet.pericias[skill])
+          sheet.pericias[skill].ajuste += Math.max(
+            rule.minimum,
+            modifier(state.totals[rule.ability] ?? 10),
+          );
   }
   const degrees: Record<string, number> = { meia: 1, proficiente: 2, especializacao: 3 };
   for (const mastery of state.concessions.masteries) {
@@ -263,7 +338,7 @@ export function projectSheet(
         classeId: instance?.classEntryId ?? '',
         atributo: profile.ability ?? 'int',
       });
-    const fixed = definition?.spells.filter((s) => s.level <= (instance?.level ?? 0)) ?? [];
+    const fixed = profileGrantedSpells(catalog, state, instance, definition);
     const selected = draft.spellSelections.filter((s) => s.profileId === profile.id);
     for (const spell of [
       ...fixed.map((s) => ({ spellRef: s.spellRef, prepared: s.alwaysPrepared })),

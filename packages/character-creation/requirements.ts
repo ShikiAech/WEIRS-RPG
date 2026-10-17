@@ -62,6 +62,8 @@ export function requirementMet(
     case 'caracteristica':
     case 'talento':
       return context.records.has(target);
+    case 'ausente':
+      return !!target && !context.records.has(target);
     case 'repeticoes':
       return (context.repetitions.get(target) ?? 0) >= (r.minimum ?? Infinity);
     case 'escolha':

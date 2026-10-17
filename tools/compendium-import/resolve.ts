@@ -16,6 +16,11 @@ import type {
 import { normalizeName, stableId, revisionId, hash, canonical, conceptId } from './identity';
 import { plainHtml } from './legacy';
 import { linkRequirements } from './requirements';
+import { curateClassChoices } from './class-choices';
+import { curateArtificerChoices } from './artificer-choices';
+import { curateSpeciesChoices } from './species-choices';
+import { curateEquipmentChoices, linkedEquipmentChoice } from './equipment-choices';
+import { curateFeatChoices, populateFeatChoices } from './feat-choices';
 import type { CatalogDraftRecord, ImportedCatalog, JsonObject } from './model';
 import type { CompendiumCuration, ResolvedCatalog, ResolvedEntry } from './resolved';
 export type { CompendiumCuration, ResolvedCatalog } from './resolved';
@@ -237,7 +242,7 @@ export function resolveCatalog(
     });
   // Curation is part of a revision: a changed formula or alias cannot silently alter a pinned sheet.
   const version = (r: CatalogDraftRecord) =>
-    revisionId(r.id, { sourceRevision: r.revisionId, curation, resolverVersion: 3 });
+    revisionId(r.id, { sourceRevision: r.revisionId, curation, resolverVersion: 4 });
   const create = <K extends CompendiumKind>(
     r: CatalogDraftRecord,
     data: CompendiumPayloadMap[K],
@@ -624,6 +629,15 @@ export function resolveCatalog(
           }),
         );
       const ranges = /Alcance\s+([\d,.]+)\/([\d,.]+)/i.exec(str('props'));
+      // Range on a thrown weapon does not change its melee weapon category.
+      // Etherforge firearms also declare firing/reloading in their own source text.
+      const isRanged =
+        cat.endsWith('_dist') ||
+        /Munição/i.test(str('props')) ||
+        (cat.includes('eterforja') &&
+          /Recarga/i.test(str('props')) &&
+          /dispara|disparos|disparada|projéteis/i.test(str('desc') + ' ' + str('special')));
+      const maximumRange = /Alcance máximo de ([\d,.]+) metros/i.exec(str('special'));
       const damage = /^(\d+(?:d\d+)?)\s+(.+)/i.exec(str('dano'));
       const damages = damage
         ? [
@@ -638,11 +652,15 @@ export function resolveCatalog(
         : [];
       if (!damages.length) issue(r, 'Dano não reconhecido.');
       data.weapon = {
-        rangeType: cat.endsWith('_dist') ? 'distancia' : 'corpo-a-corpo',
+        rangeType: isRanged ? 'distancia' : 'corpo-a-corpo',
         normalRangeFeet: ranges
           ? distanceFeet(Number(ranges[1].replace(',', '.')), 'metros')
           : null,
-        longRangeFeet: ranges ? distanceFeet(Number(ranges[2].replace(',', '.')), 'metros') : null,
+        longRangeFeet: ranges
+          ? distanceFeet(Number(ranges[2].replace(',', '.')), 'metros')
+          : maximumRange
+            ? distanceFeet(Number(maximumRange[1].replace(',', '.')), 'metros')
+            : null,
         masteryRef: mastery ? ref(mastery) : null,
         criticalMinimum: 20,
         propertyRefs: properties.map(ref),
@@ -760,6 +778,23 @@ export function resolveCatalog(
     return id;
   };
   const equipment = (r: CatalogDraftRecord, name: string) => {
+    const equipmentAliases: Record<string, [string, string]> = {
+      'armadura-de-couro': ['Couro', 'pages/itens/itens-armaduras.html'],
+      'armadura-de-couro-cravejado': ['Couro Batido', 'pages/itens/itens-armaduras.html'],
+      'armadura-de-couro-cravejada': ['Couro Batido', 'pages/itens/itens-armaduras.html'],
+      'couro-cravejado': ['Couro Batido', 'pages/itens/itens-armaduras.html'],
+      'couro-cravejada': ['Couro Batido', 'pages/itens/itens-armaduras.html'],
+      'armadura-de-couro-batido': ['Couro Batido', 'pages/itens/itens-armaduras.html'],
+      escudo: ['Escudo Padrão', 'pages/itens/itens-armaduras.html'],
+      foice: ['Foice Curta', 'pages/itens/itens-armas.html'],
+    };
+    const alias = equipmentAliases[normalizeName(name)];
+    const aliased =
+      alias &&
+      c.entries.find(
+        (e) => e.kind === 'equipamento' && e.name === alias[0] && e.sourcePath === alias[1],
+      );
+    if (aliased) return aliased;
     const exact = find('equipamento', name);
     if (exact) return exact;
     const variants = c.entries.filter(
@@ -806,6 +841,7 @@ export function resolveCatalog(
         });
         continue;
       }
+      if (linkedEquipmentChoice(text)) continue;
       if (/escolh|mesm[oa]s? escolhid|qualquer|\bou\b/i.test(text)) {
         issue(r, 'Equipamento requer escolha vinculada: ' + text, 'UNSUPPORTED_MECHANIC');
         continue;
@@ -859,7 +895,12 @@ export function resolveCatalog(
         const g = group(owner, 'talento', 'Talento do antecedente');
         g.optionKind = 'talento';
         g.featCategory = category;
-        if (target)
+        for (const target of c.entries.filter(
+          (e) =>
+            e.kind === 'talento' &&
+            e.data.category === category &&
+            e.sourcePath === 'data/feats.json',
+        ))
           g.options.push({
             id: stableId(g.id + target.key),
             groupId: g.id,
@@ -1052,7 +1093,8 @@ export function resolveCatalog(
         .filter(Boolean);
       for (const name of classes) {
         const canonical =
-          curation.spellLists.classAliases[name.toLowerCase()] ?? normalizeName(name);
+          curation.spellLists.classAliases[name.toLowerCase()] ??
+          (normalizeName(name) === 'guardiao' ? 'patrulheiro' : normalizeName(name));
         const target = c.entries.find(
           (e) => e.kind === 'classe' && normalizeName(e.name) === canonical,
         );
@@ -1113,13 +1155,19 @@ export function resolveCatalog(
           tres: 3,
           quatro: 4,
         };
-      const countMatch = /escolha\s+(\d+|uma?|duas|dois|três|quatro)/i.exec(skillText);
+      const countMatch = /escolha\s+(?:quaisquer?\s*)?(\d+|uma?|duas|dois|três|quatro)/i.exec(
+        skillText,
+      );
       const skillCount = countMatch
         ? Number(countMatch[1]) || countWords[normalizeName(countMatch[1])]
         : 0;
       if (skillCount) {
         const allowed = Object.entries(curation.requirements.skillAliases)
-          .filter(([name]) => normalizeName(skillText).includes(normalizeName(name)))
+          .filter(([name]) =>
+            normalizeName(
+              skillText.replace(/Adestramento de Animais/gi, 'Adestrar Animais'),
+            ).includes(normalizeName(name)),
+          )
           .map(([, code]) => code);
         const skills = [
           ...new Set(
@@ -1569,6 +1617,22 @@ export function resolveCatalog(
       });
     }
   }
+  const curatedContext = {
+    catalog: c,
+    records: input.records,
+    raw,
+    byKey,
+    synthetic,
+    group,
+    proficiency,
+    grant,
+    find,
+  };
+  curateClassChoices(curatedContext);
+  curateArtificerChoices(curatedContext);
+  curateSpeciesChoices(curatedContext);
+  curateEquipmentChoices(curatedContext);
+  curateFeatChoices(curatedContext);
   for (const profile of c.castingProfiles)
     if (profile.method === 'grimorio')
       for (const row of profile.progression) row.known = 6 + 2 * (row.level - 1);
@@ -1611,5 +1675,6 @@ export function resolveCatalog(
     if (r?.sourceFormat === 'html' && !['classe', 'magia', 'especie'].includes(e.kind))
       issue(r, 'Texto legado preservado; regras específicas aguardam curadoria.');
   }
+  populateFeatChoices(c);
   return c;
 }

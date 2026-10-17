@@ -1,11 +1,12 @@
 import { CatalogSelect } from './CatalogSelect';
 import { ChoicePanel, EquipmentChoices } from './ChoicePanel';
 import { clearOrigins } from './origins';
+import { commitClassLevels } from './class-levels';
 import type { StepProps } from './types';
 import type { CompendiumRef } from '../../../../packages/contracts/compendium';
 import type { CreationClass } from '../../../../packages/contracts/character-creation';
 export function ClassStep(props: StepProps) {
-  const { draft, catalog, onChange, repository } = props;
+  const { draft, catalog, onChange, repository, classLevelInputs, preview } = props;
   const rows = draft.classes.length
     ? draft.classes
     : [{ id: '', classRef: null, subclassRef: null, level: 1 }];
@@ -41,33 +42,10 @@ export function ClassStep(props: StepProps) {
     }
     onChange({ ...clean, classes, levels: levels.map((l, i) => ({ ...l, totalLevel: i + 1 })) });
   }
-  function level(index: number, n: number) {
-    if (!Number.isInteger(n) || n < 1 || n > 20) return;
-    const cls = draft.classes[index],
-      subclass = catalog.entries.find((e) => e.ref.revisionId === cls.subclassRef?.revisionId),
-      classes = draft.classes.map((c, i) =>
-        i === index
-          ? {
-              ...c,
-              level: n,
-              subclassRef:
-                subclass?.kind === 'subclasse' && n < subclass.data.acquisitionLevel
-                  ? null
-                  : c.subclassRef,
-            }
-          : c,
-      ),
-      existing = draft.levels.filter((l) => l.classEntryId === cls.id),
-      removed = new Set(existing.slice(n));
-    const levels = draft.levels.filter((l) => !removed.has(l));
-    for (let i = existing.length; i < n; i++)
-      levels.push({
-        totalLevel: 0,
-        classEntryId: cls.id,
-        hitPointMethod: 'fixed',
-        hitPointRoll: null,
-      });
-    onChange({ ...draft, classes, levels: levels.map((l, i) => ({ ...l, totalLevel: i + 1 })) });
+  function level(index: number, value: string) {
+    const cls = draft.classes[index];
+    const inputs = { ...classLevelInputs, [cls.id]: value };
+    onChange(commitClassLevels(draft, catalog, { [cls.id]: value }), inputs);
   }
   return (
     <section>
@@ -81,6 +59,10 @@ export function ClassStep(props: StepProps) {
           ? catalog.entries.find((e) => e.ref.revisionId === row.classRef?.revisionId)
           : null;
         const sub = catalog.entries.find((e) => e.ref.revisionId === row.subclassRef?.revisionId);
+        const levelId = `creation-class-level-${row.id}`;
+        const levelError = preview.problems.find(
+          (problem) => problem.field === `classes.${row.id}.level`,
+        );
         return (
           <fieldset className="creation-class" key={row.id || 'empty'}>
             <legend>{index === 0 ? 'Classe inicial' : `Multiclasse ${index}`}</legend>
@@ -95,16 +77,32 @@ export function ClassStep(props: StepProps) {
             />
             {row.classRef && (
               <>
-                <label>
-                  Níveis em {entry?.name ?? 'classe'}
+                <div className="field">
+                  <label htmlFor={levelId}>Níveis em {entry?.name ?? 'classe'}</label>
                   <input
+                    id={levelId}
                     type="number"
                     min="1"
                     max="20"
-                    value={row.level}
-                    onChange={(e) => level(index, Number(e.target.value))}
+                    required
+                    aria-invalid={!!levelError}
+                    aria-describedby={levelError ? `${levelId}-error` : undefined}
+                    value={classLevelInputs?.[row.id] ?? row.level}
+                    onChange={(e) =>
+                      onChange(draft, { ...classLevelInputs, [row.id]: e.target.value })
+                    }
+                    onBlur={(e) => level(index, e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') e.currentTarget.blur();
+                    }}
                   />
-                </label>
+                  <small className="muted">O nível é aplicado ao sair do campo.</small>
+                  {levelError && (
+                    <small className="field-error" id={`${levelId}-error`} role="alert">
+                      {levelError.message}
+                    </small>
+                  )}
+                </div>
                 {entry?.kind === 'classe' &&
                   entry.data.subclassLevel !== undefined &&
                   row.level >= entry.data.subclassLevel && (

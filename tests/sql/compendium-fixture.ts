@@ -22,6 +22,13 @@ export async function compendiumFixture() {
       new URL('../../supabase/migrations/202610160011_compendio.sql', import.meta.url),
       'utf8',
     );
+    // This metadata upgrade is independent of creation storage (migration 012).
+    await fixture.db.exec(
+      await readFile(
+        new URL('../../supabase/migrations/202610170013_compendio_metadados.sql', import.meta.url),
+        'utf8',
+      ),
+    );
     await fixture.db.query('INSERT INTO public.administradores(usuario_id) VALUES($1)', [
       fixture.outsider,
     ]);

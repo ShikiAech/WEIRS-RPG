@@ -123,7 +123,7 @@ Manter o tema escuro/dourado e os componentes de formulário existentes. Abrir o
 
 O esquema representa as duas tentativas de atributos como regra de Weirs, distinguindo-as do método de geração do núcleo. Os controles devem preservar a escolha do jogador, sem selecionar o conjunto pela soma.
 
-Trocar uma seleção invalida apenas as escolhas dependentes. Exibir a diferença antes de descartar entradas manuais. Ações repetidas não duplicam talento, equipamento, moeda, recurso ou magia. Rascunhos permanecem na memória da aba, seguindo o comportamento atual; finalização exige escolhas obrigatórias válidas. O modo manual e fichas antigas continuam disponíveis.
+Trocar uma seleção invalida apenas as escolhas dependentes. Exibir a diferença antes de descartar entradas manuais. Ações repetidas não duplicam talento, equipamento, moeda, recurso ou magia. Rascunhos permanecem na sessão da aba por conta e campanha, com recuperação após recarregar via sessionStorage e fallback em memória, sendo encerrados ao fechar a aba, sair da conta ou concluir; finalização exige escolhas obrigatórias válidas. O modo manual e fichas antigas continuam disponíveis.
 
 ## 8. Regras de criação e multiclasse
 

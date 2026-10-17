@@ -82,5 +82,16 @@ export function resolveHitPoints(
       proficiency: state.proficiency,
     });
   result.total = Math.max(1, result.total);
+  result.classTotal = result.total;
+  const species = state.concessions.instances.find((i) => i.entry.kind === 'especie')?.entry;
+  const rule =
+    species?.kind === 'especie'
+      ? species.data.formRules?.find((r) => r.form === draft.form)
+      : undefined;
+  result.falseLife = rule?.falseLifeMultiplier
+    ? Math.ceil(result.total * rule.falseLifeMultiplier)
+    : 0;
+  if (rule?.hitPointMultiplier !== undefined)
+    result.total = Math.max(1, Math.ceil(result.total * rule.hitPointMultiplier));
   return result;
 }

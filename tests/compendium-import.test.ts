@@ -35,8 +35,8 @@ test('ingestão lê os três JSONs e separa traços e linhagens sem modificar as
   assert.equal(count('antecedente'), 71);
   assert.equal(count('talento'), 204);
   assert.equal(count('especie'), 30);
-  assert.equal(count('linhagem'), 3);
-  assert.equal(count('caracteristica'), 158);
+  assert.equal(count('linhagem'), 18);
+  assert.equal(count('caracteristica'), 173);
   const human = records.find((r) => r.kind === 'especie' && r.name === 'Humanos')!;
   const marked = records.find((r) => r.kind === 'linhagem' && r.name === 'Manchados')!;
   assert.equal(marked.parentKey, human.key);

@@ -6,6 +6,8 @@ import type {
   CompendiumSummary,
   CompendiumKind,
   NumericFormula,
+  SpeciesDefinition,
+  FeatureDefinition,
 } from '../contracts/compendium';
 import type { Ability } from '../contracts/sheets';
 
@@ -131,6 +133,9 @@ export function decodeCatalog(raw: DatabaseCatalog, ruleSetId = 'dnd-5e-2024'): 
           lineageRequired: b(d, 'linhagem_obrigatoria'),
           defaultSize: s(d, 'tamanho_codigo'),
           age: s(d, 'idade_pt'),
+          ...(d.regras_forma == null
+            ? {}
+            : { formRules: d.regras_forma as SpeciesDefinition['formRules'] }),
           sizes: sizes(id),
           movements: movements(id),
           senses: rows('sentidos', id).map((a) => ({
@@ -178,6 +183,17 @@ export function decodeCatalog(raw: DatabaseCatalog, ruleSetId = 'dnd-5e-2024'): 
           parentRef: ref(d.origem_revisao_id) ?? undefined,
           level: nullable(d, 'nivel'),
           optional: b(d, 'opcional'),
+          ...(d.efeitos_forma == null
+            ? {}
+            : { formEffects: d.efeitos_forma as FeatureDefinition['formEffects'] }),
+          ...(d.pre_requisito_magia == null
+            ? {}
+            : {
+                spellPrerequisite: d.pre_requisito_magia as FeatureDefinition['spellPrerequisite'],
+              }),
+          ...(d.bonus_pericias == null
+            ? {}
+            : { skillBonuses: d.bonus_pericias as FeatureDefinition['skillBonuses'] }),
         };
         break;
       }

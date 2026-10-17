@@ -191,8 +191,21 @@ test('paginação detecta acesso revogado e remove também mensagens já carrega
   state.rows = Array.from({ length: 65 }, (_, i) =>
     state.row(i + 1, { texto: 'Mensagem ' + (i + 1) }),
   );
+  // O carregamento inicial e SUBSCRIBED fazem catch-up. Espere ambos antes de
+  // revogar, para a sincronização inicial não remover o botão antes do clique.
+  let catchUps = 0;
+  const initialSync = page.waitForResponse((response) => {
+    const url = new URL(response.url());
+    return (
+      url.pathname === '/rest/v1/mensagens_chat' &&
+      url.searchParams.get('sequencia') === 'gt.65' &&
+      ++catchUps === 2
+    );
+  });
   await page.goto('app.html#/chat');
   await expect(page.getByRole('log')).toContainText('Mensagem 65');
+  await expect(page.getByRole('status')).toHaveText('Ao vivo');
+  await (await initialSync).finished();
   await page.route('https://weirs-test.supabase.co/rest/v1/membros_campanha**', (route) =>
     route.fulfill({ contentType: 'application/json', body: '[]' }),
   );

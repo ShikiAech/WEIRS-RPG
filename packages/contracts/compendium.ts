@@ -125,6 +125,13 @@ export interface SubclassDefinition {
   levels: ClassLevelDefinition[];
 }
 export interface SpeciesDefinition {
+  formRules?: {
+    form: string;
+    armorClass: number;
+    permitsShield: boolean;
+    hitPointMultiplier?: number;
+    falseLifeMultiplier?: number;
+  }[];
   lineageRequired?: boolean;
   creatureType: string;
   defaultSize: string;
@@ -151,6 +158,29 @@ export interface FeatDefinition {
   requirementsComplete: boolean;
 }
 export interface FeatureDefinition {
+  spellPrerequisite?: {
+    classRef: CompendiumRef;
+    circle: number;
+    dealsDamage?: boolean;
+    minimumRangeFeet?: number;
+    requiresAttackRoll?: boolean;
+  };
+  skillBonuses?: { skills: string[]; ability: Ability; minimum: number }[];
+  formEffects?: {
+    form: string;
+    movements?: MovementDefinition[];
+    armorClassBonus?: number;
+    resistances?: string[];
+    attack?: {
+      name: string;
+      ability: Ability;
+      dice: string;
+      damageType: string;
+      normalRangeFeet: number;
+      longRangeFeet: number;
+      category: 'simples' | 'marcial';
+    };
+  };
   category: string;
   manualDecision: boolean;
   parentRef?: CompendiumRef;
@@ -275,6 +305,7 @@ export type RequirementOperator =
   | 'nivel-classe'
   | 'atributo'
   | 'proficiencia'
+  | 'ausente'
   | 'caracteristica'
   | 'talento'
   | 'especie'

@@ -755,6 +755,7 @@ function requirementMet(catalog, id, context, seen = /* @__PURE__ */ new Set()) 
 		case "linhagem":
 		case "caracteristica":
 		case "talento": return context.records.has(target);
+		case "ausente": return !!target && !context.records.has(target);
 		case "repeticoes": return (context.repetitions.get(target) ?? 0) >= (r.minimum ?? Infinity);
 		case "escolha": return context.choices.some((c) => c.groupId === r.choiceKey && c.values.length > 0);
 		default: return false;
@@ -810,6 +811,25 @@ function instanceUuid(key) {
 		return (value >>> 0).toString(16).padStart(8, "0");
 	}).join("");
 	return `${words.slice(0, 8)}-${words.slice(8, 12)}-4${words.slice(13, 16)}-8${words.slice(17, 20)}-${words.slice(20, 32)}`;
+}
+function eligibleFeatureSpells(catalog, draft, entry, instances = []) {
+	if (entry.kind !== "caracteristica" || !entry.data.spellPrerequisite) return [];
+	const prerequisite = entry.data.spellPrerequisite;
+	const classes = draft.classes.filter((c) => c.classRef.revisionId === prerequisite.classRef.revisionId);
+	const profileIds = classes.flatMap((c) => catalog.castingProfiles.filter((p) => p.ownerRevisionId === c.classRef.revisionId).map((p) => `class:${c.id}/casting:${p.id}`));
+	const classInstances = instances.filter((i) => classes.some((c) => c.id === i.classEntryId));
+	const granted = new Set(classInstances.flatMap((i) => [...i.entry.kind === "magia" ? [i.entry.ref.revisionId] : [], ...catalog.castingProfiles.filter((p) => p.ownerRevisionId === i.entry.ref.revisionId && p.firstLevel <= i.level).flatMap((p) => p.spells.filter((s) => s.level <= i.level).map((s) => s.spellRef.revisionId))]));
+	const direct = draft.spellSelections.filter((s) => profileIds.includes(s.profileId)).map((s) => s.spellRef.revisionId);
+	return catalog.entries.filter((e) => direct.includes(e.ref.revisionId) || granted.has(e.ref.revisionId)).filter((spell) => {
+		if (spell?.kind !== "magia" || spell.data.circle !== prerequisite.circle || !granted.has(spell.ref.revisionId) && !spell.data.classRefs.some((r) => r.revisionId === prerequisite.classRef.revisionId)) return false;
+		if (prerequisite.minimumRangeFeet && (spell.data.rangeFeet ?? 0) < prerequisite.minimumRangeFeet) return false;
+		if (prerequisite.dealsDamage && !spell.data.damages.length && !/(?:\d+d\d+[\s\S]{0,100}(?:dano|damage)|(?:dano|damage)[\s\S]{0,100}\d+d\d+)/i.test(spell.description)) return false;
+		if (prerequisite.requiresAttackRoll && !/(?:ataque[\s\S]{0,60}(?:magia|m[aá]gic)|(?:magia|m[aá]gic)[\s\S]{0,60}ataque|spell attack)/i.test(spell.description)) return false;
+		return true;
+	}).map((spell) => spell.ref);
+}
+function featureSpellPrerequisiteMet(catalog, draft, entry, instances = []) {
+	return entry.kind !== "caracteristica" || !entry.data.spellPrerequisite || eligibleFeatureSpells(catalog, draft, entry, instances).length > 0;
 }
 function resolveConcessions(catalog, draft) {
 	catalog = orderedCatalog(catalog);
@@ -871,23 +891,24 @@ function resolveConcessions(catalog, draft) {
 		if (!cls.subclassRef && (classEntry?.kind === "classe" && classEntry.data.subclassLevel !== void 0 && cls.level >= classEntry.data.subclassLevel || catalog.entries.some((e) => e.kind === "subclasse" && e.data.classRef.revisionId === classEntry?.ref.revisionId && cls.level >= e.data.acquisitionLevel))) problem("SUBCLASS_REQUIRED", `classes.${cls.id}.subclassRef`, "Escolha a subclasse.");
 	}
 	const base = resolveAbilities(catalog, draft).totals;
-	function context(at) {
+	function context(at, excludedPrefix) {
+		const included = (instance) => !excludedPrefix || !instance.id.startsWith(excludedPrefix);
 		const counts = /* @__PURE__ */ new Map();
 		for (const level of draft.levels.filter((l) => l.totalLevel <= at)) {
 			const cls = draft.classes.find((c) => c.id === level.classEntryId);
 			if (cls) counts.set(cls.classRef.revisionId, (counts.get(cls.classRef.revisionId) ?? 0) + 1);
 		}
-		const owned = result.instances.filter((i) => i.acquiredAt <= at);
+		const owned = result.instances.filter((i) => i.acquiredAt <= at && included(i));
 		const repetitions = /* @__PURE__ */ new Map();
 		for (const i of owned) repetitions.set(i.entry.ref.revisionId, (repetitions.get(i.entry.ref.revisionId) ?? 0) + 1);
 		const scores = { ...base };
-		for (const b of orderedAbilityBonuses(result.abilityBonuses).filter((b) => b.instance.acquiredAt < at)) if (scores[b.ability] !== void 0) scores[b.ability] = Math.min(b.limit, scores[b.ability] + b.amount);
+		for (const b of orderedAbilityBonuses(result.abilityBonuses).filter((b) => b.instance.acquiredAt < at && included(b.instance))) if (scores[b.ability] !== void 0) scores[b.ability] = Math.min(b.limit, scores[b.ability] + b.amount);
 		return {
 			level: at,
 			classLevels: counts,
 			abilities: scores,
 			records: new Set(owned.map((i) => i.entry.ref.revisionId)),
-			proficiencies: new Set(result.proficiencyGrants.filter((p) => p.instance.acquiredAt <= at).flatMap((p) => [p.proficiencyId, proficiencyKey(catalog, p.proficiencyId)])),
+			proficiencies: new Set(result.proficiencyGrants.filter((p) => p.instance.acquiredAt <= at && included(p.instance)).flatMap((p) => [p.proficiencyId, proficiencyKey(catalog, p.proficiencyId)])),
 			choices: draft.choices,
 			repetitions
 		};
@@ -895,6 +916,9 @@ function resolveConcessions(catalog, draft) {
 	const matchesAcquisition = (acquisition, node) => acquisition === "ambas" || acquisition === node.acquisition;
 	const atLevel = (node, level) => node.classEntryId ? Math.max(node.acquiredAt, draft.levels.filter((l) => l.classEntryId === node.classEntryId)[Math.max(0, level - 1)]?.totalLevel ?? node.acquiredAt) : Math.max(node.acquiredAt, level);
 	const pending = [];
+	const proficiencyChoices = [];
+	const spellChoices = [];
+	const spellTargets = [];
 	const processed = /* @__PURE__ */ new Set();
 	function process(node) {
 		if (processed.has(node.id)) return;
@@ -913,17 +937,19 @@ function resolveConcessions(catalog, draft) {
 				group: c.group,
 				choice: draft.choices.find((s) => s.groupId === c.group.id && s.sourceInstanceId === c.instance.id)
 			})).find((c) => c.choice?.values.length);
-			if (!selected.length && ancestorChoice?.choice) selected = [{
+			const inheritedValues = ancestorChoice?.choice?.values.flatMap((v) => {
+				const old = v.type === "option" ? ancestorChoice.group.options.find((o) => o.id === v.optionId) : null;
+				const oldRef = old?.targetRef ?? (old?.proficiencyId ? catalog.proficiencies.find((p) => p.id === old.proficiencyId)?.equipment : null);
+				const option = oldRef ? group.options.find((o) => o.targetRef?.revisionId === oldRef.revisionId) : null;
+				return option ? [{
+					type: "option",
+					optionId: option.id
+				}] : [];
+			});
+			if (inheritedValues && inheritedValues.length >= group.minimum && inheritedValues.length <= group.maximum) selected = [{
 				groupId: group.id,
 				sourceInstanceId: node.id,
-				values: ancestorChoice.choice.values.flatMap((v) => {
-					const old = v.type === "option" ? ancestorChoice.group.options.find((o) => o.id === v.optionId) : null;
-					const option = old?.targetRef ? group.options.find((o) => o.targetRef?.revisionId === old.targetRef?.revisionId) : null;
-					return option ? [{
-						type: "option",
-						optionId: option.id
-					}] : [];
-				})
+				values: inheritedValues
 			}];
 			else result.choices.push({
 				instance: node,
@@ -960,19 +986,49 @@ function resolveConcessions(catalog, draft) {
 						id: `${node.id}/mastery:${group.id}:${option.id}`
 					});
 				}
-				if (ref && !["lista-magia", "maestria-arma"].includes(option?.type ?? "")) pending.push({
+				if (ref && ![
+					"lista-magia",
+					"maestria-arma",
+					"proficiencia",
+					"proficiencia-nova",
+					"especializacao",
+					"magia-alvo"
+				].includes(option?.type ?? "")) pending.push({
 					parent: node,
 					grant: null,
 					ref,
 					id: `${node.id}/choice:${group.id}:${option?.id ?? ref.recordId}`,
 					level: 1,
-					at: atLevel(node, group.level)
+					at: atLevel(node, group.level),
+					label: option?.name
 				});
-				if (option?.proficiencyId) result.proficiencyGrants.push({
-					instance: node,
-					proficiencyId: option.proficiencyId,
-					degree: "proficiente"
+				if (ref && option?.type === "magia" && option.value === "nao-preparada") spellChoices.push({
+					ref,
+					field: `choices.${group.id}`,
+					instance: node
 				});
+				if (ref && option?.type === "magia-alvo") spellTargets.push({
+					ref,
+					field: `choices.${group.id}`,
+					instance: node
+				});
+				const activeForm = node.entry.kind !== "caracteristica" || !node.entry.data.formEffects?.form || node.entry.data.formEffects.form === draft.form;
+				if (option?.proficiencyId && activeForm) {
+					const selectedGrant = {
+						instance: {
+							...node,
+							acquiredAt: atLevel(node, group.level)
+						},
+						proficiencyId: option.proficiencyId,
+						degree: option.type === "especializacao" ? "especializacao" : "proficiente"
+					};
+					result.proficiencyGrants.push(selectedGrant);
+					proficiencyChoices.push({
+						grant: selectedGrant,
+						type: option.type,
+						field: `choices.${group.id}`
+					});
+				}
 				if (option?.ability) {
 					const amount = value.type === "ability" ? value.amount : option.quantity;
 					if (!Number.isInteger(amount) || amount < 1 || amount > (group.abilityPoints ?? option.quantity)) problem("INVALID_CHOICE", `choices.${group.id}`, "Bônus de atributo inválido.");
@@ -993,6 +1049,7 @@ function resolveConcessions(catalog, draft) {
 			if (group.abilityPoints !== null && budget !== group.abilityPoints) problem("ABILITY_BUDGET", `choices.${group.id}`, `Distribua exatamente ${group.abilityPoints} ponto(s).`);
 		}
 		for (const effect of catalog.effects.filter((e) => e.ownerRevisionId === node.entry.ref.revisionId && e.level <= node.level)) {
+			if (node.entry.kind === "caracteristica" && node.entry.data.formEffects?.form && node.entry.data.formEffects.form !== draft.form) continue;
 			if (!requirementMet(catalog, effect.requirementId, context(atLevel(node, effect.level)))) continue;
 			result.effects.push({
 				instance: node,
@@ -1054,6 +1111,22 @@ function resolveConcessions(catalog, draft) {
 				continue;
 			}
 			const ctx = context(p.at);
+			const requirementContext = entry.kind === "caracteristica" && entry.data.optional ? context(totalLevel) : ctx;
+			if (!catalog.requirements.filter((r) => r.ownerRevisionId === entry.ref.revisionId && !r.parentId).every((r) => requirementMet(catalog, r.id, requirementContext))) {
+				errors.set(p.id, "REQUIREMENT_NOT_MET");
+				index++;
+				continue;
+			}
+			if (!featureSpellPrerequisiteMet(catalog, draft, entry, result.instances)) {
+				errors.set(p.id, "SPELL_PREREQUISITE");
+				index++;
+				continue;
+			}
+			if (entry.kind === "caracteristica" && entry.data.optional && !/repet[ií]vel|repeatable/i.test(entry.description) && result.instances.some((i) => i.entry.ref.recordId === entry.ref.recordId)) {
+				errors.set(p.id, "DUPLICATE_FEATURE");
+				index++;
+				continue;
+			}
 			if (entry.kind === "talento") {
 				if (!entry.data.requirementsComplete) {
 					errors.set(p.id, "INCOMPLETE_REQUIREMENTS");
@@ -1082,12 +1155,60 @@ function resolveConcessions(catalog, draft) {
 				acquisition: p.parent.acquisition,
 				classEntryId: p.parent.classEntryId,
 				grantId: p.grant?.id ?? null,
-				ancestors: [...p.parent.ancestors, p.parent.entry.ref.revisionId]
+				ancestors: [...p.parent.ancestors, p.parent.entry.ref.revisionId],
+				selectionLabel: p.label ?? p.parent.selectionLabel
 			});
 		}
 		if (!progressed) break;
 	}
-	for (const p of pending) problem(errors.get(p.id) ?? "UNRESOLVED_GRANT", p.id, "A concessão depende de referência ou requisito ainda não resolvido.", p.ref.revisionId);
+	for (const p of pending) problem(errors.get(p.id) ?? "UNRESOLVED_GRANT", p.id, ["DUPLICATE_FEATURE", "DUPLICATE_FEAT"].includes(errors.get(p.id) ?? "") ? "Esta opção já foi escolhida. Escolha outra característica ou talento." : "A concessão depende de referência ou requisito ainda não resolvido.", p.ref.revisionId);
+	for (const choice of proficiencyChoices) {
+		const key = proficiencyKey(catalog, choice.grant.proficiencyId);
+		const others = result.proficiencyGrants.filter((p) => p !== choice.grant && p.instance.acquiredAt <= choice.grant.instance.acquiredAt && proficiencyKey(catalog, p.proficiencyId) === key);
+		if (choice.type === "especializacao") {
+			if (!others.some((p) => p.degree === "proficiente")) problem("EXPERTISE_REQUIRES_PROFICIENCY", choice.field, "Escolha uma perícia em que já tenha proficiência.");
+			if (others.some((p) => p.degree === "especializacao")) problem("DUPLICATE_EXPERTISE", choice.field, "Escolha uma perícia que ainda não tenha especialização.");
+		}
+		if (choice.type === "proficiencia-nova" && others.some((p) => p.degree !== "especializacao")) problem("NEW_PROFICIENCY_REQUIRED", choice.field, "Escolha uma perícia em que ainda não tenha proficiência.");
+	}
+	const spellAlreadyPrepared = (ref, originId) => draft.spellSelections.some((s) => s.prepared && s.spellRef.recordId === ref.recordId) || result.instances.some((i) => i.id !== originId && catalog.castingProfiles.some((p) => p.ownerRevisionId === i.entry.ref.revisionId && p.spells.some((s) => s.level <= i.level && s.alwaysPrepared && s.spellRef.recordId === ref.recordId)));
+	for (const choice of spellChoices) if (spellAlreadyPrepared(choice.ref, choice.instance.id)) problem("SPELL_ALREADY_PREPARED", choice.field, "Escolha uma magia que ainda não esteja preparada por outra origem.");
+	for (const choice of spellTargets) {
+		if (!eligibleFeatureSpells(catalog, draft, choice.instance.entry, result.instances).some((r) => r.revisionId === choice.ref.revisionId && r.recordId === choice.ref.recordId)) problem("INVALID_SPELL_TARGET", choice.field, "Escolha um truque conhecido desta classe que atenda aos requisitos da invocação.");
+		if (spellTargets.some((other) => other !== choice && other.instance.entry.ref.recordId === choice.instance.entry.ref.recordId && other.instance.classEntryId === choice.instance.classEntryId && other.ref.recordId === choice.ref.recordId)) problem("DUPLICATE_SPELL_TARGET", choice.field, "Ao repetir esta invocação, escolha um truque diferente.");
+	}
+	for (const active of result.choices) {
+		const unavailable = {};
+		if (active.group.options.some((o) => o.type === "magia-alvo")) {
+			const eligible = eligibleFeatureSpells(catalog, draft, active.instance.entry, result.instances);
+			const selected = draft.choices.find((c) => c.groupId === active.group.id && c.sourceInstanceId === active.instance.id);
+			active.group = {
+				...active.group,
+				options: active.group.options.filter((o) => eligible.some((r) => r.revisionId === o.targetRef?.revisionId) || selected?.values.some((v) => v.type === "option" && v.optionId === o.id))
+			};
+			for (const o of active.group.options) if (!eligible.some((r) => r.revisionId === o.targetRef?.revisionId)) unavailable[o.id] = "Este truque não atende aos requisitos da invocação.";
+			else if (spellTargets.some((c) => c.instance.id !== active.instance.id && c.instance.entry.ref.recordId === active.instance.entry.ref.recordId && c.instance.classEntryId === active.instance.classEntryId && c.ref.recordId === o.targetRef?.recordId)) unavailable[o.id] = "Outra escolha desta invocação já afeta este truque.";
+		}
+		for (const option of active.group.options) {
+			const target = option.targetRef ? find(option.targetRef) : null;
+			const excludedPrefix = `${active.instance.id}/choice:${active.group.id}:${active.group.maximum === 1 ? "" : option.id}`;
+			const ctx = context(atLevel(active.instance, active.group.level), excludedPrefix);
+			const current = context(totalLevel, excludedPrefix);
+			const availableInstances = result.instances.filter((i) => !i.id.startsWith(excludedPrefix));
+			if (option.type === "magia" && option.value === "nao-preparada" && option.targetRef && spellAlreadyPrepared(option.targetRef, active.instance.id)) unavailable[option.id] = "Esta magia já está preparada por outra origem.";
+			const targetContext = target?.kind === "caracteristica" && target.data.optional ? current : ctx;
+			if (target && (!catalog.requirements.filter((r) => r.ownerRevisionId === target.ref.revisionId && !r.parentId).every((r) => requirementMet(catalog, r.id, targetContext)) || !featureSpellPrerequisiteMet(catalog, draft, target, availableInstances))) unavailable[option.id] = "Requisitos ainda não atendidos.";
+			if (target?.kind === "caracteristica" && target.data.spellPrerequisite && !featureSpellPrerequisiteMet(catalog, draft, target, availableInstances)) unavailable[option.id] = "Conheça um truque compatível pela classe ou pelo Livro das Sombras.";
+			if (target && (target.kind === "caracteristica" && target.data.optional && !/repet[ií]vel|repeatable/i.test(target.description) || target.kind === "talento" && !target.data.repeatable) && availableInstances.some((i) => i.entry.ref.recordId === target.ref.recordId)) unavailable[option.id] = "Esta opção já foi escolhida em outra aquisição.";
+			if (option.proficiencyId && ["especializacao", "proficiencia-nova"].includes(option.type)) {
+				const selected = proficiencyChoices.filter((c) => c.field === `choices.${active.group.id}`).map((c) => c.grant);
+				const same = result.proficiencyGrants.filter((p) => !selected.includes(p) && p.instance.acquiredAt <= atLevel(active.instance, active.group.level) && proficiencyKey(catalog, p.proficiencyId) === proficiencyKey(catalog, option.proficiencyId));
+				if (option.type === "especializacao" && (!same.some((p) => p.degree === "proficiente") || same.some((p) => p.degree === "especializacao"))) unavailable[option.id] = "Exige proficiência e não pode repetir especialização.";
+				if (option.type === "proficiencia-nova" && same.some((p) => p.degree !== "especializacao")) unavailable[option.id] = "Você já tem esta proficiência.";
+			}
+		}
+		active.unavailableOptions = unavailable;
+	}
 	for (const node of result.instances) result.contributions.push({
 		id: instanceUuid(node.id),
 		sourceRevisionId: node.entry.ref.revisionId,
@@ -1242,6 +1363,11 @@ function resolveHitPoints(catalog, draft, state = resolveState(catalog, draft)) 
 		proficiency: state.proficiency
 	});
 	result.total = Math.max(1, result.total);
+	result.classTotal = result.total;
+	const species = state.concessions.instances.find((i) => i.entry.kind === "especie")?.entry;
+	const rule = species?.kind === "especie" ? species.data.formRules?.find((r) => r.form === draft.form) : void 0;
+	result.falseLife = rule?.falseLifeMultiplier ? Math.ceil(result.total * rule.falseLifeMultiplier) : 0;
+	if (rule?.hitPointMultiplier !== void 0) result.total = Math.max(1, Math.ceil(result.total * rule.hitPointMultiplier));
 	return result;
 }
 //#endregion
@@ -1261,11 +1387,23 @@ function resolveDefenses(catalog, draft, state = resolveState(catalog, draft)) {
 		message: "Equipe no máximo uma armadura e um escudo."
 	});
 	const dex = modifier(state.totals.des ?? 10), shield = shields[0]?.data.shield?.acBonus ?? 0, armor = armors[0]?.data.armor;
+	const species = state.concessions.instances.find((i) => i.entry.kind === "especie")?.entry, lineage = state.concessions.instances.find((i) => i.entry.kind === "linhagem")?.entry;
+	const formRule = species?.kind === "especie" ? species.data.formRules?.find((r) => r.form === draft.form) : void 0;
+	const formFeatures = state.concessions.instances.flatMap((i) => i.entry.kind === "caracteristica" && i.entry.data.formEffects && (!i.entry.data.formEffects.form || i.entry.data.formEffects.form === draft.form) ? [i.entry.data.formEffects] : []);
+	if (formRule && armors.length) result.problems.push({
+		code: "FORM_ARMOR",
+		field: "equippedRefs",
+		message: "Esta forma não permite vestir armaduras."
+	});
 	const alternatives = [{
 		value: armor ? armor.baseAc + (armor.addDexterity ? Math.min(dex, armor.dexterityLimit ?? Infinity) : 0) + shield : 10 + dex + shield,
 		name: armor ? `${armors[0].name}${shield ? " + escudo" : ""}` : `10 + DES${shield ? " + escudo" : ""}`
 	}];
-	let bonus = 0;
+	if (formRule) alternatives.splice(0, alternatives.length, {
+		value: formRule.armorClass + (formRule.permitsShield ? shield : 0),
+		name: `${species?.name} (${draft.form})${formRule.permitsShield && shield ? " + escudo" : ""}`
+	});
+	let bonus = formFeatures.reduce((n, f) => n + (f.armorClassBonus ?? 0), 0);
 	for (const { effect, instance } of state.concessions.effects) {
 		const value = evaluateFormula(effect.formula, {
 			abilities: state.totals,
@@ -1273,7 +1411,7 @@ function resolveDefenses(catalog, draft, state = resolveState(catalog, draft)) {
 			classLevel: instance.level,
 			proficiency: state.proficiency
 		});
-		if (effect.type === "ca_formula" && (!effect.defenses.length || effect.defenses.some((d) => (!d.unarmored || !armor) && (d.permitsShield || !shield)))) alternatives.push({
+		if (!formRule && effect.type === "ca_formula" && (!effect.defenses.length || effect.defenses.some((d) => (!d.unarmored || !armor) && (d.permitsShield || !shield)))) alternatives.push({
 			value: value + shield,
 			name: instance.entry.name + (shield ? " + escudo" : "")
 		});
@@ -1282,10 +1420,10 @@ function resolveDefenses(catalog, draft, state = resolveState(catalog, draft)) {
 	const chosen = alternatives.reduce((a, b) => b.value > a.value ? b : a);
 	result.armorClass = chosen.value + bonus;
 	result.formula = chosen.name + (bonus ? ` + ${bonus}` : "");
-	const species = state.concessions.instances.find((i) => i.entry.kind === "especie")?.entry, lineage = state.concessions.instances.find((i) => i.entry.kind === "linhagem")?.entry;
 	const movements = [];
 	if (species?.kind === "especie") movements.push(...species.data.movements);
 	if (lineage?.kind === "linhagem") movements.push(...lineage.data.movements);
+	for (const feature of formFeatures) movements.push(...feature.movements ?? []);
 	for (const movement of movements.filter((m) => !m.form || m.form === draft.form)) {
 		if (movement.condition) continue;
 		const feet = movement.unit === "pes" ? movement.distance : movement.distance * 10 / 3;
@@ -1303,6 +1441,43 @@ function resolveDefenses(catalog, draft, state = resolveState(catalog, draft)) {
 	return result;
 }
 //#endregion
+//#region packages/character-creation/casting-grants.ts
+/** A selected spell belongs to its closest casting origin, preserving separate quotas. */
+function profileGrantedSpells(catalog, state, instance, definition) {
+	if (!instance || !definition) return [];
+	const latest = /* @__PURE__ */ new Map();
+	for (const spell of definition.spells.filter((s) => s.level <= instance.level)) {
+		const previous = latest.get(spell.spellRef.recordId);
+		if (!previous || previous.level < spell.level) latest.set(spell.spellRef.recordId, spell);
+	}
+	const spells = [...latest.values()];
+	const nestedOrigins = state.concessions.instances.filter((i) => i.id.startsWith(instance.id + "/") && catalog.castingProfiles.some((p) => p.ownerRevisionId === i.entry.ref.revisionId));
+	for (const selected of state.concessions.instances) {
+		if (selected.entry.kind !== "magia" || !selected.id.startsWith(instance.id + "/") || nestedOrigins.some((i) => selected.id.startsWith(i.id + "/"))) continue;
+		if (!spells.some((s) => s.spellRef.recordId === selected.entry.ref.recordId)) spells.push({
+			spellRef: selected.entry.ref,
+			level: 1,
+			alwaysPrepared: true,
+			usesSlots: selected.entry.data.circle > 0,
+			ownUses: null,
+			recovery: null
+		});
+	}
+	return spells;
+}
+//#endregion
+//#region packages/character-creation/additional-cantrips.ts
+/** A class order adds a distinct cantrip to the class's existing repertoire. */
+function additionalCantripConflict(catalog, draft, profileId, spellRef) {
+	const definition = catalog.castingProfiles.find((p) => profileId.endsWith(`/casting:${p.id}`));
+	const owner = catalog.entries.find((e) => e.ref.revisionId === definition?.ownerRevisionId);
+	if (definition?.type !== "concedida" || owner?.kind !== "caracteristica" || owner.data.category !== "escolha-classe" || !owner.data.parentRef || !definition.listClassRefs?.some((r) => r.revisionId === owner.data.parentRef.revisionId)) return false;
+	const spell = catalog.entries.find((e) => e.ref.recordId === spellRef.recordId && e.ref.revisionId === spellRef.revisionId);
+	if (spell?.kind !== "magia" || spell.data.circle !== 0) return false;
+	const root = profileId.split("/")[0];
+	return draft.spellSelections.some((s) => s.profileId !== profileId && s.spellRef.recordId === spellRef.recordId && s.profileId.startsWith(root + "/casting:") && catalog.castingProfiles.some((p) => s.profileId.endsWith(`/casting:${p.id}`) && p.ownerRevisionId === owner.data.parentRef.revisionId));
+}
+//#endregion
 //#region packages/character-creation/spellcasting.ts
 function resolveSpellcasting(catalog, draft, state = resolveState(catalog, draft)) {
 	const result = {
@@ -1318,6 +1493,7 @@ function resolveSpellcasting(catalog, draft, state = resolveState(catalog, draft
 	})));
 	const normal = active.filter((p) => p.definition.type === "conjuracao");
 	for (const { instance, definition: p } of active) {
+		const grantedSpells = profileGrantedSpells(catalog, state, instance, p);
 		const key = `${instance.id}/casting:${p.id}`, chosen = draft.castingAbilities.filter((a) => a.profileId === key);
 		const ability = chosen[0]?.ability ?? (p.abilities.length === 1 ? p.abilities[0] : null);
 		if (chosen.length > 1 || (p.abilities.length > 0 ? !ability || !p.abilities.includes(ability) : chosen.length > 0)) result.problems.push({
@@ -1333,7 +1509,7 @@ function resolveSpellcasting(catalog, draft, state = resolveState(catalog, draft
 			message: "A progressão de conjuração deste nível ainda precisa de revisão.",
 			sourceRevisionId: p.ownerRevisionId
 		});
-		const maximumCircle = progress?.maximumCircle ?? Math.max(0, ...p.slots.filter((s) => s.level === instance.level).map((s) => s.circle), ...p.spells.filter((s) => s.level <= instance.level).map((s) => {
+		const maximumCircle = progress?.maximumCircle ?? Math.max(0, ...p.slots.filter((s) => s.level === instance.level).map((s) => s.circle), ...grantedSpells.filter((s) => s.level <= instance.level).map((s) => {
 			const e = catalog.entries.find((e) => e.ref.revisionId === s.spellRef.revisionId);
 			return e?.kind === "magia" ? e.data.circle : 0;
 		}));
@@ -1354,16 +1530,16 @@ function resolveSpellcasting(catalog, draft, state = resolveState(catalog, draft
 		if (p.listClassRefs?.length) {
 			const group = state.concessions.choices.filter((c) => c.group.key === p.listChoiceKey && (c.instance.id === instance.id || instance.id.startsWith(c.instance.id + "/"))).sort((a, b) => b.instance.id.length - a.instance.id.length)[0];
 			const choice = group && draft.choices.find((c) => c.groupId === group.group.id && c.sourceInstanceId === group.instance.id);
-			row.listClassRevisionIds = p.listClassRefs.length === 1 ? p.listClassRefs.map((r) => r.revisionId) : choice?.values.flatMap((v) => {
+			row.listClassRevisionIds = !p.listChoiceKey || p.listClassRefs.length === 1 ? p.listClassRefs.map((r) => r.revisionId) : choice?.values.flatMap((v) => {
 				const o = v.type === "option" ? group.group.options.find((o) => o.id === v.optionId) : null;
 				return o?.targetRef && p.listClassRefs.some((r) => r.revisionId === o.targetRef.revisionId) ? [o.targetRef.revisionId] : [];
 			}) ?? [];
-			if (row.listClassRevisionIds.length !== 1) result.problems.push({
+			if (p.listChoiceKey && row.listClassRevisionIds.length !== 1) result.problems.push({
 				code: "SPELL_LIST_REQUIRED",
 				field: key,
 				message: "Escolha uma lista de magias para esta origem."
 			});
-			if (result.profiles.some((previous) => previous.ownerRevisionId === p.ownerRevisionId && previous.listClassRevisionIds?.some((id) => row.listClassRevisionIds.includes(id)))) result.problems.push({
+			if (p.listChoiceKey && result.profiles.some((previous) => previous.ownerRevisionId === p.ownerRevisionId && previous.listClassRevisionIds?.some((id) => row.listClassRevisionIds.includes(id)))) result.problems.push({
 				code: "REPEATED_SPELL_LIST",
 				field: key,
 				message: "Ao repetir este talento, escolha uma lista de magias diferente."
@@ -1389,7 +1565,15 @@ function resolveSpellcasting(catalog, draft, state = resolveState(catalog, draft
 		let cantrips = 0, prepared = 0, known = 0;
 		for (const selection of selected) {
 			const e = catalog.entries.find((e) => e.ref.revisionId === selection.spellRef.revisionId && e.ref.recordId === selection.spellRef.recordId);
-			const fixed = p.spells.some((s) => s.spellRef.revisionId === e?.ref.revisionId && s.level <= instance.level);
+			const fixed = grantedSpells.some((s) => s.spellRef.revisionId === e?.ref.revisionId && s.level <= instance.level);
+			if (additionalCantripConflict(catalog, draft, key, selection.spellRef)) {
+				result.problems.push({
+					code: "ADDITIONAL_CANTRIP_DUPLICATE",
+					field: key,
+					message: "O truque adicional deve ser diferente dos truques já conhecidos pela classe."
+				});
+				continue;
+			}
 			if (!e || e.kind !== "magia" || seen.has(e.ref.recordId) || !fixed && (e.data.circle > maximumCircle || !e.data.classRefs.some((c) => row.listClassRevisionIds.includes(c.revisionId)))) {
 				result.problems.push({
 					code: "SPELL_NOT_AVAILABLE",
@@ -1496,6 +1680,13 @@ function projectSheet(catalog, draft, state, hp, defenses, casting) {
 	});
 	sheet.combate.pvMaximos = hp.total;
 	sheet.combate.pvAtuais = hp.total;
+	if (hp.falseLife) sheet.recursos.push({
+		id: instanceUuid("species:false-life"),
+		nome: "Vida Falsa do Exotraje",
+		maximo: hp.falseLife,
+		gastos: 0,
+		recuperacao: "manual"
+	});
 	sheet.combate.dadosVida = hp.hitDice.map((d) => ({
 		id: instanceUuid(`hit-die:${d.die}`),
 		dado: `d${d.die}`,
@@ -1510,15 +1701,56 @@ function projectSheet(catalog, draft, state, hp, defenses, casting) {
 	}));
 	for (const instance of roots) {
 		const e = instance.entry, key = e.kind === "talento" ? "talentos" : e.kind === "caracteristica" ? instance.id.startsWith("species") || instance.id.startsWith("lineage") ? "tracos" : "caracteristicas" : null;
-		if (key) sheet[key].push({
-			id: instanceUuid(instance.id),
-			nome: e.name,
-			descricao: e.description
-		});
+		if (key) {
+			const targets = state.concessions.choices.filter((c) => c.instance.id === instance.id).flatMap((c) => {
+				return draft.choices.find((s) => s.groupId === c.group.id && s.sourceInstanceId === instance.id)?.values.flatMap((v) => {
+					const option = v.type === "option" ? c.group.options.find((o) => o.id === v.optionId && o.type === "magia-alvo") : void 0;
+					return option ? [`${c.group.name}: ${option.name}`] : [];
+				}) ?? [];
+			});
+			sheet[key].push({
+				id: instanceUuid(instance.id),
+				nome: e.name,
+				descricao: [e.description, ...targets].join("\n")
+			});
+		}
 		if (e.kind === "idioma" && !sheet.idiomas.some((i) => i.nome === e.name)) sheet.idiomas.push({
 			id: instanceUuid(instance.id),
 			nome: e.name
 		});
+	}
+	for (const instance of roots) {
+		if (instance.entry.kind !== "caracteristica") continue;
+		const data = instance.entry.data, form = data.formEffects;
+		if (form && (!form.form || form.form === draft.form)) sheet.combate.resistencias = [sheet.combate.resistencias, ...form.resistances ?? []].filter(Boolean).join("; ");
+		if (form?.attack && (!form.form || form.form === draft.form)) {
+			const attack = form.attack;
+			const proficient = state.concessions.proficiencyGrants.some((g) => {
+				const p = catalog.proficiencies.find((p) => p.id === g.proficiencyId);
+				return p?.type === "categoria" && p.category === `arma-${attack.category}`;
+			});
+			sheet.ataques.push({
+				...novaEntrada("ataques"),
+				id: instanceUuid(`${instance.id}/attack`),
+				nome: attack.name,
+				tipo: "bonus",
+				valor: modifier(state.totals[attack.ability] ?? 10) + (proficient ? state.proficiency : 0),
+				atributo: attack.ability,
+				bonus: 0,
+				proficiente: proficient,
+				critico: 20,
+				dano: `${attack.dice}${modifier(state.totals[attack.ability] ?? 10) >= 0 ? "+" : ""}${modifier(state.totals[attack.ability] ?? 10)}`,
+				tipoDano: attack.damageType,
+				observacoes: `Alcance ${attack.normalRangeFeet * .3}/${attack.longRangeFeet * .3} m; munição ilimitada.`,
+				danos: [{
+					id: instanceUuid(`${instance.id}/damage`),
+					dado: attack.dice,
+					atributo: attack.ability,
+					tipo: attack.damageType
+				}]
+			});
+		}
+		for (const rule of data.skillBonuses ?? []) for (const skill of rule.skills) if (sheet.pericias[skill]) sheet.pericias[skill].ajuste += Math.max(rule.minimum, modifier(state.totals[rule.ability] ?? 10));
 	}
 	const degrees = {
 		meia: 1,
@@ -1675,7 +1907,7 @@ function projectSheet(catalog, draft, state, hp, defenses, casting) {
 			classeId: instance?.classEntryId ?? "",
 			atributo: profile.ability ?? "int"
 		});
-		const fixed = definition?.spells.filter((s) => s.level <= (instance?.level ?? 0)) ?? [];
+		const fixed = profileGrantedSpells(catalog, state, instance, definition);
 		const selected = draft.spellSelections.filter((s) => s.profileId === profile.id);
 		for (const spell of [...fixed.map((s) => ({
 			spellRef: s.spellRef,
@@ -2071,6 +2303,7 @@ function decodeCatalog(raw, ruleSetId = "dnd-5e-2024") {
 					lineageRequired: b(d, "linhagem_obrigatoria"),
 					defaultSize: s(d, "tamanho_codigo"),
 					age: s(d, "idade_pt"),
+					...d.regras_forma == null ? {} : { formRules: d.regras_forma },
 					sizes: sizes(id),
 					movements: movements(id),
 					senses: rows("sentidos", id).map((a) => ({
@@ -2117,7 +2350,10 @@ function decodeCatalog(raw, ruleSetId = "dnd-5e-2024") {
 					manualDecision: b(d, "decisao_manual"),
 					parentRef: ref(d.origem_revisao_id) ?? void 0,
 					level: nullable(d, "nivel"),
-					optional: b(d, "opcional")
+					optional: b(d, "opcional"),
+					...d.efeitos_forma == null ? {} : { formEffects: d.efeitos_forma },
+					...d.pre_requisito_magia == null ? {} : { spellPrerequisite: d.pre_requisito_magia },
+					...d.bonus_pericias == null ? {} : { skillBonuses: d.bonus_pericias }
 				};
 				break;
 			}

@@ -151,7 +151,8 @@ test('efeito Cranori é fórmula de CA alternativa, sem armadura e permitindo es
 test('cobertura não confunde texto importado com revisão 2024 ou mecânica automatizada', async () => {
   const c = await resolved;
   assert.equal(c.entries.filter((e) => e.kind === 'classe').length, 17);
-  assert.equal(c.entries.filter((e) => e.kind === 'magia').length, 477);
+  // The missing Divine Smite card is now explicitly curated from PHB2024.
+  assert.equal(c.entries.filter((e) => e.kind === 'magia').length, 478);
   assert.ok(
     c.entries
       .filter((e) => e.kind === 'magia')
@@ -180,10 +181,11 @@ test('formas de N0-V4 e escolhas de atributo do talento permanecem estruturadas'
     nova = c.entries.find((e) => e.name === 'N0-V4' && e.kind === 'especie')!;
   if (nova.kind !== 'especie') return;
   assert.deepEqual(
-    nova.data.movements.map((m) => [m.form, m.distance]),
+    nova.data.movements.map((m) => [m.form, m.mode, m.distance]),
     [
-      ['natural', 20],
-      ['exotraje', 30],
+      ['natural', 'terrestre', 20],
+      ['natural', 'escalada', 20],
+      ['exotraje', 'terrestre', 30],
     ],
   );
   assert.deepEqual(

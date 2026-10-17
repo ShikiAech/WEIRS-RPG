@@ -4,6 +4,8 @@ import type {
   SpellcastingBreakdown,
 } from '../contracts/character-creation';
 import { resolveState, type CreationState } from './state';
+import { profileGrantedSpells } from './casting-grants';
+import { additionalCantripConflict } from './additional-cantrips';
 export function resolveSpellcasting(
   catalog: CreationCatalog,
   draft: CreationDraft,
@@ -26,6 +28,7 @@ export function resolveSpellcasting(
   );
   const normal = active.filter((p) => p.definition.type === 'conjuracao');
   for (const { instance, definition: p } of active) {
+    const grantedSpells = profileGrantedSpells(catalog, state, instance, p);
     const key = `${instance.id}/casting:${p.id}`,
       chosen = draft.castingAbilities.filter((a) => a.profileId === key);
     const ability = chosen[0]?.ability ?? (p.abilities.length === 1 ? p.abilities[0] : null);
@@ -52,7 +55,7 @@ export function resolveSpellcasting(
       Math.max(
         0,
         ...p.slots.filter((s) => s.level === instance.level).map((s) => s.circle),
-        ...p.spells
+        ...grantedSpells
           .filter((s) => s.level <= instance.level)
           .map((s) => {
             const e = catalog.entries.find((e) => e.ref.revisionId === s.spellRef.revisionId);
@@ -92,7 +95,7 @@ export function resolveSpellcasting(
           (c) => c.groupId === group.group.id && c.sourceInstanceId === group.instance.id,
         );
       row.listClassRevisionIds =
-        p.listClassRefs.length === 1
+        !p.listChoiceKey || p.listClassRefs.length === 1
           ? p.listClassRefs.map((r) => r.revisionId)
           : (choice?.values.flatMap((v) => {
               const o =
@@ -102,13 +105,14 @@ export function resolveSpellcasting(
                 ? [o.targetRef.revisionId]
                 : [];
             }) ?? []);
-      if (row.listClassRevisionIds.length !== 1)
+      if (p.listChoiceKey && row.listClassRevisionIds.length !== 1)
         result.problems.push({
           code: 'SPELL_LIST_REQUIRED',
           field: key,
           message: 'Escolha uma lista de magias para esta origem.',
         });
       if (
+        p.listChoiceKey &&
         result.profiles.some(
           (previous) =>
             previous.ownerRevisionId === p.ownerRevisionId &&
@@ -147,9 +151,17 @@ export function resolveSpellcasting(
           e.ref.revisionId === selection.spellRef.revisionId &&
           e.ref.recordId === selection.spellRef.recordId,
       );
-      const fixed = p.spells.some(
+      const fixed = grantedSpells.some(
         (s) => s.spellRef.revisionId === e?.ref.revisionId && s.level <= instance.level,
       );
+      if (additionalCantripConflict(catalog, draft, key, selection.spellRef)) {
+        result.problems.push({
+          code: 'ADDITIONAL_CANTRIP_DUPLICATE',
+          field: key,
+          message: 'O truque adicional deve ser diferente dos truques já conhecidos pela classe.',
+        });
+        continue;
+      }
       if (
         !e ||
         e.kind !== 'magia' ||

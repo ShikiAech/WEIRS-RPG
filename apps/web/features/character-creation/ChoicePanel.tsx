@@ -8,6 +8,7 @@ import type { StepProps } from './types';
 function Choice({
   instance,
   group,
+  unavailableOptions,
   draft,
   onChange,
 }: ActiveChoice & Pick<StepProps, 'draft' | 'onChange'>) {
@@ -33,7 +34,7 @@ function Choice({
     <fieldset className="creation-choice">
       <legend>{group.name}</legend>
       <p className="muted">
-        {instance.entry.name} · Escolha{' '}
+        {instance.selectionLabel ?? instance.entry.name} · Escolha{' '}
         {group.minimum === group.maximum ? group.minimum : `de ${group.minimum} a ${group.maximum}`}
         .
       </p>
@@ -94,13 +95,17 @@ function Choice({
           <div className="creation-options">
             {options.slice(0, limit).map((o) => {
               const checked = values.some((v) => v.type === 'option' && v.optionId === o.id);
+              const unavailable = unavailableOptions?.[o.id];
               return (
                 <label key={o.id}>
                   <input
                     type={group.maximum === 1 ? 'radio' : 'checkbox'}
                     name={`${instance.id}:${group.id}`}
                     checked={checked}
-                    disabled={!checked && values.length >= group.maximum && group.maximum !== 1}
+                    disabled={
+                      !checked &&
+                      (!!unavailable || (values.length >= group.maximum && group.maximum !== 1))
+                    }
                     onChange={() =>
                       set(
                         group.maximum === 1
@@ -112,6 +117,7 @@ function Choice({
                     }
                   />
                   {(PERICIAS as Record<string, string[]>)[o.name]?.[0] ?? o.name}
+                  {unavailable && <small className="muted"> {unavailable}</small>}
                 </label>
               );
             })}

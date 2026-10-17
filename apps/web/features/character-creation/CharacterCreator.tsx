@@ -11,7 +11,7 @@ import {
   type CreationRequest,
 } from '../../../../packages/character-creation/server';
 import { publicError } from '../../lib/errors';
-import { useCreationDraft, openTemporaryCreation } from './useCreationDraft';
+import { useCreationDraft, openTemporaryCreation, type CreatorDraft } from './useCreationDraft';
 import { AbilityStep } from './AbilityStep';
 import { SpeciesStep } from './SpeciesStep';
 import { BackgroundStep } from './BackgroundStep';
@@ -21,6 +21,7 @@ import { SpellStep } from './SpellStep';
 import { ReviewStep } from './ReviewStep';
 import { CreationSummary } from './CreationSummary';
 import { pruneDependentChoices } from './origins';
+import { commitClassLevels } from './class-levels';
 const steps = [
   'Atributos',
   'Espécie',
@@ -65,7 +66,7 @@ export function CharacterCreator({
   demo?: boolean;
 }) {
   const state = useCreationDraft(demo ? 'demonstracao' : user!.id, initialCampaign);
-  const { draft, step, name, campaignId } = state.value;
+  const { draft, step, name, campaignId, classLevelInputs } = state.value;
   const [catalog, setCatalog] = useState(emptyCatalog),
     [catalogKey, setCatalogKey] = useState<string | null>(null),
     [loading, setLoading] = useState(true),
@@ -119,10 +120,25 @@ export function CharacterCreator({
   }, [compendium, key, retry]);
   useEffect(() => {
     if (loading || loadError || catalogKey !== key || state.value.attempt) return;
-    const next = pruneDependentChoices(catalog, draft);
-    if (JSON.stringify(next) !== JSON.stringify(draft))
-      state.update((current) => ({ ...current, draft: next }));
-  }, [catalog, catalogKey, key, loading, loadError, draft, state.value.attempt]);
+    const reconcile = (current: CreatorDraft): CreatorDraft => {
+      if (current.attempt) return current;
+      // Reload ends the old focus/blur lifecycle. Commit restored valid edits once rules are ready,
+      // while leaving the actively edited input and invalid values untouched.
+      const committed = commitClassLevels(
+        current.draft,
+        catalog,
+        current.classLevelInputs,
+        document.activeElement?.id,
+      );
+      const next = pruneDependentChoices(catalog, committed);
+      return JSON.stringify(next) === JSON.stringify(current.draft)
+        ? current
+        : { ...current, draft: next };
+    };
+    const next = reconcile(state.value);
+    if (next !== state.value)
+      state.update((current) => (current === state.value ? next : reconcile(current)));
+  }, [catalog, catalogKey, key, loading, loadError, draft, classLevelInputs, state.value.attempt]);
   useEffect(() => {
     if (demo || !repository) return;
     let active = true;
@@ -176,7 +192,28 @@ export function CharacterCreator({
       window.removeEventListener('weirs:before-account-change', navigate);
     };
   }, [state.dirty]);
-  const preview = useMemo(() => resolveCreation(catalog, draft), [catalog, draft]);
+  const preview = useMemo(() => {
+    const resolved = resolveCreation(catalog, draft);
+    const problems = [...resolved.problems];
+    for (const cls of draft.classes) {
+      const input = classLevelInputs?.[cls.id];
+      if (input === undefined) continue;
+      const n = Number(input);
+      const message = !input.trim()
+        ? 'O nível da classe é obrigatório.'
+        : !Number.isInteger(n) || n < 1 || n > 20
+          ? 'Informe um nível inteiro entre 1 e 20.'
+          : '';
+      if (message)
+        problems.push({
+          code: 'CLASS_LEVEL',
+          field: `classes.${cls.id}.level`,
+          message,
+          sourceRevisionId: cls.classRef.revisionId,
+        });
+    }
+    return { ...resolved, problems, sheet: problems.length ? null : resolved.sheet };
+  }, [catalog, draft, classLevelInputs]);
   const Component = components[step];
   const canSubmit =
     (!demo && !!state.value.attempt) ||
@@ -299,11 +336,22 @@ export function CharacterCreator({
                 catalog={catalog}
                 preview={preview}
                 repository={compendium}
-                onChange={(next) => {
+                classLevelInputs={classLevelInputs}
+                onChange={(next, inputs) => {
                   setError('');
                   state.update((current) => ({
                     ...current,
                     draft: next,
+                    classLevelInputs: Object.fromEntries(
+                      next.classes.flatMap((cls) => {
+                        const previous = current.draft.classes.find((c) => c.id === cls.id);
+                        const input = (inputs ?? current.classLevelInputs)?.[cls.id];
+                        return previous?.classRef.revisionId === cls.classRef.revisionId &&
+                          input !== undefined
+                          ? [[cls.id, input]]
+                          : [];
+                      }),
+                    ),
                   }));
                 }}
               />

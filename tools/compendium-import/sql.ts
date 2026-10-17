@@ -112,6 +112,7 @@ export function catalogTables(c: ResolvedCatalog): SeedTables {
           tipo_criatura_codigo: e.data.creatureType,
           tamanho_codigo: e.data.defaultSize,
           idade_pt: e.data.age,
+          regras_forma: e.data.formRules ?? null,
         });
         e.data.senses.forEach((s, i) =>
           child('compendio_sentidos', id, String(i), {
@@ -155,6 +156,9 @@ export function catalogTables(c: ResolvedCatalog): SeedTables {
           origem_revisao_id: target(e.data.parentRef),
           nivel: e.data.level ?? null,
           opcional: e.data.optional ?? false,
+          efeitos_forma: e.data.formEffects ?? null,
+          pre_requisito_magia: e.data.spellPrerequisite ?? null,
+          bonus_pericias: e.data.skillBonuses ?? null,
         });
         break;
       case 'magia': {
@@ -579,13 +583,18 @@ function insert(name: string, rows: Row[], key = 'id', check = true): string {
   const data = literal(rows);
   const recordset = `jsonb_populate_recordset(NULL::public.${name},${data}::jsonb)`;
   const names = columns.join(',');
+  // A source keeps the commit recorded when its content was first imported. A
+  // later repository commit does not change that content or its editorial data.
+  const compared = columns
+    .filter((column) => name !== 'compendio_fontes' || column !== 'commit_fonte')
+    .join(',');
   const sql = `INSERT INTO public.${name}(${names}) SELECT ${columns.map((k) => 'e.' + k).join(',')} FROM ${recordset} e WHERE NOT EXISTS(SELECT 1 FROM public.${name} a WHERE a.${key}=e.${key});`;
   return (
     sql +
     (check
       ? '\n' +
         doBlock(
-          `BEGIN IF EXISTS(SELECT ${names} FROM ${recordset} EXCEPT SELECT ${names} FROM public.${name}) THEN RAISE EXCEPTION 'Conflito editorial na carga: ${name}. Nenhuma alteração foi aplicada.' USING ERRCODE='WC004'; END IF; END`,
+          `BEGIN IF EXISTS(SELECT ${compared} FROM ${recordset} EXCEPT SELECT ${compared} FROM public.${name}) THEN RAISE EXCEPTION 'Conflito editorial na carga: ${name}. Nenhuma alteração foi aplicada.' USING ERRCODE='WC004'; END IF; END`,
         )
       : '')
   );

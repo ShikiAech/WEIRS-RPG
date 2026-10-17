@@ -33,7 +33,7 @@
     {
         "name_pt": "Draconianos",
         "book": "WEIRS - Homebrew",
-        "img":[],
+        "img": [],
         "description_title": "Os Forjadores do Ordo",
         "description": "Não se sabe ao certo como essa raça surgiu, mas este povo sempre foi devoto dos grandes dragões do Ordo. Daí derivou-se sua cultura baseada na forja mágica. Draconianos não herdaram apenas características físicas de seus ancestrais ordemicos, mas também sua afinidade elemental, dando-lhe habilidades únicas de sopro e resistência a certos tipos de elementos. A maior parte da população draconiana vive na ilha de Salaner, sua terra natal, de onde surgiu a lenda de que essa terra serviu de casa para Shiva, milhares de anos atrás. Lá eles se desenvolveram e formaram seu império, mas também se espalharam pelo mundo, exportando seu talento de forja.",
         "type": "Humanoide",
@@ -43,28 +43,81 @@
         "traits_title": "Habilidades de Linhagem",
         "traits": [
             {
-            "name": "Visão no Escuro",
-            "description": "Você tem Visão no Escuro com um alcance de 18 metros (60ft)."
+                "name": "Visão no Escuro",
+                "description": "Você tem Visão no Escuro com um alcance de 18 metros (60ft)."
             },
             {
-            "name": "Herança Elemental",
-            "description": "Sua linhagem elemental lhe garante o elemento no qual você possui afinidade. Escolha o tipo de elemento ao criar o personagem; isso definirá sua aparência, o tipo de dano da sua Arma de Sopro e sua Resistência a Dano. \n\nElemento | Cor das Escamas / Energia \nElétrico | Azul \nGélido | Branco \nÍgneo | Vermelho \nÁcido | Amarelo \nVenenoso | Verde"
+                "name": "Herança Elemental",
+                "description": "Sua linhagem elemental lhe garante o elemento no qual você possui afinidade. Escolha o tipo de elemento ao criar o personagem; isso definirá sua aparência, o tipo de dano da sua Arma de Sopro e sua Resistência a Dano."
             },
             {
-            "name": "Resistência a Dano",
-            "description": "Você tem Resistência ao tipo de dano determinado por seu traço Herança Elemental."
+                "name": "Resistência a Dano",
+                "description": "Você tem Resistência ao tipo de dano determinado por seu traço Herança Elemental."
             },
             {
-            "name": "Ataque de Sopro",
-            "description": "Ao executar uma ação no seu turno, você pode substituir um de seus ataques por uma emissão de energia mágica em um Cone de 4,5 metros (15ft) ou em uma Linha de 9 metros (30ft) de comprimento e 1,5 metros (5ft) de largura (escolha a forma a cada vez). Cada criatura nessa área deve realizar uma salvaguarda de Destreza (CD 8 + seu modificador de Constituição + seu Bônus de Proficiência). Se falhar, a criatura sofre 1d10 pontos de dano do tipo determinado por sua Herança Elemental. Em caso de sucesso, ela sofre metade do dano. Esse dano aumenta quando você atinge os níveis de personagem 5 (2d10), 11 (3d10) e 17 (4d10). Você pode usar seu Sopro um número de vezes igual ao seu Bônus de Proficiência, e você restaura todos os usos gastos quando completa um Descanso Longo."
+                "name": "Ataque de Sopro",
+                "description": "Ao executar uma ação no seu turno, você pode substituir um de seus ataques por uma emissão de energia mágica em um Cone de 4,5 metros (15ft) ou em uma Linha de 9 metros (30ft) de comprimento e 1,5 metros (5ft) de largura (escolha a forma a cada vez). Cada criatura nessa área deve realizar uma salvaguarda de Destreza (CD 8 + seu modificador de Constituição + seu Bônus de Proficiência). Se falhar, a criatura sofre 1d10 pontos de dano do tipo determinado por sua Herança Elemental. Em caso de sucesso, ela sofre metade do dano. Esse dano aumenta quando você atinge os níveis de personagem 5 (2d10), 11 (3d10) e 17 (4d10). Você pode usar seu Sopro um número de vezes igual ao seu Bônus de Proficiência, e você restaura todos os usos gastos quando completa um Descanso Longo."
             },
             {
-            "name": "Voo Dracônico",
-            "description": "No nível 5 de personagem, você pode canalizar magia dracônica para se beneficiar de um voo temporário. Como uma Ação Bônus, você cria asas espectrais nas costas que duram 10 minutos, ou até que você as retraia (nenhuma ação necessária) ou fique com a condição Incapacitado. Pela duração, você tem um Deslocamento de Voo igual ao seu Deslocamento terrestre. Suas asas parecem feitas da mesma energia que o seu Ataque de Sopro. Após usar esse traço, você não pode usá-lo novamente até completar um Descanso Longo."
+                "name": "Voo Dracônico",
+                "description": "No nível 5 de personagem, você pode canalizar magia dracônica para se beneficiar de um voo temporário. Como uma Ação Bônus, você cria asas espectrais nas costas que duram 10 minutos, ou até que você as retraia (nenhuma ação necessária) ou fique com a condição Incapacitado. Pela duração, você tem um Deslocamento de Voo igual ao seu Deslocamento terrestre. Suas asas parecem feitas da mesma energia que o seu Ataque de Sopro. Após usar esse traço, você não pode usá-lo novamente até completar um Descanso Longo."
             }
         ],
-        
-        "tags": ["Terrestre"]
+        "tags": [
+            "Terrestre"
+        ],
+        "subraces": [
+            {
+                "name_pt": "Elétrico",
+                "description": "Elemento: Elétrico. Cor das Escamas / Energia: Azul. O tipo de dano do seu Ataque de Sopro e sua Resistência a Dano são determinados por esta herança elemental.",
+                "traits": [
+                    {
+                        "name": "Herança Elemental (Elétrico)",
+                        "description": "Elemento: Elétrico. Cor das Escamas / Energia: Azul. O tipo de dano do seu Ataque de Sopro e sua Resistência a Dano são determinados por esta herança elemental."
+                    }
+                ]
+            },
+            {
+                "name_pt": "Gélido",
+                "description": "Elemento: Gélido. Cor das Escamas / Energia: Branco. O tipo de dano do seu Ataque de Sopro e sua Resistência a Dano são determinados por esta herança elemental.",
+                "traits": [
+                    {
+                        "name": "Herança Elemental (Gélido)",
+                        "description": "Elemento: Gélido. Cor das Escamas / Energia: Branco. O tipo de dano do seu Ataque de Sopro e sua Resistência a Dano são determinados por esta herança elemental."
+                    }
+                ]
+            },
+            {
+                "name_pt": "Ígneo",
+                "description": "Elemento: Ígneo. Cor das Escamas / Energia: Vermelho. O tipo de dano do seu Ataque de Sopro e sua Resistência a Dano são determinados por esta herança elemental.",
+                "traits": [
+                    {
+                        "name": "Herança Elemental (Ígneo)",
+                        "description": "Elemento: Ígneo. Cor das Escamas / Energia: Vermelho. O tipo de dano do seu Ataque de Sopro e sua Resistência a Dano são determinados por esta herança elemental."
+                    }
+                ]
+            },
+            {
+                "name_pt": "Ácido",
+                "description": "Elemento: Ácido. Cor das Escamas / Energia: Amarelo. O tipo de dano do seu Ataque de Sopro e sua Resistência a Dano são determinados por esta herança elemental.",
+                "traits": [
+                    {
+                        "name": "Herança Elemental (Ácido)",
+                        "description": "Elemento: Ácido. Cor das Escamas / Energia: Amarelo. O tipo de dano do seu Ataque de Sopro e sua Resistência a Dano são determinados por esta herança elemental."
+                    }
+                ]
+            },
+            {
+                "name_pt": "Venenoso",
+                "description": "Elemento: Venenoso. Cor das Escamas / Energia: Verde. O tipo de dano do seu Ataque de Sopro e sua Resistência a Dano são determinados por esta herança elemental.",
+                "traits": [
+                    {
+                        "name": "Herança Elemental (Venenoso)",
+                        "description": "Elemento: Venenoso. Cor das Escamas / Energia: Verde. O tipo de dano do seu Ataque de Sopro e sua Resistência a Dano são determinados por esta herança elemental."
+                    }
+                ]
+            }
+        ]
     },
     {
         "name_pt": "Elfos",
@@ -211,35 +264,91 @@
         "traits_title": "Herdeiros da Força Dracônica",
         "traits": [
             {
-            "name": "Reflexos Felinos",
-            "description": "Você tem vantagem em testes de resistência de Destreza, e sempre poderá substituir seu modificador de Força na perícia Atletismo pelo seu modificador de Destreza."
+                "name": "Reflexos Felinos",
+                "description": "Você tem vantagem em testes de resistência de Destreza, e sempre poderá substituir seu modificador de Força na perícia Atletismo pelo seu modificador de Destreza."
             },
             {
-            "name": "Capacidade Felina",
-            "description": "Você possui proficiência nas perícias Furtividade e Sobrevivência."
+                "name": "Capacidade Felina",
+                "description": "Você possui proficiência nas perícias Furtividade e Sobrevivência."
             },
             {
-            "name": "Armas Naturais",
-            "description": "As garras dos namyrianos são consideradas armas naturais e causam 1d8 + seu modificador de Destreza ou Força (definido na tabela Afinidade Elemental) de dano perfurante. Quando você consome o metal do seu respectivo clã ou Filzha, durante 1 hora suas garras são imbuidas com o poder elemental do clã, causando dano adicional que aumenta conforme você evolui. O dano inicial é 1d4 e aumenta para 1d6 a partir do 5° nível, 1d8 a partir do 11° nivel e 1d10 a partir do 17° nível. Se você estiver portando uma arma feita de Filzha, ela também recebe esses benefícios."
+                "name": "Armas Naturais",
+                "description": "As garras dos namyrianos são consideradas armas naturais e causam 1d8 + seu modificador de Destreza ou Força (definido na tabela Afinidade Elemental) de dano perfurante. Quando você consome o metal do seu respectivo clã ou Filzha, durante 1 hora suas garras são imbuidas com o poder elemental do clã, causando dano adicional que aumenta conforme você evolui. O dano inicial é 1d4 e aumenta para 1d6 a partir do 5° nível, 1d8 a partir do 11° nivel e 1d10 a partir do 17° nível. Se você estiver portando uma arma feita de Filzha, ela também recebe esses benefícios."
             },
             {
-            "name": "Agilidade Felina",
-            "description": "Seus reflexos e agilidade lhe permitem mover-se com uma explosão de velocidade. Quando você se move em seu turno de combate, você pode dobrar sua velocidade até o final do turno. Uma vez que você usa esse traço, você não pode usá-lo novamente até que você se mova 0 metros em um de seus turnos."
+                "name": "Agilidade Felina",
+                "description": "Seus reflexos e agilidade lhe permitem mover-se com uma explosão de velocidade. Quando você se move em seu turno de combate, você pode dobrar sua velocidade até o final do turno. Uma vez que você usa esse traço, você não pode usá-lo novamente até que você se mova 0 metros em um de seus turnos."
             },
             {
-            "name": "Afinidade Elemental",
-            "description": "Namyr, o berço dos namyrianos, foi abençoada pelos dragões com um solo rico em vários tipos de metais, de onde os habitantes tiram seu sustento. Estes minérios também servem para alimentar o poder mágico dos namyrianos, que eles chamam de afinidade elemental. Cada um dos clãs de Namyr possui uma afinidade diferente e, com isso, um metal diferente. Ao consumir o metal referente ao seu clã, você ganha um número de Cargas Elementais igual ao seu bônus de proficiência, e pode utilizar essas cargas para ativar as suas habilidades da afinidade elemental. Namyrianos podem consumir metal uma vez por descanso curto e, ao consumir, os efeitos têm duração de 1 hora. \n\nClã | Metal | Resistência a Dano | Mod. Armas Naturais | Habilidade\nMontanha | Ferro | Contundente | FOR | Pele de Aço\nTrovão | Cobre | Elétrico | DEX | Choque do Trovão\nChamas | Ouro | Ígneo | DEX | Repreensão Ígnea\nGélido | Prata | Frio | FOR | Raio de Gelo (Proteção Gélida)"
+                "name": "Afinidade Elemental",
+                "description": "Namyr, o berço dos namyrianos, foi abençoada pelos dragões com um solo rico em vários tipos de metais, de onde os habitantes tiram seu sustento. Estes minérios também servem para alimentar o poder mágico dos namyrianos, que eles chamam de afinidade elemental. Cada um dos clãs de Namyr possui uma afinidade diferente e, com isso, um metal diferente. Ao consumir o metal referente ao seu clã, você ganha um número de Cargas Elementais igual ao seu bônus de proficiência, e pode utilizar essas cargas para ativar as suas habilidades da afinidade elemental. Namyrianos podem consumir metal uma vez por descanso curto e, ao consumir, os efeitos têm duração de 1 hora."
             },
             {
-            "name": "O Perigo de Filzha",
-            "description": "As terras de Namyr ainda possuem uma outra riqueza, algo exclusivo em toda a Terra: o metal que chamam de Filzha. Este metal é um excelente condutor mágico e não pertence a nenhum clã específico. Segundo as lendas, um namyriano comum que consumir Filzha morreria por não suportar tamanha carga mágica; talvez somente os mais poderosos aguentariam. Consumir Filzha: Caso você possua uma moeda de Filzha e queira consumi-la, deverá realizar uma salvaguarda de Constituição CD 14. Sucesso: você recebe o triplo das Cargas Elementais que receberia normalmente e ganha efeitos aprimorados para suas habilidades. Falha: seu corpo entra em colapso — você recebe 1d4 de dano por turno durante 1 hora. Saturação de Filzha: A partir da segunda vez que você consumir Filzha em um dia, você ganha um nível do efeito Saturação de Filzha, até o nível 2. A cada nível de Saturação de Filzha: A CD da salvaguarda aumenta em +2. O dano recebido em caso de falha aumenta em +1d4."
-            },
-            {
-            "name": "Habilidades da Afinidade Elemental",
-            "description": "Pele de Aço (Clã Montanha): Você pode usar sua Reação e 2 Cargas Elementais para aumentar seu CA em +5 até o fim desse turno. \nSobrecarga de Filzha: Caso use essa habilidade após o consumo de Filzha, seu corpo é coberto de estruturas espinhosas. Enquanto a Pele de Aço durar, quando uma criatura tenta te atacar com um golpe corpo-a-corpo e falha, ela recebe 1d6 de dano perfurante. \n\nChoque do Trovão (Clã Trovão): Como uma ação, você gasta 2 Cargas Elementais e solta uma onda de energia estática ao seu redor. Inimigos em um cubo de 15 pés devem realizar um teste de resistência de Constituição CD 15. Falha: sofrem 2d8 de dano elétrico. Sucesso: sofrem metade desse dano. \nSobrecarga de Filzha: Caso use essa habilidade após o consumo de Filzha, criaturas que falharem no teste terão seu deslocamento reduzido pela metade e não poderão usar suas Reações até o fim deste turno. \n\nRepreensão Ígnea (Clã Chamas): Ao sofrer dano, você pode usar sua Reação e 2 Cargas Elementais para lançar uma rajada de chamas no inimigo que lhe atingiu. O alvo deve ser bem-sucedido em um teste de resistência de Destreza CD 15. Falha: sofre 2d10 de dano de fogo. Sucesso: sofre metade do dano. Ao gastar mais Cargas Elementais, você aumenta o impacto em +1d10 para cada carga adicional investida. \nSobrecarga de Filzha: Caso use essa habilidade após o consumo de Filzha, criaturas adjacentes ao alvo também deverão realizar a salvaguarda, recebendo 1d6 de dano de fogo em caso de falha e metade do dano em um sucesso. O dano também aumenta em +1d6 por Carga Elemental adicional. \n\nProteção Gélida / Raio de Gelo (Clã Gélido): Você adquire o truque Raio de Gelo. O atributo de conjuração é Inteligência, Sabedoria ou Carisma (escolha ao selecionar esse clã). Ao utilizar essa habilidade e gastar 2 Cargas Elementais, você condensa a umidade do ar e adquire 5 pontos de vida temporários. \nSobrecarga de Filzha: Caso use essa habilidade após o consumo de Filzha, você soma seu modificador de atributo de conjuração no dano do Raio de Gelo. Além disso, os pontos de vida temporários se tornam 5 + seu nível de jogador."
+                "name": "O Perigo de Filzha",
+                "description": "As terras de Namyr ainda possuem uma outra riqueza, algo exclusivo em toda a Terra: o metal que chamam de Filzha. Este metal é um excelente condutor mágico e não pertence a nenhum clã específico. Segundo as lendas, um namyriano comum que consumir Filzha morreria por não suportar tamanha carga mágica; talvez somente os mais poderosos aguentariam. Consumir Filzha: Caso você possua uma moeda de Filzha e queira consumi-la, deverá realizar uma salvaguarda de Constituição CD 14. Sucesso: você recebe o triplo das Cargas Elementais que receberia normalmente e ganha efeitos aprimorados para suas habilidades. Falha: seu corpo entra em colapso — você recebe 1d4 de dano por turno durante 1 hora. Saturação de Filzha: A partir da segunda vez que você consumir Filzha em um dia, você ganha um nível do efeito Saturação de Filzha, até o nível 2. A cada nível de Saturação de Filzha: A CD da salvaguarda aumenta em +2. O dano recebido em caso de falha aumenta em +1d4."
             }
         ],
-        "tags": ["Terrestre"]
+        "tags": [
+            "Terrestre"
+        ],
+        "subraces": [
+            {
+                "name_pt": "Montanha",
+                "description": "Clã: Montanha. Metal: Ferro. Resistência a Dano: Contundente. Modificador de Armas Naturais: FOR.",
+                "traits": [
+                    {
+                        "name": "Afinidade Elemental (Montanha)",
+                        "description": "Clã: Montanha. Metal: Ferro. Resistência a Dano: Contundente. Modificador de Armas Naturais: FOR."
+                    },
+                    {
+                        "name": "Pele de Aço",
+                        "description": "Você pode usar sua Reação e 2 Cargas Elementais para aumentar seu CA em +5 até o fim desse turno. \nSobrecarga de Filzha: Caso use essa habilidade após o consumo de Filzha, seu corpo é coberto de estruturas espinhosas. Enquanto a Pele de Aço durar, quando uma criatura tenta te atacar com um golpe corpo-a-corpo e falha, ela recebe 1d6 de dano perfurante."
+                    }
+                ]
+            },
+            {
+                "name_pt": "Trovão",
+                "description": "Clã: Trovão. Metal: Cobre. Resistência a Dano: Elétrico. Modificador de Armas Naturais: DEX.",
+                "traits": [
+                    {
+                        "name": "Afinidade Elemental (Trovão)",
+                        "description": "Clã: Trovão. Metal: Cobre. Resistência a Dano: Elétrico. Modificador de Armas Naturais: DEX."
+                    },
+                    {
+                        "name": "Choque do Trovão",
+                        "description": "Como uma ação, você gasta 2 Cargas Elementais e solta uma onda de energia estática ao seu redor. Inimigos em um cubo de 15 pés devem realizar um teste de resistência de Constituição CD 15. Falha: sofrem 2d8 de dano elétrico. Sucesso: sofrem metade desse dano. \nSobrecarga de Filzha: Caso use essa habilidade após o consumo de Filzha, criaturas que falharem no teste terão seu deslocamento reduzido pela metade e não poderão usar suas Reações até o fim deste turno."
+                    }
+                ]
+            },
+            {
+                "name_pt": "Chamas",
+                "description": "Clã: Chamas. Metal: Ouro. Resistência a Dano: Ígneo. Modificador de Armas Naturais: DEX.",
+                "traits": [
+                    {
+                        "name": "Afinidade Elemental (Chamas)",
+                        "description": "Clã: Chamas. Metal: Ouro. Resistência a Dano: Ígneo. Modificador de Armas Naturais: DEX."
+                    },
+                    {
+                        "name": "Repreensão Ígnea",
+                        "description": "Ao sofrer dano, você pode usar sua Reação e 2 Cargas Elementais para lançar uma rajada de chamas no inimigo que lhe atingiu. O alvo deve ser bem-sucedido em um teste de resistência de Destreza CD 15. Falha: sofre 2d10 de dano de fogo. Sucesso: sofre metade do dano. Ao gastar mais Cargas Elementais, você aumenta o impacto em +1d10 para cada carga adicional investida. \nSobrecarga de Filzha: Caso use essa habilidade após o consumo de Filzha, criaturas adjacentes ao alvo também deverão realizar a salvaguarda, recebendo 1d6 de dano de fogo em caso de falha e metade do dano em um sucesso. O dano também aumenta em +1d6 por Carga Elemental adicional."
+                    }
+                ]
+            },
+            {
+                "name_pt": "Gélido",
+                "description": "Clã: Gélido. Metal: Prata. Resistência a Dano: Frio. Modificador de Armas Naturais: FOR.",
+                "traits": [
+                    {
+                        "name": "Afinidade Elemental (Gélido)",
+                        "description": "Clã: Gélido. Metal: Prata. Resistência a Dano: Frio. Modificador de Armas Naturais: FOR."
+                    },
+                    {
+                        "name": "Proteção Gélida / Raio de Gelo",
+                        "description": "Você adquire o truque Raio de Gelo. O atributo de conjuração é Inteligência, Sabedoria ou Carisma (escolha ao selecionar esse clã). Ao utilizar essa habilidade e gastar 2 Cargas Elementais, você condensa a umidade do ar e adquire 5 pontos de vida temporários. \nSobrecarga de Filzha: Caso use essa habilidade após o consumo de Filzha, você soma seu modificador de atributo de conjuração no dano do Raio de Gelo. Além disso, os pontos de vida temporários se tornam 5 + seu nível de jogador."
+                    }
+                ]
+            }
+        ]
     },
     {
         "name_pt": "Ogros",
@@ -281,23 +390,57 @@
         "traits_title": "Poder Influxo Infernal",
         "traits": [
             {
-            "name": "Visão no Escuro Superior",
-            "description": "Devido ao seu sangue infernal habituado às trevas, você possui a capacidade de enxergar na mais completa escuridão por até 36 metros (120ft)."
+                "name": "Visão no Escuro Superior",
+                "description": "Devido ao seu sangue infernal habituado às trevas, você possui a capacidade de enxergar na mais completa escuridão por até 36 metros (120ft)."
             },
             {
-            "name": "Presença Sobrenatural",
-            "description": "A sua aura exala o medo do submundo. Você conhece o truque Taumaturgia. Ao conjurá-lo através deste traço racial, a magia utiliza obrigatoriamente o mesmo atributo de conjuração definido por você na sua característica de Legado Tenebrico."
+                "name": "Presença Sobrenatural",
+                "description": "A sua aura exala o medo do submundo. Você conhece o truque Taumaturgia. Ao conjurá-lo através deste traço racial, a magia utiliza obrigatoriamente o mesmo atributo de conjuração definido por você na sua característica de Legado Tenebrico."
             },
             {
-            "name": "Devorador de Almas",
-            "description": "Ao ceifar a vida de um oponente, você é capaz de se alimentar temporariamente da essência vital dele para potencializar suas próprias capacidades em combate. Mecânica: Quando você reduz uma criatura a 0 pontos de vida, você pode usar sua energia para consumir a alma dela. Ao fazer isso, você escolhe e ganha um dos seguintes efeitos benéficos até o final do seu próximo turno: \nÍmpeto de Ataque: Você ganha Vantagem na sua próxima jogada de ataque. \nPasso Sombrio: Seu deslocamento aumenta em +4,5 metros (+15ft) adicionais. \nGolpe Cruel: Você causa dano necrótico extra em seu próximo golpe igual ao seu Bônus de Proficiência. \nVocê pode usar esta característica um número de vezes igual ao seu bônus de proficiência, recuperando todos os usos gastos após terminar um Descanso Longo."
+                "name": "Devorador de Almas",
+                "description": "Ao ceifar a vida de um oponente, você é capaz de se alimentar temporariamente da essência vital dele para potencializar suas próprias capacidades em combate. Mecânica: Quando você reduz uma criatura a 0 pontos de vida, você pode usar sua energia para consumir a alma dela. Ao fazer isso, você escolhe e ganha um dos seguintes efeitos benéficos até o final do seu próximo turno: \nÍmpeto de Ataque: Você ganha Vantagem na sua próxima jogada de ataque. \nPasso Sombrio: Seu deslocamento aumenta em +4,5 metros (+15ft) adicionais. \nGolpe Cruel: Você causa dano necrótico extra em seu próximo golpe igual ao seu Bônus de Proficiência. \nVocê pode usar esta característica um número de vezes igual ao seu bônus de proficiência, recuperando todos os usos gastos após terminar um Descanso Longo."
             },
             {
-            "name": "Legado Tenebrico",
-            "description": "Você é o portador de uma linhagem específica que lhe confere poderes sobrenaturais únicos. Escolha um dos legados da tabela abaixo ao criar o personagem. Você adquire o benefício de Nível 1 imediatamente. Ao atingir os níveis de personagem 3 e 5, você aprende magias de círculo superior. Estas magias estão sempre preparadas e podem ser conjuradas uma vez sem gastar espaços de magia, restaurando o uso após um Descanso Longo. Você também pode conjurá-las utilizando quaisquer espaços de magia de nível correspondente que sua classe possua. Escolha entre Inteligência, Sabedoria ou Carisma para ser seu atributo de conjuração ao selecionar o legado. \n\nLegado | Nível 1 | Nível 3 | Nível 5\nBeelzebub | Você tem Resistência a dano Venenoso. Você também conhece o truque Rajada de Veneno. | Raio Nauseante | Paralisar Pessoa\nAsmodeus | Você tem Resistência a dano Necrótico. Você também conhece o truque Toque Necrótico. | Vitalidade Vazia | Raio do Enfraquecimento\nBelial | Você tem Resistência a dano Ígneo. Você também conhece o truque Raio de Fogo. | Repreensão Infernal | Escuridão"
+                "name": "Legado Tenebrico",
+                "description": "Você é o portador de uma linhagem específica que lhe confere poderes sobrenaturais únicos. Escolha um dos legados da tabela abaixo ao criar o personagem. Você adquire o benefício de Nível 1 imediatamente. Ao atingir os níveis de personagem 3 e 5, você aprende magias de círculo superior. Estas magias estão sempre preparadas e podem ser conjuradas uma vez sem gastar espaços de magia, restaurando o uso após um Descanso Longo. Você também pode conjurá-las utilizando quaisquer espaços de magia de nível correspondente que sua classe possua. Escolha entre Inteligência, Sabedoria ou Carisma para ser seu atributo de conjuração ao selecionar o legado."
             }
         ],
-        "tags": ["Terrestre"]
+        "tags": [
+            "Terrestre"
+        ],
+        "subraces": [
+            {
+                "name_pt": "Beelzebub",
+                "description": "Nível 1: Você tem Resistência a dano Venenoso. Você também conhece o truque Rajada de Veneno.\n\nNível 3: Raio Nauseante\n\nNível 5: Paralisar Pessoa",
+                "traits": [
+                    {
+                        "name": "Legado de Beelzebub",
+                        "description": "Você é o portador de uma linhagem específica que lhe confere poderes sobrenaturais únicos. Escolha um dos legados da tabela abaixo ao criar o personagem. Você adquire o benefício de Nível 1 imediatamente. Ao atingir os níveis de personagem 3 e 5, você aprende magias de círculo superior. Estas magias estão sempre preparadas e podem ser conjuradas uma vez sem gastar espaços de magia, restaurando o uso após um Descanso Longo. Você também pode conjurá-las utilizando quaisquer espaços de magia de nível correspondente que sua classe possua. Escolha entre Inteligência, Sabedoria ou Carisma para ser seu atributo de conjuração ao selecionar o legado.\n\nNível 1: Você tem Resistência a dano Venenoso. Você também conhece o truque Rajada de Veneno.\n\nNível 3: Raio Nauseante\n\nNível 5: Paralisar Pessoa"
+                    }
+                ]
+            },
+            {
+                "name_pt": "Asmodeus",
+                "description": "Nível 1: Você tem Resistência a dano Necrótico. Você também conhece o truque Toque Necrótico.\n\nNível 3: Vitalidade Vazia\n\nNível 5: Raio do Enfraquecimento",
+                "traits": [
+                    {
+                        "name": "Legado de Asmodeus",
+                        "description": "Você é o portador de uma linhagem específica que lhe confere poderes sobrenaturais únicos. Escolha um dos legados da tabela abaixo ao criar o personagem. Você adquire o benefício de Nível 1 imediatamente. Ao atingir os níveis de personagem 3 e 5, você aprende magias de círculo superior. Estas magias estão sempre preparadas e podem ser conjuradas uma vez sem gastar espaços de magia, restaurando o uso após um Descanso Longo. Você também pode conjurá-las utilizando quaisquer espaços de magia de nível correspondente que sua classe possua. Escolha entre Inteligência, Sabedoria ou Carisma para ser seu atributo de conjuração ao selecionar o legado.\n\nNível 1: Você tem Resistência a dano Necrótico. Você também conhece o truque Toque Necrótico.\n\nNível 3: Vitalidade Vazia\n\nNível 5: Raio do Enfraquecimento"
+                    }
+                ]
+            },
+            {
+                "name_pt": "Belial",
+                "description": "Nível 1: Você tem Resistência a dano Ígneo. Você também conhece o truque Raio de Fogo.\n\nNível 3: Repreensão Infernal\n\nNível 5: Escuridão",
+                "traits": [
+                    {
+                        "name": "Legado de Belial",
+                        "description": "Você é o portador de uma linhagem específica que lhe confere poderes sobrenaturais únicos. Escolha um dos legados da tabela abaixo ao criar o personagem. Você adquire o benefício de Nível 1 imediatamente. Ao atingir os níveis de personagem 3 e 5, você aprende magias de círculo superior. Estas magias estão sempre preparadas e podem ser conjuradas uma vez sem gastar espaços de magia, restaurando o uso após um Descanso Longo. Você também pode conjurá-las utilizando quaisquer espaços de magia de nível correspondente que sua classe possua. Escolha entre Inteligência, Sabedoria ou Carisma para ser seu atributo de conjuração ao selecionar o legado.\n\nNível 1: Você tem Resistência a dano Ígneo. Você também conhece o truque Raio de Fogo.\n\nNível 3: Repreensão Infernal\n\nNível 5: Escuridão"
+                    }
+                ]
+            }
+        ]
     },
     {
         "name_pt": "Serafins",
@@ -374,39 +517,61 @@
         "traits_title": "Inventores das Profundezas",
         "traits": [
             {
-            "name": "Sentidos Talpa",
-            "description": "Talpas são naturalmente cegos e não possuem visão convencional. Seus sentidos extremamente desenvolvidos de audição, olfato e percepção de vibrações concedem Visão às Cegas de 60 pés (18 m)."
+                "name": "Sentidos Talpa",
+                "description": "Talpas são naturalmente cegos e não possuem visão convencional. Seus sentidos extremamente desenvolvidos de audição, olfato e percepção de vibrações concedem Visão às Cegas de 60 pés (18 m)."
             },
             {
-            "name": "Escavador",
-            "description": "Você possui Deslocamento de Escavação de 15 pés (4,5 m). Você pode utilizar esse deslocamento através de terra, areia, argila e materiais semelhantes, mas não pode escavar através de pedra sólida ou metal."
+                "name": "Escavador",
+                "description": "Você possui Deslocamento de Escavação de 15 pés (4,5 m). Você pode utilizar esse deslocamento através de terra, areia, argila e materiais semelhantes, mas não pode escavar através de pedra sólida ou metal."
             },
             {
-            "name": "Garras de Toupeira",
-            "description": "Suas enormes garras são armas naturais. Quando você realiza um Ataque Desarmado utilizando suas garras, causa 1d6 de dano Cortante em vez do dano normal de um Ataque Desarmado."
+                "name": "Garras de Toupeira",
+                "description": "Suas enormes garras são armas naturais. Quando você realiza um Ataque Desarmado utilizando suas garras, causa 1d6 de dano Cortante em vez do dano normal de um Ataque Desarmado."
             },
             {
-            "name": "Quatro Braços",
-            "description": "Você possui dois braços adicionais. Seus braços adicionais podem manipular objetos, Utilizar objetos, utilizar ferramentas e auxiliar você durante escaladas e escavações. Eles não podem ser utilizados para empunhar armas ou escudos durante combate."
+                "name": "Quatro Braços",
+                "description": "Você possui dois braços adicionais. Seus braços adicionais podem manipular objetos, Utilizar objetos, utilizar ferramentas e auxiliar você durante escaladas e escavações. Eles não podem ser utilizados para empunhar armas ou escudos durante combate."
             },
             {
-            "name": "Castas Talpa",
-            "description": "Ao criar seu personagem, escolha uma das seguintes Castas: Talpa Ferreiro, Talpa Armeiro ou Talpa Ferramenteiro. Sua Casta representa o treinamento artesanal que recebeu dentro da sociedade Talpa."
-            },
-            {
-            "name": "Talpa Ferreiro",
-            "description": "Os Ferreiros são especialistas na fabricação, adaptação e reforço de armaduras. Treinamento de Ferreiro: Você ganha proficiência com Ferramentas de Ferreiro. Reforjar Armadura: Utilizando suas Ferramentas de Ferreiro, você pode modificar a construção de uma armadura para alterar sua categoria. Você pode alterar uma armadura em um estágio: Leve ↔ Média ↔ Pesada. Uma armadura Leve, portanto, precisa primeiro ser transformada em Média antes que possa posteriormente ser transformada em Pesada. A armadura passa a utilizar as regras da nova categoria, incluindo requisitos de proficiência, utilização de Destreza e demais limitações aplicáveis. Entretanto, ela mantém quaisquer propriedades mágicas ou características especiais que já possuía. A aparência da armadura também muda de acordo com a modificação realizada pelo Ferreiro."
-            },
-            {
-            "name": "Talpa Armeiro",
-            "description": "Armeiros dedicam suas vidas ao desenvolvimento de armas. Para um Armeiro Talpa, a forma de uma arma deve servir à sua função — e não o contrário. Treinamento de Armeiro: Você ganha proficiência com Ferramentas de Ferreiro. Arma Personalizada: Ao fabricar uma arma, você pode escolher uma propriedade de Maestria de Arma apropriada para a função que deseja que ela desempenhe, em vez de utilizar necessariamente a Maestria normalmente associada àquela arma. A aparência e construção da arma devem representar a Maestria escolhida. Por exemplo, um machado construído para Empurrar pode possuir uma cabeça larga e pesada destinada ao impacto, enquanto um martelo construído para Cleave pode possuir lâminas laterais capazes de atingir múltiplos inimigos. Mecanicamente, a arma continua utilizando seus dados de dano e demais propriedades normais. Apenas sua Maestria e aparência são alteradas."
-            },
-            {
-            "name": "Talpa Ferramenteiro",
-            "description": "Os Ferramenteiros são inventores, mecânicos e engenhoqueiros. Enquanto outros Talpas aperfeiçoam armas e armaduras, Ferramenteiros procuram construir uma ferramenta para praticamente qualquer problema. Treinamento de Ferramenteiro: Você ganha proficiência com Ferramentas de Funileiro. Engenhoqueiro Talpa: Utilizando suas Ferramentas de Funileiro e materiais apropriados, você pode construir Engenhocas Talpa. Você pode manter simultaneamente um número de Engenhocas Talpa funcionais igual ao seu Bônus de Proficiência. Caso construa uma além desse limite, deverá desmontar uma de suas engenhocas existentes e reutilizar suas peças. Você conhece os projetos de todas as Engenhocas Talpa apresentadas abaixo.\n\nEngenhocas Talpa\n\nAbridor de Portas: Um mecanismo expansível desenvolvido para manipular ou forçar portas e fechaduras. Pode ser instalado em uma porta para auxiliar sua abertura, concedendo Vantagem em um teste realizado para abrir ou arrombar aquela porta. Portas simples podem, a critério do Mestre, ser abertas automaticamente pelo mecanismo.\n\nAlarme Talpa: Um pequeno dispositivo capaz de detectar movimento e vibrações. Você pode instalá-lo em um ponto escolhido. Quando uma criatura atravessa a área monitorada, o dispositivo produz um som e vibração de alerta.\n\nEsfera de Comunicação: Você fabrica duas esferas vinculadas, que juntas contam como uma única Engenhoca Talpa. Enquanto estiverem a até 1 milha (1,6 km) uma da outra, criaturas segurando as esferas podem utilizá-las para conversar à distância.\n\nAranha Mecânica: Uma pequena criatura mecânica capaz de atravessar espaços estreitos e explorar locais perigosos. Você pode enviá-la para explorar uma área a até 60 pés (18 m) de você. A Aranha consegue transmitir informações simples através de sinais e vibrações, como a presença de movimento, criaturas, obstáculos ou perigos físicos.\n\nÂncora de Impacto: Um mecanismo que dispara uma âncora presa a um cabo resistente. Utilizada como gancho de escalada, para fixar uma corda em uma superfície apropriada, prender objetos ou estabelecer rapidamente uma linha entre dois pontos.\n\nDisparador Arcano: Uma pequena torreta capaz de armazenar e reproduzir magia. Um conjurador pode tocar o Disparador Arcano e armazenar nele um Truque que conheça e que cause dano. O Truque permanece armazenado até ser utilizado ou substituído. Como uma Ação, você pode instalar o Disparador em um espaço desocupado a até 5 pés de você. Enquanto estiver instalado, você pode utilizar uma Ação Bônus em cada um de seus turnos para ordenar que o Disparador conjure o Truque armazenado contra um alvo válido dentro do alcance normal do Truque. O Truque utiliza o modificador de ataque mágico ou CD para resistência do conjurador que o armazenou, conforme apropriado. Para determinar o dano e demais efeitos que aumentam conforme o nível, considere o nível do Talpa Ferramenteiro. O Disparador permanece ativo por até 1 minuto. Após sua ativação terminar, o Truque armazenado é consumido e um conjurador precisa armazenar novamente um Truque antes que o Disparador possa ser ativado outra vez. Truques com alcance Pessoal não podem ser armazenados."
+                "name": "Castas Talpa",
+                "description": "Ao criar seu personagem, escolha uma das seguintes Castas: Talpa Ferreiro, Talpa Armeiro ou Talpa Ferramenteiro. Sua Casta representa o treinamento artesanal que recebeu dentro da sociedade Talpa."
             }
         ],
-        "tags": ["Terrestre"]
+        "tags": [
+            "Terrestre"
+        ],
+        "subraces": [
+            {
+                "name_pt": "Talpa Ferreiro",
+                "description": "Os Ferreiros são especialistas na fabricação, adaptação e reforço de armaduras. Treinamento de Ferreiro: Você ganha proficiência com Ferramentas de Ferreiro. Reforjar Armadura: Utilizando suas Ferramentas de Ferreiro, você pode modificar a construção de uma armadura para alterar sua categoria. Você pode alterar uma armadura em um estágio: Leve ↔ Média ↔ Pesada. Uma armadura Leve, portanto, precisa primeiro ser transformada em Média antes que possa posteriormente ser transformada em Pesada. A armadura passa a utilizar as regras da nova categoria, incluindo requisitos de proficiência, utilização de Destreza e demais limitações aplicáveis. Entretanto, ela mantém quaisquer propriedades mágicas ou características especiais que já possuía. A aparência da armadura também muda de acordo com a modificação realizada pelo Ferreiro.",
+                "traits": [
+                    {
+                        "name": "Talpa Ferreiro",
+                        "description": "Os Ferreiros são especialistas na fabricação, adaptação e reforço de armaduras. Treinamento de Ferreiro: Você ganha proficiência com Ferramentas de Ferreiro. Reforjar Armadura: Utilizando suas Ferramentas de Ferreiro, você pode modificar a construção de uma armadura para alterar sua categoria. Você pode alterar uma armadura em um estágio: Leve ↔ Média ↔ Pesada. Uma armadura Leve, portanto, precisa primeiro ser transformada em Média antes que possa posteriormente ser transformada em Pesada. A armadura passa a utilizar as regras da nova categoria, incluindo requisitos de proficiência, utilização de Destreza e demais limitações aplicáveis. Entretanto, ela mantém quaisquer propriedades mágicas ou características especiais que já possuía. A aparência da armadura também muda de acordo com a modificação realizada pelo Ferreiro."
+                    }
+                ]
+            },
+            {
+                "name_pt": "Talpa Armeiro",
+                "description": "Armeiros dedicam suas vidas ao desenvolvimento de armas. Para um Armeiro Talpa, a forma de uma arma deve servir à sua função — e não o contrário. Treinamento de Armeiro: Você ganha proficiência com Ferramentas de Ferreiro. Arma Personalizada: Ao fabricar uma arma, você pode escolher uma propriedade de Maestria de Arma apropriada para a função que deseja que ela desempenhe, em vez de utilizar necessariamente a Maestria normalmente associada àquela arma. A aparência e construção da arma devem representar a Maestria escolhida. Por exemplo, um machado construído para Empurrar pode possuir uma cabeça larga e pesada destinada ao impacto, enquanto um martelo construído para Cleave pode possuir lâminas laterais capazes de atingir múltiplos inimigos. Mecanicamente, a arma continua utilizando seus dados de dano e demais propriedades normais. Apenas sua Maestria e aparência são alteradas.",
+                "traits": [
+                    {
+                        "name": "Talpa Armeiro",
+                        "description": "Armeiros dedicam suas vidas ao desenvolvimento de armas. Para um Armeiro Talpa, a forma de uma arma deve servir à sua função — e não o contrário. Treinamento de Armeiro: Você ganha proficiência com Ferramentas de Ferreiro. Arma Personalizada: Ao fabricar uma arma, você pode escolher uma propriedade de Maestria de Arma apropriada para a função que deseja que ela desempenhe, em vez de utilizar necessariamente a Maestria normalmente associada àquela arma. A aparência e construção da arma devem representar a Maestria escolhida. Por exemplo, um machado construído para Empurrar pode possuir uma cabeça larga e pesada destinada ao impacto, enquanto um martelo construído para Cleave pode possuir lâminas laterais capazes de atingir múltiplos inimigos. Mecanicamente, a arma continua utilizando seus dados de dano e demais propriedades normais. Apenas sua Maestria e aparência são alteradas."
+                    }
+                ]
+            },
+            {
+                "name_pt": "Talpa Ferramenteiro",
+                "description": "Os Ferramenteiros são inventores, mecânicos e engenhoqueiros. Enquanto outros Talpas aperfeiçoam armas e armaduras, Ferramenteiros procuram construir uma ferramenta para praticamente qualquer problema. Treinamento de Ferramenteiro: Você ganha proficiência com Ferramentas de Funileiro. Engenhoqueiro Talpa: Utilizando suas Ferramentas de Funileiro e materiais apropriados, você pode construir Engenhocas Talpa. Você pode manter simultaneamente um número de Engenhocas Talpa funcionais igual ao seu Bônus de Proficiência. Caso construa uma além desse limite, deverá desmontar uma de suas engenhocas existentes e reutilizar suas peças. Você conhece os projetos de todas as Engenhocas Talpa apresentadas abaixo.\n\nEngenhocas Talpa\n\nAbridor de Portas: Um mecanismo expansível desenvolvido para manipular ou forçar portas e fechaduras. Pode ser instalado em uma porta para auxiliar sua abertura, concedendo Vantagem em um teste realizado para abrir ou arrombar aquela porta. Portas simples podem, a critério do Mestre, ser abertas automaticamente pelo mecanismo.\n\nAlarme Talpa: Um pequeno dispositivo capaz de detectar movimento e vibrações. Você pode instalá-lo em um ponto escolhido. Quando uma criatura atravessa a área monitorada, o dispositivo produz um som e vibração de alerta.\n\nEsfera de Comunicação: Você fabrica duas esferas vinculadas, que juntas contam como uma única Engenhoca Talpa. Enquanto estiverem a até 1 milha (1,6 km) uma da outra, criaturas segurando as esferas podem utilizá-las para conversar à distância.\n\nAranha Mecânica: Uma pequena criatura mecânica capaz de atravessar espaços estreitos e explorar locais perigosos. Você pode enviá-la para explorar uma área a até 60 pés (18 m) de você. A Aranha consegue transmitir informações simples através de sinais e vibrações, como a presença de movimento, criaturas, obstáculos ou perigos físicos.\n\nÂncora de Impacto: Um mecanismo que dispara uma âncora presa a um cabo resistente. Utilizada como gancho de escalada, para fixar uma corda em uma superfície apropriada, prender objetos ou estabelecer rapidamente uma linha entre dois pontos.\n\nDisparador Arcano: Uma pequena torreta capaz de armazenar e reproduzir magia. Um conjurador pode tocar o Disparador Arcano e armazenar nele um Truque que conheça e que cause dano. O Truque permanece armazenado até ser utilizado ou substituído. Como uma Ação, você pode instalar o Disparador em um espaço desocupado a até 5 pés de você. Enquanto estiver instalado, você pode utilizar uma Ação Bônus em cada um de seus turnos para ordenar que o Disparador conjure o Truque armazenado contra um alvo válido dentro do alcance normal do Truque. O Truque utiliza o modificador de ataque mágico ou CD para resistência do conjurador que o armazenou, conforme apropriado. Para determinar o dano e demais efeitos que aumentam conforme o nível, considere o nível do Talpa Ferramenteiro. O Disparador permanece ativo por até 1 minuto. Após sua ativação terminar, o Truque armazenado é consumido e um conjurador precisa armazenar novamente um Truque antes que o Disparador possa ser ativado outra vez. Truques com alcance Pessoal não podem ser armazenados.",
+                "traits": [
+                    {
+                        "name": "Talpa Ferramenteiro",
+                        "description": "Os Ferramenteiros são inventores, mecânicos e engenhoqueiros. Enquanto outros Talpas aperfeiçoam armas e armaduras, Ferramenteiros procuram construir uma ferramenta para praticamente qualquer problema. Treinamento de Ferramenteiro: Você ganha proficiência com Ferramentas de Funileiro. Engenhoqueiro Talpa: Utilizando suas Ferramentas de Funileiro e materiais apropriados, você pode construir Engenhocas Talpa. Você pode manter simultaneamente um número de Engenhocas Talpa funcionais igual ao seu Bônus de Proficiência. Caso construa uma além desse limite, deverá desmontar uma de suas engenhocas existentes e reutilizar suas peças. Você conhece os projetos de todas as Engenhocas Talpa apresentadas abaixo.\n\nEngenhocas Talpa\n\nAbridor de Portas: Um mecanismo expansível desenvolvido para manipular ou forçar portas e fechaduras. Pode ser instalado em uma porta para auxiliar sua abertura, concedendo Vantagem em um teste realizado para abrir ou arrombar aquela porta. Portas simples podem, a critério do Mestre, ser abertas automaticamente pelo mecanismo.\n\nAlarme Talpa: Um pequeno dispositivo capaz de detectar movimento e vibrações. Você pode instalá-lo em um ponto escolhido. Quando uma criatura atravessa a área monitorada, o dispositivo produz um som e vibração de alerta.\n\nEsfera de Comunicação: Você fabrica duas esferas vinculadas, que juntas contam como uma única Engenhoca Talpa. Enquanto estiverem a até 1 milha (1,6 km) uma da outra, criaturas segurando as esferas podem utilizá-las para conversar à distância.\n\nAranha Mecânica: Uma pequena criatura mecânica capaz de atravessar espaços estreitos e explorar locais perigosos. Você pode enviá-la para explorar uma área a até 60 pés (18 m) de você. A Aranha consegue transmitir informações simples através de sinais e vibrações, como a presença de movimento, criaturas, obstáculos ou perigos físicos.\n\nÂncora de Impacto: Um mecanismo que dispara uma âncora presa a um cabo resistente. Utilizada como gancho de escalada, para fixar uma corda em uma superfície apropriada, prender objetos ou estabelecer rapidamente uma linha entre dois pontos.\n\nDisparador Arcano: Uma pequena torreta capaz de armazenar e reproduzir magia. Um conjurador pode tocar o Disparador Arcano e armazenar nele um Truque que conheça e que cause dano. O Truque permanece armazenado até ser utilizado ou substituído. Como uma Ação, você pode instalar o Disparador em um espaço desocupado a até 5 pés de você. Enquanto estiver instalado, você pode utilizar uma Ação Bônus em cada um de seus turnos para ordenar que o Disparador conjure o Truque armazenado contra um alvo válido dentro do alcance normal do Truque. O Truque utiliza o modificador de ataque mágico ou CD para resistência do conjurador que o armazenou, conforme apropriado. Para determinar o dano e demais efeitos que aumentam conforme o nível, considere o nível do Talpa Ferramenteiro. O Disparador permanece ativo por até 1 minuto. Após sua ativação terminar, o Truque armazenado é consumido e um conjurador precisa armazenar novamente um Truque antes que o Disparador possa ser ativado outra vez. Truques com alcance Pessoal não podem ser armazenados."
+                    }
+                ]
+            }
+        ]
     },
     {
         "name_pt": "Yun'kais",

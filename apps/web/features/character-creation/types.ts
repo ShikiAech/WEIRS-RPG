@@ -9,5 +9,6 @@ export interface StepProps {
   catalog: CreationCatalog;
   preview: CreationPreview;
   repository: CompendiumRepository;
-  onChange: (draft: CreationDraft) => void;
+  classLevelInputs?: Record<string, string>;
+  onChange: (draft: CreationDraft, classLevelInputs?: Record<string, string>) => void;
 }
