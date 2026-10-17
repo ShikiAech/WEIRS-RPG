@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page, type Response } from '@playwright/test';
 import { backend } from './backend';
 import { chatBackend } from './chat-backend';
 import { sessionBackend } from './session-backend';
@@ -291,15 +291,41 @@ test('áreas vinculadas a tokens ocultos não chegam à sessão do jogador', asy
   });
   await tabletopBackend(player, playerSheets, chat, maps);
   const payloads: string[] = [];
-  player.on('response', async (response) => {
-    if (/\/rest\/v1\/areas_mapa/.test(response.url())) payloads.push(await response.text());
-  });
-  await page.goto('app.html#/chat');
-  await player.goto('app.html#/chat');
-  await mapView(page);
-  await mapView(player);
-  await expect(page.locator('.map-area')).toHaveCount(1);
-  await expect(player.locator('.map-area')).toHaveCount(0);
+  const bodyReads: Promise<void>[] = [];
+  const bodyErrors: { url: string; error: unknown }[] = [];
+  const captureAreaResponse = (response: Response) => {
+    if (!/\/rest\/v1\/areas_mapa/.test(response.url())) return;
+    // EventEmitter não aguarda callbacks async. Monitore cada leitura para não
+    // validar uma lista incompleta nem abortar o body ao fechar a página.
+    bodyReads.push(
+      response.text().then(
+        (body) => {
+          payloads.push(body);
+        },
+        (error) => {
+          bodyErrors.push({ url: response.url(), error });
+        },
+      ),
+    );
+  };
+  player.on('response', captureAreaResponse);
+  try {
+    await page.goto('app.html#/chat');
+    await player.goto('app.html#/chat');
+    await mapView(page);
+    await mapView(player);
+    await expect(page.locator('.map-area')).toHaveCount(1);
+    await expect(player.locator('.map-area')).toHaveCount(0);
+    await expect.poll(() => bodyReads.length).toBeGreaterThan(0);
+  } finally {
+    player.off('response', captureAreaResponse);
+    await Promise.all(bodyReads);
+  }
+  expect(bodyErrors, 'Toda resposta de áreas capturada deve ter seu body lido').toEqual([]);
+  expect(
+    payloads.length,
+    'A verificação deve inspecionar ao menos uma resposta de áreas',
+  ).toBeGreaterThan(0);
   expect(payloads.join('\n')).not.toContain('Armadilha ainda secreta');
   await player.close();
 });
