@@ -112,6 +112,31 @@ for (const name of ['Paladino', 'Patrulheiro']) {
   });
 }
 
+for (const [background, spellList] of [
+  ['Acólito', 'Clérigo'],
+  ['Guia', 'Druida'],
+  ['Sábio', 'Mago'],
+  ['Tocado pelo Gênio', 'Mago'],
+  ['Peregrino dos Poços da Lua', 'Druida'],
+]) {
+  test(`${background} exibe uma única seção para a lista fixa de Iniciado em Magia`, async ({
+    page,
+  }) => {
+    await page.goto('app.html#/fichas/nova?demo=1');
+    await page.getByRole('button', { name: '3 Antecedente', exact: true }).click();
+    await choose(page, 'Antecedente', 'antecedente', background, 'data/background.json');
+    const lists = page.getByRole('group', { name: 'Lista de Iniciado em Magia', exact: true });
+    await expect(lists).toHaveCount(1);
+    await expect(lists.getByRole('radio')).toHaveCount(1);
+    await lists.getByRole('radio', { name: spellList, exact: true }).check();
+    await expect(lists).toHaveCount(1);
+    await page.getByRole('button', { name: '6 Magias', exact: true }).click();
+    const profile = page.getByRole('group', { name: 'Iniciado em Magia', exact: true });
+    await expect(profile).toHaveCount(1);
+    await expect(profile.getByRole('searchbox')).toBeVisible();
+  });
+}
+
 test('Iniciado sem lista pede resolução na origem sem oferecer catálogo universal', async ({
   page,
 }, info) => {

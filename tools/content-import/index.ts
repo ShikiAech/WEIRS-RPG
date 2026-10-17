@@ -132,6 +132,10 @@ export async function importContent(root: string): Promise<ContentBundle> {
       );
       const key = `${kind}:${sourcePath}:${slug(name)}:${JSON.stringify(metadata)}:${sourceLabel}`;
       const id = stableId(key);
+      if (kind === 'talento') {
+        const group = card.closest('.grid-talentos').attr('data-tipo');
+        if (group) metadata.grupo = group;
+      }
       // A duração vem do texto visível, não dos atributos data-*. Acrescentá-la
       // depois de calcular a identidade conserva os IDs das fichas existentes.
       if (kind === 'magia') {

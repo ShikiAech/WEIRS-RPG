@@ -7,7 +7,7 @@ import { normalizeSources } from '../tools/compendium-import/normalize';
 import { loadCuration, resolveCatalog } from '../tools/compendium-import/resolve';
 import { generateSeed, coverageReport } from '../tools/compendium-import/sql';
 
-async function sample() {
+async function sample(includeLegacyBackground = false) {
   const sources = await readJsonSources(process.cwd());
   for (const s of sources)
     s.records = s.records.filter(
@@ -20,7 +20,9 @@ async function sample() {
   const legacy = await readLegacySources(process.cwd());
   for (const source of legacy)
     source.records = source.records.filter(
-      (r) => r.kind === 'classe' && ['Clérigo', 'Druida', 'Mago'].includes(r.name),
+      (r) =>
+        (r.kind === 'classe' && ['Clérigo', 'Druida', 'Mago'].includes(r.name)) ||
+        (includeLegacyBackground && r.kind === 'antecedente' && r.name === 'Acólito'),
     );
   sources.push(...legacy.filter((s) => s.records.length));
   const c = resolveCatalog(
@@ -32,6 +34,96 @@ async function sample() {
     "Uma tradução com 'aspas', barra \\ e\nparágrafo novo. Texto literal $verify$; $compendio_0$.";
   return { c, actor };
 }
+
+test('reimportação oculta a cópia antiga do antecedente sem apagar sua revisão', async () => {
+  const f = await compendiumFixture();
+  try {
+    const legacy = await readLegacySources(process.cwd());
+    for (const s of legacy)
+      s.records = s.records.filter((r) => r.kind === 'antecedente' && r.name === 'Acólito');
+    const old = resolveCatalog(
+      normalizeSources(
+        legacy.filter((s) => s.records.length),
+        { records: {} },
+      ),
+      await loadCuration(process.cwd()),
+    );
+    await f.db.query("SELECT set_config('request.jwt.claim.sub',$1,false)", [f.admin]);
+    await f.db.exec(generateSeed(old));
+    const unmerged = await sample();
+    const previous = unmerged.c.entries.find((e) => e.kind === 'antecedente')!;
+    // The historical JSON record is independently published, without unrelated class packages.
+    await f.db.exec(
+      generateSeed({
+        ...unmerged.c,
+        entries: [previous],
+        origins: unmerged.c.origins.filter((r) => r.id === previous.ref.recordId),
+        requirements: [],
+        choices: [],
+        grants: [],
+        effects: [],
+        proficiencies: [],
+        castingProfiles: [],
+        equipmentOptions: [],
+        progressionCells: [],
+      }),
+    );
+    const { c } = await sample(true);
+    const sql = generateSeed(c);
+    await f.db.exec(sql);
+    await f.db.exec(sql);
+    assert.equal(
+      (await f.anonymous("SELECT * FROM buscar_compendio('dnd-5e-2024','antecedente','Acólito')"))
+        .length,
+      1,
+    );
+    assert.equal(
+      (
+        await f.db.query<{ ativo: boolean }>('SELECT ativo FROM compendio_registros WHERE id=$1', [
+          previous.ref.recordId,
+        ])
+      ).rows[0].ativo,
+      false,
+    );
+    assert.equal(
+      (
+        await f.anonymous('SELECT id FROM compendio_revisoes WHERE id=$1', [
+          previous.ref.revisionId,
+        ])
+      ).length,
+      1,
+    );
+    const legacyId = old.entries.find((e) => e.kind === 'antecedente')!.legacyIds[0];
+    assert.equal(
+      (await f.anonymous('SELECT * FROM referencia_legada_compendio($1)', [legacyId])).length,
+      1,
+    );
+  } finally {
+    await f.db.close();
+  }
+});
+
+test('seed registra as categorias adicionais de talento antes de publicar', async () => {
+  const f = await compendiumFixture();
+  try {
+    const { c, actor } = await sample();
+    assert.equal(actor.kind, 'talento');
+    if (actor.kind !== 'talento') return;
+    actor.data.category = 'selvagem';
+    await f.db.query("SELECT set_config('request.jwt.claim.sub',$1,false)", [f.admin]);
+    await f.db.exec(generateSeed(c));
+    assert.equal(
+      (
+        await f.anonymous('SELECT categoria_codigo FROM compendio_talentos WHERE revisao_id=$1', [
+          actor.ref.revisionId,
+        ])
+      )[0].categoria_codigo,
+      'selvagem',
+    );
+  } finally {
+    await f.db.close();
+  }
+});
 test('carga relacional publica vínculos, preserva texto e é idempotente', async () => {
   const f = await compendiumFixture();
   try {

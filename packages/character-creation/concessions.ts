@@ -362,7 +362,22 @@ export function resolveConcessions(
             (s) => s.groupId === c.group.id && s.sourceInstanceId === c.instance.id,
           ),
         }))
-        .find((c) => c.choice?.values.length);
+        .find(
+          (c) =>
+            c.choice?.values.length ||
+            (c.group.minimum >= group.minimum &&
+              c.group.maximum <= group.maximum &&
+              c.group.options.length > 0 &&
+              c.group.options.every(
+                (parentOption) =>
+                  parentOption.targetRef &&
+                  group.options.some(
+                    (option) => option.targetRef?.revisionId === parentOption.targetRef!.revisionId,
+                  ),
+              )),
+        );
+      // The origin owns this decision even before a value has been selected.
+      if (ancestorChoice && !ancestorChoice.choice?.values.length) continue;
       const inheritedValues = ancestorChoice?.choice?.values.flatMap((v) => {
         const old =
           v.type === 'option'

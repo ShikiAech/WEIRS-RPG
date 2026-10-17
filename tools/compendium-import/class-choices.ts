@@ -564,6 +564,10 @@ export function curateClassChoices(ctx: CuratedContext) {
       smite.description = description;
       smite.descriptionHtml = '<p>' + description + '</p>';
       smite.reviewed2024 = true;
+      if (smite.kind === 'magia')
+        for (const [i, damage] of smite.data.damages.entries()) {
+          damage.id = stableId(smite.ref.revisionId + ':damage:' + i);
+        }
     }
     const p = c.castingProfiles.find(
       (p) => p.ownerRevisionId === paladin.ref.revisionId && p.key === 'classe',

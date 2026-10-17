@@ -15,6 +15,30 @@ export function normalizeSources(
     records: { ...registry.records },
     aliases: { ...registry.aliases },
   };
+  const backgrounds = sources
+    .flatMap((s) => s.records)
+    .filter((r) => r.payload.type === 'background');
+  for (const source of sources.filter((s) => s.format === 'html')) {
+    for (const record of source.records) {
+      if (
+        record.kind !== 'antecedente' ||
+        record.payload.type !== 'legacy' ||
+        identityRegistry.aliases?.[record.key]
+      )
+        continue;
+      const names = [record.name, record.originalName, record.payload.entry.metadata.nome]
+        .filter(Boolean)
+        .map(normalizeName);
+      const matches = backgrounds.filter(
+        (b) =>
+          [b.name, b.originalName].some((n) => names.includes(normalizeName(n))) &&
+          (record.book === 'Acervo Weirs — fonte em revisão' ||
+            normalizeName(record.book) === normalizeName(b.book)),
+      );
+      if (matches.length === 1 && !identityRegistry.aliases?.[matches[0].key])
+        (identityRegistry.aliases ??= {})[matches[0].key] = record.key;
+    }
+  }
   const provenance = new Map<string, CompendiumSource>();
   const records = new Map<string, CatalogDraftRecord>();
   const issues: ImportIssue[] = [];
@@ -41,6 +65,14 @@ export function normalizeSources(
           hash: source.hash,
         });
       const previous = records.get(id);
+      const supersededId =
+        registry.records[record.key] ?? stableId('compendio:conceito:' + record.key);
+      const supersededIds = [
+        ...new Set([
+          ...(previous?.supersededIds ?? []),
+          ...(supersededId && supersededId !== id ? [supersededId] : []),
+        ]),
+      ];
       if (previous && previous.kind !== record.kind)
         throw Error('Identidade compartilhada entre tipos incompatíveis: ' + record.key);
       const alternatives = previous
@@ -87,6 +119,7 @@ export function normalizeSources(
         sourceFormat: source.format,
         alternatives,
         legacyIds,
+        ...(supersededIds.length ? { supersededIds } : {}),
       });
     }
   }

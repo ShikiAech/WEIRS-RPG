@@ -95,13 +95,20 @@ export interface IdentityRegistry {
   aliases?: Record<string, string>;
 }
 export interface CatalogDraftRecord extends SourceRecord {
+  supersededIds?: string[];
   id: string;
   revisionId: string;
   sourceId: string;
   sourcePath: string;
   sourceHash: string;
   sourceFormat: 'json' | 'html';
-  alternatives: { sourcePath: string; pointer: string; payload: SourcePayload;sourceId?:string;sourceHash?:string }[];
+  alternatives: {
+    sourcePath: string;
+    pointer: string;
+    payload: SourcePayload;
+    sourceId?: string;
+    sourceHash?: string;
+  }[];
   legacyIds: string[];
 }
 export interface ImportedCatalog {

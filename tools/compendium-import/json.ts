@@ -124,7 +124,10 @@ export async function readJsonSources(root: string, commit = ''): Promise<Import
         kind,
         name: input.name_pt,
         originalName: original,
-        description: input.description,
+        description:
+          base === 'background'
+            ? backgroundDescription(input as BackgroundInput)
+            : input.description,
         descriptionHtml: '',
         book,
         publisher,
@@ -183,4 +186,16 @@ export async function readJsonSources(root: string, commit = ''): Promise<Import
     sources.push({ path: file, hash: hash(raw!), commit, format: 'json', records });
   }
   return sources;
+}
+
+function backgroundDescription(input: BackgroundInput): string {
+  return [
+    input.description,
+    `Atributos: ${input.ability_scores.join(', ')}`,
+    `Perícias: ${input.skill_proficiencies.join(', ')}`,
+    `Ferramentas: ${input.tool_proficiencies.join(', ')}`,
+    `Talento: ${input.feat}`,
+    `Equipamento — opção A: ${input.equipment.option_a.join('; ')}`,
+    `Equipamento — opção B: ${input.equipment.option_b.join('; ')}`,
+  ].join('\n\n');
 }

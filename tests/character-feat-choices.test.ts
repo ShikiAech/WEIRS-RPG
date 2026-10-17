@@ -5,7 +5,7 @@ import { readJsonSources } from '../tools/compendium-import/json';
 import { readLegacySources } from '../tools/compendium-import/legacy';
 import { normalizeSources } from '../tools/compendium-import/normalize';
 import { loadCuration, resolveCatalog } from '../tools/compendium-import/resolve';
-import { fixture, grant } from './fixtures/creation';
+import { fixture, grant, id } from './fixtures/creation';
 import { resolveState } from '../packages/character-creation/state';
 import { resolveSpellcasting } from '../packages/character-creation/spellcasting';
 import { projectSheet } from '../packages/character-creation/project';
@@ -13,6 +13,7 @@ import { resolveHitPoints } from '../packages/character-creation/hit-points';
 import { resolveDefenses } from '../packages/character-creation/defenses';
 import { resolveCreation } from '../packages/character-creation/resolve';
 import { populateFeatChoices } from '../tools/compendium-import/feat-choices';
+import { requirementMet } from '../packages/character-creation/requirements';
 
 const catalog = Promise.all([
   readJsonSources(process.cwd()),
@@ -93,6 +94,156 @@ test('late racial and warlock feat choices offer their declared category', async
   }
 });
 
+test('level feats exclude origin and fighting styles and include the allowed special categories', async () => {
+  const c = await catalog;
+  const fighter = c.entries.find((e) => e.kind === 'classe' && e.name === 'Guerreiro')!;
+  for (const level of [4, 16, 19]) {
+    const group = c.choices.find(
+      (g) => g.ownerRevisionId === fighter.ref.revisionId && g.key === `talento-nivel-${level}`,
+    )!;
+    assert.ok(group, `level ${level}`);
+    const feats = group.options.map((o) =>
+      c.entries.find((e) => e.ref.revisionId === o.targetRef?.revisionId)!,
+    );
+    const categories = [
+      ...new Set(feats.flatMap((e) => (e.kind === 'talento' ? [e.data.category] : []))),
+    ].sort();
+    assert.deepEqual(
+      categories,
+      [
+        'geral',
+        'marca-dragao',
+        'pacto-planar',
+        'dom-sombrio',
+        'selvagem',
+        'vilania',
+        'dadiva-epica',
+      ].sort(),
+    );
+    assert.ok(
+      feats.some((e) => e.name === 'Mancha Suprema'),
+      'Weirs feats remain available',
+    );
+    assert.equal(feats.filter((e) => e.originalName === 'Actor').length, 1);
+    assert.ok(
+      !feats.some((e) =>
+        ['Aumento no Valor de Habilidade', 'Toque Feérico', 'Mestre de Armas Pesadas'].includes(
+          e.name,
+        ),
+      ),
+    );
+  }
+});
+
+test('wild and villain feats enforce their usable prerequisites', async () => {
+  const c = await catalog;
+  function eligible(name: string, level: number, acquired: string[]) {
+    const feat = c.entries.find((e) => e.kind === 'talento' && e.name === name)!;
+    assert.ok(feat?.kind === 'talento' && feat.data.requirementsComplete, name);
+    const records = new Set(
+      c.entries.filter((e) => acquired.includes(e.name)).map((e) => e.ref.revisionId),
+    );
+    return c.requirements
+      .filter((r) => r.ownerRevisionId === feat.ref.revisionId && r.parentId === null)
+      .every((r) =>
+        requirementMet(c, r.id, {
+          level,
+          records,
+          classLevels: new Map(),
+          abilities: {},
+          proficiencies: new Set(),
+          choices: [],
+          repetitions: new Map(),
+        }),
+      );
+  }
+  assert.equal(eligible('Atmocinese', 4, []), true);
+  assert.equal(eligible('Atmocinese', 4, ['Biocinese']), false);
+  assert.equal(eligible('Iniciado do Cavaleiro da Morte', 4, ['Maestria em Armas']), true);
+  assert.equal(eligible('Iniciado do Cavaleiro da Morte', 4, []), false);
+  assert.equal(eligible('Iniciado do Lich', 4, ['Conjuração']), true);
+  assert.equal(eligible('Iniciado do Lich', 4, ['Magia de Pacto']), true);
+  assert.equal(eligible('Iniciado do Lich', 4, []), false);
+  assert.equal(eligible('Iniciado do Lich', 3, ['Conjuração']), false);
+  assert.equal(eligible('Ascensão do Lich', 12, ['Iniciado do Lich']), false);
+  assert.equal(
+    eligible('Ascensão do Lich', 12, ['Iniciado do Lich', 'Transferência de Vida']),
+    true,
+  );
+  assert.equal(
+    eligible('Ascensão do Cavaleiro da Morte', 12, [
+      'Iniciado do Cavaleiro da Morte',
+      'Autoridade Amedrontadora',
+    ]),
+    true,
+  );
+});
+
+test('epic boons use total level at acquisition, including multiclass milestones', async () => {
+  const c = await catalog;
+  const { draft } = fixture();
+  const mage = c.entries.find((e) => e.kind === 'classe' && e.name === 'Mago')!;
+  const fighter = c.entries.find((e) => e.kind === 'classe' && e.name === 'Guerreiro')!;
+  const boon = c.entries.find(
+    (e) =>
+      e.kind === 'talento' &&
+      e.originalName === 'Boon of Combat Prowess' &&
+      e.sourcePath === 'data/feats.json',
+  )!;
+  draft.speciesRef = c.entries.find((e) => e.kind === 'especie' && e.name === 'Ogros')!.ref;
+  draft.backgroundRef = null;
+  draft.classes = [
+    { id: id(900001), classRef: mage.ref, subclassRef: null, level: 15 },
+    { id: id(900002), classRef: fighter.ref, subclassRef: null, level: 4 },
+  ];
+  const setOrder = (classes: string[]) => {
+    draft.levels = classes.map((classEntryId, i) => ({
+      totalLevel: i + 1,
+      classEntryId,
+      hitPointMethod: 'fixed',
+      hitPointRoll: null,
+    }));
+  };
+  function unavailable() {
+    const active = resolveState(c, draft).concessions.choices.find(
+      (a) =>
+        a.group.ownerRevisionId === fighter.ref.revisionId && a.group.key === 'talento-nivel-4',
+    )!;
+    const option = active.group.options.find(
+      (o) => o.targetRef?.revisionId === boon.ref.revisionId,
+    );
+    assert.ok(option, 'epic boon must be considered at lower class milestones');
+    return active.unavailableOptions?.[option.id];
+  }
+  setOrder([...Array(15).fill(id(900001)), ...Array(4).fill(id(900002))]);
+  assert.equal(unavailable(), undefined);
+  draft.classes[0].level = 14;
+  setOrder([...Array(14).fill(id(900001)), ...Array(4).fill(id(900002))]);
+  assert.ok(unavailable());
+  draft.classes[0].level = 15;
+  setOrder([id(900001), ...Array(4).fill(id(900002)), ...Array(14).fill(id(900001))]);
+  assert.ok(unavailable(), 'a later level19 cannot unlock a boon acquired at level5');
+});
+
+test('fighting styles remain exclusive to their specific grant', async () => {
+  const c = await catalog;
+  const styles = c.choices.filter((g) => g.featCategory === 'estilo-luta');
+  assert.ok(styles.length > 0);
+  for (const group of styles) {
+    assert.ok(group.options.length > 0);
+    assert.ok(
+      group.options.every((o) =>
+        c.entries.some(
+          (e) =>
+            e.kind === 'talento' &&
+            e.ref.revisionId === o.targetRef?.revisionId &&
+            e.data.category === 'estilo-luta',
+        ),
+      ),
+    );
+  }
+});
+
 test('the twelve curated special feats are grantable without unresolved prerequisite flags', async () => {
   for (const name of [
     'Anatomia Aberrante',
@@ -133,6 +284,30 @@ test('planar pact exclusion rejects a second distinct pact', async () => {
   assert.ok(
     state.concessions.instances.filter(
       (i) => i.entry.kind === 'talento' && i.entry.data.category === 'pacto-planar',
+    ).length <= 1,
+  );
+});
+
+test('dragonmarks retain Eberron context and exclude a second distinct mark', async () => {
+  const { c, draft, species, feat } = await scenario('Marca da Detecção');
+  assert.ok(feat.kind === 'talento' && feat.data.requirementsComplete);
+  let state = resolveState(c, draft);
+  assert.ok(
+    state.concessions.instances.some((i) => i.entry.ref.revisionId === feat.ref.revisionId),
+  );
+  assert.ok(
+    state.concessions.instances.some((i) => i.entry.name === 'Contexto: Campanha de Eberron'),
+  );
+  const second = c.entries.find(
+    (e) =>
+      e.kind === 'talento' && e.name === 'Marca da Busca' && e.sourcePath === 'data/feats.json',
+  )!;
+  c.grants.push(grant(990002, species, second));
+  state = resolveState(c, draft);
+  assert.ok(state.concessions.problems.some((p) => p.code === 'REQUIREMENT_NOT_MET'));
+  assert.ok(
+    state.concessions.instances.filter(
+      (i) => i.entry.kind === 'talento' && i.entry.data.category === 'marca-dragao',
     ).length <= 1,
   );
 });

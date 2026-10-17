@@ -96,6 +96,62 @@ test('JSON inválido informa a fonte e não vira catálogo vazio', async () => {
   });
 });
 
+test('antecedentes JSON exibem a descrição e todos os benefícios no mesmo registro', async () => {
+  const backgrounds = (await readJsonSources(root)).flatMap((s) => s.records);
+  const acolyte = backgrounds.find((r) => r.name === 'Acólito')!;
+  assert.match(acolyte.description, /Você se dedicou ao serviço em um templo/);
+  for (const text of [
+    'Atributos: Inteligência, Sabedoria, Carisma',
+    'Perícias: Intuição, Religião',
+    'Ferramentas: Suprimentos de Calígrafo',
+    'Talento: Iniciado em Magia (Clérigo)',
+    'Equipamento — opção A:',
+    'Pergaminho (10 folhas)',
+    '8 PO',
+    'Equipamento — opção B: 50 PO',
+  ])
+    assert.ok(acolyte.description.includes(text), text);
+  const knight = backgrounds.find((r) => r.name === 'Cavaleiro da Manopla')!;
+  assert.match(knight.description, /Talento: Noviço da Manopla/);
+  assert.match(knight.description, /Perícias: Atletismo, Medicina/);
+});
+
+test('antecedente HTML equivalente é consolidado no JSON e preserva procedência e referências', async () => {
+  const sources = [...(await readLegacySources(root)), ...(await readJsonSources(root))];
+  const registry = JSON.parse(
+    await readFile(path.join(root, 'content/compendium/identities.json'), 'utf8'),
+  );
+  const c = normalizeSources(sources, registry);
+  const acolytes = c.records.filter((r) => r.kind === 'antecedente' && r.name === 'Acólito');
+  assert.equal(acolytes.length, 1);
+  assert.equal(acolytes[0].sourcePath, 'data/background.json');
+  assert.equal(
+    acolytes[0].id,
+    registry.records['antecedente:legacy:pages/antecedentes.html:acolito'],
+  );
+  assert.equal(acolytes[0].legacyIds.length, 1);
+  assert.ok(acolytes[0].alternatives.some((a) => a.sourcePath === 'pages/antecedentes.html'));
+  assert.ok(!c.records.some((r) => r.kind === 'antecedente' && r.name === 'Agente da Casa'));
+  assert.ok(
+    c.records.some(
+      (r) => r.kind === 'antecedente' && r.name === 'Agente de Casa' && r.legacyIds.length === 1,
+    ),
+  );
+});
+
+test('consolidação não escolhe entre antecedentes homônimos de livros diferentes', async () => {
+  const sources = [...(await readLegacySources(root)), ...(await readJsonSources(root))];
+  const json = sources.find((s) => s.path === 'data/background.json')!;
+  const acolyte = json.records.find((r) => r.name === 'Acólito')!;
+  json.records.push({
+    ...acolyte,
+    key: 'antecedente:json:outro-livro:acolyte',
+    book: 'Outro livro',
+  });
+  const c = normalizeSources(sources, { records: {} });
+  assert.equal(c.records.filter((r) => r.kind === 'antecedente' && r.name === 'Acólito').length, 3);
+});
+
 test('datasets literais são extraídos sem executar scripts das páginas', () => {
   assert.deepEqual(
     readLiteralDataset(
@@ -121,7 +177,17 @@ test('datasets literais são extraídos sem executar scripts das páginas', () =
     /literal/i,
   );
 });
-test('confirmed identity alias preserves legacy UUID and original source variant',async()=>{
- const sources=[...await readLegacySources(root),...await readJsonSources(root)];const curation=JSON.parse(await readFile(path.join(root,'content/compendium/aliases.json'),'utf8'));const c=normalizeSources(sources,{records:{},aliases:curation.identities});
- const records=c.records.filter(r=>r.kind==='talento'&&r.name==='Espírito Manchado');assert.equal(records.length,1);assert.equal(records[0].sourcePath,'data/feats.json');assert.equal(records[0].legacyIds.length,1);assert.equal(records[0].alternatives.length,1);assert.equal(records[0].alternatives[0].sourcePath,'pages/talentos.html');assert.ok(records[0].alternatives[0].sourceId);
+test('confirmed identity alias preserves legacy UUID and original source variant', async () => {
+  const sources = [...(await readLegacySources(root)), ...(await readJsonSources(root))];
+  const curation = JSON.parse(
+    await readFile(path.join(root, 'content/compendium/aliases.json'), 'utf8'),
+  );
+  const c = normalizeSources(sources, { records: {}, aliases: curation.identities });
+  const records = c.records.filter((r) => r.kind === 'talento' && r.name === 'Espírito Manchado');
+  assert.equal(records.length, 1);
+  assert.equal(records[0].sourcePath, 'data/feats.json');
+  assert.equal(records[0].legacyIds.length, 1);
+  assert.equal(records[0].alternatives.length, 1);
+  assert.equal(records[0].alternatives[0].sourcePath, 'pages/talentos.html');
+  assert.ok(records[0].alternatives[0].sourceId);
 });

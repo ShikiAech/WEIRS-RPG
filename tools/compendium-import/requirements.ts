@@ -31,8 +31,12 @@ export function linkRequirements(
     minimum: number | null = null,
   ): RequirementNode => ({ operator, fields: { targetRef, minimum } });
   const feature = (name: string): RequirementNode | null => {
+    const names =
+      normalizeName(name) === 'pacto-magico'
+        ? ['magia-de-pacto', 'magia-de-pacto-da-alma-profana']
+        : [normalizeName(name)];
     const matches = lookup.entries.filter(
-      (e) => e.kind === 'caracteristica' && normalizeName(e.name) === normalizeName(name),
+      (e) => e.kind === 'caracteristica' && names.includes(normalizeName(e.name)),
     );
     return matches.length
       ? { operator: 'qualquer', children: matches.map((e) => leaf('caracteristica', e.ref)) }
@@ -40,6 +44,41 @@ export function linkRequirements(
   };
   function parse(raw: string, inherited = ''): RequirementNode | null {
     const text = raw.replace(/^a\s+(?=Característica)/i, '').trim();
+    const exclusive = /^Não Pode Ter Outro Talento (Selvagem|de Marca do Dragão)$/i.exec(text);
+    if (exclusive) {
+      const category = normalizeName(exclusive[1]) === 'selvagem' ? 'selvagem' : 'marca-dragao';
+      return {
+        operator: 'todos',
+        children: lookup.entries
+          .filter(
+            (e) =>
+              e.kind === 'talento' &&
+              e.data.category === category &&
+              e.ref.revisionId !== root.ownerRevisionId,
+          )
+          .map((e) => leaf('ausente', e.ref)),
+      };
+    }
+    const path = /^(?:pelo menos )?dois Talentos do Caminho (do Lich|do Cavaleiro da Morte)$/i.exec(
+      text,
+    );
+    if (path) {
+      const initiate = 'Iniciado ' + path[1];
+      const feats = lookup.entries.filter(
+        (e) =>
+          e.kind === 'talento' &&
+          e.data.category === 'vilania' &&
+          e.ref.revisionId !== root.ownerRevisionId &&
+          (e.name === initiate || e.data.prerequisiteText.includes('Talento ' + initiate)),
+      );
+      const pairs = feats.flatMap((a, i) =>
+        feats.slice(i + 1).map((b) => ({
+          operator: 'todos' as const,
+          children: [leaf('talento', a.ref), leaf('talento', b.ref)],
+        })),
+      );
+      return pairs.length ? { operator: 'qualquer', children: pairs } : null;
+    }
     if (/\s+ou\s+/i.test(text)) {
       const prefix = /^(Talento|Característica)\s+/i.exec(text)?.[1] ?? inherited;
       const parts = text.split(/\s+ou\s+/i).map((rawPart) => {
@@ -78,7 +117,7 @@ export function linkRequirements(
         return { operator: 'proficiencia', proficiency: { type: 'categoria', category } };
     }
     if (/^Característica\s+/i.test(text) || /^Magia de Pacto$/i.test(text))
-      return feature(text.replace(/^Característica\s+/i, ''));
+      return feature(text.replace(/^Característica\s+(?:de\s+)?/i, ''));
     const feat = /^Talento\s+(.+)$/i.exec(text);
     if (feat) {
       const repeated = /\s+repetido pelo menos uma vez$/i.test(feat[1]);

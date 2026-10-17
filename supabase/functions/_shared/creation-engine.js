@@ -936,7 +936,8 @@ function resolveConcessions(catalog, draft) {
 			const ancestorChoice = result.choices.filter((c) => c.group.key === group.key && node.id.startsWith(c.instance.id + "/")).reverse().map((c) => ({
 				group: c.group,
 				choice: draft.choices.find((s) => s.groupId === c.group.id && s.sourceInstanceId === c.instance.id)
-			})).find((c) => c.choice?.values.length);
+			})).find((c) => c.choice?.values.length || c.group.minimum >= group.minimum && c.group.maximum <= group.maximum && c.group.options.length > 0 && c.group.options.every((parentOption) => parentOption.targetRef && group.options.some((option) => option.targetRef?.revisionId === parentOption.targetRef.revisionId)));
+			if (ancestorChoice && !ancestorChoice.choice?.values.length) continue;
 			const inheritedValues = ancestorChoice?.choice?.values.flatMap((v) => {
 				const old = v.type === "option" ? ancestorChoice.group.options.find((o) => o.id === v.optionId) : null;
 				const oldRef = old?.targetRef ?? (old?.proficiencyId ? catalog.proficiencies.find((p) => p.id === old.proficiencyId)?.equipment : null);

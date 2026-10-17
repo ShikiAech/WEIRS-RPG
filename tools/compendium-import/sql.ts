@@ -667,6 +667,17 @@ export function generateSeed(c: ResolvedCatalog): string {
     importId = stableId('importacao:' + manifest);
   parts.push(
     insert(
+      'compendio_categorias_talento',
+      [
+        { codigo: 'selvagem', nome_pt: 'Talentos Selvagens' },
+        { codigo: 'vilania', nome_pt: 'Caminhos da Vilania' },
+        { codigo: 'weirs', nome_pt: 'Weirs' },
+      ],
+      'codigo',
+    ),
+  );
+  parts.push(
+    insert(
       'compendio_fontes',
       c.sources.map((s) => ({
         id: s.id,
@@ -814,6 +825,16 @@ export function generateSeed(c: ResolvedCatalog): string {
   parts.push(
     `SELECT public.publicar_compendio_lote(ARRAY[${ids.map(literal).join(',')}]::uuid[]);`,
   );
+  const published = new Set(ids);
+  const superseded = c.origins.flatMap((origin) =>
+    c.entries.some((e) => e.ref.recordId === origin.id && published.has(e.ref.revisionId))
+      ? (origin.supersededIds ?? [])
+      : [],
+  );
+  if (superseded.length)
+    parts.push(
+      `UPDATE public.compendio_registros SET ativo=false WHERE id=ANY(ARRAY[${superseded.map(literal).join(',')}]::uuid[]);`,
+    );
   parts.push('COMMIT;');
   return parts.filter(Boolean).join('\n\n') + '\n';
 }

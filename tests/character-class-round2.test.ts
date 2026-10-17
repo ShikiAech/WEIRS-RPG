@@ -25,6 +25,20 @@ const find = (kind: string, name: string) =>
 const groups = (name: string) =>
   catalog.choices.filter((g) => g.ownerRevisionId === find('classe', name).ref.revisionId);
 
+test('curated spell damage identifiers change with their published revision', () => {
+  const next = structuredClone(curation);
+  next.progressions.multiclassSlots[0][0] += 1;
+  const revised = resolveCatalog(
+    normalizeSources([...legacy, ...json], structuredClone(registry)),
+    next,
+  );
+  const before = find('magia', 'Golpe Divino');
+  const after = revised.entries.find((e) => e.kind === 'magia' && e.name === 'Golpe Divino')!;
+  assert.ok(before.kind === 'magia' && after.kind === 'magia');
+  assert.notEqual(before.ref.revisionId, after.ref.revisionId);
+  assert.notEqual(before.data.damages[0].id, after.data.damages[0].id);
+});
+
 function classDraft(name: string, level = 1) {
   const { draft, species, background } = fixture();
   const scoped = { ...catalog, entries: [...catalog.entries, species, background] };

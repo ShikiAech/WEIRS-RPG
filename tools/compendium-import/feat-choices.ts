@@ -246,6 +246,27 @@ export function curateFeatChoices(ctx: CuratedContext) {
     );
     ctx.grant(owner, context, 'contexto-ravenloft');
   }
+  for (const owner of c.entries.filter(
+    (e) => e.kind === 'talento' && e.sourcePath === 'data/feats.json',
+  )) {
+    if (
+      owner.kind !== 'talento' ||
+      owner.data.category !== 'marca-dragao' ||
+      !/^Campanha de Eberron, Não pode ter outro talento de Marca do Dragão$/i.test(
+        owner.data.prerequisiteText,
+      )
+    )
+      continue;
+    owner.data.requirementsComplete = true;
+    const context = feature(
+      owner,
+      'contexto-eberron',
+      'Contexto: Campanha de Eberron',
+      'Esta Marca do Dragão pertence a uma Campanha de Eberron. Confirme o contexto narrativo com o Mestre.',
+      true,
+    );
+    ctx.grant(owner, context, 'contexto-eberron');
+  }
   const pacts = ['Pacto Feérico', 'Pacto Infernal', 'Pacto das Sombras'].flatMap((name) => {
     const e = feat(name);
     return e ? [e] : [];

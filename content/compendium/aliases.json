@@ -21,6 +21,7 @@
   ],
   "unresolved": [],
   "identities": {
-    "talento:json:weirs:espirito-manchado": "talento:legacy:pages/talentos.html:espirito-manchado"
+    "talento:json:weirs:espirito-manchado": "talento:legacy:pages/talentos.html:espirito-manchado",
+    "antecedente:json:eberron-forge-of-the-artificer:house-agent": "antecedente:legacy:pages/antecedentes.html:agente-da-casa"
   }
 }

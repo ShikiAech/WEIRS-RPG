@@ -169,7 +169,25 @@ export function parsePrerequisites(
   }
   return { requirements, unsupported };
 }
-function featCategory(type: string, curation: CompendiumCuration): string {
+function featCategory(type: string, curation: CompendiumCuration, tags: string[] = []): string {
+  const categories: Record<string, string[]> = {
+    origem: ['origem', 'origin'],
+    geral: ['geral', 'general'],
+    'estilo-luta': ['estilo-de-luta', 'estilo-luta', 'luta', 'fighting-style'],
+    'dadiva-epica': ['dadiva-epica', 'dadivas-epicas', 'epico', 'epic-boon'],
+    'marca-dragao': ['marca-do-dragao', 'marcas-do-dragao', 'dragonmark'],
+    'pacto-planar': ['pacto-planar', 'pactos-planares', 'planar'],
+    'dom-sombrio': ['dom-sombrio', 'presente-sombrio', 'presentes-sombrios', 'dark', 'dark-gift'],
+    selvagem: ['selvagem', 'talento-selvagem', 'talentos-selvagens', 'wild'],
+    vilania: ['vilania', 'caminhos-da-vilania', 'vilanny', 'villainy'],
+    weirs: ['weirs'],
+  };
+  // Source tags (including Weirs) do not override an explicit feat category.
+  for (const value of [...tags.filter((t) => normalizeName(t) !== 'weirs'), type]) {
+    const normalized = normalizeName(value);
+    const category = Object.entries(categories).find(([, names]) => names.includes(normalized));
+    if (category) return category[0];
+  }
   const alias = curation.aliases.categories.find((c) =>
     c.names.some((n) => normalizeName(n) === normalizeName(type)),
   );
@@ -242,7 +260,7 @@ export function resolveCatalog(
     });
   // Curation is part of a revision: a changed formula or alias cannot silently alter a pinned sheet.
   const version = (r: CatalogDraftRecord) =>
-    revisionId(r.id, { sourceRevision: r.revisionId, curation, resolverVersion: 4 });
+    revisionId(r.id, { sourceRevision: r.revisionId, curation, resolverVersion: 5 });
   const create = <K extends CompendiumKind>(
     r: CatalogDraftRecord,
     data: CompendiumPayloadMap[K],
@@ -356,7 +374,11 @@ export function resolveCatalog(
       });
     else if (r.kind === 'talento')
       create<'talento'>(r, {
-        category: featCategory(p.type === 'feat' ? p.input.type : (meta.tipo ?? 'Geral'), curation),
+        category: featCategory(
+          p.type === 'feat' ? p.input.type : (meta.tipo ?? 'Geral'),
+          curation,
+          p.type === 'feat' ? p.input.tags : [],
+        ),
         prerequisiteText:
           p.type === 'feat'
             ? (p.input.prerequisite ?? '')
@@ -518,6 +540,9 @@ export function resolveCatalog(
   c.sources.push(coreSource);
   const parentSource = {
     ...firstSource,
+    id: coreSource.id,
+    pointer: '',
+    anchor: '',
     sourceId: coreSource.id,
     sourcePath: coreSource.path,
     sourceHash: coreSource.hash,
@@ -1014,6 +1039,19 @@ export function resolveCatalog(
           proficiency: (key, data) => proficiency(owner, key, data, 'ambas', false),
         },
       );
+      if (
+        owner.data.category === 'dadiva-epica' &&
+        !parsed.requirements.some((r) => r.operator === 'nivel' && (r.minimum ?? 0) >= 19)
+      ) {
+        const root = parsed.requirements.find((r) => r.parentId === null)!;
+        parsed.requirements.push({
+          ...root,
+          id: stableId(owner.ref.revisionId + ':epic-level'),
+          parentId: root.id,
+          operator: 'nivel',
+          minimum: 19,
+        });
+      }
       c.requirements.push(...parsed.requirements);
       owner.data.requirementsComplete = parsed.unsupported.length === 0;
       if (parsed.unsupported.length)
@@ -1346,6 +1384,33 @@ export function resolveCatalog(
         ),
     );
   }
+  const jsonFeatNames = new Set(
+    c.entries.flatMap((e) =>
+      e.kind === 'talento' && e.sourcePath === 'data/feats.json'
+        ? [e.name, e.originalName].map(normalizeName)
+        : [],
+    ),
+  );
+  const progressionFeats = c.entries.filter((e) => {
+    if (e.kind !== 'talento') return false;
+    if (e.sourcePath === 'data/feats.json') return true;
+    const original = raw.get(e.key)?.payload;
+    if (
+      ['geral', 'origem', 'estilo-luta', 'dadiva-epica'].includes(e.data.category) &&
+      !(
+        e.data.category === 'geral' &&
+        original?.type === 'legacy' &&
+        original.entry.metadata.grupo === 'weirs'
+      )
+    )
+      return false;
+    const names = [
+      e.name,
+      e.originalName,
+      ...(original?.type === 'legacy' ? [original.entry.metadata.nome ?? ''] : []),
+    ];
+    return !names.some((name) => jsonFeatNames.has(normalizeName(name)));
+  });
   for (const e of c.entries) {
     if (e.kind === 'especie')
       e.data.lineageRequired = c.entries.some(
@@ -1399,13 +1464,19 @@ export function resolveCatalog(
       for (const level of curation.progressions.featLevels?.[normalizeName(e.name)] ?? []) {
         const g = group(e, `talento-nivel-${level}`, `Talento do nível ${level}`, 1, 1, level);
         g.optionKind = 'talento';
-        for (const target of c.entries.filter(
+        for (const target of progressionFeats.filter(
           (t) =>
             t.kind === 'talento' &&
-            t.sourcePath === 'data/feats.json' &&
-            ['origem', 'geral', 'estilo-luta', ...(level >= 19 ? ['dadiva-epica'] : [])].includes(
-              t.data.category,
-            ),
+            [
+              'geral',
+              'marca-dragao',
+              'pacto-planar',
+              'dom-sombrio',
+              'selvagem',
+              'vilania',
+              'weirs',
+              'dadiva-epica',
+            ].includes(t.data.category),
         ))
           g.options.push({
             id: stableId(g.id + target.key),
