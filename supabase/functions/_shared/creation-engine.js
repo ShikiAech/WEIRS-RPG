@@ -2717,13 +2717,14 @@ async function request(client, name, args, signal) {
 	}
 }
 function createCompendiumRepository(client) {
-	async function catalog(refs, rules, signal) {
-		refs.forEach((r) => {
+	async function catalog(refs, rules, signal, optionalRefs = []) {
+		const requestedRefs = [...refs, ...optionalRefs];
+		requestedRefs.forEach((r) => {
 			uuid(r.recordId);
 			uuid(r.revisionId);
 		});
 		const raw = await request(client, "obter_compendio", {
-			p_revisoes: [...new Set(refs.map((r) => r.revisionId))],
+			p_revisoes: [...new Set(requestedRefs.map((r) => r.revisionId))],
 			p_conjunto: rules
 		}, signal);
 		let result;
@@ -2783,9 +2784,8 @@ function createCompendiumRepository(client) {
 				draft.lineageRef,
 				draft.backgroundRef,
 				...draft.classes.flatMap((c) => [c.classRef, c.subclassRef]),
-				...draft.spellSelections.map((s) => s.spellRef),
 				...draft.choices.flatMap((c) => c.values.flatMap((v) => v.type === "record" ? [v.ref] : []))
-			].filter((r) => !!r), draft.ruleSetId, signal);
+			].filter((r) => !!r), draft.ruleSetId, signal, draft.spellSelections.map((s) => s.spellRef));
 		}
 	};
 }

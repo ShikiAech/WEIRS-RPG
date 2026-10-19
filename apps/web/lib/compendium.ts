@@ -45,12 +45,18 @@ async function request<T>(
   }
 }
 export function createCompendiumRepository(client: SupabaseClient): CompendiumRepository {
-  async function catalog(refs: CompendiumRef[], rules: string | null, signal?: AbortSignal) {
-    refs.forEach((r) => {
+  async function catalog(
+    refs: CompendiumRef[],
+    rules: string | null,
+    signal?: AbortSignal,
+    optionalRefs: CompendiumRef[] = [],
+  ) {
+    const requestedRefs = [...refs, ...optionalRefs];
+    requestedRefs.forEach((r) => {
       uuid(r.recordId);
       uuid(r.revisionId);
     });
-    const ids = [...new Set(refs.map((r) => r.revisionId))];
+    const ids = [...new Set(requestedRefs.map((r) => r.revisionId))];
     const raw = await request<DatabaseCatalog>(
       client,
       'obter_compendio',
@@ -150,12 +156,17 @@ export function createCompendiumRepository(client: SupabaseClient): CompendiumRe
         draft.lineageRef,
         draft.backgroundRef,
         ...draft.classes.flatMap((c) => [c.classRef, c.subclassRef]),
-        ...draft.spellSelections.map((s) => s.spellRef),
         ...draft.choices.flatMap((c) =>
           c.values.flatMap((v) => (v.type === 'record' ? [v.ref] : [])),
         ),
       ].filter((r): r is CompendiumRef => !!r);
-      return catalog(refs, draft.ruleSetId, signal);
+      // Missing selected spells must reach reconciliation; origins and choice records remain required.
+      return catalog(
+        refs,
+        draft.ruleSetId,
+        signal,
+        draft.spellSelections.map((s) => s.spellRef),
+      );
     },
   };
 }

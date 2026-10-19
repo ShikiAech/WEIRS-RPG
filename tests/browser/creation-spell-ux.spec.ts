@@ -162,7 +162,7 @@ test('Iniciado sem lista pede resolução na origem sem oferecer catálogo unive
   });
 });
 
-test('trocar lista identifica seleção antiga e permite removê-la preservando outra origem', async ({
+test('trocar lista remove seleção antiga e avisa preservando outra origem', async ({
   page,
 }, info) => {
   // A repeatable feat may permit switching lists; Sábio itself normally fixes Mago.
@@ -201,23 +201,43 @@ test('trocar lista identifica seleção antiga e permite removê-la preservando 
   await page.getByRole('button', { name: '3 Antecedente', exact: true }).click();
   await lists.getByRole('combobox').click();
   await lists.getByRole('checkbox', { name: 'Clérigo', exact: true }).click();
+  const notice = page.getByRole('dialog', { name: 'Magias ajustadas', exact: true });
+  await expect(notice).toBeVisible();
+  await expect(notice).toContainText('Mãos Mágicas');
+  await expect(notice).toContainText('Iniciado em Magia');
+  await expect(notice).toContainText(/lista/i);
+  await expect(notice).not.toContainText('Bênção');
+  await notice.getByRole('button', { name: 'Entendi', exact: true }).click();
+  await expect(notice).not.toBeVisible();
+  await lists.getByRole('combobox').press('Escape');
   await expect(lists.getByRole('combobox')).toHaveValue('Clérigo');
   await page.getByRole('button', { name: '6 Magias', exact: true }).click();
   await initiate
     .getByLabel('Buscar magias de Iniciado em Magia', { exact: true })
     .fill('Mãos Mágicas');
-  const old = initiate.locator('.dropdown-option').filter({ hasText: 'Mãos Mágicas' });
-  await expect(old).toContainText('Indisponível para esta origem e nível');
+  await expect(initiate.getByRole('checkbox', { name: 'Mãos Mágicas', exact: true })).toHaveCount(
+    0,
+  );
   await expect(page.getByText('Consultando magias…', { exact: true })).toHaveCount(0);
   await page.screenshot({
     path: `artifacts/ux-swarm/fixes/${info.project.name}-spell-stale-selection.png`,
     fullPage: true,
   });
-  await old.getByRole('checkbox', { name: 'Mãos Mágicas', exact: true }).click();
-  await expect(old).toHaveCount(0);
   await cleric.getByRole('tab', { name: 'Círculo 1', exact: true }).click();
   await cleric.getByLabel('Buscar magias de Clérigo', { exact: true }).fill('Bênção');
   await expect(cleric.getByRole('checkbox', { name: 'Bênção', exact: true })).toBeChecked();
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const key = Object.keys(sessionStorage).find((key) =>
+          key.startsWith('weirs-rpg:creation-draft:'),
+        )!;
+        return JSON.parse(sessionStorage.getItem(key)!).value.draft.spellSelections.map(
+          (selection: any) => selection.spellRef.revisionId,
+        );
+      }),
+    )
+    .toEqual([entry('magia', 'Bênção').ref.revisionId]);
 });
 
 test('perfil com listas permitidas combina magias de ambas sem vazar outra lista', async ({

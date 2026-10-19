@@ -24,6 +24,12 @@ import { CreationLoading } from './CreationLoading';
 import { Dropdown } from '../../components/Dropdown';
 import { pruneDependentChoices } from './origins';
 import { commitClassLevels } from './class-levels';
+import {
+  reconcileSpellSelections,
+  type SpellSelectionChange,
+} from '../../../../packages/character-creation/reconcile-spells';
+import { SpellSelectionNotice } from './SpellSelectionNotice';
+import type { CompendiumEntry } from '../../../../packages/contracts/compendium';
 const steps = [
   'Atributos',
   'Espécie',
@@ -79,6 +85,23 @@ export function CharacterCreator({
     [saving, setSaving] = useState(false),
     [error, setError] = useState('');
   const [serverFields, setServerFields] = useState<{ campo: string; mensagem: string }[]>([]);
+  const [spellChanges, setSpellChanges] = useState<SpellSelectionChange[]>([]);
+  const spellEntries = useRef(new Map<string, CompendiumEntry>());
+  function notifySpellChanges(changes: SpellSelectionChange[]) {
+    if (!changes.length) return;
+    setSpellChanges((previous) => [
+      ...previous,
+      ...changes.filter(
+        (change) =>
+          !previous.some(
+            (old) =>
+              old.selection.profileId === change.selection.profileId &&
+              old.selection.spellRef.revisionId === change.selection.spellRef.revisionId &&
+              old.action === change.action,
+          ),
+      ),
+    ]);
+  }
   const busy = useRef(false),
     finished = useRef(false),
     mounted = useRef(true),
@@ -125,8 +148,7 @@ export function CharacterCreator({
   }, [compendium, key, retry]);
   useEffect(() => {
     if (loading || loadError || catalogKey !== key || state.value.attempt) return;
-    const reconcile = (current: CreatorDraft): CreatorDraft => {
-      if (current.attempt) return current;
+    const reconcile = (current: CreatorDraft) => {
       // Reload ends the old focus/blur lifecycle. Commit restored valid edits once rules are ready,
       // while leaving the actively edited input and invalid values untouched.
       const committed = commitClassLevels(
@@ -135,14 +157,27 @@ export function CharacterCreator({
         current.classLevelInputs,
         document.activeElement?.id,
       );
-      const next = pruneDependentChoices(catalog, committed);
-      return JSON.stringify(next) === JSON.stringify(current.draft)
-        ? current
-        : { ...current, draft: next };
+      const dependent = pruneDependentChoices(catalog, committed);
+      // Let spell reconciliation report removals instead of silently pruning missing origins.
+      const reconciled = reconcileSpellSelections(catalog, {
+        ...dependent,
+        spellSelections: committed.spellSelections,
+      });
+      return {
+        value:
+          JSON.stringify(reconciled.draft) === JSON.stringify(current.draft)
+            ? current
+            : { ...current, draft: reconciled.draft },
+        changes: reconciled.changes,
+      };
     };
-    const next = reconcile(state.value);
-    if (next !== state.value)
-      state.update((current) => (current === state.value ? next : reconcile(current)));
+    state.update((current) => {
+      // Another input may already have started loading a different catalog.
+      if (current !== state.value || current.attempt) return current;
+      const next = reconcile(current);
+      notifySpellChanges(next.changes);
+      return next.value;
+    });
   }, [catalog, catalogKey, key, loading, loadError, draft, classLevelInputs, state.value.attempt]);
   useEffect(() => {
     if (demo || !repository) return;
@@ -350,22 +385,69 @@ export function CharacterCreator({
                 preview={preview}
                 repository={compendium}
                 classLevelInputs={classLevelInputs}
-                onChange={(next, inputs) => {
+                spellEntries={spellEntries.current}
+                onChange={(change, inputs) => {
                   setError('');
-                  state.update((current) => ({
-                    ...current,
-                    draft: next,
-                    classLevelInputs: Object.fromEntries(
-                      next.classes.flatMap((cls) => {
-                        const previous = current.draft.classes.find((c) => c.id === cls.id);
-                        const input = (inputs ?? current.classLevelInputs)?.[cls.id];
-                        return previous?.classRef.revisionId === cls.classRef.revisionId &&
-                          input !== undefined
-                          ? [[cls.id, input]]
-                          : [];
-                      }),
-                    ),
-                  }));
+                  state.update((current) => {
+                    const next = typeof change === 'function' ? change(current.draft) : change;
+                    if (next === current.draft && inputs === undefined) return current;
+                    // Origin controls clear their own selections immediately. Capture their
+                    // labels while the previous catalog still contains the removed origin.
+                    const origins = (value: typeof draft) =>
+                      JSON.stringify([
+                        value.speciesRef,
+                        value.lineageRef,
+                        value.backgroundRef,
+                        value.classes,
+                        value.choices,
+                      ]);
+                    if (origins(current.draft) !== origins(next)) {
+                      const removed = current.draft.spellSelections.filter(
+                        (selection) =>
+                          !next.spellSelections.some(
+                            (remaining) =>
+                              remaining.profileId === selection.profileId &&
+                              remaining.spellRef.recordId === selection.spellRef.recordId &&
+                              remaining.spellRef.revisionId === selection.spellRef.revisionId,
+                          ),
+                      );
+                      notifySpellChanges(
+                        removed.map((selection) => {
+                          const entry =
+                            catalog.entries.find(
+                              (entry) => entry.ref.revisionId === selection.spellRef.revisionId,
+                            ) ?? spellEntries.current.get(selection.spellRef.revisionId);
+                          const profile = preview.spellcasting.profiles.find(
+                            (profile) => profile.id === selection.profileId,
+                          );
+                          return {
+                            selection,
+                            name: entry?.name ?? 'Magia indisponível',
+                            origin:
+                              catalog.entries.find(
+                                (entry) => entry.ref.revisionId === profile?.ownerRevisionId,
+                              )?.name ?? 'Origem de conjuração',
+                            action: 'removed' as const,
+                            reason: 'A origem de conjuração foi removida ou substituída.',
+                          };
+                        }),
+                      );
+                    }
+                    return {
+                      ...current,
+                      draft: next,
+                      classLevelInputs: Object.fromEntries(
+                        next.classes.flatMap((cls) => {
+                          const previous = current.draft.classes.find((c) => c.id === cls.id);
+                          const input = (inputs ?? current.classLevelInputs)?.[cls.id];
+                          return previous?.classRef.revisionId === cls.classRef.revisionId &&
+                            input !== undefined
+                            ? [[cls.id, input]]
+                            : [];
+                        }),
+                      ),
+                    };
+                  });
                 }}
               />
               {step === 6 && (
@@ -450,6 +532,9 @@ export function CharacterCreator({
         </div>
         <CreationSummary draft={draft} catalog={catalog} preview={preview} loading={loading} />
       </div>
+      {spellChanges.length > 0 && (
+        <SpellSelectionNotice changes={spellChanges} onClose={() => setSpellChanges([])} />
+      )}
     </div>
   );
 }

@@ -1,13 +1,15 @@
-import { useId, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import type { StepProps } from './types';
 import { useSpellOptions } from './useSpellOptions';
 import { Dropdown } from '../../components/Dropdown';
 import { CompendiumTooltip } from './CompendiumTooltip';
 import { additionalCantripConflict } from '../../../../packages/character-creation/additional-cantrips';
-import { resolveConcessions } from '../../../../packages/character-creation/concessions';
+import { resolveState } from '../../../../packages/character-creation/state';
+import { profileGrantedSpells } from '../../../../packages/character-creation/casting-grants';
+import { reconcileSpellSelections } from '../../../../packages/character-creation/reconcile-spells';
 import { ATRIBUTOS } from '../../../../packages/sheets/modelo.js';
 import type { SpellcastingBreakdown } from '../../../../packages/contracts/character-creation';
-import type { CompendiumSummary } from '../../../../packages/contracts/compendium';
+import type { CompendiumEntry, CompendiumSummary } from '../../../../packages/contracts/compendium';
 
 const normalize = (value: string) =>
   value
@@ -15,24 +17,41 @@ const normalize = (value: string) =>
     .replace(/[\u0300-\u036f]/g, '')
     .toLocaleLowerCase('pt-BR');
 
-function Profile(props: StepProps & { profile: SpellcastingBreakdown['profiles'][number] }) {
+function Profile(
+  props: StepProps & {
+    profile: SpellcastingBreakdown['profiles'][number];
+    spellEntries: Map<string, CompendiumEntry>;
+  },
+) {
   const { draft, catalog, profile, onChange, repository } = props;
   const id = useId();
   const tabs = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState('');
   const [chosenCircle, setCircle] = useState<number | null>(null);
-  // Retain query metadata while the selected-entry catalog is being refreshed.
-  const [selectedSummaries, setSelectedSummaries] = useState<
-    Record<string, { entry: CompendiumSummary; lists: string }>
-  >({});
+  // Retain verified spell details while the selected-entry catalog is refreshed.
+  const selectedEntries = props.spellEntries;
+  const [checking, setChecking] = useState(false);
+  const [selectionError, setSelectionError] = useState('');
+  const selectionRequest = useRef<AbortController | null>(null);
+  useEffect(() => () => selectionRequest.current?.abort(), []);
+  const spellCatalog = {
+    ...catalog,
+    entries: [
+      ...catalog.entries,
+      ...[...selectedEntries.values()].filter(
+        (entry) => !catalog.entries.some((e) => e.ref.revisionId === entry.ref.revisionId),
+      ),
+    ],
+  };
   const definition = catalog.castingProfiles.find((p) => profile.id.endsWith(`:${p.id}`));
   const owner = catalog.entries.find((e) => e.ref.revisionId === profile.ownerRevisionId);
-  const instance = resolveConcessions(catalog, draft).instances.find(
+  const creationState = resolveState(spellCatalog, draft);
+  const instance = creationState.concessions.instances.find(
     (instance) => profile.id === `${instance.id}/casting:${definition?.id}`,
   );
   const progress = definition?.progression.find((row) => row.level === instance?.level);
+  const grantedSpells = profileGrantedSpells(spellCatalog, creationState, instance, definition);
   const lists = profile.listClassRevisionIds ?? [];
-  const listKey = JSON.stringify([...lists].sort());
   const listRequired = !!profile.selectable && !lists.length;
   const circles = Array.from({ length: profile.maximumCircle + 1 }, (_, n) => n).filter(
     (n) => n !== 0 || profile.cantrips > 0,
@@ -42,40 +61,45 @@ function Profile(props: StepProps & { profile: SpellcastingBreakdown['profiles']
   const selections = draft.spellSelections
     .filter((s) => s.profileId === profile.id)
     .map((selection) => {
-      const entry = catalog.entries.find(
+      const entry = spellCatalog.entries.find(
         (e) =>
           e.ref.revisionId === selection.spellRef.revisionId &&
           e.ref.recordId === selection.spellRef.recordId,
       );
-      const cached = selectedSummaries[selection.spellRef.revisionId];
-      const fixed = definition?.spells.some(
+      const fixed = grantedSpells.some(
         (spell) =>
           spell.spellRef.revisionId === selection.spellRef.revisionId &&
           spell.level <= (instance?.level ?? 0),
       );
-      const spellCircle = entry?.kind === 'magia' ? entry.data.circle : cached?.entry.circle;
+      const spellCircle = entry?.kind === 'magia' ? entry.data.circle : undefined;
       const valid =
-        !additionalCantripConflict(catalog, draft, profile.id, selection.spellRef) &&
+        !additionalCantripConflict(spellCatalog, draft, profile.id, selection.spellRef) &&
         (fixed ||
           (spellCircle !== undefined &&
             spellCircle <= profile.maximumCircle &&
             (spellCircle !== 0 || profile.cantrips > 0) &&
-            (entry?.kind === 'magia'
-              ? entry.data.classRefs.some((ref) => lists.includes(ref.revisionId))
-              : cached?.lists === listKey)));
+            entry?.kind === 'magia' &&
+            entry.data.classRefs.some((ref) => lists.includes(ref.revisionId))));
       return {
         selection,
         entry,
-        summary: entry ?? cached?.entry,
+        summary: entry,
         circle: spellCircle,
         fixed,
         valid,
       };
     });
   const counted = selections.filter((s) => s.valid && !s.fixed);
-  const pendingSelections = selections.some(
-    (selection) => !selection.summary || selection.circle === undefined,
-  );
+  const pendingSelections =
+    selections.some((selection) => !selection.summary || selection.circle === undefined) ||
+    draft.spellSelections.some(
+      (selection) =>
+        !spellCatalog.entries.some(
+          (entry) =>
+            entry.ref.recordId === selection.spellRef.recordId &&
+            entry.ref.revisionId === selection.spellRef.revisionId,
+        ),
+    );
   const cantrips = counted.filter((s) => s.circle === 0).length;
   const spells = counted.filter((s) => s.circle !== undefined && s.circle > 0);
   const prepared = spells.filter((s) => s.selection.prepared).length;
@@ -104,7 +128,7 @@ function Profile(props: StepProps & { profile: SpellcastingBreakdown['profiles']
     { ruleSetId: draft.ruleSetId, kind: 'magia', query, circle },
     profile.selectable && !listRequired ? lists : [],
   );
-  // Selected entries remain available to uncheck even when paginated or no longer legal.
+  // Selected entries remain available to uncheck even when paginated.
   const options = [...results.entries];
   for (const selection of selections) {
     if (
@@ -123,59 +147,164 @@ function Profile(props: StepProps & { profile: SpellcastingBreakdown['profiles']
     const chosen = selections.find(
       (selection) => selection.selection.spellRef.recordId === entry.ref.recordId,
     );
-    const granted = definition?.spells.some(
+    const granted = grantedSpells.some(
       (spell) =>
         spell.spellRef.recordId === entry.ref.recordId && spell.level <= (instance?.level ?? 0),
     );
-    const duplicate = additionalCantripConflict(catalog, draft, profile.id, entry.ref);
-    const spellCircle = entry.circle ?? chosen?.circle ?? circle;
+    const detail = spellCatalog.entries.find(
+      (e) => e.ref.recordId === entry.ref.recordId && e.ref.revisionId === entry.ref.revisionId,
+    );
+    const prospective = chosen
+      ? draft
+      : {
+          ...draft,
+          spellSelections: [
+            ...draft.spellSelections,
+            {
+              profileId: profile.id,
+              spellRef: entry.ref,
+              prepared: false,
+            },
+          ],
+        };
+    // Also protect a cantrip picked in the additional origin before the class pick.
+    const duplicate =
+      additionalCantripConflict(spellCatalog, prospective, profile.id, entry.ref) ||
+      draft.spellSelections.some(
+        (s) =>
+          s.profileId !== profile.id &&
+          s.spellRef.recordId === entry.ref.recordId &&
+          additionalCantripConflict(spellCatalog, prospective, s.profileId, s.spellRef),
+      );
+    const spellCircle =
+      detail?.kind === 'magia' ? detail.data.circle : (entry.circle ?? chosen?.circle ?? circle);
+    const unavailable =
+      entry.kind !== 'magia' || entry.ruleSetId !== draft.ruleSetId
+        ? 'Esta opção não é uma magia deste conjunto de regras.'
+        : spellCircle !== circle ||
+            spellCircle > profile.maximumCircle ||
+            (spellCircle === 0 && !profile.cantrips)
+          ? 'Esta magia não está disponível neste círculo e nível.'
+          : detail &&
+              (detail.kind !== 'magia' ||
+                !detail.data.classRefs.some((ref) => lists.includes(ref.revisionId)))
+            ? 'Esta magia não pertence à lista permitida para esta origem.'
+            : '';
     const atLimit =
       spellCircle === 0
         ? cantrips >= profile.cantrips
         : (knownLimit != null && spells.length >= knownLimit) ||
           (definition?.method !== 'grimorio' && preparedLimit != null && prepared >= preparedLimit);
-    const disabled = granted || (!chosen && (duplicate || atLimit || pendingSelections));
+    const disabled =
+      granted ||
+      (!chosen && (!!unavailable || duplicate || atLimit || pendingSelections || checking));
     const reason = granted
       ? 'Concedida automaticamente; não conta na cota.'
-      : duplicate
-        ? 'Já conhecido pela classe; escolha outro truque.'
-        : chosen && !chosen.valid
-          ? 'Indisponível para esta origem e nível. Desmarque para ajustar a seleção.'
-          : !chosen && pendingSelections
-            ? 'Atualizando seleções…'
-            : !chosen && atLimit
-              ? 'Limite de seleção atingido.'
-              : '';
+      : unavailable
+        ? unavailable
+        : duplicate
+          ? 'Já conhecido pela classe ou pelo truque adicional; escolha outro truque.'
+          : chosen && !chosen.valid
+            ? 'Indisponível para esta origem e nível. Desmarque para ajustar a seleção.'
+            : !chosen && (pendingSelections || checking)
+              ? 'Atualizando seleções…'
+              : !chosen && atLimit
+                ? 'Limite de seleção atingido.'
+                : '';
     return { chosen, granted, spellCircle, disabled, reason };
   };
   const toggleSpell = (recordId: string) => {
     const entry = options.find((option) => option.ref.recordId === recordId);
     if (!entry) return;
     const state = optionState(entry);
-    if (state.disabled) return;
-    setSelectedSummaries((old) => ({
-      ...old,
-      [entry.ref.revisionId]: { entry: { ...entry, circle: state.spellCircle }, lists: listKey },
-    }));
-    onChange({
-      ...draft,
-      spellSelections: state.chosen
-        ? draft.spellSelections.filter(
-            (selection) =>
-              selection.profileId !== profile.id || selection.spellRef.recordId !== recordId,
+    if (state.disabled || selectionRequest.current) return;
+    setSelectionError('');
+    if (state.chosen) {
+      onChange({
+        ...draft,
+        spellSelections: draft.spellSelections.filter(
+          (selection) =>
+            selection.profileId !== profile.id || selection.spellRef.recordId !== recordId,
+        ),
+      });
+      return;
+    }
+    const apply = (detail: CompendiumEntry) => {
+      if (
+        detail.ref.recordId !== entry.ref.recordId ||
+        detail.ref.revisionId !== entry.ref.revisionId
+      ) {
+        setSelectionError('A referência desta magia mudou. Atualize a busca e tente novamente.');
+        return;
+      }
+      selectedEntries.set(detail.ref.revisionId, detail);
+      if (
+        detail.kind !== 'magia' ||
+        detail.ruleSetId !== draft.ruleSetId ||
+        detail.data.circle !== circle
+      ) {
+        setSelectionError(`${entry.name}: Esta opção não é uma magia permitida neste círculo.`);
+        return;
+      }
+      // Apply to the latest draft, including other selections that completed while
+      // this request was pending. Shared verified details cover catalogs in transit.
+      onChange((current) => {
+        if (
+          current.spellSelections.some(
+            (s) => s.profileId === profile.id && s.spellRef.recordId === entry.ref.recordId,
           )
-        : [
-            ...draft.spellSelections,
-            {
-              profileId: profile.id,
-              spellRef: entry.ref,
-              prepared:
-                definition?.method !== 'grimorio' ||
-                preparedLimit == null ||
-                prepared < preparedLimit,
-            },
+        )
+          return current;
+        const selection = { profileId: profile.id, spellRef: entry.ref, prepared: true };
+        const next = { ...current, spellSelections: [...current.spellSelections, selection] };
+        const verifiedCatalog = {
+          ...catalog,
+          entries: [
+            ...catalog.entries,
+            ...[...selectedEntries.values()].filter(
+              (entry) => !catalog.entries.some((e) => e.ref.revisionId === entry.ref.revisionId),
+            ),
           ],
-    });
+        };
+        const reconciled = reconcileSpellSelections(verifiedCatalog, next);
+        // A full preparation quota still allows adding an unprepared book spell.
+        const rejection = reconciled.changes.find(
+          (change) => change.selection !== selection || change.action !== 'unprepared',
+        );
+        if (rejection) {
+          setSelectionError(`${entry.name}: ${rejection.reason}`);
+          return current;
+        }
+        return reconciled.draft;
+      });
+    };
+    const detail = spellCatalog.entries.find(
+      (e) => e.ref.recordId === entry.ref.recordId && e.ref.revisionId === entry.ref.revisionId,
+    );
+    if (detail) {
+      apply(detail);
+      return;
+    }
+    const controller = new AbortController();
+    selectionRequest.current = controller;
+    setChecking(true);
+    repository
+      .get(entry.ref, controller.signal)
+      .then((detail) => {
+        if (!controller.signal.aborted) apply(detail);
+      })
+      .catch(() => {
+        if (!controller.signal.aborted)
+          setSelectionError(
+            `Não foi possível verificar ${entry.name}. Tente selecionar novamente.`,
+          );
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) {
+          selectionRequest.current = null;
+          setChecking(false);
+        }
+      });
   };
   return (
     <fieldset className="creation-casting">
@@ -298,8 +427,14 @@ function Profile(props: StepProps & { profile: SpellcastingBreakdown['profiles']
                 })
                 .map((entry) => entry.ref.recordId)}
               onSelect={toggleSpell}
-              loading={results.loading || pendingSelections}
-              loadingLabel={pendingSelections ? 'Atualizando seleções…' : 'Consultando magias…'}
+              loading={results.loading || pendingSelections || checking}
+              loadingLabel={
+                checking
+                  ? 'Verificando magia…'
+                  : pendingSelections
+                    ? 'Atualizando seleções…'
+                    : 'Consultando magias…'
+              }
               error={results.error}
               onRetry={results.retry}
               hasMore={!!results.nextCursor}
@@ -353,6 +488,11 @@ function Profile(props: StepProps & { profile: SpellcastingBreakdown['profiles']
                 };
               })}
             />
+            {selectionError && (
+              <p className="notice error" role="alert">
+                {selectionError}
+              </p>
+            )}
           </div>
         </>
       )}
@@ -361,6 +501,7 @@ function Profile(props: StepProps & { profile: SpellcastingBreakdown['profiles']
 }
 
 export function SpellStep(props: StepProps) {
+  const fallbackEntries = useRef(new Map<string, CompendiumEntry>());
   const s = props.preview.spellcasting;
   return (
     <section>
@@ -378,7 +519,12 @@ export function SpellStep(props: StepProps) {
           ` · Pacto: ${s.pactSlots.map((v) => `${v.total} de ${v.circle}º`).join(', ')}`}
       </p>
       {s.profiles.map((profile) => (
-        <Profile {...props} profile={profile} key={profile.id} />
+        <Profile
+          {...props}
+          spellEntries={props.spellEntries ?? fallbackEntries.current}
+          profile={profile}
+          key={profile.id}
+        />
       ))}
     </section>
   );

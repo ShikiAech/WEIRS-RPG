@@ -47,6 +47,9 @@
 .creation-workspace>.eyebrow { border-bottom:1px solid var(--border-fantasy);margin:0 0 1.5rem;padding-bottom:1rem; }
 .creation-stage { position:relative;min-height:16rem; }
 .creation-stage h2 { margin-bottom:.6rem; }
+.creation-spell-notice { width:min(40rem,calc(100vw - 2rem));box-sizing:border-box; }
+.creation-spell-notice li { margin:1rem 0;overflow-wrap:anywhere; }
+.creation-spell-notice li p { margin:.35rem 0; }
 .creation-stage h3 { color:var(--gold-bright);font-size:1.05rem;margin-top:1.8rem; }
 .creation-stage section>p:first-of-type { margin-bottom:1.5rem;color:var(--creation-muted); }
 .creation-stage label>label { font-size:.9rem;font-weight:500; }
