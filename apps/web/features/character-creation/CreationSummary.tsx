@@ -1,15 +1,17 @@
 import type { StepProps } from './types';
 import { abilities, modifier } from '../../../../packages/character-creation/abilities';
 import { ATRIBUTOS } from '../../../../packages/sheets/modelo.js';
+import { CreationLoading } from './CreationLoading';
 export function CreationSummary({
   draft,
   catalog,
   preview,
-}: Pick<StepProps, 'draft' | 'catalog' | 'preview'>) {
+  loading = false,
+}: Pick<StepProps, 'draft' | 'catalog' | 'preview'> & { loading?: boolean }) {
   const name = (id: string | undefined) =>
     catalog.entries.find((e) => e.ref.revisionId === id)?.name;
   return (
-    <aside className="creation-summary" aria-label="Resumo do personagem">
+    <aside className="creation-summary" aria-label="Resumo do personagem" aria-busy={loading}>
       <p className="eyebrow">Seu personagem</p>
       <h2>{name(draft.speciesRef?.revisionId) || 'Espécie a escolher'}</h2>
       <p>{name(draft.backgroundRef?.revisionId) || 'Antecedente a escolher'}</p>
@@ -45,7 +47,11 @@ export function CreationSummary({
           <dd>+{preview.proficiencyBonus}</dd>
         </div>
       </dl>
-      <p className="muted">{preview.problems.length} pendência(s) para revisar.</p>
+      {loading ? (
+        <CreationLoading label="Atualizando resumo…" />
+      ) : (
+        <p className="muted">{preview.problems.length} pendência(s) para revisar.</p>
+      )}
     </aside>
   );
 }

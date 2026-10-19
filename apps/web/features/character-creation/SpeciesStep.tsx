@@ -3,6 +3,7 @@ import { CatalogSelect } from './CatalogSelect';
 import { ChoicePanel } from './ChoicePanel';
 import { clearOrigins } from './origins';
 import type { StepProps } from './types';
+import { Dropdown } from '../../components/Dropdown';
 export function SpeciesStep(props: StepProps) {
   const { draft, catalog, onChange, repository } = props;
   const species = catalog.entries.find((e) => e.ref.revisionId === draft.speciesRef?.revisionId);
@@ -46,43 +47,33 @@ export function SpeciesStep(props: StepProps) {
             {species.name} · Tipo: {species.data.creatureType} · {species.source.title}
           </p>
           <div className="creation-fields">
-            <label>
-              Forma
-              <select
-                aria-label="Forma"
-                value={draft.form}
-                onChange={(e) =>
-                  onChange({
-                    ...draft,
-                    form: e.target.value,
-                    size: sizes.find((s) => s.form === e.target.value)?.code ?? null,
-                  })
-                }
-              >
-                {[...new Set(sizes.map((s) => s.form))].map((form) => (
-                  <option key={form} value={form}>
-                    {form || 'Padrão'}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              Tamanho
-              <select
-                aria-label="Tamanho"
-                value={draft.size ?? ''}
-                onChange={(e) => onChange({ ...draft, size: e.target.value || null })}
-              >
-                <option value="">Escolha…</option>
-                {sizes
-                  .filter((s) => !s.form || s.form === draft.form)
-                  .map((s) => (
-                    <option key={s.code + s.form} value={s.code}>
-                      {s.code}
-                    </option>
-                  ))}
-              </select>
-            </label>
+            <Dropdown
+              label="Forma"
+              searchable={false}
+              value={draft.form}
+              onSelect={(form) =>
+                onChange({
+                  ...draft,
+                  form,
+                  size: sizes.find((s) => s.form === form)?.code ?? null,
+                })
+              }
+              options={[...new Set(sizes.map((s) => s.form))].map((form) => ({
+                value: form,
+                label: form || 'Padrão',
+              }))}
+            />
+            <Dropdown
+              label="Tamanho"
+              searchable={false}
+              placeholder="Escolha…"
+              value={draft.size}
+              onSelect={(size) => onChange({ ...draft, size })}
+              onClear={() => onChange({ ...draft, size: null })}
+              options={sizes
+                .filter((s) => !s.form || s.form === draft.form)
+                .map((s) => ({ value: s.code, label: s.code }))}
+            />
           </div>
           <CatalogSelect
             label="Linhagem (quando houver)"

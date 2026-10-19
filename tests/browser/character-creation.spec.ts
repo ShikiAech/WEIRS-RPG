@@ -1,6 +1,12 @@
 import { test, expect, type Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
+import { selectDropdown } from './dropdown';
 const snapshot = JSON.parse(await readFile('public/compendium/demo.json', 'utf8')).catalog;
+test.beforeEach(async ({ page }) => {
+  await page.route('**/compendium/demo.json', (route) =>
+    route.fulfill({ json: { schemaVersion: 1, mode: 'demonstracao', catalog: snapshot } }),
+  );
+});
 const find = (kind: string, name: string, path?: string) =>
   snapshot.entries.find(
     (e: any) => e.kind === kind && e.name === name && (!path || e.source.path === path),
@@ -82,23 +88,28 @@ test('assistente demonstra atributos, origens e revisão antes de abrir a ficha'
   await chooseCatalog(page, 'Antecedente', 'Criminoso', bg.sourceTitle);
   await page.getByLabel('Destreza: bônus do antecedente', { exact: true }).fill('2');
   await page.getByLabel('Constituição: bônus do antecedente', { exact: true }).fill('1');
-  await page
-    .getByLabel('Equipamento de Criminoso', { exact: true })
-    .selectOption(
-      snapshot.equipmentOptions.find(
-        (o: any) => o.ownerRevisionId === bg.ref.revisionId && o.key === 'B',
-      ).id,
-    );
+  await selectDropdown(
+    page.getByLabel('Equipamento de Criminoso', { exact: true }),
+    snapshot.equipmentOptions.find(
+      (o: any) => o.ownerRevisionId === bg.ref.revisionId && o.key === 'B',
+    ).id,
+  );
   await page.getByRole('button', { name: 'Próxima etapa', exact: true }).click();
   const cls = find('classe', 'Guerreiro');
   await chooseCatalog(page, 'Classe', 'Guerreiro', cls.sourceTitle);
+  const skills = page.getByRole('group', { name: 'Perícias da classe inicial', exact: true });
+  await skills.getByRole('combobox').click();
   await page.getByLabel('Atletismo', { exact: true }).check();
   await page.getByLabel('Percepção', { exact: true }).check();
+  await skills.getByRole('combobox').press('Escape');
   const style = snapshot.entries.find(
     (e: any) =>
       e.kind === 'talento' && e.source.path === 'data/feats.json' && e.originalName === 'Archery',
   );
-  await page.getByLabel(style.name, { exact: true }).check();
+  const styleChoice = page.getByRole('group', { name: 'Estilo de luta', exact: true });
+  await styleChoice.getByRole('combobox').fill(style.name);
+  await styleChoice.getByRole('checkbox', { name: style.name, exact: true }).click();
+  await expect(styleChoice.getByRole('combobox')).toHaveValue(style.name);
   const mastery = snapshot.choices.find(
     (g: any) => g.ownerRevisionId === cls.ref.revisionId && g.key === 'maestrias-1',
   );
@@ -106,13 +117,13 @@ test('assistente demonstra atributos, origens e revisão antes de abrir a ficha'
     await page.getByLabel(`Buscar em ${mastery.name}`, { exact: true }).fill(option.name);
     await page.getByLabel(option.name, { exact: true }).check();
   }
-  await page
-    .getByLabel('Equipamento de Guerreiro', { exact: true })
-    .selectOption(
-      snapshot.equipmentOptions.find(
-        (o: any) => o.ownerRevisionId === cls.ref.revisionId && o.key === 'C',
-      ).id,
-    );
+  await page.getByLabel(`Buscar em ${mastery.name}`, { exact: true }).press('Escape');
+  await selectDropdown(
+    page.getByLabel('Equipamento de Guerreiro', { exact: true }),
+    snapshot.equipmentOptions.find(
+      (o: any) => o.ownerRevisionId === cls.ref.revisionId && o.key === 'C',
+    ).id,
+  );
   await page.getByRole('button', { name: 'Próxima etapa', exact: true }).click();
   await expect(page.getByText(/PV máximos:/)).toBeVisible();
   await page.getByRole('button', { name: 'Próxima etapa', exact: true }).click();
@@ -137,13 +148,18 @@ test('autocomplete pagina opções e mantém linhagens, subclasses e multiclasse
   page,
 }) => {
   await page.goto('app.html#/fichas/nova?demo=1');
-  await expect(page.getByText('Atualizando regras e benefícios…', { exact: true })).toBeHidden({
+  await expect(page.getByLabel('Resumo do personagem')).toHaveAttribute('aria-busy', 'false', {
     timeout: 20_000,
   });
   await page.getByRole('button', { name: '2 Espécie', exact: true }).click();
   await page.getByRole('combobox', { name: 'Espécie', exact: true }).click();
   await expect(page.getByRole('option')).toHaveCount(24);
   await page.getByRole('button', { name: 'Carregar mais opções de espécie', exact: true }).click();
+  await expect(page.getByRole('combobox', { name: 'Espécie', exact: true })).toBeFocused();
+  await expect(page.getByRole('combobox', { name: 'Espécie', exact: true })).toHaveAttribute(
+    'aria-expanded',
+    'true',
+  );
   await expect(
     page.getByRole('option', { name: 'Zonuianos · WEIRS - Homebrew', exact: true }),
   ).toBeVisible();
@@ -222,7 +238,7 @@ test('nível da classe aceita apagar e exige um inteiro de 1 a 20 antes de concl
   await chooseCatalog(page, 'Classe', 'Classe de teste', 'Teste');
   await page.getByRole('button', { name: '7 Revisão', exact: true }).click();
   await page.getByLabel('Nome do personagem', { exact: true }).fill('Nível obrigatório');
-  await page.getByLabel('Campanha', { exact: true }).selectOption(campaignId);
+  await selectDropdown(page.getByLabel('Campanha', { exact: true }), campaignId);
   const submit = page.getByRole('button', { name: 'Criar ficha na campanha', exact: true });
   await expect(submit).toBeEnabled();
 
@@ -314,7 +330,7 @@ test('autocomplete recupera falha de busca sem perder a seleção atual', async 
   unavailable = true;
   const species = page.getByRole('combobox', { name: 'Espécie', exact: true });
   await species.fill('outra espécie');
-  await expect(page.locator('.catalog-dropdown').getByRole('alert')).toBeVisible();
+  await expect(page.locator('.dropdown-popup').getByRole('alert')).toBeVisible();
   unavailable = false;
   await page.getByRole('button', { name: 'Tentar novamente', exact: true }).click();
   await expect(
@@ -340,7 +356,7 @@ test('criação autenticada repete a mesma tentativa depois de resposta perdida'
   await chooseCatalog(page, 'Classe', 'Classe de teste', 'Teste');
   await page.getByRole('button', { name: '7 Revisão', exact: true }).click();
   await page.getByLabel('Nome do personagem', { exact: true }).fill('Persistente');
-  await page.getByLabel('Campanha', { exact: true }).selectOption(campaignId);
+  await selectDropdown(page.getByLabel('Campanha', { exact: true }), campaignId);
   await page.getByRole('button', { name: 'Criar ficha na campanha', exact: true }).click();
   await expect(page.getByRole('alert')).toContainText('Não foi possível');
   expect(backend.state.rows).toHaveLength(1);
@@ -434,7 +450,11 @@ test('editar atributos durante falha do catálogo preserva escolhas existentes',
   await page.goto('app.html#/fichas/nova');
   await page.getByRole('button', { name: '2 Espécie', exact: true }).click();
   await chooseCatalog(page, 'Espécie', 'Espécie de teste', 'Teste');
-  await page.getByLabel('Aparência vigilante', { exact: true }).check();
+  await page.getByRole('group', { name: 'Aparência', exact: true }).getByRole('combobox').click();
+  await page.getByLabel('Aparência vigilante', { exact: true }).click();
+  await expect(
+    page.getByRole('group', { name: 'Aparência', exact: true }).getByRole('combobox'),
+  ).toHaveValue('Aparência vigilante');
   unavailable = true;
   page.once('dialog', (dialog) => dialog.accept());
   await page.getByRole('link', { name: 'Fichas', exact: true }).click();
@@ -450,5 +470,6 @@ test('editar atributos durante falha do catálogo preserva escolhas existentes',
     page.getByRole('alert').filter({ hasText: 'Suas escolhas foram preservadas' }),
   ).toHaveCount(0);
   await page.getByRole('button', { name: '2 Espécie', exact: true }).click();
+  await page.getByRole('group', { name: 'Aparência', exact: true }).getByRole('combobox').click();
   await expect(page.getByLabel('Aparência vigilante', { exact: true })).toBeChecked();
 });

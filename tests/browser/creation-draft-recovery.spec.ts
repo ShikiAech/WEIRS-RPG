@@ -2,12 +2,18 @@ import { test, expect, type Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import { creationBackend } from './creation-backend';
 import { campaignId } from './backend';
+import { selectDropdown } from './dropdown';
 
 const catalog = JSON.parse(await readFile('public/compendium/demo.json', 'utf8')).catalog;
+test.beforeEach(async ({ page }) => {
+  await page.route('**/compendium/demo.json', (route) =>
+    route.fulfill({ json: { schemaVersion: 1, mode: 'demonstracao', catalog } }),
+  );
+});
 const storagePrefix = 'weirs-rpg:creation-draft:';
 
 async function settled(page: Page) {
-  await expect(page.getByText('Atualizando regras e benefícios…', { exact: true })).toBeHidden({
+  await expect(page.getByLabel('Resumo do personagem')).toHaveAttribute('aria-busy', 'false', {
     timeout: 20_000,
   });
 }
@@ -39,9 +45,13 @@ test('demo: reload recupera origens, escolhas, nome, PV e nível vazio obrigató
   await level.fill('3');
   await level.press('Tab');
   await choose(page, 'Subclasse de Guerreiro', 'Campeão', 'subclasse');
+  await page
+    .getByRole('group', { name: 'Perícias da classe inicial', exact: true })
+    .getByRole('combobox')
+    .click();
   await page.getByLabel('Atletismo', { exact: true }).check();
   await page.getByRole('button', { name: '5 Vida e defesas', exact: true }).click();
-  await page.getByLabel('Método de PV do nível 3', { exact: true }).selectOption('external');
+  await selectDropdown(page.getByLabel('Método de PV do nível 3', { exact: true }), 'external');
   await page.getByLabel('Resultado de PV do nível 3', { exact: true }).fill('7');
   await page.getByRole('button', { name: '7 Revisão', exact: true }).click();
   await page.getByLabel('Nome do personagem', { exact: true }).fill('Rascunho recuperado');
@@ -61,10 +71,21 @@ test('demo: reload recupera origens, escolhas, nome, PV e nível vazio obrigató
   );
   await expect(
     page.getByRole('combobox', { name: 'Subclasse de Guerreiro', exact: true }),
-  ).toHaveValue('Campeão');
+  ).toHaveAttribute(
+    'data-value',
+    catalog.entries.find((entry: any) => entry.kind === 'subclasse' && entry.name === 'Campeão').ref
+      .revisionId,
+  );
+  await page
+    .getByRole('group', { name: 'Perícias da classe inicial', exact: true })
+    .getByRole('combobox')
+    .click();
   await expect(page.getByLabel('Atletismo', { exact: true })).toBeChecked();
   await page.getByRole('button', { name: '5 Vida e defesas', exact: true }).click();
-  await expect(page.getByLabel('Método de PV do nível 3', { exact: true })).toHaveValue('external');
+  await expect(page.getByLabel('Método de PV do nível 3', { exact: true })).toHaveAttribute(
+    'data-value',
+    'external',
+  );
   await expect(page.getByLabel('Resultado de PV do nível 3', { exact: true })).toHaveValue('7');
   await page.getByRole('button', { name: '2 Espécie', exact: true }).click();
   await expect(page.getByRole('combobox', { name: 'Espécie', exact: true })).toHaveValue('Anansis');
@@ -97,7 +118,7 @@ test('demo: reload aplica nível válido pendente sem perder subclasse e PV ante
   await level.press('Tab');
   await choose(page, 'Subclasse de Guerreiro', 'Campeão', 'subclasse');
   await page.getByRole('button', { name: '5 Vida e defesas', exact: true }).click();
-  await page.getByLabel('Método de PV do nível 3', { exact: true }).selectOption('external');
+  await selectDropdown(page.getByLabel('Método de PV do nível 3', { exact: true }), 'external');
   await page.getByLabel('Resultado de PV do nível 3', { exact: true }).fill('7');
   await page.getByRole('button', { name: '4 Classes', exact: true }).click();
   await level.fill('12');
@@ -108,10 +129,17 @@ test('demo: reload aplica nível válido pendente sem perder subclasse e PV ante
   await expect(page.getByLabel('Resumo do personagem')).toContainText('Guerreiro 12');
   await expect(
     page.getByRole('combobox', { name: 'Subclasse de Guerreiro', exact: true }),
-  ).toHaveValue('Campeão');
+  ).toHaveAttribute(
+    'data-value',
+    catalog.entries.find((entry: any) => entry.kind === 'subclasse' && entry.name === 'Campeão').ref
+      .revisionId,
+  );
   await page.getByRole('button', { name: '5 Vida e defesas', exact: true }).click();
   await expect(page.getByText('Nível 12 · Guerreiro', { exact: true })).toBeVisible();
-  await expect(page.getByLabel('Método de PV do nível 3', { exact: true })).toHaveValue('external');
+  await expect(page.getByLabel('Método de PV do nível 3', { exact: true })).toHaveAttribute(
+    'data-value',
+    'external',
+  );
   await expect(page.getByLabel('Resultado de PV do nível 3', { exact: true })).toHaveValue('7');
 });
 
@@ -235,7 +263,7 @@ async function readyAuthenticated(page: Page) {
   await choose(page, 'Classe', 'Classe de teste');
   await page.getByRole('button', { name: '7 Revisão', exact: true }).click();
   await page.getByLabel('Nome do personagem', { exact: true }).fill('Pedido recuperado');
-  await page.getByLabel('Campanha', { exact: true }).selectOption(campaignId);
+  await selectDropdown(page.getByLabel('Campanha', { exact: true }), campaignId);
 }
 
 test('auth: reload preserva tentativa idempotente e sucesso limpa o rascunho', async ({ page }) => {
@@ -251,7 +279,10 @@ test('auth: reload preserva tentativa idempotente e sucesso limpa o rascunho', a
     'Pedido recuperado',
   );
   await expect(page.getByLabel('Nome do personagem', { exact: true })).toBeDisabled();
-  await expect(page.getByLabel('Campanha', { exact: true })).toHaveValue(campaignId);
+  await expect(page.getByLabel('Campanha', { exact: true })).toHaveAttribute(
+    'data-value',
+    campaignId,
+  );
   await page.getByRole('button', { name: 'Criar ficha na campanha', exact: true }).click();
   await expect(page.getByText('Ficha de personagem', { exact: true })).toBeVisible();
   expect(backend.state.rows).toHaveLength(1);

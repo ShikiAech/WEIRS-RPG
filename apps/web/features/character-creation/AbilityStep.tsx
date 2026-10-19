@@ -1,6 +1,7 @@
 import { abilities, modifier } from '../../../../packages/character-creation/abilities';
 import { ATRIBUTOS } from '../../../../packages/sheets/modelo.js';
 import type { StepProps } from './types';
+import { Dropdown } from '../../components/Dropdown';
 function die() {
   const n = new Uint8Array(1);
   do {
@@ -74,47 +75,53 @@ export function AbilityStep({ draft, preview, onChange }: StepProps) {
       )}
       <div className="creation-abilities">
         {abilities.map((ability) => (
-          <label key={ability}>
-            {ATRIBUTOS[ability]}: valor base
+          <div key={ability}>
             {a.mode === 'external' ? (
-              <input
-                aria-label={`${ATRIBUTOS[ability]}: valor base`}
-                type="number"
-                min="1"
-                max="30"
-                value={a.external[ability] ?? ''}
-                onChange={(e) => {
-                  const external = { ...a.external };
-                  if (e.target.value === '') delete external[ability];
-                  else external[ability] = Number(e.target.value);
-                  patch({ external });
-                }}
-              />
+              <label>
+                {ATRIBUTOS[ability]}: valor base
+                <input
+                  aria-label={`${ATRIBUTOS[ability]}: valor base`}
+                  type="number"
+                  min="1"
+                  max="30"
+                  value={a.external[ability] ?? ''}
+                  onChange={(e) => {
+                    const external = { ...a.external };
+                    if (e.target.value === '') delete external[ability];
+                    else external[ability] = Number(e.target.value);
+                    patch({ external });
+                  }}
+                />
+              </label>
             ) : (
-              <select
-                aria-label={`${ATRIBUTOS[ability]}: valor base`}
-                value={a.assignment[ability] ?? ''}
+              <Dropdown
+                label={`${ATRIBUTOS[ability]}: valor base`}
+                value={a.assignment[ability] === undefined ? null : String(a.assignment[ability])}
                 disabled={a.selectedSet === null}
-                onChange={(e) => {
+                searchable={false}
+                placeholder="Distribuir…"
+                onSelect={(value) => {
                   const assignment = { ...a.assignment };
-                  if (e.target.value === '') delete assignment[ability];
-                  else assignment[ability] = Number(e.target.value);
+                  assignment[ability] = Number(value);
                   patch({ assignment });
                 }}
-              >
-                <option value="">Distribuir…</option>
-                {(a.sets[a.selectedSet ?? -1] ?? []).map((n, i) => (
-                  <option
-                    key={i}
-                    value={i}
-                    disabled={Object.entries(a.assignment).some(
-                      ([key, index]) => key !== ability && index === i,
-                    )}
-                  >
-                    {n} · resultado {i + 1}
-                  </option>
-                ))}
-              </select>
+                onClear={() => {
+                  const assignment = { ...a.assignment };
+                  delete assignment[ability];
+                  patch({ assignment });
+                }}
+                options={(a.sets[a.selectedSet ?? -1] ?? []).map((n, i) => {
+                  const assigned = Object.entries(a.assignment).some(
+                    ([key, index]) => key !== ability && index === i,
+                  );
+                  return {
+                    value: String(i),
+                    label: `${n} · resultado ${i + 1}`,
+                    disabled: assigned,
+                    disabledReason: assigned ? 'Este resultado já foi distribuído.' : undefined,
+                  };
+                })}
+              />
             )}
             <small>
               Total: {preview.abilities[ability] ?? '—'} · Modificador:{' '}
@@ -124,7 +131,7 @@ export function AbilityStep({ draft, preview, onChange }: StepProps) {
                   ? `+${modifier(preview.abilities[ability]!)}`
                   : modifier(preview.abilities[ability]!)}
             </small>
-          </label>
+          </div>
         ))}
       </div>
     </section>

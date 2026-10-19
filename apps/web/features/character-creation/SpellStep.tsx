@@ -1,14 +1,30 @@
-import { useState } from 'react';
+import { useId, useRef, useState } from 'react';
 import type { StepProps } from './types';
 import { useSpellOptions } from './useSpellOptions';
+import { Dropdown } from '../../components/Dropdown';
+import { CompendiumTooltip } from './CompendiumTooltip';
 import { additionalCantripConflict } from '../../../../packages/character-creation/additional-cantrips';
 import { resolveConcessions } from '../../../../packages/character-creation/concessions';
 import { ATRIBUTOS } from '../../../../packages/sheets/modelo.js';
 import type { SpellcastingBreakdown } from '../../../../packages/contracts/character-creation';
+import type { CompendiumSummary } from '../../../../packages/contracts/compendium';
+
+const normalize = (value: string) =>
+  value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLocaleLowerCase('pt-BR');
+
 function Profile(props: StepProps & { profile: SpellcastingBreakdown['profiles'][number] }) {
   const { draft, catalog, profile, onChange, repository } = props;
-  const [query, setQuery] = useState(''),
-    [chosenCircle, setCircle] = useState<number | null>(null);
+  const id = useId();
+  const tabs = useRef<HTMLDivElement>(null);
+  const [query, setQuery] = useState('');
+  const [chosenCircle, setCircle] = useState<number | null>(null);
+  // Retain query metadata while the selected-entry catalog is being refreshed.
+  const [selectedSummaries, setSelectedSummaries] = useState<
+    Record<string, { entry: CompendiumSummary; lists: string }>
+  >({});
   const definition = catalog.castingProfiles.find((p) => profile.id.endsWith(`:${p.id}`));
   const owner = catalog.entries.find((e) => e.ref.revisionId === profile.ownerRevisionId);
   const instance = resolveConcessions(catalog, draft).instances.find(
@@ -16,6 +32,7 @@ function Profile(props: StepProps & { profile: SpellcastingBreakdown['profiles']
   );
   const progress = definition?.progression.find((row) => row.level === instance?.level);
   const lists = profile.listClassRevisionIds ?? [];
+  const listKey = JSON.stringify([...lists].sort());
   const listRequired = !!profile.selectable && !lists.length;
   const circles = Array.from({ length: profile.maximumCircle + 1 }, (_, n) => n).filter(
     (n) => n !== 0 || profile.cantrips > 0,
@@ -30,62 +47,140 @@ function Profile(props: StepProps & { profile: SpellcastingBreakdown['profiles']
           e.ref.revisionId === selection.spellRef.revisionId &&
           e.ref.recordId === selection.spellRef.recordId,
       );
+      const cached = selectedSummaries[selection.spellRef.revisionId];
       const fixed = definition?.spells.some(
         (spell) =>
-          spell.spellRef.revisionId === entry?.ref.revisionId &&
+          spell.spellRef.revisionId === selection.spellRef.revisionId &&
           spell.level <= (instance?.level ?? 0),
       );
+      const spellCircle = entry?.kind === 'magia' ? entry.data.circle : cached?.entry.circle;
       const valid =
-        entry?.kind === 'magia' &&
         !additionalCantripConflict(catalog, draft, profile.id, selection.spellRef) &&
         (fixed ||
-          (entry.data.circle <= profile.maximumCircle &&
-            (entry.data.circle !== 0 || profile.cantrips > 0) &&
-            entry.data.classRefs.some((ref) => lists.includes(ref.revisionId))));
-      return { selection, entry, fixed, valid };
+          (spellCircle !== undefined &&
+            spellCircle <= profile.maximumCircle &&
+            (spellCircle !== 0 || profile.cantrips > 0) &&
+            (entry?.kind === 'magia'
+              ? entry.data.classRefs.some((ref) => lists.includes(ref.revisionId))
+              : cached?.lists === listKey)));
+      return {
+        selection,
+        entry,
+        summary: entry ?? cached?.entry,
+        circle: spellCircle,
+        fixed,
+        valid,
+      };
     });
   const counted = selections.filter((s) => s.valid && !s.fixed);
-  const cantrips = counted.filter(
-    (s) => s.entry?.kind === 'magia' && s.entry.data.circle === 0,
-  ).length;
-  const spells = counted.filter((s) => s.entry?.kind === 'magia' && s.entry.data.circle > 0);
+  const pendingSelections = selections.some(
+    (selection) => !selection.summary || selection.circle === undefined,
+  );
+  const cantrips = counted.filter((s) => s.circle === 0).length;
+  const spells = counted.filter((s) => s.circle !== undefined && s.circle > 0);
   const prepared = spells.filter((s) => s.selection.prepared).length;
   const knownLimit = progress?.known;
   const preparedLimit = progress?.prepared;
   const guidance = [
-    cantrips < profile.cantrips
-      ? `Escolha mais ${profile.cantrips - cantrips} truques.`
-      : cantrips > profile.cantrips
-        ? `Remova ${cantrips - profile.cantrips} truques.`
-        : '',
+    cantrips < profile.cantrips ? `Escolha mais ${profile.cantrips - cantrips} truques.` : '',
     knownLimit != null && spells.length < knownLimit
       ? `Adicione mais ${knownLimit - spells.length} ${definition?.method === 'grimorio' ? 'magias ao grimório' : 'magias conhecidas'}.`
-      : knownLimit != null && spells.length > knownLimit
-        ? `Remova ${spells.length - knownLimit} magias ${definition?.method === 'grimorio' ? 'do grimório' : 'conhecidas'}.`
-        : '',
+      : '',
     preparedLimit != null && prepared < preparedLimit
       ? `Prepare mais ${preparedLimit - prepared} magias.`
-      : preparedLimit != null && prepared > preparedLimit
-        ? `Desmarque ${prepared - preparedLimit} preparações.`
-        : '',
+      : '',
   ].filter(Boolean);
   const problems = props.preview.spellcasting.problems.filter(
-    (p) => p.field === profile.id || p.field === `castingAbilities.${profile.id}`,
+    (p) =>
+      p.code !== 'SPELL_SELECTION_REQUIRED' &&
+      !(
+        pendingSelections &&
+        ['SPELL_NOT_AVAILABLE', 'SPELL_LIMIT', 'ADDITIONAL_CANTRIP_DUPLICATE'].includes(p.code)
+      ) &&
+      (p.field === profile.id || p.field === `castingAbilities.${profile.id}`),
   );
   const results = useSpellOptions(
     repository,
-    {
-      ruleSetId: draft.ruleSetId,
-      kind: 'magia',
-      query,
-      circle,
-    },
+    { ruleSetId: draft.ruleSetId, kind: 'magia', query, circle },
     profile.selectable && !listRequired ? lists : [],
   );
+  // Selected entries remain available to uncheck even when paginated or no longer legal.
+  const options = [...results.entries];
+  for (const selection of selections) {
+    if (
+      selection.summary &&
+      (selection.circle === circle || !selection.valid) &&
+      (!query || normalize(selection.summary.name).includes(normalize(query))) &&
+      !options.some((e) => e.ref.recordId === selection.selection.spellRef.recordId)
+    )
+      options.unshift(selection.summary);
+  }
+  const changeCircle = (next: number) => {
+    setCircle(next);
+    setQuery('');
+  };
+  const optionState = (entry: CompendiumSummary) => {
+    const chosen = selections.find(
+      (selection) => selection.selection.spellRef.recordId === entry.ref.recordId,
+    );
+    const granted = definition?.spells.some(
+      (spell) =>
+        spell.spellRef.recordId === entry.ref.recordId && spell.level <= (instance?.level ?? 0),
+    );
+    const duplicate = additionalCantripConflict(catalog, draft, profile.id, entry.ref);
+    const spellCircle = entry.circle ?? chosen?.circle ?? circle;
+    const atLimit =
+      spellCircle === 0
+        ? cantrips >= profile.cantrips
+        : (knownLimit != null && spells.length >= knownLimit) ||
+          (definition?.method !== 'grimorio' && preparedLimit != null && prepared >= preparedLimit);
+    const disabled = granted || (!chosen && (duplicate || atLimit || pendingSelections));
+    const reason = granted
+      ? 'Concedida automaticamente; não conta na cota.'
+      : duplicate
+        ? 'Já conhecido pela classe; escolha outro truque.'
+        : chosen && !chosen.valid
+          ? 'Indisponível para esta origem e nível. Desmarque para ajustar a seleção.'
+          : !chosen && pendingSelections
+            ? 'Atualizando seleções…'
+            : !chosen && atLimit
+              ? 'Limite de seleção atingido.'
+              : '';
+    return { chosen, granted, spellCircle, disabled, reason };
+  };
+  const toggleSpell = (recordId: string) => {
+    const entry = options.find((option) => option.ref.recordId === recordId);
+    if (!entry) return;
+    const state = optionState(entry);
+    if (state.disabled) return;
+    setSelectedSummaries((old) => ({
+      ...old,
+      [entry.ref.revisionId]: { entry: { ...entry, circle: state.spellCircle }, lists: listKey },
+    }));
+    onChange({
+      ...draft,
+      spellSelections: state.chosen
+        ? draft.spellSelections.filter(
+            (selection) =>
+              selection.profileId !== profile.id || selection.spellRef.recordId !== recordId,
+          )
+        : [
+            ...draft.spellSelections,
+            {
+              profileId: profile.id,
+              spellRef: entry.ref,
+              prepared:
+                definition?.method !== 'grimorio' ||
+                preparedLimit == null ||
+                prepared < preparedLimit,
+            },
+          ],
+    });
+  };
   return (
     <fieldset className="creation-casting">
       <legend>{owner?.name ?? 'Conjuração'}</legend>
-      <p>
+      <p className="creation-casting-counts" aria-live="polite">
         Truques: {cantrips}/{profile.cantrips}
         {knownLimit != null &&
           ` · ${definition?.method === 'grimorio' ? 'Grimório' : 'Conhecidas'}: ${spells.length}/${knownLimit}`}
@@ -95,8 +190,8 @@ function Profile(props: StepProps & { profile: SpellcastingBreakdown['profiles']
       {profile.selectable && guidance.length > 0 && <p className="notice">{guidance.join(' ')}</p>}
       {definition?.method === 'grimorio' && (
         <p>
-          Adicione magias ao grimório. As primeiras são preparadas até a cota; ajuste as caixas
-          Preparar abaixo.
+          Selecione as magias do grimório e use a caixa Preparar ao lado de cada magia para ajustar
+          o preparo.
         </p>
       )}
       {problems.length > 0 && (
@@ -107,28 +202,32 @@ function Profile(props: StepProps & { profile: SpellcastingBreakdown['profiles']
         </ul>
       )}
       {definition?.abilities.length !== 0 && (
-        <label>
-          Atributo de conjuração de {owner?.name}
-          <select
-            value={profile.ability ?? ''}
-            onChange={(e) =>
-              onChange({
-                ...draft,
-                castingAbilities: [
-                  ...draft.castingAbilities.filter((a) => a.profileId !== profile.id),
-                  { profileId: profile.id, ability: e.target.value as 'int' },
-                ],
-              })
-            }
-          >
-            <option value="">Escolha…</option>
-            {definition?.abilities.map((a) => (
-              <option key={a} value={a}>
-                {ATRIBUTOS[a]}
-              </option>
-            ))}
-          </select>
-        </label>
+        <Dropdown
+          label={`Atributo de conjuração de ${owner?.name}`}
+          searchable={false}
+          value={profile.ability}
+          options={(definition?.abilities ?? []).map((ability) => ({
+            value: ability,
+            label: ATRIBUTOS[ability],
+          }))}
+          onSelect={(ability) =>
+            onChange({
+              ...draft,
+              castingAbilities: [
+                ...draft.castingAbilities.filter((selection) => selection.profileId !== profile.id),
+                { profileId: profile.id, ability: ability as 'int' },
+              ],
+            })
+          }
+          onClear={() =>
+            onChange({
+              ...draft,
+              castingAbilities: draft.castingAbilities.filter(
+                (selection) => selection.profileId !== profile.id,
+              ),
+            })
+          }
+        />
       )}
       {!profile.selectable ? (
         <p>As magias e usos concedidos por esta origem serão incluídos automaticamente.</p>
@@ -139,139 +238,128 @@ function Profile(props: StepProps & { profile: SpellcastingBreakdown['profiles']
         </p>
       ) : (
         <>
-          <div className="creation-fields">
-            <label>
-              Buscar magias de {owner?.name}
-              <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} />
-            </label>
-            <label>
-              Círculo para {owner?.name}
-              <select value={circle} onChange={(e) => setCircle(Number(e.target.value))}>
-                {circles.map((n) => (
-                  <option key={n} value={n}>
-                    {n === 0 ? 'Truques' : `Círculo ${n}`}
-                  </option>
-                ))}
-              </select>
-            </label>
+          <div
+            className="creation-circle-tabs"
+            role="tablist"
+            aria-label={`Círculos de ${owner?.name}`}
+            ref={tabs}
+          >
+            {circles.map((n, index) => (
+              <button
+                key={n}
+                id={`${id}-tab-${n}`}
+                type="button"
+                role="tab"
+                aria-selected={circle === n}
+                aria-controls={`${id}-panel`}
+                tabIndex={circle === n ? 0 : -1}
+                onClick={() => changeCircle(n)}
+                onKeyDown={(event) => {
+                  const offset =
+                    event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0;
+                  const target =
+                    event.key === 'Home'
+                      ? 0
+                      : event.key === 'End'
+                        ? circles.length - 1
+                        : offset
+                          ? (index + offset + circles.length) % circles.length
+                          : -1;
+                  if (target < 0) return;
+                  event.preventDefault();
+                  changeCircle(circles[target]);
+                  tabs.current
+                    ?.querySelectorAll<HTMLButtonElement>('[role="tab"]')
+                    [target]?.focus();
+                }}
+              >
+                {n === 0 ? 'Truques' : `Círculo ${n}`}
+              </button>
+            ))}
           </div>
-          {results.error && (
-            <div role="alert">
-              {results.error}
-              <button onClick={results.retry}>Tentar novamente</button>
-            </div>
-          )}
-          {results.loading && <p role="status">Consultando magias…</p>}
-          <div className="creation-options">
-            {results.entries.map((e) => {
-              const selected = draft.spellSelections.some(
-                (s) => s.profileId === profile.id && s.spellRef.recordId === e.ref.recordId,
-              );
-              const granted = definition?.spells.some(
-                (s) => s.spellRef.recordId === e.ref.recordId && s.level <= (instance?.level ?? 0),
-              );
-              const duplicateCantrip = additionalCantripConflict(catalog, draft, profile.id, e.ref);
-              return (
-                <label key={e.ref.recordId}>
-                  <input
-                    type="checkbox"
-                    checked={selected || granted}
-                    disabled={granted || (!selected && duplicateCantrip)}
-                    onChange={() =>
-                      onChange({
-                        ...draft,
-                        spellSelections: selected
-                          ? draft.spellSelections.filter(
-                              (s) =>
-                                s.profileId !== profile.id ||
-                                s.spellRef.recordId !== e.ref.recordId,
-                            )
-                          : [
-                              ...draft.spellSelections,
-                              {
-                                profileId: profile.id,
-                                spellRef: e.ref,
-                                prepared:
-                                  definition?.method !== 'grimorio' ||
-                                  preparedLimit == null ||
-                                  prepared < preparedLimit,
-                              },
-                            ],
-                      })
-                    }
-                  />
-                  {e.name}
-                  {granted && <small> Concedida automaticamente; não conta na cota.</small>}
-                  {duplicateCantrip && (
-                    <small> Já conhecido pela classe; escolha outro truque.</small>
-                  )}
-                </label>
-              );
-            })}
+          <div id={`${id}-panel`} role="tabpanel" aria-labelledby={`${id}-tab-${circle}`}>
+            <Dropdown
+              label={`Buscar magias de ${owner?.name}`}
+              placeholder="Buscar e selecionar magias…"
+              multiple
+              query={query}
+              onQueryChange={setQuery}
+              filterOptions={false}
+              showSelectedValue={false}
+              resetQueryOnClose={false}
+              resetKey={`${profile.id}:${circle}`}
+              clearable={!!query}
+              onClear={() => setQuery('')}
+              clearLabel={`Limpar busca de magias de ${owner?.name}`}
+              selectedValues={options
+                .filter((entry) => {
+                  const state = optionState(entry);
+                  return state.chosen || state.granted;
+                })
+                .map((entry) => entry.ref.recordId)}
+              onSelect={toggleSpell}
+              loading={results.loading || pendingSelections}
+              loadingLabel={pendingSelections ? 'Atualizando seleções…' : 'Consultando magias…'}
+              error={results.error}
+              onRetry={results.retry}
+              hasMore={!!results.nextCursor}
+              onMore={results.more}
+              moreLabel="Mostrar mais magias"
+              emptyText="Nenhuma magia encontrada nesta lista e círculo. Ajuste a busca ou o círculo."
+              popupLabel={`Opções de magias de ${owner?.name}`}
+              options={options.map((entry) => {
+                const { chosen, granted, spellCircle, disabled, reason } = optionState(entry);
+                const detail = catalog.entries.find(
+                  (item) => item.ref.revisionId === entry.ref.revisionId,
+                );
+                const prepareDisabled =
+                  !chosen?.selection.prepared &&
+                  (pendingSelections || (preparedLimit != null && prepared >= preparedLimit));
+                return {
+                  value: entry.ref.recordId,
+                  label: entry.name,
+                  disabled,
+                  disabledReason: reason,
+                  accessory: (
+                    <>
+                      {definition?.method === 'grimorio' &&
+                        chosen &&
+                        !granted &&
+                        spellCircle > 0 && (
+                          <label className="creation-spell-prepare">
+                            <input
+                              type="checkbox"
+                              aria-label={`Preparar ${entry.name}`}
+                              checked={chosen.selection.prepared}
+                              disabled={prepareDisabled}
+                              onChange={(event) => {
+                                if (event.target.checked && prepareDisabled) return;
+                                onChange({
+                                  ...draft,
+                                  spellSelections: draft.spellSelections.map((selection) =>
+                                    selection === chosen.selection
+                                      ? { ...selection, prepared: event.target.checked }
+                                      : selection,
+                                  ),
+                                });
+                              }}
+                            />
+                            Preparar
+                          </label>
+                        )}
+                      <CompendiumTooltip summary={entry} entry={detail} repository={repository} />
+                    </>
+                  ),
+                };
+              })}
+            />
           </div>
-          {!results.loading && !results.error && results.entries.length === 0 && (
-            <p role="status">
-              Nenhuma magia encontrada nesta lista e círculo. Ajuste a busca ou o círculo.
-            </p>
-          )}
-          {results.nextCursor && (
-            <button className="button secondary" disabled={results.loading} onClick={results.more}>
-              Mostrar mais magias
-            </button>
-          )}
         </>
       )}
-      <ul>
-        {selections.map(({ selection: s, entry, valid }) => (
-          <li key={s.spellRef.recordId}>
-            {entry?.name ?? 'Carregando seleção…'}{' '}
-            {!valid && (
-              <strong>
-                Indisponível para esta origem e nível. Remova esta seleção ou revise a lista na
-                origem.{' '}
-              </strong>
-            )}
-            {definition?.method === 'grimorio' &&
-              catalog.entries.some(
-                (e) =>
-                  e.ref.revisionId === s.spellRef.revisionId &&
-                  e.kind === 'magia' &&
-                  e.data.circle > 0,
-              ) && (
-                <label style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <input
-                    type="checkbox"
-                    checked={s.prepared}
-                    onChange={(e) =>
-                      onChange({
-                        ...draft,
-                        spellSelections: draft.spellSelections.map((v) =>
-                          v === s ? { ...v, prepared: e.target.checked } : v,
-                        ),
-                      })
-                    }
-                  />
-                  Preparar{' '}
-                  {catalog.entries.find((e) => e.ref.revisionId === s.spellRef.revisionId)?.name}
-                </label>
-              )}
-            <button
-              className="text-button"
-              onClick={() =>
-                onChange({
-                  ...draft,
-                  spellSelections: draft.spellSelections.filter((v) => v !== s),
-                })
-              }
-            >
-              Remover
-            </button>
-          </li>
-        ))}
-      </ul>
     </fieldset>
   );
 }
+
 export function SpellStep(props: StepProps) {
   const s = props.preview.spellcasting;
   return (

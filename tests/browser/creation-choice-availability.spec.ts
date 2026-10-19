@@ -24,15 +24,22 @@ test('Pacto Planar permite substituir Feérico por Infernal no mesmo campo', asy
       g.ownerRevisionId === background.ref.revisionId && g.featCategory === 'pacto-planar',
   );
   const group = page.getByRole('group', { name: definition.name, exact: true });
-  await group.getByRole('radio', { name: 'Pacto Feérico', exact: true }).check();
-  await expect(group.getByRole('radio', { name: 'Pacto Infernal', exact: true })).toBeEnabled();
-  await group.getByRole('radio', { name: 'Pacto Infernal', exact: true }).check();
-  await expect(group.getByRole('radio', { name: 'Pacto Feérico', exact: true })).not.toBeChecked();
-  await page
-    .getByRole('group', { name: 'Resistência Infernal', exact: true })
-    .getByRole('radio', { name: 'Veneno', exact: true })
-    .check();
-  await group.getByRole('radio', { name: 'Pacto Feérico', exact: true }).check();
+  await group.getByRole('combobox').fill('Pacto');
+  await group.getByRole('checkbox', { name: 'Pacto Feérico', exact: true }).click();
+  await group.getByRole('combobox').fill('Pacto');
+  await expect(group.getByRole('checkbox', { name: 'Pacto Infernal', exact: true })).toBeEnabled();
+  await group.getByRole('checkbox', { name: 'Pacto Infernal', exact: true }).click();
+  await group.getByRole('combobox').fill('Pacto');
+  await expect(
+    group.getByRole('checkbox', { name: 'Pacto Feérico', exact: true }),
+  ).not.toBeChecked();
+  await group.getByRole('combobox').press('Escape');
+  const resistance = page.getByRole('group', { name: 'Resistência Infernal', exact: true });
+  await resistance.getByRole('combobox').click();
+  await resistance.getByRole('checkbox', { name: 'Veneno', exact: true }).click();
+  await expect(resistance.getByRole('combobox')).toHaveValue('Veneno');
+  await group.getByRole('combobox').fill('Pacto');
+  await group.getByRole('checkbox', { name: 'Pacto Feérico', exact: true }).click();
   await expect(page.getByRole('group', { name: 'Resistência Infernal', exact: true })).toHaveCount(
     0,
   );
@@ -46,10 +53,9 @@ test('invocação repetível admite duas aquisições no mesmo nível com alvos 
   await choose(page, 'Classe', 'classe', 'Bruxo');
   await page.getByLabel('Níveis em Bruxo', { exact: true }).fill('2');
   await page.getByLabel('Níveis em Bruxo', { exact: true }).press('Tab');
-  await page
-    .getByRole('group', { name: 'Invocações Místicas do nível 1', exact: true })
-    .getByRole('radio', { name: 'Pacto do Tomo', exact: true })
-    .check();
+  const initial = page.getByRole('group', { name: 'Invocações Místicas do nível 1', exact: true });
+  await initial.getByRole('combobox').fill('Pacto do Tomo');
+  await initial.getByRole('checkbox', { name: 'Pacto do Tomo', exact: true }).click();
   const tome = page.getByRole('group', { name: 'Truques do Livro das Sombras', exact: true });
   for (const spell of ['Chama Sagrada', 'Chicote de Espinhos', 'Luz']) {
     await tome.getByLabel('Buscar em Truques do Livro das Sombras', { exact: true }).fill(spell);
@@ -73,13 +79,14 @@ test('invocação repetível admite duas aquisições no mesmo nível com alvos 
   await expect(targets).toHaveCount(2);
   const repeated = targets.filter({ hasText: 'Rajada Agonizante (2ª aquisição)' });
   const first = targets.filter({ hasNotText: 'Rajada Agonizante (2ª aquisição)' });
-  await first.getByRole('radio', { name: 'Chama Sagrada', exact: true }).check();
-  await expect(repeated.getByRole('radio', { name: /Chama Sagrada/ })).toBeDisabled();
-  await repeated.getByRole('radio', { name: 'Chicote de Espinhos', exact: true }).check();
-  await expect(first.getByRole('radio', { name: 'Chama Sagrada', exact: true })).toBeChecked();
-  await expect(
-    repeated.getByRole('radio', { name: 'Chicote de Espinhos', exact: true }),
-  ).toBeChecked();
+  await first.getByRole('combobox').fill('Chama Sagrada');
+  await first.getByRole('checkbox', { name: 'Chama Sagrada', exact: true }).click();
+  await repeated.getByRole('combobox').fill('Chama Sagrada');
+  await expect(repeated.getByRole('checkbox', { name: /Chama Sagrada/ })).toBeDisabled();
+  await repeated.getByRole('combobox').fill('Chicote de Espinhos');
+  await repeated.getByRole('checkbox', { name: 'Chicote de Espinhos', exact: true }).click();
+  await expect(first.getByRole('combobox')).toHaveValue('Chama Sagrada');
+  await expect(repeated.getByRole('combobox')).toHaveValue('Chicote de Espinhos');
 });
 
 test('manobra já aprendida fica indisponível nas escolhas de outro nível', async ({ page }) => {
@@ -89,6 +96,7 @@ test('manobra já aprendida fica indisponível nas escolhas de outro nível', as
   await page.getByLabel('Níveis em Guerreiro', { exact: true }).press('Tab');
   await choose(page, 'Subclasse de Guerreiro', 'subclasse', 'Mestre de Batalha');
   const first = page.getByRole('group', { name: 'Manobras do nível 3', exact: true });
+  await first.getByRole('combobox').click();
   await first.getByRole('checkbox', { name: 'Aparar', exact: true }).check();
   const master = entry('subclasse', 'Mestre de Batalha');
   const choices = snapshot.catalog.choices.find(
@@ -97,9 +105,12 @@ test('manobra já aprendida fica indisponível nas escolhas de outro nível', as
   for (const option of choices.options.filter((o: any) => o.name !== 'Aparar').slice(0, 2))
     await first.getByRole('checkbox', { name: option.name, exact: true }).check();
   const later = page.getByRole('group', { name: 'Manobras do nível 7', exact: true });
+  await later.getByRole('combobox').click();
   await expect(later.getByRole('checkbox', { name: /Aparar/ })).toBeDisabled();
+  await first.getByRole('combobox').click();
   await expect(first.getByRole('checkbox', { name: 'Aparar', exact: true })).toBeEnabled();
   await first.getByRole('checkbox', { name: 'Aparar', exact: true }).uncheck();
+  await later.getByRole('combobox').click();
   await expect(later.getByRole('checkbox', { name: 'Aparar', exact: true })).toBeEnabled();
 });
 
@@ -129,14 +140,14 @@ test('Artífice escolhe quatro planos e reconhece Reparar automático fora da co
     group.getByRole('checkbox', {
       name: new RegExp(later.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')),
     }),
-  ).toBeDisabled();
+  ).toHaveCount(0);
   const artisan = snapshot.catalog.choices.find(
     (g: any) => g.ownerRevisionId === artificer.ref.revisionId && g.key === 'ferramenta-artesao',
   );
-  await page
-    .getByRole('group', { name: artisan.name, exact: true })
-    .getByRole('radio', { name: artisan.options[0].name, exact: true })
-    .check();
+  const tools = page.getByRole('group', { name: artisan.name, exact: true });
+  await tools.getByRole('combobox').click();
+  await tools.getByRole('checkbox', { name: artisan.options[0].name, exact: true }).click();
+  await expect(tools.getByRole('combobox')).toHaveValue(artisan.options[0].name);
   await page.getByRole('button', { name: '6 Magias', exact: true }).click();
   const casting = page.getByRole('group', { name: 'Artífice', exact: true });
   await casting.getByLabel('Buscar magias de Artífice', { exact: true }).fill('Reparar');

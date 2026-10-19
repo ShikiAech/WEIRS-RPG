@@ -1,5 +1,6 @@
 import type { StepProps } from './types';
 import { resolveConcessions } from '../../../../packages/character-creation/concessions';
+import { Dropdown } from '../../components/Dropdown';
 export function HitPointStep({ draft, catalog, preview, onChange }: StepProps) {
   const nodes = resolveConcessions(catalog, draft).instances;
   const equipment = nodes.flatMap((i) =>
@@ -9,12 +10,22 @@ export function HitPointStep({ draft, catalog, preview, onChange }: StepProps) {
         ? i.entry.data.items.flatMap((item) => (item.equipmentRef ? [item.equipmentRef] : []))
         : [],
   );
+  const equippable = [...new Map(equipment.map((ref) => [ref.revisionId, ref])).values()].flatMap(
+    (ref) => {
+      const entry = catalog.entries.find((entry) => entry.ref.revisionId === ref.revisionId);
+      return entry?.kind === 'equipamento' &&
+        (entry.data.armor || entry.data.shield || entry.data.weapon)
+        ? [{ ref, label: entry.name }]
+        : [];
+    },
+  );
   return (
     <section>
       <h2>Vida e defesas</h2>
       <p>
         O primeiro nível total usa o máximo do dado. Nos demais níveis, escolha o valor fixo ou
-        registre uma rolagem; mudar Constituição recalcula o total sem rerrolar.
+        registre uma rolagem. Cada dado pode ser rolado uma única vez por nível; mudar Constituição
+        recalcula o total mantendo o resultado.
       </p>
       <p className="creation-total">PV máximos: {preview.hitPoints.total}</p>
       <div className="creation-hp">
@@ -22,6 +33,7 @@ export function HitPointStep({ draft, catalog, preview, onChange }: StepProps) {
           const row = preview.hitPoints.levels.find((l) => l.totalLevel === index + 1);
           const cls = draft.classes.find((c) => c.id === level.classEntryId),
             entry = catalog.entries.find((e) => e.ref.revisionId === cls?.classRef.revisionId);
+          const rolled = level.hitPointMethod === 'roll' && level.hitPointRoll !== null;
           return (
             <fieldset key={index}>
               <legend>
@@ -31,27 +43,33 @@ export function HitPointStep({ draft, catalog, preview, onChange }: StepProps) {
                 <p>Máximo do dado: {row?.die ?? '—'}</p>
               ) : (
                 <>
-                  <label>
-                    Método de PV do nível {index + 1}
-                    <select
-                      aria-label={`Método de PV do nível ${index + 1}`}
-                      value={level.hitPointMethod}
-                      onChange={(e) =>
-                        onChange({
-                          ...draft,
-                          levels: draft.levels.map((l, i) =>
-                            i === index
-                              ? { ...l, hitPointMethod: e.target.value as typeof l.hitPointMethod }
-                              : l,
-                          ),
-                        })
-                      }
-                    >
-                      <option value="fixed">Valor fixo</option>
-                      <option value="roll">Rolar dado</option>
-                      <option value="external">Resultado externo</option>
-                    </select>
-                  </label>
+                  <Dropdown
+                    label={`Método de PV do nível ${index + 1}`}
+                    disabled={rolled}
+                    searchable={false}
+                    value={level.hitPointMethod}
+                    onSelect={(value) => {
+                      if (rolled) return;
+                      const method = value as typeof level.hitPointMethod;
+                      onChange({
+                        ...draft,
+                        levels: draft.levels.map((l, i) =>
+                          i === index
+                            ? {
+                                ...l,
+                                hitPointMethod: method,
+                                hitPointRoll: method === 'roll' ? null : l.hitPointRoll,
+                              }
+                            : l,
+                        ),
+                      });
+                    }}
+                    options={[
+                      { value: 'fixed', label: 'Valor fixo' },
+                      { value: 'roll', label: 'Rolar dado' },
+                      { value: 'external', label: 'Resultado externo' },
+                    ]}
+                  />
                   {level.hitPointMethod !== 'fixed' && (
                     <div className="creation-roll">
                       <label>
@@ -60,8 +78,10 @@ export function HitPointStep({ draft, catalog, preview, onChange }: StepProps) {
                           type="number"
                           min="1"
                           max={row?.die ?? 12}
+                          disabled={level.hitPointMethod === 'roll'}
                           value={level.hitPointRoll ?? ''}
-                          onChange={(e) =>
+                          onChange={(e) => {
+                            if (level.hitPointMethod !== 'external') return;
                             onChange({
                               ...draft,
                               levels: draft.levels.map((l, i) =>
@@ -73,14 +93,16 @@ export function HitPointStep({ draft, catalog, preview, onChange }: StepProps) {
                                     }
                                   : l,
                               ),
-                            })
-                          }
+                            });
+                          }}
                         />
                       </label>
                       {level.hitPointMethod === 'roll' && (
                         <button
                           className="button secondary"
+                          disabled={rolled}
                           onClick={() => {
+                            if (rolled) return;
                             const die = row?.die ?? 8;
                             const values = new Uint32Array(1);
                             crypto.getRandomValues(values);
@@ -94,6 +116,11 @@ export function HitPointStep({ draft, catalog, preview, onChange }: StepProps) {
                         >
                           Rolar d{row?.die ?? 8} para nível {index + 1}
                         </button>
+                      )}
+                      {rolled && (
+                        <small className="creation-selection-count" role="status">
+                          Rolagem registrada: {level.hitPointRoll}. Resultado e método confirmados.
+                        </small>
                       )}
                     </div>
                   )}
@@ -109,31 +136,39 @@ export function HitPointStep({ draft, catalog, preview, onChange }: StepProps) {
         })}
       </div>
       <h3>Equipar itens iniciais</h3>
-      <div className="creation-options">
-        {[...new Map(equipment.map((r) => [r.revisionId, r])).values()].map((ref) => {
-          const e = catalog.entries.find((e) => e.ref.revisionId === ref.revisionId);
-          if (e?.kind !== 'equipamento' || (!e.data.armor && !e.data.shield && !e.data.weapon))
-            return null;
-          const checked = draft.equippedRefs?.some((r) => r.revisionId === ref.revisionId) ?? false;
-          return (
-            <label key={ref.revisionId}>
-              <input
-                type="checkbox"
-                checked={checked}
-                onChange={() =>
-                  onChange({
-                    ...draft,
-                    equippedRefs: checked
-                      ? draft.equippedRefs?.filter((r) => r.revisionId !== ref.revisionId)
-                      : [...(draft.equippedRefs ?? []), ref],
-                  })
-                }
-              />
-              {e.name}
-            </label>
-          );
-        })}
-      </div>
+      <Dropdown
+        label="Buscar equipamentos iniciais"
+        popupLabel="Armaduras, escudos e armas iniciais"
+        multiple
+        placeholder="Busque armaduras, escudos e armas…"
+        emptyText="Nenhum equipamento inicial encontrado."
+        selectedValues={equippable
+          .filter(({ ref }) =>
+            draft.equippedRefs?.some((item) => item.revisionId === ref.revisionId),
+          )
+          .map(({ ref }) => ref.revisionId)}
+        options={equippable.map(({ ref, label }) => ({ value: ref.revisionId, label }))}
+        onSelect={(revisionId) => {
+          const equipment = equippable.find(({ ref }) => ref.revisionId === revisionId);
+          if (!equipment) return;
+          const checked = draft.equippedRefs?.some((ref) => ref.revisionId === revisionId);
+          onChange({
+            ...draft,
+            equippedRefs: checked
+              ? draft.equippedRefs?.filter((ref) => ref.revisionId !== revisionId)
+              : [...(draft.equippedRefs ?? []), equipment.ref],
+          });
+        }}
+        onClear={() =>
+          onChange({
+            ...draft,
+            equippedRefs: (draft.equippedRefs ?? []).filter(
+              (ref) => !equippable.some((item) => item.ref.revisionId === ref.revisionId),
+            ),
+          })
+        }
+        clearLabel="Limpar equipamentos iniciais"
+      />
       <p>
         Classe de armadura: <strong>{preview.defenses.armorClass}</strong> ·{' '}
         {preview.defenses.formula}

@@ -20,6 +20,8 @@ import { HitPointStep } from './HitPointStep';
 import { SpellStep } from './SpellStep';
 import { ReviewStep } from './ReviewStep';
 import { CreationSummary } from './CreationSummary';
+import { CreationLoading } from './CreationLoading';
+import { Dropdown } from '../../components/Dropdown';
 import { pruneDependentChoices } from './origins';
 import { commitClassLevels } from './class-levels';
 const steps = [
@@ -69,6 +71,7 @@ export function CharacterCreator({
   const { draft, step, name, campaignId, classLevelInputs } = state.value;
   const [catalog, setCatalog] = useState(emptyCatalog),
     [catalogKey, setCatalogKey] = useState<string | null>(null),
+    [catalogRulesKey, setCatalogRulesKey] = useState<string | null>(null),
     [loading, setLoading] = useState(true),
     [loadError, setLoadError] = useState(''),
     [retry, setRetry] = useState(0);
@@ -86,15 +89,16 @@ export function CharacterCreator({
       mounted.current = false;
     };
   }, []);
-  const key = JSON.stringify([
+  const rulesKey = JSON.stringify([
     draft.ruleSetId,
     draft.speciesRef,
     draft.lineageRef,
     draft.backgroundRef,
     draft.classes.map((c) => [c.classRef, c.subclassRef]),
     draft.choices.flatMap((c) => c.values.flatMap((v) => (v.type === 'record' ? [v.ref] : []))),
-    draft.spellSelections.map((s) => s.spellRef),
   ]);
+  const key = JSON.stringify([rulesKey, draft.spellSelections.map((s) => s.spellRef)]);
+  const stageLoading = loading && step !== 0 && catalogRulesKey !== rulesKey;
   useEffect(() => {
     const controller = new AbortController();
     setLoading(true);
@@ -105,6 +109,7 @@ export function CharacterCreator({
         if (!controller.signal.aborted) {
           setCatalog(data);
           setCatalogKey(key);
+          setCatalogRulesKey(rulesKey);
         }
       })
       .catch(() => {
@@ -323,14 +328,22 @@ export function CharacterCreator({
           <p className="eyebrow" id="creation-stage-title">
             Etapa {step + 1} de 7 · {steps[step]}
           </p>
-          {loading && <p role="status">Atualizando regras e benefícios…</p>}
           <div
             ref={stage}
             tabIndex={-1}
             aria-labelledby="creation-stage-title"
             className="creation-stage"
+            aria-busy={stageLoading}
           >
-            <fieldset className="creation-stage-fields" disabled={saving || !!state.value.attempt}>
+            {stageLoading && (
+              <div className="creation-stage-loading">
+                <CreationLoading label="Carregando regras e benefícios…" skeleton />
+              </div>
+            )}
+            <fieldset
+              className="creation-stage-fields"
+              disabled={saving || !!state.value.attempt || stageLoading}
+            >
               <Component
                 draft={draft}
                 catalog={catalog}
@@ -368,23 +381,17 @@ export function CharacterCreator({
                     />
                   </label>
                   {!demo && (
-                    <label>
-                      Campanha
-                      <select
-                        aria-label="Campanha"
-                        value={campaignId}
-                        onChange={(e) =>
-                          state.update((current) => ({ ...current, campaignId: e.target.value }))
-                        }
-                      >
-                        <option value="">Escolha uma campanha…</option>
-                        {campaigns.map((c) => (
-                          <option key={c.id} value={c.id}>
-                            {c.nome}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
+                    <Dropdown
+                      label="Campanha"
+                      searchable={false}
+                      placeholder="Escolha uma campanha…"
+                      value={campaignId || null}
+                      onSelect={(selectedCampaign) =>
+                        state.update((current) => ({ ...current, campaignId: selectedCampaign }))
+                      }
+                      onClear={() => state.update((current) => ({ ...current, campaignId: '' }))}
+                      options={campaigns.map((c) => ({ value: c.id, label: c.nome }))}
+                    />
                   )}
                 </div>
               )}
@@ -441,7 +448,7 @@ export function CharacterCreator({
             )}
           </div>
         </div>
-        <CreationSummary draft={draft} catalog={catalog} preview={preview} />
+        <CreationSummary draft={draft} catalog={catalog} preview={preview} loading={loading} />
       </div>
     </div>
   );

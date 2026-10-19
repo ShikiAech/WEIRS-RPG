@@ -30,10 +30,10 @@ test('truque adicional da Ordem Divina não repete um truque da classe', async (
   await cleric.getByLabel('Buscar magias de Clérigo', { exact: true }).fill('Luz');
   await cleric.getByRole('checkbox', { name: 'Luz', exact: true }).check();
   await page.getByRole('button', { name: '4 Classes', exact: true }).click();
-  await page
-    .getByRole('group', { name: 'Ordem Divina', exact: true })
-    .getByRole('radio', { name: 'Taumaturgo', exact: true })
-    .check();
+  const order = page.getByRole('group', { name: 'Ordem Divina', exact: true });
+  await order.getByRole('combobox').click();
+  await order.getByRole('checkbox', { name: 'Taumaturgo', exact: true }).click();
+  await expect(order.getByRole('combobox')).toHaveValue('Taumaturgo');
   await page.getByRole('button', { name: '6 Magias', exact: true }).click();
   const extra = page.getByRole('group', { name: 'Taumaturgo', exact: true });
   await extra.getByLabel('Buscar magias de Taumaturgo', { exact: true }).fill('Luz');
@@ -52,15 +52,16 @@ test('grimório distingue livro e preparo, orienta cotas e nunca prepara seis au
   await expect(profile).toContainText('Grimório: 0/6');
   await expect(profile).toContainText('Preparadas: 0/4');
   await expect(profile).toContainText('Truques: 0/3');
-  await expect(
-    profile.getByRole('combobox', { name: 'Círculo para Mago', exact: true }),
-  ).toHaveValue('0');
+  await expect(profile.getByRole('tab', { name: 'Truques', exact: true })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  );
   for (const name of ['Luz', 'Mãos Mágicas', 'Raio de Gelo']) {
     await profile.getByLabel('Buscar magias de Mago', { exact: true }).fill(name);
     await profile.getByRole('checkbox', { name, exact: true }).check();
   }
   await expect(profile).toContainText('Truques: 3/3');
-  await profile.getByRole('combobox', { name: 'Círculo para Mago', exact: true }).selectOption('1');
+  await profile.getByRole('tab', { name: 'Círculo 1', exact: true }).click();
   for (const name of [
     'Absorver Elementos',
     'Alarme',
@@ -75,6 +76,9 @@ test('grimório distingue livro e preparo, orienta cotas e nunca prepara seis au
   await expect(profile).toContainText('Grimório: 6/6');
   await expect(profile).toContainText('Preparadas: 4/4');
   await expect(profile.getByRole('list', { name: 'Pendências desta origem' })).toHaveCount(0);
+  await profile
+    .getByRole('button', { name: 'Limpar busca de magias de Mago', exact: true })
+    .click();
   expect(
     await profile
       .getByRole('checkbox', { name: /^Preparar / })
@@ -106,9 +110,9 @@ test('preparação da lista inteira omite conhecidas e mostra pendências locais
 for (const name of ['Paladino', 'Patrulheiro']) {
   test(`${name} sem truques abre círculo um e não oferece círculo zero`, async ({ page }) => {
     const profile = await startClass(page, name);
-    const circle = profile.getByRole('combobox', { name: `Círculo para ${name}`, exact: true });
-    await expect(circle).toHaveValue('1');
-    await expect(circle.locator('option[value="0"]')).toHaveCount(0);
+    const circle = profile.getByRole('tab', { name: 'Círculo 1', exact: true });
+    await expect(circle).toHaveAttribute('aria-selected', 'true');
+    await expect(profile.getByRole('tab', { name: 'Truques', exact: true })).toHaveCount(0);
   });
 }
 
@@ -127,13 +131,15 @@ for (const [background, spellList] of [
     await choose(page, 'Antecedente', 'antecedente', background, 'data/background.json');
     const lists = page.getByRole('group', { name: 'Lista de Iniciado em Magia', exact: true });
     await expect(lists).toHaveCount(1);
-    await expect(lists.getByRole('radio')).toHaveCount(1);
-    await lists.getByRole('radio', { name: spellList, exact: true }).check();
+    await lists.getByRole('combobox').click();
+    await expect(lists.getByRole('checkbox')).toHaveCount(1);
+    await lists.getByRole('checkbox', { name: spellList, exact: true }).click();
+    await expect(lists.getByRole('combobox')).toHaveValue(spellList);
     await expect(lists).toHaveCount(1);
     await page.getByRole('button', { name: '6 Magias', exact: true }).click();
     const profile = page.getByRole('group', { name: 'Iniciado em Magia', exact: true });
     await expect(profile).toHaveCount(1);
-    await expect(profile.getByRole('searchbox')).toBeVisible();
+    await expect(profile.getByRole('combobox', { name: /^Buscar magias de / })).toBeVisible();
   });
 }
 
@@ -148,7 +154,7 @@ test('Iniciado sem lista pede resolução na origem sem oferecer catálogo unive
   await expect(profile).toContainText(
     /Resolva a lista de magias no antecedente, classe ou espécie/,
   );
-  await expect(profile.getByRole('searchbox')).toHaveCount(0);
+  await expect(profile.getByRole('combobox', { name: /^Buscar magias de / })).toHaveCount(0);
   await expect(profile.getByRole('checkbox')).toHaveCount(0);
   await page.screenshot({
     path: `artifacts/ux-swarm/fixes/${info.project.name}-spell-list-required.png`,
@@ -175,18 +181,17 @@ test('trocar lista identifica seleção antiga e permite removê-la preservando 
   });
   await page.route('**/compendium/demo.json', (route) => route.fulfill({ json: fixture }));
   const cleric = await startClass(page, 'Clérigo');
-  await cleric
-    .getByRole('combobox', { name: 'Círculo para Clérigo', exact: true })
-    .selectOption('1');
+  await cleric.getByRole('tab', { name: 'Círculo 1', exact: true }).click();
   await cleric.getByLabel('Buscar magias de Clérigo', { exact: true }).fill('Bênção');
   await cleric.getByRole('checkbox', { name: 'Bênção', exact: true }).check();
   await page.getByRole('button', { name: '3 Antecedente', exact: true }).click();
   await choose(page, 'Antecedente', 'antecedente', 'Sábio', 'data/background.json');
-  await page
+  const lists = page
     .getByRole('group', { name: 'Lista de Iniciado em Magia', exact: true })
-    .first()
-    .getByRole('radio', { name: 'Mago', exact: true })
-    .check();
+    .first();
+  await lists.getByRole('combobox').click();
+  await lists.getByRole('checkbox', { name: 'Mago', exact: true }).click();
+  await expect(lists.getByRole('combobox')).toHaveValue('Mago');
   await page.getByRole('button', { name: '6 Magias', exact: true }).click();
   const initiate = page.getByRole('group', { name: 'Iniciado em Magia', exact: true });
   await initiate
@@ -194,22 +199,25 @@ test('trocar lista identifica seleção antiga e permite removê-la preservando 
     .fill('Mãos Mágicas');
   await initiate.getByRole('checkbox', { name: 'Mãos Mágicas', exact: true }).check();
   await page.getByRole('button', { name: '3 Antecedente', exact: true }).click();
-  await page
-    .getByRole('group', { name: 'Lista de Iniciado em Magia', exact: true })
-    .first()
-    .getByRole('radio', { name: 'Clérigo', exact: true })
-    .check();
+  await lists.getByRole('combobox').click();
+  await lists.getByRole('checkbox', { name: 'Clérigo', exact: true }).click();
+  await expect(lists.getByRole('combobox')).toHaveValue('Clérigo');
   await page.getByRole('button', { name: '6 Magias', exact: true }).click();
-  const old = initiate.getByRole('listitem').filter({ hasText: 'Mãos Mágicas' });
+  await initiate
+    .getByLabel('Buscar magias de Iniciado em Magia', { exact: true })
+    .fill('Mãos Mágicas');
+  const old = initiate.locator('.dropdown-option').filter({ hasText: 'Mãos Mágicas' });
   await expect(old).toContainText('Indisponível para esta origem e nível');
   await expect(page.getByText('Consultando magias…', { exact: true })).toHaveCount(0);
   await page.screenshot({
     path: `artifacts/ux-swarm/fixes/${info.project.name}-spell-stale-selection.png`,
     fullPage: true,
   });
-  await old.getByRole('button', { name: /Remover/ }).click();
+  await old.getByRole('checkbox', { name: 'Mãos Mágicas', exact: true }).click();
   await expect(old).toHaveCount(0);
-  await expect(cleric.getByRole('listitem').filter({ hasText: 'Bênção' })).toBeVisible();
+  await cleric.getByRole('tab', { name: 'Círculo 1', exact: true }).click();
+  await cleric.getByLabel('Buscar magias de Clérigo', { exact: true }).fill('Bênção');
+  await expect(cleric.getByRole('checkbox', { name: 'Bênção', exact: true })).toBeChecked();
 });
 
 test('perfil com listas permitidas combina magias de ambas sem vazar outra lista', async ({
@@ -225,12 +233,12 @@ test('perfil com listas permitidas combina magias de ambas sem vazar outra lista
   profileDefinition.listChoiceKey = null;
   await page.route('**/compendium/demo.json', (route) => route.fulfill({ json: fixture }));
   const profile = await startClass(page, 'Mago');
-  await profile.getByRole('combobox', { name: 'Círculo para Mago', exact: true }).selectOption('1');
+  await profile.getByRole('tab', { name: 'Círculo 1', exact: true }).click();
   for (const name of ['Bênção', 'Mísseis Mágicos']) {
     await profile.getByLabel('Buscar magias de Mago', { exact: true }).fill(name);
     await expect(profile.getByRole('checkbox', { name, exact: true })).toHaveCount(1);
   }
-  await profile.getByRole('combobox', { name: 'Círculo para Mago', exact: true }).selectOption('0');
+  await profile.getByRole('tab', { name: 'Truques', exact: true }).click();
   await profile.getByLabel('Buscar magias de Mago', { exact: true }).fill('Raio Místico');
   await expect(
     profile.getByRole('status').filter({ hasText: 'Nenhuma magia encontrada' }),

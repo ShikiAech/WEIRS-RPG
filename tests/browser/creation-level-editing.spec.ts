@@ -1,6 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
+import { selectDropdown } from './dropdown';
 const catalog = JSON.parse(await readFile('public/compendium/demo.json', 'utf8')).catalog;
+test.beforeEach(async ({ page }) => {
+  await page.route('**/compendium/demo.json', (route) =>
+    route.fulfill({ json: { schemaVersion: 1, mode: 'demonstracao', catalog } }),
+  );
+});
 test('digitar um nível de dois dígitos preserva subclasse e resultados anteriores de vida', async ({
   page,
 }) => {
@@ -19,7 +25,7 @@ test('digitar um nível de dois dígitos preserva subclasse e resultados anterio
     await page.getByRole('option', { name: `${name} · ${entry.sourceTitle}`, exact: true }).click();
   }
   await page.getByRole('button', { name: '5 Vida e defesas', exact: true }).click();
-  await page.getByLabel('Método de PV do nível 3', { exact: true }).selectOption('external');
+  await selectDropdown(page.getByLabel('Método de PV do nível 3', { exact: true }), 'external');
   await page.getByLabel('Resultado de PV do nível 3', { exact: true }).fill('7');
   await page.getByRole('button', { name: '4 Classes', exact: true }).click();
   const level = page.getByLabel('Níveis em Guerreiro', { exact: true });
@@ -29,9 +35,16 @@ test('digitar um nível de dois dígitos preserva subclasse e resultados anterio
   await level.press('Tab');
   await expect(
     page.getByRole('combobox', { name: 'Subclasse de Guerreiro', exact: true }),
-  ).toHaveValue('Campeão');
+  ).toHaveAttribute(
+    'data-value',
+    catalog.entries.find((entry: any) => entry.kind === 'subclasse' && entry.name === 'Campeão').ref
+      .revisionId,
+  );
   await page.getByRole('button', { name: '5 Vida e defesas', exact: true }).click();
-  await expect(page.getByLabel('Método de PV do nível 3', { exact: true })).toHaveValue('external');
+  await expect(page.getByLabel('Método de PV do nível 3', { exact: true })).toHaveAttribute(
+    'data-value',
+    'external',
+  );
   await expect(page.getByLabel('Resultado de PV do nível 3', { exact: true })).toHaveValue('7');
   await expect(page.getByText('Nível 12 · Guerreiro', { exact: true })).toBeVisible();
 });

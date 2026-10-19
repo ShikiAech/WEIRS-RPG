@@ -4,8 +4,10 @@ import { ChoicePanel, EquipmentChoices } from './ChoicePanel';
 import { clearOrigins } from './origins';
 import type { StepProps } from './types';
 export function BackgroundStep(props: StepProps) {
-  const { draft, catalog, onChange, repository } = props;
+  const { draft, catalog, preview, onChange, repository } = props;
   const entry = catalog.entries.find((e) => e.ref.revisionId === draft.backgroundRef?.revisionId);
+  const bonuses = draft.abilities.backgroundBonuses;
+  const distributed = Object.values(bonuses).reduce<number>((sum, value) => sum + (value ?? 0), 0);
   return (
     <section>
       <h2>Antecedente</h2>
@@ -41,32 +43,62 @@ export function BackgroundStep(props: StepProps) {
               ? ' · Esta versão não concede aumentos de atributos.'
               : ' · Distribua +2 e +1, ou +1 em três atributos.'}
           </p>
-          <div className="creation-abilities">
-            {entry.data.abilities.map((ability) => (
-              <label key={ability}>
-                {ATRIBUTOS[ability]}: bônus do antecedente
-                <input
-                  type="number"
-                  min="0"
-                  max="2"
-                  value={draft.abilities.backgroundBonuses[ability] ?? 0}
-                  onChange={(e) =>
-                    onChange({
-                      ...draft,
-                      abilities: {
-                        ...draft.abilities,
-                        backgroundBonuses: {
-                          ...draft.abilities.backgroundBonuses,
-                          [ability]: Number(e.target.value),
-                        },
-                      },
-                    })
-                  }
-                />
-              </label>
-            ))}
-          </div>
-          <details>
+          {entry.data.distribution !== 'nenhuma' && (
+            <>
+              <p className="creation-selection-count" role="status">
+                Distribuídos: {distributed}/3
+              </p>
+              <div className="creation-abilities">
+                {entry.data.abilities.map((ability) => {
+                  const current = bonuses[ability];
+                  const base = preview.baseAbilities[ability];
+                  const limit =
+                    base === undefined ? 2 : Math.max(0, entry.data.abilityLimit - base);
+                  const maximum = Math.max(0, Math.min(2, 3 - distributed + (current ?? 0), limit));
+                  const hintId = `background-bonus-${ability}-hint`;
+                  return (
+                    <label key={ability}>
+                      {ATRIBUTOS[ability]}: bônus do antecedente
+                      <input
+                        aria-label={`${ATRIBUTOS[ability]}: bônus do antecedente`}
+                        aria-describedby={hintId}
+                        type="number"
+                        min="0"
+                        max={maximum}
+                        step="1"
+                        disabled={maximum === 0 && current === undefined}
+                        value={current ?? ''}
+                        onChange={(e) => {
+                          const backgroundBonuses = { ...bonuses };
+                          if (e.target.value === '') delete backgroundBonuses[ability];
+                          else {
+                            const value = Number(e.target.value);
+                            if (!Number.isFinite(value)) return;
+                            backgroundBonuses[ability] = Math.max(
+                              0,
+                              Math.min(maximum, Math.floor(value)),
+                            );
+                          }
+                          onChange({
+                            ...draft,
+                            abilities: { ...draft.abilities, backgroundBonuses },
+                          });
+                        }}
+                      />
+                      <small id={hintId}>
+                        {limit === 0
+                          ? `Atributo no limite de ${entry.data.abilityLimit}.`
+                          : maximum === 0
+                            ? 'Os 3 pontos já foram distribuídos.'
+                            : `Até +${maximum} · limite do atributo: ${entry.data.abilityLimit}`}
+                      </small>
+                    </label>
+                  );
+                })}
+              </div>
+            </>
+          )}
+          <details className="creation-accordion">
             <summary>Benefícios e descrição de {entry.name}</summary>
             <p className="creation-description">{entry.description}</p>
           </details>
