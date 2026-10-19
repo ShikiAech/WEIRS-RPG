@@ -168,10 +168,9 @@ function Choice({
                 label: optionName(option.name),
                 disabled: !selectedIds.includes(option.id) && !!reason(option.id),
                 disabledReason: !selectedIds.includes(option.id) ? reason(option.id) : undefined,
-                accessory:
-                  target && (target.kind === 'talento' || target.kind === 'magia') ? (
-                    <CompendiumTooltip summary={target} entry={target} repository={repository} />
-                  ) : undefined,
+                accessory: target?.description.trim() ? (
+                  <CompendiumTooltip summary={target} entry={target} repository={repository} />
+                ) : undefined,
               };
             })}
             onSelect={toggle}

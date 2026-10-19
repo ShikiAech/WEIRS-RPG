@@ -34,7 +34,8 @@ async function rowFor(group: Locator, name: string) {
 
 async function clickPadding(row: Locator, touch: boolean) {
   const bounds = (await row.boundingBox())!;
-  const position = { x: bounds.width - 5, y: 5 };
+  // Chromium adjusts touch targets near the info button toward that independent action.
+  const position = touch ? { x: 4, y: 4 } : { x: bounds.width - 5, y: 5 };
   if (touch) await row.tap({ position });
   else await row.click({ position });
 }
