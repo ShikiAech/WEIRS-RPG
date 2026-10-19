@@ -32,8 +32,8 @@ test('curated spell damage identifiers change with their published revision', ()
     normalizeSources([...legacy, ...json], structuredClone(registry)),
     next,
   );
-  const before = find('magia', 'Golpe Divino');
-  const after = revised.entries.find((e) => e.kind === 'magia' && e.name === 'Golpe Divino')!;
+  const before = find('magia', 'Golpe Divina');
+  const after = revised.entries.find((e) => e.kind === 'magia' && e.name === 'Golpe Divina')!;
   assert.ok(before.kind === 'magia' && after.kind === 'magia');
   assert.notEqual(before.ref.revisionId, after.ref.revisionId);
   assert.notEqual(before.data.damages[0].id, after.data.damages[0].id);
@@ -172,8 +172,8 @@ test('Druid1 completes with automatic Druidic and Herbalism on the projected she
 });
 
 for (const [name, level, spell, uses, quota] of [
-  ['Paladino', 2, 'Golpe Divino', 1, 3],
-  ['Patrulheiro', 1, 'Marca do Predador', 2, 2],
+  ['Paladino', 2, 'Golpe Divina', 1, 3],
+  ['Patrulheiro', 1, 'Marca do Caçador', 2, 2],
 ] as const)
   test(`${name} always prepares ${spell} outside its quota with long-rest free uses`, () => {
     const cls = find('classe', name);
@@ -215,7 +215,7 @@ test('Favored Enemy free uses follow the source progression with one current gra
       (p) => p.ownerRevisionId === instance.entry.ref.revisionId && p.key === 'classe',
     )!;
     const granted = profileGrantedSpells(scoped, state, instance, profile).filter(
-      (s) => s.spellRef.revisionId === find('magia', 'Marca do Predador').ref.revisionId,
+      (s) => s.spellRef.revisionId === find('magia', 'Marca do Caçador').ref.revisionId,
     );
     assert.equal(granted.length, 1);
     assert.equal(granted[0].ownUses, uses, 'Ranger level ' + level);
@@ -247,7 +247,7 @@ test('Etherforge firearms use ranged classification and do not enter Barbarian m
 });
 
 test('damage range and repelling invocations require a recorded cantrip target without granting it', () => {
-  for (const name of ['Rajada Agonizante', 'Lança Mística', 'Rajada Repulsora']) {
+  for (const name of ['Explosão Agonizante', 'Lança Mística', 'Explosão Repelente']) {
     const inv = find('caracteristica', name);
     assert.ok(inv.kind === 'caracteristica' && inv.data.spellPrerequisite);
     const group = catalog.choices.find(

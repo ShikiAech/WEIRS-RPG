@@ -150,9 +150,9 @@ test('efeito Cranori é fórmula de CA alternativa, sem armadura e permitindo es
 });
 test('cobertura não confunde texto importado com revisão 2024 ou mecânica automatizada', async () => {
   const c = await resolved;
-  assert.equal(c.entries.filter((e) => e.kind === 'classe').length, 17);
-  // The missing Divine Smite card is now explicitly curated from PHB2024.
-  assert.equal(c.entries.filter((e) => e.kind === 'magia').length, 478);
+  assert.equal(c.entries.filter((e) => e.kind === 'classe').length, 20);
+  // The JSON supplies 656 spell variants; 14 HTML-only spells remain supplemental.
+  assert.equal(c.entries.filter((e) => e.kind === 'magia').length, 670);
   assert.ok(
     c.entries
       .filter((e) => e.kind === 'magia')
@@ -452,7 +452,13 @@ test('creation catalog includes class feat milestones, fighting styles and grant
   assert.equal(third.progression.at(-1)?.level, 20);
   assert.equal(new Set(third.progression.map((p) => p.level)).size, third.progression.length);
 });
-test('legacy prerequisite spelling with a space is not treated as an empty requirement',async()=>{
- const sources=await readLegacySources(root);for(const source of sources)source.records=source.records.filter(r=>r.kind==='talento'&&r.name==='Espírito Manchado');
- const c=resolveCatalog(normalizeSources(sources,{records:{}}),await loadCuration(root));const feat=c.entries.find(e=>e.kind==='talento'&&e.name==='Espírito Manchado')!;assert.match(feat.kind==='talento'?feat.data.prerequisiteText:'',/Humano Manchado/);
+test('legacy prerequisite spelling with a space is not treated as an empty requirement', async () => {
+  const sources = await readLegacySources(root);
+  for (const source of sources)
+    source.records = source.records.filter(
+      (r) => r.kind === 'talento' && r.name === 'Espírito Manchado',
+    );
+  const c = resolveCatalog(normalizeSources(sources, { records: {} }), await loadCuration(root));
+  const feat = c.entries.find((e) => e.kind === 'talento' && e.name === 'Espírito Manchado')!;
+  assert.match(feat.kind === 'talento' ? feat.data.prerequisiteText : '', /Humano Manchado/);
 });

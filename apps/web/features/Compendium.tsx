@@ -137,6 +137,13 @@ function facts(entry: CompendiumEntry, catalog: CreationCatalog): [string, strin
         ['Alcance', s.range],
         ['Duração', s.duration],
         [
+          'Dano',
+          [...s.damages]
+            .sort((a, b) => a.order - b.order)
+            .map((damage) => [damage.dice, damage.damageType].filter(Boolean).join(' '))
+            .join(', '),
+        ],
+        [
           'Componentes',
           [
             s.components.verbal && 'V',

@@ -141,7 +141,7 @@ export function SheetForm({
                 min={spec.min}
                 max={spec.max}
                 step={spec.step || '1'}
-                maxLength={spec.type === 'number' ? undefined : 120}
+                maxLength={spec.type === 'number' ? undefined : (spec.maxLength ?? 120)}
                 list={spec.suggestions ? id + '-suggestions' : undefined}
                 value={String(value ?? '')}
                 onChange={(e) =>

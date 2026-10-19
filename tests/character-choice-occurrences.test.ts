@@ -54,7 +54,7 @@ test('duas aquisições no nível2 podem escolher a mesma invocação repetível
     (g) => g.ownerRevisionId === warlock.ref.revisionId && g.key === 'invocacoes-2',
   )!;
   const invocation = real.entries.find(
-    (e) => e.kind === 'caracteristica' && e.name === 'Rajada Agonizante',
+    (e) => e.kind === 'caracteristica' && e.name === 'Explosão Agonizante',
   )!;
   const copies = group.options.filter((o) => o.targetRef?.recordId === invocation.ref.recordId);
   assert.equal(group.minimum, 2);

@@ -10,7 +10,7 @@ test('compêndio preserva custo de material e duração na ficha', async ({ page
   await expect(dialog.getByText('Na ficha', { exact: true })).toBeVisible();
   await dialog.getByRole('button', { name: 'Concluir seleção', exact: true }).click();
   await expect(page.getByLabel('Material necessário', { exact: true })).toHaveValue(
-    /1\.500 PO.*consome/,
+    /1\.500\+ PO.*consome/,
   );
   await expect(page.getByLabel('Duração', { exact: true })).not.toHaveValue('');
 });

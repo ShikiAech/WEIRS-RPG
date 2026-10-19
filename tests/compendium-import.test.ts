@@ -13,7 +13,13 @@ async function temporarySources(run: (folder: string) => Promise<void>) {
   const folder = await mkdtemp(path.join(tmpdir(), 'weirs-compendium-'));
   try {
     await mkdir(path.join(folder, 'data'));
-    for (const file of ['background.json', 'feats.json', 'races.json'])
+    for (const file of [
+      'background.json',
+      'feats.json',
+      'races.json',
+      'classes.json',
+      'spells.json',
+    ])
       await writeFile(path.join(folder, 'data', file), '[]');
     await run(folder);
   } finally {
@@ -26,17 +32,19 @@ async function temporarySources(run: (folder: string) => Promise<void>) {
   }
 }
 
-test('ingestão lê os três JSONs e separa traços e linhagens sem modificar as fontes', async () => {
+test('ingestão lê os JSONs e separa traços e linhagens sem modificar as fontes', async () => {
   const before = await readFile(path.join(root, 'data/races.json'), 'utf8');
   const sources = await readJsonSources(root);
   const records = sources.flatMap((s) => s.records);
   const count = (kind: string) => records.filter((r) => r.kind === kind).length;
-  assert.equal(sources.length, 3);
+  assert.equal(sources.length, 5);
   assert.equal(count('antecedente'), 71);
   assert.equal(count('talento'), 204);
   assert.equal(count('especie'), 30);
   assert.equal(count('linhagem'), 18);
-  assert.equal(count('caracteristica'), 173);
+  assert.equal(records.filter((r) => r.payload.type === 'trait').length, 173);
+  assert.equal(count('classe'), 20);
+  assert.equal(count('subclasse'), 143);
   const human = records.find((r) => r.kind === 'especie' && r.name === 'Humanos')!;
   const marked = records.find((r) => r.kind === 'linhagem' && r.name === 'Manchados')!;
   assert.equal(marked.parentKey, human.key);

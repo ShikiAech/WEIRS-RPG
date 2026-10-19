@@ -826,11 +826,14 @@ export function generateSeed(c: ResolvedCatalog): string {
     `SELECT public.publicar_compendio_lote(ARRAY[${ids.map(literal).join(',')}]::uuid[]);`,
   );
   const published = new Set(ids);
-  const superseded = c.origins.flatMap((origin) =>
-    c.entries.some((e) => e.ref.recordId === origin.id && published.has(e.ref.revisionId))
-      ? (origin.supersededIds ?? [])
-      : [],
-  );
+  const superseded = [
+    ...(c.retiredRecordIds ?? []),
+    ...c.origins.flatMap((origin) =>
+      c.entries.some((e) => e.ref.recordId === origin.id && published.has(e.ref.revisionId))
+        ? (origin.supersededIds ?? [])
+        : [],
+    ),
+  ];
   if (superseded.length)
     parts.push(
       `UPDATE public.compendio_registros SET ativo=false WHERE id=ANY(ARRAY[${superseded.map(literal).join(',')}]::uuid[]);`,

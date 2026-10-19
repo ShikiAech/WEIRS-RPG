@@ -14,6 +14,7 @@ import { evaluateFormula } from './formula';
 import { modifier } from './abilities';
 import { profileGrantedSpells } from './casting-grants';
 import { sincronizarEquipamentos } from '../sheets/equipamentos.js';
+import { sincronizarMagias } from '../sheets/magias.js';
 export function projectSheet(
   catalog: CreationCatalog,
   draft: CreationDraft,
@@ -350,8 +351,11 @@ export function projectSheet(
         sheet.magias.some((s) => s.id === instanceUuid(`${profile.id}/spell:${e.ref.recordId}`))
       )
         continue;
-      const row = spellToSheet(e, profileId);
+      const row = spellToSheet(e, profileId, { characterLevel: state.level });
       row.id = instanceUuid(`${profile.id}/spell:${e.ref.recordId}`);
+      row.danos?.forEach((damage, index) => {
+        damage.id = instanceUuid(`${row.id}/damage:${index}`);
+      });
       row.origemCriacao = profile.id;
       row.preparada = spell.prepared;
       sheet.magias.push(row);
@@ -391,5 +395,5 @@ export function projectSheet(
       total: casting.pactSlots.reduce((n, s) => n + s.total, 0),
       gastos: 0,
     };
-  return sincronizarEquipamentos(sheet);
+  return sincronizarMagias(sincronizarEquipamentos(sheet));
 }

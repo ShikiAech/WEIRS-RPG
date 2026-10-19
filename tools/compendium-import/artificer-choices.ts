@@ -84,8 +84,13 @@ export function curateArtificerChoices(ctx: CuratedContext) {
       e.data.parentRef?.revisionId === artificer.ref.revisionId,
   );
   const source = replicate && raw.get(replicate.key);
-  if (!source || source.payload.type !== 'section') return;
-  const tables = source.payload.tables.filter(
+  if (!source) return;
+  const section =
+    source.payload.type === 'section'
+      ? source.payload
+      : source.alternatives.find((a) => a.payload.type === 'section')?.payload;
+  if (section?.type !== 'section') return;
+  const tables = section.tables.filter(
     (t) => normalizeName(t[0]?.[0] ?? '') === 'plano-de-item-magico',
   );
   if (tables.length !== 4) {

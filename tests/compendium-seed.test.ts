@@ -103,6 +103,38 @@ test('reimportação oculta a cópia antiga do antecedente sem apagar sua revis�
   }
 });
 
+test('retired source concepts leave current search without deleting pinned revisions', async () => {
+  const f = await compendiumFixture();
+  try {
+    const old = await f.species('Conteúdo removido da fonte');
+    await f.publish(old.revisionId);
+    const { c } = await sample();
+    c.retiredRecordIds = [old.recordId];
+    await f.db.query("SELECT set_config('request.jwt.claim.sub',$1,false)", [f.admin]);
+    await f.db.exec(generateSeed(c));
+    await f.db.exec(generateSeed(c));
+    assert.equal(
+      (
+        await f.anonymous(
+          "SELECT * FROM buscar_compendio('dnd-5e-2024','especie','Conteúdo removido')",
+        )
+      ).length,
+      0,
+    );
+    assert.equal(
+      (await f.anonymous('SELECT id FROM compendio_revisoes WHERE id=$1', [old.revisionId])).length,
+      1,
+    );
+    assert.equal(
+      (await f.db.query<any>('SELECT ativo FROM compendio_registros WHERE id=$1', [old.recordId]))
+        .rows[0].ativo,
+      false,
+    );
+  } finally {
+    await f.db.close();
+  }
+});
+
 test('seed registra as categorias adicionais de talento antes de publicar', async () => {
   const f = await compendiumFixture();
   try {

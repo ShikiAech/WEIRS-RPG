@@ -1,4 +1,6 @@
 import type { ContentEntry } from '../../packages/contracts/content';
+import type { ClassInput, ClassFeatureInput, SubclassInput } from './json-classes';
+import type { SpellInput } from './json-spells';
 import type {
   CompendiumKind,
   CompendiumSource,
@@ -59,6 +61,10 @@ export interface RaceInput {
   subraces?: LineageInput[];
 }
 export type SourcePayload =
+  | { type: 'class'; input: ClassInput }
+  | { type: 'subclass'; input: SubclassInput }
+  | { type: 'class-feature'; input: ClassFeatureInput; option?: boolean }
+  | { type: 'spell'; input: SpellInput }
   | { type: 'background'; input: BackgroundInput }
   | { type: 'feat'; input: FeatInput }
   | { type: 'species'; input: RaceInput }
@@ -103,6 +109,8 @@ export interface CatalogDraftRecord extends SourceRecord {
   sourceHash: string;
   sourceFormat: 'json' | 'html';
   alternatives: {
+    name?: string;
+    originalName?: string;
     sourcePath: string;
     pointer: string;
     payload: SourcePayload;
@@ -112,6 +120,7 @@ export interface CatalogDraftRecord extends SourceRecord {
   legacyIds: string[];
 }
 export interface ImportedCatalog {
+  retiredRecordIds?: string[];
   sources: CompendiumSource[];
   records: CatalogDraftRecord[];
   identityRegistry: IdentityRegistry;

@@ -21,7 +21,7 @@ const find = (kind: string, name: string, parent?: string) =>
   catalog.entries.find(
     (e) =>
       e.kind === kind &&
-      e.name === name &&
+      (e.name === name || e.aliases.includes(name)) &&
       (!parent ||
         (e.kind === 'caracteristica' &&
           catalog.entries.find((p) => p.ref.revisionId === e.data.parentRef?.revisionId)?.name ===
@@ -132,9 +132,9 @@ test('Warlock invocation quotas follow source table and every listed option stay
     invocations.every((g) => new Set(g.options.map((o) => o.targetRef?.recordId)).size === 30),
   );
   for (const [name, level] of [
-    ['Armadura das Sombras', 2],
+    ['Armadura das Sombras', undefined],
     ['Lâmina Devoradora', 12],
-    ['Visão da Bruxa', 15],
+    ['Visão de Bruxa', 15],
   ] as const) {
     const invocation = find('caracteristica', name, 'Bruxo');
     assert.ok(invocation.kind === 'caracteristica' && invocation.data.optional);

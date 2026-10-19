@@ -7,6 +7,7 @@ export interface FieldSpec {
   options?: [string, string][];
   min?: number;
   max?: number;
+  maxLength?: number;
   step?: string;
   nullable?: boolean;
   hint?: string;
@@ -226,15 +227,15 @@ export const lists: Record<string, ListSpec> = {
       number('circulo', 'Círculo da magia', 0, 9),
       { key: 'perfilId', label: 'Perfil de origem', type: 'select' },
       flag('preparada', 'Magia preparada'),
-      text('tempo', 'Tempo de conjuração'),
-      text('alcance', 'Alcance'),
+      { ...text('tempo', 'Tempo de conjuração'), maxLength: 10000 },
+      { ...text('alcance', 'Alcance'), maxLength: 10000 },
 
       flag('concentracao', 'Exige concentração'),
       flag('ritual', 'Ritual'),
       flag('verbal', 'Componente verbal'),
       flag('somatico', 'Componente somático'),
       text('material', 'Material necessário', true),
-      text('duracao', 'Duração'),
+      { ...text('duracao', 'Duração'), maxLength: 10000 },
       text('descricao', 'Descrição da magia', true),
       text('observacoes', 'Observações da magia', true),
     ],

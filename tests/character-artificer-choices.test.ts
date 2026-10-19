@@ -134,7 +134,7 @@ test('Artificer level 2 records four known plans in the sheet without creating m
   assert.equal(sheet.inventario.itens.length, 0);
   assert.equal(sheet.combate.pvMaximos, 17);
   assert.ok(sheet.treinamento.ferramentas.includes('Suprimentos de Alquimista'));
-  assert.ok(sheet.magias.some((s) => s.nome === 'Reparar'));
+  assert.ok(sheet.magias.some((s) => s.nome === 'Consertar'));
   const refs = plans()[0].options.map((o) => o.targetRef!.revisionId);
   assert.ok(!catalog.grants.some((g) => refs.includes(g.targetRef?.revisionId ?? '')));
 });
@@ -260,8 +260,12 @@ test('generic plans refuse cursed consumable and ambiguously classified source c
     });
   }
   const checked = resolveCatalog(normalizeSources([...sources, ...json], registry), curation);
+  const checkedArtificer = checked.entries.find(
+    (e) => e.kind === 'classe' && e.ref.recordId === artificer.ref.recordId,
+  )!;
+  assert.notEqual(checkedArtificer.ref.revisionId, artificer.ref.revisionId);
   const options = checked.choices.find(
-    (g) => g.ownerRevisionId === artificer.ref.revisionId && g.key === 'planos-2',
+    (g) => g.ownerRevisionId === checkedArtificer.ref.revisionId && g.key === 'planos-2',
   )!.options;
   assert.ok(options.some((o) => o.name === 'Botas Aladas'));
   assert.ok(!options.some((o) => invalid.some(([name]) => name === o.name)));
@@ -305,8 +309,8 @@ test('Artificer Mending grant preserves two chosen cantrips and three prepared s
   const mending = catalog.entries.find(
     (e) => e.kind === 'magia' && e.originalName.toLowerCase() === 'mending',
   )!;
-  assert.equal(mending.name, 'Reparar');
-  assert.equal(sheet.magias.filter((s) => s.nome === 'Reparar').length, 1);
+  assert.equal(mending.name, 'Consertar');
+  assert.equal(sheet.magias.filter((s) => s.nome === 'Consertar').length, 1);
   assert.equal(sheet.magias.length, 6);
   assert.ok(!sheet.magias.some((s) => /Restauração/.test(s.nome)));
 });
@@ -330,5 +334,5 @@ test('changing away from Artificer removes plans tools and the granted cantrip',
   const { sheet } = project(draft);
   assert.ok(!sheet.caracteristicas.some((f) => f.nome.startsWith('Plano: ')));
   assert.equal(sheet.treinamento.ferramentas, '');
-  assert.ok(!sheet.magias.some((s) => s.nome === 'Reparar'));
+  assert.ok(!sheet.magias.some((s) => s.nome === 'Consertar'));
 });

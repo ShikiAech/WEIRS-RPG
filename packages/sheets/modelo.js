@@ -276,6 +276,7 @@ export function validarFicha(f) {
     }
     if (typeof p === 'string') {
       const longo =
+        /^magias\.\d+\.(tempo|alcance|duracao)$/.test(caminho) ||
         (/^ataques\.\d+\.(dano|tipoDano)$/.test(caminho) &&
           Array.isArray(f.conteudo?.ataques?.[Number(caminho.split('.')[1])]?.danos)) ||
         /descricao|observacoes|historia|aparencia|personalidade|Personalidade|ideais|vinculos|defeitos|anotacoes|resistencias|imunidades|vulnerabilidades|sentidos|ferramentas|armas|material/.test(

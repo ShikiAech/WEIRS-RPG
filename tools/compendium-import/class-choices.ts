@@ -326,7 +326,11 @@ export function curateClassChoices(ctx: CuratedContext) {
     for (const inv of invocations) {
       if (inv.kind !== 'caracteristica') continue;
       const requirement = (
-        inv.description.match(/(?:Nível\s+\d+\+\s+de Bruxo|Sem pré-requisito)[\s\S]*$/i)?.[0] ?? ''
+        inv.sourcePath === 'data/classes.json'
+          ? (inv.description.match(/Pré-requisito:\s*([^\n]+)/i)?.[1] ?? '')
+          : (inv.description.match(
+              /(?:Nível\s+\d+\+\s+de Bruxo|Sem pré-requisito)[\s\S]*$/i,
+            )?.[0] ?? '')
       )
         .replace(/\s+/g, ' ')
         .trim();
@@ -359,7 +363,15 @@ export function curateClassChoices(ctx: CuratedContext) {
           ...(/rolagem de ataque/i.test(requirement) ? { requiresAttackRoll: true as const } : {}),
           ...(inv.name === 'Lança Mística' ? { minimumRangeFeet: 10 } : {}),
         };
-      if (['Rajada Agonizante', 'Lança Mística', 'Rajada Repulsora'].includes(inv.name)) {
+      if (
+        [
+          'Rajada Agonizante',
+          'Explosão Agonizante',
+          'Lança Mística',
+          'Rajada Repulsora',
+          'Explosão Repelente',
+        ].includes(inv.name)
+      ) {
         const g = group(inv, 'truque-afetado', 'Truque beneficiado por ' + inv.name, 1, 1, 1);
         for (const spell of c.entries)
           if (spell.kind === 'magia' && spell.data.circle === 0) option(g, spell, 'magia-alvo');
@@ -382,7 +394,7 @@ export function curateClassChoices(ctx: CuratedContext) {
         }
         profile(inv, 'livro-das-sombras', 'car', 0);
       }
-      if (inv.name === 'Lições dos Primogênitos') {
+      if (['Lições dos Primogênitos', 'Lições dos Primeiros'].includes(inv.name)) {
         const g = group(inv, 'talento-origem', 'Talento de Origem');
         g.optionKind = 'talento';
         g.featCategory = 'origem';
@@ -490,7 +502,10 @@ export function curateClassChoices(ctx: CuratedContext) {
   }
   const paladin = cls('Paladino');
   if (paladin) {
-    let smite = ctx.find('magia', 'Golpe Divino');
+    let smite =
+      c.entries.find(
+        (e) => e.kind === 'magia' && e.originalName.toLowerCase() === 'divine smite',
+      ) ?? ctx.find('magia', 'Golpe Divino');
     if (!smite) {
       // The local Paladin source names this spell, but the legacy spell cards omit it.
       // Verified primary source (2026-10-17), PHB2024 p.265:

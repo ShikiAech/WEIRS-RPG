@@ -1,6 +1,8 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { hash, normalizeName } from './identity';
+import { readClassJsonSource } from './json-classes';
+import { readSpellJsonSource } from './json-spells';
 import type {
   BackgroundInput,
   FeatInput,
@@ -185,6 +187,9 @@ export async function readJsonSources(root: string, commit = ''): Promise<Import
       throw Error('Identidade repetida na fonte JSON: ' + file);
     sources.push({ path: file, hash: hash(raw!), commit, format: 'json', records });
   }
+  sources.push(
+    ...(await Promise.all([readClassJsonSource(root, commit), readSpellJsonSource(root, commit)])),
+  );
   return sources;
 }
 

@@ -193,6 +193,17 @@ function formulasMagia(spell, attributes) {
 		formula: formulaDano(d, attributes).toLowerCase().replace(/\s/g, "").replace(/^\+/, "")
 	}));
 }
+/** @param {import('../contracts/sheets').SheetContent} content */
+function sincronizarMagias(content) {
+	const c = structuredClone(content), calc = calcularFicha(c);
+	for (const spell of c.magias) {
+		if (!Array.isArray(spell.danos)) continue;
+		const parts = formulasMagia(spell, calc.atributos);
+		spell.dano = parts.map((d) => d.formula).join("+").replace(/\+-/g, "-");
+		spell.tipoDano = [...new Set(parts.map((d) => d.tipo.trim()).filter(Boolean))].join(" / ");
+	}
+	return c;
+}
 /** @param {import('../contracts/sheets').SheetContent} c */
 function validarMagias(c) {
 	const errors = [], ids = /* @__PURE__ */ new Set();
@@ -606,7 +617,7 @@ function validarFicha(f) {
 			if (!Number.isFinite(v) || v < min || v > max || inteiro && !Number.isInteger(v)) erro(caminho, "Informe um número " + (inteiro ? "inteiro " : "") + "entre " + min + " e " + max + ".");
 		}
 		if (typeof p === "string") {
-			const longo = /^ataques\.\d+\.(dano|tipoDano)$/.test(caminho) && Array.isArray(f.conteudo?.ataques?.[Number(caminho.split(".")[1])]?.danos) || /descricao|observacoes|historia|aparencia|personalidade|Personalidade|ideais|vinculos|defeitos|anotacoes|resistencias|imunidades|vulnerabilidades|sentidos|ferramentas|armas|material/.test(caminho);
+			const longo = /^magias\.\d+\.(tempo|alcance|duracao)$/.test(caminho) || /^ataques\.\d+\.(dano|tipoDano)$/.test(caminho) && Array.isArray(f.conteudo?.ataques?.[Number(caminho.split(".")[1])]?.danos) || /descricao|observacoes|historia|aparencia|personalidade|Personalidade|ideais|vinculos|defeitos|anotacoes|resistencias|imunidades|vulnerabilidades|sentidos|ferramentas|armas|material/.test(caminho);
 			if (v.length > (longo ? 1e4 : 120)) erro(caminho, "Texto acima do limite permitido.");
 			if (key === "id") {
 				if (!UUID$1.test(v) || ids.has(v)) erro(caminho, "Identificador inválido ou duplicado.");
@@ -1626,17 +1637,17 @@ function resolveSpellcasting(catalog, draft, state = resolveState(catalog, draft
 }
 //#endregion
 //#region packages/compendium/sheet-adapter.ts
-function spellToSheet(entry, profileId) {
+function spellToSheet(entry, profileId, { characterLevel = 1 } = {}) {
 	const d = entry.data;
 	if ([
 		d.castingTime,
 		d.range,
-		d.duration
-	].some((s) => s.length > 120) || [
+		d.duration,
 		entry.description,
 		d.components.material,
 		entry.source.title
 	].some((s) => s.length > 1e4)) throw new Error("O registro excede os limites de uma magia na ficha. Revise o conteúdo no compêndio.");
+	const scale = d.damages.length === 1 ? d.scales.filter((scale) => scale.basis === "personagem" && scale.level <= characterLevel).sort((a, b) => b.level - a.level)[0] : void 0;
 	return {
 		...novaEntrada("magias"),
 		nome: entry.name,
@@ -1653,7 +1664,13 @@ function spellToSheet(entry, profileId) {
 		somatico: d.components.somatic,
 		material: d.components.material,
 		descricao: entry.description,
-		observacoes: entry.source.title
+		observacoes: entry.source.title,
+		danos: [...d.damages].sort((a, b) => a.order - b.order).map((damage) => ({
+			id: crypto.randomUUID(),
+			dado: scale?.dice ?? damage.dice,
+			atributo: "",
+			tipo: damage.damageType ?? ""
+		}))
 	};
 }
 //#endregion
@@ -1916,8 +1933,11 @@ function projectSheet(catalog, draft, state, hp, defenses, casting) {
 		})), ...selected]) {
 			const e = entry(spell.spellRef.revisionId);
 			if (e?.kind !== "magia" || sheet.magias.some((s) => s.id === instanceUuid(`${profile.id}/spell:${e.ref.recordId}`))) continue;
-			const row = spellToSheet(e, profileId);
+			const row = spellToSheet(e, profileId, { characterLevel: state.level });
 			row.id = instanceUuid(`${profile.id}/spell:${e.ref.recordId}`);
+			row.danos?.forEach((damage, index) => {
+				damage.id = instanceUuid(`${row.id}/damage:${index}`);
+			});
 			row.origemCriacao = profile.id;
 			row.preparada = spell.prepared;
 			sheet.magias.push(row);
@@ -1948,7 +1968,7 @@ function projectSheet(catalog, draft, state, hp, defenses, casting) {
 		total: casting.pactSlots.reduce((n, s) => n + s.total, 0),
 		gastos: 0
 	};
-	return sincronizarEquipamentos(sheet);
+	return sincronizarMagias(sincronizarEquipamentos(sheet));
 }
 //#endregion
 //#region packages/character-creation/resolve.ts

@@ -13,12 +13,12 @@ export function linkedEquipmentChoice(
   if (/^Instrumento Musical \(mesmo escolhido acima\)$/i.test(value))
     return { categories: ['ferramenta:instrumento'], inherited: true };
   if (
-    /^Ferramentas de Artesão ou Instrumento Musical escolhido para a proficiência acima$/i.test(
+    /^Ferramentas de Artesão ou Instrumento Musical escolhido para a proficiência(?: de ferramenta)? acima$/i.test(
       value,
     )
   )
     return { categories: ['ferramenta:artesao', 'ferramenta:instrumento'], inherited: true };
-  if (/^Um Instrumento Musical de sua escolha$/i.test(value))
+  if (/^(?:Um )?Instrumento Musical (?:de|à) sua escolha$/i.test(value))
     return { categories: ['ferramenta:instrumento'], inherited: false };
   return null;
 }

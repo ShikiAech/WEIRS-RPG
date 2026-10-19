@@ -15,14 +15,56 @@ test(
     const f = await compendiumFixture();
     try {
       await f.db.query("SELECT set_config('request.jwt.claim.sub',$1,false)", [f.admin]);
+      const snapshot = JSON.parse(await readFile('public/compendium/demo.json', 'utf8')).catalog;
+      const revisedSpell = snapshot.entries.find(
+        (e: any) => e.kind === 'magia' && e.originalName === 'Chill Touch',
+      );
+      const oldRevision = crypto.randomUUID();
+      await f.db.query(
+        "INSERT INTO compendio_registros(id,tipo,slug) VALUES($1,'magia','old-chill-touch')",
+        [revisedSpell.ref.recordId],
+      );
+      await f.db.query(
+        `INSERT INTO compendio_revisoes(id,registro_id,numero,conjunto_regras_codigo,fonte_id,nome_pt,descricao_pt)
+        VALUES($1,$2,1,'dnd-5e-2024',$3,'Toque Arrepiante','Versão antiga preservada na ficha.')`,
+        [oldRevision, revisedSpell.ref.recordId, f.sourceId],
+      );
+      await f.db.query(
+        "INSERT INTO compendio_magias(revisao_id,circulo,escola,alcance_pt) VALUES($1,0,'Necromancia','36 metros [120 pés]')",
+        [oldRevision],
+      );
+      await f.publish(oldRevision);
       const sql = await readFile('supabase/compendium-seed.sql', 'utf8');
       await f.db.exec(sql);
       await f.db.exec(sql);
+      const upgraded = decodeCatalog(
+        (
+          await f.db.query<any>('SELECT obter_compendio($1,NULL) AS c', [
+            [revisedSpell.ref.revisionId, oldRevision],
+          ])
+        ).rows[0].c,
+      );
+      const currentSpell = upgraded.entries.find(
+        (e) => e.ref.revisionId === revisedSpell.ref.revisionId,
+      );
+      const pinnedSpell = upgraded.entries.find((e) => e.ref.revisionId === oldRevision);
+      assert.ok(currentSpell?.kind === 'magia');
+      assert.ok(pinnedSpell?.kind === 'magia');
+      assert.equal(currentSpell.data.range, 'Toque');
+      assert.equal(currentSpell.data.damages[0].dice, '1d10');
+      assert.equal(pinnedSpell.data.range, '36 metros [120 pés]');
+      assert.equal(
+        (
+          await f.db.query<any>('SELECT revisao_atual_id FROM compendio_registros WHERE id=$1', [
+            revisedSpell.ref.recordId,
+          ])
+        ).rows[0].revisao_atual_id,
+        revisedSpell.ref.revisionId,
+      );
       const count = (
         await f.db.query<{ n: number }>('SELECT count(*)::int n FROM compendio_indice')
       ).rows[0].n;
       assert.ok(count >= 2985);
-      const snapshot = JSON.parse(await readFile('public/compendium/demo.json', 'utf8')).catalog;
       const find = (kind: string, name: string, path?: string) =>
         snapshot.entries.find(
           (e: any) => e.kind === kind && e.name === name && (!path || e.source.path === path),
@@ -77,7 +119,10 @@ test(
       const preview = resolveCreation(catalog, draft);
       assert.deepEqual(preview.problems, []);
       assert.ok(preview.sheet);
-      assert.equal(preview.sheet.magias.find((s) => s.nome === 'Mãos Mágicas')?.perfilId, '');
+      const mageHand = snapshot.entries.find(
+        (e: any) => e.kind === 'magia' && e.originalName === 'Mage Hand',
+      );
+      assert.equal(preview.sheet.magias.find((s) => s.nome === mageHand.name)?.perfilId, '');
       assert.deepEqual(preview, resolveCreation(snapshot, draft));
       await f.db.exec(
         await readFile('supabase/migrations/202610160012_criacao_personagem.sql', 'utf8'),

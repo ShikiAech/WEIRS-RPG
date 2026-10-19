@@ -3,6 +3,7 @@ import type { CompendiumRepository } from '../../../../packages/contracts/charac
 import type { CompendiumSummary } from '../../../../packages/contracts/compendium';
 import type { SheetContent } from '../../../../packages/contracts/sheets';
 import { spellToSheet } from '../../../../packages/compendium/sheet-adapter';
+import { nivelTotal } from '../../../../packages/sheets/calculos.js';
 import { useCompendium } from '../../lib/use-compendium';
 import { normalize } from '../../lib/paths';
 export function SpellPicker({
@@ -61,7 +62,9 @@ export function SpellPicker({
       const detail = await repository.get(entry.ref, controller.current.signal);
       if (detail.kind !== 'magia') throw Error();
       const next = structuredClone(content);
-      next.magias.push(spellToSheet(detail, profile));
+      next.magias.push(
+        spellToSheet(detail, profile, { characterLevel: nivelTotal(content.classes) }),
+      );
       onChange(next);
       setMessage(`${entry.name} adicionada à ficha.`);
     } catch (e) {

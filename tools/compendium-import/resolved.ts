@@ -16,6 +16,7 @@ export type ResolvedEntry = CompendiumEntry & {
   sourceHash: string;
 };
 export interface ResolvedCatalog extends Omit<CreationCatalog, 'entries'> {
+  retiredRecordIds?: string[];
   entries: ResolvedEntry[];
   sources: CompendiumSource[];
   issues: ImportIssue[];
@@ -31,7 +32,7 @@ export interface ResolvedCatalog extends Omit<CreationCatalog, 'entries'> {
 }
 export interface CompendiumCuration {
   aliases: {
-    identities?: Record<string,string>;
+    identities?: Record<string, string>;
     names: { name: string; target: string; kind: string; context?: string }[];
     categories: { code: string; names: string[] }[];
   };

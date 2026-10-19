@@ -17,10 +17,12 @@ import { normalizeName, stableId, revisionId, hash, canonical, conceptId } from 
 import { plainHtml } from './legacy';
 import { linkRequirements } from './requirements';
 import { curateClassChoices } from './class-choices';
+import { curateClassJsonTraining } from './class-json-training';
 import { curateArtificerChoices } from './artificer-choices';
 import { curateSpeciesChoices } from './species-choices';
 import { curateEquipmentChoices, linkedEquipmentChoice } from './equipment-choices';
 import { curateFeatChoices, populateFeatChoices } from './feat-choices';
+import { spellDefinition } from './json-spells';
 import type { CatalogDraftRecord, ImportedCatalog, JsonObject } from './model';
 import type { CompendiumCuration, ResolvedCatalog, ResolvedEntry } from './resolved';
 export type { CompendiumCuration, ResolvedCatalog } from './resolved';
@@ -63,6 +65,34 @@ const labels = (html: string) => {
   });
   return result;
 };
+/** JSON omits progression tables and the count for most initial skill choices. */
+function legacyClassHtml(r: CatalogDraftRecord): string {
+  const legacy = r.alternatives.find((a) => a.payload.type === 'legacy');
+  return legacy?.payload.type === 'legacy' ? legacy.payload.entry.descriptionHtml : '';
+}
+function structuralClassHtml(r: CatalogDraftRecord): string {
+  if (r.payload.type !== 'class' && r.payload.type !== 'subclass') return r.descriptionHtml;
+  const legacy = r.alternatives.find(
+    (a) => a.payload.type === 'legacy' || a.payload.type === 'section',
+  );
+  const html =
+    legacy?.payload.type === 'legacy'
+      ? legacy.payload.entry.descriptionHtml
+      : legacy?.payload.type === 'section'
+        ? legacy.payload.html
+        : '';
+  const $ = load(html);
+  return (
+    r.descriptionHtml +
+    $('table')
+      .toArray()
+      .map((el) => $.html(el))
+      .join('')
+  );
+}
+const classConfigKey = (name: string) =>
+  ({ atirador: 'pistoleiro', 'psionico-ua': 'psionista' })[normalizeName(name)] ??
+  normalizeName(name);
 export async function loadCuration(root: string): Promise<CompendiumCuration> {
   const [aliases, requirements, effects, progressions, spellLists] = await Promise.all(
     ['aliases', 'requirements', 'effects', 'progressions', 'spell-lists'].map(async (name) =>
@@ -239,6 +269,7 @@ export function resolveCatalog(
     sources: structuredClone(input.sources),
     issues: structuredClone(input.issues),
     origins: input.records,
+    retiredRecordIds: input.retiredRecordIds,
     progressionCells: [],
   };
   const byKey = new Map<string, ResolvedEntry>(),
@@ -258,9 +289,30 @@ export function resolveCatalog(
       message,
       revisionId: byKey.get(r.key)?.ref.revisionId ?? version(r),
     });
+  // Relations and fallback mechanics depend on other source records. Hash the
+  // normalized graph once so a source update cannot rewrite a pinned revision.
+  const sourceGraphHash = hash(
+    canonical(
+      input.records
+        .map((r) => ({
+          id: r.id,
+          revisionId: r.revisionId,
+          alternatives: r.alternatives.map((a) => ({
+            sourceHash: a.sourceHash,
+            payload: a.payload,
+          })),
+        }))
+        .sort((a, b) => a.id.localeCompare(b.id)),
+    ),
+  );
   // Curation is part of a revision: a changed formula or alias cannot silently alter a pinned sheet.
   const version = (r: CatalogDraftRecord) =>
-    revisionId(r.id, { sourceRevision: r.revisionId, curation, resolverVersion: 5 });
+    revisionId(r.id, {
+      sourceRevision: r.revisionId,
+      sourceGraphHash,
+      curation,
+      resolverVersion: 6,
+    });
   const create = <K extends CompendiumKind>(
     r: CatalogDraftRecord,
     data: CompendiumPayloadMap[K],
@@ -327,10 +379,13 @@ export function resolveCatalog(
       meta = p.type === 'legacy' ? p.entry.metadata : {},
       l = labels(r.descriptionHtml);
     if (r.kind === 'classe') {
-      const config = curation.progressions.classes[normalizeName(r.name)];
-      const die = Number(
-        /(?:Dado de Vida|Dados de Vida)\s*:?\s*1?d(6|8|10|12)/i.exec(r.description)?.[1],
-      );
+      const config = curation.progressions.classes[classConfigKey(r.name)];
+      const die =
+        p.type === 'class'
+          ? Number(p.input.hit_die.slice(1))
+          : Number(
+              /(?:Dado de Vida|Dados de Vida)\s*:?\s*1?d(6|8|10|12)/i.exec(r.description)?.[1],
+            );
       if (![6, 8, 10, 12].includes(die)) {
         issue(r, 'Dado de vida não encontrado.', 'INVALID_SOURCE', 'error');
         continue;
@@ -338,7 +393,11 @@ export function resolveCatalog(
       create<'classe'>(r, {
         hitDie: die as 6 | 8 | 10 | 12,
         fixedHitPoints: die / 2 + 1,
-        primaryAbilities: abilityCodes(l['atributos-principais'] ?? l['atributo-principal'] ?? ''),
+        primaryAbilities: abilityCodes(
+          p.type === 'class'
+            ? p.input.primary_ability.join(', ')
+            : (l['atributos-principais'] ?? l['atributo-principal'] ?? ''),
+        ),
         multiclassAbilities: (config?.abilities ?? []).map((ability) => ({
           ability,
           minimum: 13,
@@ -405,10 +464,19 @@ export function resolveCatalog(
             }
           : {}),
         level: r.level ?? (p.type === 'trait' ? 1 : null),
-        optional: p.type === 'section' && r.level === undefined,
+        optional:
+          (p.type === 'section' && r.level === undefined) ||
+          (p.type === 'class-feature' && p.option === true),
         manualDecision: /escolh|escolh[ae]|à sua escolha/i.test(r.description),
       });
     else if (r.kind === 'magia') {
+      if (p.type === 'spell') {
+        create<'magia'>(
+          r,
+          spellDefinition(p.input, version(r), (message) => issue(r, message)),
+        );
+        continue;
+      }
       const components = meta.componentes ?? '';
       const circle = Number(meta.nivel),
         range = /\[(\d+)\s*ft/.exec(meta.alcance ?? '');
@@ -1124,26 +1192,32 @@ export function resolveCatalog(
         ...definition,
       });
     }
-    if (owner.kind === 'magia' && p.type === 'legacy') {
-      const classes = (p.entry.metadata.classes ?? '')
-        .split(/[,;]/)
-        .map((s) => s.trim())
-        .filter(Boolean);
+    if (owner.kind === 'magia' && (p.type === 'legacy' || p.type === 'spell')) {
+      const classes =
+        p.type === 'spell'
+          ? p.input.classes
+          : (p.entry.metadata.classes ?? '')
+              .split(/[,;]/)
+              .map((s) => s.trim())
+              .filter(Boolean);
       for (const name of classes) {
         const canonical =
           curation.spellLists.classAliases[name.toLowerCase()] ??
           (normalizeName(name) === 'guardiao' ? 'patrulheiro' : normalizeName(name));
         const target = c.entries.find(
-          (e) => e.kind === 'classe' && normalizeName(e.name) === canonical,
+          (e) =>
+            e.kind === 'classe' &&
+            (normalizeName(e.name) === canonical || normalizeName(e.originalName) === canonical),
         );
-        if (target && !owner.data.classRefs.some((r) => r.revisionId === target.ref.revisionId))
-          owner.data.classRefs.push(ref(target));
-        else issue(r, 'Classe de magia não resolvida: ' + name, 'UNRESOLVED_REFERENCE');
+        if (target) {
+          if (!owner.data.classRefs.some((r) => r.revisionId === target.ref.revisionId))
+            owner.data.classRefs.push(ref(target));
+        } else issue(r, 'Classe de magia não resolvida: ' + name, 'UNRESOLVED_REFERENCE');
       }
     }
     if (owner.kind === 'classe') {
       const l = labels(r.descriptionHtml);
-      const classConfig = curation.progressions.classes[normalizeName(owner.name)];
+      const classConfig = curation.progressions.classes[classConfigKey(owner.name)];
       const armor = normalizeName(l['proficiencias-em-armaduras'] ?? ''),
         weapons = normalizeName(l['proficiencias-em-armas'] ?? '');
       const categories = [
@@ -1194,7 +1268,7 @@ export function resolveCatalog(
           quatro: 4,
         };
       const countMatch = /escolha\s+(?:quaisquer?\s*)?(\d+|uma?|duas|dois|três|quatro)/i.exec(
-        skillText,
+        /escolha/i.test(skillText) ? skillText : (labels(legacyClassHtml(r)).pericias ?? ''),
       );
       const skillCount = countMatch
         ? Number(countMatch[1]) || countWords[normalizeName(countMatch[1])]
@@ -1253,6 +1327,32 @@ export function resolveCatalog(
           }));
         }
       } else issue(r, 'Quantidade de perícias iniciais exige revisão.');
+      if (p.type === 'class') {
+        for (const name of p.input.tools.filter((s) => !/escolh|qualquer/i.test(s))) {
+          const tool = find('equipamento', name);
+          if (tool)
+            proficiency(
+              owner,
+              'ferramenta:' + normalizeName(name),
+              { type: 'equipamento', equipment: ref(tool) },
+              'inicial',
+            );
+          else issue(r, 'Ferramenta da classe não resolvida: ' + name);
+        }
+        for (const name of p.input.weapons.filter((s) => !/armas|propriedade/i.test(s))) {
+          const weapon = find('equipamento', name);
+          if (weapon)
+            proficiency(
+              owner,
+              'arma:' + normalizeName(name),
+              { type: 'equipamento', equipment: ref(weapon) },
+              'inicial',
+            );
+          else issue(r, 'Arma da classe não resolvida: ' + name);
+        }
+        if (!classConfig)
+          issue(r, 'Progressão e requisitos de multiclasse da classe JSON exigem curadoria.');
+      }
       const equipmentText = l['equipamento-inicial'] ?? '';
       const parts = [
         ...equipmentText.matchAll(/\(([A-Z])\)\s*([\s\S]*?)(?=;\s*(?:ou\s*)?\([A-Z]\)|$)/g),
@@ -1268,7 +1368,7 @@ export function resolveCatalog(
         );
       for (const ability of abilityCodes(l['testes-de-resistencia'] ?? l.salvaguardas ?? ''))
         proficiency(owner, 'save:' + ability, { type: 'salvaguarda', ability }, 'inicial');
-      const $ = load(r.descriptionHtml);
+      const $ = load(structuralClassHtml(r));
       $('table').each((t, table) => {
         const rows = $(table)
           .find('tr')
@@ -1293,7 +1393,7 @@ export function resolveCatalog(
           ),
         );
       });
-      const config = curation.progressions.classes[normalizeName(owner.name)];
+      const config = curation.progressions.classes[classConfigKey(owner.name)];
       if (config?.castingAbility) {
         const profile: SpellcastingProfileDefinition = {
           id: stableId(owner.ref.revisionId + ':casting'),
@@ -1574,7 +1674,7 @@ export function resolveCatalog(
         );
         continue;
       }
-      const $ = load(e.descriptionHtml);
+      const $ = load(structuralClassHtml(raw.get(e.key)!));
       const rows = $('table')
         .first()
         .find('tr')
@@ -1701,6 +1801,7 @@ export function resolveCatalog(
   };
   curateClassChoices(curatedContext);
   curateArtificerChoices(curatedContext);
+  curateClassJsonTraining(curatedContext);
   curateSpeciesChoices(curatedContext);
   curateEquipmentChoices(curatedContext);
   curateFeatChoices(curatedContext);
@@ -1734,9 +1835,17 @@ export function resolveCatalog(
   });
   for (const e of c.entries) {
     const r = raw.get(e.key);
-    e.aliases = curation.aliases.names
-      .filter((a) => a.kind === e.kind && normalizeName(a.target) === normalizeName(e.name))
-      .map((a) => a.name);
+    e.aliases = [
+      ...new Set([
+        ...(e.kind === 'magia' && e.originalName === 'Divine Smite' ? ['Golpe Divino'] : []),
+        ...curation.aliases.names
+          .filter((a) => a.kind === e.kind && normalizeName(a.target) === normalizeName(e.name))
+          .map((a) => a.name),
+        ...(r?.alternatives.flatMap((a) =>
+          a.name ? [a.name] : a.payload.type === 'legacy' ? [a.payload.entry.name] : [],
+        ) ?? []),
+      ]),
+    ].filter((name) => name !== e.name);
     // A source saying 2024 is provenance, not by itself an editorial review.
     const related =
       c.grants.some((g) => g.ownerRevisionId === e.ref.revisionId) ||
@@ -1747,5 +1856,17 @@ export function resolveCatalog(
       issue(r, 'Texto legado preservado; regras específicas aguardam curadoria.');
   }
   populateFeatChoices(c);
+  const currentIds = new Set(c.entries.map((e) => e.ref.recordId));
+  const obsoleteGenerated = Object.entries(input.identityRegistry.records)
+    .filter(
+      ([key, id]) =>
+        !currentIds.has(id) &&
+        (key.startsWith('equipamento:fonte:') ||
+          (key.startsWith('classe:') && (key.includes(':curated:') || key.includes(':package:')))),
+    )
+    .map(([, id]) => id);
+  c.retiredRecordIds = [...new Set([...(c.retiredRecordIds ?? []), ...obsoleteGenerated])].filter(
+    (id) => !currentIds.has(id),
+  );
   return c;
 }

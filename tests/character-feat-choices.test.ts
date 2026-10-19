@@ -72,7 +72,7 @@ async function scenario(name: string) {
 
 test('late racial and warlock feat choices offer their declared category', async () => {
   const c = await catalog;
-  for (const name of ['Versátil', 'Dádiva Herdada', 'Lições dos Primogênitos']) {
+  for (const name of ['Versátil', 'Dádiva Herdada', 'Lições dos Primeiros']) {
     const owners = c.entries.filter((e) => e.name === name);
     const groups = c.choices.filter(
       (g) => owners.some((e) => e.ref.revisionId === g.ownerRevisionId) && g.featCategory,
