@@ -238,7 +238,7 @@ Antes de usar o banco com dados reais, valide com duas contas da mesa: login/log
 O projeto Weirs recebeu a ativação hospedada em 17/10/2026; veja o [relatório de auditoria e carga](ativacao-supabase-2026-10-17.md). Os passos abaixo orientam novas instalações; confira o que já está aplicado antes de executá-los. Consulte [o modelo e a cobertura](compendio-banco.md) e [o assistente](criacao-personagem.md).
 
 1. Faça um backup do projeto existente. Confira as migrações já aplicadas e mantenha a sequência de `001` até `010` antes de prosseguir.
-2. Execute `supabase/migrations/202610160011_compendio.sql` uma vez. Ela cria o catálogo relacional, revisões, leitura pública de conteúdo publicado e manutenção exclusiva de admins globais.
+2. Aplique, na ordem, `202610160011_compendio.sql`, `202610160012_criacao_personagem.sql`, `202610170013_compendio_metadados.sql` e `202610190014_compendio_leitura_seletiva.sql` de `supabase/migrations/`, apenas se ainda não estiverem instaladas. Elas criam o catálogo, a gravação de personagens, os metadados mecânicos e a leitura eficiente de revisões publicadas. A carga atual exige esses metadados.
 3. Confira `content/compendium/coverage.json`. Se precisar regenerar a carga, execute `npm run compendium:seed` e `npm run compendium:verify`. Nenhum desses comandos acessa seu Supabase remoto.
 4. Execute `supabase/compendium-seed.sql` como responsável pelo banco, identificando um administrador **já cadastrado** em `public.administradores`. No SQL Editor ou na mesma conexão usada para a carga, antes do arquivo:
 
@@ -249,7 +249,7 @@ O projeto Weirs recebeu a ativação hospedada em 17/10/2026; veja o [relatório
    A carga contém sua própria transação. Para o arquivo maior, prefira um cliente PostgreSQL que aceite executar arquivos completos. A identidade acima serve à autorização de publicação e não cria um administrador. Ao terminar a sessão, remova essa configuração ou feche a conexão.
 
 5. Confira `compendio_indice` e `compendio_pendencias`. A carga é repetível; `WC004` significa divergência editorial e cancela a transação. Revise a diferença em vez de apagar as linhas para forçar a importação.
-6. Execute `supabase/migrations/202610160012_criacao_personagem.sql` uma vez. Ela cria o histórico privado, a gravação atômica restrita ao servidor e a recuperação da tentativa autenticada.
+6. Confira o histórico privado, a gravação atômica restrita ao servidor e a recuperação da tentativa autenticada, criados pela migração `012` do passo 2.
 7. Gere o servidor com `npm run build:creation-server`. Com a CLI do Supabase autenticada no projeto correto, publique a função preparada:
 
    ```powershell

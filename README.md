@@ -27,7 +27,7 @@ Verificações: `npm test`, `npm run compendium:verify`, `npm run build` e `npm 
 
 O chat inclui histórico, Realtime, `/r` e `/roll`, vantagem/desvantagem e ações das fichas. Mestres podem esconder resultados com `/gmroll` e revelá-los depois. Rolagens são calculadas e gravadas no banco, com proteção contra duplicação. Dados 3D gratuitos animam os seus envios confirmados em uma janela móvel e recolhível; total e faces são revelados quando a animação termina. Há opção de desligar e suporte a movimento reduzido. Para ativar o chat no projeto existente, siga o [guia do chat](docs/configuracao-chat.md).
 
-Os [JSONs de classes e magias foram incorporados ao compêndio em 19/10/2026](docs/atualizacao-classes-magias-2026-10-19.md), com 20 classes, 155 subclasses e 670 magias, preservando referências antigas e conteúdo complementar. A carga está aplicada no Supabase; a publicação do frontend e do motor de criação é conjunta.
+Os [JSONs de classes e magias foram incorporados ao compêndio em 19/10/2026](docs/atualizacao-classes-magias-2026-10-19.md), com 20 classes, 155 subclasses e 670 magias, preservando referências antigas e conteúdo complementar. A carga, o frontend e o motor de criação estão publicados em produção.
 
 **Minha ficha**, **Combate** e **Loja** permitem jogar pela mesa: testes, ataques, magias/danos configurados, PV/condições/concentração, dados de vida/morte, espaços, recursos e descansos; iniciativa, NPCs, turnos e rodadas; compra/venda com moedas e estoque transacionais. Para ativar esses controles, instale `202610070004_mesa.sql` seguindo o [guia de sessão jogável](docs/configuracao-mesa.md).
 
