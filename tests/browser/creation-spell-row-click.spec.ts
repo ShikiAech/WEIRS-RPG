@@ -90,7 +90,7 @@ test('botão de informação e tooltip permitem ler sem selecionar a magia', asy
 
 test('texto e padding de linha bloqueada preservam o limite de truques', async ({ page }) => {
   const profile = await startWizard(page);
-  for (const name of ['Luz', 'Mãos Mágicas', 'Raio de Gelo'])
+  for (const name of ['Luz', 'Mão Mágica', 'Raio de Gelo'])
     await (await search(profile, name)).check();
   const checkbox = await search(profile, 'Ilusão Menor');
   await expect(checkbox).toBeDisabled();

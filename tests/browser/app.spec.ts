@@ -7,7 +7,7 @@ test('compêndio filtra acentos, abre texto completo e mantém páginas originai
   await page.goto('app.html#/compendio?demo=1');
   await page.getByLabel('Buscar no compêndio').fill('acalmar emocoes');
   await page.getByRole('button', { name: 'Acalmar Emoções', exact: true }).click();
-  await expect(page.getByRole('dialog')).toContainText('hostil');
+  await expect(page.getByRole('dialog')).toContainText(/hostil/i);
   await page.getByRole('button', { name: 'Fechar detalhes' }).click();
   await page.goto('app.html#/campanhas');
   await expect(page.getByRole('button', { name: 'Crônicas de Othans', exact: true })).toBeVisible();

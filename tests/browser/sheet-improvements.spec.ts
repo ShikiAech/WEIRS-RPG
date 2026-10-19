@@ -116,7 +116,7 @@ test('magias podem ser pesquisadas, marcadas e agrupadas com espaços configurá
   await expect(
     page.getByRole('heading', { name: 'Círculo 2 · 1 magia', exact: true }),
   ).toBeVisible();
-  await expect(page.getByLabel('Descrição da magia', { exact: true })).toHaveValue(/hostil/);
+  await expect(page.getByLabel('Descrição da magia', { exact: true })).toHaveValue(/hostil/i);
   await page.getByRole('button', { name: 'Buscar magias no compêndio', exact: true }).click();
   await expect(dialog.getByLabel('Buscar magias', { exact: true })).toBeFocused();
   await dialog.getByLabel('Buscar magias', { exact: true }).fill('acalmar');

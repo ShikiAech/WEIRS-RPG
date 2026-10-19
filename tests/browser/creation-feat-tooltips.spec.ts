@@ -58,7 +58,7 @@ test('invocação mística mostra sua descrição sem selecionar a opção', asy
   const info = group.getByRole('button', { name: 'Sobre Armadura das Sombras', exact: true });
   await expect(info).toBeVisible();
   await info.click();
-  await expect(group.getByRole('tooltip')).toContainText('Armadura Arcana');
+  await expect(group.getByRole('tooltip')).toContainText('Armadura de Mago');
   await expect(
     group.getByRole('checkbox', { name: 'Armadura das Sombras', exact: true }),
   ).not.toBeChecked();

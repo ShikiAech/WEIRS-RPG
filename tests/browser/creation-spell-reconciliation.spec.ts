@@ -61,12 +61,12 @@ test('reduzir o nível remove círculo indisponível com nome e motivo e mantém
   await settled(page);
   await page.getByRole('button', { name: '6 Magias', exact: true }).click();
   const warlock = page.getByRole('group', { name: 'Bruxo', exact: true });
-  await selectSpell(warlock, 'Raio Místico');
+  await selectSpell(warlock, 'Rajada Mística');
   await warlock.getByRole('tab', { name: 'Círculo 1', exact: true }).click();
   await selectSpell(warlock, 'Enfeitiçar Pessoa');
   await warlock.getByRole('tab', { name: 'Círculo 2', exact: true }).click();
   await selectSpell(warlock, 'Passo Nebuloso');
-  await expectSavedSpells(page, ['Raio Místico', 'Enfeitiçar Pessoa', 'Passo Nebuloso']);
+  await expectSavedSpells(page, ['Rajada Mística', 'Enfeitiçar Pessoa', 'Passo Nebuloso']);
 
   await page.getByRole('button', { name: '4 Classes', exact: true }).click();
   await level.fill('1');
@@ -76,9 +76,9 @@ test('reduzir o nível remove círculo indisponível com nome e motivo e mantém
   await expect(notice).toContainText('Passo Nebuloso');
   await expect(notice).toContainText('Bruxo');
   await expect(notice).toContainText(/círculo/i);
-  await expect(notice).not.toContainText('Raio Místico');
+  await expect(notice).not.toContainText('Rajada Mística');
   await expect(notice).not.toContainText('Enfeitiçar Pessoa');
-  await expectSavedSpells(page, ['Raio Místico', 'Enfeitiçar Pessoa']);
+  await expectSavedSpells(page, ['Rajada Mística', 'Enfeitiçar Pessoa']);
   const screenshot = `artifacts/ux-guided/${testInfo.project.name}-spell-reconciliation-modal.png`;
   await page.screenshot({ path: screenshot, fullPage: true });
   await testInfo.attach('Aviso de magias removidas', {
@@ -98,7 +98,7 @@ test('reduzir o nível remove círculo indisponível com nome e motivo e mantém
   await page.reload();
   await settled(page);
   await expect(page.getByRole('dialog', { name: 'Magias ajustadas', exact: true })).toHaveCount(0);
-  await expectSavedSpells(page, ['Raio Místico', 'Enfeitiçar Pessoa']);
+  await expectSavedSpells(page, ['Rajada Mística', 'Enfeitiçar Pessoa']);
 });
 
 test('remover uma multiclasse avisa sobre as magias removidas e preserva a outra origem', async ({
@@ -110,8 +110,8 @@ test('remover uma multiclasse avisa sobre as magias removidas e preserva a outra
   const cleric = page.getByRole('group', { name: 'Clérigo', exact: true });
   await cleric.getByRole('tab', { name: 'Círculo 1', exact: true }).click();
   await selectSpell(cleric, 'Bênção');
-  await selectSpell(page.getByRole('group', { name: 'Mago', exact: true }), 'Mãos Mágicas');
-  await expectSavedSpells(page, ['Bênção', 'Mãos Mágicas']);
+  await selectSpell(page.getByRole('group', { name: 'Mago', exact: true }), 'Mão Mágica');
+  await expectSavedSpells(page, ['Bênção', 'Mão Mágica']);
 
   await page.getByRole('button', { name: '4 Classes', exact: true }).click();
   await page
@@ -120,7 +120,7 @@ test('remover uma multiclasse avisa sobre as magias removidas e preserva a outra
     .click();
   const notice = page.getByRole('dialog', { name: 'Magias ajustadas', exact: true });
   await expect(notice).toBeVisible();
-  await expect(notice).toContainText('Mãos Mágicas');
+  await expect(notice).toContainText('Mão Mágica');
   await expect(notice).toContainText('Mago');
   await expect(notice).toContainText(/origem.*removida/i);
   await expect(notice).not.toContainText('Bênção');
@@ -138,8 +138,8 @@ test('restaurar rascunho inválido remove magia de outra lista e mantém escolha
 }) => {
   await startClass(page, 'Mago');
   await page.getByRole('button', { name: '6 Magias', exact: true }).click();
-  await selectSpell(page.getByRole('group', { name: 'Mago', exact: true }), 'Mãos Mágicas');
-  await expectSavedSpells(page, ['Mãos Mágicas']);
+  await selectSpell(page.getByRole('group', { name: 'Mago', exact: true }), 'Mão Mágica');
+  await expectSavedSpells(page, ['Mão Mágica']);
   await page.evaluate(
     ({ prefix, invalidRef }) => {
       const key = Object.keys(sessionStorage).find((key) => key.startsWith(prefix))!;
@@ -159,16 +159,16 @@ test('restaurar rascunho inválido remove magia de outra lista e mantém escolha
   await expect(notice).toContainText('Bênção');
   await expect(notice).toContainText('Mago');
   await expect(notice).toContainText(/lista/i);
-  await expect(notice).not.toContainText('Mãos Mágicas');
-  await expectSavedSpells(page, ['Mãos Mágicas']);
+  await expect(notice).not.toContainText('Mão Mágica');
+  await expectSavedSpells(page, ['Mão Mágica']);
   await notice.getByRole('button', { name: 'Entendi', exact: true }).click();
   const wizard = page.getByRole('group', { name: 'Mago', exact: true });
-  await wizard.getByRole('combobox', { name: /^Buscar magias de / }).fill('Mãos Mágicas');
-  await expect(wizard.getByRole('checkbox', { name: 'Mãos Mágicas', exact: true })).toBeChecked();
+  await wizard.getByRole('combobox', { name: /^Buscar magias de / }).fill('Mão Mágica');
+  await expect(wizard.getByRole('checkbox', { name: 'Mão Mágica', exact: true })).toBeChecked();
   await page.reload();
   await settled(page);
   await expect(page.getByRole('dialog', { name: 'Magias ajustadas', exact: true })).toHaveCount(0);
-  await expectSavedSpells(page, ['Mãos Mágicas']);
+  await expectSavedSpells(page, ['Mão Mágica']);
 });
 
 test('resposta de busca fora da lista ou do círculo nunca oferece escolha utilizável', async ({
@@ -197,7 +197,7 @@ test('resposta de busca fora da lista ou do círculo nunca oferece escolha utili
   await startClass(page, 'Mago', false);
   await page.getByRole('button', { name: '6 Magias', exact: true }).click();
   const wizard = page.getByRole('group', { name: 'Mago', exact: true });
-  await selectSpell(wizard, 'Mãos Mágicas');
+  await selectSpell(wizard, 'Mão Mágica');
   await wizard.getByRole('tab', { name: 'Círculo 1', exact: true }).click();
   for (const name of ['Bênção', 'Passo Nebuloso']) {
     await wizard.getByRole('combobox', { name: /^Buscar magias de / }).fill(name);
@@ -210,7 +210,7 @@ test('resposta de busca fora da lista ou do círculo nunca oferece escolha utili
       .poll(async () => (await invalid.count()) === 0 || (await invalid.isDisabled()))
       .toBe(true);
   }
-  await expectSavedSpells(page, ['Mãos Mágicas']);
+  await expectSavedSpells(page, ['Mão Mágica']);
   await expect(page.getByRole('dialog', { name: 'Magias ajustadas', exact: true })).toHaveCount(0);
 });
 
@@ -277,8 +277,8 @@ test('catálogo parcial verifica a magia antes de selecionar e explica falha ou 
   await startClass(page, 'Mago', false);
   await page.getByRole('button', { name: '6 Magias', exact: true }).click();
   const wizard = page.getByRole('group', { name: 'Mago', exact: true });
-  await selectSpell(wizard, 'Mãos Mágicas');
-  await expectSavedSpells(page, ['Mãos Mágicas']);
+  await selectSpell(wizard, 'Mão Mágica');
+  await expectSavedSpells(page, ['Mão Mágica']);
   await wizard.getByRole('tab', { name: 'Círculo 1', exact: true }).click();
   await wizard.getByRole('combobox', { name: /^Buscar magias de / }).fill('Bênção');
   const foreign = wizard.getByRole('checkbox', { name: 'Bênção', exact: true });
@@ -286,7 +286,7 @@ test('catálogo parcial verifica a magia antes de selecionar e explica falha ou 
   await foreign.click();
   await expect(wizard.getByRole('alert')).toContainText(/Não foi possível verificar Bênção/i);
   await expect(foreign).not.toBeChecked();
-  await expectSavedSpells(page, ['Mãos Mágicas']);
+  await expectSavedSpells(page, ['Mão Mágica']);
 
   await foreign.click();
   await expect(wizard.getByRole('alert')).toContainText('Bênção');
@@ -296,7 +296,7 @@ test('catálogo parcial verifica a magia antes de selecionar e explica falha ou 
   await wizard.getByRole('combobox', { name: /^Buscar magias de / }).fill('Bênção');
   await expect(foreign).not.toBeChecked();
   await expect(foreign).toBeDisabled();
-  await expectSavedSpells(page, ['Mãos Mágicas']);
+  await expectSavedSpells(page, ['Mão Mágica']);
   await expect(page.getByRole('dialog', { name: 'Magias ajustadas', exact: true })).toHaveCount(0);
 });
 
@@ -418,7 +418,7 @@ test('duas verificações pendentes em origens distintas preservam ambas as esco
         return detail;
       };
     },
-    [entry('magia', 'Luz').ref.revisionId, entry('magia', 'Mãos Mágicas').ref.revisionId],
+    [entry('magia', 'Luz').ref.revisionId, entry('magia', 'Mão Mágica').ref.revisionId],
   );
   await startClass(page, 'Clérigo', false);
   await chooseClass(page, 'Mago', 'Adicionar multiclasse');
@@ -427,24 +427,24 @@ test('duas verificações pendentes em origens distintas preservam ambas as esco
   const wizard = page.getByRole('group', { name: 'Mago', exact: true });
   await cleric.getByRole('combobox', { name: /^Buscar magias de / }).fill('Luz');
   await cleric.getByRole('checkbox', { name: 'Luz', exact: true }).click();
-  await wizard.getByRole('combobox', { name: /^Buscar magias de / }).fill('Mãos Mágicas');
-  await wizard.getByRole('checkbox', { name: 'Mãos Mágicas', exact: true }).click();
+  await wizard.getByRole('combobox', { name: /^Buscar magias de / }).fill('Mão Mágica');
+  await wizard.getByRole('checkbox', { name: 'Mão Mágica', exact: true }).click();
   await expect
     .poll(() => page.evaluate(() => Object.keys((window as any).spellVerificationResolvers).length))
     .toBe(2);
   await expectSavedSpells(page, []);
 
-  for (const name of ['Luz', 'Mãos Mágicas']) {
+  for (const name of ['Luz', 'Mão Mágica']) {
     const revisionId = entry('magia', name).ref.revisionId;
     await page.evaluate((ref) => (window as any).spellVerificationResolvers[ref](), revisionId);
     await expect
       .poll(() => page.evaluate(() => (window as any).completedSpellVerifications))
       .toContain(revisionId);
-    await expectSavedSpells(page, name === 'Luz' ? ['Luz'] : ['Luz', 'Mãos Mágicas']);
+    await expectSavedSpells(page, name === 'Luz' ? ['Luz'] : ['Luz', 'Mão Mágica']);
   }
   await cleric.getByRole('combobox', { name: /^Buscar magias de / }).fill('Luz');
   await expect(cleric.getByRole('checkbox', { name: 'Luz', exact: true })).toBeChecked();
-  await wizard.getByRole('combobox', { name: /^Buscar magias de / }).fill('Mãos Mágicas');
-  await expect(wizard.getByRole('checkbox', { name: 'Mãos Mágicas', exact: true })).toBeChecked();
+  await wizard.getByRole('combobox', { name: /^Buscar magias de / }).fill('Mão Mágica');
+  await expect(wizard.getByRole('checkbox', { name: 'Mão Mágica', exact: true })).toBeChecked();
   await expect(page.getByRole('dialog', { name: 'Magias ajustadas', exact: true })).toHaveCount(0);
 });

@@ -67,18 +67,18 @@ test('invocação repetível admite duas aquisições no mesmo nível com alvos 
   });
   await invocation
     .getByLabel('Buscar em Invocações Místicas do nível 2', { exact: true })
-    .fill('Rajada Agonizante');
-  await invocation.getByRole('checkbox', { name: 'Rajada Agonizante', exact: true }).check();
+    .fill('Explosão Agonizante');
+  await invocation.getByRole('checkbox', { name: 'Explosão Agonizante', exact: true }).check();
   await invocation
-    .getByRole('checkbox', { name: 'Rajada Agonizante (2ª aquisição)', exact: true })
+    .getByRole('checkbox', { name: 'Explosão Agonizante (2ª aquisição)', exact: true })
     .check();
   const targets = page.getByRole('group', {
-    name: 'Truque beneficiado por Rajada Agonizante',
+    name: 'Truque beneficiado por Explosão Agonizante',
     exact: true,
   });
   await expect(targets).toHaveCount(2);
-  const repeated = targets.filter({ hasText: 'Rajada Agonizante (2ª aquisição)' });
-  const first = targets.filter({ hasNotText: 'Rajada Agonizante (2ª aquisição)' });
+  const repeated = targets.filter({ hasText: 'Explosão Agonizante (2ª aquisição)' });
+  const first = targets.filter({ hasNotText: 'Explosão Agonizante (2ª aquisição)' });
   await first.getByRole('combobox').fill('Chama Sagrada');
   await first.getByRole('checkbox', { name: 'Chama Sagrada', exact: true }).click();
   await repeated.getByRole('combobox').fill('Chama Sagrada');
@@ -114,7 +114,7 @@ test('manobra já aprendida fica indisponível nas escolhas de outro nível', as
   await expect(later.getByRole('checkbox', { name: 'Aparar', exact: true })).toBeEnabled();
 });
 
-test('Artífice escolhe quatro planos e reconhece Reparar automático fora da cota', async ({
+test('Artífice escolhe quatro planos e reconhece Consertar automático fora da cota', async ({
   page,
 }) => {
   await page.getByRole('button', { name: '4 Classes', exact: true }).click();
@@ -150,10 +150,21 @@ test('Artífice escolhe quatro planos e reconhece Reparar automático fora da co
   await expect(tools.getByRole('combobox')).toHaveValue(artisan.options[0].name);
   await page.getByRole('button', { name: '6 Magias', exact: true }).click();
   const casting = page.getByRole('group', { name: 'Artífice', exact: true });
-  await casting.getByLabel('Buscar magias de Artífice', { exact: true }).fill('Reparar');
-  const granted = casting.getByRole('checkbox', { name: /Reparar/ });
+  await casting.getByLabel('Buscar magias de Artífice', { exact: true }).fill('Consertar');
+  const granted = casting.getByRole('checkbox', { name: /Consertar/ });
   await expect(granted).toBeChecked();
   await expect(granted).toBeDisabled();
   await expect(casting).toContainText('Truques: 0/2');
   await expect(casting).toContainText('Concedida automaticamente');
+  await casting.getByLabel('Buscar magias de Artífice', { exact: true }).fill('rEPÁrar');
+  await expect(granted).toBeChecked();
+  await expect(granted).toBeDisabled();
+  await casting.getByLabel('Buscar magias de Artífice', { exact: true }).fill('Mending');
+  await expect(granted).toBeChecked();
+  await casting.getByRole('tab', { name: 'Círculo 1', exact: true }).click();
+  await casting.getByLabel('Buscar magias de Artífice', { exact: true }).fill('Consertar');
+  await expect(granted).toHaveCount(0);
+  await casting.getByRole('tab', { name: 'Truques', exact: true }).click();
+  await casting.getByLabel('Buscar magias de Artífice', { exact: true }).fill('Chama Sagrada');
+  await expect(casting.getByRole('checkbox', { name: /Chama Sagrada/ })).toHaveCount(0);
 });

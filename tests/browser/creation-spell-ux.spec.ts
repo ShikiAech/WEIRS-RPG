@@ -56,7 +56,7 @@ test('grimório distingue livro e preparo, orienta cotas e nunca prepara seis au
     'aria-selected',
     'true',
   );
-  for (const name of ['Luz', 'Mãos Mágicas', 'Raio de Gelo']) {
+  for (const name of ['Luz', 'Mão Mágica', 'Raio de Gelo']) {
     await profile.getByLabel('Buscar magias de Mago', { exact: true }).fill(name);
     await profile.getByRole('checkbox', { name, exact: true }).check();
   }
@@ -65,7 +65,7 @@ test('grimório distingue livro e preparo, orienta cotas e nunca prepara seis au
   for (const name of [
     'Absorver Elementos',
     'Alarme',
-    'Armadura Arcana',
+    'Armadura de Mago',
     'Catapulta',
     'Causar Medo',
     'Compreender Idiomas',
@@ -196,14 +196,14 @@ test('trocar lista remove seleção antiga e avisa preservando outra origem', as
   const initiate = page.getByRole('group', { name: 'Iniciado em Magia', exact: true });
   await initiate
     .getByLabel('Buscar magias de Iniciado em Magia', { exact: true })
-    .fill('Mãos Mágicas');
-  await initiate.getByRole('checkbox', { name: 'Mãos Mágicas', exact: true }).check();
+    .fill('Mão Mágica');
+  await initiate.getByRole('checkbox', { name: 'Mão Mágica', exact: true }).check();
   await page.getByRole('button', { name: '3 Antecedente', exact: true }).click();
   await lists.getByRole('combobox').click();
   await lists.getByRole('checkbox', { name: 'Clérigo', exact: true }).click();
   const notice = page.getByRole('dialog', { name: 'Magias ajustadas', exact: true });
   await expect(notice).toBeVisible();
-  await expect(notice).toContainText('Mãos Mágicas');
+  await expect(notice).toContainText('Mão Mágica');
   await expect(notice).toContainText('Iniciado em Magia');
   await expect(notice).toContainText(/lista/i);
   await expect(notice).not.toContainText('Bênção');
@@ -214,8 +214,8 @@ test('trocar lista remove seleção antiga e avisa preservando outra origem', as
   await page.getByRole('button', { name: '6 Magias', exact: true }).click();
   await initiate
     .getByLabel('Buscar magias de Iniciado em Magia', { exact: true })
-    .fill('Mãos Mágicas');
-  await expect(initiate.getByRole('checkbox', { name: 'Mãos Mágicas', exact: true })).toHaveCount(
+    .fill('Mão Mágica');
+  await expect(initiate.getByRole('checkbox', { name: 'Mão Mágica', exact: true })).toHaveCount(
     0,
   );
   await expect(page.getByText('Consultando magias…', { exact: true })).toHaveCount(0);
@@ -254,14 +254,14 @@ test('perfil com listas permitidas combina magias de ambas sem vazar outra lista
   await page.route('**/compendium/demo.json', (route) => route.fulfill({ json: fixture }));
   const profile = await startClass(page, 'Mago');
   await profile.getByRole('tab', { name: 'Círculo 1', exact: true }).click();
-  for (const name of ['Bênção', 'Mísseis Mágicos']) {
+  for (const name of ['Bênção', 'Míssil Mágico']) {
     await profile.getByLabel('Buscar magias de Mago', { exact: true }).fill(name);
     await expect(profile.getByRole('checkbox', { name, exact: true })).toHaveCount(1);
   }
   await profile.getByRole('tab', { name: 'Truques', exact: true }).click();
-  await profile.getByLabel('Buscar magias de Mago', { exact: true }).fill('Raio Místico');
+  await profile.getByLabel('Buscar magias de Mago', { exact: true }).fill('Rajada Mística');
   await expect(
     profile.getByRole('status').filter({ hasText: 'Nenhuma magia encontrada' }),
   ).toBeVisible();
-  await expect(profile.getByRole('checkbox', { name: 'Raio Místico', exact: true })).toHaveCount(0);
+  await expect(profile.getByRole('checkbox', { name: 'Rajada Mística', exact: true })).toHaveCount(0);
 });

@@ -130,6 +130,25 @@ function Profile(
   );
   // Selected entries remain available to uncheck even when paginated.
   const options = [...results.entries];
+  // Automatic grants can belong to a different class list than this profile.
+  for (const grant of grantedSpells) {
+    const entry = spellCatalog.entries.find(
+      (entry) =>
+        entry.ref.recordId === grant.spellRef.recordId &&
+        entry.ref.revisionId === grant.spellRef.revisionId,
+    );
+    if (
+      entry?.kind === 'magia' &&
+      entry.ruleSetId === draft.ruleSetId &&
+      entry.data.circle === circle &&
+      (!query ||
+        normalize([entry.name, entry.originalName, ...entry.aliases].join(' ')).includes(
+          normalize(query),
+        )) &&
+      !options.some((option) => option.ref.recordId === entry.ref.recordId)
+    )
+      options.unshift(entry);
+  }
   for (const selection of selections) {
     if (
       selection.summary &&

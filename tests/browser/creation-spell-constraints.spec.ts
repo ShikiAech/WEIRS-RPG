@@ -29,7 +29,7 @@ test('cota de truques impede exceder e libera uma vaga ao desmarcar no dropdown'
     'aria-selected',
     'true',
   );
-  for (const name of ['Luz', 'Mãos Mágicas', 'Raio de Gelo'])
+  for (const name of ['Luz', 'Mão Mágica', 'Raio de Gelo'])
     await (await search(profile, name)).check();
   const fourth = await search(profile, 'Ilusão Menor');
   await expect(fourth).toBeDisabled();
@@ -56,7 +56,7 @@ test('grimório limita conhecidas e preparadas sem impedir desmarcar a seleção
   for (const name of [
     'Absorver Elementos',
     'Alarme',
-    'Armadura Arcana',
+    'Armadura de Mago',
     'Catapulta',
     'Causar Medo',
     'Compreender Idiomas',
@@ -68,7 +68,7 @@ test('grimório limita conhecidas e preparadas sem impedir desmarcar a seleção
   await expect(
     profile.getByRole('checkbox', { name: 'Preparar Compreender Idiomas', exact: true }),
   ).toBeDisabled();
-  await expect(await search(profile, 'Mísseis Mágicos')).toBeDisabled();
+  await expect(await search(profile, 'Míssil Mágico')).toBeDisabled();
   await search(profile, 'Absorver Elementos');
   await profile
     .getByRole('checkbox', { name: 'Preparar Absorver Elementos', exact: true })
@@ -79,7 +79,7 @@ test('grimório limita conhecidas e preparadas sem impedir desmarcar a seleção
     .check();
   await expect(profile).toContainText('Preparadas: 4/4');
   await (await search(profile, 'Alarme')).uncheck();
-  await (await search(profile, 'Mísseis Mágicos')).check();
+  await (await search(profile, 'Míssil Mágico')).check();
   await expect(profile).toContainText('Grimório: 6/6');
   await expect(profile.getByRole('list', { name: 'Pendências desta origem' })).toHaveCount(0);
 });
@@ -198,7 +198,7 @@ test('voltar à etapa durante atualização do catálogo mantém as cotas de tru
     };
   });
   const profile = await startClass(page, 'Mago', false);
-  for (const name of ['Luz', 'Mãos Mágicas', 'Raio de Gelo'])
+  for (const name of ['Luz', 'Mão Mágica', 'Raio de Gelo'])
     await (await search(profile, name)).check();
   await expect(profile).toContainText('Truques: 3/3');
   await page.getByRole('button', { name: '4 Classes', exact: true }).click();
@@ -213,7 +213,7 @@ test('voltar à etapa durante atualização do catálogo mantém as cotas de tru
   for (const name of [
     'Absorver Elementos',
     'Alarme',
-    'Armadura Arcana',
+    'Armadura de Mago',
     'Catapulta',
     'Causar Medo',
     'Compreender Idiomas',
