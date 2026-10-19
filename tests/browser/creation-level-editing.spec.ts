@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import { selectDropdown } from './dropdown';
 const catalog = JSON.parse(await readFile('public/compendium/demo.json', 'utf8')).catalog;
@@ -47,4 +47,53 @@ test('digitar um nível de dois dígitos preserva subclasse e resultados anterio
   );
   await expect(page.getByLabel('Resultado de PV do nível 3', { exact: true })).toHaveValue('7');
   await expect(page.getByText('Nível 12 · Guerreiro', { exact: true })).toBeVisible();
+});
+
+async function addClass(page: Page, label: string, name: string, levels: number) {
+  const entry = catalog.entries.find((item: any) => item.kind === 'classe' && item.name === name);
+  await page.getByRole('combobox', { name: label, exact: true }).fill(name);
+  await page.getByRole('option', { name: `${name} · ${entry.sourceTitle}`, exact: true }).click();
+  await page.getByLabel(`Níveis em ${name}`, { exact: true }).fill(String(levels));
+  await page.getByLabel(`Níveis em ${name}`, { exact: true }).press('Tab');
+}
+
+test('níveis consecutivos da mesma classe não oferecem uma troca sem efeito', async ({ page }) => {
+  await page.goto('app.html#/fichas/nova?demo=1');
+  await page.getByRole('button', { name: '4 Classes', exact: true }).click();
+  await addClass(page, 'Classe', 'Bardo', 4);
+  await page.getByText('Ordem de aquisição dos níveis', { exact: true }).click();
+  const order = page.locator('.creation-level-order');
+  await expect(order.getByRole('listitem')).toHaveCount(4);
+  await expect(order.getByRole('button')).toHaveCount(0);
+});
+
+test('multiclasse oferece apenas trocas que alteram a sequência e atualiza as ações após mover', async ({
+  page,
+}) => {
+  await page.goto('app.html#/fichas/nova?demo=1');
+  await page.getByRole('button', { name: '4 Classes', exact: true }).click();
+  await addClass(page, 'Classe', 'Bardo', 2);
+  await addClass(page, 'Adicionar multiclasse', 'Guerreiro', 2);
+  await page.getByText('Ordem de aquisição dos níveis', { exact: true }).click();
+  const order = page.locator('.creation-level-order');
+  await expect(order.getByRole('button')).toHaveCount(1);
+  await order.getByRole('button', { name: 'Antecipar nível 3', exact: true }).click();
+  await expect(order.getByRole('listitem')).toHaveText([
+    /Bardo · nível total 1/,
+    /Guerreiro · nível total 2/,
+    /Bardo · nível total 3/,
+    /Guerreiro · nível total 4/,
+  ]);
+  await expect(order.getByRole('button')).toHaveCount(3);
+  await order.getByRole('button', { name: 'Antecipar nível 2', exact: true }).click();
+  await expect(order.getByRole('listitem')).toHaveText([
+    /Guerreiro · nível total 1/,
+    /Bardo · nível total 2/,
+    /Bardo · nível total 3/,
+    /Guerreiro · nível total 4/,
+  ]);
+  await expect(order.getByRole('button')).toHaveCount(2);
+  await expect(order.getByRole('button', { name: 'Antecipar nível 3', exact: true })).toHaveCount(
+    0,
+  );
 });

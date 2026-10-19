@@ -169,7 +169,7 @@ export function ClassStep(props: StepProps) {
               return (
                 <li key={index}>
                   {entry?.name} · nível total {index + 1}
-                  {index > 0 && (
+                  {index > 0 && draft.levels[index - 1].classEntryId !== level.classEntryId && (
                     <button
                       className="button secondary"
                       aria-label={`Antecipar nível ${index + 1}`}
