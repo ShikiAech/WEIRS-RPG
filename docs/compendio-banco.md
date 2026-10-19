@@ -68,4 +68,4 @@ O CRUD administrativo continua fora desta entrega. Novos conteúdos que utilizem
 
 ## Ativação
 
-Siga a ordem em [configuração do Supabase](configuracao-supabase.md#compêndio-e-criação-guiada), incluindo a migração `014` de leitura do catálogo. Aplicar a carga no projeto hospedado e publicar o frontend são operações separadas. A carga, o frontend e a função de criação do projeto Weirs foram [publicados em produção em 19/10/2026](atualizacao-classes-magias-2026-10-19.md).
+Siga a ordem em [configuração do Supabase](configuracao-supabase.md#compêndio-e-criação-guiada), incluindo as migrações `014` e `015` de leitura do catálogo. Aplicar a carga no projeto hospedado e publicar o frontend são operações separadas. A carga, o frontend e a função de criação do projeto Weirs foram [publicados em produção em 19/10/2026](atualizacao-classes-magias-2026-10-19.md).

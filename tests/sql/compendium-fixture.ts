@@ -38,6 +38,12 @@ export async function compendiumFixture() {
         'utf8',
       ),
     );
+    await fixture.db.exec(
+      await readFile(
+        new URL('../../supabase/migrations/202610190015_compendio_tempo_consulta.sql', import.meta.url),
+        'utf8',
+      ),
+    );
     await fixture.db.query('INSERT INTO public.administradores(usuario_id) VALUES($1)', [
       fixture.outsider,
     ]);
