@@ -40,7 +40,16 @@ export async function compendiumFixture() {
     );
     await fixture.db.exec(
       await readFile(
-        new URL('../../supabase/migrations/202610190015_compendio_tempo_consulta.sql', import.meta.url),
+        new URL(
+          '../../supabase/migrations/202610190015_compendio_tempo_consulta.sql',
+          import.meta.url,
+        ),
+        'utf8',
+      ),
+    );
+    await fixture.db.exec(
+      await readFile(
+        new URL('../../supabase/migrations/202610280016_combate_chat.sql', import.meta.url),
         'utf8',
       ),
     );

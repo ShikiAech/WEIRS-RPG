@@ -311,7 +311,7 @@ export function resolveCatalog(
       sourceRevision: r.revisionId,
       sourceGraphHash,
       curation,
-      resolverVersion: 6,
+      resolverVersion: 7,
     });
   const create = <K extends CompendiumKind>(
     r: CatalogDraftRecord,

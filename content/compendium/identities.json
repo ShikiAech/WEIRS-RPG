@@ -4040,7 +4040,11 @@
     "classe:json:artificer:curated:plano:anel-do-carneiro": "1222277a-9c38-8344-a157-5f05e2b1bfab",
     "classe:json:artificer:curated:plano:manoplas-de-forca-do-ogro": "dfd927b2-8aa2-8e17-ae15-ceb62de15b6b",
     "classe:json:artificer:curated:plano:botas-aladas": "1d3105e0-4d5e-8ebc-adbc-75acba010846",
-    "classe:json:artificer:curated:plano:capa-do-saltimbanco": "481d3788-8a0b-8948-a6c1-0ef68757bc16"
+    "classe:json:artificer:curated:plano:capa-do-saltimbanco": "481d3788-8a0b-8948-a6c1-0ef68757bc16",
+    "especie:weirs:inamons:trait:aprimoramentos-inamonicos:selection:asas-abissais": "151d1e41-eeb6-8cf3-a4e6-52edacda45de",
+    "especie:weirs:inamons:trait:aprimoramentos-inamonicos:selection:pernas-aprimoradas": "4a9de231-2f20-892b-a9a2-a1dab28fd770",
+    "especie:weirs:inamons:trait:aprimoramentos-inamonicos:selection:carapaca-reforcada": "300775f4-702c-81e0-a2e8-878b7f6c83a9",
+    "especie:weirs:inamons:trait:aprimoramentos-inamonicos:selection:quatro-bracos": "7e57f6e9-f16d-8466-a239-715f995e3c8d"
   },
   "aliases": {
     "talento:json:weirs:espirito-manchado": "talento:legacy:pages/talentos.html:espirito-manchado",

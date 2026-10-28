@@ -141,6 +141,22 @@ export function featureSpellPrerequisiteMet(
     eligibleFeatureSpells(catalog, draft, entry, instances).length > 0
   );
 }
+export function weaponProficient(
+  catalog: CreationCatalog,
+  entry: CompendiumEntry,
+  grants: ResolvedConcessions['proficiencyGrants'],
+) {
+  if (entry.kind !== 'equipamento' || !entry.data.weapon) return false;
+  return grants.some((g) => {
+    if (g.degree === 'meia') return false;
+    const p = catalog.proficiencies.find((p) => p.id === g.proficiencyId);
+    return (
+      (p?.type === 'equipamento' && p.equipment?.recordId === entry.ref.recordId) ||
+      (p?.type === 'categoria' &&
+        p.category === (entry.data.category.includes('marcial') ? 'arma-marcial' : 'arma-simples'))
+    );
+  });
+}
 export function resolveConcessions(
   catalog: CreationCatalog,
   draft: CreationDraft,
@@ -321,6 +337,12 @@ export function resolveConcessions(
     type: string;
     field: string;
   }[] = [];
+  const integratedWeapons: {
+    ref: CompendiumRef;
+    field: string;
+    instance: CreationInstance;
+    optionId: string;
+  }[] = [];
   const spellChoices: { ref: CompendiumRef; field: string; instance: CreationInstance }[] = [];
   const spellTargets: { ref: CompendiumRef; field: string; instance: CreationInstance }[] = [];
   const processed = new Set<string>();
@@ -476,6 +498,7 @@ export function resolveConcessions(
         if (
           ref &&
           ![
+            'arma-integrada',
             'lista-magia',
             'maestria-arma',
             'proficiencia',
@@ -492,6 +515,13 @@ export function resolveConcessions(
             level: 1,
             at: atLevel(node, group.level),
             label: option?.name,
+          });
+        if (ref && option?.type === 'arma-integrada')
+          integratedWeapons.push({
+            ref,
+            field: `choices.${group.id}`,
+            instance: node,
+            optionId: option.id,
           });
         if (ref && option?.type === 'magia' && option.value === 'nao-preparada')
           spellChoices.push({ ref, field: `choices.${group.id}`, instance: node });
@@ -725,6 +755,22 @@ export function resolveConcessions(
         : 'A concessão depende de referência ou requisito ainda não resolvido.',
       p.ref.revisionId,
     );
+  for (const choice of integratedWeapons) {
+    const entry = find(choice.ref);
+    if (!entry || !weaponProficient(catalog, entry, result.proficiencyGrants)) {
+      problem(
+        'INTEGRATED_WEAPON_PROFICIENCY',
+        choice.field,
+        'Escolha uma arma com a qual o personagem tenha proficiência. Conclua as escolhas de classe e retorne a esta etapa.',
+      );
+      continue;
+    }
+    result.instances.push({
+      ...choice.instance,
+      id: `${choice.instance.id}/integrated:${choice.optionId}`,
+      entry,
+    });
+  }
   for (const choice of proficiencyChoices) {
     const key = proficiencyKey(catalog, choice.grant.proficiencyId);
     const others = result.proficiencyGrants.filter(
@@ -838,6 +884,12 @@ export function resolveConcessions(
     }
     for (const option of active.group.options) {
       const target = option.targetRef ? find(option.targetRef) : null;
+      if (
+        option.type === 'arma-integrada' &&
+        (!target || !weaponProficient(catalog, target, result.proficiencyGrants))
+      )
+        unavailable[option.id] =
+          'Conclua as escolhas de classe e selecione uma arma com proficiência.';
       // Replacing a radio removes its old choice; prerequisites must use that candidate state.
       // For multi-select groups, only this occurrence is excluded from duplicate checks.
       const excludedPrefix = `${active.instance.id}/choice:${active.group.id}:${active.group.maximum === 1 ? '' : option.id}`;

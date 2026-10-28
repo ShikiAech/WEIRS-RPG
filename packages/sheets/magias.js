@@ -66,6 +66,17 @@ export function validarMagias(c) {
   const attrs = calcularFicha(c).atributos;
   c.magias.forEach((s, i) => {
     const p = 'magias.' + i;
+    if (
+      s.salvaguardaAtributo !== undefined &&
+      !['', ...Object.keys(ATRIBUTOS)].includes(s.salvaguardaAtributo)
+    )
+      error(p + '.salvaguardaAtributo', 'Escolha um atributo de salvaguarda válido.');
+    for (const key of ['bonusAtaque', 'cd'])
+      if (
+        s[key] !== undefined &&
+        (!Number.isInteger(s[key]) || s[key] < (key === 'cd' ? 0 : -9999) || s[key] > 9999)
+      )
+        error(p + '.' + key, 'Informe um valor inteiro válido.');
     if (s.tipoDano !== undefined && (typeof s.tipoDano !== 'string' || s.tipoDano.length > 10000))
       error(p + '.tipoDano', 'Informe um tipo de dano válido.');
     if (s.dano !== undefined && (typeof s.dano !== 'string' || s.dano.length > 120))

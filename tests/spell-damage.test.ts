@@ -76,3 +76,12 @@ test('fórmula antiga funciona e favoritos reconhecem parcelas mesmo sem fórmul
     ),
   );
 });
+
+test('descrição opcional de perícia valida texto sem lançar com uma perícia inválida', () => {
+  const c = criarConteudo() as SheetContent;
+  c.pericias.arcanismo.descricao = 'Texto salvo';
+  assert.deepEqual(valid(c), []);
+  c.pericias.arcanismo = null as never;
+  assert.doesNotThrow(() => valid(c));
+  assert.ok(valid(c).some((e) => e.campo.startsWith('pericias.arcanismo')));
+});

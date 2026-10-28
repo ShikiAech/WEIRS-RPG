@@ -206,7 +206,7 @@ test('área de magia usa escala em pés e se compartilha com outra sessão', asy
       return { x: result.x, y: result.y };
     });
   await page.mouse.click(position.x, position.y);
-  await page.getByRole('button', { name: 'Criar área', exact: true }).click();
+  await page.getByRole('button', { name: 'Confirmar área', exact: true }).click();
   await expect.poll(() => maps.areas.length).toBe(1);
   expect(maps.areas[0]).toMatchObject({ forma: 'circulo', tamanho: 3 });
   await player.bringToFront();
@@ -505,10 +505,10 @@ test('contexto de NPC vinculado ao combate ajusta PV sem criar ficha', async ({ 
   await expect(page.locator('.map-selection')).toContainText('PV 9/12');
   expect(session.operations[0].command).toMatchObject({
     tipo: 'combate',
-    acao: 'ajustar',
+    acao: 'dano',
     id: npcId,
     versao: 0,
-    pvAtuais: 9,
+    expressao: '3',
   });
   expect(sheets.creates).toBe(0);
 });

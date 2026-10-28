@@ -1,5 +1,5 @@
 import { CatalogSelect } from './CatalogSelect';
-import { ChoicePanel, EquipmentChoices } from './ChoicePanel';
+import { ChoicePanel } from './ChoicePanel';
 import { clearOrigins } from './origins';
 import { commitClassLevels } from './class-levels';
 import type { StepProps } from './types';
@@ -157,8 +157,14 @@ export function ClassStep(props: StepProps) {
           }}
         />
       )}
-      <ChoicePanel {...props} prefixes={['class:', 'subclass:']} />
-      <EquipmentChoices {...props} prefixes={['class:', 'subclass:']} />
+      <ChoicePanel equipment="omit" {...props} prefixes={['class:', 'subclass:']} />
+      <p>
+        Os kits e moedas da classe inicial estão em{' '}
+        <button type="button" onClick={() => props.onGoToStep?.(4)}>
+          5 · Vida e defesas
+        </button>
+        .
+      </p>
       {draft.levels.length > 1 && (
         <details>
           <summary>Ordem de aquisição dos níveis</summary>

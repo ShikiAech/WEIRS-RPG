@@ -330,6 +330,51 @@ export function curateSpeciesChoices(ctx: CuratedContext) {
       'exotraje',
     );
   }
+  const inamons = species('Inamons');
+  if (inamons?.kind === 'especie') {
+    const improvements = child(inamons, 'Aprimoramentos Inamônicos');
+    if (improvements) {
+      const names = ['Asas Abissais', 'Pernas Aprimoradas', 'Carapaça Reforçada', 'Quatro Braços'];
+      const features = names.map((name, index) => {
+        const start = improvements.description.indexOf(name + ':');
+        const end =
+          index + 1 < names.length
+            ? improvements.description.indexOf(names[index + 1] + ':', start)
+            : improvements.description.length;
+        const description = improvements.description.slice(start, end).trim();
+        const effects: FeatureDefinition['formEffects'] = { form: '' };
+        if (index === 0) effects.movements = [movement(inamons, 'voo', 30)];
+        if (index === 1) effects.movements = [movement(inamons, 'terrestre', 40)];
+        if (index === 2)
+          effects.armorClass = {
+            base: 16,
+            fromLevel: 11,
+            upgraded: 18,
+            unarmored: true,
+            permitsShield: true,
+          };
+        if (index === 3) effects.movements = [movement(inamons, 'escalada', 30)];
+        return synthetic(improvements, name, description, { optional: true, formEffects: effects });
+      });
+      for (const level of [1, 7]) {
+        const group = ctx.group(
+          improvements,
+          'aprimoramento-' + level,
+          `Aprimoramento Inamônico · nível ${level}`,
+          1,
+          1,
+          level,
+        );
+        for (const feature of features) option(group, feature.name, { targetRef: feature.ref });
+      }
+    }
+    const weapon = child(inamons, 'Arma Natural Integrada');
+    if (weapon) {
+      const group = ctx.group(weapon, 'arma-integrada', weapon.name);
+      for (const entry of c.entries.filter((e) => e.kind === 'equipamento' && e.data.weapon))
+        option(group, entry.name, { type: 'arma-integrada', targetRef: entry.ref });
+    }
+  }
   const innate = (
     owner: ResolvedEntry | undefined,
     abilities: Ability[],

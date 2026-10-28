@@ -201,6 +201,9 @@ export function decodeCatalog(raw: DatabaseCatalog, ruleSetId = 'dnd-5e-2024'): 
         const d = one('magias', id),
           c = one('magia_componentes', id);
         data = {
+          ...(d.salvaguarda_atributo == null ? {} : { saveAbility: d.salvaguarda_atributo as import('../contracts/sheets').Ability }),
+          ...(d.bonus_ataque == null ? {} : { attackBonus: n(d, 'bonus_ataque') }),
+          ...(d.cd == null ? {} : { saveDc: n(d, 'cd') }),
           circle: n(d, 'circulo'),
           school: s(d, 'escola'),
           castingTime: s(d, 'tempo_pt'),

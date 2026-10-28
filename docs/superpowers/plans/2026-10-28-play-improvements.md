@@ -46,17 +46,17 @@
 - Keep all canonical refs/choice IDs in the existing draft. Expose starting kit controls in step 5 and fixed/removable spell chips by profile.
 - Only this task edits species/creation areas. Task 2 owns spell metadata sections in shared compendium types/serializer/adapter; coordinate rather than rewrite files.
 
-- [ ] Add and run failing tests for Inamon trait visibility and level 1/7/11 choices/effects, proficiency-based weapon selection and retained N0-V4 behavior.
-- [ ] Add explicit curation using source values and stable source identities, ensuring fixed traits are visible independently of choices. Generate updated compendium artifacts through the existing tools; preserve old revisions.
-- [ ] Add and run failing UI/helper tests for single-form/size hiding, real alternatives, optional lineages discovered via scoped list, loading/error distinction and dependent reset.
-- [ ] Implement conditional controls using actual choice availability, preserving canonical default values.
-- [ ] Add and run failing tests for starting class/background equipment kits visible in step 5, multiclass exclusion, kit swapping and linked equipment decisions.
-- [ ] Reuse `EquipmentChoices` in the step 5 equipment section; show earlier-step summaries rather than duplicate prompts.
-- [ ] Add and run failing cache tests for query/reference keys, pagination, success reuse, in-flight coalescing, one/two aborted consumers, retry after rejection, expiry, capacity and account/repository separation.
-- [ ] Implement cache at repository boundary and wire all creator consumers, retaining stale-result guards and explicit retry behavior.
-- [ ] Add and run failing browser tests for chips, hover/focus/touch descriptions, remove independently of search filters, fixed grants and preparation/quota behavior.
-- [ ] Implement chips with existing tooltip and canonical selection callbacks.
-- [ ] Run the changed test files and typecheck; report exact commands/results and any remaining scope concern. Root performs full-suite integration and commits after review.
+- [x] Add and run failing tests for Inamon trait visibility and level 1/7/11 choices/effects, proficiency-based weapon selection and retained N0-V4 behavior.
+- [x] Add explicit curation using source values and stable source identities, ensuring fixed traits are visible independently of choices. Generate updated compendium artifacts through the existing tools; preserve old revisions.
+- [x] Add and run failing UI/helper tests for single-form/size hiding, real alternatives, optional lineages discovered via scoped list, loading/error distinction and dependent reset.
+- [x] Implement conditional controls using actual choice availability, preserving canonical default values.
+- [x] Add and run failing tests for starting class/background equipment kits visible in step 5, multiclass exclusion, kit swapping and linked equipment decisions.
+- [x] Reuse `EquipmentChoices` in the step 5 equipment section; show earlier-step summaries rather than duplicate prompts.
+- [x] Add and run failing cache tests for query/reference keys, pagination, success reuse, in-flight coalescing, one/two aborted consumers, retry after rejection, expiry, capacity and account/repository separation.
+- [x] Implement cache at repository boundary and wire all creator consumers, retaining stale-result guards and explicit retry behavior.
+- [x] Add and run failing browser tests for chips, hover/focus/touch descriptions, remove independently of search filters, fixed grants and preparation/quota behavior.
+- [x] Implement chips with existing tooltip and canonical selection callbacks.
+- [x] Run the changed test files and typecheck; report exact commands/results and any remaining scope concern. Root performs full-suite integration and commits after review.
 
 ### Task 2: Combat expressions and chat actions
 
@@ -74,16 +74,16 @@
 - Chat damage callback loads current sheet version, dispatches existing `dano`/`magia_dano`, preserves secrecy and idempotency.
 - Task 1 owns species/creation data. Coordinate shared files; Task 3 owns all tabletop files except `TokenActions.tsx`, reserved here.
 
-- [ ] Write and run failing SQL tests for `8+4`, `12-3`, `2d8+3`, NPC deltas, negative/malformed/limit rejection, zero, temporary HP absorption, stale versions and duplicate-receipt identical dice/mutation once.
-- [ ] Implement authoritative expression evaluation inside the existing session transaction, preserving current access helpers and numeric clients. Return the applied result; never roll client-side then separately mutate HP.
-- [ ] Write and run failing tests for exact temporary HP reduction/clear while retaining existing grant semantics; implement `Definir PV temporários`.
-- [ ] Add a shared text expression control to all damage/heal contexts, pending state and pt-BR feedback; retain exact-value editors for absolute HP.
-- [ ] Write and run failing chat tests for damage after sheet-version changes, lost permissions/deleted entry/no damage and inherited secrecy.
-- [ ] Add accessible `Rolar dano` buttons using current saved action definitions and current authorized sheet versions.
-- [ ] Write and run failing import/adapter/SQL tests for attack modifier, save CD/ability, long descriptions and old/custom spell compatibility.
-- [ ] Thread actual optional spell metadata end to end. Implement server-resolved description snapshots for spells/attacks/features/traits/talents/skills; accurately handle entries with no description and optional skill descriptions.
-- [ ] Add sheet name/description actions without replacing roll controls; update chat cards and mock backends together.
-- [ ] Run changed tests and typecheck; report exact commands/results and remaining scope concerns. Root performs full-suite integration and commits after review.
+- [x] Write and run failing SQL tests for `8+4`, `12-3`, `2d8+3`, NPC deltas, negative/malformed/limit rejection, zero, temporary HP absorption, stale versions and duplicate-receipt identical dice/mutation once.
+- [x] Implement authoritative expression evaluation inside the existing session transaction, preserving current access helpers and numeric clients. Return the applied result; never roll client-side then separately mutate HP.
+- [x] Write and run failing tests for exact temporary HP reduction/clear while retaining existing grant semantics; implement `Definir PV temporários`.
+- [x] Add a shared text expression control to all damage/heal contexts, pending state and pt-BR feedback; retain exact-value editors for absolute HP.
+- [x] Write and run failing chat tests for damage after sheet-version changes, lost permissions/deleted entry/no damage and inherited secrecy.
+- [x] Add accessible `Rolar dano` buttons using current saved action definitions and current authorized sheet versions.
+- [x] Write and run failing import/adapter/SQL tests for attack modifier, save CD/ability, long descriptions and old/custom spell compatibility.
+- [x] Thread actual optional spell metadata end to end. Implement server-resolved description snapshots for spells/attacks/features/traits/talents/skills; accurately handle entries with no description and optional skill descriptions.
+- [x] Add sheet name/description actions without replacing roll controls; update chat cards and mock backends together.
+- [x] Run changed tests and typecheck; report exact commands/results and remaining scope concerns. Root performs full-suite integration and commits after review.
 
 ### Task 3: Tabletop interaction and authoritative vision
 
@@ -100,15 +100,15 @@
 - Pure geometry module exports bounded cell-center, ray/segment intersection and visibility-mask functions with matching TS/SQL fixtures; masks limited by existing 100×100 scenes.
 - Ruler model keeps drafts versus pinned session/scene measurements and style separately; cell-center snapping always applies, including movement overlays.
 
-- [ ] Write and run failing geometry tests for ruler start/waypoint/end centers, boundaries/zoom, even-sized token movement anchors and Euclidean height mode; implement shared helpers and persistent styled rulers/options/delete controls.
-- [ ] Write and run failing browser tests for pointer-follow area preview, explicit orient/confirm/cancel, numeric/rotary angle, linked-token movement/rotation option and aura visibility; implement explicit phases/anchor offsets with compatibility migration.
-- [ ] Write and run failing SQL tests for owned-player token creation/deletion and atomic controlled batches, mixed unauthorized/stale/locked members and admin-field forgery; implement server authorization plus player group selection UI and readable condition/elevation markers.
-- [ ] Write and run failing SQL/model tests for arbitrary layers, atomic layer moves, placed objects, hidden rows/assets, assigned scenes/spectator following and access revocation; implement additive data model/migrations, client repositories/controls and compatibility conversion.
-- [ ] Write and run shared TS/SQL visibility fixtures for range, walls/doors, tangency/corners/collinearity, locked-owned sight, per-user union, zero sources, token center/covered object visibility, current versus explored and resize coordinate preservation.
-- [ ] Implement server-owned cell masks and consistent snapshot RPC. Dirty visibility revisions fail closed until rebuilt; recheck receipt replay and all reference/asset access paths. Public combat/chat remains explicitly public, with disclosure in DM controls when adding private tokens to public combat.
-- [ ] Implement DM walls/doors/range UI, automatic/manual mode compatibility, per-player explored fog and `VisionFog` renderer; only confirmed movement explores, walls block sight without adding collision/pathfinding.
-- [ ] Add integration/browser tests for door/layer/assignment changes while requests are in flight, absence of hidden DOM/list/focus rows, spectator follow and no-source notices. Benchmark maximum scene size with representative multi-source/wall counts; distinguish mock UI from actual SQL/Realtime checks.
-- [ ] Run changed tests and typecheck; provide detailed coverage of each spec C1–C6 item, commands/results, performance and any remaining scope concern. Root performs full-suite integration and commits after review.
+- [x] Write and run failing geometry tests for ruler start/waypoint/end centers, boundaries/zoom, even-sized token movement anchors and Euclidean height mode; implement shared helpers and persistent styled rulers/options/delete controls.
+- [x] Write and run failing browser tests for pointer-follow area preview, explicit orient/confirm/cancel, numeric/rotary angle, linked-token movement/rotation option and aura visibility; implement explicit phases/anchor offsets with compatibility migration.
+- [x] Write and run failing SQL tests for owned-player token creation/deletion and atomic controlled batches, mixed unauthorized/stale/locked members and admin-field forgery; implement server authorization plus player group selection UI and readable condition/elevation markers.
+- [x] Write and run failing SQL/model tests for arbitrary layers, atomic layer moves, placed objects, hidden rows/assets, assigned scenes/spectator following and access revocation; implement additive data model/migrations, client repositories/controls and compatibility conversion.
+- [x] Write and run shared TS/SQL visibility fixtures for range, walls/doors, tangency/corners/collinearity, locked-owned sight, per-user union, zero sources, token center/covered object visibility, current versus explored and resize coordinate preservation.
+- [x] Implement server-owned cell masks and consistent snapshot RPC. Dirty visibility revisions fail closed until rebuilt; recheck receipt replay and all reference/asset access paths. Public combat/chat remains explicitly public, with disclosure in DM controls when adding private tokens to public combat.
+- [x] Implement DM walls/doors/range UI, automatic/manual mode compatibility, per-player explored fog and `VisionFog` renderer; only confirmed movement explores, walls block sight without adding collision/pathfinding.
+- [x] Add integration/browser tests for door/layer/assignment changes while requests are in flight, absence of hidden DOM/list/focus rows, spectator follow and no-source notices. Benchmark maximum scene size with representative multi-source/wall counts; distinguish mock UI from actual SQL/Realtime checks.
+- [x] Run changed tests and typecheck; provide detailed coverage of each spec C1–C6 item, commands/results, performance and any remaining scope concern. Root performs full-suite integration and commits after review.
 
 ### Task 4: Integration, release notes and verification
 

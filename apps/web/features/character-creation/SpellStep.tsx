@@ -325,6 +325,35 @@ function Profile(
         }
       });
   };
+  const chips = [
+    ...selections.map((item) => ({
+      ref: item.selection.spellRef,
+      entry: item.entry,
+      fixed: item.fixed,
+      selection: item.selection,
+      circle: item.circle,
+    })),
+    ...grantedSpells
+      .filter(
+        (grant) =>
+          grant.level <= (instance?.level ?? 0) &&
+          !selections.some((item) => item.selection.spellRef.recordId === grant.spellRef.recordId),
+      )
+      .map((grant) => {
+        const entry = spellCatalog.entries.find(
+          (e) =>
+            e.ref.recordId === grant.spellRef.recordId &&
+            e.ref.revisionId === grant.spellRef.revisionId,
+        );
+        return {
+          ref: grant.spellRef,
+          entry,
+          fixed: true,
+          selection: undefined,
+          circle: entry?.kind === 'magia' ? entry.data.circle : undefined,
+        };
+      }),
+  ];
   return (
     <fieldset className="creation-casting">
       <legend>{owner?.name ?? 'Conjuração'}</legend>
@@ -335,11 +364,76 @@ function Profile(
         {preparedLimit != null && ` · Preparadas: ${prepared}/${preparedLimit}`}
         {' · '}círculo máximo {profile.maximumCircle}
       </p>
+      <ul
+        className="creation-spell-chips"
+        aria-label={`Magias selecionadas de ${owner?.name ?? 'Conjuração'}`}
+      >
+        {chips.map((chip) => (
+          <li
+            className="creation-spell-chip"
+            key={`${profile.id}:${chip.ref.recordId}:${chip.ref.revisionId}`}
+          >
+            <span>{chip.entry?.name ?? 'Carregando magia…'}</span>
+            {chip.entry && (
+              <CompendiumTooltip summary={chip.entry} entry={chip.entry} repository={repository} />
+            )}
+            {chip.fixed ? (
+              <small>Concedida · fixa</small>
+            ) : (
+              <>
+                {definition?.method === 'grimorio' && chip.selection && (chip.circle ?? 0) > 0 && (
+                  <label className="creation-spell-prepare">
+                    <input
+                      type="checkbox"
+                      aria-label={`Preparar ${chip.entry?.name ?? 'magia'}`}
+                      checked={chip.selection.prepared}
+                      disabled={
+                        !chip.selection.prepared &&
+                        (pendingSelections || (preparedLimit != null && prepared >= preparedLimit))
+                      }
+                      onChange={(event) => {
+                        const checked = event.target.checked;
+                        onChange((current) => ({
+                          ...current,
+                          spellSelections: current.spellSelections.map((selection) =>
+                            selection.profileId === profile.id &&
+                            selection.spellRef.recordId === chip.ref.recordId
+                              ? { ...selection, prepared: checked }
+                              : selection,
+                          ),
+                        }));
+                      }}
+                    />
+                    Preparar
+                  </label>
+                )}
+                <button
+                  type="button"
+                  className="creation-chip-remove"
+                  aria-label={`Remover ${chip.entry?.name ?? 'magia'}`}
+                  onClick={() =>
+                    onChange((current) => ({
+                      ...current,
+                      spellSelections: current.spellSelections.filter(
+                        (selection) =>
+                          selection.profileId !== profile.id ||
+                          selection.spellRef.recordId !== chip.ref.recordId,
+                      ),
+                    }))
+                  }
+                >
+                  ×
+                </button>
+              </>
+            )}
+          </li>
+        ))}
+      </ul>
       {profile.selectable && guidance.length > 0 && <p className="notice">{guidance.join(' ')}</p>}
       {definition?.method === 'grimorio' && (
         <p>
-          Selecione as magias do grimório e use a caixa Preparar ao lado de cada magia para ajustar
-          o preparo.
+          Selecione as magias do grimório e use a caixa Preparar nas magias selecionadas para
+          ajustar o preparo.
         </p>
       )}
       {problems.length > 0 && (
@@ -476,31 +570,6 @@ function Profile(
                   disabledReason: reason,
                   accessory: (
                     <>
-                      {definition?.method === 'grimorio' &&
-                        chosen &&
-                        !granted &&
-                        spellCircle > 0 && (
-                          <label className="creation-spell-prepare">
-                            <input
-                              type="checkbox"
-                              aria-label={`Preparar ${entry.name}`}
-                              checked={chosen.selection.prepared}
-                              disabled={prepareDisabled}
-                              onChange={(event) => {
-                                if (event.target.checked && prepareDisabled) return;
-                                onChange({
-                                  ...draft,
-                                  spellSelections: draft.spellSelections.map((selection) =>
-                                    selection === chosen.selection
-                                      ? { ...selection, prepared: event.target.checked }
-                                      : selection,
-                                  ),
-                                });
-                              }}
-                            />
-                            Preparar
-                          </label>
-                        )}
                       <CompendiumTooltip summary={entry} entry={detail} repository={repository} />
                     </>
                   ),

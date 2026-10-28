@@ -102,7 +102,7 @@ test('loss of GM role removes the cached private record, not only editing permis
   assert.equal(spectator.editable, false);
 });
 
-test('NPC token PV updates use the current combat version and clamp damage and healing', () => {
+test('NPC token PV updates send true deltas with the current combat version', () => {
   const participant = {
     id: crypto.randomUUID(),
     nome: 'Goblin',
@@ -124,19 +124,19 @@ test('NPC token PV updates use the current combat version and clamp damage and h
   assert.equal(access.editable, true);
   assert.deepEqual(tokenHpCommand(access, 'dano', 999), {
     tipo: 'combate',
-    acao: 'ajustar',
+    acao: 'dano',
     id: participant.id,
     versao: 14,
-    pvAtuais: 0,
+    valor: 999,
   });
   assert.deepEqual(tokenHpCommand(access, 'cura', 999), {
     tipo: 'combate',
-    acao: 'ajustar',
+    acao: 'cura',
     id: participant.id,
     versao: 14,
-    pvAtuais: 10,
+    valor: 999,
   });
-  assert.equal(tokenHpCommand(access, 'temporarios', 5), null);
+  assert.equal(tokenHpCommand(access, 'temporarios', 5)?.valor, 5);
   assert.equal(tokenAccess(npc, undefined, participant, mesa, owner, 'jogador').editable, false);
   assert.equal(
     tokenAccess(
@@ -152,4 +152,16 @@ test('NPC token PV updates use the current combat version and clamp damage and h
     ).editable,
     false,
   );
+});
+
+test('token HP expressions preserve server dice and allow exact temporary HP clear', () => {
+  const access = tokenAccess(token, record, undefined, undefined, owner, 'jogador');
+  assert.deepEqual(tokenHpCommand(access, 'dano', '2d8+3'), {
+    tipo: 'pv',
+    ficha_id: record.id,
+    versao: record.versao,
+    acao: 'dano',
+    expressao: '2d8+3',
+  });
+  assert.equal(tokenHpCommand(access, 'temporarios_definir', '0')?.expressao, '0');
 });

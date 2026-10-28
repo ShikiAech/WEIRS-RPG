@@ -72,6 +72,16 @@ export function resolveDefenses(
       value: formRule.armorClass + (formRule.permitsShield ? shield : 0),
       name: `${species?.name} (${draft.form})${formRule.permitsShield && shield ? ' + escudo' : ''}`,
     });
+  for (const feature of formFeatures) {
+    const rule = feature.armorClass;
+    if (!rule || (rule.unarmored && armor)) continue;
+    const base =
+      rule.fromLevel && state.level >= rule.fromLevel ? (rule.upgraded ?? rule.base) : rule.base;
+    alternatives.push({
+      value: base + (rule.permitsShield ? shield : 0),
+      name: `Carapaça Reforçada${rule.permitsShield && shield ? ' + escudo' : ''}`,
+    });
+  }
   let bonus = formFeatures.reduce((n, f) => n + (f.armorClassBonus ?? 0), 0);
   for (const { effect, instance } of state.concessions.effects) {
     const value = evaluateFormula(effect.formula, {

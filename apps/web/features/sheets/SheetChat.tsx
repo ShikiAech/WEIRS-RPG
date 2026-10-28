@@ -165,9 +165,15 @@ export function SheetActionButtons({
 }) {
   const data = useContext(context);
   const [mode, setMode] = useState<RollMode>('normal');
-  if (!data || !['ataques', 'magias'].includes(path)) return null;
+  if (
+    !data ||
+    !['ataques', 'magias', 'caracteristicas', 'tracos', 'talentos', 'pericias'].includes(path)
+  )
+    return null;
   const spell = path === 'magias';
-  const hasRoll = spell ? Boolean(entry.perfilId) : entry.tipo === 'bonus';
+  const hasRoll = spell
+    ? Boolean(entry.perfilId || entry.bonusAtaque !== undefined)
+    : entry.tipo === 'bonus';
   const label = String(entry.nome || (spell ? 'Magia' : 'Ataque'));
   function button(action: SheetAction, text: string, aria: string, rollMode: RollMode = 'normal') {
     return (
@@ -182,8 +188,21 @@ export function SheetActionButtons({
       </button>
     );
   }
+  const descriptionAction = (
+    {
+      ataques: 'descricao_ataque',
+      magias: 'descricao_magia',
+      caracteristicas: 'descricao_caracteristica',
+      tracos: 'descricao_traco',
+      talentos: 'descricao_talento',
+      pericias: 'descricao_pericia',
+    } as Record<string, SheetAction>
+  )[path];
+  if (!['ataques', 'magias'].includes(path))
+    return button(descriptionAction, 'Enviar descrição ao chat', 'Enviar descrição ao chat');
   return (
     <div className="sheet-roll-actions">
+      {button(descriptionAction, 'Enviar descrição ao chat', 'Enviar descrição ao chat')}
       {hasRoll && (
         <label>
           Modo da rolagem: {label}

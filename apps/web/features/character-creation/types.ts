@@ -12,6 +12,7 @@ export interface StepProps {
   repository: CompendiumRepository;
   classLevelInputs?: Record<string, string>;
   spellEntries?: Map<string, CompendiumEntry>;
+  onGoToStep?: (step: number) => void;
   onChange: (
     draft: CreationDraft | ((current: CreationDraft) => CreationDraft),
     classLevelInputs?: Record<string, string>,

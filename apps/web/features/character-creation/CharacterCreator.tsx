@@ -386,6 +386,7 @@ export function CharacterCreator({
                 repository={compendium}
                 classLevelInputs={classLevelInputs}
                 spellEntries={spellEntries.current}
+                onGoToStep={(step) => state.update(current => ({ ...current, step }))}
                 onChange={(change, inputs) => {
                   setError('');
                   state.update((current) => {

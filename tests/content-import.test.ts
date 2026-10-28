@@ -16,8 +16,8 @@ test('importa o acervo real inteiro, preservando narrativas e identidade dos reg
     ]),
   );
   assert.deepEqual(counts, { magia: 477, talento: 203, antecedente: 61, classe: 17, especie: 31 });
-  assert.equal(first.campaigns.flatMap((c) => c.sessions).length, 16);
-  assert.equal(first.campaigns.flatMap((c) => c.biographies).length, 19);
+  assert.equal(first.campaigns.flatMap((c) => c.sessions).length, 19);
+  assert.equal(first.campaigns.flatMap((c) => c.biographies).length, 22);
   assert.deepEqual(first, second);
   assert.equal(new Set(first.entries.map((e) => e.id)).size, first.entries.length);
   const newSpecies = [
@@ -85,7 +85,7 @@ test('importa o acervo real inteiro, preservando narrativas e identidade dos reg
   const othans = first.campaigns.find((c) => c.slug === 'othans')!;
   assert.equal(othans.name, 'Crônicas de Othans');
   assert.match(first.campaigns.find((c) => c.slug === 'epm')!.name, /Escola/);
-  assert.equal(othans.sessions.length, 14);
+  assert.equal(othans.sessions.length, 16);
   assert.ok(othans.sessions[0].descriptionHtml.length > othans.sessions[0].preview.length);
   assert.ok(first.manifest.sources.some((s) => s.path === 'img/weirs2.logo.png'));
 });

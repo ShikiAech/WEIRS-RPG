@@ -20,7 +20,7 @@ test('repositório lê apenas revisões publicadas, pagina variantes e conserva 
     ]);
     const spell = await f.draft('magia', 'Raio de Fogo');
     await f.db.query(
-      "INSERT INTO compendio_magias(revisao_id,circulo,escola) VALUES($1,0,'Evocação')",
+      "INSERT INTO compendio_magias(revisao_id,circulo,escola,salvaguarda_atributo,bonus_ataque,cd) VALUES($1,0,'Evocação','des',7,15)",
       [spell.revisionId],
     );
     await f.db.query(
@@ -109,6 +109,17 @@ test('repositório lê apenas revisões publicadas, pagina variantes e conserva 
       },
     } as unknown as SupabaseClient;
     const repo = createCompendiumRepository(client);
+    await t.test(
+      'metadados opcionais de magia atravessam SQL e decoder sem inferências',
+      async () => {
+        const loaded = await repo.get(spell);
+        assert.equal(loaded.kind, 'magia');
+        if (loaded.kind !== 'magia') throw Error('Magia indisponível');
+        assert.equal(loaded.data.saveAbility, 'des');
+        assert.equal(loaded.data.attackBonus, 7);
+        assert.equal(loaded.data.saveDc, 15);
+      },
+    );
     await t.test(
       'busca nome original/tradução/alias sem acentos e filtra classe/círculo',
       async () => {

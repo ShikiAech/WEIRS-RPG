@@ -11,6 +11,7 @@ import type { CompendiumSummary } from '../../../../packages/contracts/compendiu
 import type { CompendiumRepository } from '../../../../packages/contracts/character-creation';
 import { identity, combat, story, training, lists, number, attributeOptions } from './fields';
 import type { FieldSpec, ListSpec } from './fields';
+import { SpellActionMetadata } from './SpellActionMetadata';
 import { SheetActionButtons } from './SheetChat';
 import { InventoryEditor } from './InventoryEditor';
 import { SpellEditor } from './SpellEditor';
@@ -231,6 +232,14 @@ export function SheetForm({
                 {spec.path === 'magias' && (
                   <section className="spell-metadata">
                     <h4>Conjuração e descrição</h4>
+                    <SpellActionMetadata
+                      spell={row as unknown as SheetSpell}
+                      onChange={(spell) => {
+                        const next = structuredClone(content);
+                        next.magias[i] = spell;
+                        change(next);
+                      }}
+                    />
                     <div className="field-grid">
                       {spec.fields
                         .slice(4)
@@ -379,6 +388,12 @@ export function SheetForm({
                 {Object.entries(PERICIAS).map(([key, [label]]) => (
                   <fieldset key={key} className="skill">
                     <legend>{label}</legend>
+                    <SheetActionButtons path="pericias" entry={{ id: key, nome: label }} />
+                    {field({
+                      key: `pericias.${key}.descricao`,
+                      label: `${label}: descrição opcional`,
+                      type: 'textarea',
+                    })}
                     <strong>{signed(calc.pericias[key])}</strong>
                     <div className="field-grid">
                       {field({

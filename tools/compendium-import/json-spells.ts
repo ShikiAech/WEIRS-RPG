@@ -5,6 +5,9 @@ import { hash, normalizeName, stableId } from './identity';
 import type { ImportedSource, SourceRecord } from './model';
 
 export interface SpellInput {
+  save_ability?: import('../../packages/contracts/sheets').Ability;
+  attack_bonus?: number;
+  save_dc?: number;
   name: string;
   name_pt: string;
   circle: number;
@@ -80,6 +83,19 @@ export async function readSpellJsonSource(root: string, commit = ''): Promise<Im
       !stringList(row.upcasting)
     )
       throw invalid();
+    if (
+      row.save_ability !== undefined &&
+      !['for', 'des', 'con', 'int', 'sab', 'car'].includes(String(row.save_ability))
+    )
+      throw invalid();
+    for (const key of ['attack_bonus', 'save_dc'])
+      if (
+        row[key] !== undefined &&
+        (!Number.isInteger(row[key]) ||
+          Number(row[key]) < (key === 'save_dc' ? 0 : -9999) ||
+          Number(row[key]) > 9999)
+      )
+        throw invalid();
     const input = value as SpellInput;
     const base = `magia:json:${normalizeName(input.source)}:${normalizeName(input.name)}`;
     const variant = (keys.get(base) ?? 0) + 1;
@@ -288,6 +304,41 @@ function scales(
   return [];
 }
 
+/** Infer only an imposed target save; benefits, alternatives and creature stat blocks stay manual. */
+function primarySaveAbility(description: string): SpellDefinition['saveAbility'] {
+  if (/bloco de estatísticas|classe de armadura:/i.test(description)) return undefined;
+  const codes: Record<string, NonNullable<SpellDefinition['saveAbility']>> = {
+    forca: 'for',
+    destreza: 'des',
+    constituicao: 'con',
+    inteligencia: 'int',
+    sabedoria: 'sab',
+    carisma: 'car',
+  };
+  const clauses = [
+    ...description.matchAll(
+      /\b(?:o alvo|os alvos|a criatura|as criaturas|cada criatura|uma criatura|cada alvo)\b[^.!?;:]{0,180}?\b(?:dev(?:e|em)\s+(?:obter sucesso em|fazer|realizar)|faz(?:em)?|realiza(?:m)?)\s+uma\s+salvaguarda\s+de\s+(Força|Destreza|Constituição|Inteligência|Sabedoria|Carisma)\b/gi,
+    ),
+  ];
+  for (const clause of clauses) {
+    const following = description.slice(clause.index! + clause[0].length);
+    const sentenceStart =
+      Math.max(
+        ...['.', '!', '?', ';'].map((mark) => description.lastIndexOf(mark, clause.index!)),
+      ) + 1;
+    const sentence = description.slice(sentenceStart).split(/[.!?;]/, 1)[0];
+    if (/vantagem|bônus|adicione|adiciona/i.test(sentence)) return undefined;
+    if (
+      /^(?:\s*[,/]\s*(?:(?:ou|e)\s+)?|\s+(?:ou|e)\s+)(?:uma\s+salvaguarda\s+de\s+)?(?:Força|Destreza|Constituição|Inteligência|Sabedoria|Carisma)\b/i.test(
+        following,
+      )
+    )
+      return undefined;
+  }
+  const saves = new Set(clauses.map((clause) => codes[normalizeName(clause[1])]));
+  return saves.size === 1 ? [...saves][0] : undefined;
+}
+
 /** Class references are resolved by the catalog after all classes have been imported. */
 export function spellDefinition(
   input: SpellInput,
@@ -295,7 +346,11 @@ export function spellDefinition(
   warn: Warning = () => {},
 ): SpellDefinition {
   const damages = damage(input, ownerRevisionId, warn);
+  const saveAbility = input.save_ability ?? primarySaveAbility(input.description);
   return {
+    ...(saveAbility ? { saveAbility } : {}),
+    ...(input.attack_bonus === undefined ? {} : { attackBonus: input.attack_bonus }),
+    ...(input.save_dc === undefined ? {} : { saveDc: input.save_dc }),
     circle: input.circle,
     school: input.type,
     castingTime: input.casting_time,

@@ -1,3 +1,5 @@
+import { HitPointExpression } from './HitPointExpression';
+import type { RollResult } from '../../../../packages/contracts/chat';
 import { useState } from 'react';
 import type {
   Combatant,
@@ -9,16 +11,19 @@ export function CombatPanel({
   master,
   disabled,
   operate,
+  hpResult,
 }: {
   mesa: SessionState;
   master: boolean;
   disabled: boolean;
   operate: (c: SessionCommand) => Promise<boolean>;
+  hpResult?: RollResult | null;
 }) {
   const [name, setName] = useState(''),
     [hp, setHp] = useState(10),
     [ca, setCa] = useState(10),
-    [initiative, setInitiative] = useState(0);
+    [initiative, setInitiative] = useState(0),
+    [expressions, setExpressions] = useState<Record<string, string>>({});
   const combat = mesa.estado.combate;
   const command = (c: Record<string, unknown>) =>
     operate({ tipo: 'combate', versao: mesa.versao, ...c });
@@ -53,9 +58,7 @@ export function CombatPanel({
                   <button
                     className="play-roll"
                     disabled={disabled || p.pvAtuais === 0}
-                    onClick={() =>
-                      command({ acao: 'ajustar', id: p.id, pvAtuais: Math.max(0, p.pvAtuais - 1) })
-                    }
+                    onClick={() => command({ acao: 'dano', id: p.id, valor: 1 })}
                   >
                     −1 PV: {p.nome}
                   </button>
@@ -64,14 +67,24 @@ export function CombatPanel({
                     disabled={disabled || p.pvAtuais >= p.pvMaximos}
                     onClick={() =>
                       command({
-                        acao: 'ajustar',
+                        acao: 'cura',
                         id: p.id,
-                        pvAtuais: Math.min(p.pvMaximos, p.pvAtuais + 1),
+                        valor: 1,
                       })
                     }
                   >
                     +1 PV: {p.nome}
                   </button>
+                  <HitPointExpression
+                    value={expressions[p.id] ?? '1'}
+                    onChange={(value) => setExpressions((old) => ({ ...old, [p.id]: value }))}
+                    disabled={disabled}
+                    label={'Quantidade de PV de ' + p.nome}
+                    result={hpResult?.alvo_id === p.id ? hpResult : null}
+                    onApply={(acao) =>
+                      void command({ acao, id: p.id, expressao: expressions[p.id] ?? '1' })
+                    }
+                  />
                   <NpcHP
                     participant={p}
                     version={mesa.versao}

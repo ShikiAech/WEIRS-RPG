@@ -1,5 +1,11 @@
 export type RollMode = 'normal' | 'vantagem' | 'desvantagem';
 export type SheetAction =
+  | 'descricao_magia'
+  | 'descricao_ataque'
+  | 'descricao_caracteristica'
+  | 'descricao_traco'
+  | 'descricao_talento'
+  | 'descricao_pericia'
   | 'ataque'
   | 'dano'
   | 'magia'
@@ -33,10 +39,14 @@ export type RollTerm = {
 };
 export type RollResult = {
   regras: number;
+  alvo_id?: string;
   expressao?: string;
   total?: number;
   termos?: RollTerm[];
   cd?: number;
+  bonusAtaque?: number;
+  salvaguardaAtributo?: import('./sheets').Ability;
+  descricao?: { nome: string; texto: string; semDescricao: boolean };
   parcelas?: { id: string; tipo: string; expressao: string; total: number }[];
   origem?: {
     ficha_id: string;

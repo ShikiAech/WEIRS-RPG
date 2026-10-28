@@ -1,3 +1,5 @@
+import { HitPointExpression } from './HitPointExpression';
+import type { RollResult } from '../../../../packages/contracts/chat';
 import { Fragment, useState } from 'react';
 import type { SheetRecord } from '../../../../packages/contracts/sheets';
 import type { ChatCommand, RollMode, SheetAction } from '../../../../packages/contracts/chat';
@@ -34,16 +36,18 @@ export function SheetPlay({
   disabled,
   onRoll,
   operate,
+  hpResult,
 }: {
   record: SheetRecord;
   userId: string;
   disabled: boolean;
   onRoll: (c: ChatCommand) => void;
   operate: (c: SessionCommand) => void;
+  hpResult?: RollResult | null;
 }) {
   const [tab, setTab] = useState('Testes'),
     [mode, setMode] = useState<RollMode>('normal'),
-    [amount, setAmount] = useState(1),
+    [amount, setAmount] = useState('1'),
     [condition, setCondition] = useState(''),
     [hitDiceRecovery, setHitDiceRecovery] = useState('todos'),
     [concentration, setConcentration] = useState('');
@@ -52,6 +56,26 @@ export function SheetPlay({
   const favorites = useActionFavorites(userId, record.campanha_id, record.id);
   const change = (command: Record<string, unknown> & { tipo: string }) =>
     operate({ ...command, ficha_id: record.id, versao: record.versao });
+  const describe = (acao: SheetAction, id: string, name: string) => (
+    <button
+      type="button"
+      className="text-button"
+      aria-label={'Enviar descrição ao chat: ' + name}
+      disabled={disabled}
+      onClick={() =>
+        onRoll({
+          tipo: 'acao',
+          ficha_id: record.id,
+          versao: record.versao,
+          entrada_id: id,
+          acao,
+          modo: 'normal',
+        })
+      }
+    >
+      Enviar descrição ao chat
+    </button>
+  );
   const roll = (acao: SheetAction, id: string, label: string, normal = false, blocked = false) => (
     <span className="sheet-roll-action">
       <button
@@ -142,28 +166,13 @@ export function SheetPlay({
         </span>
       </div>
       <fieldset disabled={disabled} className="play-fields">
-        <label>
-          Quantidade de PV
-          <input
-            type="number"
-            min="0"
-            max="9999"
-            value={amount}
-            onChange={(e) => setAmount(Number(e.target.value))}
-          />
-        </label>
-        <div className="play-actions">
-          {(['dano', 'cura', 'temporarios'] as const).map((action) => (
-            <button
-              key={action}
-              type="button"
-              className="button secondary"
-              onClick={() => change({ tipo: 'pv', acao: action, valor: amount })}
-            >
-              {action === 'dano' ? 'Aplicar dano' : action === 'cura' ? 'Curar' : 'PV temporários'}
-            </button>
-          ))}
-        </div>
+        <HitPointExpression
+          value={amount}
+          onChange={setAmount}
+          disabled={disabled}
+          result={hpResult?.alvo_id === record.id ? hpResult : null}
+          onApply={(action) => change({ tipo: 'pv', acao: action, expressao: amount })}
+        />
         <small>
           Dano absorve PV temporários primeiro. Ajuste o valor por resistências e regras da mesa.
         </small>
@@ -198,6 +207,7 @@ export function SheetPlay({
                 key,
                 `${name} ${sign((calc.pericias as Record<string, number>)[key])}`,
               )}
+              {describe('descricao_pericia', key, name)}
             </div>
           ))}
           <h3>Salvaguardas contra morte</h3>
@@ -216,6 +226,7 @@ export function SheetPlay({
           {c.ataques.map((e) => (
             <article className="play-entry" key={e.id}>
               <strong>{e.nome}</strong>
+              {describe('descricao_ataque', e.id, e.nome)}
               <small>
                 {e.tipo === 'cd' ? `CD ${e.valor}` : `Acerto ${sign(e.valor)}`}
                 {e.itemId && ` · Crítico ${e.critico ?? 20}–20`}
@@ -240,6 +251,37 @@ export function SheetPlay({
             </article>
           ))}
           {!c.ataques.length && <p>Configure os ataques na ficha completa.</p>}
+          {(['caracteristicas', 'tracos', 'talentos'] as const).map((path) => (
+            <section key={path}>
+              <h3>
+                {
+                  { caracteristicas: 'Características', tracos: 'Traços', talentos: 'Talentos' }[
+                    path
+                  ]
+                }
+              </h3>
+              {c[path].map((entry) => (
+                <article className="play-entry" key={entry.id}>
+                  <strong>{entry.nome}</strong>
+                  {describe(
+                    (
+                      {
+                        caracteristicas: 'descricao_caracteristica',
+                        tracos: 'descricao_traco',
+                        talentos: 'descricao_talento',
+                      } as const
+                    )[path],
+                    entry.id,
+                    entry.nome,
+                  )}
+                  <details>
+                    <summary>Descrição de {entry.nome}</summary>
+                    <p>{entry.descricao || 'Esta entrada não possui descrição na ficha salva.'}</p>
+                  </details>
+                </article>
+              ))}
+            </section>
+          ))}
           <h3>Magias</h3>
           {c.conjuracao.perfis.map((p, i) => (
             <div className="play-entry" key={p.id}>
@@ -264,6 +306,12 @@ export function SheetPlay({
                   <strong>
                     {e.nome} · {e.circulo === 0 ? 'Truque' : 'Círculo ' + e.circulo}
                   </strong>
+                  {describe('descricao_magia', e.id, e.nome)}
+                  <small>
+                    {e.bonusAtaque !== undefined ? 'Ataque ' + sign(e.bonusAtaque) + ' · ' : ''}
+                    {e.cd !== undefined ? 'CD ' + e.cd + ' · ' : ''}
+                    {e.salvaguardaAtributo ? ATRIBUTOS[e.salvaguardaAtributo] : ''}
+                  </small>
                   <ul className="spell-damage-summary">
                     {formulasMagia(e, calc.atributos).map((d) => (
                       <li key={d.id}>
@@ -273,7 +321,8 @@ export function SheetPlay({
                   </ul>
                   <div className="play-actions">
                     {roll('magia', e.id, `Conjurar: ${e.nome}`, true)}
-                    {e.perfilId && roll('magia_ataque', e.id, `Ataque de magia: ${e.nome}`)}
+                    {(e.perfilId || e.bonusAtaque !== undefined) &&
+                      roll('magia_ataque', e.id, `Ataque de magia: ${e.nome}`)}
                     {temDanoMagia(e) && roll('magia_dano', e.id, `Dano de magia: ${e.nome}`, true)}
                     {e.concentracao && (
                       <button

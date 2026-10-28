@@ -1,8 +1,13 @@
 import type { Page } from '@playwright/test';
+import { visibleCells } from '../../packages/tabletop/vision-geometry';
 import { campaignId, ownerId, type backend } from './backend';
 import type { chatBackend } from './chat-backend';
 import type {
   AreaRecord,
+  LayerRecord,
+  WallRecord,
+  PlacedObject,
+  SceneAssignment,
   AssetRecord,
   SceneRecord,
   TokenRecord,
@@ -67,6 +72,12 @@ export function tabletopState() {
       }),
       token(otherTokenId, { nome: 'Guarda', x: 7, y: 3, ficha_id: null, controlador_id: null }),
     ] as TokenRecord[],
+    layers: [] as LayerRecord[],
+    walls: [] as WallRecord[],
+    placed: [] as PlacedObject[],
+    assignments: [] as SceneAssignment[],
+    revision: 1,
+    explored: [] as string[],
     assets: [] as AssetRecord[],
     areas: [] as AreaRecord[],
     assetOwners: new Map<string, string>(),
@@ -117,23 +128,10 @@ export async function tabletopBackend(
   const respond = (route: any, body: unknown, status = 200) =>
     route.fulfill({ status, contentType: 'application/json', body: JSON.stringify(body) });
   const publish = (table: string, record: any, type = 'UPDATE') => {
+    table = 'invalidacoes_mapa';
+    record = { campanha_id: campaignId, usuario_id: ownerId, revisao: Date.now() };
+    type = 'UPDATE';
     for (const socket of chat?.sockets || []) {
-      if (table === 'tokens_mapa' && record.oculto && !socket.master) continue;
-      if (table === 'cenas_mapa' && !record.publicada && !socket.master) continue;
-      if (table === 'arquivos_mapa' && record.visibilidade === 'mestre' && !socket.master) continue;
-      if (
-        table === 'areas_mapa' &&
-        record.token_id &&
-        !socket.master &&
-        state.tokens.some((token) => token.id === record.token_id && token.oculto)
-      )
-        continue;
-      if (
-        record.cena_id &&
-        !socket.master &&
-        !state.scenes.some((s) => s.id === record.cena_id && s.publicada)
-      )
-        continue;
       const ids = socket.filters
         .filter(
           (f) =>
@@ -194,6 +192,57 @@ export async function tabletopBackend(
       return respond(route, rows);
     });
   }
+  await page.route('https://weirs-test.supabase.co/rest/v1/rpc/ler_mapa_visivel', async (route) => {
+    const { p_cena } = route.request().postDataJSON(),
+      scene = state.scenes.find((s) => s.id === p_cena);
+    if (state.denied || !scene || !readableScene(p_cena))
+      return respond(route, { code: 'WV002' }, 403);
+    const layers = state.layers.filter(
+      (l) => l.cena_id === p_cena && (options.master || l.visivel),
+    );
+    const candidates = state.tokens.filter(
+      (t) =>
+        t.cena_id === p_cena &&
+        (options.master ||
+          (!t.oculto && (!t.camada_id || layers.some((l) => l.id === t.camada_id)))),
+    );
+    const sources = options.readonly
+      ? []
+      : candidates
+          .filter((t) => controlled(t) && t.visao !== false)
+          .map((t) => ({
+            x: t.x + t.tamanho / 2,
+            y: t.y + t.tamanho / 2,
+            range: t.alcance_visao ?? 60,
+          }));
+    const current = visibleCells(
+      scene.largura,
+      scene.altura,
+      scene.unidade,
+      sources,
+      state.walls.filter((w) => w.cena_id === p_cena),
+    );
+    state.explored = [...new Set([...state.explored, ...current])];
+    return respond(route, {
+      cena: scene,
+      revisao: state.revision,
+      atual: current,
+      explorada: state.explored,
+      sem_fonte: sources.length === 0,
+      tokens: candidates.filter(
+        (t) =>
+          options.master ||
+          controlled(t) ||
+          current.includes(`${Math.floor(t.x + t.tamanho / 2)},${Math.floor(t.y + t.tamanho / 2)}`),
+      ),
+      areas: state.areas.filter(readableArea),
+      camadas: layers,
+      paredes: options.master ? state.walls : [],
+      objetos: options.master ? state.placed : [],
+      atribuicoes: state.assignments,
+      assets: state.assets.filter((a) => options.master || a.visibilidade === 'campanha'),
+    });
+  });
   await page.route('https://weirs-test.supabase.co/rest/v1/rpc/marcar_mapa', async (route) => {
     const { p_cena, p_x, p_y } = route.request().postDataJSON();
     if (state.denied || options.readonly || !readableScene(p_cena))
@@ -278,18 +327,24 @@ export async function tabletopBackend(
             state.assetOwners.get(currentAsset.id) !== ownerId)))
     )
       return respond(route, { code: 'WV002' }, 403);
-    if (
-      !options.master &&
-      !isAsset &&
-      !isArea &&
-      (!isToken ||
-        c.tipo !== 'token_atualizar' ||
-        !currentToken ||
-        !controlled(currentToken) ||
-        currentToken.oculto ||
-        currentToken.bloqueado)
-    )
-      return respond(route, { code: 'WV002' }, 403);
+    if (!options.master && !isAsset && !isArea) {
+      const ownCreate =
+        c.tipo === 'token_criar' &&
+        sheets.rows.some((f) => f.id === c.ficha_id && f.proprietario_id === ownerId) &&
+        !c.oculto &&
+        !c.bloqueado &&
+        (!c.controlador_id || c.controlador_id === ownerId);
+      const ownMutation =
+        ['token_atualizar', 'token_excluir'].includes(c.tipo) &&
+        currentToken &&
+        controlled(currentToken) &&
+        !currentToken.oculto &&
+        !currentToken.bloqueado &&
+        (c.tipo !== 'token_atualizar' ||
+          Object.keys(c.patch).every((k) => ['x', 'y', 'rotacao', 'elevacao'].includes(k)));
+      if (!ownCreate && !ownMutation && c.tipo !== 'tokens_lote')
+        return respond(route, { code: 'WV002' }, 403);
+    }
     const prior = state.receipts.get(p_pedido);
     if (prior) {
       if (JSON.stringify(prior.command) !== JSON.stringify(c))
@@ -297,7 +352,76 @@ export async function tabletopBackend(
       return respond(route, prior.response);
     }
     let response: any;
-    if (isArea) {
+    if (c.tipo === 'desenhos_limpar') {
+      if (!options.master) return respond(route, { code: 'WV002' }, 403);
+      const layer = state.layers.find((l) => l.finalidade === 'mapa');
+      const targets = c.itens.map((item: any) =>
+        state.placed.find(
+          (object) =>
+            object.id === item.id &&
+            object.versao === item.versao &&
+            object.desenho &&
+            !object.oculto &&
+            object.camada_id === layer?.id,
+        ),
+      );
+      if (targets.some((object: PlacedObject | undefined) => !object))
+        return respond(route, { code: 'WV001' }, 409);
+      const ids = c.itens.map((item: any) => item.id);
+      state.placed = state.placed.filter((object) => !ids.includes(object.id));
+      response = { excluidos: ids };
+      state.revision++;
+      publish('invalidacoes_mapa', {});
+    } else if (
+      [
+        'parede_criar',
+        'parede_atualizar',
+        'parede_excluir',
+        'camada_criar',
+        'camada_atualizar',
+        'objeto_criar',
+        'objeto_atualizar',
+        'objeto_excluir',
+      ].includes(c.tipo)
+    ) {
+      if (!options.master) return respond(route, { code: 'WV002' }, 403);
+      const field = c.tipo.startsWith('parede')
+        ? 'parede'
+        : c.tipo.startsWith('camada')
+          ? 'camada'
+          : 'objeto';
+      const rows: any[] =
+        field === 'parede' ? state.walls : field === 'camada' ? state.layers : state.placed;
+      if (c.tipo.endsWith('_criar')) {
+        const { tipo, ...values } = c;
+        const row = {
+          id: crypto.randomUUID(),
+          campanha_id: campaignId,
+          versao: 1,
+          porta: false,
+          aberta: false,
+          visivel: true,
+          bloqueada: false,
+          ordem: rows.length,
+          ...values,
+        };
+        rows.push(row);
+        response = { [field]: row };
+      } else {
+        const row = rows.find((r) => r.id === c.id);
+        if (!row || row.versao !== c.versao) return respond(route, { code: 'WV001' }, 409);
+        if (c.tipo.endsWith('_excluir')) {
+          rows.splice(rows.indexOf(row), 1);
+          response = { excluido: row.id };
+        } else {
+          Object.assign(row, c.patch);
+          row.versao++;
+          response = { [field]: row };
+        }
+      }
+      state.revision++;
+      publish('invalidacoes_mapa', {});
+    } else if (isArea) {
       const area = state.areas.find((row) => row.id === c.id);
       if (c.tipo === 'area_criar') {
         const token = c.token_id ? state.tokens.find((row) => row.id === c.token_id) : null;
@@ -348,7 +472,7 @@ export async function tabletopBackend(
         }
       }
     } else if (c.tipo === 'tokens_lote' || c.tipo === 'tokens_duplicar') {
-      if (!options.master || !readableScene(c.cena_id))
+      if ((c.tipo === 'tokens_duplicar' && !options.master) || !readableScene(c.cena_id))
         return respond(route, { code: 'WV002' }, 403);
       const items = c.tipo === 'tokens_lote' ? c.itens : c.tokens;
       const targets = items.map((item: any) =>
@@ -362,6 +486,11 @@ export async function tabletopBackend(
         )
       )
         return respond(route, { code: 'WV001' }, 409);
+      if (
+        !options.master &&
+        targets.some((t: TokenRecord) => !controlled(t) || t.bloqueado || t.oculto)
+      )
+        return respond(route, { code: 'WV002' }, 403);
       const scene = state.scenes.find((row) => row.id === c.cena_id)!;
       for (let index = 0; index < targets.length; index++) {
         const token = targets[index]!,

@@ -4,6 +4,7 @@ import { createRepository } from '../../lib/repository';
 import { createSessionRepository, SessionError } from '../../lib/session';
 import type { SheetRecord } from '../../../../packages/contracts/sheets';
 import type { SessionCommand, SessionState } from '../../../../packages/contracts/session';
+import type { RollResult } from '../../../../packages/contracts/chat';
 import type { ChatMessage } from '../../../../packages/contracts/chat';
 
 export function useSession(
@@ -17,6 +18,7 @@ export function useSession(
   const [mesa, setMesa] = useState<SessionState | null>(null);
   const [selected, setSelected] = useState('');
   const [error, setError] = useState('');
+  const [hpResult, setHpResult] = useState<RollResult | null>(null);
   const [loading, setLoading] = useState(true);
   const [pending, setPending] = useState(false);
   const [denied, setDenied] = useState(false);
@@ -112,6 +114,7 @@ export function useSession(
       const result = await repository.operate(campaign, next.id, next.command);
       if (!alive.current) return false;
       onMessage(result.mensagem);
+      setHpResult(result.resultado || null);
       setAttempt(null);
       unresolved.current = false;
       // Reenviar pode devolver um recibo antigo; consultar o estado atual evita regressão.
@@ -120,7 +123,11 @@ export function useSession(
     } catch (e) {
       if (!alive.current) return false;
       const failure = e instanceof SessionError ? e : new SessionError('REDE');
-      setError(failure.message);
+      setError(
+        failure.code === 'WM003' && next.command.expressao !== undefined
+          ? 'Expressão de PV inválida. Use soma, subtração e dados; o resultado deve ser inteiro entre 0 e 9999. Até 100 dados, com faces de 2 a 1000.'
+          : failure.message,
+      );
       if (['WM001', 'WM002', 'WM003', 'WM004'].includes(failure.code)) {
         setAttempt(null);
         unresolved.current = false;
@@ -137,6 +144,7 @@ export function useSession(
   }
   return {
     records,
+    hpResult,
     mesa,
     selected,
     setSelected,

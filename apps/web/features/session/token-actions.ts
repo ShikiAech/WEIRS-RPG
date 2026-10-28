@@ -1,3 +1,4 @@
+import { validHpExpression } from './HitPointExpression';
 import type { TokenRecord } from '../../../../packages/contracts/tabletop';
 import type { SheetRecord } from '../../../../packages/contracts/sheets';
 import type {
@@ -46,31 +47,31 @@ export function tokenAccess(
 }
 export function tokenHpCommand(
   access: TokenAccess,
-  action: 'dano' | 'cura' | 'temporarios',
-  amount: number,
+  action: 'dano' | 'cura' | 'temporarios' | 'temporarios_definir',
+  amount: number | string,
 ): SessionCommand | null {
-  if (!access.editable || !Number.isSafeInteger(amount) || amount < 0 || amount > 9999) return null;
+  if (!access.editable) return null;
+  if (
+    typeof amount === 'number'
+      ? !Number.isSafeInteger(amount) || amount < 0 || amount > 9999
+      : !validHpExpression(amount)
+  )
+    return null;
+  const value = typeof amount === 'string' ? { expressao: amount } : { valor: amount };
   if (access.record)
     return {
       tipo: 'pv',
       ficha_id: access.record.id,
       versao: access.record.versao,
       acao: action,
-      valor: amount,
+      ...value,
     };
-  if (!access.participant || !access.mesa || action === 'temporarios') return null;
-  const participant = access.participant;
+  if (!access.participant || !access.mesa) return null;
   return {
     tipo: 'combate',
-    acao: 'ajustar',
-    id: participant.id,
+    acao: action,
+    id: access.participant.id,
     versao: access.mesa.versao,
-    pvAtuais: Math.max(
-      0,
-      Math.min(
-        participant.pvMaximos,
-        participant.pvAtuais + (action === 'dano' ? -amount : amount),
-      ),
-    ),
+    ...value,
   };
 }

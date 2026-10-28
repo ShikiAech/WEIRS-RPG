@@ -11,6 +11,7 @@ import { supabase } from '../lib/supabase';
 import { createRepository } from '../lib/repository';
 import { createChatRepository, chatError } from '../lib/chat';
 import { catchUp, commandFromText, mergeMessages } from '../lib/chat-state';
+import { buildChatDamageAction } from './chat/damage-action';
 import { Message } from './chat/Message';
 import { DicePanel, useDice3D } from './dice/Dice3D';
 import { SessionPanel } from './session/SessionPanel';
@@ -157,6 +158,8 @@ function Room({
   const currentRole = useRef(role);
   const [secret, setSecret] = useState(false);
   const [revealing, setRevealing] = useState('');
+  const [loadingDamage, setLoadingDamage] = useState(false);
+  const damageBusy = useRef(false);
   const [sessionBusy, setSessionBusy] = useState(false);
   const [contextBusy, setContextBusy] = useState(false);
   const tableBusy = sessionBusy || contextBusy;
@@ -361,8 +364,14 @@ function Room({
       if (mounted.current) setOlder(false);
     }
   }
-  async function send(command?: ChatCommand) {
-    if (busy.current || tableBusy || !canSend || liveRole === 'espectador' || forbidden.current)
+  async function send(command?: ChatCommand, reservedDamage = false) {
+    if (
+      (busy.current && !reservedDamage) ||
+      tableBusy ||
+      !canSend ||
+      liveRole === 'espectador' ||
+      forbidden.current
+    )
       return;
     let next = attempt;
     try {
@@ -413,8 +422,52 @@ function Room({
       if (mounted.current) setSending(false);
     }
   }
+  async function damage(message: ChatMessage) {
+    if (
+      damageBusy.current ||
+      busy.current ||
+      attempt ||
+      tableBusy ||
+      !canSend ||
+      liveRole === 'espectador' ||
+      forbidden.current
+    )
+      return;
+    damageBusy.current = true;
+    busy.current = true;
+    setLoadingDamage(true);
+    setSendError('');
+    const version = generation.current;
+    try {
+      const command = await buildChatDamageAction(message, (id) =>
+        createRepository(supabase!).get(id),
+      );
+      if (mounted.current && version === generation.current && !forbidden.current)
+        await send(command, true);
+    } catch (error) {
+      if (mounted.current && version === generation.current)
+        setSendError(
+          error instanceof Error
+            ? error.message
+            : 'Não foi possível carregar a ficha atual para rolar dano.',
+        );
+    } finally {
+      damageBusy.current = false;
+      busy.current = false;
+      if (mounted.current) setLoadingDamage(false);
+    }
+  }
   async function reveal(id: string) {
-    if (revealing || accessLost || tableBusy || sending || attempt || liveRole !== 'mestre') return;
+    if (
+      damageBusy.current ||
+      revealing ||
+      accessLost ||
+      tableBusy ||
+      sending ||
+      attempt ||
+      liveRole !== 'mestre'
+    )
+      return;
     setRevealing(id);
     setSendError('');
     try {
@@ -429,7 +482,8 @@ function Room({
       if (mounted.current) setRevealing('');
     }
   }
-  const disabled = !canSend || liveRole === 'espectador' || accessLost || loading || tableBusy;
+  const disabled =
+    !canSend || liveRole === 'espectador' || accessLost || loading || tableBusy || loadingDamage;
   return (
     <>
       <div className="session-toolbar" aria-label="Ferramentas da sessão">
@@ -454,7 +508,7 @@ function Room({
             key={kind}
             className="button secondary"
             aria-pressed={panel === kind}
-            disabled={tableBusy || sending || !!attempt || accessLost}
+            disabled={tableBusy || loadingDamage || sending || !!attempt || accessLost}
             onClick={() => setPanel(kind)}
           >
             {kind === 'ficha' ? 'Minha ficha' : kind === 'combate' ? 'Combate' : 'Loja'}
@@ -471,9 +525,11 @@ function Room({
               onRoll={(command) => void send(command)}
               onMessage={(message) => add([message])}
               onBusy={setContextBusy}
-              chatDisabled={loading || accessLost || sessionBusy || sending || !!attempt}
+              chatDisabled={
+                loading || accessLost || sessionBusy || loadingDamage || sending || !!attempt
+              }
               onOpenSheet={(id) => {
-                if (!tableBusy && !sending && !attempt) {
+                if (!tableBusy && !loadingDamage && !sending && !attempt) {
                   setSheetId(id);
                   setPanel('ficha');
                 }
@@ -490,7 +546,9 @@ function Room({
               userId={userId}
               role={liveRole}
               kind={panel}
-              chatDisabled={loading || accessLost || tableBusy || sending || !!attempt}
+              chatDisabled={
+                loading || accessLost || tableBusy || loadingDamage || sending || !!attempt
+              }
               onClose={() => setPanel('')}
               onRoll={(command) => void send(command)}
               onMessage={(message) => add([message])}
@@ -509,7 +567,9 @@ function Room({
                 role={liveRole}
                 kind={panel}
                 selectedSheetId={sheetId}
-                chatDisabled={loading || accessLost || tableBusy || sending || !!attempt}
+                chatDisabled={
+                  loading || accessLost || tableBusy || loadingDamage || sending || !!attempt
+                }
                 onClose={() => {
                   setPanel('');
                   setSheetId('');
@@ -578,6 +638,15 @@ function Room({
                     message={m}
                     onReveal={liveRole === 'mestre' ? () => void reveal(m.id) : undefined}
                     revealing={revealing === m.id}
+                    onDamage={
+                      canSend &&
+                      liveRole !== 'espectador' &&
+                      m.resultado?.origem &&
+                      ['ataque', 'magia', 'magia_ataque'].includes(m.resultado.origem.acao)
+                        ? () => void damage(m)
+                        : undefined
+                    }
+                    damageDisabled={disabled || sending || loadingDamage || !!attempt}
                   />
                 ))}
               </div>
@@ -628,7 +697,7 @@ function Room({
                   Visibilidade da rolagem
                   <select
                     value={secret ? 'secreta' : 'publica'}
-                    disabled={tableBusy || sending || !!attempt || accessLost}
+                    disabled={tableBusy || loadingDamage || sending || !!attempt || accessLost}
                     onChange={(e) => setSecret(e.target.value === 'secreta')}
                   >
                     <option value="publica">Pública</option>
@@ -669,6 +738,7 @@ function Room({
                   </button>
                 </div>
               </form>
+              {loadingDamage && <p aria-live="polite">Carregando ficha para rolar dano…</p>}
               {sendError && (
                 <div className="notice error" role="alert">
                   {sendError}

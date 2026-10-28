@@ -176,7 +176,9 @@ export function catalogTables(c: ResolvedCatalog): SeedTables {
           ritual: d.ritual,
           area_tipo: null,
           area_pes: null,
-          salvaguarda_atributo: null,
+          salvaguarda_atributo: d.saveAbility ?? null,
+          bonus_ataque: d.attackBonus ?? null,
+          cd: d.saveDc ?? null,
         });
         child('compendio_magia_componentes', id, 'componentes', {
           verbal: d.components.verbal,

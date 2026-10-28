@@ -102,3 +102,34 @@ test('undo restores changed scene fields only and does not include irreversible 
     null,
   );
 });
+
+test('new wall/object creations have versioned inverse deletions; layer visibility is not guessed', () => {
+  const wall = {
+    id: 'wall',
+    campanha_id: 'c',
+    cena_id: 's',
+    versao: 1,
+    x1: 0,
+    y1: 0,
+    x2: 1,
+    y2: 1,
+    porta: false,
+    aberta: false,
+  };
+  assert.deepEqual(
+    inverseCommand(
+      { tipo: 'parede_criar', cena_id: 's', x1: 0, y1: 0, x2: 1, y2: 1 },
+      { parede: wall },
+      [],
+    ),
+    { tipo: 'parede_excluir', id: 'wall', versao: 1 },
+  );
+  assert.equal(
+    inverseCommand(
+      { tipo: 'camada_atualizar', id: 'l', versao: 1, patch: { visivel: false } },
+      {},
+      [],
+    ),
+    null,
+  );
+});

@@ -2,6 +2,7 @@ import {
   useEffect,
   useId,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
   type MouseEvent as ReactMouseEvent,
@@ -12,7 +13,15 @@ import type { ChatCommand, ChatMessage } from '../../../../packages/contracts/ch
 import { useSession } from '../session/useSession';
 import { TokenActions } from './TokenActions';
 import { AreaTools } from './AreaTools';
-import { SpellAreas } from './SpellAreas';
+import {
+  cellCenter,
+  movementAnchor,
+  visibleCells,
+} from '../../../../packages/tabletop/vision-geometry';
+import { RulerTools, RulerLines, usePinnedRulers, type RulerStyle } from './RulerTools';
+import { VisionFog, VisionClip } from './VisionFog';
+import { MapAdministration } from './MapAdministration';
+import { SceneEntities } from './SceneEntities';
 import { groupDelta, selectionBounds } from './agility-geometry';
 import { useMapHistory } from './useMapHistory';
 import { AssetLibrary, SceneEditor, TokenEditor } from './MapEditors';
@@ -29,7 +38,7 @@ import {
   type Point,
 } from './geometry';
 
-type Tool = 'select' | 'pan' | 'ruler' | 'fog' | 'draw' | 'ping' | 'area' | 'box';
+type Tool = 'select' | 'pan' | 'ruler' | 'fog' | 'draw' | 'ping' | 'area' | 'box' | 'wall';
 type Drag = {
   pointer: number;
   start: Point;
@@ -79,6 +88,7 @@ export function Tabletop({
   const requestedImages = [
     scene?.fundo_id,
     ...tokens.map((token) => token.imagem_id),
+    ...(map.snapshot?.objetos.map((o) => o.imagem_id) || []),
     ...(drawer === 'assets' ? map.assets.map((asset) => asset.id) : []),
   ].filter((id): id is string => Boolean(id));
   const images = useAssetUrls(map.assets, map.repository, requestedImages),
@@ -101,6 +111,16 @@ export function Tabletop({
     [deleteConfirm, setDeleteConfirm] = useState(false);
   const [fileBusy, setFileBusy] = useState(false);
   const [boxPreview, setBoxPreview] = useState<ReturnType<typeof selectionBounds> | null>(null);
+  const [rulerStyle, setRulerStyle] = useState<RulerStyle>({
+    cor: '#e7c86c',
+    espessura: 2,
+    tracejada: true,
+  });
+  const [measureMovement, setMeasureMovement] = useState(true);
+  const pinnedRulers = usePinnedRulers(`${campaignId}:${userId}:${scene?.id || ''}`);
+  const [areaPhase, setAreaPhase] = useState<'Posicionar' | 'Orientar' | 'Confirmar'>('Posicionar');
+  const [visionPreview, setVisionPreview] = useState(false);
+  const [wallPreview, setWallPreview] = useState<{ a: Point; b: Point } | null>(null);
   const [areaDraft, setAreaDraft] = useState<AreaRecord | null>(null);
   const [groupPreview, setGroupPreview] = useState<Point | null>(null);
   const [multiSelecting, setMultiSelecting] = useState(false);
@@ -129,11 +149,45 @@ export function Tabletop({
   const unique = useId().replace(/:/g, ''),
     selectedToken = tokens.find((token) => token.id === selected);
   const selectedTokens = tokens.filter((t) => selection.includes(t.id));
+  const drawingLayer = map.snapshot?.camadas.find((layer) => layer.finalidade === 'mapa');
+  const clearableDrawings =
+    map.snapshot?.objetos.filter(
+      (object) => object.desenho && !object.oculto && object.camada_id === drawingLayer?.id,
+    ) || [];
+  const previewMask = useMemo(
+    () =>
+      scene && map.snapshot && visionPreview
+        ? {
+            ...map.snapshot,
+            atual: visibleCells(
+              scene.largura,
+              scene.altura,
+              scene.unidade,
+              selectedTokens
+                .filter(
+                  (t) =>
+                    t.visao !== false &&
+                    (t.controlador_id || t.ficha_id) &&
+                    map.snapshot!.camadas.some((l) => l.id === t.camada_id && l.visivel),
+                )
+                .map((t) => ({
+                  x: t.x + t.tamanho / 2,
+                  y: t.y + t.tamanho / 2,
+                  range: t.alcance_visao ?? 60,
+                })),
+              map.snapshot.paredes,
+            ),
+            explorada: [],
+          }
+        : null,
+    [scene, map.snapshot, visionPreview, selection],
+  );
   const canMove = (token: TokenRecord) =>
     !spectator &&
     (master ||
       (!token.bloqueado &&
         !token.oculto &&
+        !map.snapshot?.camadas.find((l) => l.id === token.camada_id)?.bloqueada &&
         (token.controlador_id === userId ||
           records.some(
             (record) => record.id === token.ficha_id && record.proprietario_id === userId,
@@ -215,6 +269,7 @@ export function Tabletop({
     if (scene) setCamera(fitCamera(size.width, size.height, scene.largura, scene.altura));
   }, [scene?.id, scene?.largura, scene?.altura, size.width, size.height]);
   useEffect(() => {
+    if (map.loading) return;
     setSelection((ids) => {
       const available = ids.filter((id) => tokens.some((t) => t.id === id));
       return available.length === ids.length ? ids : available;
@@ -224,7 +279,7 @@ export function Tabletop({
       setSelection((ids) => ids.filter((id) => tokens.some((t) => t.id === id)));
       setDeleteConfirm(false);
     }
-  }, [tokens, selected]);
+  }, [tokens, selected, map.loading]);
   useEffect(() => {
     if (!areaDraft || map.loading) return;
     if (
@@ -258,9 +313,17 @@ export function Tabletop({
     if (!scene || (event.button !== 0 && event.button !== 1 && event.button !== 2)) return;
     event.preventDefault();
     if (event.button === 2 && tool === 'ruler' && drag.current?.kind === 'ruler') return;
-    const p = world(event),
+    const raw = world(event),
+      p = tool === 'ruler' ? cellCenter(raw, scene.largura, scene.altura) : raw,
       kind =
-        event.button !== 0 ? 'pan' : tool === 'select' && event.shiftKey && master ? 'box' : tool;
+        event.button !== 0
+          ? 'pan'
+          : tool === 'select' && event.shiftKey && !spectator
+            ? 'box'
+            : tool;
+    if (kind === 'wall' && (!master || map.locked)) return;
+    if (kind === 'wall') setWallPreview({ a: p, b: p });
+    if (kind === 'area') setAreaPhase('Orientar');
     if (kind === 'ping') {
       if (!spectator)
         void map.ping({
@@ -309,7 +372,7 @@ export function Tabletop({
     event.stopPropagation();
     event.preventDefault();
     const ids =
-      master && event.shiftKey
+      !spectator && canMove(token) && event.shiftKey
         ? selection.includes(token.id)
           ? selection.filter((id) => id !== token.id)
           : [...selection, token.id].slice(-40)
@@ -336,14 +399,30 @@ export function Tabletop({
   }
   function move(event: ReactPointerEvent<SVGSVGElement>) {
     const action = drag.current;
-    if (!action || action.pointer !== event.pointerId || !scene) return;
+    if (!scene) return;
+    if (!action && tool === 'area' && areaPhase === 'Posicionar') {
+      const p = world(event);
+      setAreaDraft(
+        (d) =>
+          d && {
+            ...d,
+            x: Math.max(0, Math.min(scene.largura, p.x)),
+            y: Math.max(0, Math.min(scene.altura, p.y)),
+          },
+      );
+    }
+    if (!action || action.pointer !== event.pointerId) return;
     if (action.kind === 'ruler' && (event.buttons & 1) === 0) {
       end(event);
       return;
     }
-    const p = world(event);
+    const p =
+      action.kind === 'ruler'
+        ? cellCenter(world(event), scene.largura, scene.altura)
+        : world(event);
+    if (action.kind === 'wall') setWallPreview({ a: action.start, b: p });
     if (action.token) {
-      if (master && action.tokens!.length > 1) {
+      if (action.tokens!.length > 1) {
         setGroupPreview(
           groupDelta(
             action.tokens!,
@@ -415,13 +494,32 @@ export function Tabletop({
     if (!action || action.pointer !== event.pointerId || !scene) return;
     if (action.kind === 'ruler' && !cancel && (event.buttons & 1) !== 0) return;
     if (action.kind === 'ruler')
-      setRuler(cancel ? null : { points: [...action.points!], b: world(event) });
+      setRuler(
+        cancel
+          ? null
+          : {
+              points: [...action.points!],
+              b: cellCenter(world(event), scene.largura, scene.altura),
+            },
+      );
     drag.current = null;
     if (svg.current!.hasPointerCapture(event.pointerId))
       svg.current!.releasePointerCapture(event.pointerId);
     if (!cancel) {
+      if (action.kind === 'wall') {
+        const b = world(event);
+        void operate({
+          tipo: 'parede_criar',
+          cena_id: scene.id,
+          x1: Math.max(0, Math.min(scene.largura, action.start.x)),
+          y1: Math.max(0, Math.min(scene.altura, action.start.y)),
+          x2: Math.max(0, Math.min(scene.largura, b.x)),
+          y2: Math.max(0, Math.min(scene.altura, b.y)),
+        });
+        setWallPreview(null);
+      }
       if (action.token) {
-        if (master && action.tokens!.length > 1) {
+        if (action.tokens!.length > 1) {
           const delta = groupDelta(
             action.tokens!,
             { x: world(event).x - action.start.x, y: world(event).y - action.start.y },
@@ -462,6 +560,7 @@ export function Tabletop({
         const ids = tokens
           .filter(
             (t) =>
+              canMove(t) &&
               t.x + t.tamanho >= rectangle.x &&
               t.x <= rectangle.x + rectangle.w &&
               t.y + t.tamanho >= rectangle.y &&
@@ -472,6 +571,7 @@ export function Tabletop({
         setSelection(ids);
         setSelected(ids[0] || '');
       } else if (action.kind === 'area') {
+        setAreaPhase('Confirmar');
         setTool('select');
         setDrawer('areas');
       } else if (action.kind === 'fog') {
@@ -483,17 +583,33 @@ export function Tabletop({
           patch: { revelacoes: [...scene.revelacoes, rectangle] },
         });
       } else if (action.kind === 'draw' && action.points!.length > 1) {
-        void operate({
-          tipo: 'cena_atualizar',
-          id: scene.id,
-          versao: scene.versao,
-          patch: {
-            desenhos: [
-              ...(scene.desenhos || []),
-              { id: crypto.randomUUID(), cor: '#d5b873', pontos: action.points! },
-            ],
-          },
-        });
+        const points = action.points!,
+          xs = points.map((p) => p.x),
+          ys = points.map((p) => p.y),
+          x = Math.min(...xs),
+          y = Math.min(...ys);
+        const drawing = { id: crypto.randomUUID(), cor: '#d5b873', pontos: points };
+        if (map.snapshot)
+          void operate({
+            tipo: 'objeto_criar',
+            cena_id: scene.id,
+            camada_id: drawingLayer?.id || map.snapshot.camadas[0].id,
+            nome: 'Desenho',
+            x,
+            y,
+            w: Math.max(0.01, Math.max(...xs) - x),
+            h: Math.max(0.01, Math.max(...ys) - y),
+            imagem_id: null,
+            desenho: drawing,
+            oculto: false,
+          });
+        else
+          void operate({
+            tipo: 'cena_atualizar',
+            id: scene.id,
+            versao: scene.versao,
+            patch: { desenhos: [...(scene.desenhos || []), drawing] },
+          });
       }
     }
     setPreview(null);
@@ -561,7 +677,7 @@ export function Tabletop({
         versao: selectedTokens[0].versao,
         patch: { x: selectedTokens[0].x + bounded.x, y: selectedTokens[0].y + bounded.y },
       });
-    else if (master)
+    else
       void operate({
         tipo: 'tokens_lote',
         cena_id: scene.id,
@@ -595,7 +711,8 @@ export function Tabletop({
   );
   async function saveArea() {
     if (!areaDraft || !scene) return;
-    const { nome, forma, x, y, tamanho, largura, angulo, cor, token_id } = areaDraft;
+    const { nome, forma, x, y, tamanho, largura, angulo, cor, token_id, acompanhar_rotacao } =
+      areaDraft;
     const result = await operate(
       areaDraft.id === 'preview'
         ? {
@@ -610,12 +727,24 @@ export function Tabletop({
             angulo,
             cor,
             token_id,
+            acompanhar_rotacao,
           }
         : {
             tipo: 'area_atualizar',
             id: areaDraft.id,
             versao: areaDraft.versao,
-            patch: { nome, forma, x, y, tamanho, largura, angulo, cor, token_id },
+            patch: {
+              nome,
+              forma,
+              x,
+              y,
+              tamanho,
+              largura,
+              angulo,
+              cor,
+              token_id,
+              acompanhar_rotacao,
+            },
           },
     );
     if (result) {
@@ -629,6 +758,37 @@ export function Tabletop({
   const rulerDistances = cumulativeDistances(rulerPoints, scene?.unidade || 5);
   return (
     <section className="tabletop-map" aria-label="Mesa virtual">
+      {tool === 'ruler' && (
+        <RulerTools
+          style={rulerStyle}
+          onStyle={setRulerStyle}
+          ruler={ruler}
+          unit={scene?.unidade || 5}
+          movement={measureMovement}
+          onMovement={setMeasureMovement}
+          onPin={() => {
+            if (ruler) {
+              pinnedRulers.pin({ ...ruler, ...rulerStyle });
+              setRuler(null);
+            }
+          }}
+          onCancel={() => setRuler(null)}
+          onDelete={() => {
+            if (ruler) setRuler(null);
+            else pinnedRulers.remove();
+          }}
+        />
+      )}
+      <MapAdministration
+        map={map}
+        master={master}
+        spectator={spectator}
+        selectedTokens={selectedTokens}
+        operate={operate}
+        visionPreview={visionPreview}
+        onVisionPreview={setVisionPreview}
+        onDraw={() => setTool('wall')}
+      />
       <div className="map-stage" ref={stage}>
         {scene ? (
           <svg
@@ -647,12 +807,18 @@ export function Tabletop({
             onContextMenu={contextMenu}
             onKeyDown={(event) => {
               if (event.key === 'Escape') {
-                if (drag.current?.kind === 'ruler') {
+                if (drag.current) {
                   const pointer = drag.current.pointer;
                   drag.current = null;
                   if (svg.current!.hasPointerCapture(pointer))
                     svg.current!.releasePointerCapture(pointer);
                 }
+                setPreview(null);
+                setGroupPreview(null);
+                setBoxPreview(null);
+                setWallPreview(null);
+                setFogPreview(null);
+                setDrawPreview([]);
                 setSelected('');
                 setSelection([]);
                 setAreaDraft(null);
@@ -673,6 +839,35 @@ export function Tabletop({
                   return;
                 }
               }
+              if (tool === 'ruler') {
+                const steps: Record<string, Point> = {
+                  ArrowLeft: { x: -1, y: 0 },
+                  ArrowRight: { x: 1, y: 0 },
+                  ArrowUp: { x: 0, y: -1 },
+                  ArrowDown: { x: 0, y: 1 },
+                };
+                const start = ruler?.b || cellCenter({ x: 0, y: 0 }, scene.largura, scene.altura),
+                  step = steps[event.key];
+                if (step) {
+                  event.preventDefault();
+                  const b = cellCenter(
+                    { x: start.x + step.x, y: start.y + step.y },
+                    scene.largura,
+                    scene.altura,
+                  );
+                  setRuler({ points: ruler?.points || [start], b });
+                } else if (event.key === 'Enter') {
+                  event.preventDefault();
+                  const active = drag.current?.kind === 'ruler' ? drag.current : null;
+                  const points = [...(active?.points || ruler?.points || [])];
+                  const previous = points.at(-1);
+                  if (!previous || previous.x !== start.x || previous.y !== start.y)
+                    points.push(start);
+                  if (active) active.points = points;
+                  setRuler({ points, b: start });
+                }
+                return;
+              }
               if (!selectedToken || map.locked || !canMove(selectedToken)) return;
               const directions: Record<string, Point> = {
                 ArrowLeft: { x: -1, y: 0 },
@@ -683,7 +878,7 @@ export function Tabletop({
               const delta = directions[event.key];
               if (!delta) return;
               event.preventDefault();
-              if (master && selectedTokens.length > 1) {
+              if (selectedTokens.length > 1) {
                 const bounded = groupDelta(selectedTokens, delta, scene.largura, scene.altura);
                 if (bounded.x || bounded.y)
                   void operate({
@@ -809,20 +1004,9 @@ export function Tabletop({
                   pointerEvents="none"
                 />
               ))}
-              <g clipPath={`url(#scene${unique})`}>
-                <SpellAreas
-                  areas={map.areas}
-                  preview={
-                    areaDraft &&
-                    (master ||
-                      !areaDraft.token_id ||
-                      tokens.some((t) => t.id === areaDraft.token_id && !t.oculto))
-                      ? areaDraft
-                      : null
-                  }
-                  zoom={camera.zoom}
-                />
-              </g>
+              <defs>
+                <VisionClip id={`vision${unique}`} cells={map.snapshot?.atual || []} />
+              </defs>
               <g clipPath={`url(#scene${unique})`} pointerEvents="none">
                 {tokens
                   .filter((t) => t.aura)
@@ -848,196 +1032,229 @@ export function Tabletop({
                     );
                   })}
               </g>
-              {tokens.map((token) => {
-                const position =
-                    selectedTokens.length > 1 && selection.includes(token.id) && groupPreview
-                      ? { x: token.x + groupPreview.x, y: token.y + groupPreview.y }
-                      : selected === token.id && preview
-                        ? preview
-                        : token,
-                  dimension = token.tamanho * CELL,
-                  center = dimension / 2,
-                  radius = dimension * 0.43,
-                  vitals = currentVitals(token);
-                const active =
-                  mesa?.estado.combate.ativo &&
-                  currentCombatant(token)?.id === mesa.estado.combate.turno;
-                return (
-                  <g
-                    key={token.id}
-                    transform={`translate(${position.x * CELL} ${position.y * CELL})`}
-                  >
-                    <g
-                      role="button"
-                      tabIndex={0}
-                      aria-label={'Token ' + token.nome}
-                      aria-pressed={selection.includes(token.id)}
-                      data-token-id={token.id}
-                      className={
-                        'map-token' +
-                        (token.oculto ? ' hidden-token' : '') +
-                        (selection.includes(token.id) ? ' selected-token' : '')
-                      }
-                      onPointerDown={(event) => beginToken(event, token)}
-                      onFocus={() => {
-                        setSelected(token.id);
-                        setSelection((ids) => (ids.includes(token.id) ? ids : [token.id]));
-                        setDeleteConfirm(false);
-                      }}
-                      onClick={(event) => {
-                        event.stopPropagation();
-                      }}
-                      onDoubleClick={() => {
-                        if (canOpen(token)) onOpenSheet?.(token.ficha_id!);
-                      }}
-                      onKeyDown={(event) => {
-                        if (event.key === 'Enter' || event.key === ' ') {
-                          event.preventDefault();
-                          setSelected(token.id);
-                          setSelection((ids) =>
-                            event.shiftKey && master
-                              ? ids.includes(token.id)
-                                ? ids.filter((id) => id !== token.id)
-                                : [...ids, token.id].slice(-40)
-                              : [token.id],
-                          );
-                        }
-                      }}
-                    >
-                      <title>
-                        {token.nome}
-                        {token.oculto ? ' · Somente mestres' : ''}
-                        {token.bloqueado ? ' · Movimento bloqueado' : ''}
-                        {vitals ? ` · PV ${vitals.current}/${vitals.max}` : ''}
-                      </title>
-                      {(selection.includes(token.id) || active) && (
-                        <circle
-                          cx={center}
-                          cy={center}
-                          r={radius + 5 / camera.zoom}
-                          fill="none"
-                          stroke={active ? '#f5d483' : '#f0e9db'}
-                          strokeWidth={2 / camera.zoom}
-                          strokeDasharray={
-                            active ? undefined : `${4 / camera.zoom} ${3 / camera.zoom}`
+              <SceneEntities
+                scene={scene}
+                layers={map.snapshot?.camadas || []}
+                objects={map.snapshot?.objetos || []}
+                areas={map.areas}
+                preview={map.loading ? null : areaDraft}
+                tokens={tokens.map((t) =>
+                  selectedTokens.length > 1 && selection.includes(t.id) && groupPreview
+                    ? { ...t, x: t.x + groupPreview.x, y: t.y + groupPreview.y }
+                    : selected === t.id && preview
+                      ? { ...t, ...preview }
+                      : t,
+                )}
+                urls={urls}
+                zoom={camera.zoom}
+                clip={
+                  !master && scene.modo_visao === 'automatica' ? `url(#vision${unique})` : undefined
+                }
+                tokenElements={tokens.map((token) => {
+                  const position =
+                      selectedTokens.length > 1 && selection.includes(token.id) && groupPreview
+                        ? { x: token.x + groupPreview.x, y: token.y + groupPreview.y }
+                        : selected === token.id && preview
+                          ? preview
+                          : token,
+                    dimension = token.tamanho * CELL,
+                    center = dimension / 2,
+                    radius = dimension * 0.43,
+                    vitals = currentVitals(token);
+                  const active =
+                    mesa?.estado.combate.ativo &&
+                    currentCombatant(token)?.id === mesa.estado.combate.turno;
+                  return {
+                    token,
+                    node: (
+                      <g
+                        key={token.id}
+                        transform={`translate(${position.x * CELL} ${position.y * CELL})`}
+                      >
+                        <g
+                          role="button"
+                          tabIndex={0}
+                          aria-label={'Token ' + token.nome}
+                          aria-pressed={selection.includes(token.id)}
+                          data-token-id={token.id}
+                          className={
+                            'map-token' +
+                            (token.oculto ? ' hidden-token' : '') +
+                            (selection.includes(token.id) ? ' selected-token' : '')
                           }
-                        />
-                      )}
-                      <circle
-                        cx={center}
-                        cy={center}
-                        r={radius}
-                        fill="#1b1c20"
-                        stroke={token.cor}
-                        strokeWidth={4 / camera.zoom}
-                      />
-                      {token.imagem_id && urls[token.imagem_id] ? (
-                        <image
-                          href={urls[token.imagem_id]}
-                          width={dimension}
-                          height={dimension}
-                          preserveAspectRatio="xMidYMid slice"
-                          clipPath={`url(#portrait${token.id})`}
-                          transform={`rotate(${token.rotacao} ${center} ${center})`}
-                        />
-                      ) : (
-                        <text
-                          x={center}
-                          y={center}
-                          fill={token.cor}
-                          textAnchor="middle"
-                          dominantBaseline="central"
-                          fontSize={dimension * 0.3}
-                          fontWeight="700"
-                        >
-                          {token.nome
-                            .trim()
-                            .split(/\s+/)
-                            .slice(0, 2)
-                            .map((word) => word[0])
-                            .join('')
-                            .toUpperCase()}
-                        </text>
-                      )}
-                      {token.rotacao !== 0 && (
-                        <path
-                          d={`M${center} ${center - radius - 5}l-5 8h10Z`}
-                          fill={token.cor}
-                          transform={`rotate(${token.rotacao} ${center} ${center})`}
-                        />
-                      )}
-                      {vitals && vitals.max > 0 && (
-                        <g>
-                          <rect
-                            x={dimension * 0.12}
-                            y={dimension * 0.87}
-                            width={dimension * 0.76}
-                            height={5 / camera.zoom}
-                            rx="2"
-                            fill="#17191b"
-                          />
-                          <rect
-                            x={dimension * 0.12}
-                            y={dimension * 0.87}
-                            width={
-                              dimension *
-                              0.76 *
-                              Math.max(0, Math.min(1, vitals.current / vitals.max))
+                          onPointerDown={(event) => beginToken(event, token)}
+                          onFocus={() => {
+                            setSelected(token.id);
+                            setSelection((ids) => (ids.includes(token.id) ? ids : [token.id]));
+                            setDeleteConfirm(false);
+                          }}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                          }}
+                          onDoubleClick={() => {
+                            if (canOpen(token)) onOpenSheet?.(token.ficha_id!);
+                          }}
+                          onKeyDown={(event) => {
+                            if (event.key === 'Enter' || event.key === ' ') {
+                              event.preventDefault();
+                              setSelected(token.id);
+                              setSelection((ids) =>
+                                event.shiftKey && canMove(token)
+                                  ? ids.includes(token.id)
+                                    ? ids.filter((id) => id !== token.id)
+                                    : [...ids, token.id].slice(-40)
+                                  : [token.id],
+                              );
                             }
-                            height={5 / camera.zoom}
-                            rx="2"
-                            fill={
-                              vitals.current <= 0
-                                ? '#aa5146'
-                                : vitals.current / vitals.max < 0.4
-                                  ? '#dbad57'
-                                  : '#78a584'
-                            }
-                          />
-                        </g>
-                      )}
-                      {!!vitals?.conditions.length && (
-                        <circle
-                          cx={dimension * 0.85}
-                          cy={dimension * 0.15}
-                          r={5 / camera.zoom}
-                          fill="#ce8557"
+                          }}
                         >
                           <title>
-                            {vitals.conditions.map((condition) => condition.nome).join(', ')}
+                            {token.nome}
+                            {token.oculto ? ' · Somente mestres' : ''}
+                            {token.bloqueado ? ' · Movimento bloqueado' : ''}
+                            {vitals ? ` · PV ${vitals.current}/${vitals.max}` : ''}
                           </title>
-                        </circle>
-                      )}
-                      {vitals?.concentration && (
+                          {(selection.includes(token.id) || active) && (
+                            <circle
+                              cx={center}
+                              cy={center}
+                              r={radius + 5 / camera.zoom}
+                              fill="none"
+                              stroke={active ? '#f5d483' : '#f0e9db'}
+                              strokeWidth={2 / camera.zoom}
+                              strokeDasharray={
+                                active ? undefined : `${4 / camera.zoom} ${3 / camera.zoom}`
+                              }
+                            />
+                          )}
+                          <circle
+                            cx={center}
+                            cy={center}
+                            r={radius}
+                            fill="#1b1c20"
+                            stroke={token.cor}
+                            strokeWidth={4 / camera.zoom}
+                          />
+                          {token.imagem_id && urls[token.imagem_id] ? (
+                            <image
+                              href={urls[token.imagem_id]}
+                              width={dimension}
+                              height={dimension}
+                              preserveAspectRatio="xMidYMid slice"
+                              clipPath={`url(#portrait${token.id})`}
+                              transform={`rotate(${token.rotacao} ${center} ${center})`}
+                            />
+                          ) : (
+                            <text
+                              x={center}
+                              y={center}
+                              fill={token.cor}
+                              textAnchor="middle"
+                              dominantBaseline="central"
+                              fontSize={dimension * 0.3}
+                              fontWeight="700"
+                            >
+                              {token.nome
+                                .trim()
+                                .split(/\s+/)
+                                .slice(0, 2)
+                                .map((word) => word[0])
+                                .join('')
+                                .toUpperCase()}
+                            </text>
+                          )}
+                          {token.rotacao !== 0 && (
+                            <path
+                              d={`M${center} ${center - radius - 5}l-5 8h10Z`}
+                              fill={token.cor}
+                              transform={`rotate(${token.rotacao} ${center} ${center})`}
+                            />
+                          )}
+                          {vitals && vitals.max > 0 && (
+                            <g>
+                              <rect
+                                x={dimension * 0.12}
+                                y={dimension * 0.87}
+                                width={dimension * 0.76}
+                                height={5 / camera.zoom}
+                                rx="2"
+                                fill="#17191b"
+                              />
+                              <rect
+                                x={dimension * 0.12}
+                                y={dimension * 0.87}
+                                width={
+                                  dimension *
+                                  0.76 *
+                                  Math.max(0, Math.min(1, vitals.current / vitals.max))
+                                }
+                                height={5 / camera.zoom}
+                                rx="2"
+                                fill={
+                                  vitals.current <= 0
+                                    ? '#aa5146'
+                                    : vitals.current / vitals.max < 0.4
+                                      ? '#dbad57'
+                                      : '#78a584'
+                                }
+                              />
+                            </g>
+                          )}
+                          {!!vitals?.conditions.length && (
+                            <text
+                              x={dimension / 2}
+                              y={-8 / camera.zoom}
+                              textAnchor="middle"
+                              fontSize={12 / camera.zoom}
+                              fill="#ffe0a0"
+                              stroke="#171719"
+                              strokeWidth={3 / camera.zoom}
+                              paintOrder="stroke"
+                              aria-label={
+                                'Condições: ' + vitals.conditions.map((c) => c.nome).join(', ')
+                              }
+                            >
+                              {vitals.conditions.map((c) => c.nome).join(' · ')}
+                            </text>
+                          )}
+                          {vitals?.concentration && (
+                            <text
+                              x={dimension * 0.07}
+                              y={dimension * 0.13}
+                              fontSize={12 / camera.zoom}
+                              fill="#b9a0d9"
+                            >
+                              ◆<title>{'Concentração: ' + vitals.concentration}</title>
+                            </text>
+                          )}
+                        </g>
                         <text
-                          x={dimension * 0.07}
-                          y={dimension * 0.13}
-                          fontSize={12 / camera.zoom}
-                          fill="#b9a0d9"
+                          x={center}
+                          y={dimension + 16 / camera.zoom}
+                          fontSize={14 / camera.zoom}
+                          fill="#eee6d7"
+                          textAnchor="middle"
+                          stroke="#171719"
+                          strokeWidth={3 / camera.zoom}
+                          paintOrder="stroke"
+                          className="token-name"
+                          opacity={token.oculto ? 0.62 : 1}
                         >
-                          ◆<title>{'Concentração: ' + vitals.concentration}</title>
+                          {token.nome.length > 24 ? token.nome.slice(0, 23) + '…' : token.nome}
+                          {token.oculto ? ' ◌' : ''}
                         </text>
-                      )}
-                    </g>
-                    <text
-                      x={center}
-                      y={dimension + 16 / camera.zoom}
-                      fontSize={14 / camera.zoom}
-                      fill="#eee6d7"
-                      textAnchor="middle"
-                      stroke="#171719"
-                      strokeWidth={3 / camera.zoom}
-                      paintOrder="stroke"
-                      className="token-name"
-                      opacity={token.oculto ? 0.62 : 1}
-                    >
-                      {token.nome.length > 24 ? token.nome.slice(0, 23) + '…' : token.nome}
-                      {token.oculto ? ' ◌' : ''}
-                    </text>
-                  </g>
-                );
-              })}
-              {scene.nevoa && (
+                      </g>
+                    ),
+                  };
+                })}
+              />
+              {master && previewMask && (
+                <VisionFog scene={scene} snapshot={previewMask} id={`previewFog${unique}`} />
+              )}
+              {scene.modo_visao === 'automatica' && !master && (
+                <VisionFog scene={scene} snapshot={map.snapshot} id={`automaticFog${unique}`} />
+              )}
+              {scene.nevoa && scene.modo_visao !== 'automatica' && (
                 <rect
                   width={scene.largura * CELL}
                   height={scene.altura * CELL}
@@ -1070,10 +1287,66 @@ export function Tabletop({
                   pointerEvents="none"
                 />
               )}
+              {master &&
+                map.snapshot?.paredes.map((w) => (
+                  <line
+                    key={w.id}
+                    x1={w.x1 * CELL}
+                    y1={w.y1 * CELL}
+                    x2={w.x2 * CELL}
+                    y2={w.y2 * CELL}
+                    stroke={w.porta ? '#ffbb44' : '#e26c67'}
+                    strokeWidth={4 / camera.zoom}
+                    strokeDasharray={w.aberta ? '8 8' : undefined}
+                  />
+                ))}
+              {wallPreview && (
+                <line
+                  x1={wallPreview.a.x * CELL}
+                  y1={wallPreview.a.y * CELL}
+                  x2={wallPreview.b.x * CELL}
+                  y2={wallPreview.b.y * CELL}
+                  stroke="#fff"
+                  strokeWidth={3 / camera.zoom}
+                />
+              )}
+              {pinnedRulers.pinned.map((r, i) => (
+                <RulerLines key={i} ruler={r} style={r} zoom={camera.zoom} unit={scene.unidade} />
+              ))}
+              {measureMovement && selectedToken && preview && (
+                <RulerLines
+                  ruler={{
+                    points: [movementAnchor(selectedToken, scene.largura, scene.altura)],
+                    b: movementAnchor(
+                      {
+                        ...selectedToken,
+                        ...(groupPreview && selectedTokens.length > 1
+                          ? {
+                              x: selectedToken.x + groupPreview.x,
+                              y: selectedToken.y + groupPreview.y,
+                            }
+                          : preview),
+                      },
+                      scene.largura,
+                      scene.altura,
+                    ),
+                  }}
+                  style={rulerStyle}
+                  zoom={camera.zoom}
+                  unit={scene.unidade}
+                />
+              )}
               {ruler && (
                 <g pointerEvents="none">
                   <polyline
                     points={rulerPoints.map((p) => `${p.x * CELL},${p.y * CELL}`).join(' ')}
+                    style={{
+                      stroke: rulerStyle.cor,
+                      strokeWidth: rulerStyle.espessura / camera.zoom,
+                      strokeDasharray: rulerStyle.tracejada
+                        ? `${8 / camera.zoom} ${5 / camera.zoom}`
+                        : 'none',
+                    }}
                     fill="none"
                     stroke="#e7c97c"
                     strokeWidth={2 / camera.zoom}
@@ -1349,7 +1622,7 @@ export function Tabletop({
           {map.pending
             ? 'Salvando…'
             : tool === 'ruler'
-              ? `${ruler ? rulerDistances.at(-1) + ' pés · ' : ''}Arraste para medir · Botão direito fixa um ponto · Solte para finalizar · Esc cancela · diagonais D&D`
+              ? `${ruler ? rulerDistances.at(-1) + ' pés · ' : ''}Arraste para medir · Botão direito ou Enter fixa um ponto · Setas ajustam · Solte para finalizar · Esc cancela · diagonais D&D`
               : tool === 'ping'
                 ? 'Clique no mapa para marcar um local para a campanha'
                 : tool === 'fog'
@@ -1357,12 +1630,12 @@ export function Tabletop({
                   : tool === 'draw'
                     ? 'Arraste para desenhar no mapa'
                     : tool === 'area'
-                      ? 'Clique para posicionar · Arraste para orientar · Esc cancela'
+                      ? 'Posicionar: mova o ponteiro · Orientar: arraste · Confirmar no painel · Esc cancela'
                       : selection.length > 1
                         ? `${selection.length} tokens · Arraste ou use as setas · Shift para selecionar`
                         : selectedToken
                           ? `${selectedToken.nome}${selectedVitals ? ` · PV ${selectedVitals.current}/${selectedVitals.max}` : ''}${canMove(selectedToken) ? ' · Arraste ou use as setas' : ''}`
-                          : `${scene.unidade} pés por célula · Arraste para mover · Scroll para zoom`}
+                          : `${scene.unidade} pés por célula · Arraste para mover · Roda do mouse para zoom`}
         </div>
       )}
 
@@ -1389,6 +1662,7 @@ export function Tabletop({
                   (selectedToken.combate_id && p.id === selectedToken.combate_id),
               )}
               mesa={session.mesa}
+              hpResult={session.hpResult}
               userId={userId}
               role={role}
               disabled={
@@ -1411,6 +1685,40 @@ export function Tabletop({
               <details className="token-position">
                 <summary>Mover token</summary>
                 {movementButtons}
+                <p>
+                  X: {selectedToken.x * (scene?.unidade || 5)} pés · Y:{' '}
+                  {selectedToken.y * (scene?.unidade || 5)} pés
+                </p>
+                <label>
+                  Altura (pés)
+                  <input
+                    type="number"
+                    defaultValue={selectedToken.elevacao || 0}
+                    key={selectedToken.versao}
+                    onBlur={(e) => {
+                      if (Number(e.target.value) !== (selectedToken.elevacao || 0))
+                        void operate({
+                          tipo: 'token_atualizar',
+                          id: selectedToken.id,
+                          versao: selectedToken.versao,
+                          patch: { elevacao: Number(e.target.value) },
+                        });
+                    }}
+                  />
+                </label>
+                <button
+                  type="button"
+                  disabled={map.locked}
+                  onClick={() =>
+                    void operate({
+                      tipo: 'token_excluir',
+                      id: selectedToken.id,
+                      versao: selectedToken.versao,
+                    })
+                  }
+                >
+                  Remover token do mapa
+                </button>
                 <p className="map-help">
                   Cada clique move uma célula ({scene?.unidade} pés). Também use arraste ou as setas
                   do teclado.
@@ -1442,19 +1750,21 @@ export function Tabletop({
             )}
           </div>
         )}
-      {master && selectedTokens.length > 1 && tool === 'select' && !drawer && (
+      {selectedTokens.length > 1 && tool === 'select' && !drawer && (
         <div className="map-bulk-actions" aria-label="Seleção do mapa">
           {selectedTokens.length > 1 && (
             <strong>{selectedTokens.length} tokens selecionados</strong>
           )}
-          <button
-            type="button"
-            className="text-button"
-            disabled={map.locked}
-            onClick={() => void duplicate()}
-          >
-            Duplicar seleção
-          </button>
+          {master && (
+            <button
+              type="button"
+              className="text-button"
+              disabled={map.locked}
+              onClick={() => void duplicate()}
+            >
+              Duplicar seleção
+            </button>
+          )}
           {selectedTokens.length > 1 && (
             <button
               type="button"
@@ -1514,33 +1824,43 @@ export function Tabletop({
               ×
             </button>
           </div>
-          {drawer === 'areas' && scene && areaDraft && (
-            <AreaTools
-              scene={scene}
-              areas={map.areas}
-              tokens={tokens.filter((t) => canMove(t))}
-              draft={areaDraft}
-              userId={userId}
-              master={master}
-              disabled={map.locked}
-              onDraft={setAreaDraft}
-              onPosition={() => {
-                setDrawer('');
-                setTool('area');
-              }}
-              onSave={() => void saveArea()}
-              onDelete={async (area) => {
-                const result = await operate({
-                  tipo: 'area_excluir',
-                  id: area.id,
-                  versao: area.versao,
-                });
-                if (result) {
-                  setAreaDraft(newArea());
-                }
-              }}
-            />
-          )}
+          {drawer === 'areas' &&
+            scene &&
+            areaDraft &&
+            (!map.loading || areaDraft.id === 'preview') && (
+              <AreaTools
+                scene={scene}
+                areas={map.areas}
+                tokens={tokens.filter((t) => canMove(t))}
+                draft={areaDraft}
+                userId={userId}
+                master={master}
+                disabled={map.locked}
+                phase={areaPhase}
+                onCancel={() => {
+                  setAreaDraft(null);
+                  setDrawer('');
+                  setTool('select');
+                }}
+                onDraft={setAreaDraft}
+                onPosition={() => {
+                  setDrawer('');
+                  setTool('area');
+                  setAreaPhase('Posicionar');
+                }}
+                onSave={() => void saveArea()}
+                onDelete={async (area) => {
+                  const result = await operate({
+                    tipo: 'area_excluir',
+                    id: area.id,
+                    versao: area.versao,
+                  });
+                  if (result) {
+                    setAreaDraft(newArea());
+                  }
+                }}
+              />
+            )}
           {drawer === 'selection' && (
             <>
               <p className="map-help">
@@ -1551,7 +1871,7 @@ export function Tabletop({
               <ul className="map-token-list">
                 {tokens.map((t) => (
                   <li key={t.id}>
-                    {master && (
+                    {canMove(t) && (
                       <input
                         type="checkbox"
                         aria-label={'Incluir ' + t.nome + ' na seleção'}
@@ -1735,14 +2055,28 @@ export function Tabletop({
                         <button
                           type="button"
                           className="text-button"
-                          disabled={map.locked || !scene.desenhos?.length}
+                          disabled={
+                            map.locked ||
+                            (map.snapshot ? !clearableDrawings.length : !scene.desenhos?.length)
+                          }
                           onClick={() =>
-                            void operate({
-                              tipo: 'cena_atualizar',
-                              id: scene.id,
-                              versao: scene.versao,
-                              patch: { desenhos: [] },
-                            })
+                            void operate(
+                              map.snapshot
+                                ? {
+                                    tipo: 'desenhos_limpar',
+                                    cena_id: scene.id,
+                                    itens: clearableDrawings.map(({ id, versao }) => ({
+                                      id,
+                                      versao,
+                                    })),
+                                  }
+                                : {
+                                    tipo: 'cena_atualizar',
+                                    id: scene.id,
+                                    versao: scene.versao,
+                                    patch: { desenhos: [] },
+                                  },
+                            )
                           }
                         >
                           Limpar desenhos
@@ -1750,7 +2084,8 @@ export function Tabletop({
                       </div>
                       <p className="map-help">
                         Use Revelar área para abrir a neblina. Tokens ocultos ficam disponíveis
-                        apenas aos mestres.
+                        apenas aos mestres. Limpar desenhos remove apenas os desenhos da camada
+                        padrão do mapa; outras camadas e objetos ocultos são preservados.
                       </p>
                     </div>
                   )}

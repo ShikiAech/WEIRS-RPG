@@ -5,14 +5,14 @@
 ## Etapas
 
 1. **Atributos:** informe seis valores externos inicialmente vazios, ou gere dois conjuntos de seis resultados de 4d6 descartando o menor dado. Nenhum conjunto é escolhido automaticamente. A distribuição usa índices: valores iguais de resultados diferentes podem ser usados, mas um mesmo resultado não se repete.
-2. **Espécie:** selecione espécie, forma, tamanho e linhagem quando aplicável. Leia os traços e faça as escolhas cadastradas.
-3. **Antecedente:** distribua +2/+1 ou +1/+1/+1 entre os atributos permitidos, respeitando o limite do registro. Escolha o kit ou as moedas e complete as decisões do antecedente/talento.
+2. **Espécie:** selecione a espécie, leia os traços e faça as escolhas cadastradas. Forma e tamanho só aparecem quando existem alternativas; linhagens opcionais continuam disponíveis quando cadastradas.
+3. **Antecedente:** distribua +2/+1 ou +1/+1/+1 entre os atributos permitidos, respeitando o limite do registro. Complete as decisões do antecedente/talento; o kit ou as moedas são escolhidos na etapa 5.
 4. **Classes:** defina os níveis por classe e a ordem em que foram adquiridos. A classe inicial e a entrada em multiclasse têm proficiências distintas. Subclasses, estilos de luta, maestrias e talentos aparecem conforme seus níveis e escolhas cadastradas.
-5. **Vida e defesas:** confira o máximo do dado no primeiro nível total e escolha PV fixos ou resultados rolados/externos nos demais. As rolagens ficam registradas; mudar Constituição recalcula os ganhos. Equipe apenas itens recebidos na criação e confira CA e movimentos.
-6. **Magias:** escolha os atributos permitidos por perfil e as magias de suas listas. Truques, magias conhecidas/preparadas, grimório, usos concedidos e pacto permanecem separados por origem.
+5. **Vida e defesas:** confira o máximo do dado no primeiro nível total e escolha PV fixos ou resultados rolados/externos nos demais. As rolagens ficam registradas; mudar Constituição recalcula os ganhos. Em **Equipamentos iniciais**, escolha os kits ou moedas da classe inicial e do antecedente; depois equipe os itens recebidos e confira CA e movimentos.
+6. **Magias:** escolha os atributos permitidos por perfil e as magias de suas listas. As seleções aparecem em chips com descrição acessível pelo ponteiro, teclado ou toque. Truques, magias conhecidas/preparadas, grimório, usos concedidos e pacto permanecem separados por origem.
 7. **Revisão:** confira benefícios, fontes, valores e pendências; informe nome e campanha e conclua. O servidor devolve a ficha que será aberta no editor existente.
 
-O resumo acompanha o preenchimento. Trocar uma origem remove suas decisões dependentes. Reduzir níveis ou trocar um kit limpa seleções que deixaram de existir. O rascunho fica na memória da sessão, separado por conta/campanha, e é eliminado ao sair da conta. Recarregar ou fechar a página pode perdê-lo; o navegador avisa quando há preenchimento pendente.
+O resumo acompanha o preenchimento. Trocar uma origem remove suas decisões dependentes. Reduzir níveis ou trocar um kit limpa seleções que deixaram de existir. O rascunho fica separado por conta/campanha na memória e no armazenamento da aba, quando disponível, e é eliminado ao sair da conta. Recarregar a página conserva o rascunho; fechar a aba ou bloquear o armazenamento pode perdê-lo. O cache de consultas do compêndio é separado do rascunho e evita repetir buscas bem-sucedidas ao navegar entre etapas.
 
 ## Cálculos e cobertura
 
@@ -51,3 +51,5 @@ npm run test:browser
 ```
 
 O build também gera o motor empacotado em `supabase/functions/_shared/creation-engine.js`. Veja a [ordem de instalação](configuracao-supabase.md#compêndio-e-criação-guiada) antes de habilitar a criação no ambiente hospedado. A migração remota e o deploy da Edge Function não são executados pelos testes ou pelo build.
+
+Veja também o [guia das melhorias de criação, chat e mesa de 28 de outubro de 2026](melhorias-criacao-mesa-2026-10-28.md).

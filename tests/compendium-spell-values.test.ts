@@ -225,3 +225,28 @@ test('criação aplica progressão de truque pelo nível total e conserva proje�
     assert.deepEqual(first, resolveCreation(f.catalog, f.draft));
   }
 });
+
+test('spell adapter preserves optional combat metadata and old sheets remain valid', () => {
+  const s = spell();
+  Object.assign(s.data, { saveAbility: 'des', attackBonus: 7, saveDc: 15 });
+  const imported = spellToSheet(s, '');
+  assert.equal(imported.salvaguardaAtributo, 'des');
+  assert.equal(imported.bonusAtaque, 7);
+  assert.equal(imported.cd, 15);
+  const c = criarConteudo() as SheetContent;
+  c.magias.push(imported);
+  assert.deepEqual(validarFicha({ nome: 'Mago', conteudo: c, versao_esquema: 1 }), []);
+  imported.cd = -1;
+  assert.ok(
+    validarFicha({ nome: 'Mago', conteudo: c, versao_esquema: 1 }).some(
+      (e) => e.campo === 'magias.0.cd',
+    ),
+  );
+  imported.cd = 15;
+  imported.salvaguardaAtributo = 'desconhecido' as never;
+  assert.ok(
+    validarFicha({ nome: 'Mago', conteudo: c, versao_esquema: 1 }).some(
+      (e) => e.campo === 'magias.0.salvaguardaAtributo',
+    ),
+  );
+});

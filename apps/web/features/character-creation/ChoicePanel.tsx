@@ -6,6 +6,7 @@ import { ATRIBUTOS, PERICIAS } from '../../../../packages/sheets/modelo.js';
 import type { StepProps } from './types';
 import { Dropdown } from '../../components/Dropdown';
 import { CompendiumTooltip } from './CompendiumTooltip';
+import { pruneDependentChoices } from './origins';
 import { optionSelected, scoresBeforeAbilityChoice } from './choice-constraints';
 function Choice({
   instance,
@@ -82,6 +83,12 @@ function Choice({
         {group.minimum === group.maximum ? group.minimum : `de ${group.minimum} a ${group.maximum}`}
         .
       </p>
+      {group.options.some((option) => option.type === 'arma-integrada') && (
+        <p className="notice">
+          A arma integrada exige proficiência. Conclua as escolhas de classe e retorne a esta etapa
+          para escolher uma arma elegível.
+        </p>
+      )}
       {group.abilityPoints !== null ? (
         <>
           <p className="creation-ability-budget" role="status">
@@ -200,12 +207,21 @@ function Choice({
     </fieldset>
   );
 }
-export function ChoicePanel(props: StepProps & { prefixes: string[] }) {
+export function ChoicePanel(
+  props: StepProps & { prefixes: string[]; equipment?: 'only' | 'omit' },
+) {
   const resolved = resolveConcessions(props.catalog, props.draft);
   return (
     <>
       {resolved.choices
         .filter((c) => props.prefixes.some((prefix) => c.instance.id.startsWith(prefix)))
+        .filter((c) =>
+          props.equipment === 'only'
+            ? c.instance.id.includes('/equipment:')
+            : props.equipment === 'omit'
+              ? !c.instance.id.includes('/equipment:')
+              : true,
+        )
         .map((c) => (
           <Choice
             key={`${c.instance.id}:${c.group.id}`}
@@ -225,8 +241,10 @@ export function EquipmentChoices({
   onChange,
   prefixes,
 }: StepProps & { prefixes: string[] }) {
-  const nodes = resolveConcessions(catalog, draft).instances.filter((i) =>
-    prefixes.some((p) => i.id.startsWith(p)),
+  const nodes = resolveConcessions(catalog, draft).instances.filter(
+    (i) =>
+      prefixes.some((p) => i.id.startsWith(p)) &&
+      (i.entry.kind !== 'classe' || i.acquisition === 'inicial'),
   );
   return (
     <>
@@ -248,23 +266,27 @@ export function EquipmentChoices({
                   ?.optionId ?? null
               }
               onSelect={(optionId) =>
-                onChange({
-                  ...draft,
-                  equipmentOptions: [
-                    ...draft.equipmentOptions.filter(
-                      (o) => o.ownerRevisionId !== node.entry.ref.revisionId,
-                    ),
-                    { ownerRevisionId: node.entry.ref.revisionId, optionId },
-                  ],
-                })
+                onChange(
+                  pruneDependentChoices(catalog, {
+                    ...draft,
+                    equipmentOptions: [
+                      ...draft.equipmentOptions.filter(
+                        (o) => o.ownerRevisionId !== node.entry.ref.revisionId,
+                      ),
+                      { ownerRevisionId: node.entry.ref.revisionId, optionId },
+                    ],
+                  }),
+                )
               }
               onClear={() =>
-                onChange({
-                  ...draft,
-                  equipmentOptions: draft.equipmentOptions.filter(
-                    (o) => o.ownerRevisionId !== node.entry.ref.revisionId,
-                  ),
-                })
+                onChange(
+                  pruneDependentChoices(catalog, {
+                    ...draft,
+                    equipmentOptions: draft.equipmentOptions.filter(
+                      (o) => o.ownerRevisionId !== node.entry.ref.revisionId,
+                    ),
+                  }),
+                )
               }
               options={options.map((o) => {
                 const pack = catalog.entries.find(
@@ -276,6 +298,31 @@ export function EquipmentChoices({
                 };
               })}
             />
+            {options
+              .filter((o) => draft.equipmentOptions.some((s) => s.optionId === o.id))
+              .map((o) => {
+                const pack = catalog.entries.find(
+                  (e) => e.ref.revisionId === o.packageRef.revisionId,
+                );
+                return pack?.kind === 'pacote' ? (
+                  <div key={o.id}>
+                    <p>{pack.data.notes || pack.description}</p>
+                    <ul>
+                      {pack.data.items.map((item) => {
+                        const ref = item.equipmentRef ?? item.currencyRef;
+                        const entry = catalog.entries.find(
+                          (e) => e.ref.revisionId === ref?.revisionId,
+                        );
+                        return (
+                          <li key={item.id}>
+                            {item.quantity} × {entry?.name ?? 'Escolha vinculada ao kit'}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                ) : null;
+              })}
           </div>
         );
       })}

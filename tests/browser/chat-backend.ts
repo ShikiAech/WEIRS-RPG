@@ -1,10 +1,11 @@
 import type { Page, WebSocketRoute } from '@playwright/test';
+import type { SheetRecord } from '../../packages/contracts/sheets';
 import { campaignId, ownerId } from './backend';
 // HTTP externo é simulado; cálculos/autorização reais são cobertos no PostgreSQL em chat-database.
 export async function chatBackend(
   page: Page,
   shared?: ReturnType<typeof chatState>,
-  options: { master?: boolean; readonly?: boolean } = {},
+  options: { master?: boolean; readonly?: boolean; sheets?: SheetRecord[] } = {},
 ) {
   const state = shared || chatState();
   await page.routeWebSocket('wss://weirs-test.supabase.co/realtime/**', (ws) => {
@@ -184,6 +185,78 @@ export async function chatBackend(
       });
     if (!state.receipts.has(p_pedido)) {
       state.commands.push(p_comando);
+      let resolved: any;
+      let resolvedLabel: string | undefined;
+      if (p_comando.tipo === 'acao' && options.sheets) {
+        const sheet = options.sheets.find(
+          (s) => s.id === p_comando.ficha_id && s.campanha_id === campaignId,
+        );
+        const fail = (code: string) =>
+          route.fulfill({
+            status: 400,
+            contentType: 'application/json',
+            body: JSON.stringify({ code }),
+          });
+        if (!sheet || (!options.master && sheet.proprietario_id !== ownerId)) return fail('WC002');
+        if (sheet.versao !== p_comando.versao) return fail('WC005');
+        const path = (
+          {
+            descricao_magia: 'magias',
+            descricao_ataque: 'ataques',
+            descricao_caracteristica: 'caracteristicas',
+            descricao_traco: 'tracos',
+            descricao_talento: 'talentos',
+            descricao_pericia: 'pericias',
+          } as Record<string, string>
+        )[p_comando.acao];
+        const source = sheet.conteudo as any;
+        const entry =
+          path === 'pericias'
+            ? source.pericias[p_comando.entrada_id]
+            : path
+              ? source[path].find((e: any) => e.id === p_comando.entrada_id)
+              : undefined;
+        const origem = {
+          ficha_id: sheet.id,
+          ficha_nome: sheet.nome,
+          versao: sheet.versao,
+          entrada_id: p_comando.entrada_id,
+          acao: p_comando.acao,
+          modo: p_comando.modo,
+        };
+        if (path) {
+          if (!entry) return fail('WC003');
+          const nome = entry.nome || p_comando.entrada_id;
+          let texto = entry.descricao || '';
+          if (path === 'ataques')
+            texto = [
+              entry.observacoes,
+              source.inventario.itens.find((i: any) => i.id === entry.itemId)?.descricao,
+            ]
+              .filter(Boolean)
+              .join('\n\n');
+          resolved = { regras: 1, origem, descricao: { nome, texto, semDescricao: !texto.trim() } };
+          resolvedLabel = sheet.nome + ' · ' + nome;
+        } else if (['magia', 'magia_ataque', 'magia_dano'].includes(p_comando.acao)) {
+          const spell = source.magias.find((e: any) => e.id === p_comando.entrada_id);
+          if (!spell) return fail('WC003');
+          resolved = {
+            regras: 1,
+            origem,
+            ...(spell.cd === undefined ? {} : { cd: spell.cd }),
+            ...(spell.bonusAtaque === undefined ? {} : { bonusAtaque: spell.bonusAtaque }),
+            ...(spell.salvaguardaAtributo
+              ? { salvaguardaAtributo: spell.salvaguardaAtributo }
+              : {}),
+          };
+          if (p_comando.acao === 'magia_dano')
+            Object.assign(resolved, {
+              expressao: spell.dano || spell.danos?.map((d: any) => d.dado).join('+'),
+              total: 5,
+            });
+          resolvedLabel = sheet.nome + ' · ' + spell.nome;
+        }
+      }
       const result = state.row(
         state.rows.length + 1,
         p_comando.tipo === 'texto'
@@ -192,9 +265,11 @@ export async function chatBackend(
               tipo: p_comando.tipo,
               texto: '',
               rotulo:
+                resolvedLabel ||
                 p_comando.rotulo ||
                 (p_comando.tipo === 'acao' ? 'Zephira · Espada longa' : 'Rolagem livre'),
               resultado:
+                resolved ||
                 state.rollResult ||
                 (p_comando.tipo === 'acao'
                   ? {

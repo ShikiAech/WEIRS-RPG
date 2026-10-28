@@ -139,6 +139,7 @@ export function SessionPanel({
       {common}
       {kind === 'ficha' && record && !session.denied && (
         <SheetPlay
+          hpResult={session.hpResult}
           key={record.id}
           record={record}
           userId={userId}
@@ -149,6 +150,7 @@ export function SessionPanel({
       )}
       {kind === 'combate' && mesa && !session.denied && (
         <CombatPanel
+          hpResult={session.hpResult}
           mesa={mesa}
           master={master}
           disabled={disabled || readonly}
