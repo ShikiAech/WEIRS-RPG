@@ -102,8 +102,12 @@ export async function backend(
     const respond = async (body: unknown, status = 200) =>
       route.fulfill({ status, contentType: 'application/json', body: JSON.stringify(body) });
     if (url.pathname === '/rest/v1/rpc/buscar_compendio') return respond([]);
-    if (url.pathname === '/rest/v1/rpc/obter_compendio')
-      return respond({ records: [], tables: {} });
+    if (
+      ['/rest/v1/rpc/obter_compendio', '/rest/v1/rpc/obter_compendio_seletivo'].includes(
+        url.pathname,
+      )
+    )
+      return respond({ records: [], references: [], tables: {} });
     if (url.pathname === '/rest/v1/rpc/referencia_legada_compendio') return respond([]);
     if (url.pathname === '/auth/v1/user') return respond(user);
     if (url.pathname === '/auth/v1/logout') return route.fulfill({ status: 204 });

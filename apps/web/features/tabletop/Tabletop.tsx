@@ -265,7 +265,10 @@ export function Tabletop({
     setRuler(null);
     setFogPreview(null);
     setDrawPreview([]);
+    setWallPreview(null);
     drag.current = null;
+  }, [scene?.id, scene?.largura, scene?.altura]);
+  useEffect(() => {
     if (scene) setCamera(fitCamera(size.width, size.height, scene.largura, scene.altura));
   }, [scene?.id, scene?.largura, scene?.altura, size.width, size.height]);
   useEffect(() => {
@@ -371,18 +374,27 @@ export function Tabletop({
     if (tool !== 'select' || event.button !== 0) return;
     event.stopPropagation();
     event.preventDefault();
+    const movableSelection = selection.filter((id) =>
+      tokens.some((t) => t.id === id && canMove(t)),
+    );
     const ids =
       !spectator && canMove(token) && event.shiftKey
-        ? selection.includes(token.id)
-          ? selection.filter((id) => id !== token.id)
-          : [...selection, token.id].slice(-40)
+        ? movableSelection.includes(token.id)
+          ? movableSelection.filter((id) => id !== token.id)
+          : [...movableSelection, token.id].slice(-40)
         : selection.includes(token.id)
           ? selection
           : [token.id];
     setSelection(ids);
     setSelected(ids.includes(token.id) ? token.id : ids.at(-1) || '');
     setDeleteConfirm(false);
-    if (event.shiftKey || map.locked || !canMove(token)) return;
+    if (
+      event.shiftKey ||
+      map.locked ||
+      !canMove(token) ||
+      tokens.some((t) => ids.includes(t.id) && !canMove(t))
+    )
+      return;
     svg.current!.setPointerCapture(event.pointerId);
     const p = world(event);
     drag.current = {
@@ -615,6 +627,7 @@ export function Tabletop({
     setPreview(null);
     setGroupPreview(null);
     setBoxPreview(null);
+    setWallPreview(null);
     setFogPreview(null);
     setDrawPreview([]);
   }
@@ -629,10 +642,33 @@ export function Tabletop({
     : { x: 1, y: 1 };
   const toggleDrawer = (next: 'scenes' | 'assets' | 'token' | 'areas' | 'selection') => {
     if (map.locked || fileBusy) return;
+    cancelGesture();
+    setTool('select');
     setDrawer((previous) => (previous === next ? '' : next));
     setSceneEditor(null);
     setTokenEditor(null);
   };
+  function cancelGesture() {
+    const pointer = drag.current?.pointer;
+    drag.current = null;
+    if (pointer !== undefined && svg.current?.hasPointerCapture(pointer))
+      svg.current.releasePointerCapture(pointer);
+    setPreview(null);
+    setGroupPreview(null);
+    setBoxPreview(null);
+    setWallPreview(null);
+    setFogPreview(null);
+    setDrawPreview([]);
+    setAreaDraft(null);
+    setAreaPhase('Posicionar');
+    setRuler(null);
+  }
+  function chooseTool(next: Tool) {
+    cancelGesture();
+    setDrawer('');
+    setTool(next);
+    svg.current?.focus();
+  }
   function newArea(): AreaRecord {
     return {
       id: 'preview',
@@ -757,7 +793,10 @@ export function Tabletop({
   const rulerPoints = ruler ? [...ruler.points, ruler.b] : [];
   const rulerDistances = cumulativeDistances(rulerPoints, scene?.unidade || 5);
   return (
-    <section className="tabletop-map" aria-label="Mesa virtual">
+    <section
+      className={'tabletop-map' + (drag.current?.kind === 'ruler' ? ' is-measuring' : '')}
+      aria-label="Mesa virtual"
+    >
       {tool === 'ruler' && (
         <RulerTools
           style={rulerStyle}
@@ -787,7 +826,7 @@ export function Tabletop({
         operate={operate}
         visionPreview={visionPreview}
         onVisionPreview={setVisionPreview}
-        onDraw={() => setTool('wall')}
+        onDraw={() => chooseTool('wall')}
       />
       <div className="map-stage" ref={stage}>
         {scene ? (
@@ -807,18 +846,7 @@ export function Tabletop({
             onContextMenu={contextMenu}
             onKeyDown={(event) => {
               if (event.key === 'Escape') {
-                if (drag.current) {
-                  const pointer = drag.current.pointer;
-                  drag.current = null;
-                  if (svg.current!.hasPointerCapture(pointer))
-                    svg.current!.releasePointerCapture(pointer);
-                }
-                setPreview(null);
-                setGroupPreview(null);
-                setBoxPreview(null);
-                setWallPreview(null);
-                setFogPreview(null);
-                setDrawPreview([]);
+                cancelGesture();
                 setSelected('');
                 setSelection([]);
                 setAreaDraft(null);
@@ -868,7 +896,8 @@ export function Tabletop({
                 }
                 return;
               }
-              if (!selectedToken || map.locked || !canMove(selectedToken)) return;
+              if (tool !== 'select' || !selectedToken || map.locked || !canMove(selectedToken))
+                return;
               const directions: Record<string, Point> = {
                 ArrowLeft: { x: -1, y: 0 },
                 ArrowRight: { x: 1, y: 0 },
@@ -879,18 +908,7 @@ export function Tabletop({
               if (!delta) return;
               event.preventDefault();
               if (selectedTokens.length > 1) {
-                const bounded = groupDelta(selectedTokens, delta, scene.largura, scene.altura);
-                if (bounded.x || bounded.y)
-                  void operate({
-                    tipo: 'tokens_lote',
-                    cena_id: scene.id,
-                    itens: selectedTokens.map((t) => ({
-                      tipo: 'token_atualizar',
-                      id: t.id,
-                      versao: t.versao,
-                      patch: { x: t.x + bounded.x, y: t.y + bounded.y },
-                    })),
-                  });
+                moveSelection(delta);
                 return;
               }
               const position = snapToken(
@@ -1084,6 +1102,7 @@ export function Tabletop({
                           }
                           onPointerDown={(event) => beginToken(event, token)}
                           onFocus={() => {
+                            if (multiSelecting) return;
                             setSelected(token.id);
                             setSelection((ids) => (ids.includes(token.id) ? ids : [token.id]));
                             setDeleteConfirm(false);
@@ -1097,14 +1116,18 @@ export function Tabletop({
                           onKeyDown={(event) => {
                             if (event.key === 'Enter' || event.key === ' ') {
                               event.preventDefault();
-                              setSelected(token.id);
-                              setSelection((ids) =>
-                                event.shiftKey && canMove(token)
-                                  ? ids.includes(token.id)
-                                    ? ids.filter((id) => id !== token.id)
-                                    : [...ids, token.id].slice(-40)
-                                  : [token.id],
+                              event.stopPropagation();
+                              const movable = selection.filter((id) =>
+                                tokens.some((t) => t.id === id && canMove(t)),
                               );
+                              const ids =
+                                event.shiftKey && canMove(token)
+                                  ? movable.includes(token.id)
+                                    ? movable.filter((id) => id !== token.id)
+                                    : [...movable, token.id].slice(-40)
+                                  : [token.id];
+                              setSelection(ids);
+                              setSelected(ids.includes(token.id) ? token.id : ids.at(-1) || '');
                             }
                           }}
                         >
@@ -1482,10 +1505,7 @@ export function Tabletop({
             aria-label={item.label}
             aria-pressed={tool === item.key}
             disabled={!scene || ((item.key === 'fog' || item.key === 'draw') && map.locked)}
-            onClick={() => {
-              setTool(item.key);
-              setRuler(null);
-            }}
+            onClick={() => chooseTool(item.key)}
           >
             {item.symbol}
           </button>
@@ -1518,6 +1538,8 @@ export function Tabletop({
             aria-label="Novo token"
             disabled={!scene || map.locked || fileBusy}
             onClick={() => {
+              cancelGesture();
+              setTool('select');
               setDrawer('token');
               setTokenEditor('new');
             }}
@@ -1533,6 +1555,8 @@ export function Tabletop({
             aria-pressed={drawer === 'areas'}
             disabled={!scene || map.locked}
             onClick={() => {
+              cancelGesture();
+              setTool('select');
               if (drawer === 'areas') {
                 setDrawer('');
                 setAreaDraft(null);
@@ -1629,13 +1653,15 @@ export function Tabletop({
                   ? 'Arraste um retângulo para revelar a área'
                   : tool === 'draw'
                     ? 'Arraste para desenhar no mapa'
-                    : tool === 'area'
-                      ? 'Posicionar: mova o ponteiro · Orientar: arraste · Confirmar no painel · Esc cancela'
-                      : selection.length > 1
-                        ? `${selection.length} tokens · Arraste ou use as setas · Shift para selecionar`
-                        : selectedToken
-                          ? `${selectedToken.nome}${selectedVitals ? ` · PV ${selectedVitals.current}/${selectedVitals.max}` : ''}${canMove(selectedToken) ? ' · Arraste ou use as setas' : ''}`
-                          : `${scene.unidade} pés por célula · Arraste para mover · Roda do mouse para zoom`}
+                    : tool === 'wall'
+                      ? 'Arraste para desenhar uma parede · Esc cancela · Paredes bloqueiam visão'
+                      : tool === 'area'
+                        ? 'Posicionar: mova o ponteiro · Orientar: arraste · Confirmar no painel · Esc cancela'
+                        : selection.length > 1
+                          ? `${selection.length} tokens · Arraste ou use as setas · Shift para selecionar`
+                          : selectedToken
+                            ? `${selectedToken.nome}${selectedVitals ? ` · PV ${selectedVitals.current}/${selectedVitals.max}` : ''}${canMove(selectedToken) ? ' · Arraste ou use as setas' : ''}`
+                            : `${scene.unidade} pés por célula · Arraste para mover · Roda do mouse para zoom`}
         </div>
       )}
 
@@ -1847,6 +1873,7 @@ export function Tabletop({
                   setDrawer('');
                   setTool('area');
                   setAreaPhase('Posicionar');
+                  svg.current?.focus();
                 }}
                 onSave={() => void saveArea()}
                 onDelete={async (area) => {
@@ -1878,7 +1905,12 @@ export function Tabletop({
                         checked={selection.includes(t.id)}
                         onChange={(e) => {
                           const ids = e.target.checked
-                            ? [...selection, t.id].slice(-40)
+                            ? [
+                                ...selection.filter((id) =>
+                                  tokens.some((row) => row.id === id && canMove(row)),
+                                ),
+                                t.id,
+                              ].slice(-40)
                             : selection.filter((id) => id !== t.id);
                           setSelection(ids);
                           setSelected(ids.at(-1) || '');
@@ -1907,7 +1939,7 @@ export function Tabletop({
                   </li>
                 ))}
               </ul>
-              {master && selection.length > 1 && (
+              {!spectator && selection.length > 1 && (
                 <button
                   type="button"
                   className="button secondary"

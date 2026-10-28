@@ -1,12 +1,14 @@
 import type {
   CompendiumRepository,
   CreationDraft,
+  CreationCatalog,
 } from '../../../packages/contracts/character-creation';
 import {
   COMPENDIUM_KINDS,
   type CompendiumKind,
   type CompendiumRef,
 } from '../../../packages/contracts/compendium';
+import { CompendiumError } from '../../../packages/compendium/errors';
 
 type Validator = (value: unknown) => boolean;
 const isObject = (value: unknown): value is Record<string, unknown> =>
@@ -159,6 +161,7 @@ const catalog = shape({
 const page = shape({ entries: array(summary), nextCursor: nullable(string) });
 
 type Entry = {
+  kind: string;
   controller: AbortController;
   promise: Promise<unknown>;
   subscribers: number;
@@ -169,20 +172,45 @@ type Entry = {
 const abortError = () => new DOMException('Consulta cancelada.', 'AbortError');
 const references = (refs: (CompendiumRef | null | undefined)[]) =>
   [...new Set(refs.filter(Boolean).map((ref) => `${ref!.recordId}:${ref!.revisionId}`))].sort();
+function creationReferences(draft: CreationDraft) {
+  return [
+    draft.speciesRef,
+    draft.lineageRef,
+    draft.backgroundRef,
+    ...draft.classes.flatMap((c) => [c.classRef, c.subclassRef]),
+    ...draft.choices.flatMap((c) => c.values.flatMap((v) => (v.type === 'record' ? [v.ref] : []))),
+  ].filter((ref): ref is CompendiumRef => !!ref);
+}
 function creationKey(draft: CreationDraft) {
   return [
     draft.ruleSetId,
-    references([
-      draft.speciesRef,
-      draft.lineageRef,
-      draft.backgroundRef,
-      ...draft.classes.flatMap((c) => [c.classRef, c.subclassRef]),
-      ...draft.choices.flatMap((c) =>
-        c.values.flatMap((v) => (v.type === 'record' ? [v.ref] : [])),
-      ),
-    ]),
+    references(creationReferences(draft)),
     references(draft.spellSelections.map((s) => s.spellRef)),
   ];
+}
+function mergeCatalogs(catalogs: CreationCatalog[]): CreationCatalog {
+  const unique = <T>(values: T[], key: (value: T) => string) => [
+    ...new Map(values.map((v) => [key(v), v])).values(),
+  ];
+  const byId = <T extends { id: string }>(values: T[]) => unique(values, (v) => v.id);
+  return {
+    ruleSetId: catalogs[0].ruleSetId,
+    entries: unique(
+      catalogs.flatMap((c) => c.entries),
+      (e) => e.ref.revisionId,
+    ),
+    requirements: byId(catalogs.flatMap((c) => c.requirements)),
+    choices: byId(catalogs.flatMap((c) => c.choices)),
+    grants: byId(catalogs.flatMap((c) => c.grants)),
+    effects: byId(catalogs.flatMap((c) => c.effects)),
+    proficiencies: byId(catalogs.flatMap((c) => c.proficiencies)),
+    castingProfiles: byId(catalogs.flatMap((c) => c.castingProfiles)),
+    equipmentOptions: byId(catalogs.flatMap((c) => c.equipmentOptions)),
+    multiclassSlots: unique(
+      catalogs.flatMap((c) => c.multiclassSlots),
+      (row) => `${row.level}:${row.circle}`,
+    ),
+  };
 }
 function canonical(value: unknown): unknown {
   if (Array.isArray(value)) return value.map(canonical);
@@ -210,6 +238,7 @@ export function createCachedCompendiumRepository(
     immutable: boolean,
     signal: AbortSignal | undefined,
     fetch: (signal: AbortSignal) => Promise<T>,
+    expiresAt = Infinity,
   ): Promise<T> {
     if (signal?.aborted) return Promise.reject(abortError());
     const id = JSON.stringify([kind, canonical(key)]);
@@ -225,6 +254,7 @@ export function createCachedCompendiumRepository(
     if (!entry) {
       const controller = new AbortController();
       entry = {
+        kind,
         controller,
         promise: Promise.resolve(),
         subscribers: 0,
@@ -241,7 +271,7 @@ export function createCachedCompendiumRepository(
           if (!validate(value)) throw new Error('Resposta inválida do compêndio.');
           current.ready = true;
           current.value = value;
-          current.expires = immutable ? Infinity : now() + ttl;
+          current.expires = Math.min(expiresAt, immutable ? Infinity : now() + ttl);
           while (cache.size > max) {
             const oldest = [...cache].find(([, e]) => e.ready);
             if (!oldest) break;
@@ -291,9 +321,70 @@ export function createCachedCompendiumRepository(
     get: (ref, signal) => request('get', ref, true, signal, (s) => repository.get(ref, s)),
     getContext: (ref, signal) =>
       request('context', ref, true, signal, (s) => repository.getContext(ref, s)),
-    getCreationCatalog: (draft, signal) =>
-      request('creation', creationKey(draft), false, signal, (s) =>
-        repository.getCreationCatalog(draft, s),
-      ),
+    getCreationCatalog(draft, signal) {
+      if (signal?.aborted) return Promise.reject(abortError());
+      const mandatory = creationReferences(draft);
+      const refs = [
+        ...new Map(
+          [...mandatory, ...draft.spellSelections.map((s) => s.spellRef)].map((ref) => [
+            `${ref.recordId}:${ref.revisionId}`,
+            ref,
+          ]),
+        ).values(),
+      ];
+      const required = new Set(references(mandatory));
+      const available = (loaded: CreationCatalog, ref: CompendiumRef) =>
+        loaded.entries.some(
+          (e) => e.ref.recordId === ref.recordId && e.ref.revisionId === ref.revisionId,
+        );
+      let base: Entry | undefined;
+      for (const entry of [...cache.values()].reverse()) {
+        if (entry.kind !== 'creation' || !entry.ready || entry.expires <= now()) continue;
+        const loaded = entry.value as CreationCatalog;
+        if (loaded.ruleSetId !== draft.ruleSetId) continue;
+        // Return the same cache entry: selecting another combination never renews its TTL.
+        if (refs.every((ref) => available(loaded, ref))) return Promise.resolve(loaded);
+        base ??= entry;
+      }
+      const initial = base;
+      return request(
+        'creation',
+        creationKey(draft),
+        false,
+        signal,
+        async (s) => {
+          if (!initial) return repository.getCreationCatalog(draft, s);
+          const loaded = initial.value as CreationCatalog;
+          const additions = await Promise.all(
+            refs
+              .filter((ref) => !available(loaded, ref))
+              .map(async (ref) => {
+                try {
+                  const context = await request('context', ref, true, s, (nested) =>
+                    repository.getContext(ref, nested),
+                  );
+                  if (context.ruleSetId !== draft.ruleSetId || !available(context, ref))
+                    throw new CompendiumError('NOT_FOUND');
+                  return context;
+                } catch (error) {
+                  // A missing selected spell is reconciled by the engine; origins and choices stay strict.
+                  if (
+                    !required.has(`${ref.recordId}:${ref.revisionId}`) &&
+                    error instanceof CompendiumError &&
+                    error.code === 'NOT_FOUND'
+                  )
+                    return null;
+                  throw error;
+                }
+              }),
+          );
+          return mergeCatalogs([
+            loaded,
+            ...additions.filter((c): c is CreationCatalog => c !== null),
+          ]);
+        },
+        initial?.expires,
+      );
+    },
   };
 }

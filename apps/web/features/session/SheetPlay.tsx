@@ -59,8 +59,9 @@ export function SheetPlay({
   const describe = (acao: SheetAction, id: string, name: string) => (
     <button
       type="button"
-      className="text-button"
-      aria-label={'Enviar descrição ao chat: ' + name}
+      className="sheet-description-title"
+      title="Enviar descrição ao chat"
+      aria-description="Enviar descrição ao chat"
       disabled={disabled}
       onClick={() =>
         onRoll({
@@ -73,7 +74,7 @@ export function SheetPlay({
         })
       }
     >
-      Enviar descrição ao chat
+      {name}
     </button>
   );
   const roll = (acao: SheetAction, id: string, label: string, normal = false, blocked = false) => (
@@ -202,12 +203,12 @@ export function SheetPlay({
           <h3>Perícias</h3>
           {Object.entries(PERICIAS).map(([key, [name]]) => (
             <div key={key}>
+              <strong>{describe('descricao_pericia', key, name)}</strong>{' '}
               {roll(
                 'pericia',
                 key,
                 `${name} ${sign((calc.pericias as Record<string, number>)[key])}`,
               )}
-              {describe('descricao_pericia', key, name)}
             </div>
           ))}
           <h3>Salvaguardas contra morte</h3>
@@ -225,8 +226,7 @@ export function SheetPlay({
           <h3>Ataques</h3>
           {c.ataques.map((e) => (
             <article className="play-entry" key={e.id}>
-              <strong>{e.nome}</strong>
-              {describe('descricao_ataque', e.id, e.nome)}
+              <strong>{describe('descricao_ataque', e.id, e.nome)}</strong>
               <small>
                 {e.tipo === 'cd' ? `CD ${e.valor}` : `Acerto ${sign(e.valor)}`}
                 {e.itemId && ` · Crítico ${e.critico ?? 20}–20`}
@@ -262,18 +262,19 @@ export function SheetPlay({
               </h3>
               {c[path].map((entry) => (
                 <article className="play-entry" key={entry.id}>
-                  <strong>{entry.nome}</strong>
-                  {describe(
-                    (
-                      {
-                        caracteristicas: 'descricao_caracteristica',
-                        tracos: 'descricao_traco',
-                        talentos: 'descricao_talento',
-                      } as const
-                    )[path],
-                    entry.id,
-                    entry.nome,
-                  )}
+                  <strong>
+                    {describe(
+                      (
+                        {
+                          caracteristicas: 'descricao_caracteristica',
+                          tracos: 'descricao_traco',
+                          talentos: 'descricao_talento',
+                        } as const
+                      )[path],
+                      entry.id,
+                      entry.nome,
+                    )}
+                  </strong>
                   <details>
                     <summary>Descrição de {entry.nome}</summary>
                     <p>{entry.descricao || 'Esta entrada não possui descrição na ficha salva.'}</p>
@@ -304,9 +305,9 @@ export function SheetPlay({
                 )}
                 <article className="play-entry" key={e.id}>
                   <strong>
-                    {e.nome} · {e.circulo === 0 ? 'Truque' : 'Círculo ' + e.circulo}
+                    {describe('descricao_magia', e.id, e.nome)} ·{' '}
+                    {e.circulo === 0 ? 'Truque' : 'Círculo ' + e.circulo}
                   </strong>
-                  {describe('descricao_magia', e.id, e.nome)}
                   <small>
                     {e.bonusAtaque !== undefined ? 'Ataque ' + sign(e.bonusAtaque) + ' · ' : ''}
                     {e.cd !== undefined ? 'CD ' + e.cd + ' · ' : ''}

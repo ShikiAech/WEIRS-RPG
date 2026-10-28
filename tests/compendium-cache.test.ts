@@ -261,3 +261,138 @@ test('list rejects incomplete summaries and malformed pages before retrying', as
     assert.equal(calls, 2);
   }
 });
+
+test('creation reuses loaded option records when selecting a choice from its current catalog', async () => {
+  const b = backend();
+  const { draft, catalog } = fixture();
+  const r = createCachedCompendiumRepository(b.repository);
+  draft.speciesRef = null;
+  const first = await r.getCreationCatalog(draft);
+  const next = {
+    ...draft,
+    choices: [
+      {
+        groupId: 'choice',
+        sourceInstanceId: 'species',
+        values: [{ type: 'record' as const, ref: catalog.entries[0].ref }],
+      },
+    ],
+  };
+  assert.equal(await r.getCreationCatalog(next), first);
+  assert.equal(b.calls(), 1, 'selecting an already hydrated record needs no new server catalog');
+});
+
+test('adding a new selected record fetches only its context and merges rules with the creation catalog', async () => {
+  const { catalog, draft, species } = fixture();
+  const extra = { ...species, ref: { recordId: 'extra', revisionId: 'extra-revision' } };
+  let creationCalls = 0;
+  const contexts: string[] = [];
+  const repository = backend().repository;
+  repository.getCreationCatalog = async () => {
+    creationCalls++;
+    return catalog;
+  };
+  repository.getContext = async (ref) => {
+    contexts.push(ref.revisionId);
+    return { ...catalog, entries: [extra], effects: [] };
+  };
+  const r = createCachedCompendiumRepository(repository);
+  await r.getCreationCatalog(draft);
+  const next = {
+    ...draft,
+    choices: [
+      {
+        groupId: 'choice',
+        sourceInstanceId: 'species',
+        values: [{ type: 'record' as const, ref: extra.ref }],
+      },
+    ],
+  };
+  const merged = await r.getCreationCatalog(next);
+  assert.equal(creationCalls, 1);
+  assert.deepEqual(contexts, ['extra-revision']);
+  assert.deepEqual(
+    merged.entries.map((e) => e.ref),
+    [...catalog.entries, extra].map((e) => e.ref),
+  );
+  assert.equal(draft.choices.length, 0);
+});
+
+test('reusing a creation subset does not extend the original freshness window', async () => {
+  const b = backend();
+  const { draft, catalog } = fixture();
+  draft.speciesRef = null;
+  let now = 0;
+  const r = createCachedCompendiumRepository(b.repository, { now: () => now, ttlMs: 300_000 });
+  await r.getCreationCatalog(draft);
+  now = 240_000;
+  const next = {
+    ...draft,
+    choices: [
+      {
+        groupId: 'choice',
+        sourceInstanceId: 'species',
+        values: [{ type: 'record' as const, ref: catalog.entries[0].ref }],
+      },
+    ],
+  };
+  await r.getCreationCatalog(next);
+  assert.equal(b.calls(), 1);
+  now = 300_001;
+  await r.getCreationCatalog(next);
+  assert.equal(b.calls(), 2);
+});
+
+test('incremental creation loading tolerates only missing optional spells and retains the base expiry', async () => {
+  const { CompendiumError } = await import('../packages/compendium/errors');
+  const { catalog, draft, species } = fixture();
+  const extra = { ...species, ref: { recordId: 'extra', revisionId: 'extra-revision' } };
+  let now = 0,
+    creationCalls = 0;
+  const repository = backend().repository;
+  repository.getCreationCatalog = async () => {
+    creationCalls++;
+    return catalog;
+  };
+  repository.getContext = async () => ({ ...catalog, entries: [extra] });
+  const r = createCachedCompendiumRepository(repository, { ttlMs: 300_000, now: () => now });
+  await r.getCreationCatalog(draft);
+  now = 240_000;
+  const next = {
+    ...draft,
+    spellSelections: [{ profileId: 'profile', spellRef: extra.ref, prepared: true }],
+  };
+  await r.getCreationCatalog(next);
+  now = 300_001;
+  await r.getCreationCatalog(next);
+  assert.equal(creationCalls, 2, 'incremental merge must not renew its base rules');
+
+  for (const code of ['NOT_FOUND', 'UNAVAILABLE'] as const) {
+    repository.getContext = async () => {
+      throw new CompendiumError(code);
+    };
+    const current = createCachedCompendiumRepository(repository);
+    await current.getCreationCatalog(draft);
+    const pending = current.getCreationCatalog(next);
+    if (code === 'NOT_FOUND') assert.deepEqual((await pending).entries, catalog.entries);
+    else
+      await assert.rejects(
+        pending,
+        (e: unknown) => e instanceof CompendiumError && e.code === code,
+      );
+    const mandatory = {
+      ...next,
+      choices: [
+        {
+          groupId: 'g',
+          sourceInstanceId: 'species',
+          values: [{ type: 'record' as const, ref: extra.ref }],
+        },
+      ],
+    };
+    await assert.rejects(
+      current.getCreationCatalog(mandatory),
+      (e: unknown) => e instanceof CompendiumError && e.code === code,
+    );
+  }
+});

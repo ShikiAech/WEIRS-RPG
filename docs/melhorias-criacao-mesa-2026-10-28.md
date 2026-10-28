@@ -51,7 +51,7 @@ Informações já publicadas no chat e na iniciativa compartilhada permanecem p�
 ## Instalação e publicação
 
 1. Faça uma cópia de segurança e confira quais migrações já foram aplicadas no ambiente de destino.
-2. Depois das migrações existentes até `202610190015_compendio_tempo_consulta.sql`, aplique nesta ordem: `202610280016_combate_chat.sql`, `202610280017_visao_mapa.sql` e `202610280018_operacoes_mapa.sql`. Não repita migrações antigas nem substitua seu histórico.
+2. Depois das migrações existentes até `202610190015_compendio_tempo_consulta.sql`, aplique nesta ordem: `202610280016_combate_chat.sql`, `202610280017_visao_mapa.sql` `202610280018_operacoes_mapa.sql`, `202610280019_compendio_escolhas_proficiencia.sql` e `202610280020_compendio_contexto_seletivo.sql`. Não repita migrações antigas nem substitua seu histórico.
 3. Gere e confira o compêndio com `npm run compendium:check` e `npm run compendium:seed`. O gerador escreve arquivos locais; ele não conecta ao banco remoto.
 4. Aplique o novo `supabase/compendium-seed.sql` depois das migrações. Conserve as revisões antigas: fichas existentes podem referenciá-las.
 5. Execute `npm test`, `npm run build` e os testes de navegador relevantes. O build atualiza o motor em `supabase/functions/_shared/creation-engine.js`.
@@ -60,7 +60,7 @@ Informações já publicadas no chat e na iniciativa compartilhada permanecem p�
 Testes SQL locais e testes de navegador com backend simulado têm finalidades diferentes. Um teste simulado de interface não confirma as políticas ou a entrega de eventos do Supabase hospedado. Os registros de validação e eventuais limitações do ambiente devem acompanhar a revisão da alteração.
 
 
-## Validação local desta alteração
+## Validação local da implementação inicial
 
 - 453 testes unitários e de banco passaram, incluindo histórico completo das migrações, permissões, recibos e transições de vínculo de áreas.
 - 36 verificações de navegador passaram em desktop e celular. O transporte HTTP/WebSocket é simulado; as políticas SQL são exercitadas no PostgreSQL do PGlite.
@@ -77,3 +77,55 @@ O runtime Node empacotado apresentou uma falha nativa de JIT do WebAssembly dura
 - A versão do resolvedor do compêndio passou de 6 para 7. Isso aumenta a carga de revisões novas e exige aplicar o seed correspondente, conservando os dados históricos.
 - Listas antigas de desenhos funcionam como acréscimo/atualização. Omitir uma identidade não pode apagar um desenho quando a leitura antiga não informa essas identidades; a remoção individual usa os controles atuais com versão.
 - Áreas vinculadas herdam a visibilidade atual do token de origem. O efeito também desaparece para quem não vê o token; desvincular permite sua exibição independente e remove os metadados privados da âncora, preservando posição e ângulo.
+
+
+## Revisão funcional e de experiência
+
+A revisão posterior conferiu os fluxos de criação, ficha/chat e ferramentas do mapa. O problema observado foi separado entre interface local e dados publicados: o compêndio hospedado consultado ainda não continha grupos de escolha para Inamons ou Talpas. As escolhas de Inamon existiam no catálogo local, mas ficavam abaixo de cinco descrições de traços; agora aparecem antes das descrições.
+
+| Fluxo | Problema confirmado | Correção |
+| --- | --- | --- |
+| Espécie | Talpa Ferramenteiro não tinha decisões estruturadas | Seis engenhocas selecionáveis, com descrições canônicas e limite pelo bônus de proficiência; seleção opcional de projetos ativos |
+| Espécie | Decisões de Inamon pouco visíveis e catálogo hospedado antigo | Escolhas antes dos traços; seed atualizado necessário no ambiente hospedado |
+| Navegação | Vida/defesas e magias disponíveis sem os pré-requisitos | Etapas e atalhos indisponíveis desabilitados; anterior/próxima pulam etapas inaplicáveis |
+| Magias | Chips fora do campo e opções incompatíveis na lista | Chips dentro do controle de busca, descrições acessíveis e filtragem por origem, círculo e escolhas; abas sem cota desabilitadas |
+| Ficha/chat | Ação de descrição separada encostada no título | O próprio nome envia a descrição; botões de rolagem continuam disponíveis |
+| Regras | Uma classe carregava regras de todas as outras classes | Nova RPC seletiva conserva identidades de requisitos e listas sem percorrer regras não relacionadas |
+| Cache | Acrescentar referências podia refazer a consulta completa | Reutilização de regras já carregadas e busca apenas dos contextos ausentes, sem prolongar o prazo do cache |
+| Mapa | Prévia de área persistia ao trocar ferramenta e Escape dependia de foco | Cancelamento comum de gestos e foco no mapa ao iniciar posicionamento |
+| Mapa | Seleção múltipla podia incluir token sem permissão de movimento | Seleção e movimento em grupo filtram permissões, inclusive pelo teclado |
+| Mapa | Painéis sobrepunham controles de régua/área e paredes | Controles de administração recolhem ao desenhar; painéis conflitantes não bloqueiam o controle ativo |
+| Mapa | Redimensionar a janela apagava o rascunho de área; setas em desenho moviam tokens | Ajuste de câmera preserva o rascunho; movimento pelo teclado exige a ferramenta de seleção |
+| Busca | Adicionar chips deslocava a lista além da tela; preparar magia fechava a lista | Posição recalculada quando o campo muda de tamanho e foco preservado nos controles internos |
+
+### Medições e limites da revisão
+
+A leitura pública hospedada de Mago levou aproximadamente 10,5 segundos e retornou 11,3 MB/1.043 registros. Os três payloads hospedados examinados (Inamon, Talpa e Mago) passaram pelo decoder e pela validação do cache. A mensagem genérica de falha não foi reproduzida nessa consulta; atribuí-la especificamente a timeout seria uma hipótese.
+
+No teste PostgreSQL local com dados completos, Mago + Talpa passou de 1.057 registros/10.914.261 bytes/5.402 ms para 278 registros/1.788.620 bytes/1.369 ms, preservando o resultado de criação. São medições locais; latência do serviço hospedado ainda depende da publicação e verificação lá.
+
+O novo leitor tem endpoint próprio. Clientes antigos conservam o endpoint anterior. O cliente atualizado só usa o leitor anterior quando o servidor informa que a nova função ainda não existe (`PGRST202`); não repete consultas por erro de autenticação ou timeout.
+
+O resolvedor do compêndio passa à versão 8. As revisões anteriores continuam preservadas. Rascunhos que apontam para revisões antigas mantêm essas revisões: após atualizar o seed, selecione novamente a espécie/linhagem atual para receber as novas decisões. Fichas existentes não são reescritas automaticamente.
+
+A inspeção visual utilizou a criação de demonstração no navegador local e cenários isolados de desktop/celular para ficha/chat/mapa. O navegador inspecionado não tinha sessão autenticada; nenhuma mensagem foi enviada à campanha real. As migrações e o seed não foram aplicados ao projeto hospedado nesta revisão.
+
+
+### Verificação final da revisão
+
+- 461 testes unitários e de banco passaram, sem falhas.
+- Criação/ficha/chat: 120 casos de navegador passaram na varredura ampliada; os 14 restantes falhavam porque os simuladores desconheciam o novo endpoint, foram corrigidos e passaram na nova execução. A verificação final de chips, redimensionamento, teclado e seleção passou em 24/24 casos de desktop/celular.
+- Mapa: 92/92 casos de desktop/celular passaram; após o ajuste visual da amostra de cor, mais 6/6 verificações focadas e 4/4 capturas passaram. Os 55 testes específicos de geometria/banco/visibilidade também passaram e fazem parte da validação de domínio.
+- Build final e typecheck passaram. Os 122 arquivos legados preservados foram conferidos novamente. Continua o aviso de chunks grandes, sem falha de build.
+- A atualização do seed foi aplicada duas vezes no banco local de verificação; o conteúdo das 3.567 revisões do baseline anterior permaneceu intacto.
+- A compatibilidade foi conferida com uma consulta pública ao serviço hospedado: o endpoint novo respondeu 404 e o cliente recuperou o contexto pelo endpoint anterior. Isso confirma o fallback; não confirma a publicação da migração.
+
+Capturas locais desta revisão (arquivos de trabalho ignorados pelo Git):
+
+1. Início e navegação: `output/ux-review-2026-10-28/01-creation-start-before.png`.
+2. Escolhas de espécie: `output/ux-review-2026-10-28/04-talpa-choices-after.png` mostra duas engenhocas selecionadas e o limite aplicado.
+3. Busca de magias: `artifacts/task-review/mobile-spell-search-chips.png` mostra chips no campo; teclado, preparo e redimensionamento têm testes de interação.
+4. Ficha/chat: `artifacts/task-review/desktop-description-sessão.png` mostra nomes clicáveis e controles de rolagem.
+5. Mapa: `output/map-ux-review/ruler-mobile.png` e `output/map-ux-review/area-desktop.png` mostram controles e prévia.
+
+As capturas apoiam a revisão visual; não constituem certificação de acessibilidade. Login real, entrega de eventos e os tempos finais de resposta do ambiente hospedado dependem da publicação e validação nesse ambiente.

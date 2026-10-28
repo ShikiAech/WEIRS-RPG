@@ -107,7 +107,11 @@ export function BackgroundStep(props: StepProps) {
       <ChoicePanel equipment="omit" {...props} prefixes={['background']} />
       <p>
         Escolha os kits e moedas do antecedente em{' '}
-        <button type="button" onClick={() => props.onGoToStep?.(4)}>
+        <button
+          type="button"
+          disabled={!draft.classes.length}
+          onClick={() => props.onGoToStep?.(4)}
+        >
           5 · Vida e defesas
         </button>
         .

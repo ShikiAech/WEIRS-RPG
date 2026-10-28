@@ -330,6 +330,31 @@ export function curateSpeciesChoices(ctx: CuratedContext) {
       'exotraje',
     );
   }
+  const tinkerer = child(lineage(species('Talpas'), 'Talpa Ferramenteiro'), 'Talpa Ferramenteiro');
+  if (tinkerer) {
+    // Every project is known. This choice records only the devices currently maintained.
+    const names = [
+      'Abridor de Portas',
+      'Alarme Talpa',
+      'Esfera de Comunicação',
+      'Aranha Mecânica',
+      'Âncora de Impacto',
+      'Disparador Arcano',
+    ];
+    const group = ctx.group(tinkerer, 'engenhocas-funcionais', 'Engenhocas Talpa funcionais', 0, 6);
+    group.maximumByProficiency = true;
+    for (const [index, name] of names.entries()) {
+      const start = tinkerer.description.indexOf(name + ':');
+      const end =
+        index + 1 < names.length
+          ? tinkerer.description.indexOf(names[index + 1] + ':', start)
+          : tinkerer.description.length;
+      const feature = synthetic(tinkerer, name, tinkerer.description.slice(start, end).trim(), {
+        optional: true,
+      });
+      option(group, name, { targetRef: feature.ref });
+    }
+  }
   const inamons = species('Inamons');
   if (inamons?.kind === 'especie') {
     const improvements = child(inamons, 'Aprimoramentos Inamônicos');

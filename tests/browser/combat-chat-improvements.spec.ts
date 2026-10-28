@@ -80,9 +80,7 @@ test('dano de mensagem carrega ficha atual e descrição não substitui ataque',
   await expect(
     panel.getByRole('button', { name: 'Ataque: Espada de teste', exact: true }),
   ).toBeVisible();
-  await panel
-    .getByRole('button', { name: 'Enviar descrição ao chat: Espada de teste', exact: true })
-    .click();
+  await panel.getByRole('button', { name: 'Espada de teste', exact: true }).click();
   await expect.poll(() => chat.commands.length).toBe(2);
   expect(chat.commands[1].acao).toBe('descricao_ataque');
   await expect(page.getByRole('log')).toContainText('Lâmina antiga');

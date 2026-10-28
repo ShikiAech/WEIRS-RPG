@@ -364,12 +364,21 @@ export function resolveConcessions(
       find(draft.lineageRef)?.kind === 'linhagem' &&
       (find(draft.lineageRef) as CompendiumEntry<'linhagem'>).data.inheritTraits === false;
     if (skipTraits) return;
-    for (const group of catalog.choices.filter(
+    for (const definition of catalog.choices.filter(
       (g) =>
         g.ownerRevisionId === node.entry.ref.revisionId &&
         g.level <= node.level &&
         matchesAcquisition(g.acquisition, node),
     )) {
+      const group = definition.maximumByProficiency
+        ? {
+            ...definition,
+            maximum: Math.min(
+              definition.maximum,
+              2 + Math.floor((Math.max(1, totalLevel) - 1) / 4),
+            ),
+          }
+        : definition;
       if (!requirementMet(catalog, group.requirementId, context(atLevel(node, group.level))))
         continue;
       let selected = draft.choices.filter(

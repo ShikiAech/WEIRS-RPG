@@ -82,10 +82,10 @@ test('repositório lê apenas revisões publicadas, pagina variantes e conserva 
                     ),
                     error: null,
                   };
-                if (name === 'obter_compendio')
+                if (name === 'obter_compendio_seletivo')
                   return {
                     data: (
-                      await f.anonymous('SELECT obter_compendio($1,$2) AS valor', [
+                      await f.anonymous('SELECT obter_compendio_seletivo($1,$2) AS valor', [
                         args.p_revisoes,
                         args.p_conjunto,
                       ])

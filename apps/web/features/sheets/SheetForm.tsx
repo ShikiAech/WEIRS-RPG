@@ -12,7 +12,7 @@ import type { CompendiumRepository } from '../../../../packages/contracts/charac
 import { identity, combat, story, training, lists, number, attributeOptions } from './fields';
 import type { FieldSpec, ListSpec } from './fields';
 import { SpellActionMetadata } from './SpellActionMetadata';
-import { SheetActionButtons } from './SheetChat';
+import { SheetActionButtons, SheetDescriptionTitle } from './SheetChat';
 import { InventoryEditor } from './InventoryEditor';
 import { SpellEditor } from './SpellEditor';
 import { sincronizarEquipamentos } from '../../../../packages/sheets/equipamentos.js';
@@ -210,7 +210,11 @@ export function SheetForm({
             (onlyIndex === undefined || onlyIndex === i) &&
             !(spec.path === 'ataques' && row.itemId && onlyIndex === undefined) && (
               <fieldset className="repeat-entry" key={String(row.id)}>
-                <legend>{String(row.nome || `${spec.title} · ${i + 1}`)}</legend>
+                <legend>
+                  <SheetDescriptionTitle path={spec.path} entry={row}>
+                    {String(row.nome || `${spec.title} · ${i + 1}`)}
+                  </SheetDescriptionTitle>
+                </legend>
                 <div className="field-grid">
                   {spec.fields
                     .filter((_, n) => spec.path !== 'magias' || n < 4)
@@ -387,8 +391,11 @@ export function SheetForm({
               <div className="skill-list">
                 {Object.entries(PERICIAS).map(([key, [label]]) => (
                   <fieldset key={key} className="skill">
-                    <legend>{label}</legend>
-                    <SheetActionButtons path="pericias" entry={{ id: key, nome: label }} />
+                    <legend>
+                      <SheetDescriptionTitle path="pericias" entry={{ id: key, nome: label }}>
+                        {label}
+                      </SheetDescriptionTitle>
+                    </legend>
                     {field({
                       key: `pericias.${key}.descricao`,
                       label: `${label}: descrição opcional`,
@@ -454,7 +461,11 @@ export function SheetForm({
                 .sort((a, b) => a.circulo - b.circulo)
                 .map((spell) => (
                   <article className="play-entry" key={spell.id}>
-                    <strong>{spell.nome || 'Magia sem nome'}</strong>
+                    <strong>
+                      <SheetDescriptionTitle path="magias" entry={spell as unknown as Tree}>
+                        {spell.nome || 'Magia sem nome'}
+                      </SheetDescriptionTitle>
+                    </strong>
                     <p>
                       {spell.circulo === 0 ? 'Truque' : 'Círculo ' + spell.circulo}
                       {spell.perfilId && calc.perfis[spell.perfilId]
@@ -486,7 +497,11 @@ export function SheetForm({
                   .filter((a) => a.itemId)
                   .map((a) => (
                     <div className="play-entry" key={a.id}>
-                      <strong>{a.nome}</strong>
+                      <strong>
+                        <SheetDescriptionTitle path="ataques" entry={a as unknown as Tree}>
+                          {a.nome}
+                        </SheetDescriptionTitle>
+                      </strong>
                       <p className="calculation">
                         Acerto {signed(a.valor)} · Dano {a.dano || 'Sem fórmula'} · Crítico{' '}
                         {a.critico ?? 20}–20

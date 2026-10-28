@@ -75,7 +75,10 @@ export function MapAdministration({
             tokens={tokens}
             disabled={map.locked}
             operate={operate}
-            onDraw={onDraw}
+            onDraw={() => {
+              setAdminOpen(false);
+              onDraw();
+            }}
           />
         </details>
       )}

@@ -953,7 +953,11 @@ function resolveConcessions(catalog, draft) {
 			degree: "proficiente"
 		});
 		if (node.id === "species" && find(draft.lineageRef)?.kind === "linhagem" && find(draft.lineageRef).data.inheritTraits === false) return;
-		for (const group of catalog.choices.filter((g) => g.ownerRevisionId === node.entry.ref.revisionId && g.level <= node.level && matchesAcquisition(g.acquisition, node))) {
+		for (const definition of catalog.choices.filter((g) => g.ownerRevisionId === node.entry.ref.revisionId && g.level <= node.level && matchesAcquisition(g.acquisition, node))) {
+			const group = definition.maximumByProficiency ? {
+				...definition,
+				maximum: Math.min(definition.maximum, 2 + Math.floor((Math.max(1, totalLevel) - 1) / 4))
+			} : definition;
 			if (!requirementMet(catalog, group.requirementId, context(atLevel(node, group.level)))) continue;
 			let selected = draft.choices.filter((c) => c.groupId === group.id && c.sourceInstanceId === node.id);
 			const ancestorChoice = result.choices.filter((c) => c.group.key === group.key && node.id.startsWith(c.instance.id + "/")).reverse().map((c) => ({
@@ -2291,7 +2295,8 @@ function summaryFromRow(r) {
 }
 function decodeCatalog(raw, ruleSetId = "dnd-5e-2024") {
 	if (!raw || !Array.isArray(raw.records) || !raw.tables || typeof raw.tables !== "object") throw Error("Resposta de compêndio inválida.");
-	const heads = new Map(raw.records.map((r) => [s(r, "id"), r]));
+	if (raw.references !== void 0 && !Array.isArray(raw.references)) throw Error("Referências de compêndio inválidas.");
+	const heads = new Map([...raw.references ?? [], ...raw.records].map((r) => [s(r, "id"), r]));
 	const indexed = /* @__PURE__ */ new Map();
 	for (const [name, rows] of Object.entries(raw.tables)) {
 		const owners = /* @__PURE__ */ new Map();
@@ -2622,6 +2627,7 @@ function decodeCatalog(raw, ruleSetId = "dnd-5e-2024") {
 		name: s(g, "nome_pt"),
 		minimum: n(g, "minimo"),
 		maximum: n(g, "maximo"),
+		...g.maximo_por_proficiencia === true ? { maximumByProficiency: true } : {},
 		acquisition: g.aquisicao,
 		abilityPoints: nullable(g, "pontos_atributo"),
 		abilityLimit: nullable(g, "limite_atributo"),
@@ -2779,6 +2785,7 @@ async function request(client, name, args, signal) {
 		return data;
 	} catch (error) {
 		cancelled(signal);
+		if (name === "obter_compendio_seletivo" && error && typeof error === "object" && "code" in error && error.code === "PGRST202") return request(client, "obter_compendio", args, signal);
 		if (error instanceof CompendiumError) throw error;
 		throw new CompendiumError("UNAVAILABLE");
 	}
@@ -2790,7 +2797,7 @@ function createCompendiumRepository(client) {
 			uuid(r.recordId);
 			uuid(r.revisionId);
 		});
-		const raw = await request(client, "obter_compendio", {
+		const raw = await request(client, "obter_compendio_seletivo", {
 			p_revisoes: [...new Set(requestedRefs.map((r) => r.revisionId))],
 			p_conjunto: rules
 		}, signal);

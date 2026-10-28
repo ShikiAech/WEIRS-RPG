@@ -56,8 +56,13 @@ function Profile(
   const circles = Array.from({ length: profile.maximumCircle + 1 }, (_, n) => n).filter(
     (n) => n !== 0 || profile.cantrips > 0,
   );
+  const availableCircles = circles.filter(
+    (n) => n === 0 || profile.known > 0 || profile.prepared > 0,
+  );
   const circle =
-    chosenCircle !== null && circles.includes(chosenCircle) ? chosenCircle : (circles[0] ?? 0);
+    chosenCircle !== null && availableCircles.includes(chosenCircle)
+      ? chosenCircle
+      : (availableCircles[0] ?? circles[0] ?? 0);
   const selections = draft.spellSelections
     .filter((s) => s.profileId === profile.id)
     .map((selection) => {
@@ -126,7 +131,7 @@ function Profile(
   const results = useSpellOptions(
     repository,
     { ruleSetId: draft.ruleSetId, kind: 'magia', query, circle },
-    profile.selectable && !listRequired ? lists : [],
+    profile.selectable && !listRequired && availableCircles.length > 0 ? lists : [],
   );
   // Selected entries remain available to uncheck even when paginated.
   const options = [...results.entries];
@@ -230,7 +235,8 @@ function Profile(
               : !chosen && atLimit
                 ? 'Limite de seleção atingido.'
                 : '';
-    return { chosen, granted, spellCircle, disabled, reason };
+    const hidden = !granted && (!!unavailable || duplicate || (!!chosen && !chosen.valid));
+    return { chosen, granted, disabled, reason, hidden };
   };
   const toggleSpell = (recordId: string) => {
     const entry = options.find((option) => option.ref.recordId === recordId);
@@ -294,6 +300,7 @@ function Profile(
           setSelectionError(`${entry.name}: ${rejection.reason}`);
           return current;
         }
+        setQuery('');
         return reconciled.draft;
       });
     };
@@ -354,16 +361,8 @@ function Profile(
         };
       }),
   ];
-  return (
-    <fieldset className="creation-casting">
-      <legend>{owner?.name ?? 'Conjuração'}</legend>
-      <p className="creation-casting-counts" aria-live="polite">
-        Truques: {cantrips}/{profile.cantrips}
-        {knownLimit != null &&
-          ` · ${definition?.method === 'grimorio' ? 'Grimório' : 'Conhecidas'}: ${spells.length}/${knownLimit}`}
-        {preparedLimit != null && ` · Preparadas: ${prepared}/${preparedLimit}`}
-        {' · '}círculo máximo {profile.maximumCircle}
-      </p>
+  const selectedChips =
+    chips.length > 0 ? (
       <ul
         className="creation-spell-chips"
         aria-label={`Magias selecionadas de ${owner?.name ?? 'Conjuração'}`}
@@ -429,6 +428,18 @@ function Profile(
           </li>
         ))}
       </ul>
+    ) : null;
+  return (
+    <fieldset className="creation-casting">
+      <legend>{owner?.name ?? 'Conjuração'}</legend>
+      <p className="creation-casting-counts" aria-live="polite">
+        Truques: {cantrips}/{profile.cantrips}
+        {knownLimit != null &&
+          ` · ${definition?.method === 'grimorio' ? 'Grimório' : 'Conhecidas'}: ${spells.length}/${knownLimit}`}
+        {preparedLimit != null && ` · Preparadas: ${prepared}/${preparedLimit}`}
+        {' · '}círculo máximo {profile.maximumCircle}
+      </p>
+      {(!profile.selectable || listRequired) && selectedChips}
       {profile.selectable && guidance.length > 0 && <p className="notice">{guidance.join(' ')}</p>}
       {definition?.method === 'grimorio' && (
         <p>
@@ -486,7 +497,7 @@ function Profile(
             aria-label={`Círculos de ${owner?.name}`}
             ref={tabs}
           >
-            {circles.map((n, index) => (
+            {circles.map((n) => (
               <button
                 key={n}
                 id={`${id}-tab-${n}`}
@@ -495,6 +506,12 @@ function Profile(
                 aria-selected={circle === n}
                 aria-controls={`${id}-panel`}
                 tabIndex={circle === n ? 0 : -1}
+                disabled={!availableCircles.includes(n)}
+                title={
+                  !availableCircles.includes(n)
+                    ? 'Esta origem não permite escolher magias deste círculo.'
+                    : undefined
+                }
                 onClick={() => changeCircle(n)}
                 onKeyDown={(event) => {
                   const offset =
@@ -503,15 +520,16 @@ function Profile(
                     event.key === 'Home'
                       ? 0
                       : event.key === 'End'
-                        ? circles.length - 1
+                        ? availableCircles.length - 1
                         : offset
-                          ? (index + offset + circles.length) % circles.length
+                          ? (availableCircles.indexOf(n) + offset + availableCircles.length) %
+                            availableCircles.length
                           : -1;
                   if (target < 0) return;
                   event.preventDefault();
-                  changeCircle(circles[target]);
+                  changeCircle(availableCircles[target]);
                   tabs.current
-                    ?.querySelectorAll<HTMLButtonElement>('[role="tab"]')
+                    ?.querySelectorAll<HTMLButtonElement>('[role="tab"]:not(:disabled)')
                     [target]?.focus();
                 }}
               >
@@ -524,6 +542,8 @@ function Profile(
               label={`Buscar magias de ${owner?.name}`}
               placeholder="Buscar e selecionar magias…"
               multiple
+              disabled={!availableCircles.length}
+              selectedContent={selectedChips}
               query={query}
               onQueryChange={setQuery}
               filterOptions={false}
@@ -555,26 +575,25 @@ function Profile(
               moreLabel="Mostrar mais magias"
               emptyText="Nenhuma magia encontrada nesta lista e círculo. Ajuste a busca ou o círculo."
               popupLabel={`Opções de magias de ${owner?.name}`}
-              options={options.map((entry) => {
-                const { chosen, granted, spellCircle, disabled, reason } = optionState(entry);
-                const detail = catalog.entries.find(
-                  (item) => item.ref.revisionId === entry.ref.revisionId,
-                );
-                const prepareDisabled =
-                  !chosen?.selection.prepared &&
-                  (pendingSelections || (preparedLimit != null && prepared >= preparedLimit));
-                return {
-                  value: entry.ref.recordId,
-                  label: entry.name,
-                  disabled,
-                  disabledReason: reason,
-                  accessory: (
-                    <>
-                      <CompendiumTooltip summary={entry} entry={detail} repository={repository} />
-                    </>
-                  ),
-                };
-              })}
+              options={options
+                .filter((entry) => !optionState(entry).hidden)
+                .map((entry) => {
+                  const { disabled, reason } = optionState(entry);
+                  const detail = catalog.entries.find(
+                    (item) => item.ref.revisionId === entry.ref.revisionId,
+                  );
+                  return {
+                    value: entry.ref.recordId,
+                    label: entry.name,
+                    disabled,
+                    disabledReason: reason,
+                    accessory: (
+                      <>
+                        <CompendiumTooltip summary={entry} entry={detail} repository={repository} />
+                      </>
+                    ),
+                  };
+                })}
             />
             {selectionError && (
               <p className="notice error" role="alert">

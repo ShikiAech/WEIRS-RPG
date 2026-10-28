@@ -493,3 +493,68 @@ test('integrated weapon requires full proficiency rather than half proficiency',
     false,
   );
 });
+
+test('Talpa Ferramenteiro can maintain source gadgets up to the character proficiency bonus', async () => {
+  const names = [
+    'Abridor de Portas',
+    'Alarme Talpa',
+    'Esfera de Comunicação',
+    'Aranha Mecânica',
+    'Âncora de Impacto',
+    'Disparador Arcano',
+  ];
+  for (const [level, capacity] of [
+    [1, 2],
+    [4, 2],
+    [5, 3],
+    [9, 4],
+    [13, 5],
+    [17, 6],
+  ]) {
+    const { c, draft } = await scenario('Talpas', 'Talpa Ferramenteiro', level);
+    const active = resolveState(c, draft).concessions.choices.find(
+      (g) => g.group.name === 'Engenhocas Talpa funcionais',
+    );
+    assert.ok(active, 'a escolha de engenhocas deve existir para Ferramenteiros');
+    assert.equal(active.group.minimum, 0, 'conhecer projetos não obriga construir engenhocas');
+    assert.equal(active.group.maximum, capacity);
+    assert.deepEqual(active.group.options.map((o) => o.name).sort(), [...names].sort());
+    for (const option of active.group.options) {
+      const feature = c.entries.find((e) => e.ref.revisionId === option.targetRef?.revisionId);
+      assert.ok(feature?.description.startsWith(option.name + ':'));
+    }
+    draft.choices.push({
+      groupId: active.group.id,
+      sourceInstanceId: active.instance.id,
+      values: active.group.options
+        .slice(0, capacity)
+        .map((o) => ({ type: 'option' as const, optionId: o.id })),
+    });
+    const state = resolveState(c, draft);
+    assert.ok(!state.concessions.problems.some((p) => p.field.includes(active.group.id)));
+    const sheet = projectSheet(
+      c,
+      draft,
+      state,
+      resolveHitPoints(c, draft, state),
+      resolveDefenses(c, draft, state),
+      resolveSpellcasting(c, draft, state),
+    );
+    for (const option of active.group.options.slice(0, capacity))
+      assert.ok(sheet.tracos.some((t) => t.nome === option.name));
+    if (capacity < 6) {
+      draft.choices[0].values.push({ type: 'option', optionId: active.group.options[capacity].id });
+      assert.ok(
+        resolveState(c, draft).concessions.problems.some((p) => p.field.includes(active.group.id)),
+      );
+    }
+  }
+  for (const lineage of ['Talpa Ferreiro', 'Talpa Armeiro']) {
+    const { c, draft } = await scenario('Talpas', lineage);
+    assert.ok(
+      !resolveState(c, draft).concessions.choices.some(
+        (g) => g.group.name === 'Engenhocas Talpa funcionais',
+      ),
+    );
+  }
+});

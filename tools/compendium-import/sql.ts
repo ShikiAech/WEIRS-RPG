@@ -396,6 +396,7 @@ export function catalogTables(c: ResolvedCatalog): SeedTables {
       nome_pt: g.name,
       minimo: g.minimum,
       maximo: g.maximum,
+      maximo_por_proficiencia: g.maximumByProficiency ?? null,
       aquisicao: g.acquisition,
       pontos_atributo: g.abilityPoints,
       limite_atributo: g.abilityLimit,

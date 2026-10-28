@@ -33,7 +33,7 @@ test('linhagens opcionais usam consulta própria, distinguem erro de vazio e reu
       json: (control.raw.records as any[]).filter((r) => r.tipo === q.p_tipo),
     });
   });
-  await page.route('**/rest/v1/rpc/obter_compendio', (route) => {
+  await page.route(/\/rest\/v1\/rpc\/obter_compendio(?:_seletivo)?(?:\?.*)?$/, (route) => {
     catalogCalls++;
     return route.fulfill({ json: control.raw });
   });
@@ -53,6 +53,7 @@ test('linhagens opcionais usam consulta própria, distinguem erro de vazio e reu
   await expect(
     page.getByRole('combobox', { name: 'Linhagem (quando houver)', exact: true }),
   ).toBeVisible();
+  expect(catalogCalls).toBeGreaterThan(0);
   const count = calls,
     catalogs = catalogCalls;
   await page.getByRole('button', { name: '4 Classes', exact: true }).click();

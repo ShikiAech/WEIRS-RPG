@@ -254,6 +254,21 @@ export function CharacterCreator({
     }
     return { ...resolved, problems, sheet: problems.length ? null : resolved.sheet };
   }, [catalog, draft, classLevelInputs]);
+  const unavailableSteps: Partial<Record<number, string>> = {
+    ...(!draft.classes.length ? { 4: 'Escolha uma classe para definir vida e defesas.' } : {}),
+    ...(!preview.spellcasting.profiles.length
+      ? { 5: 'Suas escolhas atuais não concedem conjuração.' }
+      : {}),
+  };
+  const adjacentStep = (direction: 1 | -1) => {
+    let next = step + direction;
+    while (next > 0 && next < steps.length - 1 && unavailableSteps[next]) next += direction;
+    return next;
+  };
+  useEffect(() => {
+    if (!loading && !loadError && unavailableSteps[step])
+      state.update((current) => ({ ...current, step: 3 }));
+  }, [loading, loadError, step, unavailableSteps[step]]);
   const Component = components[step];
   const canSubmit =
     (!demo && !!state.value.attempt) ||
@@ -343,6 +358,8 @@ export function CharacterCreator({
           <button
             key={label}
             aria-current={step === index ? 'step' : undefined}
+            disabled={saving || !!state.value.attempt || !!unavailableSteps[index]}
+            title={unavailableSteps[index]}
             onClick={() => state.update((current) => ({ ...current, step: index }))}
           >
             <span>{index + 1}</span>
@@ -386,7 +403,9 @@ export function CharacterCreator({
                 repository={compendium}
                 classLevelInputs={classLevelInputs}
                 spellEntries={spellEntries.current}
-                onGoToStep={(step) => state.update(current => ({ ...current, step }))}
+                onGoToStep={(step) => {
+                  if (!unavailableSteps[step]) state.update((current) => ({ ...current, step }));
+                }}
                 onChange={(change, inputs) => {
                   setError('');
                   state.update((current) => {
@@ -504,15 +523,16 @@ export function CharacterCreator({
           <div className="creation-navigation">
             <button
               className="button secondary"
-              disabled={step === 0 || saving}
-              onClick={() => state.update((current) => ({ ...current, step: step - 1 }))}
+              disabled={step === 0 || saving || !!state.value.attempt}
+              onClick={() => state.update((current) => ({ ...current, step: adjacentStep(-1) }))}
             >
               Etapa anterior
             </button>
             {step < 6 ? (
               <button
                 className="button"
-                onClick={() => state.update((current) => ({ ...current, step: step + 1 }))}
+                disabled={saving || !!state.value.attempt || stageLoading}
+                onClick={() => state.update((current) => ({ ...current, step: adjacentStep(1) }))}
               >
                 Próxima etapa
               </button>

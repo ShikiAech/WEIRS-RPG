@@ -160,7 +160,11 @@ export function ClassStep(props: StepProps) {
       <ChoicePanel equipment="omit" {...props} prefixes={['class:', 'subclass:']} />
       <p>
         Os kits e moedas da classe inicial estão em{' '}
-        <button type="button" onClick={() => props.onGoToStep?.(4)}>
+        <button
+          type="button"
+          disabled={!draft.classes.length}
+          onClick={() => props.onGoToStep?.(4)}
+        >
           5 · Vida e defesas
         </button>
         .

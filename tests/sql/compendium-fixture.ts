@@ -53,6 +53,24 @@ export async function compendiumFixture() {
         'utf8',
       ),
     );
+    await fixture.db.exec(
+      await readFile(
+        new URL(
+          '../../supabase/migrations/202610280019_compendio_escolhas_proficiencia.sql',
+          import.meta.url,
+        ),
+        'utf8',
+      ),
+    );
+    await fixture.db.exec(
+      await readFile(
+        new URL(
+          '../../supabase/migrations/202610280020_compendio_contexto_seletivo.sql',
+          import.meta.url,
+        ),
+        'utf8',
+      ),
+    );
     await fixture.db.query('INSERT INTO public.administradores(usuario_id) VALUES($1)', [
       fixture.outsider,
     ]);

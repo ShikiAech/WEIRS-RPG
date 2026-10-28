@@ -40,6 +40,16 @@ async function request<T>(
     return data as T;
   } catch (error) {
     cancelled(signal);
+    // Older installations keep working until the additive reader migration is applied.
+    // Do not repeat slow, unauthorized or otherwise failed reads through the legacy graph.
+    if (
+      name === 'obter_compendio_seletivo' &&
+      error &&
+      typeof error === 'object' &&
+      'code' in error &&
+      error.code === 'PGRST202'
+    )
+      return request<T>(client, 'obter_compendio', args, signal);
     if (error instanceof CompendiumError) throw error;
     throw new CompendiumError('UNAVAILABLE');
   }
@@ -59,7 +69,7 @@ export function createCompendiumRepository(client: SupabaseClient): CompendiumRe
     const ids = [...new Set(requestedRefs.map((r) => r.revisionId))];
     const raw = await request<DatabaseCatalog>(
       client,
-      'obter_compendio',
+      'obter_compendio_seletivo',
       { p_revisoes: ids, p_conjunto: rules },
       signal,
     );

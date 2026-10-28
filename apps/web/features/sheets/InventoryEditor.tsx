@@ -15,7 +15,7 @@ import {
 } from '../../../../packages/sheets/equipamentos.js';
 import { attributeOptions, number } from './fields';
 import type { FieldSpec } from './fields';
-import { SheetActionButtons } from './SheetChat';
+import { SheetActionButtons, SheetDescriptionTitle } from './SheetChat';
 
 export type RenderField = (spec: FieldSpec, path?: string) => ReactNode;
 const text = (key: string, label: string, long = false): FieldSpec => ({
@@ -235,7 +235,14 @@ export function InventoryEditor({
                   </div>
                   {attacks.map(({ a, index }, ai) => (
                     <fieldset className="equipment-attack" key={a.id}>
-                      <legend>{a.nome || `Ataque ${ai + 1}`}</legend>
+                      <legend>
+                        <SheetDescriptionTitle
+                          path="ataques"
+                          entry={a as unknown as Record<string, unknown>}
+                        >
+                          {a.nome || `Ataque ${ai + 1}`}
+                        </SheetDescriptionTitle>
+                      </legend>
                       <div className="field-grid">
                         {field(text('nome', 'Nome do ataque'), `ataques.${index}.nome`)}
                         {field(

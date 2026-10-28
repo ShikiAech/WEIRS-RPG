@@ -44,6 +44,7 @@ interface DropdownProps {
   emptyText?: string;
   popupLabel?: string;
   summary?: ReactNode;
+  selectedContent?: ReactNode;
   resetKey?: string;
 }
 
@@ -77,6 +78,7 @@ export function Dropdown({
   emptyText = 'Nenhuma opção encontrada. Experimente outro nome.',
   popupLabel = multiple ? `Opções de ${label}` : label,
   summary,
+  selectedContent,
   resetKey,
 }: DropdownProps) {
   const id = useId();
@@ -162,7 +164,21 @@ export function Dropdown({
       <label htmlFor={id} className="dropdown-label">
         {label}
       </label>
-      <div className="dropdown-control">
+      <div className={`dropdown-control${selectedContent ? ' dropdown-control-multiple' : ''}`}>
+        {selectedContent && (
+          <div
+            className="dropdown-selected"
+            onMouseDown={(event) => {
+              // Let labels forward clicks without blurring the search before their checkbox receives focus.
+              if (event.target instanceof Element) {
+                const control = event.target.closest('input,button,a,select,textarea,[tabindex]');
+                if (!control || !event.currentTarget.contains(control)) event.preventDefault();
+              }
+            }}
+          >
+            {selectedContent}
+          </div>
+        )}
         <input
           ref={input}
           id={id}

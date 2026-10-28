@@ -362,7 +362,7 @@ test('criação autenticada repete a mesma tentativa depois de resposta perdida'
   expect(backend.state.rows).toHaveLength(1);
   await expect(page.getByRole('button', { name: 'Revisar escolhas', exact: true })).toHaveCount(0);
   await expect(page.getByLabel('Nome do personagem', { exact: true })).toBeDisabled();
-  await page.route('**/rest/v1/rpc/obter_compendio', (route) =>
+  await page.route(/\/rest\/v1\/rpc\/obter_compendio(?:_seletivo)?(?:\?.*)?$/, (route) =>
     route.fulfill({ status: 503, json: { message: 'Indisponível' } }),
   );
   page.once('dialog', (dialog) => dialog.accept());
@@ -391,7 +391,7 @@ test('indisponibilidade das regras mantém atributos e logout encerra o rascunho
 }) => {
   await creationBackend(page);
   let failures = 1;
-  await page.route('**/rest/v1/rpc/obter_compendio', async (route) => {
+  await page.route(/\/rest\/v1\/rpc\/obter_compendio(?:_seletivo)?(?:\?.*)?$/, async (route) => {
     if (failures-- > 0) return route.fulfill({ status: 503, json: { message: 'SQL privado' } });
     return route.fallback();
   });
@@ -445,7 +445,7 @@ test('editar atributos durante falha do catálogo preserva escolhas existentes',
     },
   ];
   let unavailable = false;
-  await page.route('**/rest/v1/rpc/obter_compendio', (route) =>
+  await page.route(/\/rest\/v1\/rpc\/obter_compendio(?:_seletivo)?(?:\?.*)?$/, (route) =>
     unavailable
       ? route.fulfill({ status: 503, json: { message: 'Indisponível' } })
       : route.fallback(),

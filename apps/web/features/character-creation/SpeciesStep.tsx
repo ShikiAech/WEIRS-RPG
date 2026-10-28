@@ -154,6 +154,7 @@ export function SpeciesStep(props: StepProps) {
                 Esta espécie exige uma linhagem, mas nenhuma está disponível no compêndio.
               </p>
             )}
+          <ChoicePanel {...props} prefixes={['species', 'lineage']} />
           {traits.length > 0 && (
             <div className="creation-species-traits">
               <h3>Traços da espécie</h3>
@@ -171,7 +172,6 @@ export function SpeciesStep(props: StepProps) {
           </details>
         </>
       )}
-      <ChoicePanel {...props} prefixes={['species', 'lineage']} />
     </section>
   );
 }

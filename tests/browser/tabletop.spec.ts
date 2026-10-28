@@ -345,6 +345,8 @@ test('régua trava vértices com botão direito e soma o percurso sem mover o ma
       [13, 8],
       [13, 11],
       [14, 11],
+      [8.5, 11.5],
+      [9.5, 11.5],
     ].map(([x, y]) => {
       const point = svg.createSVGPoint();
       point.x = x * 64;
@@ -373,17 +375,18 @@ test('régua trava vértices com botão direito e soma o percurso sem mover o ma
   await expect(canvas.locator('text').filter({ hasText: /^15 pés$/ })).toHaveCount(1);
   await expect(canvas.locator('text').filter({ hasText: /^25 pés$/ })).toHaveCount(1);
   await expect(canvas.locator('text').filter({ hasText: /^40 pés$/ })).toHaveCount(1);
-  // A new drag starts a fresh measurement, without the previous vertices.
-  await page.mouse.move(positions[3].x, positions[3].y);
+  // Start a fresh measurement outside the options panel, which becomes
+  // interactive again after the preceding drag finishes.
+  await page.mouse.move(positions[5].x, positions[5].y);
   await page.mouse.down();
-  await page.mouse.move(positions[4].x, positions[4].y);
+  await page.mouse.move(positions[6].x, positions[6].y);
   await page.mouse.up();
   await expect(page.locator('.map-status')).toHaveText(/^5 pés ·/);
   await expect(canvas.locator('text').filter({ hasText: /^25 pés$/ })).toHaveCount(0);
   // Releasing left first must finish, even if right is still held.
-  await page.mouse.move(positions[3].x, positions[3].y);
+  await page.mouse.move(positions[5].x, positions[5].y);
   await page.mouse.down();
-  await page.mouse.move(positions[4].x, positions[4].y);
+  await page.mouse.move(positions[6].x, positions[6].y);
   await page.mouse.down({ button: 'right' });
   await page.mouse.up();
   await page.mouse.move(positions[0].x, positions[0].y);

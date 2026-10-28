@@ -225,8 +225,17 @@
   align-items: center;
   gap: 5px;
 }
+.tabletop-map.is-measuring .map-ruler-options {
+  pointer-events: none;
+}
 .map-ruler-options input[type='number'] {
   width: 70px;
+}
+.map-ruler-options input[type='color'] {
+  width: 44px;
+  height: 36px;
+  min-height: 36px;
+  padding: 3px;
 }
 .map-administration {
   right: 10px;
@@ -306,6 +315,14 @@
   padding: 8px 0;
 }
 
+.tabletop-map:has(.map-ruler-options) .map-administration,
+.tabletop-map:has(.map-ruler-options) .map-player-token,
+.tabletop-map:has(.map-drawer) .map-administration,
+.tabletop-map:has(.map-drawer) .map-player-token {
+  display: none;
+}
+
+.tabletop-shell:has(.map-ruler-options) .dice-floating:not(:has(.dice-tray[data-phase='rolando'])),
 .tabletop-shell:has(.map-administration[open])
   .dice-floating:not(:has(.dice-tray[data-phase='rolando'])) {
   visibility: hidden;
