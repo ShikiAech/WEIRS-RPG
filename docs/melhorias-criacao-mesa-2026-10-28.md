@@ -28,6 +28,8 @@ A régua usa centros de células para início, vértices e fim. As opções perm
 
 O posicionamento de áreas de magia apresenta uma prévia antes da gravação, orientação ajustável e confirmação ou cancelamento. Áreas ancoradas acompanham o token; a aura continua sendo uma indicação visual, sem aplicar efeitos de jogo automaticamente.
 
+Áreas vinculadas também dependem da visibilidade atual do token de origem: se ele estiver fora da visão, o efeito vinculado não aparece para aquele participante, mesmo quando alcança uma região visível. O mestre mantém seu acesso, e o dono conserva o acesso autorizado ao próprio token. Para mostrar um efeito independentemente da origem, desvincule a área do token.
+
 A seleção múltipla funciona com os tokens controlados pelo usuário e mantém o limite de 40 tokens por operação. Operações em grupo são atômicas: permissão insuficiente ou versão antiga de um integrante impede o lote inteiro. Remover um token do mapa não exclui sua ficha.
 
 O mestre administra camadas, visibilidade e destinatários das cenas. Camadas privadas não entregam suas entidades e referências privadas aos jogadores. Um jogador só recebe a cena atribuída; o mestre pode visualizar outra cena sem mudar o mapa da mesa inteira.
@@ -56,3 +58,22 @@ Informações já publicadas no chat e na iniciativa compartilhada permanecem p�
 6. Publique a Edge Function de criação com o motor atualizado e o frontend correspondente. Confira as permissões e o transporte de atualização no ambiente de destino.
 
 Testes SQL locais e testes de navegador com backend simulado têm finalidades diferentes. Um teste simulado de interface não confirma as políticas ou a entrega de eventos do Supabase hospedado. Os registros de validação e eventuais limitações do ambiente devem acompanhar a revisão da alteração.
+
+
+## Validação local desta alteração
+
+- 453 testes unitários e de banco passaram, incluindo histórico completo das migrações, permissões, recibos e transições de vínculo de áreas.
+- 36 verificações de navegador passaram em desktop e celular. O transporte HTTP/WebSocket é simulado; as políticas SQL são exercitadas no PostgreSQL do PGlite.
+- Typecheck e build de produção passaram; os 122 arquivos originais conferidos pelo verificador de publicação permaneceram idênticos.
+- A atualização do compêndio preservou o conteúdo das 3.563 revisões anteriores; aplicar o novo seed novamente não gerou conflito.
+
+O runtime Node empacotado apresentou uma falha nativa de JIT do WebAssembly durante um teste do PGlite. A execução final dos testes usou `node --no-wasm-tier-up --import tsx --test tests/*.test.js tests/*.test.ts`; nenhuma configuração de produção foi alterada. O build ainda apresenta o aviso de tamanho de alguns chunks. A entrega de eventos no Supabase hospedado precisa ser conferida na publicação.
+
+## Escolhas de implementação
+
+- O trabalho fica em uma branch e checkout isolados e foi dividido em três frentes paralelas. Isso exige revisão de integração; a branch local deve ser integrada antes de publicar.
+- A validação global foi centralizada na integração, além dos testes focados de cada frente. Uma regressão entre frentes pode aparecer apenas nessa etapa; a suíte completa final cobre o conjunto.
+- As mensagens existentes de auditoria de PV foram mantidas. A entrada de uma expressão não acrescenta uma segunda mensagem automática de dados; a auditoria de PV continua aparecendo no chat.
+- A versão do resolvedor do compêndio passou de 6 para 7. Isso aumenta a carga de revisões novas e exige aplicar o seed correspondente, conservando os dados históricos.
+- Listas antigas de desenhos funcionam como acréscimo/atualização. Omitir uma identidade não pode apagar um desenho quando a leitura antiga não informa essas identidades; a remoção individual usa os controles atuais com versão.
+- Áreas vinculadas herdam a visibilidade atual do token de origem. O efeito também desaparece para quem não vê o token; desvincular permite sua exibição independente e remove os metadados privados da âncora, preservando posição e ângulo.

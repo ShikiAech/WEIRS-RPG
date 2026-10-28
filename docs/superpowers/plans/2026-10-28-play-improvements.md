@@ -1,6 +1,6 @@
 # Play improvements Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Deliver all approved creation, combat/chat and tabletop fixes, including the DOCX requirements and automatic vision.
 
@@ -121,9 +121,9 @@
 - Consumes: verified deliverables of Tasks 1–3 and their test reports.
 - Produces: integrated local feature branch, passing relevant checks, release instructions and a self-contained user summary identifying hosted release work separately.
 
-- [ ] Independently review each task's diff and report, and fix all actionable correctness/security/spec gaps with the owning worker.
-- [ ] Verify current campaign session/biography source counts and repair the known stale assertion with a meaningful source fixture/regression check.
-- [ ] Run full `node --import tsx --test tests/*.test.js tests/*.test.ts`, `node node_modules/typescript/bin/tsc --noEmit`, production build script equivalents and relevant Playwright suites; inspect desktop/mobile screenshots.
-- [ ] Exercise SQL policies directly, including hidden rows, storage references, actor/spectator/assignment changes and receipt replay. Run available local transport smoke or explicitly state if infrastructure prevents hosted/Realtime validation.
-- [ ] Obtain independent final code review, fix findings, rerun affected verification and update docs/ledger with exact evidence.
-- [ ] Commit only reviewed task files under the configured email. Keep the branch and worktree for user review; do not push/merge/publish without a subsequent release request.
+- [x] Independently review each task's diff and report, and fix all actionable correctness/security/spec gaps with the owning worker.
+- [x] Verify current campaign session/biography source counts and repair the known stale assertion with a meaningful source fixture/regression check.
+- [x] Run full `node --import tsx --test tests/*.test.js tests/*.test.ts`, `node node_modules/typescript/bin/tsc --noEmit`, production build script equivalents and relevant Playwright suites; inspect desktop/mobile screenshots.
+- [x] Exercise SQL policies directly, including hidden rows, storage references, actor/spectator/assignment changes and receipt replay. Run available local transport smoke or explicitly state if infrastructure prevents hosted/Realtime validation.
+- [x] Obtain independent final code review, fix findings, rerun affected verification and update docs/ledger with exact evidence.
+- [x] Commit only reviewed task files under the configured email. Keep the branch and worktree for user review; do not push/merge/publish without a subsequent release request.

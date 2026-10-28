@@ -97,8 +97,9 @@ BEGIN
  x:=(px-a.x)*cos(rad)+(py-a.y)*sin(rad); y:=-(px-a.x)*sin(rad)+(py-a.y)*cos(rad);
  RETURN CASE a.forma WHEN 'circulo' THEN x*x+y*y<=a.tamanho*a.tamanho WHEN 'quadrado' THEN abs(x)<=a.tamanho/2 AND abs(y)<=a.tamanho/2 WHEN 'linha' THEN x BETWEEN 0 AND a.tamanho AND abs(y)<=a.largura/2 ELSE x BETWEEN 0 AND a.tamanho AND abs(y)<=x/2 END;
 END $$;
+-- Anchor offsets reveal the source position; linked effects inherit source visibility.
 CREATE OR REPLACE FUNCTION private.area_mapa_visivel(a public.areas_mapa) RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path='' AS $$
- SELECT private.camada_visivel(a.camada_id,a.cena_id) AND (a.token_id IS NULL OR EXISTS(SELECT 1 FROM public.tokens_mapa t WHERE t.id=a.token_id AND private.camada_visivel(t.camada_id,t.cena_id) AND (NOT t.oculto OR private.papel_na_campanha(t.campanha_id)='mestre'))) AND
+ SELECT private.camada_visivel(a.camada_id,a.cena_id) AND (a.token_id IS NULL OR EXISTS(SELECT 1 FROM public.tokens_mapa t WHERE t.id=a.token_id AND private.token_visivel(t))) AND
  (private.papel_na_campanha(a.campanha_id)='mestre' OR EXISTS(SELECT 1 FROM public.cenas_mapa c WHERE c.id=a.cena_id AND (c.modo_visao='manual' OR EXISTS(SELECT 1 FROM private.visibilidade_mapa v JOIN public.revisoes_mapa r ON r.campanha_id=c.campanha_id CROSS JOIN unnest(v.atual) cell WHERE v.cena_id=c.id AND v.usuario_id=auth.uid() AND v.revisao=r.revisao AND private.area_cobre(a,split_part(cell,',',1)::numeric+.5,split_part(cell,',',2)::numeric+.5)))))
 $$;
 CREATE FUNCTION private.objeto_visivel(o public.objetos_mapa) RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path='' AS $$

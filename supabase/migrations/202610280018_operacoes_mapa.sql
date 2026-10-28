@@ -1,4 +1,20 @@
 BEGIN;
+-- Detached effects expose world geometry only, never their former source's
+-- offsets or rotation. Normalize every write, including RPC RETURNING rows.
+CREATE FUNCTION private.normalizar_ancora_area_mapa() RETURNS trigger LANGUAGE plpgsql SET search_path='' AS $$
+BEGIN
+ IF NEW.token_id IS NULL THEN
+  NEW.ancora_dx:=NULL; NEW.ancora_dy:=NULL;
+  NEW.ancora_rotacao:=0; NEW.ancora_angulo:=0; NEW.acompanhar_rotacao:=false;
+ END IF;
+ RETURN NEW;
+END $$;
+REVOKE ALL ON FUNCTION private.normalizar_ancora_area_mapa() FROM PUBLIC,anon,authenticated;
+CREATE TRIGGER normalizar_ancora_area BEFORE INSERT OR UPDATE ON public.areas_mapa
+ FOR EACH ROW EXECUTE FUNCTION private.normalizar_ancora_area_mapa();
+-- Existing detached rows pass through the same invariant; geometry is untouched.
+UPDATE public.areas_mapa SET versao=versao+1 WHERE token_id IS NULL AND
+ (ancora_dx IS NOT NULL OR ancora_dy IS NOT NULL OR ancora_rotacao<>0 OR ancora_angulo<>0 OR acompanhar_rotacao);
 ALTER TABLE private.operacoes_mapa ADD COLUMN cena_id uuid, ADD COLUMN camada_id uuid, ADD COLUMN exclusao_legada boolean NOT NULL DEFAULT false;
 -- Backfill old deletion receipts from historical full entity receipts, without
 -- exposing their payloads. Seeded layer identity is immutable, unlike its name.
