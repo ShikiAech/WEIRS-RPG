@@ -1,3 +1,4 @@
+import { MapDraftInput } from './MapDraftInput';
 import {
   useEffect,
   useId,
@@ -183,6 +184,8 @@ export function Tabletop({
         : null,
     [scene, map.snapshot, visionPreview, selection],
   );
+  const isTokenSyncing = (token: TokenRecord) => map.syncingTokenIds.has(token.id);
+  const selectionSyncing = selectedTokens.some(isTokenSyncing);
   const canMove = (token: TokenRecord) =>
     !spectator &&
     (master ||
@@ -371,6 +374,7 @@ export function Tabletop({
     if (tool !== 'select' || event.button !== 0) return;
     event.stopPropagation();
     event.preventDefault();
+    if (isTokenSyncing(token)) return;
     svg.current?.focus();
     const movableSelection = selection.filter((id) =>
       tokens.some((t) => t.id === id && canMove(t)),
@@ -392,7 +396,7 @@ export function Tabletop({
       event.metaKey ||
       map.locked ||
       !canMove(token) ||
-      tokens.some((t) => ids.includes(t.id) && !canMove(t))
+      tokens.some((t) => ids.includes(t.id) && (!canMove(t) || isTokenSyncing(t)))
     )
       return;
     svg.current!.setPointerCapture(event.pointerId);
@@ -510,7 +514,12 @@ export function Tabletop({
         map.locked ||
         !(action.tokens || [action.token]).every((source) => {
           const current = tokens.find((token) => token.id === source.id);
-          return current && current.versao === source.versao && canMove(current);
+          return (
+            current &&
+            current.versao === source.versao &&
+            canMove(current) &&
+            !isTokenSyncing(current)
+          );
         });
     if (action.kind === 'ruler' && !cancel && (event.buttons & 1) !== 0) return;
     if (action.kind === 'ruler')
@@ -652,7 +661,7 @@ export function Tabletop({
       )
     : { x: 1, y: 1 };
   const toggleDrawer = (next: 'scenes' | 'assets' | 'token' | 'areas' | 'selection') => {
-    if (map.locked || fileBusy) return;
+    if (map.loading || fileBusy) return;
     cancelGesture();
     setTool('select');
     setDrawer((previous) => (previous === next ? '' : next));
@@ -699,7 +708,7 @@ export function Tabletop({
     };
   }
   async function duplicate() {
-    if (!master || map.locked || !scene || !selectedTokens.length) return;
+    if (!master || map.locked || selectionSyncing || !scene || !selectedTokens.length) return;
     const delta = groupDelta(selectedTokens, { x: 1, y: 1 }, scene.largura, scene.altura);
     const result = await operate({
       tipo: 'tokens_duplicar',
@@ -714,7 +723,14 @@ export function Tabletop({
     }
   }
   function moveSelection(delta: Point) {
-    if (!scene || map.locked || !selectedTokens.length || !selectedTokens.every(canMove)) return;
+    if (
+      !scene ||
+      map.locked ||
+      selectionSyncing ||
+      !selectedTokens.length ||
+      !selectedTokens.every(canMove)
+    )
+      return;
     const bounded = groupDelta(selectedTokens, delta, scene.largura, scene.altura, scene.grade);
     if (!bounded.x && !bounded.y) return;
     if (selectedTokens.length === 1)
@@ -748,7 +764,7 @@ export function Tabletop({
           key={d.name}
           type="button"
           aria-label={'Mover seleção para ' + d.name}
-          disabled={map.locked}
+          disabled={map.locked || selectionSyncing}
           onClick={() => moveSelection({ x: d.x, y: d.y })}
         >
           {d.symbol}
@@ -922,7 +938,13 @@ export function Tabletop({
                 }
                 return;
               }
-              if (tool !== 'select' || !selectedToken || map.locked || !canMove(selectedToken))
+              if (
+                tool !== 'select' ||
+                !selectedToken ||
+                map.locked ||
+                isTokenSyncing(selectedToken) ||
+                !canMove(selectedToken)
+              )
                 return;
               const directions: Record<string, Point> = {
                 ArrowLeft: { x: -1, y: 0 },
@@ -1104,7 +1126,8 @@ export function Tabletop({
                     dimension = token.tamanho * CELL,
                     center = dimension / 2,
                     radius = dimension * 0.43,
-                    vitals = currentVitals(token);
+                    vitals = currentVitals(token),
+                    syncing = isTokenSyncing(token);
                   const active =
                     mesa?.estado.combate.ativo &&
                     currentCombatant(token)?.id === mesa.estado.combate.turno;
@@ -1119,16 +1142,19 @@ export function Tabletop({
                           role="button"
                           tabIndex={0}
                           aria-label={'Token ' + token.nome}
+                          aria-busy={syncing || undefined}
+                          aria-disabled={syncing || undefined}
                           aria-pressed={selection.includes(token.id)}
                           data-token-id={token.id}
                           className={
                             'map-token' +
+                            (syncing ? ' syncing-token' : '') +
                             (token.oculto ? ' hidden-token' : '') +
                             (selection.includes(token.id) ? ' selected-token' : '')
                           }
                           onPointerDown={(event) => beginToken(event, token)}
                           onFocus={() => {
-                            if (multiSelecting) return;
+                            if (multiSelecting || syncing) return;
                             setSelected(token.id);
                             setSelection((ids) => (ids.includes(token.id) ? ids : [token.id]));
                             setDeleteConfirm(false);
@@ -1137,9 +1163,20 @@ export function Tabletop({
                             event.stopPropagation();
                           }}
                           onDoubleClick={() => {
-                            if (canOpen(token)) onOpenSheet?.(token.ficha_id!);
+                            if (!syncing && canOpen(token)) onOpenSheet?.(token.ficha_id!);
                           }}
                           onKeyDown={(event) => {
+                            if (syncing) {
+                              if (
+                                event.key.startsWith('Arrow') ||
+                                event.key === 'Enter' ||
+                                event.key === ' '
+                              ) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                              }
+                              return;
+                            }
                             if (event.key === 'Enter' || event.key === ' ') {
                               event.preventDefault();
                               event.stopPropagation();
@@ -1159,6 +1196,7 @@ export function Tabletop({
                         >
                           <title>
                             {token.nome}
+                            {syncing ? ' · Sincronizando com o servidor…' : ''}
                             {token.oculto ? ' · Somente mestres' : ''}
                             {token.bloqueado ? ' · Movimento bloqueado' : ''}
                             {vitals ? ` · PV ${vitals.current}/${vitals.max}` : ''}
@@ -1211,6 +1249,35 @@ export function Tabletop({
                                 .join('')
                                 .toUpperCase()}
                             </text>
+                          )}
+                          {syncing && (
+                            <g className="map-token-sync" pointerEvents="none" aria-hidden="true">
+                              <circle
+                                cx={center}
+                                cy={center}
+                                r={radius}
+                                fill="#111318"
+                                fillOpacity={0.68}
+                              />
+                              <g transform={`translate(${center} ${center})`}>
+                                <circle
+                                  r={radius * 0.5}
+                                  fill="none"
+                                  stroke="#fff1c6"
+                                  strokeOpacity={0.25}
+                                  strokeWidth={2.5 / camera.zoom}
+                                />
+                                <circle
+                                  className="map-token-sync-ring"
+                                  r={radius * 0.5}
+                                  fill="none"
+                                  stroke="#fff1c6"
+                                  strokeWidth={2.5 / camera.zoom}
+                                  strokeLinecap="round"
+                                  strokeDasharray={`${radius * 0.8} ${radius * 2.35}`}
+                                />
+                              </g>
+                            </g>
                           )}
                           {token.rotacao !== 0 && (
                             <path
@@ -1534,7 +1601,7 @@ export function Tabletop({
             title={item.label}
             aria-label={item.label}
             aria-pressed={tool === item.key}
-            disabled={!scene || ((item.key === 'fog' || item.key === 'draw') && map.locked)}
+            disabled={!scene || map.loading}
             onClick={() => chooseTool(item.key)}
           >
             {item.symbol}
@@ -1546,7 +1613,7 @@ export function Tabletop({
           title="Cenas e mapas"
           aria-label="Cenas e mapas"
           aria-pressed={drawer === 'scenes'}
-          disabled={map.locked || fileBusy}
+          disabled={map.loading || fileBusy}
           onClick={() => toggleDrawer('scenes')}
         >
           ▧
@@ -1556,7 +1623,7 @@ export function Tabletop({
           title="Arquivos da campanha"
           aria-label="Arquivos da campanha"
           aria-pressed={drawer === 'assets'}
-          disabled={map.locked || fileBusy}
+          disabled={map.loading || fileBusy}
           onClick={() => toggleDrawer('assets')}
         >
           ▱
@@ -1566,7 +1633,7 @@ export function Tabletop({
             type="button"
             title="Novo token"
             aria-label="Novo token"
-            disabled={!scene || map.locked || fileBusy}
+            disabled={!scene || map.loading || fileBusy}
             onClick={() => {
               cancelGesture();
               setTool('select');
@@ -1583,7 +1650,7 @@ export function Tabletop({
             title="Áreas de magia"
             aria-label="Áreas de magia"
             aria-pressed={drawer === 'areas'}
-            disabled={!scene || map.locked}
+            disabled={!scene || map.loading}
             onClick={() => {
               cancelGesture();
               setTool('select');
@@ -1605,7 +1672,7 @@ export function Tabletop({
           title="Lista de tokens"
           aria-label="Lista de tokens"
           aria-pressed={drawer === 'selection'}
-          disabled={!scene || map.locked}
+          disabled={!scene || map.loading}
           onClick={() => toggleDrawer('selection')}
         >
           ☷
@@ -1727,7 +1794,8 @@ export function Tabletop({
                 !!session.attempt ||
                 session.loading ||
                 session.denied ||
-                map.locked
+                map.locked ||
+                selectionSyncing
               }
               onOpenSheet={onOpenSheet}
               onRoll={onRoll}
@@ -1747,24 +1815,25 @@ export function Tabletop({
                 </p>
                 <label>
                   Altura (pés)
-                  <input
+                  <MapDraftInput
                     type="number"
-                    defaultValue={selectedToken.elevacao || 0}
-                    key={selectedToken.versao}
-                    onBlur={(e) => {
-                      if (Number(e.target.value) !== (selectedToken.elevacao || 0))
-                        void operate({
+                    value={selectedToken.elevacao || 0}
+                    key={selectedToken.id}
+                    disabled={map.locked || selectionSyncing}
+                    onCommit={(value) => {
+                      if (Number(value) !== (selectedToken.elevacao || 0))
+                        return operate({
                           tipo: 'token_atualizar',
                           id: selectedToken.id,
                           versao: selectedToken.versao,
-                          patch: { elevacao: Number(e.target.value) },
+                          patch: { elevacao: Number(value) },
                         });
                     }}
                   />
                 </label>
                 <button
                   type="button"
-                  disabled={map.locked}
+                  disabled={map.locked || selectionSyncing}
                   onClick={() =>
                     void operate({
                       tipo: 'token_excluir',
@@ -1785,7 +1854,7 @@ export function Tabletop({
               <button
                 type="button"
                 className="text-button"
-                disabled={map.locked}
+                disabled={map.locked || selectionSyncing}
                 onClick={() => {
                   setTokenEditor(selectedToken);
                   setDrawer('token');
@@ -1798,7 +1867,7 @@ export function Tabletop({
               <button
                 type="button"
                 className="text-button"
-                disabled={map.locked}
+                disabled={map.locked || selectionSyncing}
                 onClick={() => void duplicate()}
               >
                 Duplicar seleção
@@ -1815,7 +1884,7 @@ export function Tabletop({
             <button
               type="button"
               className="text-button"
-              disabled={map.locked}
+              disabled={map.locked || selectionSyncing}
               onClick={() => void duplicate()}
             >
               Duplicar seleção

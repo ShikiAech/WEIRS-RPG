@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { MapDraftInput } from './MapDraftInput';
 import type {
   MapCommand,
   MapSnapshot,
@@ -51,9 +52,15 @@ export function LayerTools({
         className="button secondary"
         type="button"
         disabled={!name.trim()}
-        onClick={() => {
-          operate({ tipo: 'camada_criar', cena_id: scene.id, nome: name, ordem: layers.length });
-          setName('');
+        onClick={async () => {
+          const submitted = name;
+          const result = await operate({
+            tipo: 'camada_criar',
+            cena_id: scene.id,
+            nome: submitted,
+            ordem: layers.length,
+          });
+          if (result) setName((current) => (current === submitted ? '' : current));
         }}
       >
         Criar camada
@@ -62,32 +69,31 @@ export function LayerTools({
         <div key={l.id}>
           <label>
             Nome
-            <input
-              defaultValue={l.nome}
-              key={`${l.id}:${l.versao}`}
-              onBlur={(e) => {
-                if (e.target.value !== l.nome)
-                  operate({
+            <MapDraftInput
+              value={l.nome}
+              onCommit={(value) => {
+                if (value !== l.nome)
+                  return operate({
                     tipo: 'camada_atualizar',
                     id: l.id,
                     versao: l.versao,
-                    patch: { nome: e.target.value },
+                    patch: { nome: value },
                   });
               }}
             />
           </label>
           <label>
             Ordem
-            <input
+            <MapDraftInput
               type="number"
-              defaultValue={l.ordem}
-              onBlur={(e) => {
-                if (Number(e.target.value) !== l.ordem)
-                  operate({
+              value={l.ordem}
+              onCommit={(value) => {
+                if (Number(value) !== l.ordem)
+                  return operate({
                     tipo: 'camada_atualizar',
                     id: l.id,
                     versao: l.versao,
-                    patch: { ordem: Number(e.target.value) },
+                    patch: { ordem: Number(value) },
                   });
               }}
             />
@@ -199,20 +205,19 @@ export function LayerTools({
             {(['x', 'y', 'w', 'h'] as const).map((key) => (
               <label key={key}>
                 {{ x: 'Posição X', y: 'Posição Y', w: 'Largura', h: 'Altura' }[key]} (células)
-                <input
+                <MapDraftInput
                   type="number"
                   step="any"
                   min={key === 'w' || key === 'h' ? 0.01 : 0}
                   max={100}
-                  defaultValue={o[key]}
-                  key={`${o.id}:${key}:${o.versao}`}
-                  onBlur={(e) => {
-                    if (Number(e.target.value) !== o[key])
-                      operate({
+                  value={o[key]}
+                  onCommit={(value) => {
+                    if (Number(value) !== o[key])
+                      return operate({
                         tipo: 'objeto_atualizar',
                         id: o.id,
                         versao: o.versao,
-                        patch: { [key]: Number(e.target.value) },
+                        patch: { [key]: Number(value) },
                       });
                   }}
                 />

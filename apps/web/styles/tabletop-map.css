@@ -38,6 +38,18 @@
   cursor: pointer;
   outline: none;
 }
+.map-token.syncing-token {
+  cursor: wait;
+}
+.map-token-sync-ring {
+  transform-origin: 0 0;
+  animation: map-token-sync-spin 0.9s linear infinite;
+}
+@keyframes map-token-sync-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 .map-token:focus-visible > circle:first-of-type {
   stroke: #fff3bc;
   stroke-width: 6;
@@ -64,6 +76,9 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
+  .map-token-sync-ring {
+    animation: none;
+  }
   .map-ping .ping-halo {
     animation: none;
     opacity: 0.75;

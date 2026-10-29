@@ -186,8 +186,8 @@ for (const action of ['drop', 'layer', 'automatic-drop', 'fog'] as const) {
       await page.getByRole('button', { name: 'Criar camada', exact: true }).click();
     }
     await expect.poll(() => refreshStarted).toBe(true);
-    // Observe the dirty revision itself, not just the new snapshot after it.
-    await expect(page.getByRole('button', { name: 'Token Zephira', exact: true })).toHaveCount(0);
+    // Revalidation retains the complete previously authorized scene, including entities.
+    await expect(page.getByRole('button', { name: 'Token Zephira', exact: true })).toBeVisible();
     await expect(image).toBeVisible();
     await expect(image).toHaveAttribute('href', initialHref!);
     if (action === 'automatic-drop') expect(await mask.innerHTML()).toBe(initialMask);
@@ -223,12 +223,15 @@ for (const action of ['drop', 'layer', 'automatic-drop', 'fog'] as const) {
   });
 }
 
-test('old background pixels are never revealed through a cached mask after geometry changes', async ({
+test('geometry and its visibility mask stay coherent until the next snapshot is ready', async ({
   page,
 }) => {
   const { maps, chat, image, downloads } = await openMap(page, false, true);
   const initialHref = await image.getAttribute('href');
   const initialDownloads = downloads();
+  const initialX = await image.getAttribute('x');
+  const mask = page.locator('mask[id^="automaticFog"]');
+  const initialMask = await mask.innerHTML();
   const snapshot = gate();
   let started = false;
   await page.route('https://weirs-test.supabase.co/rest/v1/rpc/ler_mapa_visivel', async (route) => {
@@ -245,12 +248,11 @@ test('old background pixels are never revealed through a cached mask after geome
     revisao_fundo: maps.backgroundRevision,
   });
   await expect.poll(() => started).toBe(true);
-  await expect(image).toHaveAttribute('x', String(2 * CELL));
-  const mask = page.locator('mask[id^="automaticFog"]');
-  await expect(mask.locator('rect[fill="black"]')).toHaveCount(0);
-  await expect(mask.locator('rect[fill="#777"]')).toHaveCount(0);
-  await expect(page.getByRole('button', { name: 'Token Zephira', exact: true })).toHaveCount(0);
+  await expect(image).toHaveAttribute('x', initialX!);
+  expect(await mask.innerHTML()).toBe(initialMask);
+  await expect(page.getByRole('button', { name: 'Token Zephira', exact: true })).toBeVisible();
   snapshot.resolve();
+  await expect(image).toHaveAttribute('x', String(2 * CELL));
   await expect(page.getByRole('button', { name: 'Token Zephira', exact: true })).toBeVisible();
   await expect(mask.locator('rect[fill="black"]').first()).toBeAttached();
   await expect(image).toHaveAttribute('href', initialHref!);
@@ -293,9 +295,9 @@ test('presentation mask keeps the geometry from its authoritative snapshot when 
   await expect.poll(() => started).toBe(true);
   await expect(
     page.getByRole('button', { name: 'Token Zephira atualizada', exact: true }),
-  ).toHaveCount(0);
+  ).toBeVisible();
   await expect(image).toBeVisible();
-  await expect(mask.locator('rect[fill="black"]')).toHaveCount(0);
+  await expect(mask.locator('rect[fill="black"][width="1536"]').first()).toBeAttached();
   read.resolve();
   await expect(
     page.getByRole('button', { name: 'Token Zephira atualizada', exact: true }),
@@ -325,7 +327,9 @@ test('an older authorized asset response cannot restore a revoked background', a
     revisao: 2,
     revisao_fundo: 2,
   });
-  await expect(image).toHaveCount(0);
+  // A notification is not authorization data; preserve the known view while the
+  // older read is in flight, but never accept that read after the newer hint.
+  await expect(image).toBeVisible();
   staleRead.resolve();
   await expect(
     page.getByRole('button', { name: 'Arquivos da campanha', exact: true }),
@@ -344,7 +348,7 @@ test('an older authorized asset response cannot restore a revoked background', a
 });
 
 for (const event of ['revoked-then-moved', 'legacy', 'reconnect'] as const) {
-  test(`background access fails closed during ${event} with a delayed refresh`, async ({
+  test(`background stays stable during ${event} and disappears on confirmed revocation`, async ({
     page,
   }) => {
     const { maps, chat, image, downloads } = await openMap(page);
@@ -373,11 +377,11 @@ for (const event of ['revoked-then-moved', 'legacy', 'reconnect'] as const) {
       }
     } else publishInvalidation(chat, record);
     await expect.poll(() => started).toBe(true);
-    await expect(image).toHaveCount(0);
+    await expect(image).toBeVisible();
     if (event === 'revoked-then-moved') {
       maps.invalidationRevision++;
       publishInvalidation(chat, { ...record, revisao: 3 });
-      await expect(image).toHaveCount(0);
+      await expect(image).toBeVisible();
     }
     read.resolve();
     await expect(page.getByRole('button', { name: 'Token Zephira', exact: true })).toBeVisible();

@@ -55,6 +55,7 @@ export function MapAdministration({
         >
           <summary>Camadas, visão e participantes</summary>
           <LayerTools
+            key={'layers:' + scene.id}
             snapshot={map.snapshot}
             selected={selectedTokens}
             members={map.members}
@@ -70,6 +71,7 @@ export function MapAdministration({
             Prévia da visão dos tokens selecionados
           </label>
           <WallTools
+            key={'walls:' + scene.id}
             scene={scene}
             walls={map.snapshot.paredes}
             tokens={tokens}
