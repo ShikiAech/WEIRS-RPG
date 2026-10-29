@@ -29,7 +29,7 @@ export function MapAdministration({
   return (
     <>
       {' '}
-      {!master && !spectator && scene && (
+      {!master && !spectator && scene && selectedTokens.length < 2 && (
         <PlayerTokenTools scene={scene} records={records} disabled={map.locked} operate={operate} />
       )}
       {scene?.modo_visao === 'automatica' &&

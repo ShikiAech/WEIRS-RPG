@@ -12,6 +12,7 @@ import { createRepository } from '../lib/repository';
 import { createChatRepository, chatError } from '../lib/chat';
 import { catchUp, commandFromText, mergeMessages } from '../lib/chat-state';
 import { buildChatDamageAction } from './chat/damage-action';
+import { useChatDamageAvailability } from './chat/useChatDamageAvailability';
 import { Message } from './chat/Message';
 import { DicePanel, useDice3D } from './dice/Dice3D';
 import { SessionPanel } from './session/SessionPanel';
@@ -185,6 +186,15 @@ function Room({
   const mounted = useRef(true);
   const log = useRef<HTMLDivElement>(null);
   const scroll = useRef({ bottom: true, prependHeight: 0 });
+  const sheets = useMemo(() => createRepository(supabase!), []);
+  const hasDamage = useChatDamageAvailability(
+    messages,
+    sheets,
+    campaign.id,
+    userId,
+    liveRole,
+    canSend && !accessLost,
+  );
   useEffect(() => {
     repository.onRole = (next, id) => {
       if (!mounted.current || !next || id !== campaign.id) return;
@@ -260,7 +270,8 @@ function Room({
     let active = true,
       ready = false,
       syncing = false,
-      again = false;
+      again = false,
+      detachedAgain = false;
     let cursor = 0;
     let live = false;
     let lastCheck = Date.now();
@@ -272,10 +283,12 @@ function Room({
     function failed(error: unknown) {
       if (active) readFailed(error);
     }
-    async function sync() {
-      if (!active || forbidden.current || document.visibilityState === 'hidden') return;
+    async function sync(fromDetached = false) {
+      if (!active || forbidden.current || (!fromDetached && document.visibilityState === 'hidden'))
+        return;
       if (syncing) {
         again = true;
+        detachedAgain ||= fromDetached;
         return;
       }
       syncing = true;
@@ -303,8 +316,10 @@ function Room({
         syncing = false;
         if (active) setLoading(false);
         if (again) {
+          const fromDetached = detachedAgain;
           again = false;
-          void sync();
+          detachedAgain = false;
+          void sync(fromDetached);
         }
       }
     }
@@ -336,13 +351,16 @@ function Room({
     const resume = () => {
       void sync();
     };
+    const detachedResume = () => void sync(true);
     window.addEventListener('online', resume);
+    window.addEventListener('weirs:session-refresh', detachedResume);
     document.addEventListener('visibilitychange', resume);
     return () => {
       active = false;
       stop();
       window.clearInterval(timer);
       window.removeEventListener('online', resume);
+      window.removeEventListener('weirs:session-refresh', detachedResume);
       document.removeEventListener('visibilitychange', resume);
     };
   }, [campaign.id, repository, retry]);
@@ -439,9 +457,7 @@ function Room({
     setSendError('');
     const version = generation.current;
     try {
-      const command = await buildChatDamageAction(message, (id) =>
-        createRepository(supabase!).get(id),
-      );
+      const command = await buildChatDamageAction(message, (id) => sheets.get(id));
       if (mounted.current && version === generation.current && !forbidden.current)
         await send(command, true);
     } catch (error) {
@@ -556,9 +572,11 @@ function Room({
             />
           ) : (
             <FloatingWindow
+              key={campaign.id + ':' + panel}
               id={campaign.id + ':' + panel}
               title={panel === 'ficha' ? 'Ficha do personagem' : 'Combate'}
               className="session-floating"
+              popOut={panel === 'ficha'}
               initial={{ x: 22, y: 128 }}
             >
               <SessionPanel
@@ -639,10 +657,7 @@ function Room({
                     onReveal={liveRole === 'mestre' ? () => void reveal(m.id) : undefined}
                     revealing={revealing === m.id}
                     onDamage={
-                      canSend &&
-                      liveRole !== 'espectador' &&
-                      m.resultado?.origem &&
-                      ['ataque', 'magia', 'magia_ataque'].includes(m.resultado.origem.acao)
+                      canSend && liveRole !== 'espectador' && hasDamage(m)
                         ? () => void damage(m)
                         : undefined
                     }

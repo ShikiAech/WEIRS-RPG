@@ -361,7 +361,7 @@ test('perda do papel de mestre remove a lista privada mesmo quando o mapa fica o
   await expect(
     page.getByRole('button', { name: 'Token Prisioneiro secreto', exact: true }),
   ).toBeVisible();
-  await page.getByRole('button', { name: 'Selecionar tokens', exact: true }).click();
+  await page.getByRole('button', { name: 'Lista de tokens', exact: true }).click();
   await expect(
     page.getByRole('button', { name: 'Selecionar token Prisioneiro secreto', exact: true }),
   ).toBeVisible();
@@ -468,7 +468,7 @@ test('lista de tokens oferece seleção por teclado e foco para mover sem acerta
   const maps = await tabletopBackend(page, sheets, chat);
   await page.goto('app.html#/chat');
   await mapView(page);
-  await page.getByRole('button', { name: 'Selecionar tokens', exact: true }).click();
+  await page.getByRole('button', { name: 'Lista de tokens', exact: true }).click();
   const select = page.getByRole('button', { name: 'Selecionar token Zephira', exact: true });
   await select.focus();
   await select.press('Enter');

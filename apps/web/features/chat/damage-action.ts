@@ -2,6 +2,22 @@ import type { ChatCommand, ChatMessage } from '../../../../packages/contracts/ch
 import type { SheetRecord, SheetSpell } from '../../../../packages/contracts/sheets';
 import { temDanoMagia } from '../../../../packages/sheets/magias.js';
 
+export function canRollChatDamage(message: ChatMessage, sheet?: SheetRecord): boolean {
+  const origin = message.resultado?.origem;
+  if (
+    !origin ||
+    !sheet ||
+    !['ataque', 'magia', 'magia_ataque'].includes(origin.acao) ||
+    sheet.id !== origin.ficha_id ||
+    sheet.campanha_id !== message.campanha_id
+  )
+    return false;
+  if (origin.acao === 'ataque')
+    return !!sheet.conteudo.ataques.find((e) => e.id === origin.entrada_id)?.dano?.trim();
+  const spell = sheet.conteudo.magias.find((e) => e.id === origin.entrada_id);
+  return !!spell && temDanoMagia(spell);
+}
+
 export async function buildChatDamageAction(
   message: ChatMessage,
   load: (id: string) => Promise<SheetRecord>,

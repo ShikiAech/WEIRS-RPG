@@ -54,7 +54,7 @@ for (const name of [
   'Régua',
   'Cenas e mapas',
   'Arquivos da campanha',
-  'Selecionar tokens',
+  'Lista de tokens',
   'Novo token',
 ]) {
   test(`leaving area placement for ${name} clears its unsaved preview`, async ({ page }) => {
@@ -171,10 +171,10 @@ test('a player can finish a checkbox group selection using touch controls', asyn
   const maps = await openMap(page, false);
   maps.tokens.find((t) => t.id === otherTokenId)!.controlador_id = ownerId;
   await page.evaluate(() => window.dispatchEvent(new Event('online')));
-  await page.getByRole('button', { name: 'Selecionar tokens', exact: true }).click();
+  await page.getByRole('button', { name: 'Lista de tokens', exact: true }).click();
   await page.getByRole('checkbox', { name: 'Incluir Zephira na seleção', exact: true }).check();
   await page.getByRole('checkbox', { name: 'Incluir Guarda na seleção', exact: true }).check();
-  await page.getByRole('button', { name: 'Usar seleção de 2 tokens', exact: true }).click();
+  await page.getByRole('button', { name: 'Voltar ao mapa', exact: true }).click();
   await page.getByRole('button', { name: 'Mover seleção para direita', exact: true }).click();
   await expect.poll(() => maps.tokens.find((t) => t.id === tokenId)?.x).toBe(4);
   await expect.poll(() => maps.tokens.find((t) => t.id === otherTokenId)?.x).toBe(8);
