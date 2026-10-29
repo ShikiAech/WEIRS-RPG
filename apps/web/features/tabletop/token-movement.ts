@@ -2,6 +2,15 @@ import type { MapCommand, TokenRecord } from '../../../../packages/contracts/tab
 
 type TokenMove = { id: string; version: number; x?: number; y?: number };
 
+export function affectedTokenIds(command: MapCommand): string[] {
+  if (command.tipo === 'token_atualizar' || command.tipo === 'token_excluir') return [command.id];
+  if (command.tipo === 'tokens_lote') return command.itens.map((item) => item.id);
+  if (command.tipo === 'tokens_duplicar') return command.tokens.map((token) => token.id);
+  if (command.tipo === 'camada_transferir')
+    return command.itens.filter((item) => item.tipo === 'token').map((item) => item.id);
+  return [];
+}
+
 export function pendingTokenMoves(command: MapCommand): TokenMove[] {
   const updates =
     command.tipo === 'token_atualizar'

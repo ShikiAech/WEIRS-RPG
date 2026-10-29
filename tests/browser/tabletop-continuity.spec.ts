@@ -32,11 +32,34 @@ function gate() {
   return { promise, release };
 }
 
-async function openTable(page: Page, role = { master: true }) {
+async function openTable(page: Page, role = { master: true }, portrait = false) {
   const sheets = await backend(page, role);
   const chat = await chatBackend(page, undefined, role);
   const state = tabletopState();
   state.scenes[0].modo_visao = 'manual';
+  if (portrait) {
+    const asset = {
+      id: '73000000-0000-4000-a000-000000000002',
+      campanha_id: campaignId,
+      usuario_id: ownerId,
+      nome: 'Retrato de Zephira',
+      caminho: campaignId + '/zephira.png',
+      mime: 'image/png',
+      tamanho: 68,
+      estado: 'pronto' as const,
+      visibilidade: 'campanha' as const,
+      criado_em: '2026-10-29T12:00:00Z',
+    };
+    state.assets.push(asset);
+    state.objects.set(asset.caminho, {
+      mime: asset.mime,
+      body: Buffer.from(
+        'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=',
+        'base64',
+      ),
+    });
+    state.tokens.find((token) => token.id === tokenId)!.imagem_id = asset.id;
+  }
   state.layers.push({
     id: '72000000-0000-4000-a000-000000000001',
     campanha_id: campaignId,
@@ -229,6 +252,11 @@ test('remote movement preserves selection, typed HP expression, focus and usable
     invalidate(chat, maps);
     await expect.poll(read.started).toBe(true);
     await expectConnected(page);
+    await expect(hero).not.toHaveAttribute('aria-busy', 'true');
+    await expect(
+      page.getByRole('button', { name: 'Token Guarda', exact: true }),
+    ).not.toHaveAttribute('aria-busy', 'true');
+    await expect(page.locator('.map-token-sync')).toHaveCount(0);
     await expect(amount).toBeFocused();
     await expect(amount).toHaveValue('2d8 + 5');
     await expect(amount).toBeEnabled();
@@ -382,34 +410,41 @@ test('an accepted move keeps its dropped coordinates when the confirmation read 
     'transform',
     `translate(${4 * CELL} ${3 * CELL})`,
   );
-  // The next move still uses the last confirmed version. Its rejection must settle
-  // against a fresh read, rather than restoring either stale or rejected coordinates.
-  await page.route(
-    'https://weirs-test.supabase.co/rest/v1/rpc/operar_mapa',
-    async (route) => {
-      unavailable = false;
-      await route.fallback();
-    },
-    { times: 1 },
-  );
+  // The accepted move is still awaiting its authoritative read: block stale-version
+  // commands instead of sending another move and relying on a server conflict.
   await page.getByText('Camadas, visão e participantes', { exact: true }).click();
-  await hero.click();
-  await hero.press('ArrowRight');
-  await expect.poll(() => maps.operations.length).toBe(3);
-  expect(maps.operations[2].command.versao).toBe(1);
-  await expect(page.locator('.map-status')).not.toContainText('Salvando');
-  await expectConnected(page);
+  await expect(hero).toHaveAttribute('aria-busy', 'true');
+  await expect(hero).toHaveAttribute('aria-disabled', 'true');
+  await expect(hero.locator('.map-token-sync')).toBeVisible();
+  await hero.focus();
+  await page.keyboard.press('ArrowRight');
+  expect(maps.operations).toHaveLength(2);
   await expect(hero.locator('..')).toHaveAttribute(
     'transform',
     `translate(${4 * CELL} ${3 * CELL})`,
   );
+  unavailable = false;
+  await page.getByRole('button', { name: 'Atualizar mapa', exact: true }).click();
+  await expect(hero).not.toHaveAttribute('aria-busy', 'true');
+  await expect(hero).not.toHaveAttribute('aria-disabled', 'true');
+  await expect(hero.locator('.map-token-sync')).toHaveCount(0);
+  await hero.click();
+  await hero.press('ArrowRight');
+  await expect.poll(() => maps.operations.length).toBe(3);
+  expect(maps.operations[2].command.versao).toBe(2);
+  await expect(page.locator('.map-status')).not.toContainText('Salvando');
+  await expectConnected(page);
+  await expect(hero.locator('..')).toHaveAttribute(
+    'transform',
+    `translate(${5 * CELL} ${3 * CELL})`,
+  );
   const token = maps.tokens.find((token) => token.id === tokenId)!;
-  token.x = 5;
+  token.x = 6;
   token.versao++;
   invalidate(chat, maps);
   await expect(hero.locator('..')).toHaveAttribute(
     'transform',
-    `translate(${5 * CELL} ${3 * CELL})`,
+    `translate(${6 * CELL} ${3 * CELL})`,
   );
   await expectConnected(page);
 });
@@ -611,5 +646,136 @@ test('slow sheet reads are shared across map updates and their completed data re
   } finally {
     first.release();
     unnecessary.release();
+  }
+});
+
+async function dragTokenRight(page: Page, token: Locator) {
+  const position = await token.evaluate((node, cell) => {
+    const matrix = (node as SVGGraphicsElement).getScreenCTM()!;
+    return {
+      x: matrix.e + (cell * matrix.a) / 2,
+      y: matrix.f + (cell * matrix.d) / 2,
+      dx: cell * matrix.a,
+    };
+  }, CELL);
+  await page.mouse.move(position.x, position.y);
+  await page.mouse.down();
+  await page.mouse.move(position.x + position.dx, position.y, { steps: 4 });
+  await page.mouse.up();
+}
+
+for (const selection of ['single', 'group'] as const) {
+  test(`token sync overlay disables only affected ${selection} tokens through RPC and snapshot confirmation`, async ({
+    page,
+  }) => {
+    const { maps, hero } = await openTable(page, { master: true }, true);
+    const other = page.getByRole('button', { name: 'Token Guarda', exact: true });
+    const untouched = page.getByRole('button', { name: 'Token Emboscada secreta', exact: true });
+    const portrait = hero.locator('image');
+    await expect(portrait).toBeVisible();
+    const href = await portrait.getAttribute('href');
+    await hero.click();
+    if (selection === 'group') await other.click({ modifiers: ['Shift'] });
+    const affected = selection === 'group' ? [hero, other] : [hero];
+    const operation = gate(),
+      read = await delaySnapshot(page);
+    maps.delay = operation.promise;
+    await observe(page, {
+      hero,
+      other,
+      portrait,
+      tools: page.getByRole('navigation', { name: 'Ferramentas do mapa' }),
+    });
+    try {
+      await (selection === 'group' ? other : hero).press('ArrowRight');
+      await expect.poll(() => maps.operations.length).toBe(1);
+      for (const token of affected) {
+        await expect(token).toHaveAttribute('aria-busy', 'true');
+        await expect(token).toHaveAttribute('aria-disabled', 'true');
+        await expect(token.locator('.map-token-sync')).toBeVisible();
+      }
+      await expect(untouched).not.toHaveAttribute('aria-busy', 'true');
+      await expect(untouched).not.toHaveAttribute('aria-disabled', 'true');
+      if (selection === 'single') {
+        await expect(other).not.toHaveAttribute('aria-busy', 'true');
+        await expect(other).not.toHaveAttribute('aria-disabled', 'true');
+      }
+      await expect(
+        page.getByRole('button', { name: 'Arquivos da campanha', exact: true }),
+      ).toBeEnabled();
+      await expect(page.getByRole('button', { name: 'Régua', exact: true })).toBeEnabled();
+      await expect(hero.locator('..')).toHaveAttribute(
+        'transform',
+        `translate(${4 * CELL} ${3 * CELL})`,
+      );
+      await hero.focus();
+      await page.keyboard.press('ArrowRight');
+      await dragTokenRight(page, hero);
+      expect(maps.operations).toHaveLength(1);
+      await expect(hero.locator('..')).toHaveAttribute(
+        'transform',
+        `translate(${4 * CELL} ${3 * CELL})`,
+      );
+      const acknowledgement = page.waitForResponse((response) =>
+        response.url().endsWith('/rpc/operar_mapa'),
+      );
+      operation.release();
+      await acknowledgement;
+      await expect.poll(read.started).toBe(true);
+      for (const token of affected) {
+        await expect(token).toHaveAttribute('aria-busy', 'true');
+        await expect(token.locator('.map-token-sync')).toBeVisible();
+      }
+      await expectConnected(page);
+      await expect(portrait).toHaveAttribute('href', href!);
+      if (selection === 'single' && test.info().project.name === 'desktop')
+        await page.screenshot({
+          path: 'artifacts/tabletop-token-sync-pending.png',
+          fullPage: true,
+        });
+      read.release();
+      await expect(page.locator('.map-status')).not.toContainText('Salvando');
+      for (const token of affected) {
+        await expect(token).not.toHaveAttribute('aria-busy', 'true');
+        await expect(token).not.toHaveAttribute('aria-disabled', 'true');
+        await expect(token.locator('.map-token-sync')).toHaveCount(0);
+      }
+      await expectConnected(page);
+      await expect(portrait).toHaveAttribute('href', href!);
+    } finally {
+      operation.release();
+      read.release();
+    }
+  });
+}
+
+test('token sync overlay clears on an explicit movement rejection and authoritative rollback', async ({
+  page,
+}) => {
+  const { maps, hero } = await openTable(page);
+  await hero.click();
+  const operation = gate();
+  maps.delay = operation.promise;
+  maps.beforeOperation = () => {
+    const token = maps.tokens.find((candidate) => candidate.id === tokenId)!;
+    token.x = 9;
+    token.versao++;
+  };
+  try {
+    await hero.press('ArrowRight');
+    await expect.poll(() => maps.operations.length).toBe(1);
+    await expect(hero).toHaveAttribute('aria-busy', 'true');
+    await expect(hero.locator('.map-token-sync')).toBeVisible();
+    operation.release();
+    await expect(page.getByRole('alert')).toBeVisible();
+    await expect(hero.locator('..')).toHaveAttribute(
+      'transform',
+      `translate(${9 * CELL} ${3 * CELL})`,
+    );
+    await expect(hero).not.toHaveAttribute('aria-busy', 'true');
+    await expect(hero).not.toHaveAttribute('aria-disabled', 'true');
+    await expect(hero.locator('.map-token-sync')).toHaveCount(0);
+  } finally {
+    operation.release();
   }
 });

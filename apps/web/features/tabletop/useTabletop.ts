@@ -14,7 +14,7 @@ import type {
 } from '../../../../packages/contracts/tabletop';
 import type { SheetRecord } from '../../../../packages/contracts/sheets';
 import type { SessionState } from '../../../../packages/contracts/session';
-import { pendingTokenMoves, projectTokenMoves } from './token-movement';
+import { affectedTokenIds, pendingTokenMoves, projectTokenMoves } from './token-movement';
 
 // One committed render model: geometry, fog, entities and their assets always agree.
 type TabletopView = {
@@ -349,6 +349,12 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     };
   }, [campaign, refresh, repository, session, contextKey, master, userId]);
 
+  const syncingTokenIds = new Set([
+    ...(attempt ? affectedTokenIds(attempt.command) : []),
+    ...(movement?.context === contextKey && movement.scene === sceneId
+      ? movement.moves.map((move) => move.id)
+      : []),
+  ]);
   function forgetMovement(request: string | undefined) {
     setMovement((previous) => {
       if (!previous) return null;
@@ -358,6 +364,7 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
   }
   async function operate(command?: MapCommand) {
     if (busy.current || (attempt && command)) return false;
+    if (command && affectedTokenIds(command).some((id) => syncingTokenIds.has(id))) return false;
     const current = attempt || (command && { id: crypto.randomUUID(), command });
     if (!current) return false;
     busy.current = true;
@@ -385,9 +392,10 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     try {
       const result = await repository.operate(campaign, current.command, current.id);
       if (!alive.current || generation.current !== requestGeneration) return false;
-      setAttempt(null);
       unresolved.current = false;
       await refresh();
+      // Keep the affected tokens busy through the authoritative confirmation read.
+      if (alive.current && generation.current === requestGeneration) setAttempt(null);
       return result;
     } catch (e) {
       if (!alive.current || generation.current !== requestGeneration) return false;
@@ -488,6 +496,7 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     error: error || refreshError,
     setError,
     pending,
+    syncingTokenIds,
     attempt,
     locked: loading || pending || !!attempt,
     refresh,
