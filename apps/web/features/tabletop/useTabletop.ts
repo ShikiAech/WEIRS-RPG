@@ -6,6 +6,7 @@ import { createTabletopRepository } from '../../lib/tabletop';
 import type {
   AssetRecord,
   MapSnapshot,
+  MapInvalidation,
   AreaRecord,
   MapCommand,
   MapPing,
@@ -51,6 +52,16 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     context = useRef(''),
     latestRefresh = useRef<() => Promise<void>>(async () => {});
   const contextKey = campaign + ':' + master + ':' + userId;
+  // Only the already-authorized backdrop survives an entity-only invalidation.
+  // Its independent monotonic stamp also catches a revocation followed by movement.
+  const backgroundAuthorization = useRef<{
+    context: string;
+    scene: string;
+    asset: string;
+    revision: number;
+    geometry: string;
+    vision: Pick<MapSnapshot, 'atual' | 'explorada'> | null;
+  } | null>(null);
 
   const refresh = useCallback(async () => {
     if (!alive.current || context.current !== contextKey) return;
@@ -62,6 +73,8 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     const requestGeneration = generation.current,
       requestEpoch = readEpoch.current;
     try {
+      // Read the stamp first: a newer permission stamp must never authorize older scene reads.
+      const invalidation = await repository.invalidation(campaign, userId).catch(() => null);
       const rows = await repository.scenes(campaign);
       if (
         !alive.current ||
@@ -123,8 +136,41 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
         setAreas([]);
         throw areaResult.reason;
       }
-      if (assetResult.status === 'fulfilled') setAssets(assetResult.value);
-      else setAssets([]);
+      if (assetResult.status === 'fulfilled') {
+        setAssets(assetResult.value);
+        const stamp = invalidation?.revisao_fundo;
+        const backgroundScene = authoritative?.cena || chosen;
+        backgroundAuthorization.current =
+          backgroundScene?.fundo_id &&
+          invalidation?.campanha_id === campaign &&
+          invalidation.usuario_id === userId &&
+          Number.isSafeInteger(stamp) &&
+          stamp! > 0 &&
+          assetResult.value.some(
+            (asset) =>
+              asset.id === backgroundScene.fundo_id &&
+              asset.campanha_id === campaign &&
+              asset.estado === 'pronto' &&
+              (master || asset.visibilidade === 'campanha'),
+          )
+            ? {
+                context: contextKey,
+                scene: backgroundScene.id,
+                asset: backgroundScene.fundo_id,
+                revision: stamp!,
+                geometry: backgroundGeometry(backgroundScene),
+                vision: authoritative
+                  ? {
+                      atual: authoritative.atual,
+                      explorada: authoritative.explorada,
+                    }
+                  : null,
+              }
+            : null;
+      } else {
+        backgroundAuthorization.current = null;
+        setAssets([]);
+      }
       if (sheetResult.status === 'fulfilled')
         setRecords(sheetResult.value.filter((row) => row.campanha_id === campaign));
       else setRecords([]);
@@ -141,6 +187,7 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
       )
         return;
       setSnapshot(null);
+      backgroundAuthorization.current = null;
       setTokens([]);
       setAreas([]);
       setAssets([]);
@@ -175,7 +222,7 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
         void latestRefresh.current().then(resolveWaiters, resolveWaiters);
       } else resolveWaiters();
     }
-  }, [campaign, master, repository, session, sheets, contextKey]);
+  }, [campaign, master, repository, session, sheets, contextKey, userId]);
   latestRefresh.current = refresh;
 
   useEffect(() => {
@@ -196,6 +243,8 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     setMovement(null);
     unresolved.current = false;
     setSnapshot(null);
+    backgroundAuthorization.current = null;
+    setAssets([]);
     if (!master) {
       setTokens([]);
       setAssets([]);
@@ -239,13 +288,32 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     const update = () => {
       if (document.visibilityState !== 'hidden') void refresh();
     };
-    const invalidate = () => {
+    const invalidate = (event?: { new?: unknown }) => {
+      const record = event?.new as Partial<MapInvalidation> | undefined;
+      const previous = backgroundAuthorization.current;
+      const keepBackground =
+        previous?.context === contextKey &&
+        previous.scene === selected.current &&
+        record?.campanha_id === campaign &&
+        record.usuario_id === userId &&
+        record.revisao_fundo === previous.revision;
+      if (!keepBackground) backgroundAuthorization.current = null;
       readEpoch.current++;
       setLoading(true);
       setSnapshot(null);
       setTokens([]);
       setAreas([]);
-      setAssets([]);
+      setAssets((rows) =>
+        keepBackground
+          ? rows.filter(
+              (asset) =>
+                asset.id === previous!.asset &&
+                asset.campanha_id === campaign &&
+                asset.estado === 'pronto' &&
+                (master || asset.visibilidade === 'campanha'),
+            )
+          : [],
+      );
       setPings([]);
       update();
     };
@@ -280,7 +348,7 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
       window.removeEventListener('weirs:before-account-change', guard);
       window.removeEventListener('beforeunload', unload);
     };
-  }, [campaign, refresh, repository, session]);
+  }, [campaign, refresh, repository, session, contextKey, master, userId]);
 
   async function operate(command?: MapCommand) {
     if (busy.current || (attempt && command)) return false;
@@ -328,6 +396,7 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     generation.current++;
     setSceneId(id);
     setMovement(null);
+    backgroundAuthorization.current = null;
     setSnapshot(null);
     setTokens([]);
     setAreas([]);
@@ -358,9 +427,23 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     (row) => row.campanha_id === campaign && (master || row.publicada),
   );
   const visibleScene = visibleScenes.find((row) => row.id === sceneId);
+  const background = backgroundAuthorization.current;
+  const backgroundVision =
+    snapshot ||
+    (visibleScene &&
+    background?.context === contextKey &&
+    background.scene === sceneId &&
+    background.asset === visibleScene.fundo_id &&
+    background.geometry === backgroundGeometry(visibleScene) &&
+    assets.some((asset) => asset.id === background.asset && asset.campanha_id === campaign)
+      ? background.vision
+      : null);
   return {
     repository,
     snapshot,
+    // Presentation only: keep previously revealed bitmap pixels painted. Dynamic
+    // entities, clipping, hit tests and exploration still require the new snapshot.
+    backgroundVision,
     scenes: visibleScenes,
     areas: visibleScene
       ? areas.filter(
@@ -404,6 +487,17 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     chooseScene,
     release,
   };
+}
+
+function backgroundGeometry(scene: SceneRecord) {
+  return [
+    scene.largura,
+    scene.altura,
+    scene.unidade,
+    scene.fundo_x || 0,
+    scene.fundo_y || 0,
+    scene.fundo_escala || 1,
+  ].join(':');
 }
 
 export function useAssetUrls(

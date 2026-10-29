@@ -1301,7 +1301,11 @@ export function Tabletop({
                 <VisionFog scene={scene} snapshot={previewMask} id={`previewFog${unique}`} />
               )}
               {scene.modo_visao === 'automatica' && !master && (
-                <VisionFog scene={scene} snapshot={map.snapshot} id={`automaticFog${unique}`} />
+                <VisionFog
+                  scene={scene}
+                  snapshot={map.backgroundVision}
+                  id={`automaticFog${unique}`}
+                />
               )}
               {scene.nevoa && scene.modo_visao !== 'automatica' && (
                 <rect

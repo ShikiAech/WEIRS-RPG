@@ -206,6 +206,12 @@ export type MapSnapshot = {
   atribuicoes: SceneAssignment[];
   assets: AssetRecord[];
 };
+export type MapInvalidation = {
+  campanha_id: string;
+  usuario_id: string;
+  revisao: number;
+  revisao_fundo?: number;
+};
 export type MapCommand =
   | { tipo: 'desenhos_limpar'; cena_id: string; itens: { id: string; versao: number }[] }
   | {

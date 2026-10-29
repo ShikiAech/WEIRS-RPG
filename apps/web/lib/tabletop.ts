@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type {
   AssetRecord,
+  MapInvalidation,
   MapSnapshot,
   AreaRecord,
   MapCommand,
@@ -104,6 +105,16 @@ export function createTabletopRepository(client: SupabaseClient) {
     }
   }
   return {
+    invalidation: async (campaign: string, userId: string) => {
+      const rows = await request<MapInvalidation[]>(
+        client
+          .from('invalidacoes_mapa')
+          .select('*')
+          .eq('campanha_id', campaign)
+          .eq('usuario_id', userId),
+      );
+      return rows[0] || null;
+    },
     snapshot: async (campaign: string, scene: string) => {
       const snapshot = await request<MapSnapshot>(
         client.rpc('ler_mapa_visivel', { p_campanha: campaign, p_cena: scene }),
@@ -223,11 +234,9 @@ export function createTabletopRepository(client: SupabaseClient) {
       if (error) throw new MapError(errorCode(error));
       await uploadOperation(asset.campanha_id, { tipo: 'arquivo_excluir', id: asset.id });
     },
-    subscribe(campaign: string, refresh: () => void) {
+    subscribe(campaign: string, refresh: (event?: { new?: unknown }) => void) {
       const channel = client.channel('mapa:' + campaign + ':' + crypto.randomUUID());
-      for (const table of [
-        'invalidacoes_mapa',
-      ])
+      for (const table of ['invalidacoes_mapa'])
         channel.on(
           'postgres_changes',
           { event: '*', schema: 'public', table, filter: 'campanha_id=eq.' + campaign },
