@@ -77,6 +77,8 @@ export function tabletopState() {
     placed: [] as PlacedObject[],
     assignments: [] as SceneAssignment[],
     revision: 1,
+    backgroundRevision: 1,
+    invalidationRevision: 1,
     explored: [] as string[],
     assets: [] as AssetRecord[],
     areas: [] as AreaRecord[],
@@ -127,9 +129,26 @@ export async function tabletopBackend(
       ));
   const respond = (route: any, body: unknown, status = 200) =>
     route.fulfill({ status, contentType: 'application/json', body: JSON.stringify(body) });
-  const publish = (table: string, record: any, type = 'UPDATE') => {
+  const publish = (
+    table: string,
+    record: any,
+    type = 'UPDATE',
+    backgroundChanged = [
+      'cenas_mapa',
+      'arquivos_mapa',
+      'atribuicoes_mapa',
+      'membros_campanha',
+    ].includes(table),
+  ) => {
+    state.invalidationRevision++;
+    if (backgroundChanged) state.backgroundRevision = state.invalidationRevision;
     table = 'invalidacoes_mapa';
-    record = { campanha_id: campaignId, usuario_id: ownerId, revisao: Date.now() };
+    record = {
+      campanha_id: campaignId,
+      usuario_id: ownerId,
+      revisao: state.invalidationRevision,
+      revisao_fundo: state.backgroundRevision,
+    };
     type = 'UPDATE';
     for (const socket of chat?.sockets || []) {
       const ids = socket.filters
@@ -162,6 +181,21 @@ export async function tabletopBackend(
       );
     }
   };
+  await page.route('https://weirs-test.supabase.co/rest/v1/invalidacoes_mapa**', (route) =>
+    respond(
+      route,
+      state.denied
+        ? []
+        : [
+            {
+              campanha_id: campaignId,
+              usuario_id: ownerId,
+              revisao: state.invalidationRevision,
+              revisao_fundo: state.backgroundRevision,
+            },
+          ],
+    ),
+  );
   for (const table of [
     'cenas_mapa',
     'tokens_mapa',
@@ -570,6 +604,11 @@ export async function tabletopBackend(
         response = { excluido: scene.id };
         publish('cenas_mapa', scene, 'DELETE');
       } else {
+        const backgroundChanged =
+          c.tipo === 'cena_ativar' ||
+          ['fundo_id', 'publicada', 'ativa'].some(
+            (key) => key in (c.patch || {}) && c.patch[key] !== (scene as any)[key],
+          );
         if (c.tipo === 'cena_ativar') {
           state.scenes.forEach((s) => {
             s.ativa = false;
@@ -579,7 +618,7 @@ export async function tabletopBackend(
         } else Object.assign(scene, c.patch);
         scene.versao++;
         response = { cena: scene };
-        publish('cenas_mapa', scene);
+        publish('cenas_mapa', scene, 'UPDATE', backgroundChanged);
       }
     } else if (c.tipo === 'token_criar') {
       const token: TokenRecord = {

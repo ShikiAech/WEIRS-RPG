@@ -20,6 +20,9 @@ async function openMap(page: Page) {
     await page.getByRole('button', { name: 'Mapa', exact: true }).click();
   const hero = page.getByRole('button', { name: 'Token Zephira', exact: true });
   await expect(hero).toBeVisible();
+  await expect(
+    page.getByRole('button', { name: 'Arquivos da campanha', exact: true }),
+  ).toBeEnabled();
   return { maps, chat, hero, shape: hero.locator('..') };
 }
 async function dragHero(page: Page) {

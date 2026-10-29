@@ -22,7 +22,7 @@ export function VisionFog({
   id,
 }: {
   scene: SceneRecord;
-  snapshot: MapSnapshot | null;
+  snapshot: Pick<MapSnapshot, 'atual' | 'explorada'> | null;
   id: string;
 }) {
   const current = cellRuns(snapshot?.atual || []),
