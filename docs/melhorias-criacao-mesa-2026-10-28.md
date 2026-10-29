@@ -153,7 +153,7 @@ Esta primeira publicação foi direcionada à criação e ao chat. As migraçõe
 
 ## Correções de interação da mesa — 29/10/2026
 
-Ao soltar um token, a prévia de arraste era apagada antes da confirmação e da releitura do servidor. Agora as coordenadas pendentes permanecem visíveis durante esse intervalo e nas tentativas com resultado de rede incerto. A projeção não altera a versão do token, só é aplicada a registros ainda autorizados na mesma cena/contexto e deixa de prevalecer quando chega uma versão mais recente. Rejeição explícita ou liberação da tentativa remove a projeção. Movimento em grupo segue o mesmo caminho; perder controle durante o arraste cancela o envio. A névoa e a prévia de visão continuam usando posições confirmadas, e invalidações de visibilidade continuam removendo dados imediatamente.
+Ao soltar um token, a prévia de arraste era apagada antes da confirmação e da releitura do servidor. Agora as coordenadas pendentes permanecem visíveis durante esse intervalo e nas tentativas com resultado de rede incerto. A projeção não altera a versão do token, só é aplicada a registros ainda autorizados na mesma cena/contexto e deixa de prevalecer quando chega uma versão mais recente. Rejeição explícita ou liberação da tentativa remove a projeção. Movimento em grupo segue o mesmo caminho; perder controle durante o arraste cancela o envio. A névoa e a prévia de visão continuam usando posições confirmadas, e a visão permanece autoritativa. A política inicial de remoção imediata na invalidação foi substituída pela mesa persistente descrita abaixo.
 
 O botão de dano no chat passou a verificar a entrada salva. Magias de cura/utilidade, entradas removidas e fichas inacessíveis não oferecem “Rolar dano”. Consultas são compartilhadas pelas mensagens da mesma ficha/versão; o clique continua consultando a versão atual antes de enviar a ação.
 
@@ -169,6 +169,8 @@ Capturas de desenvolvimento conferidas: `artifacts/map-interactions/direct-selec
 
 ## Estabilidade do fundo do mapa — 29/10/2026
 
+Registro da primeira correção, substituída no cliente pela estratégia de mesa persistente abaixo. A migração publicada permanece compatível, mas o cliente atual não depende da revisão do fundo para conservar a interface.
+
 Soltar um token ou alterar uma camada disparava a invalidação geral do mapa, que removia os arquivos autorizados da memória. Isso revogava a URL local do fundo, desmontava a imagem e iniciava outro download. Os testes anteriores de movimento conferiam a posição final e isolavam uma parte do fluxo sem eventos de invalidação; não protegiam a continuidade visual da imagem.
 
 A migração `202610290021_revisao_fundo_mapa.sql`, aplicada depois da `020`, acrescenta uma revisão independente de autorização do fundo às notificações de cada participante. Movimento, camadas, paredes, áreas, desenhos e alterações comuns da cena conservam essa revisão. Mudanças de público, cena atribuída, publicação, ativação, vínculo do fundo ou arquivos exigem nova autorização. Uma revogação seguida de movimento conserva a revisão da revogação, inclusive na mesma transação.
@@ -182,3 +184,22 @@ O backend foi publicado como `20261029152846` (`revisao_fundo_mapa_021`). As con
 A regressão de Playwright acompanha a montagem e a URL da imagem durante leituras deliberadamente lentas, conta downloads de Storage e mantém os eventos de tempo real ativos. Cobre movimentos repetidos, camadas, névoa manual/automática, geometria divergente, resposta antiga, revogação seguida de movimento, servidor antigo e reconexão, em desktop e celular. Os cenários de navegador usam backend de desenvolvimento simulado e o SDK real do Supabase; a publicação hospedada foi conferida separadamente.
 
 Verificação: 474 testes unitários/de banco, 78 casos na varredura ampliada do mapa e 50 regressões finais após a correção de leituras concorrentes passaram. O build e o typecheck passaram; os 122 arquivos legados permaneceram idênticos. Capturas: `artifacts/map-background-{drop,layer,automatic-drop,fog}-{desktop,mobile}.png`.
+
+
+## Mesa persistente e sincronização — 29/10/2026
+
+A correção limitada ao fundo não resolvia a desmontagem dos tokens, camadas, ferramentas e painel do token: cada notificação de tempo real ainda apagava as coleções. A mesa agora mantém a última visualização confirmada durante a revalidação e publica cena, geometria, visão, tokens, áreas, objetos e arquivos em um único estado. Nenhuma resposta parcial mistura uma máscara nova com entidades antigas. Notificações em rajada são agrupadas; respostas anteriores a uma nova invalidação ou de outro contexto não substituem o estado atual.
+
+Carregamento bloqueante é reservado à entrada/troca de contexto ou cena. Uma falha transitória preserva a mesa e mostra o erro com opção de atualizar. Uma resposta confirmando negação de acesso remove os dados; exclusão e mudança de visibilidade são aplicadas pela próxima resposta autoritativa. A última informação já autorizada permanece visível durante essa leitura, inclusive na reconexão. Não são reveladas novas células por movimentos locais. Essa política substitui os testes antigos que exigiam apagar tokens imediatamente ao receber uma notificação sem conteúdo.
+
+Leituras de fichas e sessão são compartilhadas enquanto estiverem pendentes e não bloqueiam a aplicação do mapa nem a remoção por acesso negado. Seus resultados pertencem ao contexto da campanha, não à cena, para que a troca de cena não perca participantes. A lista de pings tem sua própria ordenação. Mudar o papel durante uma operação descarta sua interface anterior e não deixa a nova mesa travada.
+
+Os campos de camada, ordem, dimensões, altura e alcance de visão têm identidade estável e preservam foco e rascunhos em atualizações remotas. Valores não editados acompanham o servidor. Salvamentos rejeitados conservam o rascunho; respostas atrasadas não apagam uma edição mais recente. Criar uma camada só limpa o nome após sucesso. A navegação local (cenas, arquivos e lista de tokens) permanece disponível durante o salvamento; operações de escrita continuam serializadas e validadas pelo servidor.
+
+Movimentos visuais pendentes pertencem à tentativa que os criou. Uma escrita aceita seguida de falha na releitura não devolve o token à origem. Outra ação não descarta essa posição; uma rejeição remove somente sua própria projeção, e uma versão autoritativa nova encerra a projeção correspondente.
+
+O [plano](superpowers/plans/2026-10-29-persistent-tabletop.md) e o [desenho](superpowers/specs/2026-10-29-persistent-tabletop-design.md) documentam o contrato. A referência funcional é a documentação oficial de [seleção e navegação do Roll20](https://help.roll20.net/hc/en-us/articles/360039674873-Select-and-Pan-Tools); não se presume conhecimento da implementação interna do Roll20. Não houve migração, mudança de permissões ou criação de dados na campanha hospedada nesta correção.
+
+A verificação usa SDK real e WebSocket ativo com HTTP/servidor de desenvolvimento simulado. Observadores registram remoções intermediárias do DOM; asserções verificam identidade, foco, rascunhos, ferramentas habilitadas, coordenadas, imagens e dados autorizados antes, durante e após respostas atrasadas. As capturas `artifacts/tabletop-continuity-{before,pending,confirmed}.png` documentam o movimento enquanto a confirmação está pendente. Não equivale a uma sessão autenticada de teste na campanha hospedada.
+
+Verificação final desta correção: **186 casos de navegador desktop/celular**, **474 testes unitários/de banco**, build e typecheck passaram. Os **122 arquivos legados** permaneceram idênticos. A revisão independente final não encontrou problemas materiais remanescentes no diff. Evidências: `output/tabletop-persistent-browser-final.log`, `output/tabletop-persistent-unit-final.log` e `output/tabletop-persistent-build.log`.

@@ -1,3 +1,4 @@
+import { MapDraftInput } from './MapDraftInput';
 import {
   useEffect,
   useId,
@@ -652,7 +653,7 @@ export function Tabletop({
       )
     : { x: 1, y: 1 };
   const toggleDrawer = (next: 'scenes' | 'assets' | 'token' | 'areas' | 'selection') => {
-    if (map.locked || fileBusy) return;
+    if (map.loading || fileBusy) return;
     cancelGesture();
     setTool('select');
     setDrawer((previous) => (previous === next ? '' : next));
@@ -1534,7 +1535,7 @@ export function Tabletop({
             title={item.label}
             aria-label={item.label}
             aria-pressed={tool === item.key}
-            disabled={!scene || ((item.key === 'fog' || item.key === 'draw') && map.locked)}
+            disabled={!scene || map.loading}
             onClick={() => chooseTool(item.key)}
           >
             {item.symbol}
@@ -1546,7 +1547,7 @@ export function Tabletop({
           title="Cenas e mapas"
           aria-label="Cenas e mapas"
           aria-pressed={drawer === 'scenes'}
-          disabled={map.locked || fileBusy}
+          disabled={map.loading || fileBusy}
           onClick={() => toggleDrawer('scenes')}
         >
           ▧
@@ -1556,7 +1557,7 @@ export function Tabletop({
           title="Arquivos da campanha"
           aria-label="Arquivos da campanha"
           aria-pressed={drawer === 'assets'}
-          disabled={map.locked || fileBusy}
+          disabled={map.loading || fileBusy}
           onClick={() => toggleDrawer('assets')}
         >
           ▱
@@ -1566,7 +1567,7 @@ export function Tabletop({
             type="button"
             title="Novo token"
             aria-label="Novo token"
-            disabled={!scene || map.locked || fileBusy}
+            disabled={!scene || map.loading || fileBusy}
             onClick={() => {
               cancelGesture();
               setTool('select');
@@ -1583,7 +1584,7 @@ export function Tabletop({
             title="Áreas de magia"
             aria-label="Áreas de magia"
             aria-pressed={drawer === 'areas'}
-            disabled={!scene || map.locked}
+            disabled={!scene || map.loading}
             onClick={() => {
               cancelGesture();
               setTool('select');
@@ -1605,7 +1606,7 @@ export function Tabletop({
           title="Lista de tokens"
           aria-label="Lista de tokens"
           aria-pressed={drawer === 'selection'}
-          disabled={!scene || map.locked}
+          disabled={!scene || map.loading}
           onClick={() => toggleDrawer('selection')}
         >
           ☷
@@ -1747,17 +1748,18 @@ export function Tabletop({
                 </p>
                 <label>
                   Altura (pés)
-                  <input
+                  <MapDraftInput
                     type="number"
-                    defaultValue={selectedToken.elevacao || 0}
-                    key={selectedToken.versao}
-                    onBlur={(e) => {
-                      if (Number(e.target.value) !== (selectedToken.elevacao || 0))
-                        void operate({
+                    value={selectedToken.elevacao || 0}
+                    key={selectedToken.id}
+                    disabled={map.locked}
+                    onCommit={(value) => {
+                      if (Number(value) !== (selectedToken.elevacao || 0))
+                        return operate({
                           tipo: 'token_atualizar',
                           id: selectedToken.id,
                           versao: selectedToken.versao,
-                          patch: { elevacao: Number(e.target.value) },
+                          patch: { elevacao: Number(value) },
                         });
                     }}
                   />

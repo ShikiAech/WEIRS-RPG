@@ -115,7 +115,11 @@ test('a newer invalidation discards an in-flight snapshot before hidden rows can
       atual: ['3,3', '7,3'],
       explorada: ['3,3', '7,3'],
       sem_fonte: false,
-      tokens: maps.tokens.filter((t) => !t.oculto && (visible || t.id === tokenId)),
+      tokens: maps.tokens
+        .filter((t) => !t.oculto && (visible || t.id === tokenId))
+        .map((token) =>
+          delayed && token.id === otherTokenId ? { ...token, nome: 'Guarda obsoleto' } : token,
+        ),
       areas: [],
       camadas: [],
       paredes: [],
@@ -139,6 +143,20 @@ test('a newer invalidation discards an in-flight snapshot before hidden rows can
   await expect
     .poll(() => chat.sockets.some((s) => s.filters.some((f) => f.table === 'invalidacoes_mapa')))
     .toBe(true);
+  await page.evaluate(() => {
+    const observed = window as any;
+    observed.staleTokenSeen = false;
+    observed.staleTokenObserver = new MutationObserver(() => {
+      if (document.querySelector('[aria-label="Token Guarda obsoleto"]'))
+        observed.staleTokenSeen = true;
+    });
+    observed.staleTokenObserver.observe(document.body, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ['aria-label'],
+    });
+  });
   delayed = true;
   await page.evaluate(() => window.dispatchEvent(new Event('online')));
   await expect.poll(() => started).toBe(true);
@@ -168,10 +186,14 @@ test('a newer invalidation discards an in-flight snapshot before hidden rows can
         ]),
       );
   }
-  await expect(page.getByRole('button', { name: 'Token Guarda', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Token Guarda', exact: true })).toBeVisible();
   release();
-  await expect(page.getByRole('button', { name: 'Token Zephira', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Token Guarda', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Token Zephira', exact: true })).toBeVisible();
+  await expect(
+    page.getByRole('button', { name: 'Token Guarda obsoleto', exact: true }),
+  ).toHaveCount(0);
+  expect(await page.evaluate(() => (window as any).staleTokenSeen)).toBe(false);
 });
 test('DM creates arbitrary layers and walls, switches door state and sees explicit vision controls', async ({
   page,
@@ -380,4 +402,88 @@ test('new drawings use the stable map layer and clear by version without deletin
     cena_id: sceneId,
     itens: [{ id: drawn.id, versao: drawn.versao }],
   });
+});
+
+test('a rejected new layer preserves its name for correction and clears it only after success', async ({
+  page,
+}) => {
+  const sheets = await backend(page, { master: true });
+  const chat = await chatBackend(page, undefined, { master: true });
+  const maps = await tabletopBackend(page, sheets, chat, undefined, { master: true });
+  maps.scenes[0].modo_visao = 'manual';
+  let reject = true;
+  await page.route('https://weirs-test.supabase.co/rest/v1/rpc/operar_mapa', async (route) => {
+    if (reject && route.request().postDataJSON().p_comando.tipo === 'camada_criar') {
+      reject = false;
+      return route.fulfill({
+        status: 400,
+        contentType: 'application/json',
+        body: JSON.stringify({ code: 'WV003' }),
+      });
+    }
+    await route.fallback();
+  });
+  await page.goto('app.html#/chat');
+  if (test.info().project.name === 'mobile')
+    await page.getByRole('button', { name: 'Mapa', exact: true }).click();
+  await page.getByText('Camadas, visão e participantes', { exact: true }).click();
+  const name = page.getByLabel('Nome da camada', { exact: true });
+  const create = page.getByRole('button', { name: 'Criar camada', exact: true });
+  await name.fill('Efeitos');
+  await create.click();
+  await expect(
+    page.getByText('Confira os valores, os vínculos e os limites do mapa.', { exact: false }),
+  ).toBeVisible();
+  await expect(name).toBeEnabled();
+  await expect(name).toHaveValue('Efeitos');
+  expect(maps.layers.some((layer) => layer.nome === 'Efeitos')).toBe(false);
+  await create.click();
+  await expect(page.getByLabel('Visível: Efeitos', { exact: true })).toBeChecked();
+  await expect(name).toHaveValue('');
+});
+
+test('a rejected field edit remains a draft through remote changes and can be corrected', async ({
+  page,
+}) => {
+  const sheets = await backend(page, { master: true });
+  const chat = await chatBackend(page, undefined, { master: true });
+  const maps = await tabletopBackend(page, sheets, chat, undefined, { master: true });
+  maps.scenes[0].modo_visao = 'manual';
+  const hero = maps.tokens.find((token) => token.id === tokenId)!;
+  hero.alcance_visao = 60;
+  await page.route('https://weirs-test.supabase.co/rest/v1/rpc/operar_mapa', async (route) => {
+    const command = route.request().postDataJSON().p_comando;
+    if (command.tipo === 'token_atualizar' && command.patch.alcance_visao > 1000)
+      return route.fulfill({
+        status: 400,
+        contentType: 'application/json',
+        body: JSON.stringify({ code: 'WV003' }),
+      });
+    await route.fallback();
+  });
+  await page.goto('app.html#/chat');
+  if (test.info().project.name === 'mobile')
+    await page.getByRole('button', { name: 'Mapa', exact: true }).click();
+  await page.getByText('Camadas, visão e participantes', { exact: true }).click();
+  const range = page.getByLabel('Alcance de Zephira (pés)', { exact: true });
+  await range.fill('1001');
+  await range.blur();
+  await expect(
+    page.getByText('Confira os valores, os vínculos e os limites do mapa.', { exact: false }),
+  ).toBeVisible();
+  await expect(range).toBeEnabled();
+  await expect(range).toHaveValue('1001');
+  expect(hero.alcance_visao).toBe(60);
+  hero.alcance_visao = 75;
+  hero.nome = 'Zephira atualizada';
+  hero.versao++;
+  await page.evaluate(() => window.dispatchEvent(new Event('online')));
+  const updated = page.getByLabel('Alcance de Zephira atualizada (pés)', { exact: true });
+  await expect(updated).toBeVisible();
+  await expect(updated).toHaveValue('1001');
+  await updated.fill('80');
+  await updated.blur();
+  await expect.poll(() => hero.alcance_visao).toBe(80);
+  await expect(updated).toBeEnabled();
+  await expect(updated).toHaveValue('80');
 });

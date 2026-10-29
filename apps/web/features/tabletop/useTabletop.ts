@@ -6,7 +6,6 @@ import { createTabletopRepository } from '../../lib/tabletop';
 import type {
   AssetRecord,
   MapSnapshot,
-  MapInvalidation,
   AreaRecord,
   MapCommand,
   MapPing,
@@ -17,28 +16,51 @@ import type { SheetRecord } from '../../../../packages/contracts/sheets';
 import type { SessionState } from '../../../../packages/contracts/session';
 import { pendingTokenMoves, projectTokenMoves } from './token-movement';
 
+// One committed render model: geometry, fog, entities and their assets always agree.
+type TabletopView = {
+  scenes: SceneRecord[];
+  sceneId: string;
+  snapshot: MapSnapshot | null;
+  tokens: TokenRecord[];
+  areas: AreaRecord[];
+  assets: AssetRecord[];
+  records: SheetRecord[];
+  mesa: SessionState | null;
+  pings: MapPing[];
+};
+const emptyView = (): TabletopView => ({
+  scenes: [],
+  sceneId: '',
+  snapshot: null,
+  tokens: [],
+  areas: [],
+  assets: [],
+  records: [],
+  mesa: null,
+  pings: [],
+});
+function accessEnded(error: unknown) {
+  return ['WV002', 'WF002', 'WM002', 'ACESSO', 'SESSAO', 'PGRST301', '42501'].includes(
+    (error as { code?: string })?.code || '',
+  );
+}
+
 export function useTabletop(campaign: string, master: boolean, userId: string) {
   const repository = useMemo(() => createTabletopRepository(supabase!), []);
   const sheets = useMemo(() => createRepository(supabase!), []);
   const session = useMemo(() => createSessionRepository(supabase!), []);
-  const [scenes, setScenes] = useState<SceneRecord[]>([]),
-    [tokens, setTokens] = useState<TokenRecord[]>([]),
-    [assets, setAssets] = useState<AssetRecord[]>([]);
-  const [records, setRecords] = useState<SheetRecord[]>([]),
-    [mesa, setMesa] = useState<SessionState | null>(null);
-  const [snapshot, setSnapshot] = useState<MapSnapshot | null>(null);
-  const [pings, setPings] = useState<MapPing[]>([]);
-  const [areas, setAreas] = useState<AreaRecord[]>([]);
+  const [view, setView] = useState<TabletopView>(emptyView);
+  const { scenes, sceneId, tokens, assets, records, mesa, snapshot, pings, areas } = view;
   const [members, setMembers] = useState<{ id: string; nome: string; papel?: string }[]>([]);
-  const [sceneId, setSceneId] = useState(''),
-    [loading, setLoading] = useState(true),
+  const [loading, setLoading] = useState(true),
     [error, setError] = useState(''),
+    [refreshError, setRefreshError] = useState(''),
     [pending, setPending] = useState(false);
   const [attempt, setAttempt] = useState<{ id: string; command: MapCommand } | null>(null);
   const [movement, setMovement] = useState<{
     context: string;
     scene: string;
-    moves: ReturnType<typeof pendingTokenMoves>;
+    moves: (ReturnType<typeof pendingTokenMoves>[number] & { request: string })[];
   } | null>(null);
   const selected = useRef(''),
     alive = useRef(true),
@@ -46,23 +68,17 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     again = useRef(false),
     busy = useRef(false),
     unresolved = useRef(false);
-  const readEpoch = useRef(0);
+  const readEpoch = useRef(0),
+    readSerial = useRef(0);
+  const contextGeneration = useRef(0),
+    accessRevision = useRef(0),
+    lastPingRead = useRef(0);
+  const panelRead = useRef<{ context: number; promise: Promise<void> } | null>(null);
   const generation = useRef(0),
     refreshWaiters = useRef<(() => void)[]>([]),
     context = useRef(''),
     latestRefresh = useRef<() => Promise<void>>(async () => {});
   const contextKey = campaign + ':' + master + ':' + userId;
-  // Only the already-authorized backdrop survives an entity-only invalidation.
-  // Its independent monotonic stamp also catches a revocation followed by movement.
-  const backgroundAuthorization = useRef<{
-    context: string;
-    scene: string;
-    asset: string;
-    revision: number;
-    geometry: string;
-    vision: Pick<MapSnapshot, 'atual' | 'explorada'> | null;
-  } | null>(null);
-
   const refresh = useCallback(async () => {
     if (!alive.current || context.current !== contextKey) return;
     if (running.current) {
@@ -70,11 +86,10 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
       return new Promise<void>((resolve) => refreshWaiters.current.push(resolve));
     }
     running.current = true;
+    const requestSerial = ++readSerial.current;
     const requestGeneration = generation.current,
       requestEpoch = readEpoch.current;
     try {
-      // Read the stamp first: a newer permission stamp must never authorize older scene reads.
-      const invalidation = await repository.invalidation(campaign, userId).catch(() => null);
       const rows = await repository.scenes(campaign);
       if (
         !alive.current ||
@@ -82,103 +97,116 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
         readEpoch.current !== requestEpoch
       )
         return;
-      setScenes(rows);
       const chosen =
         (master && rows.find((row) => row.id === selected.current)) ||
         rows.find((row) => row.ativa) ||
-        (!master ? rows[0] : undefined) ||
-        (master ? rows[0] : undefined);
-      selected.current = chosen?.id || '';
-      setSceneId(selected.current);
-      if (!chosen) {
-        setTokens([]);
-        setAreas([]);
-        setPings([]);
+        rows[0];
+      // Stage the entire authorized scene. Never publish an intermediate empty collection
+      // or combine a new visibility mask with the old geometry/entities.
+      // Sheet/session reads belong to the campaign, not the scene. Reuse one
+      // outstanding batch even during continuous token events: restarting or
+      // discarding it on every map hint would starve slow services indefinitely.
+      const panelContext = contextGeneration.current,
+        permissionRevision = accessRevision.current;
+      if (panelRead.current?.context !== panelContext) {
+        const promise = Promise.allSettled([sheets.list(), session.read(campaign)])
+          .then(([sheetResult, stateResult]) => {
+            if (
+              !alive.current ||
+              contextGeneration.current !== panelContext ||
+              accessRevision.current !== permissionRevision
+            )
+              return;
+            setView((previous) => ({
+              ...previous,
+              records:
+                sheetResult.status === 'fulfilled'
+                  ? sheetResult.value.filter((row) => row.campanha_id === campaign)
+                  : accessEnded(sheetResult.reason)
+                    ? []
+                    : previous.records,
+              mesa:
+                stateResult.status === 'fulfilled'
+                  ? stateResult.value
+                  : accessEnded(stateResult.reason)
+                    ? null
+                    : previous.mesa,
+            }));
+          })
+          .finally(() => {
+            if (panelRead.current?.promise === promise) panelRead.current = null;
+          });
+        panelRead.current = { context: panelContext, promise };
       }
-      const authoritative = chosen?.modo_visao
-        ? await repository.snapshot(campaign, chosen.id)
-        : null;
+      // Pings are scene-scoped and short-lived, and never gate scene publication.
+      const pingRead = Promise.allSettled([
+        chosen ? repository.pings(campaign, chosen.id) : Promise.resolve([]),
+      ]);
+      const next = await (async () => {
+        const authoritative = chosen?.modo_visao
+          ? await repository.snapshot(campaign, chosen.id)
+          : null;
+        if (authoritative)
+          return {
+            snapshot: authoritative,
+            tokens: authoritative.tokens,
+            assets: authoritative.assets,
+            areas: authoritative.areas,
+          };
+        const [tokens, assets, areas] = await Promise.all([
+          chosen ? repository.tokens(campaign, chosen.id) : Promise.resolve([]),
+          repository.assets(campaign),
+          chosen ? repository.areas(campaign, chosen.id) : Promise.resolve([]),
+        ]);
+        return { snapshot: null, tokens, assets, areas };
+      })();
       if (
         !alive.current ||
         generation.current !== requestGeneration ||
         readEpoch.current !== requestEpoch
       )
         return;
-      setSnapshot(authoritative);
-      const [tokenResult, assetResult, sheetResult, stateResult, pingResult, areaResult] =
-        await Promise.allSettled([
-          authoritative
-            ? Promise.resolve(authoritative.tokens)
-            : chosen
-              ? repository.tokens(campaign, chosen.id)
-              : Promise.resolve([]),
-          authoritative ? Promise.resolve(authoritative.assets) : repository.assets(campaign),
-          sheets.list(),
-          session.read(campaign),
-          chosen ? repository.pings(campaign, chosen.id) : Promise.resolve([]),
-          authoritative
-            ? Promise.resolve(authoritative.areas)
-            : chosen
-              ? repository.areas(campaign, chosen.id)
-              : Promise.resolve([]),
-        ]);
-      if (
-        !alive.current ||
-        generation.current !== requestGeneration ||
-        readEpoch.current !== requestEpoch ||
-        selected.current !== (chosen?.id || '')
-      )
-        return;
-      if (tokenResult.status === 'fulfilled') setTokens(tokenResult.value);
-      else throw tokenResult.reason;
-      if (areaResult.status === 'fulfilled') setAreas(areaResult.value);
-      else {
-        setAreas([]);
-        throw areaResult.reason;
-      }
-      if (assetResult.status === 'fulfilled') {
-        setAssets(assetResult.value);
-        const stamp = invalidation?.revisao_fundo;
-        const backgroundScene = authoritative?.cena || chosen;
-        backgroundAuthorization.current =
-          backgroundScene?.fundo_id &&
-          invalidation?.campanha_id === campaign &&
-          invalidation.usuario_id === userId &&
-          Number.isSafeInteger(stamp) &&
-          stamp! > 0 &&
-          assetResult.value.some(
-            (asset) =>
-              asset.id === backgroundScene.fundo_id &&
-              asset.campanha_id === campaign &&
-              asset.estado === 'pronto' &&
-              (master || asset.visibilidade === 'campanha'),
-          )
-            ? {
-                context: contextKey,
-                scene: backgroundScene.id,
-                asset: backgroundScene.fundo_id,
-                revision: stamp!,
-                geometry: backgroundGeometry(backgroundScene),
-                vision: authoritative
-                  ? {
-                      atual: authoritative.atual,
-                      explorada: authoritative.explorada,
-                    }
-                  : null,
-              }
-            : null;
-      } else {
-        backgroundAuthorization.current = null;
-        setAssets([]);
-      }
-      if (sheetResult.status === 'fulfilled')
-        setRecords(sheetResult.value.filter((row) => row.campanha_id === campaign));
-      else setRecords([]);
-      if (stateResult.status === 'fulfilled') setMesa(stateResult.value);
-      else setMesa(null);
-      if (pingResult.status === 'fulfilled')
-        setPings(pingResult.value.filter((ping) => Date.now() - Date.parse(ping.criado_em) < 6000));
-      else setPings([]);
+      selected.current = chosen?.id || '';
+      setView((previous) => ({
+        ...previous,
+        ...next,
+        scenes: rows,
+        sceneId: chosen?.id || '',
+        pings: previous.sceneId === chosen?.id ? previous.pings : [],
+      }));
+      void pingRead.then(([result]) => {
+        if (
+          !alive.current ||
+          generation.current !== requestGeneration ||
+          accessRevision.current !== permissionRevision ||
+          requestSerial < lastPingRead.current
+        )
+          return;
+        lastPingRead.current = requestSerial;
+        setView((previous) =>
+          previous.sceneId !== (chosen?.id || '')
+            ? previous
+            : {
+                ...previous,
+                pings: (result.status === 'fulfilled'
+                  ? result.value
+                  : accessEnded(result.reason)
+                    ? []
+                    : previous.pings
+                ).filter((ping) => Date.now() - Date.parse(ping.criado_em) < 6000),
+              },
+        );
+      });
+      // An acknowledged write may outlive a failed confirmation read. Retain its
+      // coordinates until a new authoritative version (or deletion) settles it.
+      setMovement((previous) => {
+        if (!previous || previous.scene !== chosen?.id) return null;
+        const moves = previous.moves.filter((move) =>
+          next.tokens.some((token) => token.id === move.id && token.versao === move.version),
+        );
+        return moves.length ? { ...previous, moves } : null;
+      });
+      setRefreshError('');
     } catch (e) {
       if (
         !alive.current ||
@@ -186,25 +214,19 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
         readEpoch.current !== requestEpoch
       )
         return;
-      setSnapshot(null);
-      backgroundAuthorization.current = null;
-      setTokens([]);
-      setAreas([]);
-      setAssets([]);
-      const code = (e as { code?: string }).code;
-      if (['WV002', 'ACESSO', 'SESSAO', 'PGRST301'].includes(code || '')) {
-        setScenes([]);
-        setTokens([]);
-        setAreas([]);
-        setAssets([]);
-        setRecords([]);
-        setMesa(null);
-        setPings([]);
+      if (accessEnded(e)) {
+        accessRevision.current++;
+        selected.current = '';
+        setView(emptyView());
         setAttempt(null);
         setMovement(null);
         unresolved.current = false;
       }
-      setError(e instanceof Error ? e.message : 'Não foi possível atualizar o mapa.');
+      setRefreshError(
+        accessEnded(e)
+          ? 'Seu acesso ao mapa foi encerrado. Atualize a mesa para conferir suas permissões.'
+          : 'Não foi possível atualizar o mapa. A última versão confirmada foi preservada.',
+      );
     } finally {
       running.current = false;
       const waiters = refreshWaiters.current.splice(0);
@@ -229,42 +251,42 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     if (!pings.length) return;
     const timer = setInterval(
       () =>
-        setPings((rows) => rows.filter((ping) => Date.now() - Date.parse(ping.criado_em) < 6000)),
+        setView((previous) => ({
+          ...previous,
+          pings: previous.pings.filter((ping) => Date.now() - Date.parse(ping.criado_em) < 6000),
+        })),
       500,
     );
     return () => clearInterval(timer);
   }, [pings.length]);
 
   useLayoutEffect(() => {
+    contextGeneration.current++;
     generation.current++;
     context.current = contextKey;
     setLoading(true);
+    setPending(false);
+    busy.current = false;
     setAttempt(null);
     setMovement(null);
     unresolved.current = false;
-    setSnapshot(null);
-    backgroundAuthorization.current = null;
-    setAssets([]);
-    if (!master) {
-      setTokens([]);
-      setAssets([]);
-      setAreas([]);
-      setScenes((rows) => rows.filter((row) => row.publicada));
-      setTokens((rows) => rows.filter((row) => !row.oculto));
-      setAssets((rows) => rows.filter((row) => row.visibilidade === 'campanha'));
-      setRecords((rows) => rows.filter((row) => row.proprietario_id === userId));
-    }
+    selected.current = '';
+    setView(emptyView());
+    setMembers([]);
+    setError('');
+    setRefreshError('');
   }, [contextKey, master, userId]);
 
   useEffect(() => {
     alive.current = true;
     void refresh();
+    const memberGeneration = contextGeneration.current;
     void (async () => {
       const { data: memberships } = await supabase!
         .from('membros_campanha')
         .select('usuario_id,papel')
         .eq('campanha_id', campaign);
-      if (!alive.current) return;
+      if (!alive.current || contextGeneration.current !== memberGeneration) return;
       const ids = (memberships || [])
         .filter(() => true)
         .map((member) => member.usuario_id as string);
@@ -274,7 +296,7 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
         .from('perfis')
         .select('id,nome_exibicao')
         .in('id', ids);
-      if (alive.current)
+      if (alive.current && contextGeneration.current === memberGeneration)
         setMembers(
           ids.map((id) => ({
             id,
@@ -288,33 +310,10 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     const update = () => {
       if (document.visibilityState !== 'hidden') void refresh();
     };
-    const invalidate = (event?: { new?: unknown }) => {
-      const record = event?.new as Partial<MapInvalidation> | undefined;
-      const previous = backgroundAuthorization.current;
-      const keepBackground =
-        previous?.context === contextKey &&
-        previous.scene === selected.current &&
-        record?.campanha_id === campaign &&
-        record.usuario_id === userId &&
-        record.revisao_fundo === previous.revision;
-      if (!keepBackground) backgroundAuthorization.current = null;
+    const invalidate = () => {
+      // Realtime is a freshness hint, not an empty/unauthorized snapshot. Keep the
+      // coherent scene mounted while one queued read catches up with the newest event.
       readEpoch.current++;
-      setLoading(true);
-      setSnapshot(null);
-      setTokens([]);
-      setAreas([]);
-      setAssets((rows) =>
-        keepBackground
-          ? rows.filter(
-              (asset) =>
-                asset.id === previous!.asset &&
-                asset.campanha_id === campaign &&
-                asset.estado === 'pronto' &&
-                (master || asset.visibilidade === 'campanha'),
-            )
-          : [],
-      );
-      setPings([]);
       update();
     };
     const stop = repository.subscribe(campaign, invalidate),
@@ -350,6 +349,13 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     };
   }, [campaign, refresh, repository, session, contextKey, master, userId]);
 
+  function forgetMovement(request: string | undefined) {
+    setMovement((previous) => {
+      if (!previous) return null;
+      const moves = previous.moves.filter((move) => move.request !== request);
+      return moves.length ? { ...previous, moves } : null;
+    });
+  }
   async function operate(command?: MapCommand) {
     if (busy.current || (attempt && command)) return false;
     const current = attempt || (command && { id: crypto.randomUUID(), command });
@@ -358,8 +364,22 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     unresolved.current = true;
     setPending(true);
     setAttempt(current);
-    if (command)
-      setMovement({ context: contextKey, scene: sceneId, moves: pendingTokenMoves(command) });
+    if (command) {
+      const moves = pendingTokenMoves(command).map((move) => ({ ...move, request: current.id }));
+      if (moves.length)
+        setMovement((previous) => ({
+          context: contextKey,
+          scene: sceneId,
+          // New gestures take precedence. Keep older acknowledged projections so a
+          // later rejected command can roll back only its own coordinates.
+          moves: [
+            ...moves,
+            ...(previous?.context === contextKey && previous.scene === sceneId
+              ? previous.moves
+              : []),
+          ],
+        }));
+    }
     setError('');
     const requestGeneration = generation.current;
     try {
@@ -368,14 +388,13 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
       setAttempt(null);
       unresolved.current = false;
       await refresh();
-      if (alive.current && generation.current === requestGeneration) setMovement(null);
       return result;
     } catch (e) {
       if (!alive.current || generation.current !== requestGeneration) return false;
       const code = (e as { code?: string }).code;
       if (['WV001', 'WV002', 'WV003', 'WV004'].includes(code || '')) {
         setAttempt(null);
-        setMovement(null);
+        forgetMovement(current.id);
         unresolved.current = false;
         await refresh();
       }
@@ -386,27 +405,26 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
       );
       return false;
     } finally {
-      busy.current = false;
-      if (alive.current) setPending(false);
+      if (alive.current && generation.current === requestGeneration) {
+        busy.current = false;
+        setPending(false);
+      }
     }
   }
   function chooseScene(id: string) {
     if (!master || busy.current || unresolved.current) return;
     selected.current = id;
     generation.current++;
-    setSceneId(id);
+    setLoading(true);
+    setView((previous) => ({ ...emptyView(), scenes: previous.scenes, sceneId: id }));
     setMovement(null);
-    backgroundAuthorization.current = null;
-    setSnapshot(null);
-    setTokens([]);
-    setAreas([]);
-    setPings([]);
+    setRefreshError('');
     void refresh();
   }
   function release() {
     if (busy.current) return;
+    forgetMovement(attempt?.id);
     setAttempt(null);
-    setMovement(null);
     unresolved.current = false;
     setError('');
     void refresh();
@@ -417,7 +435,10 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     try {
       const marker = await repository.ping(campaign, sceneId, position);
       if (alive.current && generation.current === requestGeneration)
-        setPings((rows) => [...rows.filter((row) => row.id !== marker.id), marker]);
+        setView((previous) => ({
+          ...previous,
+          pings: [...previous.pings.filter((row) => row.id !== marker.id), marker],
+        }));
     } catch (e) {
       if (alive.current && generation.current === requestGeneration)
         setError(e instanceof Error ? e.message : 'Não foi possível marcar o local.');
@@ -427,23 +448,10 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     (row) => row.campanha_id === campaign && (master || row.publicada),
   );
   const visibleScene = visibleScenes.find((row) => row.id === sceneId);
-  const background = backgroundAuthorization.current;
-  const backgroundVision =
-    snapshot ||
-    (visibleScene &&
-    background?.context === contextKey &&
-    background.scene === sceneId &&
-    background.asset === visibleScene.fundo_id &&
-    background.geometry === backgroundGeometry(visibleScene) &&
-    assets.some((asset) => asset.id === background.asset && asset.campanha_id === campaign)
-      ? background.vision
-      : null);
   return {
     repository,
     snapshot,
-    // Presentation only: keep previously revealed bitmap pixels painted. Dynamic
-    // entities, clipping, hit tests and exploration still require the new snapshot.
-    backgroundVision,
+    backgroundVision: snapshot,
     scenes: visibleScenes,
     areas: visibleScene
       ? areas.filter(
@@ -477,7 +485,7 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     ping,
     scene: visibleScene && snapshot?.cena.id === visibleScene.id ? snapshot.cena : visibleScene,
     loading,
-    error,
+    error: error || refreshError,
     setError,
     pending,
     attempt,
@@ -487,17 +495,6 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     chooseScene,
     release,
   };
-}
-
-function backgroundGeometry(scene: SceneRecord) {
-  return [
-    scene.largura,
-    scene.altura,
-    scene.unidade,
-    scene.fundo_x || 0,
-    scene.fundo_y || 0,
-    scene.fundo_escala || 1,
-  ].join(':');
 }
 
 export function useAssetUrls(

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { MapDraftInput } from './MapDraftInput';
 import type {
   MapCommand,
   WallRecord,
@@ -136,19 +137,18 @@ export function WallTools({
           </label>
           <label>
             Alcance de {t.nome} (pés)
-            <input
+            <MapDraftInput
               type="number"
               min={0}
               max={1000}
-              defaultValue={t.alcance_visao ?? 60}
-              key={`${t.id}:${t.versao}`}
-              onBlur={(e) => {
-                if (Number(e.target.value) !== (t.alcance_visao ?? 60))
-                  operate({
+              value={t.alcance_visao ?? 60}
+              onCommit={(value) => {
+                if (Number(value) !== (t.alcance_visao ?? 60))
+                  return operate({
                     tipo: 'token_atualizar',
                     id: t.id,
                     versao: t.versao,
-                    patch: { alcance_visao: Number(e.target.value) },
+                    patch: { alcance_visao: Number(value) },
                   });
               }}
             />
