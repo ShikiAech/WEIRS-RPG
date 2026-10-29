@@ -1,5 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
+import { createPortal } from 'react-dom';
+import { useSheetPopOut } from './useSheetPopOut';
 
 export function FloatingWindow({
   id,
@@ -10,6 +12,7 @@ export function FloatingWindow({
   onCollapse,
   toggleLabel,
   avoidKey,
+  popOut = false,
   initial = { x: 20, y: 100 },
 }: {
   id: string;
@@ -21,7 +24,9 @@ export function FloatingWindow({
   toggleLabel?: string;
   initial?: { x: number; y: number };
   avoidKey?: string;
+  popOut?: boolean;
 }) {
+  const detached = useSheetPopOut(popOut, title);
   const root = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState(() => {
     try {
@@ -44,7 +49,9 @@ export function FloatingWindow({
       document.querySelector('.session-toolbar') || document.querySelector('.app-header');
     // No celular, deixe o título e a paginação do chat acima da janela de dados.
     const clearance = innerWidth <= 760 && className.includes('dice-floating') ? 84 : 4;
-    const minimumY = Math.max(50, (toolbar?.getBoundingClientRect().bottom || 46) + clearance);
+    const minimumY = popOut
+      ? 4
+      : Math.max(50, (toolbar?.getBoundingClientRect().bottom || 46) + clearance);
     return {
       x: Math.max(4, Math.min(x, innerWidth - (rect?.width || 300) - 4)),
       y: Math.max(minimumY, Math.min(y, innerHeight - (rect?.height || 40) - 4)),
@@ -71,8 +78,10 @@ export function FloatingWindow({
     }
   }, [avoidKey]);
   useEffect(() => {
+    if (detached.popup) return;
     const resize = () =>
       setPosition((p) => {
+        if (root.current?.ownerDocument !== document) return p;
         const next = bound(p.x, p.y);
         return next.x === p.x && next.y === p.y ? p : next;
       });
@@ -84,20 +93,26 @@ export function FloatingWindow({
       observer.disconnect();
       window.removeEventListener('resize', resize);
     };
-  }, [collapsed]);
+  }, [collapsed, detached.popup]);
   const toggle = () => (onCollapse ? onCollapse(!collapsed) : setCollapsed(!collapsed));
-  return (
+  const content = (
     <div
       ref={root}
       tabIndex={-1}
       onPointerDownCapture={(e) => e.currentTarget.focus({ preventScroll: true })}
-      className={'floating-window ' + className + (collapsed ? ' is-collapsed' : '')}
-      style={{ left: position.x, top: position.y }}
+      className={
+        'floating-window ' +
+        className +
+        (collapsed ? ' is-collapsed' : '') +
+        (detached.popup ? ' is-popped-out' : '')
+      }
+      style={detached.popup ? undefined : { left: position.x, top: position.y }}
     >
       <div
         className="floating-titlebar"
         onPointerDown={(e) => {
-          if (e.button !== 0 || (e.target as HTMLElement).closest('button')) return;
+          if (detached.popup || e.button !== 0 || (e.target as HTMLElement).closest('button'))
+            return;
           drag.current = { x: e.clientX, y: e.clientY, left: position.x, top: position.y };
           e.currentTarget.setPointerCapture(e.pointerId);
         }}
@@ -118,10 +133,10 @@ export function FloatingWindow({
       >
         <span
           className="window-grip"
-          tabIndex={0}
-          role="button"
-          aria-label={'Mover ' + title}
-          title="Arraste para mover. Use as setas pelo teclado."
+          tabIndex={detached.popup ? undefined : 0}
+          role={detached.popup ? undefined : 'button'}
+          aria-label={detached.popup ? undefined : 'Mover ' + title}
+          title={detached.popup ? undefined : 'Arraste para mover. Use as setas pelo teclado.'}
           onKeyDown={(e) => {
             const steps: Record<string, [number, number]> = {
               ArrowLeft: [-20, 0],
@@ -129,7 +144,7 @@ export function FloatingWindow({
               ArrowUp: [0, -20],
               ArrowDown: [0, 20],
             };
-            if (steps[e.key]) {
+            if (!detached.popup && steps[e.key]) {
               e.preventDefault();
               const [x, y] = steps[e.key];
               save(bound(position.x + x, position.y + y));
@@ -138,6 +153,30 @@ export function FloatingWindow({
         >
           <span aria-hidden="true">⠿</span> {title}
         </span>
+        {popOut && (
+          <button
+            className="window-pop-out"
+            type="button"
+            onClick={() => (detached.popup ? detached.restore() : detached.open())}
+            aria-label={detached.popup ? 'Trazer ficha de volta' : 'Pop Out'}
+            title={
+              detached.popup
+                ? 'Trazer ficha de volta para a mesa'
+                : 'Abrir ficha em uma nova janela'
+            }
+          >
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+            >
+              <path d="M11 3h6v6M17 3l-8 8M8 4H4a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4" />
+            </svg>
+            <span>{detached.popup ? 'Voltar à mesa' : 'Pop Out'}</span>
+          </button>
+        )}
         <button
           className="window-collapse"
           type="button"
@@ -149,6 +188,11 @@ export function FloatingWindow({
           {collapsed ? '+' : '−'}
         </button>
       </div>
+      {detached.error && (
+        <p className="notice error window-popup-error" role="alert">
+          {detached.error}
+        </p>
+      )}
       <div
         id={'window-' + id.replace(/[^a-z0-9]/gi, '-')}
         className="floating-content"
@@ -157,5 +201,31 @@ export function FloatingWindow({
         {children}
       </div>
     </div>
+  );
+  if (!popOut) return content;
+  return (
+    <>
+      {createPortal(content, detached.host)}
+      {detached.popup &&
+        createPortal(
+          <div className="floating-layer tabletop-shell">
+            <aside
+              className="floating-window session-floating floating-return"
+              style={{ left: position.x, top: position.y }}
+              aria-label="Ficha em outra janela"
+            >
+              <strong>{title}</strong>
+              <p>A ficha está aberta em outra janela.</p>
+              <button className="text-button" type="button" onClick={() => detached.popup?.focus()}>
+                Ver janela da ficha
+              </button>
+              <button className="button secondary" type="button" onClick={() => detached.restore()}>
+                Trazer ficha de volta
+              </button>
+            </aside>
+          </div>,
+          document.body,
+        )}
+    </>
   );
 }

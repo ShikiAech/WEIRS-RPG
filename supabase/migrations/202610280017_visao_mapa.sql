@@ -183,8 +183,17 @@ BEGIN
  'atribuicoes',(SELECT coalesce(jsonb_agg(a),'[]') FROM public.atribuicoes_mapa a WHERE a.campanha_id=p_campanha AND (papel='mestre' OR a.usuario_id=auth.uid())),
  'assets',(SELECT coalesce(jsonb_agg(a),'[]') FROM public.arquivos_mapa a WHERE a.campanha_id=p_campanha AND private.arquivo_visivel(a)));
 END $$;
--- Revoke every newly introduced private helper; expose only predicates required by RLS.
-REVOKE ALL ON ALL FUNCTIONS IN SCHEMA private FROM PUBLIC,anon;
+-- Keep map helpers private without changing permissions used by other features' RLS.
+REVOKE ALL ON FUNCTION
+ private.preparar_cena_mapa(),private.invalidar_mapa(),private.cena_visivel(uuid,uuid),
+ private.camada_visivel(uuid,uuid),private.dono_token(public.tokens_mapa,uuid),
+ private.celula_visivel(uuid,numeric,numeric),private.token_visivel(public.tokens_mapa),
+ private.controla_token_mapa(public.tokens_mapa),private.controla_area_mapa(public.areas_mapa),
+ private.area_cobre(public.areas_mapa,numeric,numeric),private.area_mapa_visivel(public.areas_mapa),
+ private.objeto_visivel(public.objetos_mapa),private.arquivo_visivel(public.arquivos_mapa),
+ private.arquivo_storage(text,text),private.arquivo_storage_anterior(text,text),
+ private.segmentos_intersectam(numeric,numeric,numeric,numeric,numeric,numeric,numeric,numeric)
+ FROM PUBLIC,anon;
 GRANT EXECUTE ON FUNCTION private.camada_visivel(uuid,uuid),private.token_visivel(public.tokens_mapa),private.objeto_visivel(public.objetos_mapa),private.arquivo_visivel(public.arquivos_mapa),private.arquivo_storage(text,text) TO authenticated;
 REVOKE ALL ON FUNCTION public.ler_mapa_visivel(uuid,uuid) FROM PUBLIC,anon;
 GRANT EXECUTE ON FUNCTION public.ler_mapa_visivel(uuid,uuid) TO authenticated;

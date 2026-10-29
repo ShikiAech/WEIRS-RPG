@@ -121,13 +121,6 @@ test('carregar ficha para dano reserva envio e operações da sessão até confi
     releaseSend = resolve;
   });
   let lookingUp = false;
-  await page.route('**/rest/v1/fichas?*', async (route) => {
-    if (new URL(route.request().url()).searchParams.get('id') !== 'eq.' + sheet.id)
-      return route.fallback();
-    lookingUp = true;
-    await lookupGate;
-    return route.fallback();
-  });
   await page.goto('app.html#/chat');
   await page.getByRole('button', { name: 'Minha ficha', exact: true }).click();
   const panel = page.getByRole('complementary', { name: 'Ficha durante a sessão' });
@@ -135,6 +128,15 @@ test('carregar ficha para dano reserva envio e operações da sessão até confi
   const composer = page.getByLabel('Mensagem ou comando de dados');
   await composer.fill('Mensagem concorrente');
   const trigger = page.getByRole('button', { name: 'Rolar dano: ' + attack.nome, exact: true });
+  await expect(trigger).toBeVisible();
+  // A disponibilidade já foi consultada; atrasar a nova consulta feita ao clicar.
+  await page.route('**/rest/v1/fichas?*', async (route) => {
+    if (new URL(route.request().url()).searchParams.get('id') !== 'eq.' + sheet.id)
+      return route.fallback();
+    lookingUp = true;
+    await lookupGate;
+    return route.fallback();
+  });
   await trigger.focus();
   await trigger.press('Enter');
   await expect.poll(() => lookingUp).toBe(true);

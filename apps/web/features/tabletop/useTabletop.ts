@@ -14,6 +14,7 @@ import type {
 } from '../../../../packages/contracts/tabletop';
 import type { SheetRecord } from '../../../../packages/contracts/sheets';
 import type { SessionState } from '../../../../packages/contracts/session';
+import { pendingTokenMoves, projectTokenMoves } from './token-movement';
 
 export function useTabletop(campaign: string, master: boolean, userId: string) {
   const repository = useMemo(() => createTabletopRepository(supabase!), []);
@@ -33,6 +34,11 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     [error, setError] = useState(''),
     [pending, setPending] = useState(false);
   const [attempt, setAttempt] = useState<{ id: string; command: MapCommand } | null>(null);
+  const [movement, setMovement] = useState<{
+    context: string;
+    scene: string;
+    moves: ReturnType<typeof pendingTokenMoves>;
+  } | null>(null);
   const selected = useRef(''),
     alive = useRef(true),
     running = useRef(false),
@@ -148,6 +154,7 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
         setMesa(null);
         setPings([]);
         setAttempt(null);
+        setMovement(null);
         unresolved.current = false;
       }
       setError(e instanceof Error ? e.message : 'Não foi possível atualizar o mapa.');
@@ -186,6 +193,7 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     context.current = contextKey;
     setLoading(true);
     setAttempt(null);
+    setMovement(null);
     unresolved.current = false;
     setSnapshot(null);
     if (!master) {
@@ -282,6 +290,8 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     unresolved.current = true;
     setPending(true);
     setAttempt(current);
+    if (command)
+      setMovement({ context: contextKey, scene: sceneId, moves: pendingTokenMoves(command) });
     setError('');
     const requestGeneration = generation.current;
     try {
@@ -290,12 +300,14 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
       setAttempt(null);
       unresolved.current = false;
       await refresh();
+      if (alive.current && generation.current === requestGeneration) setMovement(null);
       return result;
     } catch (e) {
       if (!alive.current || generation.current !== requestGeneration) return false;
       const code = (e as { code?: string }).code;
       if (['WV001', 'WV002', 'WV003', 'WV004'].includes(code || '')) {
         setAttempt(null);
+        setMovement(null);
         unresolved.current = false;
         await refresh();
       }
@@ -315,6 +327,7 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     selected.current = id;
     generation.current++;
     setSceneId(id);
+    setMovement(null);
     setSnapshot(null);
     setTokens([]);
     setAreas([]);
@@ -324,6 +337,7 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
   function release() {
     if (busy.current) return;
     setAttempt(null);
+    setMovement(null);
     unresolved.current = false;
     setError('');
     void refresh();
@@ -360,9 +374,12 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
         )
       : [],
     tokens: visibleScene
-      ? tokens.filter(
-          (row) =>
-            row.campanha_id === campaign && row.cena_id === sceneId && (master || !row.oculto),
+      ? projectTokenMoves(
+          tokens.filter(
+            (row) =>
+              row.campanha_id === campaign && row.cena_id === sceneId && (master || !row.oculto),
+          ),
+          movement?.context === contextKey && movement.scene === sceneId ? movement.moves : [],
         )
       : [],
     assets: assets.filter(

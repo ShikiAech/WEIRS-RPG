@@ -126,10 +126,10 @@ export function Tabletop({
   const [multiSelecting, setMultiSelecting] = useState(false);
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === 'Shift') setMultiSelecting(true);
+      setMultiSelecting(e.shiftKey || e.ctrlKey || e.metaKey);
     };
     const up = (e: KeyboardEvent) => {
-      if (e.key === 'Shift') setMultiSelecting(false);
+      setMultiSelecting(e.shiftKey || e.ctrlKey || e.metaKey);
     };
     const blur = () => setMultiSelecting(false);
     window.addEventListener('keydown', down);
@@ -163,9 +163,10 @@ export function Tabletop({
               scene.largura,
               scene.altura,
               scene.unidade,
-              selectedTokens
+              map.snapshot.tokens
                 .filter(
                   (t) =>
+                    selection.includes(t.id) &&
                     t.visao !== false &&
                     (t.controlador_id || t.ficha_id) &&
                     map.snapshot!.camadas.some((l) => l.id === t.camada_id && l.visivel),
@@ -229,7 +230,6 @@ export function Tabletop({
     if (scene) setCamera(fitCamera(size.width, size.height, scene.largura, scene.altura));
   };
   useLayoutEffect(() => {
-    if (master) return;
     const pointer = drag.current?.pointer;
     if (pointer !== undefined && svg.current?.hasPointerCapture(pointer))
       svg.current.releasePointerCapture(pointer);
@@ -246,7 +246,7 @@ export function Tabletop({
     setDrawPreview([]);
     setDeleteConfirm(false);
     setDrawer((previous) => (previous === 'token' || previous === 'scenes' ? '' : previous));
-  }, [master]);
+  }, [campaignId, userId, role]);
   useEffect(() => {
     if (!stage.current) return;
     const observer = new ResizeObserver(([entry]) =>
@@ -316,14 +316,10 @@ export function Tabletop({
     if (!scene || (event.button !== 0 && event.button !== 1 && event.button !== 2)) return;
     event.preventDefault();
     if (event.button === 2 && tool === 'ruler' && drag.current?.kind === 'ruler') return;
+    svg.current?.focus();
     const raw = world(event),
       p = tool === 'ruler' ? cellCenter(raw, scene.largura, scene.altura) : raw,
-      kind =
-        event.button !== 0
-          ? 'pan'
-          : tool === 'select' && event.shiftKey && !spectator
-            ? 'box'
-            : tool;
+      kind = event.button !== 0 ? 'pan' : tool === 'select' && !spectator ? 'box' : tool;
     if (kind === 'wall' && (!master || map.locked)) return;
     if (kind === 'wall') setWallPreview({ a: p, b: p });
     if (kind === 'area') setAreaPhase('Orientar');
@@ -358,6 +354,7 @@ export function Tabletop({
     if (kind === 'box') {
       setSelection([]);
       setSelected('');
+      setDrawer((current) => (current === 'selection' || current === 'token' ? '' : current));
       setBoxPreview(selectionBounds(p, p));
     }
     if (kind === 'area')
@@ -374,11 +371,12 @@ export function Tabletop({
     if (tool !== 'select' || event.button !== 0) return;
     event.stopPropagation();
     event.preventDefault();
+    svg.current?.focus();
     const movableSelection = selection.filter((id) =>
       tokens.some((t) => t.id === id && canMove(t)),
     );
     const ids =
-      !spectator && canMove(token) && event.shiftKey
+      !spectator && canMove(token) && (event.shiftKey || event.ctrlKey || event.metaKey)
         ? movableSelection.includes(token.id)
           ? movableSelection.filter((id) => id !== token.id)
           : [...movableSelection, token.id].slice(-40)
@@ -390,6 +388,8 @@ export function Tabletop({
     setDeleteConfirm(false);
     if (
       event.shiftKey ||
+      event.ctrlKey ||
+      event.metaKey ||
       map.locked ||
       !canMove(token) ||
       tokens.some((t) => ids.includes(t.id) && !canMove(t))
@@ -504,6 +504,14 @@ export function Tabletop({
   function end(event: ReactPointerEvent<SVGSVGElement>, cancel = false) {
     const action = drag.current;
     if (!action || action.pointer !== event.pointerId || !scene) return;
+    if (action.token)
+      cancel =
+        cancel ||
+        map.locked ||
+        !(action.tokens || [action.token]).every((source) => {
+          const current = tokens.find((token) => token.id === source.id);
+          return current && current.versao === source.versao && canMove(current);
+        });
     if (action.kind === 'ruler' && !cancel && (event.buttons & 1) !== 0) return;
     if (action.kind === 'ruler')
       setRuler(
@@ -569,17 +577,20 @@ export function Tabletop({
         }
       } else if (action.kind === 'box') {
         const rectangle = selectionBounds(action.start, world(event));
-        const ids = tokens
-          .filter(
-            (t) =>
-              canMove(t) &&
-              t.x + t.tamanho >= rectangle.x &&
-              t.x <= rectangle.x + rectangle.w &&
-              t.y + t.tamanho >= rectangle.y &&
-              t.y <= rectangle.y + rectangle.h,
-          )
-          .slice(0, 40)
-          .map((t) => t.id);
+        const moved = Math.hypot(rectangle.w, rectangle.h) * CELL * cameraRef.current.zoom >= 4;
+        const ids = moved
+          ? tokens
+              .filter(
+                (t) =>
+                  canMove(t) &&
+                  t.x + t.tamanho >= rectangle.x &&
+                  t.x <= rectangle.x + rectangle.w &&
+                  t.y + t.tamanho >= rectangle.y &&
+                  t.y <= rectangle.y + rectangle.h,
+              )
+              .slice(0, 40)
+              .map((t) => t.id)
+          : [];
         setSelection(ids);
         setSelected(ids[0] || '');
       } else if (action.kind === 'area') {
@@ -855,6 +866,21 @@ export function Tabletop({
                 setDrawer('');
                 return;
               }
+              if (
+                (event.ctrlKey || event.metaKey) &&
+                event.key.toLowerCase() === 'a' &&
+                tool === 'select' &&
+                !spectator
+              ) {
+                event.preventDefault();
+                const ids = tokens
+                  .filter(canMove)
+                  .slice(0, 40)
+                  .map((token) => token.id);
+                setSelection(ids);
+                setSelected(ids[0] || '');
+                return;
+              }
               if (master && (event.ctrlKey || event.metaKey)) {
                 if (event.key.toLowerCase() === 'z') {
                   event.preventDefault();
@@ -928,8 +954,8 @@ export function Tabletop({
             }}
           >
             <title>
-              Mapa da campanha. Arraste para mover o mapa; selecione seu token e use as setas para
-              movimentá-lo.
+              Mapa da campanha. Arraste no espaço vazio para selecionar tokens. Ctrl ou Cmd e clique
+              alterna a seleção. Botão direito e arrastar move o mapa. Escape limpa a seleção.
             </title>
             <defs>
               <pattern
@@ -1121,7 +1147,7 @@ export function Tabletop({
                                 tokens.some((t) => t.id === id && canMove(t)),
                               );
                               const ids =
-                                event.shiftKey && canMove(token)
+                                (event.shiftKey || event.ctrlKey || event.metaKey) && canMove(token)
                                   ? movable.includes(token.id)
                                     ? movable.filter((id) => id !== token.id)
                                     : [...movable, token.id].slice(-40)
@@ -1572,8 +1598,8 @@ export function Tabletop({
         )}
         <button
           type="button"
-          title="Selecionar tokens"
-          aria-label="Selecionar tokens"
+          title="Lista de tokens"
+          aria-label="Lista de tokens"
           aria-pressed={drawer === 'selection'}
           disabled={!scene || map.locked}
           onClick={() => toggleDrawer('selection')}
@@ -1658,10 +1684,10 @@ export function Tabletop({
                       : tool === 'area'
                         ? 'Posicionar: mova o ponteiro · Orientar: arraste · Confirmar no painel · Esc cancela'
                         : selection.length > 1
-                          ? `${selection.length} tokens · Arraste ou use as setas · Shift para selecionar`
+                          ? `${selection.length} tokens · Arraste ou use as setas · Ctrl/Cmd + clique alterna a seleção · Esc limpa`
                           : selectedToken
                             ? `${selectedToken.nome}${selectedVitals ? ` · PV ${selectedVitals.current}/${selectedVitals.max}` : ''}${canMove(selectedToken) ? ' · Arraste ou use as setas' : ''}`
-                            : `${scene.unidade} pés por célula · Arraste para mover · Roda do mouse para zoom`}
+                            : `${scene.unidade} pés por célula · Arraste para selecionar · Botão direito arrasta o mapa · Roda do mouse para zoom`}
         </div>
       )}
 
@@ -1949,7 +1975,7 @@ export function Tabletop({
                     svg.current?.focus();
                   }}
                 >
-                  Usar seleção de {selection.length} tokens
+                  Voltar ao mapa
                 </button>
               )}
             </>

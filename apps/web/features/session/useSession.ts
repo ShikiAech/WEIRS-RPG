@@ -72,6 +72,8 @@ export function useSession(
     const stop = repository.subscribe(campaign, update);
     const timer = setInterval(update, 6000);
     window.addEventListener('online', update);
+    const detachedUpdate = () => void refresh();
+    window.addEventListener('weirs:session-refresh', detachedUpdate);
     document.addEventListener('visibilitychange', update);
     const guard = (e: Event) => {
       if (busy.current || unresolved.current) {
@@ -95,6 +97,7 @@ export function useSession(
       clearInterval(timer);
       stop();
       window.removeEventListener('online', update);
+      window.removeEventListener('weirs:session-refresh', detachedUpdate);
       document.removeEventListener('visibilitychange', update);
       window.removeEventListener('weirs:before-navigation', guard);
       window.removeEventListener('weirs:before-account-change', guard);
