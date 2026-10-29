@@ -129,3 +129,24 @@ Capturas locais desta revisão (arquivos de trabalho ignorados pelo Git):
 5. Mapa: `output/map-ux-review/ruler-mobile.png` e `output/map-ux-review/area-desktop.png` mostram controles e prévia.
 
 As capturas apoiam a revisão visual; não constituem certificação de acessibilidade. Login real, entrega de eventos e os tempos finais de resposta do ambiente hospedado dependem da publicação e validação nesse ambiente.
+
+## Publicação corretiva — 29/10/2026
+
+A criação autenticada ainda consultava revisões hospedadas sem escolhas estruturadas de Inamons e Talpas. Uma nova consulta pública confirmou zero grupos tanto para Inamons quanto para a linhagem Talpa Ferramenteiro; N0-V4 já continha seus quatro grupos. A interface atualizada, sozinha, não corrigia esses dados.
+
+No projeto `wmfusotfddhgvjwgobtg`, foram aplicadas as migrações `016`, `019` e `020`. As definições efetivas de `014` e `015` já estavam instaladas, embora o histórico remoto tenha começado com um snapshot. Foram publicadas 110 revisões de Inamons, Talpas, suas linhagens/traços e dependências, usando o mesmo serializador do seed completo. A função `criar-personagem` foi atualizada para a versão 6 com o motor atual e `verify_jwt=true`; os dois arquivos publicados foram comparados com os locais.
+
+Consultas novas à API pública e ao resolvedor confirmaram:
+
+- Inamon: quatro alternativas de aprimoramento, com uma escolha no nível 1 e outra a partir do nível 7, além de arma integrada condicionada à proficiência.
+- Talpa Ferramenteiro: seis engenhocas, com capacidade de 2/3/4 dispositivos nos níveis 1/6/10, respectivamente.
+- N0-V4: escolhas anteriores continuam disponíveis.
+- A função de chat agora reconhece ações de descrição; a RPC privada continua sem acesso direto para jogadores. O frontend também traduz falhas de descrição sem mostrar instruções de dados.
+
+Rascunhos antigos conservam as revisões anteriores. Para obter as novas opções, recarregue a aplicação e selecione novamente a espécie e, no caso de Talpa, a linhagem Ferramenteiro. A publicação não converte fichas ou rascunhos automaticamente.
+
+Foram preservados, com comparação de hashes, as 12.810 revisões publicadas e as 131.307 linhas anteriores nas 61 tabelas de domínio. As contagens de 4 fichas, 3 campanhas e 131 mensagens também permaneceram iguais. Colunas novas nulas foram excluídas da comparação apenas nas tabelas alteradas. O transporte foi validado por SHA-256 antes da execução atômica, e a tabela privada de preparação foi removida na mesma transação da publicação.
+
+A validação específica passou em 29 testes de regras/chat/banco, 14 testes de navegador em desktop/celular e no build com typecheck. A carga direcionada também foi aplicada duas vezes em PostgreSQL local sobre um seed histórico, preservando os dados anteriores. O catálogo real foi exercitado pelo resolvedor nos níveis 1, 6 e 10. Uma chamada sem sessão à função de criação continuou retornando HTTP 401. Nenhuma mensagem ou personagem de teste foi criado na campanha hospedada.
+
+Esta publicação é direcionada à criação e ao chat. As migrações de mapa `017`/`018` e a carga completa das demais revisões continuam pendentes de uma publicação própria. Os artefatos de conferência, backups de funções e resultados ficam em `output/backend-release-2026-10-29/` neste checkout; o SQL direcionado tem SHA-256 `bb80d3e4664f408fc5d8892589697976e34b5e6c806c1cac80a7f8c8a1a08ee3` após retirar os delimitadores externos de transação.

@@ -9,6 +9,41 @@ import {
   sincronizarEquipamentos,
 } from '../../packages/sheets/equipamentos.js';
 
+test('descrição recusada pelo servidor antigo explica a atualização sem sugerir uma rolagem', async ({
+  page,
+}) => {
+  const sheets = await backend(page);
+  const sheet = sheets.rows[0];
+  sheet.conteudo.magias.push({ ...novaEntrada('magias'), nome: 'Luz de teste', descricao: 'Luz.' });
+  await chatBackend(page, undefined, { sheets: sheets.rows });
+  const commands: unknown[] = [];
+  await page.route('https://weirs-test.supabase.co/rest/v1/rpc/enviar_chat', async (route) => {
+    commands.push(route.request().postDataJSON().p_comando);
+    await route.fulfill({
+      status: 400,
+      contentType: 'application/json',
+      body: JSON.stringify({ code: 'WC003', message: 'Ação inválida.' }),
+    });
+  });
+  await page.goto('app.html#/fichas/' + sheet.id);
+  await page.getByRole('tab', { name: 'Combate', exact: true }).click();
+  await page.getByRole('button', { name: 'Luz de teste', exact: true }).click();
+  const error = page.getByRole('alert');
+  await expect(error).toContainText(/servidor.*descriç.*atualiz/i);
+  await expect(error).not.toContainText(/100 dados|kh\/kl|perfil.*magia/i);
+  await expect(page.getByText('Ação enviada ao chat.', { exact: true })).toHaveCount(0);
+  expect(commands).toHaveLength(1);
+  expect(commands[0]).toMatchObject({
+    acao: 'descricao_magia',
+    entrada_id: sheet.conteudo.magias[0].id,
+  });
+  await page.getByRole('tab', { name: 'Atributos e perícias', exact: true }).click();
+  await page.getByRole('button', { name: 'Acrobacia', exact: true }).click();
+  await expect(error).toContainText(/servidor.*descriç.*atualiz/i);
+  await expect.poll(() => commands.length).toBe(2);
+  expect(commands[1]).toMatchObject({ acao: 'descricao_pericia', entrada_id: 'acrobacia' });
+});
+
 test('nome do ataque de uma arma envia a descrição na aba Inventário', async ({ page }) => {
   const sheets = await backend(page);
   const sheet = sheets.rows[0];

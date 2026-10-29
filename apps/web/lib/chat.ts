@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { ChatRepository, ChatMessage } from '../../../packages/contracts/chat';
+import type { ChatCommand, ChatRepository, ChatMessage } from '../../../packages/contracts/chat';
 import { UUID } from '../../../packages/sheets/modelo.js';
 
 const errors: Record<string, string> = {
@@ -13,31 +13,74 @@ const errors: Record<string, string> = {
   SESSAO: 'Entre novamente para acessar o chat.',
   ACESSO: 'Você não participa desta campanha.',
 };
+const descriptionErrors = new Map([
+  [
+    'Ação inválida.',
+    'O servidor não reconheceu esta ação de descrição. Peça ao responsável para atualizar o banco de dados.',
+  ],
+  [
+    'Entrada removida ou indisponível.',
+    'Esta entrada não está mais disponível na ficha salva. Recarregue a ficha antes de enviar a descrição.',
+  ],
+  [
+    'Descrição excede o limite de 10000 caracteres.',
+    'A descrição ultrapassa 10000 caracteres. Reduza o texto na ficha e salve antes de enviar.',
+  ],
+  [
+    'Descrição não usa vantagem.',
+    'Descrições devem ser enviadas no modo normal, sem vantagem ou desvantagem.',
+  ],
+  [
+    'Descrição inválida.',
+    'Não foi possível identificar esta descrição. Recarregue a ficha e tente novamente.',
+  ],
+]);
 export class ChatError extends Error {
-  constructor(public code: string) {
+  constructor(
+    public code: string,
+    message?: string,
+  ) {
     super(
-      errors[code] ||
+      message ||
+        errors[code] ||
         'Não foi possível confirmar a operação. Reenvie a mesma tentativa para evitar duplicação.',
     );
   }
 }
-export function chatError(error: unknown): ChatError {
+export function chatError(error: unknown, command?: ChatCommand): ChatError {
   if (error instanceof ChatError) return error;
-  const e = error as { code?: string; status?: number };
-  return new ChatError(e?.status === 401 || e?.code === 'PGRST301' ? 'SESSAO' : e?.code || 'REDE');
+  const e = error as { code?: string; status?: number; message?: string };
+  const code = e?.status === 401 || e?.code === 'PGRST301' ? 'SESSAO' : e?.code || 'REDE';
+  if (command?.tipo === 'acao' && command.acao.startsWith('descricao_')) {
+    if (code === 'WC003')
+      return new ChatError(
+        code,
+        descriptionErrors.get(e?.message || '') ||
+          'Não foi possível enviar esta descrição. Recarregue a ficha salva e tente novamente.',
+      );
+    if (code === 'WC005')
+      return new ChatError(
+        code,
+        'A ficha foi alterada. Recarregue a versão salva antes de enviar a descrição.',
+      );
+  }
+  return new ChatError(code);
 }
 
 export function createChatRepository(client: SupabaseClient): ChatRepository {
   const validId = (id: string) => {
     if (!UUID.test(id)) throw new ChatError('ACESSO');
   };
-  async function request<T>(query: PromiseLike<{ data: unknown; error: unknown }>): Promise<T> {
+  async function request<T>(
+    query: PromiseLike<{ data: unknown; error: unknown }>,
+    command?: ChatCommand,
+  ): Promise<T> {
     try {
       const { data, error } = await query;
       if (error) throw error;
       return data as T;
     } catch (error) {
-      throw chatError(error);
+      throw chatError(error, command);
     }
   }
   async function access(campaign: string) {
@@ -116,6 +159,7 @@ export function createChatRepository(client: SupabaseClient): ChatRepository {
       validId(pedido);
       const data = await request<ChatMessage | ChatMessage[]>(
         client.rpc('enviar_chat', { p_campanha: campaign, p_pedido: pedido, p_comando: command }),
+        command,
       );
       return message(data, campaign);
     },
