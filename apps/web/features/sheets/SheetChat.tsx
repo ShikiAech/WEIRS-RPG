@@ -120,7 +120,7 @@ export function SheetChat({
           <p className="muted">
             {disabled
               ? 'Salve as alterações antes de usar os dados da ficha.'
-              : 'Botões de ataque e magia enviam ações ao chat usando esta versão salva.'}{' '}
+              : 'Clique nos nomes para enviar descrições ao chat. As rolagens usam a ficha salva.'}{' '}
             <a href={'#/chat/' + record.campanha_id}>Ver no chat</a>
           </p>
           {pending && <p aria-live="polite">Enviando ação…</p>}
@@ -167,7 +167,9 @@ export function SheetActionButtons({
   const [mode, setMode] = useState<RollMode>('normal');
   if (!data || !['ataques', 'magias'].includes(path)) return null;
   const spell = path === 'magias';
-  const hasRoll = spell ? Boolean(entry.perfilId) : entry.tipo === 'bonus';
+  const hasRoll = spell
+    ? Boolean(entry.perfilId || entry.bonusAtaque !== undefined)
+    : entry.tipo === 'bonus';
   const label = String(entry.nome || (spell ? 'Magia' : 'Ataque'));
   function button(action: SheetAction, text: string, aria: string, rollMode: RollMode = 'normal') {
     return (
@@ -217,5 +219,40 @@ export function SheetActionButtons({
         </>
       )}
     </div>
+  );
+}
+
+export function SheetDescriptionTitle({
+  path,
+  entry,
+  children,
+}: {
+  path: string;
+  entry: Record<string, unknown>;
+  children: ReactNode;
+}) {
+  const data = useContext(context);
+  const action = (
+    {
+      ataques: 'descricao_ataque',
+      magias: 'descricao_magia',
+      caracteristicas: 'descricao_caracteristica',
+      tracos: 'descricao_traco',
+      talentos: 'descricao_talento',
+      pericias: 'descricao_pericia',
+    } as Record<string, SheetAction>
+  )[path];
+  if (!data || !action) return <>{children}</>;
+  return (
+    <button
+      type="button"
+      className="sheet-description-title"
+      title="Enviar descrição ao chat"
+      aria-description="Enviar descrição ao chat"
+      disabled={data.disabled || data.pending}
+      onClick={() => data.roll({ entrada: String(entry.id), acao: action, modo: 'normal' })}
+    >
+      {children}
+    </button>
   );
 }

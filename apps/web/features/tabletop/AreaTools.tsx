@@ -1,6 +1,8 @@
 import type { AreaRecord, SceneRecord, TokenRecord } from '../../../../packages/contracts/tabletop';
 export function AreaTools({
   scene,
+  phase,
+  onCancel,
   areas,
   tokens,
   draft,
@@ -12,6 +14,8 @@ export function AreaTools({
   onSave,
   onDelete,
 }: {
+  phase?: 'Posicionar' | 'Orientar' | 'Confirmar';
+  onCancel?: () => void;
   scene: SceneRecord;
   areas: AreaRecord[];
   tokens: TokenRecord[];
@@ -33,12 +37,19 @@ export function AreaTools({
     <>
       <form
         className="map-area-form"
+        onKeyDown={(e) => {
+          if (e.key === 'Escape') {
+            e.preventDefault();
+            onCancel?.();
+          }
+        }}
         onSubmit={(e) => {
           e.preventDefault();
           onSave();
         }}
       >
         <fieldset disabled={disabled}>
+          <p role="status">{phase || 'Confirmar'} · A área só é salva ao confirmar.</p>
           <label>
             Nome da área
             <input
@@ -151,12 +162,35 @@ export function AreaTools({
               ))}
             </select>
           </label>
+          <label>
+            Orientação (controle giratório)
+            <input
+              type="range"
+              min={-180}
+              max={180}
+              value={draft.angulo}
+              onChange={(e) => update({ angulo: Number(e.target.value) })}
+            />
+          </label>
+          {draft.token_id && (
+            <label>
+              <input
+                type="checkbox"
+                checked={draft.acompanhar_rotacao || false}
+                onChange={(e) => update({ acompanhar_rotacao: e.target.checked })}
+              />
+              Acompanhar rotação
+            </label>
+          )}
           <div className="map-inline-actions">
             <button type="button" className="button secondary" onClick={onPosition}>
               Posicionar no mapa
             </button>
+            <button type="button" className="button secondary" onClick={onCancel}>
+              Cancelar
+            </button>
             <button type="submit" className="button">
-              {draft.id === 'preview' ? 'Criar área' : 'Salvar área'}
+              {draft.id === 'preview' ? 'Confirmar área' : 'Salvar área'}
             </button>
           </div>
         </fieldset>

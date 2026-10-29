@@ -88,12 +88,6 @@ test('assistente demonstra atributos, origens e revisão antes de abrir a ficha'
   await chooseCatalog(page, 'Antecedente', 'Criminoso', bg.sourceTitle);
   await page.getByLabel('Destreza: bônus do antecedente', { exact: true }).fill('2');
   await page.getByLabel('Constituição: bônus do antecedente', { exact: true }).fill('1');
-  await selectDropdown(
-    page.getByLabel('Equipamento de Criminoso', { exact: true }),
-    snapshot.equipmentOptions.find(
-      (o: any) => o.ownerRevisionId === bg.ref.revisionId && o.key === 'B',
-    ).id,
-  );
   await page.getByRole('button', { name: 'Próxima etapa', exact: true }).click();
   const cls = find('classe', 'Guerreiro');
   await chooseCatalog(page, 'Classe', 'Guerreiro', cls.sourceTitle);
@@ -118,13 +112,19 @@ test('assistente demonstra atributos, origens e revisão antes de abrir a ficha'
     await page.getByLabel(option.name, { exact: true }).check();
   }
   await page.getByLabel(`Buscar em ${mastery.name}`, { exact: true }).press('Escape');
+  await page.getByRole('button', { name: 'Próxima etapa', exact: true }).click();
+  await selectDropdown(
+    page.getByLabel('Equipamento de Criminoso', { exact: true }),
+    snapshot.equipmentOptions.find(
+      (o: any) => o.ownerRevisionId === bg.ref.revisionId && o.key === 'B',
+    ).id,
+  );
   await selectDropdown(
     page.getByLabel('Equipamento de Guerreiro', { exact: true }),
     snapshot.equipmentOptions.find(
       (o: any) => o.ownerRevisionId === cls.ref.revisionId && o.key === 'C',
     ).id,
   );
-  await page.getByRole('button', { name: 'Próxima etapa', exact: true }).click();
   await expect(page.getByText(/PV máximos:/)).toBeVisible();
   await page.getByRole('button', { name: 'Próxima etapa', exact: true }).click();
   await expect(page.getByText(/As magias e usos concedidos/)).toBeVisible();
@@ -362,12 +362,15 @@ test('criação autenticada repete a mesma tentativa depois de resposta perdida'
   expect(backend.state.rows).toHaveLength(1);
   await expect(page.getByRole('button', { name: 'Revisar escolhas', exact: true })).toHaveCount(0);
   await expect(page.getByLabel('Nome do personagem', { exact: true })).toBeDisabled();
-  await page.route('**/rest/v1/rpc/obter_compendio', (route) =>
+  await page.route(/\/rest\/v1\/rpc\/obter_compendio(?:_seletivo)?(?:\?.*)?$/, (route) =>
     route.fulfill({ status: 503, json: { message: 'Indisponível' } }),
   );
   page.once('dialog', (dialog) => dialog.accept());
   await page.getByRole('link', { name: 'Fichas', exact: true }).click();
   await page.getByRole('link', { name: 'Criar personagem +', exact: true }).click();
+  // A new page lifetime clears successful rules cached during the earlier visit.
+  page.once('dialog', (dialog) => dialog.accept());
+  await page.reload();
   await expect(
     page.getByRole('alert').filter({ hasText: 'Suas escolhas foram preservadas' }),
   ).toBeVisible();
@@ -388,7 +391,7 @@ test('indisponibilidade das regras mantém atributos e logout encerra o rascunho
 }) => {
   await creationBackend(page);
   let failures = 1;
-  await page.route('**/rest/v1/rpc/obter_compendio', async (route) => {
+  await page.route(/\/rest\/v1\/rpc\/obter_compendio(?:_seletivo)?(?:\?.*)?$/, async (route) => {
     if (failures-- > 0) return route.fulfill({ status: 503, json: { message: 'SQL privado' } });
     return route.fallback();
   });
@@ -442,7 +445,7 @@ test('editar atributos durante falha do catálogo preserva escolhas existentes',
     },
   ];
   let unavailable = false;
-  await page.route('**/rest/v1/rpc/obter_compendio', (route) =>
+  await page.route(/\/rest\/v1\/rpc\/obter_compendio(?:_seletivo)?(?:\?.*)?$/, (route) =>
     unavailable
       ? route.fulfill({ status: 503, json: { message: 'Indisponível' } })
       : route.fallback(),
@@ -459,6 +462,9 @@ test('editar atributos durante falha do catálogo preserva escolhas existentes',
   page.once('dialog', (dialog) => dialog.accept());
   await page.getByRole('link', { name: 'Fichas', exact: true }).click();
   await page.getByRole('link', { name: 'Criar personagem +', exact: true }).click();
+  // A new page lifetime clears successful rules cached during the earlier visit.
+  page.once('dialog', (dialog) => dialog.accept());
+  await page.reload();
   await expect(
     page.getByRole('alert').filter({ hasText: 'Suas escolhas foram preservadas' }),
   ).toBeVisible();

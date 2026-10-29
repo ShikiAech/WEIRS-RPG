@@ -23,9 +23,12 @@ export function useDropdownLayout(
       });
     };
     place();
+    const observer = new ResizeObserver(place);
+    if (anchor.current) observer.observe(anchor.current);
     window.addEventListener('resize', place);
     window.addEventListener('scroll', place, true);
     return () => {
+      observer.disconnect();
       window.removeEventListener('resize', place);
       window.removeEventListener('scroll', place, true);
     };

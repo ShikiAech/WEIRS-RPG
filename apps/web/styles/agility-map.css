@@ -198,3 +198,132 @@
     max-width: calc(100% - 163px);
   }
 }
+
+.map-ruler-options,
+.map-administration,
+.map-player-token,
+.map-vision-notice {
+  position: absolute;
+  z-index: 8;
+  background: #202127;
+  color: #eee6d7;
+  border: 1px solid #72717c;
+  border-radius: 8px;
+  padding: 10px;
+  max-width: min(360px, calc(100% - 80px));
+}
+.map-ruler-options {
+  right: 8px;
+  width: 190px;
+  top: 54px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.map-ruler-options label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.tabletop-map.is-measuring .map-ruler-options {
+  pointer-events: none;
+}
+.map-ruler-options input[type='number'] {
+  width: 70px;
+}
+.map-ruler-options input[type='color'] {
+  width: 44px;
+  height: 36px;
+  min-height: 36px;
+  padding: 3px;
+}
+.map-administration {
+  right: 10px;
+  top: 54px;
+  max-height: 70%;
+  overflow: auto;
+}
+.map-administration:not([open]) {
+  width: auto;
+}
+.map-administration fieldset {
+  min-width: 0;
+  padding: 8px;
+}
+.map-administration label {
+  display: block;
+  margin: 5px 0;
+}
+.map-administration input:not([type='checkbox']),
+.map-administration select {
+  max-width: 100%;
+}
+.map-player-token {
+  right: 10px;
+  top: 54px;
+}
+.map-vision-notice {
+  left: 66px;
+  bottom: 54px;
+  pointer-events: none;
+}
+.tool-wall {
+  cursor: crosshair;
+}
+@media (max-width: 640px) {
+  .map-administration,
+  .map-ruler-options {
+    max-height: 55%;
+    overflow-y: auto;
+  }
+}
+
+.map-administration input[type='checkbox'],
+.map-ruler-options input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  min-height: 0;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 4px 6px 4px 0;
+}
+.map-administration button {
+  margin: 4px 0;
+}
+
+.map-administration button,
+.map-player-token button,
+.map-ruler-options button {
+  border: 1px solid #776a4d;
+  background: #302b24;
+  color: #eee6d7;
+  padding: 6px 9px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.map-administration button:disabled,
+.map-player-token button:disabled,
+.map-ruler-options button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.map-administration > summary {
+  position: sticky;
+  top: -10px;
+  z-index: 1;
+  background: #202127;
+  padding: 8px 0;
+}
+
+.tabletop-map:has(.map-ruler-options) .map-administration,
+.tabletop-map:has(.map-ruler-options) .map-player-token,
+.tabletop-map:has(.map-drawer) .map-administration,
+.tabletop-map:has(.map-drawer) .map-player-token {
+  display: none;
+}
+
+.tabletop-shell:has(.map-ruler-options) .dice-floating:not(:has(.dice-tray[data-phase='rolando'])),
+.tabletop-shell:has(.map-administration[open])
+  .dice-floating:not(:has(.dice-tray[data-phase='rolando'])) {
+  visibility: hidden;
+}

@@ -299,6 +299,9 @@ export function validarFicha(f) {
     }
   }
   validar(f.conteudo, padrao, '');
+  for (const [key, skill] of Object.entries(f.conteudo?.pericias || {}))
+    if (skill?.descricao !== undefined && (typeof skill.descricao !== 'string' || skill.descricao.length > 10000))
+      erro('pericias.' + key + '.descricao', 'Descrição deve ter até 10000 caracteres.');
   if (erros.length === 0) {
     erros.push(...validarEquipamentos(f.conteudo));
     erros.push(...validarMagias(f.conteudo));

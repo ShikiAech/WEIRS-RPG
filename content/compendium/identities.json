@@ -4040,7 +4040,17 @@
     "classe:json:artificer:curated:plano:anel-do-carneiro": "1222277a-9c38-8344-a157-5f05e2b1bfab",
     "classe:json:artificer:curated:plano:manoplas-de-forca-do-ogro": "dfd927b2-8aa2-8e17-ae15-ceb62de15b6b",
     "classe:json:artificer:curated:plano:botas-aladas": "1d3105e0-4d5e-8ebc-adbc-75acba010846",
-    "classe:json:artificer:curated:plano:capa-do-saltimbanco": "481d3788-8a0b-8948-a6c1-0ef68757bc16"
+    "classe:json:artificer:curated:plano:capa-do-saltimbanco": "481d3788-8a0b-8948-a6c1-0ef68757bc16",
+    "especie:weirs:inamons:trait:aprimoramentos-inamonicos:selection:asas-abissais": "151d1e41-eeb6-8cf3-a4e6-52edacda45de",
+    "especie:weirs:inamons:trait:aprimoramentos-inamonicos:selection:pernas-aprimoradas": "4a9de231-2f20-892b-a9a2-a1dab28fd770",
+    "especie:weirs:inamons:trait:aprimoramentos-inamonicos:selection:carapaca-reforcada": "300775f4-702c-81e0-a2e8-878b7f6c83a9",
+    "especie:weirs:inamons:trait:aprimoramentos-inamonicos:selection:quatro-bracos": "7e57f6e9-f16d-8466-a239-715f995e3c8d",
+    "especie:weirs:talpas:lineage:talpa-ferramenteiro:trait:talpa-ferramenteiro:selection:abridor-de-portas": "b06dbb77-cefd-862d-a955-fb3fee5c8a4d",
+    "especie:weirs:talpas:lineage:talpa-ferramenteiro:trait:talpa-ferramenteiro:selection:alarme-talpa": "c72c8866-5df2-8089-a355-466102bb09d1",
+    "especie:weirs:talpas:lineage:talpa-ferramenteiro:trait:talpa-ferramenteiro:selection:esfera-de-comunicacao": "bb805a59-5aa5-863f-a559-b362f5e880d6",
+    "especie:weirs:talpas:lineage:talpa-ferramenteiro:trait:talpa-ferramenteiro:selection:aranha-mecanica": "6c7af3db-0c0f-8394-a942-f1ed9154117b",
+    "especie:weirs:talpas:lineage:talpa-ferramenteiro:trait:talpa-ferramenteiro:selection:ancora-de-impacto": "ff2c646c-72e7-8aff-ae5e-16d856ee6980",
+    "especie:weirs:talpas:lineage:talpa-ferramenteiro:trait:talpa-ferramenteiro:selection:disparador-arcano": "bafbbbe8-e975-8e7a-a8c6-ccd0d7c2a0ff"
   },
   "aliases": {
     "talento:json:weirs:espirito-manchado": "talento:legacy:pages/talentos.html:espirito-manchado",

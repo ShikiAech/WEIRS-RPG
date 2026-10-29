@@ -47,17 +47,48 @@ export async function sessionBackend(
     before?.();
     if (state.denied) return respond({ code: 'WM002' }, 403);
     if (!state.receipts.has(p_pedido)) {
+      let hpResult: any;
+      if (c.expressao !== undefined) {
+        const expr = String(c.expressao).replace(/\s/g, '').toLowerCase();
+        if (!/^[+-]?(\d+d\d+(k[hl]\d+)?|\d+)([+-](\d+d\d+(k[hl]\d+)?|\d+))*$/.test(expr))
+          return respond({ code: 'WM003' }, 400);
+        const termos = [...expr.matchAll(/([+-]?)(\d+)(?:d(\d+)(?:k([hl])(\d+))?)?/g)].map((m) => {
+          const sinal = m[1] === '-' ? -1 : 1;
+          if (!m[3]) return { sinal, valor: Number(m[2]), subtotal: sinal * Number(m[2]) };
+          const dados = Array.from({ length: Number(m[2]) }, () => Math.ceil(Number(m[3]) / 2));
+          const selecionados = dados
+            .slice(0, m[5] ? Number(m[5]) : dados.length)
+            .map((_, i) => i + 1);
+          return {
+            sinal,
+            faces: Number(m[3]),
+            dados,
+            selecionados,
+            subtotal: sinal * selecionados.reduce((sum, i) => sum + dados[i - 1], 0),
+          };
+        });
+        hpResult = {
+          alvo_id: c.ficha_id || c.id,
+          regras: 1,
+          expressao: expr,
+          termos,
+          total: termos.reduce((sum, t) => sum + t.subtotal, 0),
+        };
+        if (hpResult.total < 0 || hpResult.total > 9999) return respond({ code: 'WM003' }, 400);
+      }
+      const amount = hpResult?.total ?? c.valor;
       const f = sheets.rows.find((r) => r.id === c.ficha_id);
       if (f && f.versao !== c.versao) return respond({ code: 'WM001' }, 409);
       if (['loja', 'combate'].includes(c.tipo) && c.versao !== state.mesa.versao)
         return respond({ code: 'WM001' }, 409);
       if (c.tipo === 'pv' && f) {
         const p = f.conteudo.combate;
-        if (c.acao === 'cura') p.pvAtuais = Math.min(p.pvMaximos, p.pvAtuais + c.valor);
+        if (c.acao === 'cura') p.pvAtuais = Math.min(p.pvMaximos, p.pvAtuais + amount);
         else if (c.acao === 'dano') {
-          p.pvAtuais = Math.max(0, p.pvAtuais - Math.max(0, c.valor - p.pvTemporarios));
-          p.pvTemporarios = Math.max(0, p.pvTemporarios - c.valor);
-        } else p.pvTemporarios = Math.max(p.pvTemporarios, c.valor);
+          p.pvAtuais = Math.max(0, p.pvAtuais - Math.max(0, amount - p.pvTemporarios));
+          p.pvTemporarios = Math.max(0, p.pvTemporarios - amount);
+        } else if (c.acao === 'temporarios_definir') p.pvTemporarios = amount;
+        else p.pvTemporarios = Math.max(p.pvTemporarios, amount);
       }
       if (c.tipo === 'condicao' && f) {
         const entries = f.conteudo.combate.condicoes as { id: string; nome: string }[];
@@ -117,6 +148,18 @@ export async function sessionBackend(
           b.turno = b.participantes[0].id;
         }
         if (c.acao === 'avancar') b.rodada++;
+        if (['dano', 'cura', 'temporarios', 'temporarios_definir'].includes(c.acao)) {
+          const p = b.participantes.find((row) => row.id === c.id);
+          if (!p) return respond({ code: 'WM003' }, 400);
+          p.pvTemporarios ??= 0;
+          if (c.acao === 'dano') {
+            p.pvAtuais = Math.max(0, p.pvAtuais - Math.max(0, amount - p.pvTemporarios));
+            p.pvTemporarios = Math.max(0, p.pvTemporarios - amount);
+          }
+          if (c.acao === 'cura') p.pvAtuais = Math.min(p.pvMaximos, p.pvAtuais + amount);
+          if (c.acao === 'temporarios') p.pvTemporarios = Math.max(p.pvTemporarios, amount);
+          if (c.acao === 'temporarios_definir') p.pvTemporarios = amount;
+        }
         if (c.acao === 'ajustar') {
           const participant = b.participantes.find((row) => row.id === c.id);
           if (!participant) return respond({ code: 'WM003' }, 400);
@@ -141,7 +184,7 @@ export async function sessionBackend(
       chat.publish(message);
       state.receipts.set(
         p_pedido,
-        structuredClone({ mesa: state.mesa, ficha: f, mensagem: message }),
+        structuredClone({ mesa: state.mesa, ficha: f, mensagem: message, resultado: hpResult }),
       );
     }
     if (state.lost) {

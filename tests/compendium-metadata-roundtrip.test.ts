@@ -375,3 +375,45 @@ test('opção de magia preserva qualificador nao-preparada sem admitir outros al
     await f.db.close();
   }
 });
+
+test('proficiency capacity survives SQL storage and old fixed groups stay unchanged', async () => {
+  const c = metadataCatalog();
+  const owner = c.entries.find((e) => e.kind === 'caracteristica')!;
+  c.choices.push({
+    id: id(72),
+    ownerRevisionId: owner.ref.revisionId,
+    key: 'capacity',
+    name: 'Capacity',
+    minimum: 0,
+    maximum: 6,
+    maximumByProficiency: true,
+    acquisition: 'ambas',
+    abilityPoints: null,
+    abilityLimit: null,
+    optionKind: null,
+    featCategory: null,
+    requirementId: null,
+    level: 1,
+    options: [],
+  });
+  const f = await compendiumFixture();
+  try {
+    await f.db.query("SELECT set_config('request.jwt.claim.sub',$1,false)", [f.admin]);
+    await f.db.exec(generateSeed(c));
+    const raw = (
+      await f.anonymous('SELECT obter_compendio($1,NULL) AS catalog', [[owner.ref.revisionId]])
+    )[0].catalog;
+    assert.equal(
+      decodeCatalog(raw).choices.find((g) => g.id === id(72))?.maximumByProficiency,
+      true,
+    );
+    const old = Object.fromEntries(catalogTables(c));
+    delete old.compendio_grupos_escolha[0].maximo_por_proficiencia;
+    assert.equal(
+      decodedRows(c, old).choices.find((g) => g.id === id(72))?.maximumByProficiency,
+      undefined,
+    );
+  } finally {
+    await f.db.close();
+  }
+});

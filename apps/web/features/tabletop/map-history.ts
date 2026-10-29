@@ -86,5 +86,9 @@ export function inverseCommand(
     ) as ScenePatch;
     return { tipo: 'cena_atualizar', id: scene.id, versao: response.cena.versao, patch };
   }
+  if (command.tipo === 'parede_criar' && response.parede)
+    return { tipo: 'parede_excluir', id: response.parede.id, versao: response.parede.versao };
+  if (command.tipo === 'objeto_criar' && response.objeto)
+    return { tipo: 'objeto_excluir', id: response.objeto.id, versao: response.objeto.versao };
   return null;
 }

@@ -3,6 +3,12 @@ import { useDice3D } from '../dice/Dice3D';
 import { DamageBreakdown } from './DamageBreakdown';
 
 const actionNames = {
+  descricao_magia: 'Descrição de magia',
+  descricao_ataque: 'Descrição de ataque',
+  descricao_caracteristica: 'Descrição de característica',
+  descricao_traco: 'Descrição de traço',
+  descricao_talento: 'Descrição de talento',
+  descricao_pericia: 'Descrição de perícia',
   ataque: 'Ataque',
   dano: 'Dano',
   magia: 'Conjuração',
@@ -19,10 +25,14 @@ export function Message({
   message,
   onReveal,
   revealing,
+  onDamage,
+  damageDisabled,
 }: {
   message: ChatMessage;
   onReveal?: () => void;
   revealing?: boolean;
+  onDamage?: () => void;
+  damageDisabled?: boolean;
 }) {
   const result = message.resultado;
   const concealed = useDice3D().hidden.has(message.id);
@@ -65,11 +75,40 @@ export function Message({
               </div>
             )}
           </div>
+          {result?.descricao && (
+            <details className="chat-description" open={result.descricao.texto.length < 700}>
+              <summary>Descrição de {result.descricao.nome}</summary>
+              <p className="chat-text">
+                {result.descricao.semDescricao
+                  ? 'Esta entrada não possui descrição na ficha salva.'
+                  : result.descricao.texto}
+              </p>
+            </details>
+          )}
           {result?.expressao && <code className="roll-expression">{result.expressao}</code>}
           {concealed && <p className="dice-rolling">Rolando dados…</p>}
+          {!concealed && result?.bonusAtaque !== undefined && (
+            <p>
+              Ataque de magia:{' '}
+              <strong>
+                {result.bonusAtaque >= 0 ? '+' : ''}
+                {result.bonusAtaque}
+              </strong>
+            </p>
+          )}
           {!concealed && result?.cd !== undefined && (
             <p>
               CD de resistência: <strong>{result.cd}</strong>
+              {result.salvaguardaAtributo &&
+                ' · ' +
+                  {
+                    for: 'Força',
+                    des: 'Destreza',
+                    con: 'Constituição',
+                    int: 'Inteligência',
+                    sab: 'Sabedoria',
+                    car: 'Carisma',
+                  }[result.salvaguardaAtributo]}
             </p>
           )}
           {!concealed && result?.termos && (
@@ -94,6 +133,17 @@ export function Message({
             </div>
           )}
           {!concealed && <DamageBreakdown parts={result?.parcelas} />}
+          {!concealed && onDamage && (
+            <button
+              type="button"
+              className="play-roll"
+              aria-label={'Rolar dano: ' + message.rotulo}
+              disabled={damageDisabled}
+              onClick={onDamage}
+            >
+              Rolar dano
+            </button>
+          )}
           {result?.origem && (
             <p className="muted roll-source">
               Ficha salva · versão {result.origem.versao}

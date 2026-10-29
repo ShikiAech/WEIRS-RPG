@@ -1,8 +1,20 @@
 import { supabase } from './supabase';
 import { createCompendiumRepository } from './compendium';
 import { demoCompendium } from './compendium-demo';
-const database = supabase ? createCompendiumRepository(supabase) : null;
+import { createCachedCompendiumRepository } from './compendium-cache';
+let database = supabase
+  ? createCachedCompendiumRepository(createCompendiumRepository(supabase))
+  : null;
+const demonstrationRepository = createCachedCompendiumRepository(demoCompendium);
+let account: string | null = null;
+supabase?.auth.onAuthStateChange((_event, session) => {
+  const next = session?.user.id ?? null;
+  if (next !== account) {
+    account = next;
+    database = createCachedCompendiumRepository(createCompendiumRepository(supabase!));
+  }
+});
 export function compendiumSource(demonstration = false) {
   const demo = demonstration || !database;
-  return { repository: demo ? demoCompendium : database!, demo };
+  return { repository: demo ? demonstrationRepository : database!, demo };
 }

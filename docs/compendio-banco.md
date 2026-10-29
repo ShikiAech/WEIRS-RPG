@@ -4,20 +4,20 @@ O compêndio da aplicação é consultado no PostgreSQL/Supabase. Os JSONs envia
 
 ## Acervo carregado
 
-A carga local contém **3.563 conceitos**, derivados de **4.464 elementos de fonte**, incluindo versões conciliadas, com **477 referências bibliográficas versionadas**. O teste integral aplica o SQL duas vezes, verifica uma revisão antiga fixada e cria uma ficha a partir das relações efetivamente lidas do banco.
+A carga local contém **3.573 conceitos**, derivados de **4.464 elementos de fonte**, incluindo versões conciliadas, com **477 referências bibliográficas versionadas**. O teste integral aplica o SQL duas vezes, verifica uma revisão antiga fixada e cria uma ficha a partir das relações efetivamente lidas do banco.
 
 | Domínio                             |   Registros |
 | ----------------------------------- | ----------: |
 | Classes / subclasses                |    20 / 155 |
 | Espécies / linhagens                |     31 / 18 |
 | Antecedentes / talentos             |    71 / 406 |
-| Características / criaturas         |   1.620 / 9 |
+| Características / criaturas         |   1.630 / 9 |
 | Magias                              |         670 |
 | Equipamentos / pacotes              |   281 / 183 |
 | Idiomas / moedas                    |      26 / 5 |
 | Maestrias / propriedades / serviços | 8 / 29 / 31 |
 
-Há 340 grupos de escolhas, 1.452 concessões, 211 efeitos, 35 perfis de conjuração e 183 alternativas de equipamento. Consulte os valores e as pendências atuais em `content/compendium/coverage.json`; as contagens podem mudar com nova curadoria.
+Há 344 grupos de escolhas, 1.452 concessões, 211 efeitos, 35 perfis de conjuração e 183 alternativas de equipamento. Consulte os valores e as pendências atuais em `content/compendium/coverage.json`; as contagens podem mudar com nova curadoria.
 
 **Legibilidade, revisão editorial e automação são estados distintos.** A carga preserva conteúdos de 2014, 2024 e homebrew, com fonte e edição. Nenhum registro recebeu certificação geral `revisado_2024` ou `automacao=completa`. Os 1.046 avisos restantes identificam texto e mecânicas que exigem revisão. Ter um registro publicado não significa que todos os seus efeitos sejam calculados automaticamente.
 
@@ -60,7 +60,7 @@ As magias preservam descrição, aumento de círculo, componentes, custos, consu
 
 ## Consultas da aplicação
 
-`buscar_compendio` oferece busca sem acentos, aliases, filtros de tipo/fonte/classe/círculo/pai e paginação por nome + identidade. `obter_compendio` lê revisões publicadas fixadas e suas dependências. `referencia_legada_compendio` resolve os IDs antigos. Os detalhes são convertidos em DTOs tipados; componentes não interpretam HTML para descobrir regras.
+`buscar_compendio` oferece busca sem acentos, aliases, filtros de tipo/fonte/classe/círculo/pai e paginação por nome + identidade. `obter_compendio_seletivo` lê revisões publicadas fixadas e suas dependências efetivas. Vínculos de listas de magia e pré-requisitos retornam identidades em `references`, sem carregar as regras de todas as classes mencionadas. A RPC anterior `obter_compendio` permanece disponível para clientes antigos. O cliente atual só recorre a ela se a RPC nova ainda não estiver instalada (`PGRST202`). `referencia_legada_compendio` resolve os IDs antigos. Os detalhes são convertidos em DTOs tipados; componentes não interpretam HTML para descobrir regras.
 
 Sem configuração, a interface identifica a demonstração. Um banco configurado indisponível apresenta erro e retentativa. O snapshot não substitui silenciosamente uma consulta que falhou.
 
@@ -69,3 +69,12 @@ O CRUD administrativo continua fora desta entrega. Novos conteúdos que utilizem
 ## Ativação
 
 Siga a ordem em [configuração do Supabase](configuracao-supabase.md#compêndio-e-criação-guiada), incluindo as migrações `014` e `015` de leitura do catálogo. Aplicar a carga no projeto hospedado e publicar o frontend são operações separadas. A carga, o frontend e a função de criação do projeto Weirs foram [publicados em produção em 19/10/2026](atualizacao-classes-magias-2026-10-19.md).
+
+
+A atualização local de 28/10/2026 exige as migrações `019` (limite de escolhas pelo Bônus de Proficiência) e `020` (RPC seletiva), seguidas pelo novo `compendium-seed.sql` e pelo motor atualizado da Edge Function `criar-personagem`. O frontend e a Edge Function compartilham o mesmo leitor e decodificador. A aplicação das migrações antes do frontend mantém os clientes anteriores operantes. A carga usa `resolverVersion: 8`, conserva as revisões antigas e pode ser reaplicada sem duplicação. Nenhum desses arquivos locais confirma uma publicação remota.
+
+As engenhocas do Talpa Ferramenteiro têm seleção opcional de dispositivos funcionais, limitada pelo Bônus de Proficiência, com as seis descrições de `data/races.json`. Os projetos continuam conhecidos; selecionar os dispositivos não adiciona proficiências ou magias não concedidas pela fonte. Rascunhos e fichas fixados em revisões anteriores continuam com essas revisões; para usar as opções novas em um rascunho, selecione novamente a espécie/linhagem atual.
+
+A criação reutiliza dados já carregados durante a vida do repositório da conta e busca somente o contexto de novas referências. Reutilizar ou combinar um catálogo não renova a validade do catálogo original. Falhas de transporte continuam visíveis para retentativa; somente uma magia selecionada ausente pode chegar à reconciliação sem invalidar as origens carregadas.
+
+O teste `tests/integration/compendium-selective.test.ts` compara a criação com ambos os leitores usando a carga integral. Na execução local de 28/10, Mago com Talpa Ferramenteiro passou de 1.057 registros/10,9 MB/5,4 s para 278 registros/1,8 MB/1,4 s, com resultados idênticos do motor antes e depois das escolhas. Esses tempos medem PostgreSQL local, sem a latência do ambiente hospedado.

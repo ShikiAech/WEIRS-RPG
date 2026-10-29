@@ -6,6 +6,25 @@
   max-width: 100%;
   min-width: 0;
 }
+.sheet-description-title {
+  display: inline;
+  min-height: 44px;
+  max-width: 100%;
+  padding: .3rem 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: .2em;
+  cursor: pointer;
+}
+.sheet-description-title:hover:enabled { color: var(--gold-bright); }
+.sheet-description-title:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.sheet-description-title:disabled { opacity: .55; cursor: not-allowed; }
 .sheet-roll-action > .play-roll,
 .favorite-entry > .play-roll {
   border-radius: 5px 0 0 5px;

@@ -361,3 +361,200 @@ test('each species choice proficiency has a unique catalog row identity', async 
   const rows = c.proficiencies.filter((p) => p.ownerRevisionId === knowledge.entry.ref.revisionId);
   assert.equal(new Set(rows.map((p) => p.id)).size, rows.length);
 });
+
+test('Inamons expose five fixed traits and one then two distinct improvements with published movement and carapace', async () => {
+  for (const level of [1, 7, 11]) {
+    const { c, draft } = await scenario('Inamons', undefined, level);
+    let state = resolveState(c, draft);
+    assert.equal(
+      state.concessions.instances.filter((i) => i.id.startsWith('species/grant:')).length,
+      5,
+    );
+    const improvements = state.concessions.choices.filter((g) =>
+      g.group.name.startsWith('Aprimoramento Inamônico'),
+    );
+    assert.equal(improvements.length, level >= 7 ? 2 : 1);
+    for (const [index, active] of improvements.entries()) {
+      const option = active.group.options.find(
+        (o) => o.name === (index ? 'Asas Abissais' : 'Carapaça Reforçada'),
+      )!;
+      draft.choices.push({
+        groupId: active.group.id,
+        sourceInstanceId: active.instance.id,
+        values: [{ type: 'option', optionId: option.id }],
+      });
+    }
+    state = resolveState(c, draft);
+    const defense = resolveDefenses(c, draft, state);
+    assert.equal(defense.armorClass, level >= 11 ? 18 : 16);
+    if (level >= 7) assert.equal(defense.movements.find((m) => m.mode === 'voo')?.feet, 30);
+    const sheet = projectSheet(
+      c,
+      draft,
+      state,
+      resolveHitPoints(c, draft, state),
+      defense,
+      resolveSpellcasting(c, draft, state),
+    );
+    assert.ok(sheet.tracos.some((t) => t.nome === 'Arma Natural Integrada'));
+    if (level >= 7) {
+      const first = improvements[0],
+        second = improvements[1];
+      const duplicate = second.group.options.find((o) => o.name === 'Carapaça Reforçada')!;
+      assert.ok(
+        resolveState(c, draft).concessions.choices.find((g) => g.group.id === second.group.id)
+          ?.unavailableOptions?.[duplicate.id],
+      );
+    }
+  }
+});
+test('Inamon integrated weapon waits for completed proficiency and rejects an ineligible weapon after class change', async () => {
+  const { c, draft } = await scenario('Inamons');
+  let state = resolveState(c, draft);
+  const active = state.concessions.choices.find((g) => g.group.name === 'Arma Natural Integrada')!;
+  assert.ok(active);
+  const option = active.group.options.find((o) => o.name === 'Espada Longa')!;
+  assert.ok(option);
+  assert.equal(active.unavailableOptions?.[option.id], undefined);
+  draft.choices.push({
+    groupId: active.group.id,
+    sourceInstanceId: active.instance.id,
+    values: [{ type: 'option', optionId: option.id }],
+  });
+  state = resolveState(c, draft);
+  const sheet = projectSheet(
+    c,
+    draft,
+    state,
+    resolveHitPoints(c, draft, state),
+    resolveDefenses(c, draft, state),
+    resolveSpellcasting(c, draft, state),
+  );
+  assert.ok(sheet.ataques.some((a) => a.nome.includes('Espada Longa')));
+  draft.classes = [];
+  state = resolveState(c, draft);
+  assert.ok(state.concessions.problems.some((p) => p.code === 'INTEGRATED_WEAPON_PROFICIENCY'));
+  assert.ok(
+    state.concessions.choices.find((g) => g.group.id === active.group.id)?.unavailableOptions?.[
+      option.id
+    ],
+  );
+});
+
+test('Inamon improvements retain source descriptions, walking/climbing and do not grant extra attacks', async () => {
+  for (const [name, mode, feet] of [
+    ['Pernas Aprimoradas', 'terrestre', 40],
+    ['Quatro Braços', 'escalada', 30],
+  ] as const) {
+    const { c, draft } = await scenario('Inamons');
+    const active = resolveState(c, draft).concessions.choices.find((g) =>
+      g.group.name.startsWith('Aprimoramento Inamônico'),
+    )!;
+    const option = active.group.options.find((o) => o.name === name)!;
+    const feature = c.entries.find((e) => e.ref.revisionId === option.targetRef?.revisionId)!;
+    assert.ok(feature.description.startsWith(name + ':'));
+    draft.choices.push({
+      groupId: active.group.id,
+      sourceInstanceId: active.instance.id,
+      values: [{ type: 'option', optionId: option.id }],
+    });
+    const state = resolveState(c, draft),
+      defense = resolveDefenses(c, draft, state);
+    assert.equal(defense.movements.find((m) => m.mode === mode)?.feet, feet);
+    const sheet = projectSheet(
+      c,
+      draft,
+      state,
+      resolveHitPoints(c, draft, state),
+      defense,
+      resolveSpellcasting(c, draft, state),
+    );
+    assert.equal(sheet.ataques.length, 0);
+    if (name === 'Quatro Braços')
+      assert.match(feature.description, /não concedem ataques adicionais/);
+  }
+});
+
+test('integrated weapon requires full proficiency rather than half proficiency', async () => {
+  const { weaponProficient } = await import('../packages/character-creation/concessions');
+  const { c, draft } = await scenario('Inamons');
+  const state = resolveState(c, draft),
+    weapon = c.entries.find((e) => e.kind === 'equipamento' && e.name === 'Espada Longa')!;
+  const full = state.concessions.proficiencyGrants.filter((grant) =>
+    weaponProficient(c, weapon, [grant]),
+  );
+  assert.ok(full.length);
+  assert.equal(
+    weaponProficient(
+      c,
+      weapon,
+      full.map((grant) => ({ ...grant, degree: 'meia' })),
+    ),
+    false,
+  );
+});
+
+test('Talpa Ferramenteiro can maintain source gadgets up to the character proficiency bonus', async () => {
+  const names = [
+    'Abridor de Portas',
+    'Alarme Talpa',
+    'Esfera de Comunicação',
+    'Aranha Mecânica',
+    'Âncora de Impacto',
+    'Disparador Arcano',
+  ];
+  for (const [level, capacity] of [
+    [1, 2],
+    [4, 2],
+    [5, 3],
+    [9, 4],
+    [13, 5],
+    [17, 6],
+  ]) {
+    const { c, draft } = await scenario('Talpas', 'Talpa Ferramenteiro', level);
+    const active = resolveState(c, draft).concessions.choices.find(
+      (g) => g.group.name === 'Engenhocas Talpa funcionais',
+    );
+    assert.ok(active, 'a escolha de engenhocas deve existir para Ferramenteiros');
+    assert.equal(active.group.minimum, 0, 'conhecer projetos não obriga construir engenhocas');
+    assert.equal(active.group.maximum, capacity);
+    assert.deepEqual(active.group.options.map((o) => o.name).sort(), [...names].sort());
+    for (const option of active.group.options) {
+      const feature = c.entries.find((e) => e.ref.revisionId === option.targetRef?.revisionId);
+      assert.ok(feature?.description.startsWith(option.name + ':'));
+    }
+    draft.choices.push({
+      groupId: active.group.id,
+      sourceInstanceId: active.instance.id,
+      values: active.group.options
+        .slice(0, capacity)
+        .map((o) => ({ type: 'option' as const, optionId: o.id })),
+    });
+    const state = resolveState(c, draft);
+    assert.ok(!state.concessions.problems.some((p) => p.field.includes(active.group.id)));
+    const sheet = projectSheet(
+      c,
+      draft,
+      state,
+      resolveHitPoints(c, draft, state),
+      resolveDefenses(c, draft, state),
+      resolveSpellcasting(c, draft, state),
+    );
+    for (const option of active.group.options.slice(0, capacity))
+      assert.ok(sheet.tracos.some((t) => t.nome === option.name));
+    if (capacity < 6) {
+      draft.choices[0].values.push({ type: 'option', optionId: active.group.options[capacity].id });
+      assert.ok(
+        resolveState(c, draft).concessions.problems.some((p) => p.field.includes(active.group.id)),
+      );
+    }
+  }
+  for (const lineage of ['Talpa Ferreiro', 'Talpa Armeiro']) {
+    const { c, draft } = await scenario('Talpas', lineage);
+    assert.ok(
+      !resolveState(c, draft).concessions.choices.some(
+        (g) => g.group.name === 'Engenhocas Talpa funcionais',
+      ),
+    );
+  }
+});

@@ -5,6 +5,7 @@ import { createSessionRepository } from '../../lib/session';
 import { createTabletopRepository } from '../../lib/tabletop';
 import type {
   AssetRecord,
+  MapSnapshot,
   AreaRecord,
   MapCommand,
   MapPing,
@@ -23,9 +24,10 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     [assets, setAssets] = useState<AssetRecord[]>([]);
   const [records, setRecords] = useState<SheetRecord[]>([]),
     [mesa, setMesa] = useState<SessionState | null>(null);
+  const [snapshot, setSnapshot] = useState<MapSnapshot | null>(null);
   const [pings, setPings] = useState<MapPing[]>([]);
   const [areas, setAreas] = useState<AreaRecord[]>([]);
-  const [members, setMembers] = useState<{ id: string; nome: string }[]>([]);
+  const [members, setMembers] = useState<{ id: string; nome: string; papel?: string }[]>([]);
   const [sceneId, setSceneId] = useState(''),
     [loading, setLoading] = useState(true),
     [error, setError] = useState(''),
@@ -37,6 +39,7 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     again = useRef(false),
     busy = useRef(false),
     unresolved = useRef(false);
+  const readEpoch = useRef(0);
   const generation = useRef(0),
     refreshWaiters = useRef<(() => void)[]>([]),
     context = useRef(''),
@@ -50,14 +53,21 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
       return new Promise<void>((resolve) => refreshWaiters.current.push(resolve));
     }
     running.current = true;
-    const requestGeneration = generation.current;
+    const requestGeneration = generation.current,
+      requestEpoch = readEpoch.current;
     try {
       const rows = await repository.scenes(campaign);
-      if (!alive.current || generation.current !== requestGeneration) return;
+      if (
+        !alive.current ||
+        generation.current !== requestGeneration ||
+        readEpoch.current !== requestEpoch
+      )
+        return;
       setScenes(rows);
       const chosen =
         (master && rows.find((row) => row.id === selected.current)) ||
         rows.find((row) => row.ativa) ||
+        (!master ? rows[0] : undefined) ||
         (master ? rows[0] : undefined);
       selected.current = chosen?.id || '';
       setSceneId(selected.current);
@@ -66,18 +76,37 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
         setAreas([]);
         setPings([]);
       }
+      const authoritative = chosen?.modo_visao
+        ? await repository.snapshot(campaign, chosen.id)
+        : null;
+      if (
+        !alive.current ||
+        generation.current !== requestGeneration ||
+        readEpoch.current !== requestEpoch
+      )
+        return;
+      setSnapshot(authoritative);
       const [tokenResult, assetResult, sheetResult, stateResult, pingResult, areaResult] =
         await Promise.allSettled([
-          chosen ? repository.tokens(campaign, chosen.id) : Promise.resolve([]),
-          repository.assets(campaign),
+          authoritative
+            ? Promise.resolve(authoritative.tokens)
+            : chosen
+              ? repository.tokens(campaign, chosen.id)
+              : Promise.resolve([]),
+          authoritative ? Promise.resolve(authoritative.assets) : repository.assets(campaign),
           sheets.list(),
           session.read(campaign),
           chosen ? repository.pings(campaign, chosen.id) : Promise.resolve([]),
-          chosen ? repository.areas(campaign, chosen.id) : Promise.resolve([]),
+          authoritative
+            ? Promise.resolve(authoritative.areas)
+            : chosen
+              ? repository.areas(campaign, chosen.id)
+              : Promise.resolve([]),
         ]);
       if (
         !alive.current ||
         generation.current !== requestGeneration ||
+        readEpoch.current !== requestEpoch ||
         selected.current !== (chosen?.id || '')
       )
         return;
@@ -99,7 +128,16 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
         setPings(pingResult.value.filter((ping) => Date.now() - Date.parse(ping.criado_em) < 6000));
       else setPings([]);
     } catch (e) {
-      if (!alive.current || generation.current !== requestGeneration) return;
+      if (
+        !alive.current ||
+        generation.current !== requestGeneration ||
+        readEpoch.current !== requestEpoch
+      )
+        return;
+      setSnapshot(null);
+      setTokens([]);
+      setAreas([]);
+      setAssets([]);
       const code = (e as { code?: string }).code;
       if (['WV002', 'ACESSO', 'SESSAO', 'PGRST301'].includes(code || '')) {
         setScenes([]);
@@ -117,7 +155,12 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
       running.current = false;
       const waiters = refreshWaiters.current.splice(0);
       const resolveWaiters = () => waiters.forEach((resolve) => resolve());
-      if (alive.current && generation.current === requestGeneration) setLoading(false);
+      if (
+        alive.current &&
+        generation.current === requestGeneration &&
+        readEpoch.current === requestEpoch
+      )
+        setLoading(false);
       if (again.current) {
         again.current = false;
         // Join the first read that started after this queued refresh, without waiting for
@@ -144,7 +187,10 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     setLoading(true);
     setAttempt(null);
     unresolved.current = false;
+    setSnapshot(null);
     if (!master) {
+      setTokens([]);
+      setAssets([]);
       setAreas([]);
       setScenes((rows) => rows.filter((row) => row.publicada));
       setTokens((rows) => rows.filter((row) => !row.oculto));
@@ -163,7 +209,7 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
         .eq('campanha_id', campaign);
       if (!alive.current) return;
       const ids = (memberships || [])
-        .filter((member) => member.papel !== 'espectador')
+        .filter(() => true)
         .map((member) => member.usuario_id as string);
       if (master && !ids.includes(userId)) ids.push(userId);
       if (!ids.length) return;
@@ -175,6 +221,7 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
         setMembers(
           ids.map((id) => ({
             id,
+            papel: memberships?.find((member) => member.usuario_id === id)?.papel,
             nome:
               profiles?.find((profile) => profile.id === id)?.nome_exibicao ||
               'Jogador ' + id.slice(0, 6),
@@ -184,7 +231,17 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     const update = () => {
       if (document.visibilityState !== 'hidden') void refresh();
     };
-    const stop = repository.subscribe(campaign, update),
+    const invalidate = () => {
+      readEpoch.current++;
+      setLoading(true);
+      setSnapshot(null);
+      setTokens([]);
+      setAreas([]);
+      setAssets([]);
+      setPings([]);
+      update();
+    };
+    const stop = repository.subscribe(campaign, invalidate),
       stopSession = session.subscribe(campaign, update),
       timer = setInterval(update, 6000);
     window.addEventListener('online', update);
@@ -258,6 +315,7 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     selected.current = id;
     generation.current++;
     setSceneId(id);
+    setSnapshot(null);
     setTokens([]);
     setAreas([]);
     setPings([]);
@@ -288,13 +346,17 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
   const visibleScene = visibleScenes.find((row) => row.id === sceneId);
   return {
     repository,
+    snapshot,
     scenes: visibleScenes,
     areas: visibleScene
       ? areas.filter(
           (row) =>
             row.campanha_id === campaign &&
             row.cena_id === sceneId &&
-            (master || !row.token_id || tokens.some((t) => t.id === row.token_id && !t.oculto)),
+            (master ||
+              !!snapshot ||
+              !row.token_id ||
+              tokens.some((t) => t.id === row.token_id && !t.oculto)),
         )
       : [],
     tokens: visibleScene
@@ -313,7 +375,7 @@ export function useTabletop(campaign: string, master: boolean, userId: string) {
     mesa,
     pings: visibleScene ? pings.filter((marker) => marker.cena_id === sceneId) : [],
     ping,
-    scene: visibleScene,
+    scene: visibleScene && snapshot?.cena.id === visibleScene.id ? snapshot.cena : visibleScene,
     loading,
     error,
     setError,

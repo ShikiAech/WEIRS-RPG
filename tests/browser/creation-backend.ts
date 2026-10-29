@@ -36,6 +36,7 @@ export async function creationBackend(page: Page) {
   }));
   const raw = {
     records,
+    references: [],
     tables: {
       compendio_classes: [{ revisao_id: f.cls.ref.revisionId, dado_vida: 8, pv_fixo: 5 }],
       compendio_classe_atributos: [
@@ -87,7 +88,9 @@ export async function creationBackend(page: Page) {
       json: records.filter((r) => (!q.p_tipo || r.tipo === q.p_tipo) && !q.p_pai),
     });
   });
-  await page.route('**/rest/v1/rpc/obter_compendio', (route) => route.fulfill({ json: raw }));
+  await page.route(/\/rest\/v1\/rpc\/obter_compendio(?:_seletivo)?(?:\?.*)?$/, (route) =>
+    route.fulfill({ json: raw }),
+  );
   const control = {
     state,
     raw: raw as { records: unknown[]; tables: Record<string, any[]> },

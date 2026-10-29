@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type {
   AssetRecord,
+  MapSnapshot,
   AreaRecord,
   MapCommand,
   MapPing,
@@ -103,6 +104,26 @@ export function createTabletopRepository(client: SupabaseClient) {
     }
   }
   return {
+    snapshot: async (campaign: string, scene: string) => {
+      const snapshot = await request<MapSnapshot>(
+        client.rpc('ler_mapa_visivel', { p_campanha: campaign, p_cena: scene }),
+      );
+      // Linked areas inherit source visibility. Discard inconsistent rows before
+      // either snapshot or area state can retain a missing source's anchor data.
+      return {
+        ...snapshot,
+        areas: snapshot.areas.filter(
+          (area) =>
+            !area.token_id ||
+            snapshot.tokens.some(
+              (token) =>
+                token.id === area.token_id &&
+                token.campanha_id === area.campanha_id &&
+                token.cena_id === area.cena_id,
+            ),
+        ),
+      };
+    },
     scenes: (campaign: string) =>
       request<SceneRecord[]>(
         client.from('cenas_mapa').select('*').eq('campanha_id', campaign).order('nome'),
@@ -205,11 +226,7 @@ export function createTabletopRepository(client: SupabaseClient) {
     subscribe(campaign: string, refresh: () => void) {
       const channel = client.channel('mapa:' + campaign + ':' + crypto.randomUUID());
       for (const table of [
-        'cenas_mapa',
-        'tokens_mapa',
-        'areas_mapa',
-        'arquivos_mapa',
-        'marcadores_mapa',
+        'invalidacoes_mapa',
       ])
         channel.on(
           'postgres_changes',

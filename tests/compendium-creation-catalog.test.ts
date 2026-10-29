@@ -138,3 +138,32 @@ test('cancelamento não é confundido com magia ausente', async () => {
   });
   assert.deepEqual(draft, before);
 });
+
+test('selective reader falls back only when the new RPC is not installed', async () => {
+  const { draft, raw } = creationFixture();
+  for (const code of ['PGRST202', '57014', '42501']) {
+    const calls: string[] = [];
+    const client = {
+      rpc(name: string) {
+        calls.push(name);
+        const response =
+          name === 'obter_compendio_seletivo'
+            ? { data: null, error: { code } }
+            : { data: raw, error: null };
+        return Object.assign(Promise.resolve(response), {
+          abortSignal() {
+            return this;
+          },
+        });
+      },
+    } as unknown as SupabaseClient;
+    const result = createCompendiumRepository(client).getCreationCatalog(draft);
+    if (code === 'PGRST202') {
+      assert.equal((await result).entries.length, 1);
+      assert.deepEqual(calls, ['obter_compendio_seletivo', 'obter_compendio']);
+    } else {
+      await assert.rejects(result, hasCode('UNAVAILABLE'));
+      assert.deepEqual(calls, ['obter_compendio_seletivo']);
+    }
+  }
+});

@@ -366,6 +366,7 @@ export function TokenEditor({
               ))}
           </select>
         </label>
+        <p className="map-help">Vincular um token privado a um participante revela esse participante no combate público. Tokens privados não entram no combate automaticamente.</p>
         <label>
           Retrato do token
           <select value={image} onChange={(event) => setImage(event.target.value)}>

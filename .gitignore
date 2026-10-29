@@ -8,3 +8,5 @@ test-results/
 artifacts/
 content/generated/
 supabase/.temp/
+output/
+debug.log

@@ -32,8 +32,8 @@ async function start(page: Page) {
   await page
     .getByRole('option', { name: `${fighter.name} · ${fighter.sourceTitle}`, exact: true })
     .click();
-  await selectDropdown(page.getByLabel('Equipamento de Guerreiro', { exact: true }), kit.id);
   await page.getByRole('button', { name: '5 Vida e defesas', exact: true }).click();
+  await selectDropdown(page.getByLabel('Equipamento de Guerreiro', { exact: true }), kit.id);
   return page.getByRole('combobox', { name: 'Buscar equipamentos iniciais', exact: true });
 }
 

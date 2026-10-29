@@ -37,8 +37,10 @@ test('truque adicional da Ordem Divina não repete um truque da classe', async (
   await page.getByRole('button', { name: '6 Magias', exact: true }).click();
   const extra = page.getByRole('group', { name: 'Taumaturgo', exact: true });
   await extra.getByLabel('Buscar magias de Taumaturgo', { exact: true }).fill('Luz');
-  await expect(extra.getByRole('checkbox', { name: /Luz/ })).toBeDisabled();
-  await expect(extra).toContainText('Já conhecido pela classe');
+  await expect(
+    extra.getByRole('status').filter({ hasText: 'Nenhuma magia encontrada' }),
+  ).toBeVisible();
+  await expect(extra.getByRole('checkbox', { name: 'Luz', exact: true })).toHaveCount(0);
   await extra.getByLabel('Buscar magias de Taumaturgo', { exact: true }).fill('Orientação');
   await extra.getByRole('checkbox', { name: 'Orientação', exact: true }).check();
   await expect(extra).toContainText('Truques: 1/1');
@@ -76,9 +78,12 @@ test('grimório distingue livro e preparo, orienta cotas e nunca prepara seis au
   await expect(profile).toContainText('Grimório: 6/6');
   await expect(profile).toContainText('Preparadas: 4/4');
   await expect(profile.getByRole('list', { name: 'Pendências desta origem' })).toHaveCount(0);
-  await profile
-    .getByRole('button', { name: 'Limpar busca de magias de Mago', exact: true })
-    .click();
+  await expect(
+    profile.getByRole('combobox', { name: 'Buscar magias de Mago', exact: true }),
+  ).toHaveValue('');
+  await expect(
+    profile.getByRole('button', { name: 'Limpar busca de magias de Mago', exact: true }),
+  ).toBeDisabled();
   expect(
     await profile
       .getByRole('checkbox', { name: /^Preparar / })
@@ -215,9 +220,7 @@ test('trocar lista remove seleção antiga e avisa preservando outra origem', as
   await initiate
     .getByLabel('Buscar magias de Iniciado em Magia', { exact: true })
     .fill('Mão Mágica');
-  await expect(initiate.getByRole('checkbox', { name: 'Mão Mágica', exact: true })).toHaveCount(
-    0,
-  );
+  await expect(initiate.getByRole('checkbox', { name: 'Mão Mágica', exact: true })).toHaveCount(0);
   await expect(page.getByText('Consultando magias…', { exact: true })).toHaveCount(0);
   await page.screenshot({
     path: `artifacts/ux-swarm/fixes/${info.project.name}-spell-stale-selection.png`,
@@ -263,5 +266,7 @@ test('perfil com listas permitidas combina magias de ambas sem vazar outra lista
   await expect(
     profile.getByRole('status').filter({ hasText: 'Nenhuma magia encontrada' }),
   ).toBeVisible();
-  await expect(profile.getByRole('checkbox', { name: 'Rajada Mística', exact: true })).toHaveCount(0);
+  await expect(profile.getByRole('checkbox', { name: 'Rajada Mística', exact: true })).toHaveCount(
+    0,
+  );
 });

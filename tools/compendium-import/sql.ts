@@ -176,7 +176,9 @@ export function catalogTables(c: ResolvedCatalog): SeedTables {
           ritual: d.ritual,
           area_tipo: null,
           area_pes: null,
-          salvaguarda_atributo: null,
+          salvaguarda_atributo: d.saveAbility ?? null,
+          bonus_ataque: d.attackBonus ?? null,
+          cd: d.saveDc ?? null,
         });
         child('compendio_magia_componentes', id, 'componentes', {
           verbal: d.components.verbal,
@@ -394,6 +396,7 @@ export function catalogTables(c: ResolvedCatalog): SeedTables {
       nome_pt: g.name,
       minimo: g.minimum,
       maximo: g.maximum,
+      maximo_por_proficiencia: g.maximumByProficiency ?? null,
       aquisicao: g.acquisition,
       pontos_atributo: g.abilityPoints,
       limite_atributo: g.abilityLimit,

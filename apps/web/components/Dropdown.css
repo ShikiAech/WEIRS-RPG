@@ -61,7 +61,7 @@
   background: #242322;
   color: #aaa49a;
 }
-.dropdown[data-dropdown] .dropdown-control button {
+.dropdown[data-dropdown] .dropdown-control > button {
   display: grid;
   place-items: center;
   flex: 0 0 auto;
@@ -80,7 +80,7 @@
   line-height: 1;
   cursor: pointer;
 }
-.dropdown[data-dropdown] .dropdown-control button:hover:not(:disabled) {
+.dropdown[data-dropdown] .dropdown-control > button:hover:not(:disabled) {
   color: var(--gold-bright);
   background: #252016;
 }
@@ -96,7 +96,7 @@
 .dropdown[data-dropdown] .dropdown-toggle[aria-expanded='true'] svg {
   transform: rotate(180deg);
 }
-.dropdown[data-dropdown] .dropdown-control button:disabled {
+.dropdown[data-dropdown] .dropdown-control > button:disabled {
   cursor: not-allowed;
   opacity: 0.45;
 }
@@ -254,7 +254,22 @@
   .dropdown[data-dropdown] .dropdown-option-accessory {
     margin-left: auto;
   }
-  .dropdown[data-dropdown] .dropdown-control button {
+  .dropdown[data-dropdown] .dropdown-control > button {
     padding: 0 0.5rem;
   }
+}
+.dropdown[data-dropdown] .dropdown-control-multiple {
+  height: auto;
+  flex-wrap: wrap;
+  overflow: visible;
+}
+.dropdown[data-dropdown] .dropdown-selected {
+  flex: 0 0 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 0.5rem;
+}
+.dropdown[data-dropdown] .dropdown-control-multiple > input.dropdown-input,
+.dropdown[data-dropdown] .dropdown-control-multiple > button {
+  height: 44px;
 }

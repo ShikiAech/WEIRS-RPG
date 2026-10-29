@@ -22,4 +22,9 @@ export type SessionState = {
   };
 };
 export type SessionCommand = Record<string, unknown> & { tipo: string; versao: number };
-export type SessionResponse = { mesa: SessionState; ficha?: SheetRecord; mensagem: ChatMessage };
+export type SessionResponse = {
+  mesa: SessionState;
+  ficha?: SheetRecord;
+  mensagem: ChatMessage;
+  resultado?: import('./chat').RollResult;
+};

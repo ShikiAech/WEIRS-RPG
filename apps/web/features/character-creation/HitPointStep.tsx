@@ -1,7 +1,9 @@
+import { ChoicePanel, EquipmentChoices } from './ChoicePanel';
 import type { StepProps } from './types';
 import { resolveConcessions } from '../../../../packages/character-creation/concessions';
 import { Dropdown } from '../../components/Dropdown';
-export function HitPointStep({ draft, catalog, preview, onChange }: StepProps) {
+export function HitPointStep(props: StepProps) {
+  const { draft, catalog, preview, onChange } = props;
   const nodes = resolveConcessions(catalog, draft).instances;
   const equipment = nodes.flatMap((i) =>
     i.entry.kind === 'equipamento'
@@ -135,7 +137,15 @@ export function HitPointStep({ draft, catalog, preview, onChange }: StepProps) {
           );
         })}
       </div>
-      <h3>Equipar itens iniciais</h3>
+      <h3 id="creation-starting-equipment">Equipamentos iniciais</h3>
+      <p>
+        Escolha os kits ou moedas da classe inicial e do antecedente. Classes adicionais não
+        concedem um novo kit.
+      </p>
+      <EquipmentChoices {...props} prefixes={['class:', 'background']} />
+      <ChoicePanel {...props} prefixes={['class:', 'background']} equipment="only" />
+      <h3>Equipar itens recebidos</h3>
+      {!equippable.length && <p>Nenhum item recebido pode ser equipado nesta etapa.</p>}
       <Dropdown
         label="Buscar equipamentos iniciais"
         popupLabel="Armaduras, escudos e armas iniciais"

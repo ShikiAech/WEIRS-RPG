@@ -297,3 +297,70 @@ test('revised real spell alternatives, summoned attacks and delayed damage are n
       name,
     );
 });
+
+test('spell metadata retains explicit source saves and optional attack/CD without guessing unrelated attributes', () => {
+  const explicit = spellDefinition(
+    input({ save_ability: 'des', attack_bonus: 7, save_dc: 15 } as any),
+    'revision',
+  );
+  assert.equal(explicit.saveAbility, 'des');
+  assert.equal(explicit.attackBonus, 7);
+  assert.equal(explicit.saveDc, 15);
+  const prose = spellDefinition(
+    input({
+      description:
+        'O alvo faz uma salvaguarda de Destreza. O dano usa seu modificador de Inteligência.',
+    }),
+    'revision',
+  );
+  assert.equal(prose.saveAbility, 'des');
+  assert.equal(
+    spellDefinition(input({ description: 'A criatura ganha Força e recebe dano.' }), 'revision')
+      .saveAbility,
+    undefined,
+  );
+});
+
+test('primary spell save ignores ambiguous alternatives, save benefits and actual summoned stat blocks', async (t) => {
+  for (const description of [
+    'O alvo faz uma salvaguarda de Força ou Destreza, à escolha dele.',
+    'O alvo deve obter sucesso em uma salvaguarda de Força ou Constituição, à escolha dele.',
+    'Você tem vantagem em salvaguardas de Sabedoria.',
+    'O alvo tem vantagem em salvaguardas de Sabedoria.',
+    'O alvo faz uma salvaguarda de Sabedoria com vantagem.',
+    'O alvo faz uma salvaguarda de Força, Destreza ou Constituição, à escolha dele.',
+    'Bloco de estatísticas de Espírito. A criatura faz uma salvaguarda de Força.',
+  ])
+    await t.test(description, () => {
+      assert.equal(spellDefinition(input({ description }), 'revision').saveAbility, undefined);
+    });
+  const source = JSON.parse(
+    await readFile(path.join(root, 'data/spells.json'), 'utf8'),
+  ) as SpellInput[];
+  const dinosaur = source.find((spell) => spell.name === 'Summon Dinosaur')!;
+  assert.match(dinosaur.description, /Robusto[\s\S]*salvaguarda de Força ou Constituição/);
+  await t.test('actual Summon Dinosaur Robusto bonus is not an imposed spell save', () => {
+    assert.equal(spellDefinition(dinosaur, 'dinosaur-revision').saveAbility, undefined);
+  });
+  assert.equal(
+    spellDefinition(
+      source.find((spell) => spell.name === 'Acid Splash')!,
+      'acid-revision',
+    ).saveAbility,
+    'des',
+  );
+  assert.equal(
+    spellDefinition(
+      source.find((spell) => spell.name === 'Hold Person')!,
+      'hold-revision',
+    ).saveAbility,
+    'sab',
+  );
+  assert.equal(
+    spellDefinition(
+      input({ description: dinosaur.description, save_ability: 'con' }),
+      'explicit-revision',
+    ).saveAbility,
+    'con',
+  );
+});

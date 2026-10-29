@@ -233,6 +233,8 @@ function validarMagias(c) {
 	const attrs = calcularFicha(c).atributos;
 	c.magias.forEach((s, i) => {
 		const p = "magias." + i;
+		if (s.salvaguardaAtributo !== void 0 && !["", ...Object.keys(ATRIBUTOS)].includes(s.salvaguardaAtributo)) error(p + ".salvaguardaAtributo", "Escolha um atributo de salvaguarda válido.");
+		for (const key of ["bonusAtaque", "cd"]) if (s[key] !== void 0 && (!Number.isInteger(s[key]) || s[key] < (key === "cd" ? 0 : -9999) || s[key] > 9999)) error(p + "." + key, "Informe um valor inteiro válido.");
 		if (s.tipoDano !== void 0 && (typeof s.tipoDano !== "string" || s.tipoDano.length > 1e4)) error(p + ".tipoDano", "Informe um tipo de dano válido.");
 		if (s.dano !== void 0 && (typeof s.dano !== "string" || s.dano.length > 120)) error(p + ".dano", "A fórmula total deve ter até 120 caracteres.");
 		if (s.danos === void 0) {
@@ -645,6 +647,7 @@ function validarFicha(f) {
 		}
 	}
 	validar(f.conteudo, padrao, "");
+	for (const [key, skill] of Object.entries(f.conteudo?.pericias || {})) if (skill?.descricao !== void 0 && (typeof skill.descricao !== "string" || skill.descricao.length > 1e4)) erro("pericias." + key + ".descricao", "Descrição deve ter até 10000 caracteres.");
 	if (erros.length === 0) {
 		erros.push(...validarEquipamentos(f.conteudo));
 		erros.push(...validarMagias(f.conteudo));
@@ -842,6 +845,14 @@ function eligibleFeatureSpells(catalog, draft, entry, instances = []) {
 function featureSpellPrerequisiteMet(catalog, draft, entry, instances = []) {
 	return entry.kind !== "caracteristica" || !entry.data.spellPrerequisite || eligibleFeatureSpells(catalog, draft, entry, instances).length > 0;
 }
+function weaponProficient(catalog, entry, grants) {
+	if (entry.kind !== "equipamento" || !entry.data.weapon) return false;
+	return grants.some((g) => {
+		if (g.degree === "meia") return false;
+		const p = catalog.proficiencies.find((p) => p.id === g.proficiencyId);
+		return p?.type === "equipamento" && p.equipment?.recordId === entry.ref.recordId || p?.type === "categoria" && p.category === (entry.data.category.includes("marcial") ? "arma-marcial" : "arma-simples");
+	});
+}
 function resolveConcessions(catalog, draft) {
 	catalog = orderedCatalog(catalog);
 	const result = {
@@ -928,6 +939,7 @@ function resolveConcessions(catalog, draft) {
 	const atLevel = (node, level) => node.classEntryId ? Math.max(node.acquiredAt, draft.levels.filter((l) => l.classEntryId === node.classEntryId)[Math.max(0, level - 1)]?.totalLevel ?? node.acquiredAt) : Math.max(node.acquiredAt, level);
 	const pending = [];
 	const proficiencyChoices = [];
+	const integratedWeapons = [];
 	const spellChoices = [];
 	const spellTargets = [];
 	const processed = /* @__PURE__ */ new Set();
@@ -941,7 +953,11 @@ function resolveConcessions(catalog, draft) {
 			degree: "proficiente"
 		});
 		if (node.id === "species" && find(draft.lineageRef)?.kind === "linhagem" && find(draft.lineageRef).data.inheritTraits === false) return;
-		for (const group of catalog.choices.filter((g) => g.ownerRevisionId === node.entry.ref.revisionId && g.level <= node.level && matchesAcquisition(g.acquisition, node))) {
+		for (const definition of catalog.choices.filter((g) => g.ownerRevisionId === node.entry.ref.revisionId && g.level <= node.level && matchesAcquisition(g.acquisition, node))) {
+			const group = definition.maximumByProficiency ? {
+				...definition,
+				maximum: Math.min(definition.maximum, 2 + Math.floor((Math.max(1, totalLevel) - 1) / 4))
+			} : definition;
 			if (!requirementMet(catalog, group.requirementId, context(atLevel(node, group.level)))) continue;
 			let selected = draft.choices.filter((c) => c.groupId === group.id && c.sourceInstanceId === node.id);
 			const ancestorChoice = result.choices.filter((c) => c.group.key === group.key && node.id.startsWith(c.instance.id + "/")).reverse().map((c) => ({
@@ -999,6 +1015,7 @@ function resolveConcessions(catalog, draft) {
 					});
 				}
 				if (ref && ![
+					"arma-integrada",
 					"lista-magia",
 					"maestria-arma",
 					"proficiencia",
@@ -1013,6 +1030,12 @@ function resolveConcessions(catalog, draft) {
 					level: 1,
 					at: atLevel(node, group.level),
 					label: option?.name
+				});
+				if (ref && option?.type === "arma-integrada") integratedWeapons.push({
+					ref,
+					field: `choices.${group.id}`,
+					instance: node,
+					optionId: option.id
 				});
 				if (ref && option?.type === "magia" && option.value === "nao-preparada") spellChoices.push({
 					ref,
@@ -1174,6 +1197,18 @@ function resolveConcessions(catalog, draft) {
 		if (!progressed) break;
 	}
 	for (const p of pending) problem(errors.get(p.id) ?? "UNRESOLVED_GRANT", p.id, ["DUPLICATE_FEATURE", "DUPLICATE_FEAT"].includes(errors.get(p.id) ?? "") ? "Esta opção já foi escolhida. Escolha outra característica ou talento." : "A concessão depende de referência ou requisito ainda não resolvido.", p.ref.revisionId);
+	for (const choice of integratedWeapons) {
+		const entry = find(choice.ref);
+		if (!entry || !weaponProficient(catalog, entry, result.proficiencyGrants)) {
+			problem("INTEGRATED_WEAPON_PROFICIENCY", choice.field, "Escolha uma arma com a qual o personagem tenha proficiência. Conclua as escolhas de classe e retorne a esta etapa.");
+			continue;
+		}
+		result.instances.push({
+			...choice.instance,
+			id: `${choice.instance.id}/integrated:${choice.optionId}`,
+			entry
+		});
+	}
 	for (const choice of proficiencyChoices) {
 		const key = proficiencyKey(catalog, choice.grant.proficiencyId);
 		const others = result.proficiencyGrants.filter((p) => p !== choice.grant && p.instance.acquiredAt <= choice.grant.instance.acquiredAt && proficiencyKey(catalog, p.proficiencyId) === key);
@@ -1203,6 +1238,7 @@ function resolveConcessions(catalog, draft) {
 		}
 		for (const option of active.group.options) {
 			const target = option.targetRef ? find(option.targetRef) : null;
+			if (option.type === "arma-integrada" && (!target || !weaponProficient(catalog, target, result.proficiencyGrants))) unavailable[option.id] = "Conclua as escolhas de classe e selecione uma arma com proficiência.";
 			const excludedPrefix = `${active.instance.id}/choice:${active.group.id}:${active.group.maximum === 1 ? "" : option.id}`;
 			const ctx = context(atLevel(active.instance, active.group.level), excludedPrefix);
 			const current = context(totalLevel, excludedPrefix);
@@ -1415,6 +1451,15 @@ function resolveDefenses(catalog, draft, state = resolveState(catalog, draft)) {
 		value: formRule.armorClass + (formRule.permitsShield ? shield : 0),
 		name: `${species?.name} (${draft.form})${formRule.permitsShield && shield ? " + escudo" : ""}`
 	});
+	for (const feature of formFeatures) {
+		const rule = feature.armorClass;
+		if (!rule || rule.unarmored && armor) continue;
+		const base = rule.fromLevel && state.level >= rule.fromLevel ? rule.upgraded ?? rule.base : rule.base;
+		alternatives.push({
+			value: base + (rule.permitsShield ? shield : 0),
+			name: `Carapaça Reforçada${rule.permitsShield && shield ? " + escudo" : ""}`
+		});
+	}
 	let bonus = formFeatures.reduce((n, f) => n + (f.armorClassBonus ?? 0), 0);
 	for (const { effect, instance } of state.concessions.effects) {
 		const value = evaluateFormula(effect.formula, {
@@ -1653,6 +1698,9 @@ function spellToSheet(entry, profileId, { characterLevel = 1 } = {}) {
 		nome: entry.name,
 		compendioId: entry.legacyIds?.[0] ?? entry.ref.recordId,
 		compendioRef: { ...entry.ref },
+		...d.saveAbility ? { salvaguardaAtributo: d.saveAbility } : {},
+		...d.attackBonus === void 0 ? {} : { bonusAtaque: d.attackBonus },
+		...d.saveDc === void 0 ? {} : { cd: d.saveDc },
 		circulo: d.circle,
 		perfilId: profileId,
 		tempo: d.castingTime,
@@ -2247,7 +2295,8 @@ function summaryFromRow(r) {
 }
 function decodeCatalog(raw, ruleSetId = "dnd-5e-2024") {
 	if (!raw || !Array.isArray(raw.records) || !raw.tables || typeof raw.tables !== "object") throw Error("Resposta de compêndio inválida.");
-	const heads = new Map(raw.records.map((r) => [s(r, "id"), r]));
+	if (raw.references !== void 0 && !Array.isArray(raw.references)) throw Error("Referências de compêndio inválidas.");
+	const heads = new Map([...raw.references ?? [], ...raw.records].map((r) => [s(r, "id"), r]));
 	const indexed = /* @__PURE__ */ new Map();
 	for (const [name, rows] of Object.entries(raw.tables)) {
 		const owners = /* @__PURE__ */ new Map();
@@ -2381,6 +2430,9 @@ function decodeCatalog(raw, ruleSetId = "dnd-5e-2024") {
 			case "magia": {
 				const d = one("magias", id), c = one("magia_componentes", id);
 				data = {
+					...d.salvaguarda_atributo == null ? {} : { saveAbility: d.salvaguarda_atributo },
+					...d.bonus_ataque == null ? {} : { attackBonus: n(d, "bonus_ataque") },
+					...d.cd == null ? {} : { saveDc: n(d, "cd") },
 					circle: n(d, "circulo"),
 					school: s(d, "escola"),
 					castingTime: s(d, "tempo_pt"),
@@ -2575,6 +2627,7 @@ function decodeCatalog(raw, ruleSetId = "dnd-5e-2024") {
 		name: s(g, "nome_pt"),
 		minimum: n(g, "minimo"),
 		maximum: n(g, "maximo"),
+		...g.maximo_por_proficiencia === true ? { maximumByProficiency: true } : {},
 		acquisition: g.aquisicao,
 		abilityPoints: nullable(g, "pontos_atributo"),
 		abilityLimit: nullable(g, "limite_atributo"),
@@ -2732,6 +2785,7 @@ async function request(client, name, args, signal) {
 		return data;
 	} catch (error) {
 		cancelled(signal);
+		if (name === "obter_compendio_seletivo" && error && typeof error === "object" && "code" in error && error.code === "PGRST202") return request(client, "obter_compendio", args, signal);
 		if (error instanceof CompendiumError) throw error;
 		throw new CompendiumError("UNAVAILABLE");
 	}
@@ -2743,7 +2797,7 @@ function createCompendiumRepository(client) {
 			uuid(r.recordId);
 			uuid(r.revisionId);
 		});
-		const raw = await request(client, "obter_compendio", {
+		const raw = await request(client, "obter_compendio_seletivo", {
 			p_revisoes: [...new Set(requestedRefs.map((r) => r.revisionId))],
 			p_conjunto: rules
 		}, signal);

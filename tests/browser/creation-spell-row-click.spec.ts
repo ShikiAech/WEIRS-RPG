@@ -34,10 +34,10 @@ test('texto da magia seleciona e desmarca uma única vez mantendo o dropdown abe
 }) => {
   const profile = await startWizard(page);
   const checkbox = await search(profile, 'Luz');
-  await profile.getByText('Luz', { exact: true }).click();
+  await row(profile, 'Luz').getByText('Luz', { exact: true }).click();
   await expect(checkbox).toBeChecked();
   await expect(profile).toContainText('Truques: 1/3');
-  await profile.getByText('Luz', { exact: true }).click();
+  await row(profile, 'Luz').getByText('Luz', { exact: true }).click();
   await expect(checkbox).not.toBeChecked();
   await expect(profile).toContainText('Truques: 0/3');
   await expect(
@@ -64,13 +64,17 @@ test('texto Preparar altera somente o preparo e preserva a magia no grimório', 
   const checkbox = await search(profile, 'Alarme');
   await checkbox.check();
   const prepare = profile.getByRole('checkbox', { name: 'Preparar Alarme', exact: true });
+  const chip = profile
+    .getByRole('list', { name: 'Magias selecionadas de Mago', exact: true })
+    .getByRole('listitem')
+    .filter({ has: page.getByRole('checkbox', { name: 'Preparar Alarme', exact: true }) });
   await expect(prepare).toBeChecked();
   await profile.getByRole('combobox', { name: 'Buscar magias de Mago', exact: true }).focus();
-  await row(profile, 'Alarme').getByText('Preparar', { exact: true }).click();
+  await chip.getByText('Preparar', { exact: true }).click();
   await expect(prepare).not.toBeChecked();
   await expect(checkbox).toBeChecked();
   await expect(profile).toContainText('Grimório: 1/6 · Preparadas: 0/4');
-  await row(profile, 'Alarme').getByText('Preparar', { exact: true }).click();
+  await chip.getByText('Preparar', { exact: true }).click();
   await expect(prepare).toBeChecked();
   await expect(checkbox).toBeChecked();
   await expect(profile).toContainText('Grimório: 1/6 · Preparadas: 1/4');

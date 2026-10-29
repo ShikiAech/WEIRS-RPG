@@ -14,6 +14,7 @@ import type { Ability } from '../contracts/sheets';
 type Row = Record<string, any>;
 export interface DatabaseCatalog {
   records: Row[];
+  references?: Row[];
   tables: Record<string, Row[]>;
 }
 const s = (r: Row, k: string, f = ''): string => (typeof r[k] === 'string' ? r[k] : f);
@@ -50,7 +51,9 @@ export function summaryFromRow(r: Row): CompendiumSummary {
 export function decodeCatalog(raw: DatabaseCatalog, ruleSetId = 'dnd-5e-2024'): CreationCatalog {
   if (!raw || !Array.isArray(raw.records) || !raw.tables || typeof raw.tables !== 'object')
     throw Error('Resposta de compêndio inválida.');
-  const heads = new Map(raw.records.map((r) => [s(r, 'id'), r]));
+  if (raw.references !== undefined && !Array.isArray(raw.references))
+    throw Error('Referências de compêndio inválidas.');
+  const heads = new Map([...(raw.references ?? []), ...raw.records].map((r) => [s(r, 'id'), r]));
   const indexed = new Map<string, Map<string, Row[]>>();
   for (const [name, rows] of Object.entries(raw.tables)) {
     const owners = new Map<string, Row[]>();
@@ -201,6 +204,11 @@ export function decodeCatalog(raw: DatabaseCatalog, ruleSetId = 'dnd-5e-2024'): 
         const d = one('magias', id),
           c = one('magia_componentes', id);
         data = {
+          ...(d.salvaguarda_atributo == null
+            ? {}
+            : { saveAbility: d.salvaguarda_atributo as import('../contracts/sheets').Ability }),
+          ...(d.bonus_ataque == null ? {} : { attackBonus: n(d, 'bonus_ataque') }),
+          ...(d.cd == null ? {} : { saveDc: n(d, 'cd') }),
           circle: n(d, 'circulo'),
           school: s(d, 'escola'),
           castingTime: s(d, 'tempo_pt'),
@@ -421,6 +429,7 @@ export function decodeCatalog(raw: DatabaseCatalog, ruleSetId = 'dnd-5e-2024'): 
     name: s(g, 'nome_pt'),
     minimum: n(g, 'minimo'),
     maximum: n(g, 'maximo'),
+    ...(g.maximo_por_proficiencia === true ? { maximumByProficiency: true } : {}),
     acquisition: g.aquisicao,
     abilityPoints: nullable(g, 'pontos_atributo'),
     abilityLimit: nullable(g, 'limite_atributo'),

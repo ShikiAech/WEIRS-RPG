@@ -97,6 +97,17 @@ export function useMapHistory(
       if (work.mode === 'normal') {
         setRedo([]);
         if (
+          [
+            'parede_excluir',
+            'parede_atualizar',
+            'objeto_excluir',
+            'objeto_atualizar',
+            'camada_transferir',
+            'camada_atualizar',
+            'cena_atribuir',
+            'exploracao_limpar',
+            'desenhos_limpar',
+          ].includes(work.command.tipo) ||
           work.command.tipo === 'token_excluir' ||
           work.command.tipo === 'cena_excluir' ||
           work.command.tipo === 'cena_ativar' ||

@@ -170,6 +170,13 @@ export interface FeatureDefinition {
     form: string;
     movements?: MovementDefinition[];
     armorClassBonus?: number;
+    armorClass?: {
+      base: number;
+      fromLevel?: number;
+      upgraded?: number;
+      unarmored: boolean;
+      permitsShield: boolean;
+    };
     resistances?: string[];
     attack?: {
       name: string;
@@ -194,6 +201,9 @@ export interface SpellDamageDefinition {
   damageType: string | null;
 }
 export interface SpellDefinition {
+  saveAbility?: Ability;
+  attackBonus?: number;
+  saveDc?: number;
   circle: number;
   school: string;
   castingTime: string;
@@ -330,6 +340,7 @@ export interface ChoiceGroupDefinition {
   name: string;
   minimum: number;
   maximum: number;
+  maximumByProficiency?: boolean;
   acquisition: 'inicial' | 'multiclasse' | 'ambas';
   abilityPoints: number | null;
   abilityLimit: number | null;

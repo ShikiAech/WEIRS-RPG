@@ -9,7 +9,7 @@ test('carregamento ocupa a etapa e bloqueia escolhas enquanto as regras estão s
   const pending = new Promise<void>((resolve) => {
     release = resolve;
   });
-  await page.route('**/rest/v1/rpc/obter_compendio', async (route) => {
+  await page.route(/\/rest\/v1\/rpc\/obter_compendio(?:_seletivo)?(?:\?.*)?$/, async (route) => {
     await pending;
     await route.fallback();
   });

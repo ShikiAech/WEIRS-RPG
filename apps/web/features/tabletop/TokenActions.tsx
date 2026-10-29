@@ -1,3 +1,5 @@
+import { HitPointExpression, type HpAction } from '../session/HitPointExpression';
+import type { RollResult } from '../../../../packages/contracts/chat';
 import { useState } from 'react';
 import type { TokenRecord } from '../../../../packages/contracts/tabletop';
 import type { SheetRecord } from '../../../../packages/contracts/sheets';
@@ -38,6 +40,7 @@ export function TokenActions({
   onOpenSheet,
   onRoll,
   operate,
+  hpResult,
 }: {
   token: TokenRecord;
   record?: SheetRecord;
@@ -49,6 +52,7 @@ export function TokenActions({
   onOpenSheet?: (id: string) => void;
   onRoll: (command: ChatCommand) => void;
   operate: (command: SessionCommand) => Promise<boolean>;
+  hpResult?: RollResult | null;
 }) {
   const [amount, setAmount] = useState('1'),
     [condition, setCondition] = useState(''),
@@ -56,9 +60,9 @@ export function TokenActions({
   const access = tokenAccess(token, record, participant, mesa || undefined, userId, role);
   const locked = disabled || !access.editable;
   const pv = access.record?.conteudo.combate;
-  const applyHp = (action: 'dano' | 'cura' | 'temporarios') => {
+  const applyHp = (action: HpAction) => {
     if (locked) return;
-    const command = tokenHpCommand(access, action, amount.trim() ? Number(amount) : NaN);
+    const command = tokenHpCommand(access, action, amount);
     if (command) void operate(command);
   };
   const changeCondition = async (name: string, active: boolean) => {
@@ -97,66 +101,23 @@ export function TokenActions({
         <details className="token-vitals-actions">
           <summary>{access.record ? 'PV e condições' : 'PV do NPC'}</summary>
           <fieldset disabled={locked}>
-            <label className="token-hp-label">
-              Quantidade de PV do token
-              <input
-                type="number"
-                min="0"
-                max="9999"
-                step="1"
-                value={amount}
-                onChange={(event) => setAmount(event.target.value)}
-              />
-            </label>
-            <div className="token-hp-buttons">
-              <button
-                type="button"
-                className="play-roll token-damage"
-                disabled={
-                  locked ||
-                  !Number.isSafeInteger(Number(amount)) ||
-                  Number(amount) < 0 ||
-                  Number(amount) > 9999 ||
-                  !amount.trim()
-                }
-                onClick={() => applyHp('dano')}
-              >
-                Aplicar dano no token
-              </button>
-              <button
-                type="button"
-                className="play-roll"
-                disabled={
-                  locked ||
-                  !Number.isSafeInteger(Number(amount)) ||
-                  Number(amount) < 0 ||
-                  Number(amount) > 9999 ||
-                  !amount.trim()
-                }
-                onClick={() => applyHp('cura')}
-              >
-                Curar token
-              </button>
-              {access.record && (
-                <button
-                  type="button"
-                  className="play-roll"
-                  disabled={
-                    locked ||
-                    !Number.isSafeInteger(Number(amount)) ||
-                    Number(amount) < 0 ||
-                    Number(amount) > 9999 ||
-                    !amount.trim()
-                  }
-                  onClick={() => applyHp('temporarios')}
-                >
-                  PV temporários do token
-                </button>
-              )}
-            </div>
-            {pv?.pvTemporarios ? (
+            <HitPointExpression
+              value={amount}
+              onChange={setAmount}
+              disabled={locked}
+              onApply={applyHp}
+              label="Quantidade de PV do token"
+              labels={{ dano: 'Aplicar dano no token', cura: 'Curar token' }}
+              result={
+                hpResult?.alvo_id === (access.record?.id ?? access.participant?.id)
+                  ? hpResult
+                  : null
+              }
+            />
+            {pv || access.participant ? (
               <p className="action-help">
-                PV temporários: {pv.pvTemporarios}. Dano os absorve primeiro.
+                PV temporários: {pv?.pvTemporarios ?? access.participant?.pvTemporarios ?? 0}. Dano
+                os absorve primeiro.
               </p>
             ) : null}
             {access.record && (

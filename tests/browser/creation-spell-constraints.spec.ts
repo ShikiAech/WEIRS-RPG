@@ -38,6 +38,7 @@ test('cota de truques impede exceder e libera uma vaga ao desmarcar no dropdown'
   await (await search(profile, 'Ilusão Menor')).check();
   await expect(profile).toContainText('Truques: 3/3');
   await expect(profile.getByRole('button', { name: 'Remover', exact: true })).toHaveCount(0);
+  await search(profile, 'Ilusão Menor');
   await profile.getByRole('combobox', { name: /^Buscar magias de / }).press('Escape');
   await expect(profile.getByRole('combobox', { name: /^Buscar magias de / })).toHaveAttribute(
     'aria-expanded',
@@ -128,10 +129,11 @@ test('descrição está disponível por foco antes de selecionar a magia e abas 
 test('descrição ausente do catálogo selecionado carrega pela referência e permite tentar novamente', async ({
   page,
 }) => {
-  await page.goto('app.html#/fichas/nova?demo=1');
+  await page.goto('app.html#/campanhas');
   await page.evaluate(async () => {
-    const modulePath = '/WEIRS-RPG/apps/web/lib/compendium-demo.ts';
-    const { demoCompendium: repository } = await import(modulePath);
+    const modulePath = '/WEIRS-RPG/apps/web/lib/compendium-source.ts';
+    const { compendiumSource } = await import(modulePath);
+    const { repository } = compendiumSource(true);
     const getCatalog = repository.getCreationCatalog.bind(repository);
     const get = repository.get.bind(repository);
     repository.getCreationCatalog = async (draft: any, signal: AbortSignal) => {
@@ -154,6 +156,9 @@ test('descrição ausente do catálogo selecionado carrega pela referência e pe
       return get(ref, signal);
     };
   });
+  await page.evaluate(() => {
+    window.location.hash = '/fichas/nova?demo=1';
+  });
   const profile = await startClass(page, 'Mago', false);
   await search(profile, 'Luz');
   await profile.getByRole('button', { name: 'Sobre Luz', exact: true }).focus();
@@ -171,10 +176,11 @@ test('descrição ausente do catálogo selecionado carrega pela referência e pe
 test('voltar à etapa durante atualização do catálogo mantém as cotas de truques e preparo protegidas', async ({
   page,
 }) => {
-  await page.goto('app.html#/fichas/nova?demo=1');
+  await page.goto('app.html#/campanhas');
   await page.evaluate(async () => {
-    const modulePath = '/WEIRS-RPG/apps/web/lib/compendium-demo.ts';
-    const { demoCompendium: repository } = await import(modulePath);
+    const modulePath = '/WEIRS-RPG/apps/web/lib/compendium-source.ts';
+    const { compendiumSource } = await import(modulePath);
+    const { repository } = compendiumSource(true);
     const getCatalog = repository.getCreationCatalog.bind(repository);
     const pending: (() => void)[] = [];
     (window as any).releaseSpellCatalog = () => pending.splice(0).forEach((release) => release());
@@ -196,6 +202,9 @@ test('voltar à etapa durante atualização do catálogo mantém as cotas de tru
         ),
       };
     };
+  });
+  await page.evaluate(() => {
+    window.location.hash = '/fichas/nova?demo=1';
   });
   const profile = await startClass(page, 'Mago', false);
   for (const name of ['Luz', 'Mão Mágica', 'Raio de Gelo'])

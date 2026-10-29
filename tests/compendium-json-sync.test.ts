@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { catalogTables } from '../tools/compendium-import/sql';
 import { readJsonSources } from '../tools/compendium-import/json';
 import { readLegacySources } from '../tools/compendium-import/legacy';
 import { normalizeSources } from '../tools/compendium-import/normalize';
@@ -138,4 +139,18 @@ test('obsolete generated equipment from replaced class kits is retired', async (
   assert.ok(oldPlaceholder);
   assert.ok(!catalog.entries.some((e) => e.ref.recordId === oldPlaceholder));
   assert.ok(catalog.retiredRecordIds?.includes(oldPlaceholder));
+});
+
+test('salvaguarda publicada no JSON é serializada no campo SQL tipado', async () => {
+  const { catalog } = await resolved;
+  const spell = catalog.entries.find(
+    (e) => e.kind === 'magia' && e.originalName === 'Acid Splash',
+  )!;
+  assert.equal(spell.kind, 'magia');
+  if (spell.kind !== 'magia') throw Error('Magia indisponível');
+  assert.equal(spell.data.saveAbility, 'des');
+  const row = catalogTables(catalog)
+    .get('compendio_magias')!
+    .find((r) => r.revisao_id === spell.ref.revisionId)!;
+  assert.equal(row.salvaguarda_atributo, 'des');
 });

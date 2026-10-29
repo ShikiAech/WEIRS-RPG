@@ -1,6 +1,6 @@
 import { ATRIBUTOS } from '../../../../packages/sheets/modelo.js';
 import { CatalogSelect } from './CatalogSelect';
-import { ChoicePanel, EquipmentChoices } from './ChoicePanel';
+import { ChoicePanel } from './ChoicePanel';
 import { clearOrigins } from './origins';
 import type { StepProps } from './types';
 export function BackgroundStep(props: StepProps) {
@@ -104,8 +104,18 @@ export function BackgroundStep(props: StepProps) {
           </details>
         </>
       )}
-      <ChoicePanel {...props} prefixes={['background']} />
-      <EquipmentChoices {...props} prefixes={['background']} />
+      <ChoicePanel equipment="omit" {...props} prefixes={['background']} />
+      <p>
+        Escolha os kits e moedas do antecedente em{' '}
+        <button
+          type="button"
+          disabled={!draft.classes.length}
+          onClick={() => props.onGoToStep?.(4)}
+        >
+          5 · Vida e defesas
+        </button>
+        .
+      </p>
     </section>
   );
 }

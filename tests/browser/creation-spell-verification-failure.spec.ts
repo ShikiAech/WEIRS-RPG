@@ -22,10 +22,11 @@ test('falha de verificação após alterar o rascunho explica a magia recusada e
   page,
 }) => {
   await page.route('**/compendium/demo.json', (route) => route.fulfill({ json: snapshot }));
-  await page.goto('app.html#/fichas/nova?demo=1');
+  await page.goto('app.html#/campanhas');
   await page.evaluate(async (pendingRef) => {
-    const modulePath = '/WEIRS-RPG/apps/web/lib/compendium-demo.ts';
-    const { demoCompendium: repository } = await import(modulePath);
+    const modulePath = '/WEIRS-RPG/apps/web/lib/compendium-source.ts';
+    const { compendiumSource } = await import(modulePath);
+    const { repository } = compendiumSource(true);
     const getCatalog = repository.getCreationCatalog.bind(repository);
     const get = repository.get.bind(repository);
     repository.getCreationCatalog = async (draft: any, signal: AbortSignal) => {
@@ -55,6 +56,9 @@ test('falha de verificação após alterar o rascunho explica a magia recusada e
       return get(ref, signal);
     };
   }, entry('magia', 'Luz').ref);
+  await page.evaluate(() => {
+    window.location.hash = '/fichas/nova?demo=1';
+  });
   await page.getByRole('button', { name: '4 Classes', exact: true }).click();
   await page.getByRole('combobox', { name: 'Classe', exact: true }).fill('Mago');
   await page
